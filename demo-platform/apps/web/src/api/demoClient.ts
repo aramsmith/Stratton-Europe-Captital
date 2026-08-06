@@ -3,6 +3,8 @@ import {
   analysisRunResponseSchema,
   evidenceAdmissionRequestSchema,
   findingDispositionRequestSchema,
+  recommendationPreparationRequestSchema,
+  reviewSubmissionRequestSchema,
   scenarioMutationResponseSchema,
   scenarioStateSchema,
   type AnalysisRunRequest,
@@ -10,6 +12,8 @@ import {
   type DemoApiError,
   type EvidenceAdmissionRequest,
   type FindingDispositionRequest,
+  type RecommendationPreparationRequest,
+  type ReviewSubmissionRequest,
   type ScenarioState
 } from "@stratton/contracts";
 
@@ -97,6 +101,51 @@ export class DemoClient {
       ...(input.editedSummary ? { editedSummary: input.editedSummary } : {})
     });
     const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/disposition`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-demo-principal-type": "HUMAN"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return scenarioMutationResponseSchema.parse(await response.json()).scenario;
+  }
+
+  public async submitReview(
+    input: ReviewSubmissionRequest & { findingId: string }
+  ): Promise<ScenarioState> {
+    const payload = reviewSubmissionRequestSchema.parse({
+      caseId: input.caseId,
+      reviewType: input.reviewType,
+      decision: input.decision,
+      rationale: input.rationale
+    });
+    const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/reviews`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-demo-principal-type": "HUMAN"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return scenarioMutationResponseSchema.parse(await response.json()).scenario;
+  }
+
+  public async prepareRecommendation(
+    input: RecommendationPreparationRequest
+  ): Promise<ScenarioState> {
+    const payload = recommendationPreparationRequestSchema.parse(input);
+    const response = await fetch(`${this.baseUrl}/recommendation/prepare`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

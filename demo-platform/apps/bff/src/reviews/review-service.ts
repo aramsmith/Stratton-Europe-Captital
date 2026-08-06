@@ -1,0 +1,380 @@
+import { createHash, randomUUID } from "node:crypto";
+import type {
+  AnalysisFinding,
+  ReviewSubmissionRequest,
+  ReviewType,
+  ScenarioState
+} from "@stratton/contracts";
+import { DemoHttpError } from "../errors.js";
+import type { Phase5Client } from "../phase5/phase5-client.js";
+import type { ScenarioRepository } from "../scenario/scenario-repository.js";
+
+const requiredReviewTypes = ["DEAL", "LEGAL", "COMPLIANCE"] as const satisfies readonly ReviewType[];
+
+interface ReviewServiceDependencies {
+  readonly repository: ScenarioRepository;
+  readonly phase5Client: Phase5Client;
+  readonly createId?: () => string;
+  readonly now?: () => string;
+}
+
+interface SubmitReviewInput extends ReviewSubmissionRequest {
+  readonly findingId: string;
+  readonly principalType: "HUMAN" | "SERVICE";
+  readonly correlationId: string;
+}
+
+interface PrepareRecommendationInput {
+  readonly caseId: string;
+  readonly principalType: "HUMAN" | "SERVICE";
+  readonly correlationId: string;
+}
+
+interface RejectWithAuditInput {
+  readonly state: ScenarioState;
+  readonly correlationId: string;
+  readonly type: string;
+  readonly detail: string;
+  readonly error: DemoHttpError;
+  readonly outcome?: "DENY" | "FAILURE";
+}
+
+export class ReviewService {
+  private readonly createId: () => string;
+  private readonly now: () => string;
+  private pendingMutation: Promise<void> = Promise.resolve();
+
+  public constructor(private readonly dependencies: ReviewServiceDependencies) {
+    this.createId = dependencies.createId ?? randomUUID;
+    this.now = dependencies.now ?? (() => new Date().toISOString());
+  }
+
+  public async submitReview(input: SubmitReviewInput): Promise<ScenarioState> {
+    return this.withMutationLock(async () => {
+      const state = await this.dependencies.repository.load();
+      assertCaseId(state, input.caseId);
+
+      if (input.principalType !== "HUMAN") {
+        return this.rejectWithAudit({
+          state,
+          correlationId: input.correlationId,
+          type: "SPECIALIST_REVIEW_DENIED",
+          detail: "HUMAN_REVIEW_REQUIRED",
+          error: new DemoHttpError(
+            403,
+            "POLICY_DENIED",
+            "A human reviewer must approve or reject the specialist review."
+          )
+        });
+      }
+
+      const finding = state.findings.find((candidate) => candidate.findingId === input.findingId);
+      if (!finding) {
+        throw new DemoHttpError(404, "INVALID_CONTRACT", "Finding does not exist in Project Danube.");
+      }
+
+      if (finding.status !== "ACCEPTED") {
+        return this.rejectWithAudit({
+          state,
+          correlationId: input.correlationId,
+          type: "SPECIALIST_REVIEW_DENIED",
+          detail: "ACCEPTED_FINDING_REQUIRED",
+          error: new DemoHttpError(403, "POLICY_DENIED", "ACCEPTED_FINDING_REQUIRED")
+        });
+      }
+
+      const analysisRunId = finding.analysisRunId ?? state.latestAnalysisRun?.analysisRunId;
+      if (!analysisRunId) {
+        return this.rejectWithAudit({
+          state,
+          correlationId: input.correlationId,
+          type: "SPECIALIST_REVIEW_DENIED",
+          detail: "ANALYSIS_RUN_REQUIRED",
+          outcome: "FAILURE",
+          error: new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_RUN_REQUIRED")
+        });
+      }
+
+      const subjectVersion = getLatestFindingVersion(finding);
+      await this.dependencies.phase5Client.submitReview({
+        caseId: input.caseId,
+        analysisRunId,
+        reviewType: input.reviewType,
+        decision: input.decision,
+        rationale: input.rationale.trim(),
+        subjectVersion,
+        idempotencyKey: buildReviewIdempotencyKey(input, subjectVersion)
+      });
+
+      const reviewId = this.createId();
+      const analysisRequestFingerprint =
+        finding.analysisRequestFingerprint ?? state.latestAnalysisRun?.analysisRequestFingerprint;
+      const nextState: ScenarioState = {
+        ...state,
+        stage: "REVIEW",
+        reviews: [
+          ...state.reviews,
+          {
+            reviewId,
+            reviewType: input.reviewType,
+            decision: input.decision,
+            findingId: input.findingId,
+            subjectVersion
+          }
+        ],
+        governanceEvents: [
+          ...state.governanceEvents,
+          createGovernanceEvent(reviewId, this.now(), {
+            type: "SPECIALIST_REVIEW_RECORDED",
+            outcome: "SUCCESS",
+            correlationId: input.correlationId,
+            detail: `${input.reviewType}:${input.decision}:${input.findingId}`,
+            ...(analysisRequestFingerprint
+              ? {
+                  metadata: {
+                    phase5RunId: analysisRunId,
+                    analysisRequestFingerprint,
+                    findingIds: [input.findingId]
+                  }
+                }
+              : {})
+          })
+        ]
+      };
+
+      await this.dependencies.repository.save(nextState);
+      return nextState;
+    });
+  }
+
+  public async prepareRecommendation(
+    input: PrepareRecommendationInput
+  ): Promise<ScenarioState> {
+    return this.withMutationLock(async () => {
+      const state = await this.dependencies.repository.load();
+      assertCaseId(state, input.caseId);
+
+      if (input.principalType !== "HUMAN") {
+        return this.rejectWithAudit({
+          state,
+          correlationId: input.correlationId,
+          type: "COMMITTEE_PACK_PREPARATION_DENIED",
+          detail: "HUMAN_REVIEW_REQUIRED",
+          error: new DemoHttpError(
+            403,
+            "POLICY_DENIED",
+            "A human reviewer must request committee-pack preparation."
+          )
+        });
+      }
+
+      const analysisRunId = state.latestAnalysisRun?.analysisRunId;
+      if (!analysisRunId) {
+        return this.rejectWithAudit({
+          state,
+          correlationId: input.correlationId,
+          type: "COMMITTEE_PACK_PREPARATION_DENIED",
+          detail: "ANALYSIS_RUN_REQUIRED",
+          outcome: "FAILURE",
+          error: new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_RUN_REQUIRED")
+        });
+      }
+
+      const recommendationBlocker = getRecommendationBlocker(state);
+      if (recommendationBlocker) {
+        return this.rejectWithAudit({
+          state,
+          correlationId: input.correlationId,
+          type: "COMMITTEE_PACK_PREPARATION_DENIED",
+          detail: recommendationBlocker,
+          error: new DemoHttpError(403, "POLICY_DENIED", recommendationBlocker)
+        });
+      }
+
+      const subjectVersion = buildRecommendationSubjectVersion(state);
+
+      await this.dependencies.phase5Client.prepareDraft({
+        caseId: input.caseId,
+        analysisRunId,
+        subjectVersion,
+        idempotencyKey: `draft:${analysisRunId}:${subjectVersion}`
+      });
+
+      const nextState: ScenarioState = {
+        ...state,
+        stage: "COMMITTEE_PREPARATION",
+        governanceEvents: [
+          ...state.governanceEvents,
+          createGovernanceEvent(this.createId(), this.now(), {
+            type: "COMMITTEE_PACK_DRAFT_PREPARED",
+            outcome: "SUCCESS",
+            correlationId: input.correlationId,
+            detail: analysisRunId,
+            metadata: {
+              phase5RunId: analysisRunId,
+              ...(state.latestAnalysisRun?.analysisRequestFingerprint
+                ? {
+                    analysisRequestFingerprint: state.latestAnalysisRun.analysisRequestFingerprint
+                  }
+                : {}),
+              findingIds: state.findings.map((finding) => finding.findingId)
+            }
+          })
+        ]
+      };
+
+      await this.dependencies.repository.save(nextState);
+      return nextState;
+    });
+  }
+
+  private async rejectWithAudit(input: RejectWithAuditInput): Promise<never> {
+    const nextState: ScenarioState = {
+      ...input.state,
+      governanceEvents: [
+        ...input.state.governanceEvents,
+        createGovernanceEvent(this.createId(), this.now(), {
+          type: input.type,
+          outcome: input.outcome ?? "DENY",
+          correlationId: input.correlationId,
+          detail: input.detail,
+          ...(input.state.latestAnalysisRun
+            ? {
+                metadata: {
+                  phase5RunId: input.state.latestAnalysisRun.analysisRunId,
+                  analysisRequestFingerprint: input.state.latestAnalysisRun.analysisRequestFingerprint,
+                  findingIds: input.state.findings.map((finding) => finding.findingId)
+                }
+              }
+            : {})
+        })
+      ]
+    };
+
+    await this.dependencies.repository.save(nextState);
+    throw input.error;
+  }
+
+  private async withMutationLock<T>(operation: () => Promise<T>): Promise<T> {
+    const previousMutation = this.pendingMutation;
+    let release: () => void = () => undefined;
+    this.pendingMutation = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+
+    await previousMutation;
+
+    try {
+      return await operation();
+    } finally {
+      release();
+    }
+  }
+}
+
+export function assertRecommendationReady(state: ScenarioState): void {
+  const recommendationBlocker = getRecommendationBlocker(state);
+  if (recommendationBlocker) {
+    throw new DemoHttpError(403, "POLICY_DENIED", recommendationBlocker);
+  }
+}
+
+function getRecommendationBlocker(state: ScenarioState): string | null {
+  for (const reviewType of requiredReviewTypes) {
+    const latestReview = getLatestReview(state.reviews, reviewType);
+    const reviewedFinding = latestReview
+      ? state.findings.find((finding) => finding.findingId === latestReview.findingId)
+      : undefined;
+    const isCurrentApproval =
+      latestReview?.decision === "APPROVED" &&
+      reviewedFinding?.status === "ACCEPTED" &&
+      latestReview.subjectVersion === getLatestFindingVersion(reviewedFinding);
+
+    if (!isCurrentApproval) {
+      return `${reviewType}_REVIEW_REQUIRED`;
+    }
+  }
+
+  const hasUnresolvedMaterialFinding = state.findings.some(
+    (finding) =>
+      (finding.materiality === "HIGH" || finding.materiality === "CRITICAL") &&
+      finding.status !== "ACCEPTED"
+  );
+  if (hasUnresolvedMaterialFinding) {
+    return "MATERIAL_FINDING_UNRESOLVED";
+  }
+
+  return null;
+}
+
+function getLatestReview(
+  reviews: readonly ScenarioState["reviews"][number][],
+  reviewType: ReviewType
+): ScenarioState["reviews"][number] | undefined {
+  for (let index = reviews.length - 1; index >= 0; index -= 1) {
+    const review = reviews[index];
+    if (review?.reviewType === reviewType) {
+      return review;
+    }
+  }
+
+  return undefined;
+}
+
+function getLatestFindingVersion(finding: AnalysisFinding): string {
+  return finding.textHistory.at(-1)?.versionId ?? finding.findingId;
+}
+
+function buildReviewIdempotencyKey(
+  input: SubmitReviewInput,
+  subjectVersion: string
+): string {
+  return `review:${input.reviewType}:${input.findingId}:${input.decision}:${subjectVersion}`;
+}
+
+function buildRecommendationSubjectVersion(state: ScenarioState): string {
+  const materialFindings = state.findings
+    .filter((finding) => finding.materiality === "HIGH" || finding.materiality === "CRITICAL")
+    .map((finding) => ({
+      findingId: finding.findingId,
+      status: finding.status,
+      latestVersionId: getLatestFindingVersion(finding)
+    }));
+  const reviews = requiredReviewTypes.map((reviewType) => {
+    const latestReview = getLatestReview(state.reviews, reviewType);
+    return {
+      reviewType,
+      decision: latestReview?.decision ?? "PENDING",
+      findingId: latestReview?.findingId ?? "unassigned",
+      subjectVersion: latestReview?.subjectVersion ?? "missing"
+    };
+  });
+
+  return createHash("sha256")
+    .update(
+      JSON.stringify({
+        analysisRequestFingerprint: state.latestAnalysisRun?.analysisRequestFingerprint ?? "unknown",
+        materialFindings,
+        reviews
+      })
+    )
+    .digest("hex");
+}
+
+function assertCaseId(state: ScenarioState, caseId: string): void {
+  if (state.caseId !== caseId) {
+    throw new DemoHttpError(400, "INVALID_CONTRACT", "Requested case does not match Project Danube.");
+  }
+}
+
+function createGovernanceEvent(
+  eventId: string,
+  occurredAtIso: string,
+  event: Omit<ScenarioState["governanceEvents"][number], "eventId" | "occurredAtIso">
+): ScenarioState["governanceEvents"][number] {
+  return {
+    eventId,
+    occurredAtIso,
+    ...event
+  };
+}

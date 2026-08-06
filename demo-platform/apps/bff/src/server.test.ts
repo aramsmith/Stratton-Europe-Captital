@@ -4,6 +4,7 @@ import { createProjectDanubeState } from "@stratton/scenario-data";
 import { AnalysisService } from "./analysis/analysis-service.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import type { Phase5Client } from "./phase5/phase5-client.js";
+import { ReviewService } from "./reviews/review-service.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
 import { createDemoServer } from "./server.js";
@@ -15,7 +16,8 @@ function testDependencies() {
   return {
     scenarioService: new ScenarioService(repository),
     evidenceService: new EvidenceService({ repository, phase5Client }),
-    analysisService: new AnalysisService({ repository, phase5Client })
+    analysisService: new AnalysisService({ repository, phase5Client }),
+    reviewService: new ReviewService({ repository, phase5Client })
   };
 }
 
@@ -38,6 +40,165 @@ function createAdmittedState() {
     admissionStatus: "ADMITTED",
     provenanceStatus: "VERIFIED"
   }));
+  return state;
+}
+
+function createDecisionRoomState(includeLegalApproval = false) {
+  const state = createAdmittedState();
+  state.stage = "REVIEW";
+  state.latestAnalysisRun = {
+    analysisRunId: "run-terra-1",
+    route: "TERRA",
+    taskClass: "CROSS_DOCUMENT_COMPARISON",
+    analystQuestion: "Challenge management EBITDA quality",
+    questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+    admittedEvidenceIds: [
+      "evidence-board-pack",
+      "evidence-environmental-permit",
+      "evidence-erp-rebates",
+      "evidence-qoe-report"
+    ],
+    evidenceSetHash: "7a0cbdb7f6cff1ce34618a74be93fd6928840fa2712f822e7ef76a08b85c4f99",
+    analysisRequestFingerprint:
+      "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+    promptTemplateVersion:
+      "stratton-workbench-v2:9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+    authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+  };
+  state.findings = [
+    {
+      findingId: "finding-ebitda-quality",
+      title: "Adjusted EBITDA quality",
+      summary: "Human adjusted EBITDA challenge kept for committee review.",
+      originalAiSummary: "Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million.",
+      materiality: "HIGH",
+      status: "ACCEPTED",
+      route: "TERRA",
+      citations: [
+        {
+          citationId: "citation-board-pack-42",
+          evidenceId: "evidence-board-pack",
+          locator: "page 42",
+          accessible: true
+        }
+      ],
+      textHistory: [
+        {
+          versionId: "finding-ebitda-quality-v1",
+          actorType: "AI",
+          action: "GENERATED",
+          summary: "Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million.",
+          occurredAtIso: "2026-08-06T10:05:00.000Z"
+        },
+        {
+          versionId: "finding-ebitda-quality-v2",
+          actorType: "HUMAN",
+          action: "ACCEPTED",
+          summary: "Human adjusted EBITDA challenge kept for committee review.",
+          occurredAtIso: "2026-08-06T10:10:00.000Z"
+        }
+      ],
+      analysisRunId: "run-terra-1",
+      analysisRequestFingerprint:
+        "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+      authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+    },
+    {
+      findingId: "finding-customer-concentration",
+      title: "Customer concentration",
+      summary: "Customer rebate concentration remains above the approved downside threshold.",
+      originalAiSummary:
+        "Customer rebate concentration remains above the approved downside threshold.",
+      materiality: "MEDIUM",
+      status: "ACCEPTED",
+      route: "TERRA",
+      citations: [
+        {
+          citationId: "citation-erp-812-886",
+          evidenceId: "evidence-erp-rebates",
+          locator: "rows 812-886",
+          accessible: true
+        }
+      ],
+      textHistory: [
+        {
+          versionId: "finding-customer-concentration-v1",
+          actorType: "AI",
+          action: "GENERATED",
+          summary: "Customer rebate concentration remains above the approved downside threshold.",
+          occurredAtIso: "2026-08-06T10:05:00.000Z"
+        }
+      ],
+      analysisRunId: "run-terra-1",
+      analysisRequestFingerprint:
+        "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+      authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+    },
+    {
+      findingId: "finding-permit-transfer",
+      title: "Permit transfer readiness",
+      summary: "Permit transfer requires controlled completion steps before close.",
+      originalAiSummary: "Permit transfer requires controlled completion steps before close.",
+      materiality: "HIGH",
+      status: "ACCEPTED",
+      route: "TERRA",
+      citations: [
+        {
+          citationId: "citation-permit-2049",
+          evidenceId: "evidence-environmental-permit",
+          locator: "Permit reference: CZ-EP-2049",
+          accessible: true
+        }
+      ],
+      textHistory: [
+        {
+          versionId: "finding-permit-transfer-v1",
+          actorType: "AI",
+          action: "GENERATED",
+          summary: "Permit transfer requires controlled completion steps before close.",
+          occurredAtIso: "2026-08-06T10:05:00.000Z"
+        },
+        {
+          versionId: "finding-permit-transfer-v2",
+          actorType: "HUMAN",
+          action: "ACCEPTED",
+          summary: "Permit transfer requires controlled completion steps before close.",
+          occurredAtIso: "2026-08-06T10:10:00.000Z"
+        }
+      ],
+      analysisRunId: "run-terra-1",
+      analysisRequestFingerprint:
+        "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+      authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+    }
+  ];
+  state.reviews = [
+    {
+      reviewId: "review-deal",
+      reviewType: "DEAL",
+      decision: "APPROVED",
+      findingId: "finding-ebitda-quality",
+      subjectVersion: "finding-ebitda-quality-v2"
+    },
+    {
+      reviewId: "review-compliance",
+      reviewType: "COMPLIANCE",
+      decision: "APPROVED",
+      findingId: "finding-customer-concentration",
+      subjectVersion: "finding-customer-concentration-v1"
+    }
+  ];
+
+  if (includeLegalApproval) {
+    state.reviews.push({
+      reviewId: "review-legal",
+      reviewType: "LEGAL",
+      decision: "APPROVED",
+      findingId: "finding-permit-transfer",
+      subjectVersion: "finding-permit-transfer-v2"
+    });
+  }
+
   return state;
 }
 
@@ -188,6 +349,100 @@ describe("createDemoServer", () => {
     });
   });
 
+  it("records a human specialist review through the review endpoint", async () => {
+    const repository = new InMemoryScenarioRepository(createDecisionRoomState());
+    const phase5Client = createPhase5ClientDouble();
+    const reviewService = new ReviewService({ repository, phase5Client });
+
+    const response = await request(
+      createDemoServer({
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({ repository, phase5Client }),
+        analysisService: new AnalysisService({ repository, phase5Client }),
+        reviewService
+      })
+    )
+      .post("/api/findings/finding-permit-transfer/reviews")
+      .set("x-demo-principal-type", "HUMAN")
+      .send({
+        caseId: "project-danube",
+        reviewType: "LEGAL",
+        decision: "APPROVED",
+        rationale: "Permit transfer completion steps are documented."
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.scenario.reviews).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          reviewType: "LEGAL",
+          decision: "APPROVED",
+          findingId: "finding-permit-transfer"
+        })
+      ])
+    );
+    expect(phase5Client.submitReview).toHaveBeenCalledWith(
+      expect.objectContaining({
+        caseId: "project-danube",
+        analysisRunId: "run-terra-1",
+        reviewType: "LEGAL",
+        decision: "APPROVED"
+      })
+    );
+  });
+
+  it("blocks committee-pack preparation until every required approval is recorded", async () => {
+    const repository = new InMemoryScenarioRepository(createDecisionRoomState());
+    const phase5Client = createPhase5ClientDouble();
+    const reviewService = new ReviewService({ repository, phase5Client });
+
+    const response = await request(
+      createDemoServer({
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({ repository, phase5Client }),
+        analysisService: new AnalysisService({ repository, phase5Client }),
+        reviewService
+      })
+    )
+      .post("/api/recommendation/prepare")
+      .set("x-demo-principal-type", "HUMAN")
+      .send({ caseId: "project-danube" });
+
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual({
+      code: "POLICY_DENIED",
+      message: "LEGAL_REVIEW_REQUIRED",
+      correlationId: response.headers["x-correlation-id"]
+    });
+  });
+
+  it("prepares the committee-pack draft when Deal, Legal, and Compliance approve the reviewed findings", async () => {
+    const repository = new InMemoryScenarioRepository(createDecisionRoomState(true));
+    const phase5Client = createPhase5ClientDouble();
+    const reviewService = new ReviewService({ repository, phase5Client });
+
+    const response = await request(
+      createDemoServer({
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({ repository, phase5Client }),
+        analysisService: new AnalysisService({ repository, phase5Client }),
+        reviewService
+      })
+    )
+      .post("/api/recommendation/prepare")
+      .set("x-demo-principal-type", "HUMAN")
+      .send({ caseId: "project-danube" });
+
+    expect(response.status).toBe(200);
+    expect(response.body.scenario.stage).toBe("COMMITTEE_PREPARATION");
+    expect(phase5Client.prepareDraft).toHaveBeenCalledWith(
+      expect.objectContaining({
+        caseId: "project-danube",
+        analysisRunId: "run-terra-1"
+      })
+    );
+  });
+
   it("maps unknown failures to a stable fail-closed envelope", async () => {
     const response = await request(
       createDemoServer({
@@ -205,6 +460,10 @@ describe("createDemoServer", () => {
             throw new Error("boom");
           },
           recordDisposition: async () => createProjectDanubeState()
+        },
+        reviewService: {
+          submitReview: async () => createProjectDanubeState(),
+          prepareRecommendation: async () => createProjectDanubeState()
         }
       })
     )

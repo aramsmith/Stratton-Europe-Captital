@@ -14,6 +14,8 @@ import type {
   AnalysisRunResponse,
   EvidenceAdmissionRequest,
   FindingDispositionRequest,
+  RecommendationPreparationRequest,
+  ReviewSubmissionRequest,
   ScenarioState
 } from "@stratton/contracts";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -127,6 +129,22 @@ export function App() {
     [client]
   );
 
+  const handleSubmitReview = useCallback(
+    async (input: ReviewSubmissionRequest & { findingId: string }) => {
+      const nextScenario = await client.submitReview(input);
+      setScenario(nextScenario);
+    },
+    [client]
+  );
+
+  const handlePrepareRecommendation = useCallback(
+    async (input: RecommendationPreparationRequest) => {
+      const nextScenario = await client.prepareRecommendation(input);
+      setScenario(nextScenario);
+    },
+    [client]
+  );
+
   return (
     <FluentProvider theme={webLightTheme}>
       <title>Stratton demo platform</title>
@@ -160,10 +178,12 @@ export function App() {
             scenario={scenario}
           >
             <AppRoutes
+              onPrepareRecommendation={handlePrepareRecommendation}
               scenario={scenario}
               onAdmitEvidence={handleAdmitEvidence}
               onRecordDisposition={handleRecordDisposition}
               onRunAnalysis={handleRunAnalysis}
+              onSubmitReview={handleSubmitReview}
             />
           </StrattonShell>
         </BrowserRouter>

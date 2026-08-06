@@ -18,6 +18,12 @@ export const analysisTaskClassSchema = z.enum([
   "INVESTMENT_THESIS_CHALLENGE"
 ]);
 export type AnalysisTaskClass = z.infer<typeof analysisTaskClassSchema>;
+export const reviewTypeSchema = z.enum(["DEAL", "LEGAL", "COMPLIANCE"]);
+export type ReviewType = z.infer<typeof reviewTypeSchema>;
+export const reviewDecisionSchema = z.enum(["PENDING", "APPROVED", "REJECTED"]);
+export type ReviewDecision = z.infer<typeof reviewDecisionSchema>;
+export const reviewSubmissionDecisionSchema = z.enum(["APPROVED", "REJECTED"]);
+export type ReviewSubmissionDecision = z.infer<typeof reviewSubmissionDecisionSchema>;
 
 export const citationSchema = z
   .object({
@@ -121,9 +127,10 @@ export const scenarioStateSchema = z
         z
           .object({
             reviewId: z.string().min(1),
-            reviewType: z.enum(["DEAL", "LEGAL", "COMPLIANCE"]),
-            decision: z.enum(["PENDING", "APPROVED", "REJECTED"]),
-            findingId: z.string().min(1)
+            reviewType: reviewTypeSchema,
+            decision: reviewDecisionSchema,
+            findingId: z.string().min(1),
+            subjectVersion: z.string().min(1)
           })
           .strict()
       ),
@@ -230,6 +237,25 @@ export const findingDispositionRequestSchema = z
     }
   });
 export type FindingDispositionRequest = z.infer<typeof findingDispositionRequestSchema>;
+
+export const reviewSubmissionRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube"),
+    reviewType: reviewTypeSchema,
+    decision: reviewSubmissionDecisionSchema,
+    rationale: z.string().trim().min(1)
+  })
+  .strict();
+export type ReviewSubmissionRequest = z.infer<typeof reviewSubmissionRequestSchema>;
+
+export const recommendationPreparationRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube")
+  })
+  .strict();
+export type RecommendationPreparationRequest = z.infer<
+  typeof recommendationPreparationRequestSchema
+>;
 
 export interface DemoApiError {
   readonly code:

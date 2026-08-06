@@ -13,9 +13,12 @@ import type {
   AnalysisRunResponse,
   EvidenceAdmissionRequest,
   FindingDispositionRequest,
+  RecommendationPreparationRequest,
+  ReviewSubmissionRequest,
   ScenarioState
 } from "@stratton/contracts";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { DecisionRoomPage } from "../decision-room/DecisionRoomPage.js";
 import { StatusBadge } from "../shared/StatusBadge.js";
 import { DealWorkbenchPage } from "../workbench/DealWorkbenchPage.js";
 
@@ -96,13 +99,19 @@ interface AppRoutesProps {
   readonly onRecordDisposition?: ((input: FindingDispositionRequest & {
     findingId: string;
   }) => Promise<void> | void) | undefined;
+  readonly onSubmitReview?: ((input: ReviewSubmissionRequest & {
+    findingId: string;
+  }) => Promise<void> | void) | undefined;
+  readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
 }
 
 export function AppRoutes({
   scenario,
   onAdmitEvidence,
   onRunAnalysis,
-  onRecordDisposition
+  onRecordDisposition,
+  onSubmitReview,
+  onPrepareRecommendation
 }: AppRoutesProps) {
   return (
     <Routes>
@@ -118,7 +127,16 @@ export function AppRoutes({
           />
         }
       />
-      <Route path="/decision-room" element={<DecisionRoomRoute scenario={scenario} />} />
+      <Route
+        path="/decision-room"
+        element={
+          <DecisionRoomRoute
+            scenario={scenario}
+            onPrepareRecommendation={onPrepareRecommendation}
+            onSubmitReview={onSubmitReview}
+          />
+        }
+      />
       <Route path="/governance" element={<GovernanceRoute scenario={scenario} />} />
       <Route path="*" element={<Navigate to="/workbench" replace />} />
     </Routes>
@@ -141,90 +159,17 @@ function WorkbenchRoute({
   );
 }
 
-function DecisionRoomRoute({ scenario }: AppRoutesProps) {
-  const styles = useStyles();
-  const materialFindings = scenario.findings.filter(
-    (finding) => finding.materiality === "HIGH" || finding.materiality === "CRITICAL"
-  );
-
+function DecisionRoomRoute({
+  scenario,
+  onPrepareRecommendation,
+  onSubmitReview
+}: AppRoutesProps) {
   return (
-    <div className={styles.routeLayout}>
-      <section aria-labelledby="decision-room-heading">
-        <Title3 as="h2" id="decision-room-heading">
-          Investment Decision Room
-        </Title3>
-        <Body1>
-          Human reviewers challenge material claims, track mandatory reviews, and prepare the
-          committee pack without delegating the investment decision to AI.
-        </Body1>
-      </section>
-
-      <div className={styles.cardGrid}>
-        <Card className={styles.workspaceCard}>
-          <Title3 as="h3">Review readiness</Title3>
-          <div className={styles.badgeRow}>
-            <StatusBadge label={scenario.stage} status={scenario.stage} />
-            <StatusBadge label={`${scenario.reviews.length} review requirements`} status="REVIEW" />
-          </div>
-          <Caption1 className={styles.muted}>
-            AI cannot issue an investment decision. Committee preparation remains blocked until human
-            reviewers resolve mandatory conditions.
-          </Caption1>
-          <ul className={styles.list}>
-            {materialFindings.length === 0 ? (
-              <li className={styles.listItem}>
-                <Body1Strong>No material findings are ready for committee challenge</Body1Strong>
-                <Caption1>
-                  Demo 1 must produce reviewed material claims before committee-pack preparation.
-                </Caption1>
-              </li>
-            ) : (
-              materialFindings.map((finding) => (
-                <li key={finding.findingId} className={styles.listItem}>
-                  <Body1Strong>{finding.title}</Body1Strong>
-                  <div className={styles.badgeRow}>
-                    <StatusBadge label={finding.materiality} status={finding.materiality} />
-                    <StatusBadge label={finding.status} status={finding.status} />
-                    <StatusBadge
-                      label={`${finding.citations.length} citations`}
-                      status={finding.citations.length > 0 ? "APPROVED" : "REJECTED"}
-                    />
-                  </div>
-                  <Caption1>{finding.summary}</Caption1>
-                </li>
-              ))
-            )}
-          </ul>
-        </Card>
-
-        <Card className={styles.workspaceCard}>
-          <Title3 as="h3">Required specialist reviews</Title3>
-          <Caption1 className={styles.muted}>
-            Legal and Compliance reviews remain visible and append-only for the case timeline.
-          </Caption1>
-          <ul className={styles.list}>
-            {scenario.reviews.length === 0 ? (
-              <li className={styles.listItem}>
-                <Body1Strong>No specialist reviews have been created yet</Body1Strong>
-                <Caption1>
-                  The baseline case remains pre-review until approved evidence and findings exist.
-                </Caption1>
-              </li>
-            ) : (
-              scenario.reviews.map((review) => (
-                <li key={review.reviewId} className={styles.listItem}>
-                  <Body1Strong>{review.reviewType} review</Body1Strong>
-                  <div className={styles.badgeRow}>
-                    <StatusBadge label={review.decision} status={review.decision} />
-                    <Caption1>Finding: {review.findingId}</Caption1>
-                  </div>
-                </li>
-              ))
-            )}
-          </ul>
-        </Card>
-      </div>
-    </div>
+    <DecisionRoomPage
+      scenario={scenario}
+      onPrepareRecommendation={onPrepareRecommendation}
+      onSubmitReview={onSubmitReview}
+    />
   );
 }
 

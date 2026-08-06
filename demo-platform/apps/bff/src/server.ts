@@ -16,15 +16,21 @@ import {
   type EvidenceRouteDependencies
 } from "./routes/evidence-routes.js";
 import {
+  createReviewRouter,
+  type ReviewRouteDependencies
+} from "./routes/review-routes.js";
+import {
   createScenarioRouter,
   type ScenarioRouteDependencies
 } from "./routes/scenario-routes.js";
+import { ReviewService } from "./reviews/review-service.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
 
 export type DemoServerDependencies = ScenarioRouteDependencies &
   EvidenceRouteDependencies &
-  AnalysisRouteDependencies;
+  AnalysisRouteDependencies &
+  ReviewRouteDependencies;
 
 export function createDemoServer(dependencies: DemoServerDependencies): Express {
   const app = express();
@@ -42,6 +48,7 @@ export function createDemoServer(dependencies: DemoServerDependencies): Express 
   app.use(createScenarioRouter(dependencies));
   app.use(createEvidenceRouter(dependencies));
   app.use(createAnalysisRouter(dependencies));
+  app.use(createReviewRouter(dependencies));
 
   app.use((_request, _response, next) => {
     next(new DemoHttpError(404, "INVALID_CONTRACT", "Requested path does not match an approved route."));
@@ -70,7 +77,8 @@ if (isDirectRun) {
   createDemoServer({
     scenarioService: new ScenarioService(repository),
     evidenceService: new EvidenceService({ repository, phase5Client }),
-    analysisService: new AnalysisService({ repository, phase5Client })
+    analysisService: new AnalysisService({ repository, phase5Client }),
+    reviewService: new ReviewService({ repository, phase5Client })
   }).listen(config.PORT, () => {
     console.log(`Stratton demo BFF listening on ${config.PORT}`);
   });
