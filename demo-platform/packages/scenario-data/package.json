@@ -3,8 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "test": "vitest run",
     "build": "tsc",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stratton/contracts": "*"
+  },
+  "devDependencies": {
+    "vitest": "3.2.4"
   }
 }

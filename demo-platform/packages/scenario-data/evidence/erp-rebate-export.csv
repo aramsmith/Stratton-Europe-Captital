@@ -1,0 +1,5 @@
+customer_id,customer_name,rebate_code,rebate_amount_eur,period
+10081,Northwind Foods,RB-110,128400.00,2025-Q1
+10082,Contoso Retail,RB-112,97500.00,2025-Q1
+10083,Fabrikam Health,RB-118,20400.00,2025-Q1
+10084,Adventure Works,RB-120,55100.00,2025-Q1

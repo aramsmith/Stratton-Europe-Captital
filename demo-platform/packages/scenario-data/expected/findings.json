@@ -1,0 +1,37 @@
+{
+  "caseId": "project-danube",
+  "generatedAtIso": "2026-08-06T10:00:00.000Z",
+  "findings": [
+    {
+      "findingId": "finding-valuation-support",
+      "title": "Valuation support is not yet complete",
+      "summary": "Board pack, rebate export, and QoE report align on the need for further diligence before any committee paper is drafted.",
+      "materiality": "MEDIUM",
+      "status": "DRAFT",
+      "citations": [
+        {
+          "citationId": "citation-board-pack-42",
+          "evidenceId": "evidence-board-pack",
+          "locator": "page 42",
+          "accessible": true
+        },
+        {
+          "citationId": "citation-erp-812-886",
+          "evidenceId": "evidence-erp-rebates",
+          "locator": "rows 812-886",
+          "accessible": true
+        },
+        {
+          "citationId": "citation-qoe-18",
+          "evidenceId": "evidence-qoe-report",
+          "locator": "page 18",
+          "accessible": true
+        }
+      ]
+    }
+  ],
+  "reviewGates": [
+    "admit all cited evidence before promoting the finding",
+    "keep the finding in draft until a human decision is recorded"
+  ]
+}
