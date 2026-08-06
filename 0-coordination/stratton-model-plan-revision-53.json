@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "53",
+  "createdAt": "2026-08-03T22:04:00+02:00",
+  "revisionReason": "Move the complete R4 deck to a larger 16:10 presentation canvas selected by the human architect.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-52.json",
+    "sha256": "0c4bae4b462f2b154979c8df783cc94dc32099858ca1d304be82fe34266a7566",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "selectedLayout": {
+      "widthPx": 1440,
+      "heightPx": 900,
+      "aspectRatio": "16:10"
+    },
+    "scope": "Apply the larger logical canvas to all existing and future slides."
+  },
+  "implementation": {
+    "strategy": "Use a fixed logical deck canvas and scale the deck uniformly to the available viewport.",
+    "contentMaxWidthPx": 1440,
+    "contentGutterPx": 80,
+    "preserveSlideAnimations": true,
+    "preserveReducedMotion": true
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

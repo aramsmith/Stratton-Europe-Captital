@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "registry": "mcr.microsoft.com",
+  "source": "MCR Distribution manifest endpoint",
+  "generatedAt": "2026-08-03T03:32:19.1520429+02:00",
+  "moduleCount": 1,
+  "modules": [
+    {
+      "module": "br/public:avm/res/resources/resource-group:0.4.1",
+      "tag": "0.4.1",
+      "dockerContentDigest": "sha256:c33540e1e448d05fbfadb090c29020818f2c8186ce50c7aeccef423c7b27af21",
+      "endpoint": "https://mcr.microsoft.com/v2/bicep/avm/res/resources/resource-group/manifests/0.4.1",
+      "retrievedAt": "2026-08-03T03:32:19.1512732+02:00"
+    }
+  ]
+}

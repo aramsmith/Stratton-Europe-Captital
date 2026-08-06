@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "prerequisites",
+  "scope": "Prerequisites",
+  "status": "PASS",
+  "command": "Verify exact tool versions and required package inputs",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T19:50:53.9030427Z",
+  "endedAt": "2026-08-02T19:50:57.8480963Z",
+  "durationMilliseconds": 3945.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T195053892Z/prerequisites.log"
+}

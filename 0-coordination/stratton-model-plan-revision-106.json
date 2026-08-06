@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "106",
+  "createdAt": "2026-08-05T00:58:59.1140421+02:00",
+  "revisionReason": "Reframe Slide 1 around Stratton becoming a Frontier Company while retaining investment decision intelligence as the solution capability.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-105.json",
+    "sha256": "55bdc8d7c9ceb9545f2799aa6c8fe4a3ad891d326fe7c8ac3f4604366a4a0e64",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 1,
+    "request": "Lead Slide 1 with Stratton becoming a Frontier Company and retain investment decision intelligence as the supporting solution."
+  },
+  "contentChange": {
+    "summary": [
+      "Slide 1 now leads with Becoming a Frontier Company beneath the Stratton Europe Capital brand heading.",
+      "Investment decision intelligence remains in the supporting line as the concrete sovereign Azure AI capability.",
+      "The architecture-board intro, visual composition, branding, tags, footer and later slide titles remain unchanged.",
+      "Deck metadata now uses the same Frontier Company transformation framing."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "quality": {
+    "titleContract": "pass",
+    "mutationProbes": 3,
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 1,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "completedFrontierCompanyClaim": false
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/TitleSlide.jsx",
+      "sha256": "cb80dbeff6862aa76c44e2c9b2934b888e4abc6b19e5f8b6074c9e0e54eb46a3"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/TitleSlide.module.css",
+      "sha256": "07243b04bba7c235a8a8db467651bde2d37f3405b10c944c74fe765e3b0de2de"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "8f997573ed70268534a25bbb54ebe4fced9a9f2d61264bd7b21d849fc815345c"
+    }
+  },
+  "verificationArtifacts": {
+    "contract": {
+      "repositoryPath": ".superpowers/sdd/2026-08-05-slide-1-frontier-company-title/slide-1-title-contract.mjs",
+      "sha256": "3b29c45472950b41383bd5e1d180e106180bc8fe0f9278c558a03906eecab3aa"
+    },
+    "report": {
+      "repositoryPath": ".superpowers/sdd/2026-08-05-slide-1-frontier-company-title/task-3-report.md",
+      "sha256": "922253a4953319fced2aebd434c6ea13005dc0863069faff7b67ea6308ae40ad"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

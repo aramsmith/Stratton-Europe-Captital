@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "34",
+  "createdAt": "2026-08-03T17:58:01.2623021+02:00",
+  "revisionReason": "Carry the title-slide executive typography hierarchy into slides 2 and 3, and make their horizontal fly-in motion smoother and moderately slower.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-33.json",
+    "sha256": "4057e829765663a4fc3d7fc6f6e667d43e2c0712d0ac9525a2cb17fa84a33d00",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlides": [
+      2,
+      3
+    ],
+    "changes": [
+      "Use larger, more readable headings and supporting text while preserving content fit.",
+      "Retain slide 2's vertically ordered primary panels.",
+      "Slow horizontal fly-ins from 700ms to 1000ms and use a smoother ease-out curve."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

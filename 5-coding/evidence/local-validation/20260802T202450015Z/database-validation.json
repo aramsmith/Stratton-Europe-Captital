@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "database-validation",
+  "scope": "Database",
+  "status": "PASS",
+  "command": "npm run check:migrations",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T20:38:19.6260029Z",
+  "endedAt": "2026-08-02T20:38:20.2793352Z",
+  "durationMilliseconds": 653.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T202450015Z/database-validation.log"
+}

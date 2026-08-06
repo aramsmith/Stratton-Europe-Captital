@@ -1,0 +1,601 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_CLAIM_CATALOGUE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "modelPlanRevision": "16",
+  "classificationValues": [
+    "SOURCE_FACT",
+    "HUMAN_OWNED_HYPOTHESIS",
+    "APPROVED_DESIGN_INTENT",
+    "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+    "UNTESTED_RUNTIME_BEHAVIOUR"
+  ],
+  "claims": [
+    {
+      "claimId": "P6-C001",
+      "slideId": "S01",
+      "statement": "The requested decision is endorsement of the approved architecture and coding baseline plus a controlled roadmap; it is not deployment approval.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "constraints[3..6]"
+        },
+        {
+          "path": "0-coordination/stratton-model-plan-revision-16.json",
+          "section": "presentationSetup.decisionGoal"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_THROUGH_PHASE_5",
+      "caveat": "Phase 6 remains subject to independent review and human approval."
+    },
+    {
+      "claimId": "P6-C002",
+      "slideId": "S01",
+      "statement": "Release 1 has an approved evidence chain from requirements through a locally implemented and statically validated package.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "approvals/1/stratton-phase-1-approval-1.json",
+          "section": "decision"
+        },
+        {
+          "path": "approvals/2/stratton-phase-2-approval-1.json",
+          "section": "decision"
+        },
+        {
+          "path": "approvals/3/stratton-phase-3-approval-1.json",
+          "section": "decision"
+        },
+        {
+          "path": "approvals/4/stratton-phase-4-approval-1.json",
+          "section": "decision"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "decision"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_BASELINES",
+      "caveat": "The evidence chain does not establish deployed or runtime behaviour."
+    },
+    {
+      "claimId": "P6-C003",
+      "slideId": "S01",
+      "statement": "Azure sign-in, target validation, what-if, deployment, cloud validation, runtime testing and operating-effectiveness evidence do not exist.",
+      "classification": "UNTESTED_RUNTIME_BEHAVIOUR",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-build-report.md",
+          "section": "Outcome; Limitations"
+        },
+        {
+          "path": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+          "section": "confirmedControls; verdictRationale"
+        }
+      ],
+      "approvalEvidenceStatus": "EXPLICIT_NEGATIVE_EVIDENCE_BOUNDARY",
+      "caveat": "No inference about target behaviour is permitted."
+    },
+    {
+      "claimId": "P6-C004",
+      "slideId": "S02",
+      "statement": "The approved business target is to reduce median due diligence from 12 weeks to no more than 3 weeks within 12 months of programme approval.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; BR-001"
+        },
+        {
+          "path": "1-requirements/stratton-requirements-catalogue.json",
+          "section": "requirements.BR-001"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_REQUIREMENT",
+      "caveat": "This is a target, not an achieved benefit."
+    },
+    {
+      "claimId": "P6-C005",
+      "slideId": "S02",
+      "statement": "Release 1 is limited to the first 20 eligible new private-equity opportunities with recorded deal and jurisdiction eligibility.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Scope and accountability; BR-002"
+        },
+        {
+          "path": "1-requirements/stratton-requirements-catalogue.json",
+          "section": "requirements.BR-002"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_REQUIREMENT",
+      "caveat": "Eligibility definitions remain owner-bound under VAL-003."
+    },
+    {
+      "claimId": "P6-C006",
+      "slideId": "S02",
+      "statement": "Deal professionals validate material outputs, Legal and Compliance review specialist conclusions, Internal Audit owns the independent verdict, and the Investment Committee retains every investment decision.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; Scope and accountability"
+        },
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Target Business Architecture"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_REQUIREMENTS_AND_ARCHITECTURE",
+      "caveat": "No automated decision authority is authorised."
+    },
+    {
+      "claimId": "P6-C007",
+      "slideId": "S03",
+      "statement": "The approved solution scope supports governed evidence ingestion, extraction, comparison, anomaly and risk analysis, citation, review and draft recommendation preparation.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; FR-001"
+        },
+        {
+          "path": "1-requirements/stratton-requirements-catalogue.json",
+          "section": "requirements.FR-001"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_REQUIREMENT",
+      "caveat": "All functions remain assistive and subject to human controls."
+    },
+    {
+      "claimId": "P6-C008",
+      "slideId": "S03",
+      "statement": "The value logic is evidence-to-draft cycle-time improvement through governed reuse, grounded analysis and explicit human review.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; primary dependency chain"
+        },
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Architecture vision; value stream"
+        }
+      ],
+      "approvalEvidenceStatus": "LOGIC_SUPPORTED_NO_NUMERIC_BENEFIT_CASE",
+      "caveat": "Chief Investment Officer must validate benefit measures against dated operational evidence."
+    },
+    {
+      "claimId": "P6-C009",
+      "slideId": "S03",
+      "statement": "Quality and control outcomes are defined as acceptance thresholds, including citation, extraction, prohibited-action prevention and auditable review.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "NR-001; NR-002"
+        },
+        {
+          "path": "1-requirements/stratton-requirements-catalogue.json",
+          "section": "requirements.NR-001; requirements.NR-002"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_ACCEPTANCE_REQUIREMENTS",
+      "caveat": "Threshold performance has not been established in a cloud runtime."
+    },
+    {
+      "claimId": "P6-C010",
+      "slideId": "S04",
+      "statement": "The chosen approach is a case-centred, evidence-enveloped, assistive workflow with common fail-closed policy and separated decision authority.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Candidate architecture decisions AD-001, AD-003, AD-004, AD-005"
+        },
+        {
+          "path": "approvals/2/stratton-phase-2-approval-1.json",
+          "section": "constraints[0]"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_2_BASELINE",
+      "caveat": "Implementation does not prove runtime effectiveness."
+    },
+    {
+      "claimId": "P6-C011",
+      "slideId": "S04",
+      "statement": "Rejected alternatives include autonomous decisioning, source write-back, UI-only controls, shared environments and post-ingestion licence review.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Candidate architecture decisions AD-002, AD-004, AD-005, AD-006, AD-010"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_ALTERNATIVE_DISPOSITIONS",
+      "caveat": "Alternatives are rejected for this approved baseline, not universally."
+    },
+    {
+      "claimId": "P6-C012",
+      "slideId": "S04",
+      "statement": "The principal trade-off is stronger evidence, isolation and human control in exchange for more gates, identities, operational complexity and release latency.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-cc-001-r2-phase-3-amendment.md",
+          "section": "Verification and WAF trade-offs"
+        },
+        {
+          "path": "4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.md",
+          "section": "WAF balance and approval block"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_BY_CHANGE_CONTROL",
+      "caveat": "Cost impact is not quantified."
+    },
+    {
+      "claimId": "P6-C013",
+      "slideId": "S05",
+      "statement": "The approved vendor-neutral target contains 19 Architecture Building Blocks and 10 architecture decisions.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture-catalogue.json",
+          "section": "architectureBuildingBlocks; architectureDecisions"
+        },
+        {
+          "path": "approvals/2/stratton-phase-2-approval-1.json",
+          "section": "constraints[0]"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_2_BASELINE",
+      "caveat": "Counts describe the approved logical architecture, not deployed services."
+    },
+    {
+      "claimId": "P6-C014",
+      "slideId": "S05",
+      "statement": "The target flow preserves source authority, quarantines and admits evidence, grounds analysis, enforces review, and records only a draft recommendation before committee decision.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-view-03-application.mmd",
+          "section": "VIEW-03"
+        },
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Target Application Architecture"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_2_DIAGRAM",
+      "caveat": "The diagram is logical and vendor-neutral."
+    },
+    {
+      "claimId": "P6-C015",
+      "slideId": "S05",
+      "statement": "Independent validation evidence is isolated so delivery and operations cannot issue or modify the Internal Audit verdict.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "AD-009; ABB-16"
+        },
+        {
+          "path": "approvals/change-control/stratton-cc-001-approval-1.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_AND_STRENGTHENED_BY_CHANGE_CONTROL",
+      "caveat": "Verdict issuance remains one of three authority conflicts in the implemented package."
+    },
+    {
+      "claimId": "P6-C016",
+      "slideId": "S06",
+      "statement": "The approved Azure design is a private AI-focused landing zone with separated platform, non-production, production and Internal Audit assurance boundaries.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-azure-design.md",
+          "section": "Executive summary; Citadel architecture and landing-zone topology"
+        },
+        {
+          "path": "3-azure-design/diagrams/stratton-solution-lz-topology.svg",
+          "section": "diagram"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_3_BASELINE",
+      "caveat": "Exact tenant, subscriptions, regions and network values remain fail-closed owner inputs."
+    },
+    {
+      "claimId": "P6-C017",
+      "slideId": "S06",
+      "statement": "The design uses private ingress and APIs, internal Container Apps, Azure SQL Database, Blob Storage, Azure AI Search, regional Azure OpenAI and Document Intelligence.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-azure-design.md",
+          "section": "Executive summary; Resource inventory"
+        },
+        {
+          "path": "3-azure-design/stratton-design-catalogue-cc-001-r2-proposed.json",
+          "section": "solutionBuildingBlocks; resourceInventory"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_3_PLUS_CHANGE_CONTROL",
+      "caveat": "Service selection is design intent; target availability and compatibility are unvalidated."
+    },
+    {
+      "claimId": "P6-C018",
+      "slideId": "S06",
+      "statement": "Well-Architected balance favours private security, zonal primary plus warm recovery, evidence-led sizing, separated workloads and explicit operational gates.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-azure-design.md",
+          "section": "WAF balance, environment and cost"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_3_BASELINE",
+      "caveat": "Two-region operation and recovery behaviour are untested."
+    },
+    {
+      "claimId": "P6-C019",
+      "slideId": "S07",
+      "statement": "The approved implementation sequence contains 17 deployable units, five work packages and 46 acyclic dependencies.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.md",
+          "section": "Immutable history and scope"
+        },
+        {
+          "path": "4-implementation-plan/diagrams/stratton-dependency-dag-cc-001-r3-proposed.svg",
+          "section": "diagram"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_BY_CHANGE_CONTROL",
+      "caveat": "The sequence is an approved plan, not an executed deployment."
+    },
+    {
+      "claimId": "P6-C020",
+      "slideId": "S07",
+      "statement": "The Phase 5 release manifest binds 116 deployable source files and all 17 implementation units.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-build-report.md",
+          "section": "Inventory"
+        },
+        {
+          "path": "5-coding-r4/stratton-release-manifest.json",
+          "section": "files; deploymentUnits"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_5_BASELINE",
+      "caveat": "Deployable source does not mean deployment-ready."
+    },
+    {
+      "claimId": "P6-C021",
+      "slideId": "S07",
+      "statement": "The retained local validation run passed ten steps; assurance reports also record 55 of 55 IaC tests and 77 of 77 application tests passing.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-build-report.md",
+          "section": "Validation"
+        },
+        {
+          "path": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+          "section": "assessment.Local validation and evidence"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_RETAINED_LOCAL_EVIDENCE",
+      "caveat": "These are local/static results, not target or runtime tests."
+    },
+    {
+      "claimId": "P6-C022",
+      "slideId": "S07",
+      "statement": "Source and container evidence reports zero HIGH or CRITICAL findings and zero detected secrets in the retained scans.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-build-report.md",
+          "section": "Security and supply chain"
+        },
+        {
+          "path": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+          "section": "assessment.Supply chain"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_RETAINED_SCAN_EVIDENCE",
+      "caveat": "Scan results are point-in-time local evidence and not a security certification."
+    },
+    {
+      "claimId": "P6-C023",
+      "slideId": "S08",
+      "statement": "No approved numeric business case, ROI, cost total, Azure price, rate or realised benefit exists.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-azure-design.md",
+          "section": "WAF balance, environment and cost"
+        },
+        {
+          "path": "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json",
+          "section": "workPackages.WP-04"
+        },
+        {
+          "path": "0-coordination/stratton-model-plan-revision-16.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "EXPLICIT_EVIDENCE_ABSENCE",
+      "caveat": "Do not infer financial values from architecture or validation evidence."
+    },
+    {
+      "claimId": "P6-C024",
+      "slideId": "S08",
+      "statement": "An owner-approved Azure Pricing Calculator estimate requires exact regions, capacity, usage, resilience and commercial inputs.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-azure-design.md",
+          "section": "WAF balance, environment and cost"
+        },
+        {
+          "path": "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json",
+          "section": "workPackages.WP-04"
+        }
+      ],
+      "approvalEvidenceStatus": "OWNER_ACTION_DEFINED_NOT_COMPLETED",
+      "caveat": "Owners: FinOps, Enterprise Platform and Chief Investment Officer; source must be dated."
+    },
+    {
+      "claimId": "P6-C025",
+      "slideId": "S08",
+      "statement": "Benefit validation requires dated baseline and post-adoption cycle-time, quality, review-effort and exception evidence.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "BR-001; NR-001; NR-002"
+        },
+        {
+          "path": "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json",
+          "section": "workPackages.WP-04"
+        }
+      ],
+      "approvalEvidenceStatus": "VALIDATION_NEED_DEFINED_NOT_COMPLETED",
+      "caveat": "Chief Investment Officer and control owners must approve measures and dated sources."
+    },
+    {
+      "claimId": "P6-C026",
+      "slideId": "S09",
+      "statement": "Exactly three authority conflicts remain open: assurance verdict issuance, analysis execution and audit evidence export.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-release-manifest.json",
+          "section": "authorityConflicts"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "constraints[2]"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_OPEN_BOUNDARIES",
+      "caveat": "All three remain fail closed and unwaived."
+    },
+    {
+      "claimId": "P6-C027",
+      "slideId": "S09",
+      "statement": "Exactly fourteen owner-bound controls remain open, comprising VAL-001 to VAL-005, AFFB-RES-001 to AFFB-RES-002 and CC1-OWN-001 to CC1-OWN-007.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-release-manifest.json",
+          "section": "unresolvedControls"
+        },
+        {
+          "path": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+          "section": "residualControls"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_OPEN_BOUNDARIES",
+      "caveat": "Named-owner evidence is required before each stated boundary."
+    },
+    {
+      "claimId": "P6-C028",
+      "slideId": "S09",
+      "statement": "Exactly two retained AFF-B minor gaps remain open: AFFB-CC001-R2-MIN-001 and AFFB-CC001-R3-MIN-002.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r4/stratton-release-manifest.json",
+          "section": "retainedMinorGaps"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "constraints[2]"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_OPEN_BOUNDARIES",
+      "caveat": "Neither gap is waived or closed."
+    },
+    {
+      "claimId": "P6-C029",
+      "slideId": "S09",
+      "statement": "DORA applicability, AI Act classification, official legal mappings, production values, retention finalisation and target behaviour remain owner or future-authorisation matters.",
+      "classification": "UNTESTED_RUNTIME_BEHAVIOUR",
+      "sources": [
+        {
+          "path": "reviews/aff-b/coverage/stratton-compliance-coverage-009.json",
+          "section": "residualControls; limitations"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "residualGaps; constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "OPEN_FAIL_CLOSED_BOUNDARY",
+      "caveat": "No legal conclusion, compliance certification or operating-effectiveness claim is made."
+    },
+    {
+      "claimId": "P6-C030",
+      "slideId": "S10",
+      "statement": "The recommended board action is to endorse the approved baseline and controlled roadmap while keeping deployment outside this decision.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "0-coordination/stratton-model-plan-revision-16.json",
+          "section": "presentationSetup.decisionGoal"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "HUMAN_SELECTED_PHASE_6_DECISION_GOAL",
+      "caveat": "Endorsement does not approve Phase 6, deployment or runtime testing."
+    },
+    {
+      "claimId": "P6-C031",
+      "slideId": "S10",
+      "statement": "The controlled next step is owner evidence closure and separately authorised target validation planning before any optional deployment decision.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+          "section": "residualControls; requiredAction"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "constraints[5..6]"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_CONTROLLED_ROADMAP_BOUNDARY",
+      "caveat": "Phase 7 remains separately human-invocable and unauthorised."
+    },
+    {
+      "claimId": "P6-C032",
+      "slideId": "S10",
+      "statement": "Phase 8 runtime testing remains optional, separate and unauthorised; it requires a successful approved Phase 7 deployment and a separate human invocation.",
+      "classification": "UNTESTED_RUNTIME_BEHAVIOUR",
+      "sources": [
+        {
+          "path": "0-coordination/stratton-model-plan-revision-16.json",
+          "section": "constraints"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-approval-1.json",
+          "section": "constraints[6]"
+        }
+      ],
+      "approvalEvidenceStatus": "EXPLICIT_OPTIONAL_PHASE_BOUNDARY",
+      "caveat": "No optional phase is invoked by this recommendation."
+    }
+  ]
+}

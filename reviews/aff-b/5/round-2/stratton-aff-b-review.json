@@ -1,0 +1,514 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "separationStatus": "ESTABLISHED_SEPARATE_ROLE_CONTEXT_AND_WRITE_BOUNDARY"
+  },
+  "invocation": {
+    "invokedBy": "AFF-5",
+    "phaseOwnerInvocationStatus": "DIRECT_PHASE_OWNER_INVOCATION_RECORDED",
+    "authoritativeInvocation": true,
+    "earlierSpecialistRunnerStatus": "NO_VERDICT_NO_WRITES_NOT_AUTHORITATIVE",
+    "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER"
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "5",
+    "phaseName": "Phase 5 — Coding",
+    "owner": "AFF-5"
+  },
+  "round": 2,
+  "reviewTime": "2026-08-03T05:57:03.9454885+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-15.json",
+    "revision": "15",
+    "sha256": "7ce3ff77d47384ceaf3e0515b3350578831b5a2fedfcbeba4e586399dc9f6fb4",
+    "subjectManifestModelPlanRevision": "15",
+    "phaseAuthorActualRuntimeModelIds": [
+      "gpt-5.3-codex",
+      "gpt-5.6-sol"
+    ],
+    "phaseFinalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol",
+    "affBModelRelationshipStatus": "ALLOWED_SAME_EXACT_MODEL_ONLY_THROUGH_SEPARATE_AFF_B_ROLE_CONTEXT_AND_WRITE_BOUNDARY",
+    "modelPlanBindingStatus": "BOUND_AND_HASH_RECOMPUTED"
+  },
+  "assuranceBoundary": "Independent architecture assurance only; not legal advice, certification, attestation, waiver, approval, deployment authorisation, Azure validation, runtime evidence or operating-effectiveness evidence.",
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+    "expectedSha256FromInvocation": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "preReviewSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "postReviewSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "computedSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "hashStatus": "MATCH_UNCHANGED_PRE_POST",
+    "phaseId": "5",
+    "modelPlanRevision": "15",
+    "artifactCount": 155,
+    "artifactHashVerificationStatus": "ALL_155_MANIFEST_ENTRIES_INDEPENDENTLY_RECOMPUTED_AND_MATCHED",
+    "reviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-2/reviewed-subject/stratton-phase-5-hashes.json",
+    "reviewedSubjectSnapshotSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "hashVerificationReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-2/reviewed-subject/stratton-phase-5-hash-verification-receipt.json",
+    "hashVerificationReceiptSha256": "da00dda6384e1f99ade623233234497f4855b041cabfddf589bc104da0f76d6f"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-2/stratton-aff-b-model-receipt.json",
+    "sha256": "fdeb09e67db09f30a3531d0e91626af8aacb5636a651e78343e1d43b14144034"
+  },
+  "activeCoverage": {
+    "sequence": "009",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-009.json",
+    "sha256": "5c25df3283233120e814629dafd742c302ed5d44424bb75e7193c4ef0456e0ad",
+    "status": "ACTIVE_CONVERGED_PHASE5_REVISION4_AFF_B_ROUND2",
+    "supersedesSequence": "008",
+    "supersededCoverageSha256": "622f9da4552c86d48f166493769b92db314a71960deab6996e1f30360b7c97e3",
+    "requirementsModified": false,
+    "legalObligationsAdded": false,
+    "ownerValuesChanged": false
+  },
+  "finalAffA": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+    "sha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+    "computedSha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+    "verdict": "CONFORMS-WITH-GAPS",
+    "findingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "finalRoundForManifest": true,
+    "sameExactSubject": true
+  },
+  "priorAffB": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-1/stratton-aff-b-review.json",
+    "sha256": "a46643eef6a9e2e146cd6ad811f012d733e533e499a33c9531c94c8357d27e9e",
+    "verdict": "DIVERGES",
+    "findingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 6,
+      "MINOR": 0
+    }
+  },
+  "scope": [
+    "Complete frozen Phase 5 revision-4 manifest and every one of its 155 enumerated artifacts",
+    "Canonical ordering, artifact roles, UTF-8/no-BOM manifest encoding, pre/post hash, release-manifest files and revisions 1-3 immutability",
+    "All Phase 0-4 approval records, STRATTON-CC-001, model-plan revision 15, final AFF-A round 4 and coverage 008",
+    "Bicep identity, RBAC, exposure, private networking, data services, assurance storage, logging, retention, rollback and deployment safeguards",
+    "API authentication and authorisation, tenant/case isolation, SQL RLS, source/licence/privacy/special-category gates and blocked authority interfaces",
+    "Service Bus queues, active producer/consumer RBAC, idempotency, durable outbox, dead-letter and audit sequencing",
+    "Dependencies, tool pins, SBOMs, retained scans, container digests, non-root execution and local-only signing",
+    "Retained full local validation run 20260803T031539999Z and the exact no-Azure-execution boundary"
+  ],
+  "confirmedControls": [
+    "SQL public access is disabled; Microsoft Entra-only authentication and TLS 1.2 are configured.",
+    "Storage, Key Vault, ACR, Service Bus, API Management, Search, Cognitive Services, Log Analytics and Application Insights use private access or local-auth denial where represented.",
+    "Managed identities, exact resource scopes and digest-pinned images are used; stored credentials and GitHub OIDC are prohibited.",
+    "Delivery write authority to assurance storage is absent; the Internal Audit-controlled copier has exact evidence-container scope and source pull/copy acceptance remains owner-bound.",
+    "Data admission is blocked until separately authorised observed immutability-lock and legal-hold evidence is bound.",
+    "Workload NSGs contain service-specific allows and explicit deny-all rules; default routes target the corresponding regional firewall; reserved subnets and private-endpoint policies are handled.",
+    "Service Bus data roles are exact queue-scoped paths for active producers and consumers; analysis and audit-export remain inactive without data-plane RBAC.",
+    "APIM strips spoofable platform identity/token headers, validates the preserved human bearer token, and Container Apps revalidates matching owner-bound tenant/client/audience values with HTTPS, Return401 and no excluded paths.",
+    "API code enforces roles, human-only routes, case access and tenant/case SQL RLS session context.",
+    "Source, current licence, purpose, privacy lawful-basis, evidence-admission and special-category gates fail closed, including queued-analysis authority recheck.",
+    "Transactional idempotency, claim fencing, durable outbox, retry/dead-letter handling and SQL audit hash sequencing are represented and covered by retained evidence.",
+    "Dependencies are pinned; SBOMs and retained source/container scans are bound; no HIGH/CRITICAL vulnerability or secret finding is reported.",
+    "Local Cosign evidence is accurately limited to non-production integrity evidence.",
+    "Release schema, manifest, build report and verifier disclose all three authority conflicts, fourteen owner controls and two retained AFF-B minor gaps.",
+    "No Azure login, target validation, what-if, deployment, retention finalisation, cloud validation or runtime testing occurred in Phase 5 or this review."
+  ],
+  "assessment": [
+    {
+      "focus": "CANONICAL_INTEGRITY_AND_IMMUTABILITY",
+      "status": "CONFORMS",
+      "evidence": "Manifest pre/post SHA-256 remained bcdf3755…1626; 155/155 listed hashes matched; ordinal ordering, roles, path shape, UTF-8/no-BOM and no trailing newline were verified; revisions 1-3 remain byte-identical with 153/153, 154/154 and 154/154 matches."
+    },
+    {
+      "focus": "UPSTREAM_APPROVALS_CHANGE_CONTROL_MODEL_AND_AFF_A",
+      "status": "CONFORMS",
+      "evidence": "All six approval/change-control records are APPROVED and hash-valid; every embedded approval reference matched. STRATTON-CC-001, model-plan 15 and final AFF-A round 4 are hash-valid and bind this exact subject."
+    },
+    {
+      "focus": "PRIVATE_PLATFORM_RBAC_EXPOSURE_AND_DATA_FLOWS",
+      "status": "CONFORMS_WITH_OWNER_BOUND_VALUES",
+      "evidence": "Private access, Entra/local-auth controls, scoped RBAC, managed identities, private endpoints and governed data flows are represented. Production identifiers and target observations remain fail-closed owner inputs."
+    },
+    {
+      "focus": "ASSURANCE_PULL_COPY_AND_WORM",
+      "status": "CONFORMS_WITH_POST_DEPLOYMENT_OWNER_GATES",
+      "evidence": "Direct delivery writes are removed. Internal Audit controls the exact evidence-container copier; source pull/copy acceptance remains CC1-OWN-002. Lock/legal hold are not claimed complete and admission remains blocked."
+    },
+    {
+      "focus": "NETWORK_FAIL_CLOSED_CONTROLS",
+      "status": "CONFORMS_WITH_OWNER_BOUND_VALUES",
+      "evidence": "Workload NSGs, explicit denies, regional firewall UDRs, reserved-subnet handling and private-endpoint policies are present and statically validated by retained evidence."
+    },
+    {
+      "focus": "SERVICE_BUS_QUEUE_AUTHORITY",
+      "status": "CONFORMS",
+      "evidence": "The exact seven queue-scoped role paths match active producers/consumers. Analysis and audit-export workers are disabled and receive no Service Bus data role."
+    },
+    {
+      "focus": "APIM_CONTAINER_APPS_AND_APPLICATION_IDENTITY",
+      "status": "CONFORMS_WITH_OWNER_BOUND_VALUES",
+      "evidence": "Cloud-aware Entra issuer construction, tenant/client/audience matching, HTTPS, Return401, no excluded paths, spoofed-header deletion, bearer-token preservation, Container Apps revalidation and human claim checks are represented."
+    },
+    {
+      "focus": "TENANT_RLS_SOURCE_LICENCE_PRIVACY_AND_SPECIAL_CATEGORY",
+      "status": "CONFORMS",
+      "evidence": "Role and case access, SQL tenant/case RLS context, current source/licence recheck, purpose/privacy/admission gates and special-category denial fail closed."
+    },
+    {
+      "focus": "QUEUE_IDEMPOTENCY_OUTBOX_AND_AUDIT",
+      "status": "CONFORMS",
+      "evidence": "Claim-fenced idempotency, serialised transaction scopes, durable outbox, scoped relay, retry/dead-letter paths and audit event sequencing/hash chaining are represented and retained validation reports PASS."
+    },
+    {
+      "focus": "DEPENDENCIES_SBOM_SCANS_AND_SIGNING",
+      "status": "CONFORMS_WITH_OWNER_GATES",
+      "evidence": "Exact dependency/tool versions, AVM digest, SBOMs, retained Trivy evidence and image digests are bound. Local signing is non-production; release identity and licence acceptance remain owner gates."
+    },
+    {
+      "focus": "LOGGING_RETENTION_ROLLBACK_DEPLOYMENT_AND_APPROVALS",
+      "status": "CONFORMS_WITH_OWNER_GATES",
+      "evidence": "Sensitive log keys are redacted; diagnostics and alerts are represented; rollback preserves evidence and prohibits boundary weakening; deployment and irreversible retention steps require separate Phase 7 authorisations."
+    },
+    {
+      "focus": "RELEASE_DISCLOSURE_VALIDATION_AND_NO_AZURE_EXECUTION",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "Retained run 20260803T031539999Z reports ten PASS steps, Pester 55/55 and application 77/77. Freeze artifacts were inspected statically. Three authority conflicts, fourteen owner controls and two retained minor gaps remain explicit; no reviewed procedure was executed."
+    }
+  ],
+  "priorFindingDispositions": [
+    {
+      "id": "AFFB-P5-R1-MAJ-001",
+      "sourceRound": 1,
+      "priorSeverity": "MAJOR",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_WITH_CC1_OWN_002_RETAINED",
+      "title": "Direct delivery write access violates the assurance pull/copy boundary",
+      "owner": [
+        "AFF-5",
+        "Internal Audit",
+        "Identity Lead"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/modules/assurance/main.bicep:132-147 scopes the separately controlled evidence reader-copier write assignment to the assurance evidence container.",
+        "5-coding-r4/infra/parameters/prd.bicepparam:3455-3457 binds the copier authority to Internal Audit and the exact container data role; deliveryPrincipalId is absent.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1:849-867 rejects deliveryPrincipalId and enforces the exact role, authority and separate service principal."
+      ],
+      "residualBoundary": "Exact source-container read and evidence pull/copy acceptance remain owner-bound under CC1-OWN-002; no production evidence admission is authorised."
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-002",
+      "sourceRound": 1,
+      "priorSeverity": "MAJOR",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_BY_FAIL_CLOSED_SEPARATELY_AUTHORISED_FINALISATION",
+      "title": "Declared locked immutability and legal hold are not implemented",
+      "owner": [
+        "AFF-5",
+        "Internal Audit Records Owner",
+        "Business Continuity"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/parameters/prd.bicepparam:3406-3414 records blocked retention finalisation, dataAdmissionEnabled false and empty observed-evidence bindings.",
+        "5-coding-r4/deploy/Invoke-AssuranceRetentionFinalization.ps1:75-210 requires -Execute, a hashed Phase 7 authorisation, policy ETags, lock and legal-hold operations, observed Locked state and legal-hold tag verification.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1:820-847 fails closed unless the separately authorised observed evidence IDs and hashes are bound."
+      ],
+      "residualBoundary": "The irreversible procedure was not executed and no lock, legal hold or operating effectiveness is claimed; admission remains blocked until observed evidence is independently accepted."
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-003",
+      "sourceRound": 1,
+      "priorSeverity": "MAJOR",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED",
+      "title": "Workload NSGs and routes retain fail-open Azure defaults",
+      "owner": [
+        "Network Lead",
+        "CISO",
+        "AFF-5"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/parameters/prd.bicepparam:3-140 defines service-specific workload allow rules, explicit deny-all inbound/outbound rules and regional firewall default routes.",
+        "5-coding-r4/infra/modules/network/main.bicep:10-80 handles Azure-reserved subnets, attaches workload NSGs/routes and applies privateEndpointNetworkPolicies.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1:391-480 rejects empty controls, missing denies, regional-firewall route mismatches and disabled private-endpoint policies."
+      ],
+      "residualBoundary": "Owner-supplied network values remain fail-closed sentinels and require authorised target validation in Phase 7."
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-004",
+      "sourceRound": 1,
+      "priorSeverity": "MAJOR",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED",
+      "title": "Service Bus RBAC is over-broad and incompatible with the runtime",
+      "owner": [
+        "AFF-5",
+        "Integration Lead",
+        "Identity Lead"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/modules/integration/main.bicep:8-99 defines seven exact producer/consumer paths and assigns roles at Microsoft.ServiceBus/namespaces/queues scope.",
+        "5-coding-r4/infra/modules/application-platform/main.bicep:7-14 and 152 deploy only ingestion, extraction and indexing workers.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1:377-389 and 496-546 verifies the exact queue-scoped map and rejects deployment of analysis or audit-export workers."
+      ],
+      "residualBoundary": "Analysis and audit-export interfaces remain authority-blocked and have no active worker or Service Bus data-plane RBAC."
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-005",
+      "sourceRound": 1,
+      "priorSeverity": "MAJOR",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED",
+      "title": "Container Apps authentication is not bound to an Entra tenant and audience",
+      "owner": [
+        "AFF-5",
+        "Identity Lead",
+        "API Owner"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/modules/application-platform/main.bicep:119-149 configures platform auth, Return401, HTTPS, no excluded paths and exact tenant/client/audience bindings using the Azure cloud authentication endpoint.",
+        "5-coding-r4/infra/modules/apim-lockdown/main.bicep:27-75 strips spoofable platform identity/token headers, validates the Authorization bearer JWT against tenant issuer/audience and preserves it to the backend without authentication-managed-identity replacement.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1:549-594 requires APIM and Container Apps bindings to match; app/src/api-runtime.ts:283-364 defensively requires AAD, tenant-consistent issuer, roles and human identity for human-only operations."
+      ],
+      "residualBoundary": "Tenant, client and audience values remain owner-bound. Cloud and target behaviour require separately authorised Phase 7 validation; no runtime authentication claim is made."
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-006",
+      "sourceRound": 1,
+      "priorSeverity": "MAJOR",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_WITH_DISCLOSED_GAPS_RETAINED",
+      "title": "Release evidence suppresses open authority conflicts and residual controls",
+      "owner": [
+        "AFF-5"
+      ],
+      "directEvidence": [
+        "5-coding-r4/stratton-release-manifest.json records exactly three authorityConflicts, fourteen unresolvedControls and two retainedMinorGaps.",
+        "5-coding-r4/release/release-manifest.schema.json fixes the exact ordered disclosure.",
+        "5-coding-r4/validation/Test-ReleaseEvidence.ps1:148-182 validates the exact lists; stratton-build-report.md:77-103 renders the same disclosure."
+      ],
+      "residualBoundary": "All disclosed authority conflicts, fourteen owner controls and two retained AFF-B minor gaps remain open, fail closed and unwaived."
+    }
+  ],
+  "findings": [],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "unresolvedMajor": 0,
+    "priorMajorResolved": 6
+  },
+  "applicabilityBoundary": {
+    "GDPR": "HUMAN_CONFIRMED; detailed official citations remain open under AFFB-RES-002.",
+    "EU_AI_Act": "CONFIRMED_GOVERNANCE_BOUNDARY; role and use-case classification remains open under AFFB-RES-001.",
+    "SFDR": "HUMAN_CONFIRMED_CONDITIONAL.",
+    "AIFMD": "HUMAN_CONFIRMED_CONDITIONAL.",
+    "DORA": "INFERRED_CONDITIONAL pending General Counsel confirmation under VAL-001.",
+    "otherInstruments": "No applicability conclusion introduced."
+  },
+  "officialSourcesVerified": [
+    {
+      "title": "Authentication and authorization in Azure Container Apps",
+      "url": "https://learn.microsoft.com/en-us/azure/container-apps/authentication",
+      "support": "Built-in authentication and HTTPS-only considerations."
+    },
+    {
+      "title": "Enable Authentication and Authorization in Container Apps with Microsoft Entra ID",
+      "url": "https://learn.microsoft.com/en-us/azure/container-apps/authentication-entra",
+      "support": "Tenant, client and application ID URI inputs for an existing Microsoft Entra registration."
+    },
+    {
+      "title": "Azure API Management validate-jwt policy",
+      "url": "https://learn.microsoft.com/en-us/azure/api-management/validate-jwt-policy",
+      "support": "Bearer JWT signature, expiry, issuer and audience validation."
+    },
+    {
+      "title": "Azure API Management set-header policy",
+      "url": "https://learn.microsoft.com/en-us/azure/api-management/set-header-policy",
+      "support": "Inbound header deletion semantics used to remove spoofable platform headers."
+    },
+    {
+      "title": "Configure immutability policies for containers",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-policy-configure-container-scope",
+      "support": "Container-level time-based retention and policy-lock behaviour."
+    },
+    {
+      "title": "Overview of immutable storage for blob data",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+      "support": "WORM and legal-hold behaviour and limitations."
+    },
+    {
+      "title": "Use Managed Identities to access Azure Service Bus",
+      "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-managed-service-identity",
+      "support": "Data Sender/Receiver roles and narrow queue/entity RBAC scope."
+    },
+    {
+      "title": "Azure network security groups overview",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+      "support": "NSG allow/deny processing and Azure default rule behaviour."
+    },
+    {
+      "title": "Azure virtual network traffic routing",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview",
+      "support": "Default 0.0.0.0/0 Internet route and custom route override behaviour."
+    },
+    {
+      "title": "Manage network policies for private endpoints",
+      "url": "https://learn.microsoft.com/en-us/azure/private-link/disable-private-endpoint-network-policy",
+      "support": "Enabling NSG and UDR policy support on private-endpoint subnets."
+    }
+  ],
+  "officialSourceVerificationStatus": "FRESH_OFFICIAL_MICROSOFT_LEARN_SOURCES_VERIFIED_FOR_AZURE_CONTROL_BEHAVIOUR; no new legal conclusion, obligation or applicability determination introduced.",
+  "licenceReviewBoundary": "Retained source and container licence inventories were reviewed as evidence of disclosure only. AFF-B makes no legal compatibility or redistribution conclusion; production package acceptance and release identity remain governed under CC1-OWN-003 and CC1-OWN-006.",
+  "residualControls": [
+    {
+      "id": "VAL-001",
+      "owner": "General Counsel",
+      "requiredBefore": "Before any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "owner": "Chief Investment Officer and Service Operations",
+      "requiredBefore": "Before service/performance acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "owner": "Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "requiredBefore": "Before Internal Audit validation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "owner": "Source and records owners",
+      "requiredBefore": "Before production ingestion",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "owner": "General Counsel",
+      "requiredBefore": "Before production location/transfer acceptance and regional deployment",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "owner": "General Counsel and Head of AI Governance",
+      "requiredBefore": "Before production AI use or classification claim",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "owner": "Legal and compliance owners",
+      "requiredBefore": "Before formal representation relying on the regulatory register",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-001",
+      "owner": "Internal Audit, Identity Lead and Workload Security Owner",
+      "requiredBefore": "Before any assurance submission/audit/receipt/verdict signature activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-002",
+      "owner": "Internal Audit, Source Storage Owner, Network Lead and Records Owner",
+      "requiredBefore": "Before evidence pull/copy acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-003",
+      "owner": "Internal Audit Software Owner, Release Authority, Security Operations and Business Continuity",
+      "requiredBefore": "Before WP-05 acceptance, DU-16 deployment or evaluation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-004",
+      "owner": "Head of AI Governance, Data Owner, Application Engineering and Service Operations",
+      "requiredBefore": "Before analysis/vectorisation or index alias activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-005",
+      "owner": "Internal Audit, Application Owner and Service Operations",
+      "requiredBefore": "Before audit sender/receiver/receipt guard activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-006",
+      "owner": "Internal Audit Repository Owner, Security Owner, Identity Lead and Release Authority",
+      "requiredBefore": "Before authoritative source acceptance, build/sign/publish/deploy or operations",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-007",
+      "owner": "Internal Audit Cryptographic Evidence Owner, Workload Security Owner, Records Owner and Business Continuity",
+      "requiredBefore": "Before any submission/audit/receipt/verdict signature or historical trust acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-CC001-R2-MIN-001",
+      "status": "OPEN_RETAINED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-CC001-R3-MIN-002",
+      "status": "OPEN_RETAINED_NOT_WAIVED"
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "RR-P5-AUTHORITY-001",
+      "risk": "Assurance verdict issuance is not deployable in DU-12.",
+      "ownerControl": "CC1-OWN-001",
+      "status": "OPEN_DISCLOSED_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "RR-P5-AUTHORITY-002",
+      "risk": "Analysis execution interface remains authority-blocked.",
+      "ownerControl": "CC1-OWN-004",
+      "status": "OPEN_DISCLOSED_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "RR-P5-AUTHORITY-003",
+      "risk": "Audit evidence export interface remains authority-blocked.",
+      "ownerControl": "CC1-OWN-005",
+      "status": "OPEN_DISCLOSED_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "RR-P5-RETENTION-001",
+      "risk": "Observed immutability lock and legal hold do not yet exist; data admission remains blocked.",
+      "ownerControls": [
+        "CC1-OWN-002",
+        "CC1-OWN-007"
+      ],
+      "status": "OPEN_OWNER_BOUND_NO_RUNTIME_CLAIM"
+    },
+    {
+      "id": "RR-P5-RELEASE-001",
+      "risk": "Production signing identity, owner values, target validation, deployment and operating-effectiveness evidence remain future authorised activities.",
+      "ownerControls": [
+        "CC1-OWN-003",
+        "CC1-OWN-006"
+      ],
+      "status": "OPEN_OWNER_BOUND_NO_DEPLOYMENT_CLAIM"
+    }
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "All six AFF-B round-1 MAJOR findings are resolved in the frozen revision-4 package or converted into explicit fail-closed owner gates. No BLOCKER, MAJOR or new MINOR finding remains. Three blocked authority interfaces, fourteen owner-bound residual controls and two retained AFF-B minor gaps remain disclosed, open and unwaived; no Azure or runtime effectiveness claim is made.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_AFF_B_CONFORMS_WITH_GAPS_FOR_MANIFEST_BCDF37557F2D78D0675C8907BEDA6EC61DAD4A25FAFFCCA5270473A15E821626_MODEL_PLAN_REVISION_15_COVERAGE_009",
+  "affAAndAffBSameManifest": true,
+  "cryptographicConvergenceStatus": "AFF_A_ROUND_4_AND_AFF_B_ROUND_2_CONVERGE_ON_SAME_UNCHANGED_MANIFEST",
+  "requiredAction": "AFF-5 may present the exact unchanged Phase 5 revision-4 package, final AFF-A round 4, final AFF-B round 2, coverage 009 and residual gaps to the human for an explicit Phase 5 decision. Any material change requires a new sibling candidate and new final reviews. Phase 7 remains separately human-invocable and unauthorised.",
+  "nonApprovalStatement": "AFF-B does not approve Phase 5, waive residual controls, certify compliance, provide legal advice or attestation, authorise Azure activity, authorise retention finalisation, deployment or runtime testing, or attest operating effectiveness."
+}

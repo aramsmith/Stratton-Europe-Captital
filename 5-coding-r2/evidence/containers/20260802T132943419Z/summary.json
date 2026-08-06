@@ -1,0 +1,895 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260802T132943419Z",
+  "generatedAt": "2026-08-02T13:31:32.1925668Z",
+  "status": "FAIL",
+  "signing": {
+    "method": "ephemeral-local-cosign-key",
+    "identityBacked": false,
+    "statement": "evidence/containers/20260802T132943419Z/container-digests.json",
+    "signature": "evidence/containers/20260802T132943419Z/container-digests.sig",
+    "publicKey": "evidence/containers/20260802T132943419Z/container-digests.pub",
+    "limitation": "Local integrity evidence only; an approved release identity must sign any deployable registry artifact."
+  },
+  "baseImage": {
+    "reference": "node:22-bookworm-slim@sha256:f32b81066cde10a75dbac96646099533316d94bac4150c55da1636e1f0ffdc46",
+    "indexDigest": "sha256:f32b81066cde10a75dbac96646099533316d94bac4150c55da1636e1f0ffdc46",
+    "arm64ManifestDigest": "sha256:7eac857c7309d985b54ee971817c7d9305f2a9cec868a6cd0876928dfc92f0b5",
+    "evidence": "evidence/containers/20260802T132943419Z/node-base-index.json"
+  },
+  "scannerDatabase": "evidence/containers/20260802T132943419Z/trivy-db-metadata.json",
+  "images": [
+    {
+      "name": "api",
+      "image": "localhost/stratton-api:20260802T132943419Z",
+      "digest": "sha256:11c86f4fac59069ca1b942937636a17e2f6792b216fa3af909abedb9b2f1fc10",
+      "platform": "linux/arm64",
+      "archive": "out/containers/20260802T132943419Z/api.docker.tar",
+      "sbom": "evidence/containers/20260802T132943419Z/api.sbom.cdx.json",
+      "scan": "evidence/containers/20260802T132943419Z/api.trivy.json",
+      "highVulnerabilities": 22,
+      "criticalVulnerabilities": 6,
+      "secretFindings": 360,
+      "licenseFindings": 906,
+      "licenseSummary": [
+        {
+          "spdxId": "0BSD",
+          "count": 1
+        },
+        {
+          "spdxId": "Apache-2.0",
+          "count": 21
+        },
+        {
+          "spdxId": "Artistic-2",
+          "count": 1
+        },
+        {
+          "spdxId": "Artistic-2.0",
+          "count": 4
+        },
+        {
+          "spdxId": "Artistic-dist",
+          "count": 1
+        },
+        {
+          "spdxId": "Autoconf",
+          "count": 1
+        },
+        {
+          "spdxId": "Beerware",
+          "count": 5
+        },
+        {
+          "spdxId": "BlueOak-1.0.0",
+          "count": 8
+        },
+        {
+          "spdxId": "BSD-2-Clause",
+          "count": 14
+        },
+        {
+          "spdxId": "BSD-2-Clause-NetBSD",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-Clause",
+          "count": 44
+        },
+        {
+          "spdxId": "BSD-3-clause and/or GPL-3+",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-Aaron-D-Gifford",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-Cambridge with BINARY LIBRARY-LIKE PACKAGES exception",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-fjord",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-GENERIC",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-with-weird-numbering",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-4-Clause",
+          "count": 8
+        },
+        {
+          "spdxId": "BSD-4-clause-POWERDOG",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-4-Clause-UC",
+          "count": 3
+        },
+        {
+          "spdxId": "BSD-tcp_wrappers",
+          "count": 4
+        },
+        {
+          "spdxId": "BSL-1",
+          "count": 1
+        },
+        {
+          "spdxId": "BSLA",
+          "count": 8
+        },
+        {
+          "spdxId": "BZIP",
+          "count": 1
+        },
+        {
+          "spdxId": "CC-BY-3.0",
+          "count": 2
+        },
+        {
+          "spdxId": "CC0-1.0",
+          "count": 6
+        },
+        {
+          "spdxId": "config-h",
+          "count": 1
+        },
+        {
+          "spdxId": "DONT-CHANGE-THE-GPL",
+          "count": 1
+        },
+        {
+          "spdxId": "FreeSoftware",
+          "count": 1
+        },
+        {
+          "spdxId": "FSF-manpages",
+          "count": 1
+        },
+        {
+          "spdxId": "FSFAP",
+          "count": 2
+        },
+        {
+          "spdxId": "FSFULLR",
+          "count": 3
+        },
+        {
+          "spdxId": "g10-permissive",
+          "count": 1
+        },
+        {
+          "spdxId": "GAP",
+          "count": 2
+        },
+        {
+          "spdxId": "GFDL-1.2-only",
+          "count": 2
+        },
+        {
+          "spdxId": "GFDL-1.2-or-later",
+          "count": 1
+        },
+        {
+          "spdxId": "GFDL-1.3-no-invariants-only",
+          "count": 3
+        },
+        {
+          "spdxId": "GFDL-1.3-no-invariants-or-later",
+          "count": 2
+        },
+        {
+          "spdxId": "GFDL-1.3-only",
+          "count": 7
+        },
+        {
+          "spdxId": "GFDL-1.3+-no-invariant",
+          "count": 1
+        },
+        {
+          "spdxId": "GFDL-3",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL with automake exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-1.0-only",
+          "count": 5
+        },
+        {
+          "spdxId": "GPL-1.0-or-later",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2 with Linux-syscall-note exception",
+          "count": 2
+        },
+        {
+          "spdxId": "GPL-2.0-only",
+          "count": 61
+        },
+        {
+          "spdxId": "GPL-2.0-or-later",
+          "count": 56
+        },
+        {
+          "spdxId": "GPL-2.0-with-bison-exception+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2+ with Autoconf-data exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2+ with distribution exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2+ with Texinfo exception",
+          "count": 5
+        },
+        {
+          "spdxId": "GPL-3.0-only",
+          "count": 32
+        },
+        {
+          "spdxId": "GPL-3.0-or-later",
+          "count": 25
+        },
+        {
+          "spdxId": "GPL-3.0-with-autoconf-exception+",
+          "count": 3
+        },
+        {
+          "spdxId": "GPL-3+ with Autoconf-data exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-3+ with Bison exception",
+          "count": 7
+        },
+        {
+          "spdxId": "GPL-3+ with Bison-2.2 exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-3+ with texinfo exception",
+          "count": 1
+        },
+        {
+          "spdxId": "HSIEH-BSD",
+          "count": 1
+        },
+        {
+          "spdxId": "HSIEH-DERIVATIVE",
+          "count": 1
+        },
+        {
+          "spdxId": "ISC",
+          "count": 102
+        },
+        {
+          "spdxId": "ISC and/or LGPL-2.1+",
+          "count": 1
+        },
+        {
+          "spdxId": "ISC+IBM",
+          "count": 1
+        },
+        {
+          "spdxId": "Kazlib",
+          "count": 5
+        },
+        {
+          "spdxId": "Latex2e",
+          "count": 6
+        },
+        {
+          "spdxId": "LGPL-2.0-only",
+          "count": 22
+        },
+        {
+          "spdxId": "LGPL-2.0-or-later",
+          "count": 24
+        },
+        {
+          "spdxId": "LGPL-2.1-only",
+          "count": 29
+        },
+        {
+          "spdxId": "LGPL-2.1-or-later",
+          "count": 20
+        },
+        {
+          "spdxId": "LGPL-3.0-only",
+          "count": 16
+        },
+        {
+          "spdxId": "LGPL-3.0-or-later",
+          "count": 18
+        },
+        {
+          "spdxId": "MIT",
+          "count": 207
+        },
+        {
+          "spdxId": "MIT-old",
+          "count": 1
+        },
+        {
+          "spdxId": "MIT-US-export",
+          "count": 5
+        },
+        {
+          "spdxId": "MIT/X11",
+          "count": 3
+        },
+        {
+          "spdxId": "MPL-1.1",
+          "count": 1
+        },
+        {
+          "spdxId": "MS-PL",
+          "count": 1
+        },
+        {
+          "spdxId": "noderivs",
+          "count": 1
+        },
+        {
+          "spdxId": "none",
+          "count": 1
+        },
+        {
+          "spdxId": "pcre",
+          "count": 1
+        },
+        {
+          "spdxId": "PD",
+          "count": 1
+        },
+        {
+          "spdxId": "PD-debian",
+          "count": 1
+        },
+        {
+          "spdxId": "permissive",
+          "count": 2
+        },
+        {
+          "spdxId": "permissive-fsf",
+          "count": 1
+        },
+        {
+          "spdxId": "permissive-like-automake-output",
+          "count": 1
+        },
+        {
+          "spdxId": "permissive-nowarranty",
+          "count": 1
+        },
+        {
+          "spdxId": "probably-PD",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain",
+          "count": 26
+        },
+        {
+          "spdxId": "public-domain-md4",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain-md5",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain-s-s-d",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain-sha1",
+          "count": 1
+        },
+        {
+          "spdxId": "REGCOMP",
+          "count": 1
+        },
+        {
+          "spdxId": "RFC-Reference",
+          "count": 1
+        },
+        {
+          "spdxId": "RRA-KEEP-THIS-NOTICE",
+          "count": 1
+        },
+        {
+          "spdxId": "same-as-rest-of-p11kit",
+          "count": 1
+        },
+        {
+          "spdxId": "SDBM-PUBLIC-DOMAIN",
+          "count": 1
+        },
+        {
+          "spdxId": "Sleepycat",
+          "count": 1
+        },
+        {
+          "spdxId": "SMAIL-GPL",
+          "count": 1
+        },
+        {
+          "spdxId": "TCL-like",
+          "count": 1
+        },
+        {
+          "spdxId": "TEXT-TABS",
+          "count": 1
+        },
+        {
+          "spdxId": "TinySCHEME",
+          "count": 1
+        },
+        {
+          "spdxId": "Unicode",
+          "count": 2
+        },
+        {
+          "spdxId": "X11",
+          "count": 10
+        },
+        {
+          "spdxId": "Zlib",
+          "count": 5
+        }
+      ],
+      "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+    },
+    {
+      "name": "worker",
+      "image": "localhost/stratton-worker:20260802T132943419Z",
+      "digest": "sha256:bbc34a803507091ea00d93d80af5ce6f388e4c76628da2f3ae97a6259fdc63e4",
+      "platform": "linux/arm64",
+      "archive": "out/containers/20260802T132943419Z/worker.docker.tar",
+      "sbom": "evidence/containers/20260802T132943419Z/worker.sbom.cdx.json",
+      "scan": "evidence/containers/20260802T132943419Z/worker.trivy.json",
+      "highVulnerabilities": 22,
+      "criticalVulnerabilities": 6,
+      "secretFindings": 360,
+      "licenseFindings": 906,
+      "licenseSummary": [
+        {
+          "spdxId": "0BSD",
+          "count": 1
+        },
+        {
+          "spdxId": "Apache-2.0",
+          "count": 21
+        },
+        {
+          "spdxId": "Artistic-2",
+          "count": 1
+        },
+        {
+          "spdxId": "Artistic-2.0",
+          "count": 4
+        },
+        {
+          "spdxId": "Artistic-dist",
+          "count": 1
+        },
+        {
+          "spdxId": "Autoconf",
+          "count": 1
+        },
+        {
+          "spdxId": "Beerware",
+          "count": 5
+        },
+        {
+          "spdxId": "BlueOak-1.0.0",
+          "count": 8
+        },
+        {
+          "spdxId": "BSD-2-Clause",
+          "count": 14
+        },
+        {
+          "spdxId": "BSD-2-Clause-NetBSD",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-Clause",
+          "count": 44
+        },
+        {
+          "spdxId": "BSD-3-clause and/or GPL-3+",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-Aaron-D-Gifford",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-Cambridge with BINARY LIBRARY-LIKE PACKAGES exception",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-fjord",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-GENERIC",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-clause-with-weird-numbering",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-4-Clause",
+          "count": 8
+        },
+        {
+          "spdxId": "BSD-4-clause-POWERDOG",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-4-Clause-UC",
+          "count": 3
+        },
+        {
+          "spdxId": "BSD-tcp_wrappers",
+          "count": 4
+        },
+        {
+          "spdxId": "BSL-1",
+          "count": 1
+        },
+        {
+          "spdxId": "BSLA",
+          "count": 8
+        },
+        {
+          "spdxId": "BZIP",
+          "count": 1
+        },
+        {
+          "spdxId": "CC-BY-3.0",
+          "count": 2
+        },
+        {
+          "spdxId": "CC0-1.0",
+          "count": 6
+        },
+        {
+          "spdxId": "config-h",
+          "count": 1
+        },
+        {
+          "spdxId": "DONT-CHANGE-THE-GPL",
+          "count": 1
+        },
+        {
+          "spdxId": "FreeSoftware",
+          "count": 1
+        },
+        {
+          "spdxId": "FSF-manpages",
+          "count": 1
+        },
+        {
+          "spdxId": "FSFAP",
+          "count": 2
+        },
+        {
+          "spdxId": "FSFULLR",
+          "count": 3
+        },
+        {
+          "spdxId": "g10-permissive",
+          "count": 1
+        },
+        {
+          "spdxId": "GAP",
+          "count": 2
+        },
+        {
+          "spdxId": "GFDL-1.2-only",
+          "count": 2
+        },
+        {
+          "spdxId": "GFDL-1.2-or-later",
+          "count": 1
+        },
+        {
+          "spdxId": "GFDL-1.3-no-invariants-only",
+          "count": 3
+        },
+        {
+          "spdxId": "GFDL-1.3-no-invariants-or-later",
+          "count": 2
+        },
+        {
+          "spdxId": "GFDL-1.3-only",
+          "count": 7
+        },
+        {
+          "spdxId": "GFDL-1.3+-no-invariant",
+          "count": 1
+        },
+        {
+          "spdxId": "GFDL-3",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL with automake exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-1.0-only",
+          "count": 5
+        },
+        {
+          "spdxId": "GPL-1.0-or-later",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2 with Linux-syscall-note exception",
+          "count": 2
+        },
+        {
+          "spdxId": "GPL-2.0-only",
+          "count": 61
+        },
+        {
+          "spdxId": "GPL-2.0-or-later",
+          "count": 56
+        },
+        {
+          "spdxId": "GPL-2.0-with-bison-exception+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2+ with Autoconf-data exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2+ with distribution exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-2+ with Texinfo exception",
+          "count": 5
+        },
+        {
+          "spdxId": "GPL-3.0-only",
+          "count": 32
+        },
+        {
+          "spdxId": "GPL-3.0-or-later",
+          "count": 25
+        },
+        {
+          "spdxId": "GPL-3.0-with-autoconf-exception+",
+          "count": 3
+        },
+        {
+          "spdxId": "GPL-3+ with Autoconf-data exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-3+ with Bison exception",
+          "count": 7
+        },
+        {
+          "spdxId": "GPL-3+ with Bison-2.2 exception",
+          "count": 1
+        },
+        {
+          "spdxId": "GPL-3+ with texinfo exception",
+          "count": 1
+        },
+        {
+          "spdxId": "HSIEH-BSD",
+          "count": 1
+        },
+        {
+          "spdxId": "HSIEH-DERIVATIVE",
+          "count": 1
+        },
+        {
+          "spdxId": "ISC",
+          "count": 102
+        },
+        {
+          "spdxId": "ISC and/or LGPL-2.1+",
+          "count": 1
+        },
+        {
+          "spdxId": "ISC+IBM",
+          "count": 1
+        },
+        {
+          "spdxId": "Kazlib",
+          "count": 5
+        },
+        {
+          "spdxId": "Latex2e",
+          "count": 6
+        },
+        {
+          "spdxId": "LGPL-2.0-only",
+          "count": 22
+        },
+        {
+          "spdxId": "LGPL-2.0-or-later",
+          "count": 24
+        },
+        {
+          "spdxId": "LGPL-2.1-only",
+          "count": 29
+        },
+        {
+          "spdxId": "LGPL-2.1-or-later",
+          "count": 20
+        },
+        {
+          "spdxId": "LGPL-3.0-only",
+          "count": 16
+        },
+        {
+          "spdxId": "LGPL-3.0-or-later",
+          "count": 18
+        },
+        {
+          "spdxId": "MIT",
+          "count": 207
+        },
+        {
+          "spdxId": "MIT-old",
+          "count": 1
+        },
+        {
+          "spdxId": "MIT-US-export",
+          "count": 5
+        },
+        {
+          "spdxId": "MIT/X11",
+          "count": 3
+        },
+        {
+          "spdxId": "MPL-1.1",
+          "count": 1
+        },
+        {
+          "spdxId": "MS-PL",
+          "count": 1
+        },
+        {
+          "spdxId": "noderivs",
+          "count": 1
+        },
+        {
+          "spdxId": "none",
+          "count": 1
+        },
+        {
+          "spdxId": "pcre",
+          "count": 1
+        },
+        {
+          "spdxId": "PD",
+          "count": 1
+        },
+        {
+          "spdxId": "PD-debian",
+          "count": 1
+        },
+        {
+          "spdxId": "permissive",
+          "count": 2
+        },
+        {
+          "spdxId": "permissive-fsf",
+          "count": 1
+        },
+        {
+          "spdxId": "permissive-like-automake-output",
+          "count": 1
+        },
+        {
+          "spdxId": "permissive-nowarranty",
+          "count": 1
+        },
+        {
+          "spdxId": "probably-PD",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain",
+          "count": 26
+        },
+        {
+          "spdxId": "public-domain-md4",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain-md5",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain-s-s-d",
+          "count": 1
+        },
+        {
+          "spdxId": "public-domain-sha1",
+          "count": 1
+        },
+        {
+          "spdxId": "REGCOMP",
+          "count": 1
+        },
+        {
+          "spdxId": "RFC-Reference",
+          "count": 1
+        },
+        {
+          "spdxId": "RRA-KEEP-THIS-NOTICE",
+          "count": 1
+        },
+        {
+          "spdxId": "same-as-rest-of-p11kit",
+          "count": 1
+        },
+        {
+          "spdxId": "SDBM-PUBLIC-DOMAIN",
+          "count": 1
+        },
+        {
+          "spdxId": "Sleepycat",
+          "count": 1
+        },
+        {
+          "spdxId": "SMAIL-GPL",
+          "count": 1
+        },
+        {
+          "spdxId": "TCL-like",
+          "count": 1
+        },
+        {
+          "spdxId": "TEXT-TABS",
+          "count": 1
+        },
+        {
+          "spdxId": "TinySCHEME",
+          "count": 1
+        },
+        {
+          "spdxId": "Unicode",
+          "count": 2
+        },
+        {
+          "spdxId": "X11",
+          "count": 10
+        },
+        {
+          "spdxId": "Zlib",
+          "count": 5
+        }
+      ],
+      "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+    }
+  ]
+}

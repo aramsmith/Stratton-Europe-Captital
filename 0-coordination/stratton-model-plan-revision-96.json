@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "96",
+  "createdAt": "2026-08-04T14:05:10.6186690+02:00",
+  "revisionReason": "Remove the complete purple interview-confirmation callout from Slide 8 and collapse its unused layout row.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-95.json",
+    "sha256": "7dcb3ac25fec43786f605950e9961fa447df307d36a49e6751c4acb4ad97c2d7",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 8,
+    "request": "Remove the complete purple lock callout from Slide 8."
+  },
+  "contentChange": {
+    "removed": "Interview confirmation authorised candidate authoring\u2014not Phase 1 approval.",
+    "summary": [
+      "Slide 8 no longer renders the purple lock callout beneath the customer-interview evidence.",
+      "The interview panel now uses three grid rows so the removed callout leaves no empty fourth row.",
+      "No other Slide 8 content, deck metadata, theme, or slide registration changed."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentOrRuntimeClaimed": false
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "registeredSlides": 15,
+    "renderedSlide": 8,
+    "removedCalloutPresent": false,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "outsideViewportElements": 0,
+    "clippedTextElements": 0,
+    "reducedMotion": "pass"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.jsx",
+      "sha256": "712ef4515e9a8552f2307614cbdcc8ef72d1f821b32cb45ca504f5365b8ae81a"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.module.css",
+      "sha256": "f19370bd8858f69dd2237952a552054dd1cd1f6e054909c7a7bd4aa841071b24"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 15,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

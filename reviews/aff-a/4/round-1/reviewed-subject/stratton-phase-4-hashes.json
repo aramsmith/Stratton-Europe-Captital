@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "modelPlanRevision": "5",
+  "generatedAt": "2026-08-02T03:55:32.479+02:00",
+  "hashAlgorithm": "SHA-256",
+  "artifacts": [
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.md",
+      "role": "authoritative-markdown",
+      "sha256": "1f8641ed054f365b9a10a69fb553c2b049e2f5690513af4ea4de2c03628c4e1f"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.html",
+      "role": "rendered-html",
+      "sha256": "3dd294bc85173bb1b1f353f2ed0ed0e7ea3a4fd0b7c7072dd87006b36a328dbd"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue.json",
+      "role": "catalogue",
+      "sha256": "11ade92baaae56ca7100f42bb67d5535cdca76803ccce0722415be81c270a018"
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag.svg",
+      "role": "diagram",
+      "sha256": "2f98103a955b78ae8e947953e680dd797733272d83d36deca7bc87982d9510c5"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-official-source-corrections.json",
+      "role": "evidence",
+      "sha256": "cadc5f6893d02bf832c09912718730a8cad71d9da5a5644650c7e6f91a633312"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-candidate-validation.json",
+      "role": "evidence",
+      "sha256": "c69f3e5e78270f484e0d40542f4276998f2e2dc3d47dad561f55b81db8c9448e"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-5.json",
+      "role": "catalogue",
+      "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-phase-4-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "d76d8f5c179bf62d7c5c917a22b2134f4ff8cee94c261dc84ad25afe05d76840"
+    }
+  ]
+}

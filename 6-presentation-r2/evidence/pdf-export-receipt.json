@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_CANONICAL_PDF_EXPORT_EVIDENCE",
+  "generatedAt": "2026-08-03T10:51:34.220238+02:00",
+  "modelPlanRevision": "17",
+  "exporterIntermediatePath": "deck/architecture-decision-executive-brief-slides.pdf",
+  "canonicalisationAction": "Move-Item architecture-decision-executive-brief-slides.pdf -> deck.pdf",
+  "canonicalPath": "deck/deck.pdf",
+  "canonicalSha256": "1dfabc56c9c0062fb597735076b853e848665094cc314a613a8acd9df7ea283b",
+  "canonicalBytes": 1460183,
+  "pageCount": 10,
+  "startsWithPdfHeader": true,
+  "endsWithEof": true,
+  "intermediatePresent": false,
+  "logPath": "evidence/pdf-export.log",
+  "logBindsCanonicalPath": true,
+  "logBindsCanonicalSha256": true,
+  "overallStatus": "PASS"
+}

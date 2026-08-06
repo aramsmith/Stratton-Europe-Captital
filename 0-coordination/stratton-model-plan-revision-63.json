@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "63",
+  "createdAt": "2026-08-03T23:55:52+02:00",
+  "revisionReason": "Enlarge and deepen the slide 3 gear teeth so adjacent gears visibly mesh while their content cores remain separated.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-62.json",
+    "sha256": "d93be3374681bbc1f8fe1c853a953d7f7e51ab0e199c553b25de7fcc91c50548",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Make the gear teeth slightly larger so the gears integrate with each other."
+    ]
+  },
+  "implementation": {
+    "gearPath": {
+      "teeth": 18,
+      "previousOuterRadius": 250,
+      "outerRadius": 258,
+      "previousRootRadius": 222,
+      "rootRadius": 218,
+      "toothTipAngularWidth": 0.36
+    },
+    "mesh": {
+      "leftCentreToothOverlapPx": 6.93,
+      "centreRightToothOverlapPx": 6.93,
+      "staticContentCoresRemainSeparated": true
+    },
+    "contentFit": "All three content cores remain free of horizontal and vertical overflow.",
+    "motionPreserved": "Side gears rotate clockwise every 42 seconds; centre gear rotates counter-clockwise every 46 seconds."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

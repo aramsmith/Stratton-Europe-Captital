@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "0",
+  "modelPlanRevision": "1",
+  "generatedAt": "2026-08-01T20:11:01.6569975+02:00",
+  "hashAlgorithm": "SHA-256",
+  "artifacts": [
+    {
+      "path": "0-coordination/stratton-coordination.md",
+      "role": "authoritative-markdown",
+      "sha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0"
+    },
+    {
+      "path": "0-coordination/stratton-coordination.html",
+      "role": "rendered-html",
+      "sha256": "0934a429cb999889667b3111e61456d2f1f92f348e3c35f0f887ff1275a8432b"
+    },
+    {
+      "path": "0-coordination/stratton-input-inventory.json",
+      "role": "catalogue",
+      "sha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "role": "catalogue",
+      "sha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.pdf",
+      "role": "evidence",
+      "sha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "role": "evidence",
+      "sha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-normalisation-validation.json",
+      "role": "evidence",
+      "sha256": "eef070843f2a93349b584f4ea48f1c4f7bb8601c4a00db7a880f11b0b94be24d"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-run-journal-phase-0-candidate.jsonl",
+      "role": "evidence",
+      "sha256": "2c317160032f7063551f8fbd743de1b34647ad47e0f9f42179393939627c9647"
+    },
+    {
+      "path": "stratton-decisions.md",
+      "role": "catalogue",
+      "sha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "sha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "sha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "f13efaad00fb0260d3e4d369e1723500b546aaff6cce9ea7e90f33f49eb3e40f"
+    }
+  ]
+}

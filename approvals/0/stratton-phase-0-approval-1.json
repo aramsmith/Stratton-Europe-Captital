@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-0-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "0",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-01T20:26:55+02:00",
+  "modelPlanRevision": "1",
+  "subjectHashManifest": {
+    "path": "0-coordination/stratton-phase-0-hashes.json",
+    "sha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/0/round-2/stratton-aff-a-review.json",
+    "sha256": "a6502980b92af950b903358928934b643cc37534378e8a6dbb7caea34386ca54"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/0/round-2/stratton-aff-b-review.json",
+    "sha256": "ef4cfa72c8a213b0ed203ac0e230d86243428a2c92804318946e69e4def6dd35"
+  },
+  "residualGaps": [
+    "Retention period, disposal trigger and records owner are unknown for case inputs and future datasets.",
+    "Data classes, personal-data scope, legal roles, processing locations and transfers are unknown.",
+    "All five regulatory leads remain inferred.",
+    "Sovereignty remains undefined."
+  ],
+  "constraints": [
+    "Approval accepts no waiver, closure, or solved status for any residual gap.",
+    "All four residual gaps remain open and must be carried into Phase 1 discovery.",
+    "Approval makes Phase 1 eligible but does not begin the Phase 1 interview.",
+    "No later phase is approved or invoked by this decision."
+  ]
+}

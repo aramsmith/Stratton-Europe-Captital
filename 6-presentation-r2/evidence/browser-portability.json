@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_BROWSER_PORTABILITY_EVIDENCE",
+  "modelPlanRevision": "17",
+  "buildCommand": "npm run build -- --base=./",
+  "indexPath": "deck/dist/index.html",
+  "indexSha256": "c963801ed425f210c96ad0004f9055c15873488940e1e24a5f006fd4943da472",
+  "localReferences": [
+    "./deckio.png",
+    "./assets/index-Ddyj0Z-G.js",
+    "./assets/rolldown-runtime-BHe-jwch.js",
+    "./assets/index-CKTjebYj.css"
+  ],
+  "rootAbsoluteReferenceCount": 0,
+  "rootAbsoluteReferences": [],
+  "resolvedReferences": [
+    {
+      "reference": "./deckio.png",
+      "resolvedPath": "deck/dist/deckio.png",
+      "exists": true,
+      "sha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479"
+    },
+    {
+      "reference": "./assets/index-Ddyj0Z-G.js",
+      "resolvedPath": "deck/dist/assets/index-Ddyj0Z-G.js",
+      "exists": true,
+      "sha256": "40a3eee63922beeeda9cfa1512a4c5d2cd9eb28dbbe9827761d1584af00f8542"
+    },
+    {
+      "reference": "./assets/rolldown-runtime-BHe-jwch.js",
+      "resolvedPath": "deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "exists": true,
+      "sha256": "e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149"
+    },
+    {
+      "reference": "./assets/index-CKTjebYj.css",
+      "resolvedPath": "deck/dist/assets/index-CKTjebYj.css",
+      "exists": true,
+      "sha256": "d8bc9e1e7f01c8bf43a2331816d857a9927315a7870a313d5b14ea2d14bc1483"
+    }
+  ],
+  "allReferencedLocalFilesExist": true,
+  "nestedHttpTest": {
+    "path": "/deck/dist/index.html",
+    "httpStatus": 200,
+    "slideCount": 10,
+    "failedRequests": []
+  },
+  "overallStatus": "PASS"
+}

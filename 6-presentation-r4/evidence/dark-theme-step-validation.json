@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE6_WORKING_DRAFT_STEP_VALIDATION",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "6",
+  "revision": "4",
+  "stepId": "R4-STEP-01",
+  "generatedAt": "2026-08-03T15:56:21.0006045+02:00",
+  "status": "PASS_WORKING_DRAFT_NOT_FROZEN",
+  "modelPlan": {
+    "revision": "20",
+    "path": "0-coordination/stratton-model-plan-revision-20.json",
+    "sha256": "4b5a1bb84d2904a7f793a76e50ef70bdbc42cc7d6b8f1cf083c0a6af1fb72d5c"
+  },
+  "preservedBaseline": {
+    "manifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "state": "IMMUTABLE_ASSURANCE_CONVERGED_NOT_HUMAN_APPROVED"
+  },
+  "workingSubject": {
+    "phaseFolder": "6-presentation-r4",
+    "sourceTreeFileCount": 22,
+    "sourceTreeSha256": "bab0450e917a702bb6b43bf199becb39d762c8a24fc683e326ff01fe94f6870a",
+    "deckConfigSha256": "97fb5d5ebd02feef192e3cf18ad957c275edf71329d98b2f6d99345d489cbe2d",
+    "indexCssSha256": "64d0069a07d18ea282e2b56aa1ce59620a3861fe24d0cc0d3de9b439e050995b",
+    "canonicalManifestCreated": false,
+    "pdfCreated": false
+  },
+  "theme": {
+    "engine": "DECKIO",
+    "theme": "dark",
+    "designSystem": "default",
+    "appearance": "dark",
+    "accent": "#58a6ff",
+    "treatment": "Deep-space canvas with glowing blue, cyan, purple, green and pink accents",
+    "systemFontStack": "system-ui, -apple-system, Segoe UI, Arial, sans-serif"
+  },
+  "build": {
+    "command": "node deck/tooling/build-portable-hardened.mjs",
+    "viteVersion": "8.1.5",
+    "transformedModuleCount": 353,
+    "status": "PASS",
+    "distIndexPath": "6-presentation-r4/deck/dist/index.html",
+    "distIndexSha256": "3f40d733204c516bc760e2855dadf57fa93a8230c218069f98d138d669d78593",
+    "hardenedCssPath": "6-presentation-r4/deck/dist/assets/index-D2AfC-yN.css",
+    "hardenedCssSha256": "1cb7483c23a5ea6f1ee864ed278e5dbfd9800b9465aff923373732d30b646544",
+    "removedRemoteCssImportCount": 1,
+    "remainingExternalCssDependencyCount": 0
+  },
+  "runtimeInspection": {
+    "url": "http://127.0.0.1:4174/",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "slideCount": 10,
+    "successfulLocalRequestCount": 7,
+    "failedRequestCount": 0,
+    "externalRequestCount": 0,
+    "consoleErrorCount": 0,
+    "slidesWithinContentBoundary": 10,
+    "slidesOutsideContentBoundary": 0
+  },
+  "descriptorCompliance": {
+    "descriptor": "dark",
+    "slidesChecked": 10,
+    "slidesWithAccentBarFirst": 10,
+    "ambientOrbCountPerSlide": 2,
+    "slidesWithContentFrameAndGutter": 10,
+    "slidesWithBottomBarLast": 10,
+    "shadcnSlideImportCount": 0,
+    "forbiddenLegacyTokenCount": 0,
+    "bodyFlexGrowthViolationCount": 0
+  },
+  "visualInspection": {
+    "representativeSlides": [
+      "S01",
+      "S05",
+      "S06",
+      "S09"
+    ],
+    "checks": [
+      "Theme and glow treatment match the Dark descriptor",
+      "Card and callout contrast remains readable",
+      "Architecture diagrams remain legible on dark surfaces",
+      "No clipping or viewport overflow was observed"
+    ],
+    "transientScreenshotsIncludedInCandidate": false
+  },
+  "contentPreservation": {
+    "editableFieldTemplateCount": 96,
+    "editableFieldDifferenceCount": 0,
+    "sourceDataFileCount": 8,
+    "sourceDataHashesMatchRevision3": true,
+    "claimRecordCount": 32,
+    "claimRecordsMatchRevision3": true,
+    "claimCatalogueModelPlanRevision": "20",
+    "presentationMarkdownSha256": "ab040a5662c54eadbd614bd32936350a70d7e10ae7944f33008e32b65d62df15",
+    "presentationHtmlSha256": "41c481f5dbf64c2f7b04973dab3591e40eefbf94f60b4e8126f17e2ffe830ef6",
+    "claimCatalogueSha256": "9ec7f1dcb37f5c19c1082d405f4444f76fefc8ec09349bdd93e176e10ef196f1"
+  },
+  "gateBoundary": {
+    "workingDraft": true,
+    "formalAffAReviewInvoked": false,
+    "formalAffBReviewInvoked": false,
+    "humanApprovalRecorded": false,
+    "azureExecutionAuthorised": false,
+    "phase7Invoked": false,
+    "phase8Invoked": false
+  }
+}

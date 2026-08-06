@@ -1,0 +1,522 @@
+openapi: 3.1.0
+info:
+  title: Stratton Release 1 API
+  version: 1.0.0
+  description: Draft-only workload API with fail-closed policy and assurance boundary separation.
+paths:
+  /v1/cases:
+    post:
+      operationId: createCase
+      x-required-roles: [DealInitiator]
+      parameters:
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCaseRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+        '429': { $ref: '#/components/responses/CapacityLimit' }
+  /v1/cases/{caseId}/sources:
+    post:
+      operationId: registerSource
+      x-required-roles: [SourceOwner]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterSourceRequest'
+      responses:
+        '201':
+          description: Source registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+  /v1/sources/{sourceId}/licence-decisions:
+    post:
+      operationId: createExternalLicenceDecision
+      x-required-roles: [LegalApprover, DataOwner]
+      parameters:
+        - $ref: '#/components/parameters/sourceId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LicenceDecisionRequest'
+      responses:
+        '201':
+          description: Licence decision appended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+  /v1/cases/{caseId}/ingestions:
+    post:
+      operationId: requestIngestion
+      x-required-roles: [DealContributor]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestionRequest'
+      responses:
+        '202':
+          description: queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkItemResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+  /v1/evidence/{evidenceId}/admission:
+    post:
+      operationId: admitEvidence
+      x-required-roles: [DataSteward]
+      parameters:
+        - $ref: '#/components/parameters/evidenceId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdmissionRequest'
+      responses:
+        '200':
+          description: admitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceAdmissionResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+  /v1/cases/{caseId}/analysis-runs:
+    post:
+      operationId: requestAnalysis
+      x-required-roles: [DealContributor]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestAnalysisRequest'
+      responses:
+        '202':
+          description: queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+        '503': { $ref: '#/components/responses/DependencyUnavailable' }
+  /v1/analysis-runs/{analysisRunId}:
+    get:
+      operationId: getAnalysisStatus
+      x-required-roles: [CaseReader]
+      parameters:
+        - $ref: '#/components/parameters/analysisRunId'
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+  /v1/cases/{caseId}/reviews:
+    post:
+      operationId: submitReview
+      x-required-roles: [DealReviewer, LegalApprover, ComplianceApprover]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewRequest'
+      responses:
+        '201':
+          description: appended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+  /v1/cases/{caseId}/draft-recommendations:
+    post:
+      operationId: prepareDraft
+      x-required-roles: [DealReviewer]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrepareDraftRequest'
+      responses:
+        '200':
+          description: draft ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DraftResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+  /v1/validation-exports:
+    post:
+      operationId: exportValidationEvidence
+      x-required-roles: [ValidationProducer]
+      parameters:
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationExportRequest'
+      responses:
+        '202':
+          description: queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkItemResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+  /assurance/v1/verdicts:
+    post:
+      operationId: recordVerdict
+      x-required-roles: [InternalAuditValidator]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+components:
+  parameters:
+    idempotency-key:
+      name: idempotency-key
+      in: header
+      required: true
+      schema:
+        type: string
+    caseId:
+      name: caseId
+      in: path
+      required: true
+      schema: { type: string }
+    sourceId:
+      name: sourceId
+      in: path
+      required: true
+      schema: { type: string }
+    evidenceId:
+      name: evidenceId
+      in: path
+      required: true
+      schema: { type: string }
+    analysisRunId:
+      name: analysisRunId
+      in: path
+      required: true
+      schema: { type: string }
+  responses:
+    InvalidContract:
+      description: invalid request
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    Unauthenticated:
+      description: unauthenticated
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    PolicyDenied:
+      description: denied
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    StateConflict:
+      description: conflict
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    EvidenceIncomplete:
+      description: missing evidence
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    CapacityLimit:
+      description: capacity limit
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    DependencyUnavailable:
+      description: unavailable
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [status, code, message, correlationId]
+      properties:
+        status: { type: integer }
+        code:
+          type: string
+          enum:
+            - INVALID_CONTRACT
+            - UNAUTHENTICATED
+            - POLICY_DENIED
+            - STATE_CONFLICT
+            - EVIDENCE_INCOMPLETE
+            - CAPACITY_LIMIT
+            - DEPENDENCY_UNAVAILABLE
+        message: { type: string }
+        correlationId: { type: string }
+    CreateCaseRequest:
+      type: object
+      required:
+        - tenantId
+        - caseId
+        - purpose
+        - jurisdiction
+        - dealEligibilityDecisionId
+        - jurisdictionEligibilityDecisionId
+        - rolloutSequence
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        purpose: { type: string }
+        jurisdiction: { type: string }
+        dealEligibilityDecisionId: { type: string }
+        jurisdictionEligibilityDecisionId: { type: string }
+        rolloutSequence: { type: integer, minimum: 1, maximum: 20 }
+    RegisterSourceRequest:
+      type: object
+      required:
+        - sourceId
+        - ownerId
+        - domain
+        - authoritativeStatus
+        - authoritativeSystem
+        - interfaceType
+        - permissionEvidenceId
+        - connectorEvidenceId
+        - jurisdiction
+        - sourceVersion
+      properties:
+        sourceId: { type: string }
+        ownerId: { type: string }
+        domain: { type: string }
+        authoritativeStatus: { type: string }
+        authoritativeSystem: { type: string }
+        interfaceType:
+          type: string
+          enum: [READ_ONLY_API, CONTROLLED_FILE_INGESTION]
+        permissionEvidenceId: { type: string }
+        connectorEvidenceId: { type: string }
+        jurisdiction: { type: string }
+        sourceVersion: { type: string }
+    LicenceDecisionRequest:
+      type: object
+      required:
+        - caseId
+        - licenceEvidenceId
+        - aiRetrievalAllowed
+        - aiAnalysisAllowed
+        - purposeId
+        - purposeApproved
+        - privacyApproved
+        - licenceCompatible
+        - expiresAtIso
+        - lawfulBasis
+      properties:
+        caseId: { type: string }
+        licenceEvidenceId: { type: string }
+        aiRetrievalAllowed: { type: boolean }
+        aiAnalysisAllowed: { type: boolean }
+        purposeId: { type: string }
+        purposeApproved: { type: boolean }
+        privacyApproved: { type: boolean }
+        licenceCompatible: { type: boolean }
+        expiresAtIso: { type: string, format: date-time }
+        lawfulBasis: { type: string }
+    IngestionRequest:
+      type: object
+      required:
+        - caseId
+        - evidenceId
+        - sourceId
+        - sourceVersion
+        - classification
+        - qualityStatus
+        - contentHash
+        - payloadReference
+        - hasSpecialCategoryData
+      properties:
+        caseId: { type: string }
+        evidenceId: { type: string }
+        sourceId: { type: string }
+        sourceVersion: { type: string }
+        classification: { type: string }
+        qualityStatus: { type: string, enum: [APPROVED, PENDING_REVIEW, REJECTED] }
+        contentHash: { type: string }
+        payloadReference: { type: string }
+        hasSpecialCategoryData: { type: boolean }
+    AdmissionRequest:
+      type: object
+      required: [caseId]
+      properties:
+        caseId: { type: string }
+    RequestAnalysisRequest:
+      type: object
+      required:
+        - caseId
+        - evidenceId
+        - modelDeploymentId
+        - promptTemplateVersion
+      properties:
+        caseId: { type: string }
+        evidenceId: { type: string }
+        modelDeploymentId: { type: string }
+        promptTemplateVersion: { type: string }
+    ReviewRequest:
+      type: object
+      required:
+        - caseId
+        - analysisRunId
+        - subjectVersion
+        - reviewType
+        - decision
+        - rationale
+      properties:
+        caseId: { type: string }
+        analysisRunId: { type: string }
+        subjectVersion: { type: string }
+        reviewType: { type: string, enum: [DEAL, LEGAL, COMPLIANCE] }
+        decision: { type: string, enum: [APPROVED, REJECTED] }
+        rationale: { type: string }
+    PrepareDraftRequest:
+      type: object
+      required: [caseId, analysisRunId, subjectVersion]
+      properties:
+        caseId: { type: string }
+        analysisRunId: { type: string }
+        subjectVersion: { type: string }
+    ValidationExportRequest:
+      type: object
+      required: [caseId, validationManifestId, payloadReference]
+      properties:
+        caseId: { type: string }
+        validationManifestId: { type: string }
+        payloadReference: { type: string }
+    CaseResponse:
+      type: object
+      required: [tenantId, caseId, status, rolloutSequence]
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - EVIDENCE_QUARANTINED
+            - EVIDENCE_ADMITTED
+            - ANALYSIS_REQUESTED
+            - ANALYSIS_DRAFT_READY
+            - SPECIALIST_REVIEW_PENDING
+            - DRAFT_RECOMMENDATION_READY
+        rolloutSequence: { type: integer }
+    SourceResponse:
+      type: object
+      required: [sourceId, status]
+      properties:
+        sourceId: { type: string }
+        status: { type: string, enum: [DISABLED, ACTIVE, SUSPENDED] }
+    EvidenceAdmissionResponse:
+      type: object
+      required: [evidenceId, status]
+      properties:
+        evidenceId: { type: string }
+        status: { type: string, enum: [ADMITTED, QUARANTINED] }
+    AnalysisResponse:
+      type: object
+      required: [analysisRunId, status]
+      properties:
+        analysisRunId: { type: string }
+        caseId: { type: string }
+        status:
+          type: string
+          enum: [QUEUED, IN_PROGRESS, DRAFT_ONLY_READY, BLOCKED_MISSING_EVIDENCE, FAILED]
+        outputKind: { type: string, enum: [DRAFT_ONLY] }
+        unsupportedClaims: { type: integer }
+    ReviewResponse:
+      type: object
+      required: [analysisRunId, reviewType, decision]
+      properties:
+        analysisRunId: { type: string }
+        reviewType: { type: string }
+        decision: { type: string }
+    DraftResponse:
+      type: object
+      required: [caseId, analysisRunId, status, outputKind]
+      properties:
+        caseId: { type: string }
+        analysisRunId: { type: string }
+        status: { type: string, enum: [DRAFT_RECOMMENDATION_READY] }
+        outputKind: { type: string, enum: [DRAFT_ONLY] }
+    WorkItemResponse:
+      type: object
+      required: [workItemId, status]
+      properties:
+        workItemId: { type: string }
+        status: { type: string, enum: [QUEUED] }

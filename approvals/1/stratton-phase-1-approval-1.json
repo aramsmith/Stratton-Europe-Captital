@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-1-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "1",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-01T21:41:00.590+02:00",
+  "modelPlanRevision": "2",
+  "subjectHashManifest": {
+    "path": "1-requirements/stratton-phase-1-hashes.json",
+    "sha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/1/round-3/stratton-aff-a-review.json",
+    "sha256": "fb3a219888c2f6f74e6043479bb4aea2270c182aa5f72fb7531690b1f18bef68"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/1/round-2/stratton-aff-b-review.json",
+    "sha256": "7d83ef2b992a9c798e422465201f9a9e1a89d9bf953dcd43cef278b92ffa6b4a"
+  },
+  "residualGaps": [
+    "VAL-001: General Counsel must record entity-specific DORA applicability or exemption and resulting obligations before any formal DORA claim or scope-changing obligation.",
+    "VAL-002: The Chief Investment Officer and Service Operations must approve business hours, typical document-pack characteristics and critical-alert criteria before service and performance acceptance tests.",
+    "VAL-003: Deal Operations, AI Governance, General Counsel, Compliance and the Chief Investment Officer must approve eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions before Internal Audit validation.",
+    "VAL-004: Source and records owners must map exact source instances, retention schedules, volumes and production data-quality remediation procedures before production ingestion.",
+    "VAL-005: General Counsel must confirm approved EU/EEA locations and the sovereignty exception evidence process before production location and transfer acceptance.",
+    "AFFB-RES-001: General Counsel and the Head of AI Governance must provide EU AI Act role and use-case classification evidence before production or any classification claim.",
+    "AFFB-RES-002: Legal and compliance owners must add official-source citations, publication and effective dates, and article-level obligation mappings before any formal representation relying on the regulatory register."
+  ],
+  "constraints": [
+    "Approval accepts no waiver, closure or solved status for any residual gap.",
+    "All seven residual gaps remain mandatory, owner-bound downstream validation controls.",
+    "Any validation outcome that changes confirmed intent or scope must return through governed change control.",
+    "Approval makes Phase 2 eligible but does not invoke or start Phase 2.",
+    "No later phase is approved or invoked by this decision."
+  ]
+}

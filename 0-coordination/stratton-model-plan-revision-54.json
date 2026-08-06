@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "54",
+  "createdAt": "2026-08-03T22:18:00+02:00",
+  "revisionReason": "Adopt the reference site's JetBrains Mono typography while retaining a persistent in-deck switch to the original system font.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-53.json",
+    "sha256": "019dbbcba10a9d594ff2d17f14485f3a7786f1e2235a0efa9631fdde5a3cbe7c",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "referenceSite": "https://spec-first.qbids.nl",
+    "referenceFont": "JetBrains Mono",
+    "originalFontStack": "system-ui, -apple-system, Segoe UI, Arial, sans-serif",
+    "changes": [
+      "Use JetBrains Mono as the default font across the deck.",
+      "Add a shared control that switches the complete deck back to the original system font.",
+      "Persist the selected font mode in browser local storage."
+    ]
+  },
+  "implementation": {
+    "referenceFontWeights": [400, 500, 600, 700],
+    "fontDelivery": "Google Fonts stylesheet matching the reference site",
+    "toggleLocation": "Shared presentation status, left of slide numbering",
+    "defaultMode": "jetbrains",
+    "fallbackMode": "system",
+    "storageKey": "stratton-r4-font-mode"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

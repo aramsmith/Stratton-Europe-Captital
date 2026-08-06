@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "IDENTITY_RBAC_AND_PIM_CONTRACT",
+  "citadelSeparation": {
+    "platformAdministration": "Citadel management, connectivity and AI-governance subscriptions use separately eligible administrator groups; membership does not grant Stratton production data access.",
+    "workloadAdministration": "Stratton production operators have no standing Citadel tenant-policy, connectivity or AI-governance administration rights.",
+    "assuranceAdministration": "Internal Audit controls sub-citadel-stratton-assurance-prod; Citadel platform and workload delivery identities cannot assign themselves assurance roles.",
+    "regionalScope": "Primary and recovery role assignments use the same approved duty model but separate resource scopes and audit evidence."
+  },
+  "principles": [
+    "All human access uses Stratton-controlled Microsoft Entra identities.",
+    "Privileged production access is restricted to approved EU-based personnel through Conditional Access and PIM; network location alone is not treated as proof of personnel location.",
+    "No standing Owner or User Access Administrator assignment is permitted for workload delivery or operations.",
+    "Every workload component and environment has a separate user-assigned managed identity.",
+    "SQL authentication, shared service principals, client secrets, stored credentials and GitHub OIDC are prohibited.",
+    "Emergency access follows the tenant-approved process, is alerted immediately and reviewed after use."
+  ],
+  "humanGroups": [
+    {"pattern":"grp-stratton-<env>-deal-reviewers","scope":"Application role only","rights":"Read admitted evidence; validate material output; no policy or source administration."},
+    {"pattern":"grp-stratton-<env>-legal-approvers","scope":"Application role only","rights":"Approve legal, sanctions and externally sourced conclusions."},
+    {"pattern":"grp-stratton-<env>-compliance-approvers","scope":"Application role only","rights":"Approve regulated and compliance conclusions."},
+    {"pattern":"grp-stratton-prd-platform-eligible","scope":"Production resource groups","rights":"PIM-eligible least-privilege platform operations; no application data by default."},
+    {"pattern":"grp-stratton-prd-security-eligible","scope":"Security resources","rights":"PIM-eligible security operations and incident evidence; no verdict modification."},
+    {"pattern":"grp-stratton-prd-internal-audit","scope":"Assurance subscription and read-only evidence export","rights":"Read complete acceptance evidence; create and retain verdict; delivery has no reciprocal write access."},
+    {"pattern":"grp-stratton-prd-breakglass-reviewers","scope":"Emergency process evidence","rights":"Review alerts and post-use evidence; no routine operational role."}
+  ],
+  "workloadIdentities": [
+    {"pattern":"id-stratton-<env>-api","permissions":["Key Vault Secrets User for its vault objects","Storage Blob Data Reader for admitted evidence","SQL database contained role case_api","Service Bus Data Sender"],"denied":["source write","quarantine bypass","verdict store"]},
+    {"pattern":"id-stratton-<env>-ingest","permissions":["Storage Blob Data Contributor on quarantine and admitted containers","Service Bus Data Receiver","approved source read scope","SQL contained role ingestion_writer"],"denied":["source write","investment approval","verdict store"]},
+    {"pattern":"id-stratton-<env>-analysis","permissions":["Storage Blob Data Reader on admitted evidence","Search Index Data Reader","Cognitive Services OpenAI User","Cognitive Services User for Document Intelligence","SQL contained role analysis_writer"],"denied":["quarantine","source credentials outside approved connector","approval transition","verdict store"]},
+    {"pattern":"id-stratton-<env>-indexer","permissions":["Storage Blob Data Reader on admitted derived content","Search Index Data Contributor"],"denied":["raw external quarantine before approval","policy administration"]},
+    {"pattern":"id-stratton-<env>-audit-export","permissions":["Read application audit outbox","Storage Blob Data Contributor on append-only audit landing container"],"denied":["verdict creation","audit object overwrite after immutability lock"]},
+    {"pattern":"id-stratton-<env>-deploy","permissions":["Resource-type-specific deployment roles scoped to target resource groups"],"denied":["application data plane","Internal Audit assurance subscription except explicit evidence-drop resource"]},
+    {"pattern":"id-stratton-<env>-monitor","permissions":["Monitoring Reader","Log Analytics Reader where approved","Action group invocation"],"denied":["application data mutation","verdict modification"]}
+  ],
+  "pimSettings": {
+    "productionActivation": "Approval required, justification and ticket/evidence ID required, phishing-resistant MFA required, time-bound duration set by Identity Lead, notification and audit enabled.",
+    "accessReviews": "Periodic frequency is an owner-approved parameter; stale eligibility is removed.",
+    "separation": "Deployment role cannot assign itself roles. Role Assignment writes require a separately activated identity-governance role.",
+    "emergency": "Emergency identity design must be supplied by the tenant Identity Lead; this design does not invent account count, role or credential storage."
+  },
+  "sqlAuthorisation": {
+    "authentication": "Microsoft Entra-only authentication",
+    "serverAdmin": "Dedicated Entra group; PIM-controlled; not an application identity",
+    "containedRoles": ["case_api","ingestion_writer","analysis_writer","policy_reader","audit_reader"],
+    "rowLevelSecurity": "Enforce case and role scope where the approved access model requires it; exact entitlements are a Phase 4 data-owner task.",
+    "publicAccess": false
+  },
+  "keyVault": {
+    "mode": "Azure RBAC; private endpoint only",
+    "controls": ["soft delete","purge protection","diagnostic settings","separate vault per environment","certificate rotation runbook"],
+    "cmkDecision": "Platform-managed encryption is the baseline. Customer-managed keys are not asserted as required; CISO/Legal may require them through an explicit decision with availability and key-operations impact."
+  },
+  "sources": ["SRC-AZ-015","SRC-AZ-016"]
+}

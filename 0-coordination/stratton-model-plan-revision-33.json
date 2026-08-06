@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "33",
+  "createdAt": "2026-08-03T17:53:07.6696126+02:00",
+  "revisionReason": "Increase and rebalance title-slide typography for stronger executive readability and more deliberate use of the available slide space.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-32.json",
+    "sha256": "cb00d7493eb7fefab48540c4108c947c89b7802f17dba837dadc1765c401227a",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 1,
+    "changes": [
+      "Increase title, subtitle, journey, introduction, eyebrow and scope-tag typography.",
+      "Allocate more horizontal space to the copy column.",
+      "Increase vertical rhythm without changing the title-slide content or controls."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

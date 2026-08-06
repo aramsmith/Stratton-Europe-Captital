@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "29",
+  "createdAt": "2026-08-03T17:41:40.2057153+02:00",
+  "revisionReason": "Add an AI driven scope tag beside the three existing title-slide scope tags.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-28.json",
+    "sha256": "6e929a660103feaf7efa61e55b8bdf8d6b6d8fb2fdfc414fdad3545a5945b6d6",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 1,
+    "newScopeTag": "AI driven"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260802T114550967Z",
+  "generatedAt": "2026-08-02T11:45:56.2679338Z",
+  "status": "FAIL",
+  "scan": "evidence/source-security/20260802T114550967Z/trivy-source.json",
+  "scannerDatabase": "evidence/source-security/20260802T114550967Z/trivy-db-metadata.json",
+  "highVulnerabilities": 0,
+  "criticalVulnerabilities": 0,
+  "highMisconfigurations": 4,
+  "criticalMisconfigurations": 5,
+  "secretFindings": 0,
+  "licenseFindings": 120,
+  "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+}

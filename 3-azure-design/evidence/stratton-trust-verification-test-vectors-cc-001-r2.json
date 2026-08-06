@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC001_R2_CANONICAL_TRUST_TEST_VECTORS",
+  "status": "SYNTHETIC_NON_PRODUCTION_TEST_ONLY",
+  "validationScope": "Canonical preimage, derived identifiers and signing-time trust binding. Synthetic signature bytes are not cryptographically verified because production signature algorithms are owner-supplied fail-closed values.",
+  "canonicalisation": "RFC 8785-compatible deterministic fixtures",
+  "encoding": "UTF-8 without BOM",
+  "hashEncoding": "lowercase hexadecimal SHA-256",
+  "snapshotIdEncoding": "base64url without padding of SHA-256 digest",
+  "snapshotVector": {
+    "signaturePurpose": "WORKLOAD_ASSURANCE_SUBMISSION",
+    "signedRecordId": "SYNTHETIC-VALIDATION-RUN-001",
+    "domainSeparator": "STRATTON-TRUST-VERIFICATION-SNAPSHOT-v1",
+    "inputObject": {
+      "signedRecordId": "SYNTHETIC-VALIDATION-RUN-001",
+      "signaturePurpose": "WORKLOAD_ASSURANCE_SUBMISSION",
+      "signedAt": "2000-01-01T00:00:00.000Z",
+      "algorithmPolicyId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-ALGORITHM-POLICY",
+      "algorithmPolicyVersion": "SYNTHETIC-V1",
+      "algorithmPolicyHash": "9539617d2ddcff463b25be4632ccfd874d7814b90ea5216167a634b678ce0cbe",
+      "trustRegistryId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-TRUST-REGISTRY",
+      "trustRegistryVersion": "SYNTHETIC-V1",
+      "trustRegistryHash": "53df16e54bd9006bcaca257afaa9361982cbe269f5fd9688cd34c1ab16940166",
+      "signerMappingId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-SIGNER-MAPPING",
+      "signerMappingVersion": "SYNTHETIC-V1",
+      "signerMappingHash": "01c4a76e8d6e288969d1653c8c6ab80b9940afcc8e7f18e2744d436be241df3b",
+      "producerOrSignerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+      "producerOrSignerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+      "keyId": "SYNTHETIC-SUBMISSION-KEY",
+      "keyVersion": "SYNTHETIC-KV1",
+      "keyValidFrom": "1999-01-01T00:00:00.000Z",
+      "keyValidTo": "2001-01-01T00:00:00.000Z",
+      "keyValidityEvidenceId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-KEY-VALIDITY",
+      "keyValidityEvidenceHash": "52b1546f82dec48ad1beaeaac91dde60da340e68847b511d8b308eabb66a3a69",
+      "revocationCompromiseStatus": "VALID_AT_SIGNING",
+      "revocationCompromiseEffectiveTimeDisposition": "NO_EFFECTIVE_EVENT_AT_SIGNING",
+      "revocationCompromiseEvidenceId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-REVOCATION-EVIDENCE",
+      "revocationCompromiseEvidenceHash": "905080d68aa1e5bf6a679fa1cf141742e96f1c3d660c9d8f720a99d01f353701",
+      "verificationPolicyVersion": "SYNTHETIC-V1",
+      "snapshotSchemaVersion": "STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1",
+      "retentionLegalHoldClass": "SYNTHETIC-RETENTION-CLASS",
+      "snapshotId": "FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k",
+      "snapshotHash": "500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671"
+    },
+    "excludedFields": [
+      "snapshotHash",
+      "snapshotAttestationSignature"
+    ],
+    "canonicalCoveredObject": "{\"algorithmPolicyHash\":\"9539617d2ddcff463b25be4632ccfd874d7814b90ea5216167a634b678ce0cbe\",\"algorithmPolicyId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-SUBMISSION-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"52b1546f82dec48ad1beaeaac91dde60da340e68847b511d8b308eabb66a3a69\",\"keyValidityEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"905080d68aa1e5bf6a679fa1cf141742e96f1c3d660c9d8f720a99d01f353701\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"WORKLOAD_ASSURANCE_SUBMISSION\",\"signedAt\":\"2000-01-01T00:00:00.000Z\",\"signedRecordId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"signerMappingHash\":\"01c4a76e8d6e288969d1653c8c6ab80b9940afcc8e7f18e2744d436be241df3b\",\"signerMappingId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotId\":\"FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"53df16e54bd9006bcaca257afaa9361982cbe269f5fd9688cd34c1ab16940166\",\"trustRegistryId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"}",
+    "preimageUtf8": "STRATTON-TRUST-VERIFICATION-SNAPSHOT-v1\n{\"algorithmPolicyHash\":\"9539617d2ddcff463b25be4632ccfd874d7814b90ea5216167a634b678ce0cbe\",\"algorithmPolicyId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-SUBMISSION-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"52b1546f82dec48ad1beaeaac91dde60da340e68847b511d8b308eabb66a3a69\",\"keyValidityEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"905080d68aa1e5bf6a679fa1cf141742e96f1c3d660c9d8f720a99d01f353701\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"WORKLOAD_ASSURANCE_SUBMISSION\",\"signedAt\":\"2000-01-01T00:00:00.000Z\",\"signedRecordId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"signerMappingHash\":\"01c4a76e8d6e288969d1653c8c6ab80b9940afcc8e7f18e2744d436be241df3b\",\"signerMappingId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotId\":\"FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"53df16e54bd9006bcaca257afaa9361982cbe269f5fd9688cd34c1ab16940166\",\"trustRegistryId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"}",
+    "expectedSnapshotId": "FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k",
+    "expectedLowercaseSha256": "500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671"
+  },
+  "signedEnvelopeVectors": [
+    {
+      "id": "TV-SUBMISSION-001",
+      "signaturePurpose": "WORKLOAD_ASSURANCE_SUBMISSION",
+      "signedRecordId": "SYNTHETIC-VALIDATION-RUN-001",
+      "domainSeparator": "STRATTON-ASSURANCE-MANIFEST-v1",
+      "hashField": "manifestHash",
+      "inputObject": {
+        "producerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+        "producerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+        "validationRunId": "SYNTHETIC-VALIDATION-RUN-001",
+        "signedRecordId": "SYNTHETIC-VALIDATION-RUN-001",
+        "supersedesSubmissionId": null,
+        "generatedAt": "2000-01-01T00:00:00.000Z",
+        "configurationBindingHash": "262beee4f0b8f64cf89b67f1efe28d43afa2e29a8c2b5688500f495856800d22",
+        "inputManifestHash": "48a2eaf118fbabf20f24951239d32a68f9bdee42a25442f27438a97344921e20",
+        "evaluationRequest": {
+          "requestedPolicyBinding": "SYNTHETIC-EVALUATION-BINDING"
+        },
+        "resultObjects": [
+          {
+            "storageAccountResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/synthetic/providers/Microsoft.Storage/storageAccounts/syntheticaccount",
+            "containerName": "synthetic-container",
+            "blobName": "synthetic/result.json",
+            "blobVersionId": "SYNTHETIC-BLOB-VERSION-001",
+            "etag": "SYNTHETIC-ETAG-001",
+            "sha256": "c5a48ef6294a7ebc0b10be3bf1e9b876fa9826251087cd66f350f87a8436129e",
+            "mediaType": "application/json",
+            "sizeBytes": 1,
+            "objectRole": "SYNTHETIC_RESULT"
+          }
+        ],
+        "signedAt": "2000-01-01T00:00:00.000Z",
+        "signatureAlgorithm": "SYNTHETIC-ALGORITHM",
+        "signatureKeyId": "SYNTHETIC-SUBMISSION-KEY",
+        "signatureKeyVersion": "SYNTHETIC-KV1",
+        "trustVerificationSnapshot": {
+          "signedRecordId": "SYNTHETIC-VALIDATION-RUN-001",
+          "signaturePurpose": "WORKLOAD_ASSURANCE_SUBMISSION",
+          "signedAt": "2000-01-01T00:00:00.000Z",
+          "algorithmPolicyId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-ALGORITHM-POLICY",
+          "algorithmPolicyVersion": "SYNTHETIC-V1",
+          "algorithmPolicyHash": "9539617d2ddcff463b25be4632ccfd874d7814b90ea5216167a634b678ce0cbe",
+          "trustRegistryId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-TRUST-REGISTRY",
+          "trustRegistryVersion": "SYNTHETIC-V1",
+          "trustRegistryHash": "53df16e54bd9006bcaca257afaa9361982cbe269f5fd9688cd34c1ab16940166",
+          "signerMappingId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-SIGNER-MAPPING",
+          "signerMappingVersion": "SYNTHETIC-V1",
+          "signerMappingHash": "01c4a76e8d6e288969d1653c8c6ab80b9940afcc8e7f18e2744d436be241df3b",
+          "producerOrSignerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+          "producerOrSignerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+          "keyId": "SYNTHETIC-SUBMISSION-KEY",
+          "keyVersion": "SYNTHETIC-KV1",
+          "keyValidFrom": "1999-01-01T00:00:00.000Z",
+          "keyValidTo": "2001-01-01T00:00:00.000Z",
+          "keyValidityEvidenceId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-KEY-VALIDITY",
+          "keyValidityEvidenceHash": "52b1546f82dec48ad1beaeaac91dde60da340e68847b511d8b308eabb66a3a69",
+          "revocationCompromiseStatus": "VALID_AT_SIGNING",
+          "revocationCompromiseEffectiveTimeDisposition": "NO_EFFECTIVE_EVENT_AT_SIGNING",
+          "revocationCompromiseEvidenceId": "SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-REVOCATION-EVIDENCE",
+          "revocationCompromiseEvidenceHash": "905080d68aa1e5bf6a679fa1cf141742e96f1c3d660c9d8f720a99d01f353701",
+          "verificationPolicyVersion": "SYNTHETIC-V1",
+          "snapshotSchemaVersion": "STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1",
+          "retentionLegalHoldClass": "SYNTHETIC-RETENTION-CLASS",
+          "snapshotId": "FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k",
+          "snapshotHash": "500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671"
+        },
+        "trustVerificationSnapshotHash": "500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671",
+        "manifestHash": "a361599c127d5a658a2ae61c3363b4e8fe45504595325da6ebb27aa816b293df",
+        "signature": "SYNTHETIC-SIGNATURE-BYTES"
+      },
+      "excludedFields": [
+        "manifestHash",
+        "signature"
+      ],
+      "canonicalCoveredObject": "{\"configurationBindingHash\":\"262beee4f0b8f64cf89b67f1efe28d43afa2e29a8c2b5688500f495856800d22\",\"evaluationRequest\":{\"requestedPolicyBinding\":\"SYNTHETIC-EVALUATION-BINDING\"},\"generatedAt\":\"2000-01-01T00:00:00.000Z\",\"inputManifestHash\":\"48a2eaf118fbabf20f24951239d32a68f9bdee42a25442f27438a97344921e20\",\"producerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"resultObjects\":[{\"blobName\":\"synthetic/result.json\",\"blobVersionId\":\"SYNTHETIC-BLOB-VERSION-001\",\"containerName\":\"synthetic-container\",\"etag\":\"SYNTHETIC-ETAG-001\",\"mediaType\":\"application/json\",\"objectRole\":\"SYNTHETIC_RESULT\",\"sha256\":\"c5a48ef6294a7ebc0b10be3bf1e9b876fa9826251087cd66f350f87a8436129e\",\"sizeBytes\":1,\"storageAccountResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/synthetic/providers/Microsoft.Storage/storageAccounts/syntheticaccount\"}],\"signatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"signatureKeyId\":\"SYNTHETIC-SUBMISSION-KEY\",\"signatureKeyVersion\":\"SYNTHETIC-KV1\",\"signedAt\":\"2000-01-01T00:00:00.000Z\",\"signedRecordId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"supersedesSubmissionId\":null,\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"9539617d2ddcff463b25be4632ccfd874d7814b90ea5216167a634b678ce0cbe\",\"algorithmPolicyId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-SUBMISSION-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"52b1546f82dec48ad1beaeaac91dde60da340e68847b511d8b308eabb66a3a69\",\"keyValidityEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"905080d68aa1e5bf6a679fa1cf141742e96f1c3d660c9d8f720a99d01f353701\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"WORKLOAD_ASSURANCE_SUBMISSION\",\"signedAt\":\"2000-01-01T00:00:00.000Z\",\"signedRecordId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"signerMappingHash\":\"01c4a76e8d6e288969d1653c8c6ab80b9940afcc8e7f18e2744d436be241df3b\",\"signerMappingId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671\",\"snapshotId\":\"FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"53df16e54bd9006bcaca257afaa9361982cbe269f5fd9688cd34c1ab16940166\",\"trustRegistryId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671\",\"validationRunId\":\"SYNTHETIC-VALIDATION-RUN-001\"}",
+      "preimageUtf8": "STRATTON-ASSURANCE-MANIFEST-v1\n{\"configurationBindingHash\":\"262beee4f0b8f64cf89b67f1efe28d43afa2e29a8c2b5688500f495856800d22\",\"evaluationRequest\":{\"requestedPolicyBinding\":\"SYNTHETIC-EVALUATION-BINDING\"},\"generatedAt\":\"2000-01-01T00:00:00.000Z\",\"inputManifestHash\":\"48a2eaf118fbabf20f24951239d32a68f9bdee42a25442f27438a97344921e20\",\"producerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"resultObjects\":[{\"blobName\":\"synthetic/result.json\",\"blobVersionId\":\"SYNTHETIC-BLOB-VERSION-001\",\"containerName\":\"synthetic-container\",\"etag\":\"SYNTHETIC-ETAG-001\",\"mediaType\":\"application/json\",\"objectRole\":\"SYNTHETIC_RESULT\",\"sha256\":\"c5a48ef6294a7ebc0b10be3bf1e9b876fa9826251087cd66f350f87a8436129e\",\"sizeBytes\":1,\"storageAccountResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/synthetic/providers/Microsoft.Storage/storageAccounts/syntheticaccount\"}],\"signatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"signatureKeyId\":\"SYNTHETIC-SUBMISSION-KEY\",\"signatureKeyVersion\":\"SYNTHETIC-KV1\",\"signedAt\":\"2000-01-01T00:00:00.000Z\",\"signedRecordId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"supersedesSubmissionId\":null,\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"9539617d2ddcff463b25be4632ccfd874d7814b90ea5216167a634b678ce0cbe\",\"algorithmPolicyId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-SUBMISSION-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"52b1546f82dec48ad1beaeaac91dde60da340e68847b511d8b308eabb66a3a69\",\"keyValidityEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"905080d68aa1e5bf6a679fa1cf141742e96f1c3d660c9d8f720a99d01f353701\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"WORKLOAD_ASSURANCE_SUBMISSION\",\"signedAt\":\"2000-01-01T00:00:00.000Z\",\"signedRecordId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"signerMappingHash\":\"01c4a76e8d6e288969d1653c8c6ab80b9940afcc8e7f18e2744d436be241df3b\",\"signerMappingId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671\",\"snapshotId\":\"FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"53df16e54bd9006bcaca257afaa9361982cbe269f5fd9688cd34c1ab16940166\",\"trustRegistryId\":\"SYNTHETIC-WORKLOAD_ASSURANCE_SUBMISSION-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671\",\"validationRunId\":\"SYNTHETIC-VALIDATION-RUN-001\"}",
+      "expectedLowercaseSha256": "a361599c127d5a658a2ae61c3363b4e8fe45504595325da6ebb27aa816b293df"
+    },
+    {
+      "id": "TV-AUDIT-001",
+      "signaturePurpose": "WORKLOAD_AUDIT_EVENT",
+      "signedRecordId": "SYNTHETIC-AUDIT-RECORD-001",
+      "domainSeparator": "STRATTON-AUDIT-EVENT-v1",
+      "hashField": "eventHash",
+      "inputObject": {
+        "signedRecordId": "SYNTHETIC-AUDIT-RECORD-001",
+        "tenantId": "SYNTHETIC-TENANT",
+        "caseId": "SYNTHETIC-CASE",
+        "sequence": 1,
+        "occurredAt": "2000-01-01T00:00:00.500Z",
+        "actorId": "SYNTHETIC-ACTOR",
+        "action": "SYNTHETIC-ACTION",
+        "subjectId": "SYNTHETIC-SUBJECT",
+        "outcome": "SYNTHETIC-OUTCOME",
+        "correlationId": "SYNTHETIC-CORRELATION",
+        "previousEventHash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "sourceTransactionId": "SYNTHETIC-TRANSACTION",
+        "schemaVersion": "STRATTON_AUDIT_EVENT_V2",
+        "producerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+        "producerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+        "signedAt": "2000-01-01T00:00:01.000Z",
+        "producerSignatureAlgorithm": "SYNTHETIC-ALGORITHM",
+        "producerKeyId": "SYNTHETIC-AUDIT-KEY",
+        "producerKeyVersion": "SYNTHETIC-KV1",
+        "trustVerificationSnapshot": {
+          "signedRecordId": "SYNTHETIC-AUDIT-RECORD-001",
+          "signaturePurpose": "WORKLOAD_AUDIT_EVENT",
+          "signedAt": "2000-01-01T00:00:01.000Z",
+          "algorithmPolicyId": "SYNTHETIC-WORKLOAD_AUDIT_EVENT-ALGORITHM-POLICY",
+          "algorithmPolicyVersion": "SYNTHETIC-V1",
+          "algorithmPolicyHash": "7a2190969f6be63751182e8dee0710f81f00922846a00e399298c8fdeba64702",
+          "trustRegistryId": "SYNTHETIC-WORKLOAD_AUDIT_EVENT-TRUST-REGISTRY",
+          "trustRegistryVersion": "SYNTHETIC-V1",
+          "trustRegistryHash": "76da0a2e6c7fb44a74e667703297ace3bdc886204421cc147534a6e7c7fd959b",
+          "signerMappingId": "SYNTHETIC-WORKLOAD_AUDIT_EVENT-SIGNER-MAPPING",
+          "signerMappingVersion": "SYNTHETIC-V1",
+          "signerMappingHash": "4ffdf7febe33fb5c9299bbc98a5623cd1b9d23553dc885a718d7409b7e2e1eae",
+          "producerOrSignerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+          "producerOrSignerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+          "keyId": "SYNTHETIC-AUDIT-KEY",
+          "keyVersion": "SYNTHETIC-KV1",
+          "keyValidFrom": "1999-01-01T00:00:00.000Z",
+          "keyValidTo": "2001-01-01T00:00:00.000Z",
+          "keyValidityEvidenceId": "SYNTHETIC-WORKLOAD_AUDIT_EVENT-KEY-VALIDITY",
+          "keyValidityEvidenceHash": "650685ad63b9f89b52ec7021220d5e73d7efd76a5436fe45ba858dc1ec42fadf",
+          "revocationCompromiseStatus": "VALID_AT_SIGNING",
+          "revocationCompromiseEffectiveTimeDisposition": "NO_EFFECTIVE_EVENT_AT_SIGNING",
+          "revocationCompromiseEvidenceId": "SYNTHETIC-WORKLOAD_AUDIT_EVENT-REVOCATION-EVIDENCE",
+          "revocationCompromiseEvidenceHash": "febd14773f3201d4f5b391ba18f6118494b3211ef1cb7c9d80d0e984f6fc7098",
+          "verificationPolicyVersion": "SYNTHETIC-V1",
+          "snapshotSchemaVersion": "STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1",
+          "retentionLegalHoldClass": "SYNTHETIC-RETENTION-CLASS",
+          "snapshotId": "2ZA96CaL9OxW7rFeLDkCyCurvZWosT2anzVFz_9z_eE",
+          "snapshotHash": "88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152"
+        },
+        "trustVerificationSnapshotHash": "88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152",
+        "eventId": "kgClcxXxpCGyF-IMZGyiAbKr_PO6k8mMYwxmIJX-HF0",
+        "eventHash": "1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e",
+        "producerSignature": "SYNTHETIC-SIGNATURE-BYTES",
+        "messageBodyHash": "691889e468c50dc599b61b68058c0694227f15ee36e163c868d2132306f6c1bf"
+      },
+      "excludedFields": [
+        "eventId",
+        "eventHash",
+        "messageBodyHash",
+        "producerSignature"
+      ],
+      "canonicalCoveredObject": "{\"action\":\"SYNTHETIC-ACTION\",\"actorId\":\"SYNTHETIC-ACTOR\",\"caseId\":\"SYNTHETIC-CASE\",\"correlationId\":\"SYNTHETIC-CORRELATION\",\"occurredAt\":\"2000-01-01T00:00:00.500Z\",\"outcome\":\"SYNTHETIC-OUTCOME\",\"previousEventHash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"producerKeyId\":\"SYNTHETIC-AUDIT-KEY\",\"producerKeyVersion\":\"SYNTHETIC-KV1\",\"producerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"producerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"schemaVersion\":\"STRATTON_AUDIT_EVENT_V2\",\"sequence\":1,\"signedAt\":\"2000-01-01T00:00:01.000Z\",\"signedRecordId\":\"SYNTHETIC-AUDIT-RECORD-001\",\"sourceTransactionId\":\"SYNTHETIC-TRANSACTION\",\"subjectId\":\"SYNTHETIC-SUBJECT\",\"tenantId\":\"SYNTHETIC-TENANT\",\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"7a2190969f6be63751182e8dee0710f81f00922846a00e399298c8fdeba64702\",\"algorithmPolicyId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-AUDIT-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"650685ad63b9f89b52ec7021220d5e73d7efd76a5436fe45ba858dc1ec42fadf\",\"keyValidityEvidenceId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"febd14773f3201d4f5b391ba18f6118494b3211ef1cb7c9d80d0e984f6fc7098\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"WORKLOAD_AUDIT_EVENT\",\"signedAt\":\"2000-01-01T00:00:01.000Z\",\"signedRecordId\":\"SYNTHETIC-AUDIT-RECORD-001\",\"signerMappingHash\":\"4ffdf7febe33fb5c9299bbc98a5623cd1b9d23553dc885a718d7409b7e2e1eae\",\"signerMappingId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152\",\"snapshotId\":\"2ZA96CaL9OxW7rFeLDkCyCurvZWosT2anzVFz_9z_eE\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"76da0a2e6c7fb44a74e667703297ace3bdc886204421cc147534a6e7c7fd959b\",\"trustRegistryId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152\"}",
+      "preimageUtf8": "STRATTON-AUDIT-EVENT-v1\n{\"action\":\"SYNTHETIC-ACTION\",\"actorId\":\"SYNTHETIC-ACTOR\",\"caseId\":\"SYNTHETIC-CASE\",\"correlationId\":\"SYNTHETIC-CORRELATION\",\"occurredAt\":\"2000-01-01T00:00:00.500Z\",\"outcome\":\"SYNTHETIC-OUTCOME\",\"previousEventHash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"producerKeyId\":\"SYNTHETIC-AUDIT-KEY\",\"producerKeyVersion\":\"SYNTHETIC-KV1\",\"producerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"producerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"schemaVersion\":\"STRATTON_AUDIT_EVENT_V2\",\"sequence\":1,\"signedAt\":\"2000-01-01T00:00:01.000Z\",\"signedRecordId\":\"SYNTHETIC-AUDIT-RECORD-001\",\"sourceTransactionId\":\"SYNTHETIC-TRANSACTION\",\"subjectId\":\"SYNTHETIC-SUBJECT\",\"tenantId\":\"SYNTHETIC-TENANT\",\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"7a2190969f6be63751182e8dee0710f81f00922846a00e399298c8fdeba64702\",\"algorithmPolicyId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-AUDIT-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"650685ad63b9f89b52ec7021220d5e73d7efd76a5436fe45ba858dc1ec42fadf\",\"keyValidityEvidenceId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"febd14773f3201d4f5b391ba18f6118494b3211ef1cb7c9d80d0e984f6fc7098\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"WORKLOAD_AUDIT_EVENT\",\"signedAt\":\"2000-01-01T00:00:01.000Z\",\"signedRecordId\":\"SYNTHETIC-AUDIT-RECORD-001\",\"signerMappingHash\":\"4ffdf7febe33fb5c9299bbc98a5623cd1b9d23553dc885a718d7409b7e2e1eae\",\"signerMappingId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152\",\"snapshotId\":\"2ZA96CaL9OxW7rFeLDkCyCurvZWosT2anzVFz_9z_eE\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"76da0a2e6c7fb44a74e667703297ace3bdc886204421cc147534a6e7c7fd959b\",\"trustRegistryId\":\"SYNTHETIC-WORKLOAD_AUDIT_EVENT-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152\"}",
+      "expectedLowercaseSha256": "1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e",
+      "derivedIdentifiers": {
+        "eventId": "kgClcxXxpCGyF-IMZGyiAbKr_PO6k8mMYwxmIJX-HF0",
+        "messageBodyHash": "691889e468c50dc599b61b68058c0694227f15ee36e163c868d2132306f6c1bf"
+      }
+    },
+    {
+      "id": "TV-RECEIPT-001",
+      "signaturePurpose": "INTERNAL_AUDIT_RECEIPT",
+      "signedRecordId": "SYNTHETIC-RECEIPT-001",
+      "domainSeparator": "STRATTON-AUDIT-RECEIPT-v1",
+      "hashField": "receiptHash",
+      "inputObject": {
+        "receiptId": "SYNTHETIC-RECEIPT-001",
+        "signedRecordId": "SYNTHETIC-RECEIPT-001",
+        "eventId": "kgClcxXxpCGyF-IMZGyiAbKr_PO6k8mMYwxmIJX-HF0",
+        "verifiedProducerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+        "verifiedProducerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+        "producerSignatureAlgorithm": "SYNTHETIC-ALGORITHM",
+        "producerKeyId": "SYNTHETIC-AUDIT-KEY",
+        "producerKeyVersion": "SYNTHETIC-KV1",
+        "eventHash": "1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e",
+        "messageBodyHash": "691889e468c50dc599b61b68058c0694227f15ee36e163c868d2132306f6c1bf",
+        "tenantId": "SYNTHETIC-TENANT",
+        "caseId": "SYNTHETIC-CASE",
+        "sequence": 1,
+        "receivedAt": "2000-01-01T00:00:01.500Z",
+        "chainDisposition": "VERIFIED_CONTIGUOUS",
+        "duplicateDisposition": "FIRST_ACCEPTED",
+        "assuranceReceiptSignerTenantId": "SYNTHETIC-INTERNAL-AUDIT-TENANT",
+        "assuranceReceiptSignerObjectId": "SYNTHETIC-INTERNAL-AUDIT-OBJECT",
+        "signedAt": "2000-01-01T00:00:02.000Z",
+        "assuranceReceiptSignatureAlgorithm": "SYNTHETIC-ALGORITHM",
+        "assuranceReceiptSignerKeyId": "SYNTHETIC-RECEIPT-KEY",
+        "assuranceReceiptSignerKeyVersion": "SYNTHETIC-KV1",
+        "trustVerificationSnapshot": {
+          "signedRecordId": "SYNTHETIC-RECEIPT-001",
+          "signaturePurpose": "INTERNAL_AUDIT_RECEIPT",
+          "signedAt": "2000-01-01T00:00:02.000Z",
+          "algorithmPolicyId": "SYNTHETIC-INTERNAL_AUDIT_RECEIPT-ALGORITHM-POLICY",
+          "algorithmPolicyVersion": "SYNTHETIC-V1",
+          "algorithmPolicyHash": "a40fa2d02ba63730365df55b5e50cc3fbfb254362ebb92b1cd75004c33c2bff9",
+          "trustRegistryId": "SYNTHETIC-INTERNAL_AUDIT_RECEIPT-TRUST-REGISTRY",
+          "trustRegistryVersion": "SYNTHETIC-V1",
+          "trustRegistryHash": "ff438a26059b3a01c62c09667da0687c1035ea8a6ffeed4e3ce3c430d3bda5a9",
+          "signerMappingId": "SYNTHETIC-INTERNAL_AUDIT_RECEIPT-SIGNER-MAPPING",
+          "signerMappingVersion": "SYNTHETIC-V1",
+          "signerMappingHash": "b1bb0ed18b33055605c5da27d053b94c722a8c35b5f3e61ce81892cb9b63b592",
+          "producerOrSignerTenantId": "SYNTHETIC-INTERNAL-AUDIT-TENANT",
+          "producerOrSignerObjectId": "SYNTHETIC-INTERNAL-AUDIT-OBJECT",
+          "keyId": "SYNTHETIC-RECEIPT-KEY",
+          "keyVersion": "SYNTHETIC-KV1",
+          "keyValidFrom": "1999-01-01T00:00:00.000Z",
+          "keyValidTo": "2001-01-01T00:00:00.000Z",
+          "keyValidityEvidenceId": "SYNTHETIC-INTERNAL_AUDIT_RECEIPT-KEY-VALIDITY",
+          "keyValidityEvidenceHash": "019640ee205637369bc026a92d881c7c567287f165c92d7e52c3ba6ad705f601",
+          "revocationCompromiseStatus": "VALID_AT_SIGNING",
+          "revocationCompromiseEffectiveTimeDisposition": "NO_EFFECTIVE_EVENT_AT_SIGNING",
+          "revocationCompromiseEvidenceId": "SYNTHETIC-INTERNAL_AUDIT_RECEIPT-REVOCATION-EVIDENCE",
+          "revocationCompromiseEvidenceHash": "24a295ded5bcf513637246a780454e11a4989da0a729f70c53a4e896e6f183d2",
+          "verificationPolicyVersion": "SYNTHETIC-V1",
+          "snapshotSchemaVersion": "STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1",
+          "retentionLegalHoldClass": "SYNTHETIC-RETENTION-CLASS",
+          "snapshotId": "ng8KWSUKsqz54IXXhZu4uFgNBhh3ROvBd7Jl5CLzgTI",
+          "snapshotHash": "f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f"
+        },
+        "trustVerificationSnapshotHash": "f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f",
+        "receiptHash": "ee3057d2ca0623032a17b6f29deb58b5fc4c4583fdffd707d03dd45574d5fcab",
+        "assuranceReceiptSignature": "SYNTHETIC-SIGNATURE-BYTES"
+      },
+      "excludedFields": [
+        "receiptHash",
+        "assuranceReceiptSignature"
+      ],
+      "canonicalCoveredObject": "{\"assuranceReceiptSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"assuranceReceiptSignerKeyId\":\"SYNTHETIC-RECEIPT-KEY\",\"assuranceReceiptSignerKeyVersion\":\"SYNTHETIC-KV1\",\"assuranceReceiptSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"assuranceReceiptSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\",\"caseId\":\"SYNTHETIC-CASE\",\"chainDisposition\":\"VERIFIED_CONTIGUOUS\",\"duplicateDisposition\":\"FIRST_ACCEPTED\",\"eventHash\":\"1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e\",\"eventId\":\"kgClcxXxpCGyF-IMZGyiAbKr_PO6k8mMYwxmIJX-HF0\",\"messageBodyHash\":\"691889e468c50dc599b61b68058c0694227f15ee36e163c868d2132306f6c1bf\",\"producerKeyId\":\"SYNTHETIC-AUDIT-KEY\",\"producerKeyVersion\":\"SYNTHETIC-KV1\",\"producerSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"receiptId\":\"SYNTHETIC-RECEIPT-001\",\"receivedAt\":\"2000-01-01T00:00:01.500Z\",\"sequence\":1,\"signedAt\":\"2000-01-01T00:00:02.000Z\",\"signedRecordId\":\"SYNTHETIC-RECEIPT-001\",\"tenantId\":\"SYNTHETIC-TENANT\",\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"a40fa2d02ba63730365df55b5e50cc3fbfb254362ebb92b1cd75004c33c2bff9\",\"algorithmPolicyId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-RECEIPT-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"019640ee205637369bc026a92d881c7c567287f165c92d7e52c3ba6ad705f601\",\"keyValidityEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"24a295ded5bcf513637246a780454e11a4989da0a729f70c53a4e896e6f183d2\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"INTERNAL_AUDIT_RECEIPT\",\"signedAt\":\"2000-01-01T00:00:02.000Z\",\"signedRecordId\":\"SYNTHETIC-RECEIPT-001\",\"signerMappingHash\":\"b1bb0ed18b33055605c5da27d053b94c722a8c35b5f3e61ce81892cb9b63b592\",\"signerMappingId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f\",\"snapshotId\":\"ng8KWSUKsqz54IXXhZu4uFgNBhh3ROvBd7Jl5CLzgTI\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"ff438a26059b3a01c62c09667da0687c1035ea8a6ffeed4e3ce3c430d3bda5a9\",\"trustRegistryId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f\",\"verifiedProducerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"verifiedProducerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\"}",
+      "preimageUtf8": "STRATTON-AUDIT-RECEIPT-v1\n{\"assuranceReceiptSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"assuranceReceiptSignerKeyId\":\"SYNTHETIC-RECEIPT-KEY\",\"assuranceReceiptSignerKeyVersion\":\"SYNTHETIC-KV1\",\"assuranceReceiptSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"assuranceReceiptSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\",\"caseId\":\"SYNTHETIC-CASE\",\"chainDisposition\":\"VERIFIED_CONTIGUOUS\",\"duplicateDisposition\":\"FIRST_ACCEPTED\",\"eventHash\":\"1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e\",\"eventId\":\"kgClcxXxpCGyF-IMZGyiAbKr_PO6k8mMYwxmIJX-HF0\",\"messageBodyHash\":\"691889e468c50dc599b61b68058c0694227f15ee36e163c868d2132306f6c1bf\",\"producerKeyId\":\"SYNTHETIC-AUDIT-KEY\",\"producerKeyVersion\":\"SYNTHETIC-KV1\",\"producerSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"receiptId\":\"SYNTHETIC-RECEIPT-001\",\"receivedAt\":\"2000-01-01T00:00:01.500Z\",\"sequence\":1,\"signedAt\":\"2000-01-01T00:00:02.000Z\",\"signedRecordId\":\"SYNTHETIC-RECEIPT-001\",\"tenantId\":\"SYNTHETIC-TENANT\",\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"a40fa2d02ba63730365df55b5e50cc3fbfb254362ebb92b1cd75004c33c2bff9\",\"algorithmPolicyId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-RECEIPT-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"019640ee205637369bc026a92d881c7c567287f165c92d7e52c3ba6ad705f601\",\"keyValidityEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"24a295ded5bcf513637246a780454e11a4989da0a729f70c53a4e896e6f183d2\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"INTERNAL_AUDIT_RECEIPT\",\"signedAt\":\"2000-01-01T00:00:02.000Z\",\"signedRecordId\":\"SYNTHETIC-RECEIPT-001\",\"signerMappingHash\":\"b1bb0ed18b33055605c5da27d053b94c722a8c35b5f3e61ce81892cb9b63b592\",\"signerMappingId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f\",\"snapshotId\":\"ng8KWSUKsqz54IXXhZu4uFgNBhh3ROvBd7Jl5CLzgTI\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"ff438a26059b3a01c62c09667da0687c1035ea8a6ffeed4e3ce3c430d3bda5a9\",\"trustRegistryId\":\"SYNTHETIC-INTERNAL_AUDIT_RECEIPT-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f\",\"verifiedProducerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"verifiedProducerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\"}",
+      "expectedLowercaseSha256": "ee3057d2ca0623032a17b6f29deb58b5fc4c4583fdffd707d03dd45574d5fcab"
+    },
+    {
+      "id": "TV-VERDICT-001",
+      "signaturePurpose": "INTERNAL_AUDIT_VERDICT",
+      "signedRecordId": "SYNTHETIC-VERDICT-001",
+      "domainSeparator": "STRATTON-ASSURANCE-VERDICT-v1",
+      "hashField": "verdictHash",
+      "inputObject": {
+        "verdictId": "SYNTHETIC-VERDICT-001",
+        "signedRecordId": "SYNTHETIC-VERDICT-001",
+        "submissionId": "SYNTHETIC-SUBMISSION-ID",
+        "producerTenantId": "SYNTHETIC-WORKLOAD-TENANT",
+        "producerObjectId": "SYNTHETIC-WORKLOAD-OBJECT",
+        "validationRunId": "SYNTHETIC-VALIDATION-RUN-001",
+        "manifestHash": "a361599c127d5a658a2ae61c3363b4e8fe45504595325da6ebb27aa816b293df",
+        "assuranceCopyObjectHashes": [
+          "2ff6780b2d1ebef496c048fc24bb27c676760518fbde5b06978d741b0b5adc2c"
+        ],
+        "evaluationPolicyId": "SYNTHETIC-EVALUATION-POLICY",
+        "evaluationPolicyVersion": "SYNTHETIC-V1",
+        "evaluationPolicyHash": "3088ec68f75b927aba3ada8d2470007a1414b1ba93b3b4d2ac6af4f5b5281cd0",
+        "benchmarkRegistryVersion": "SYNTHETIC-V1",
+        "benchmarkRegistryHash": "96ec7535198aca4ed4e50754c06b0f8646c515cb5277bfa218b2f9049b791d0e",
+        "testSuiteRegistryVersion": "SYNTHETIC-V1",
+        "testSuiteRegistryHash": "942d160e6b673b87ddda5c89065c7684f56aae331ff3aaaa6464c406d954069f",
+        "evaluatorReleaseManifestHash": "250a6949e13ce4dbe92bb3b2bf2d8456bec6a48f895f6e96f8fc6e3858f0b4c2",
+        "evaluatorImageDigests": [
+          "1a328e90cefaa329b362f59727866cce116cd117a5430ac7c0819ab7d3138096"
+        ],
+        "schemaVersionSet": [
+          "STRATTON_ASSURANCE_VERDICT_V2"
+        ],
+        "limitsProfileHash": "5a71356396d4e890f4c9ed3036f27f4269b3c419a46d94f1a3a8ad8f04588429",
+        "decision": "INCONCLUSIVE",
+        "reasonCodes": [
+          "SYNTHETIC_REASON"
+        ],
+        "issuedAt": "2000-01-01T00:00:02.500Z",
+        "verdictSignerTenantId": "SYNTHETIC-INTERNAL-AUDIT-TENANT",
+        "verdictSignerObjectId": "SYNTHETIC-INTERNAL-AUDIT-OBJECT",
+        "signedAt": "2000-01-01T00:00:03.000Z",
+        "verdictSignatureAlgorithm": "SYNTHETIC-ALGORITHM",
+        "verdictSignerKeyId": "SYNTHETIC-VERDICT-KEY",
+        "verdictSignerKeyVersion": "SYNTHETIC-KV1",
+        "trustVerificationSnapshot": {
+          "signedRecordId": "SYNTHETIC-VERDICT-001",
+          "signaturePurpose": "INTERNAL_AUDIT_VERDICT",
+          "signedAt": "2000-01-01T00:00:03.000Z",
+          "algorithmPolicyId": "SYNTHETIC-INTERNAL_AUDIT_VERDICT-ALGORITHM-POLICY",
+          "algorithmPolicyVersion": "SYNTHETIC-V1",
+          "algorithmPolicyHash": "38438c7f83c2459a2bad71e97756ca154314830eac28cf239a11bd0908cc7ede",
+          "trustRegistryId": "SYNTHETIC-INTERNAL_AUDIT_VERDICT-TRUST-REGISTRY",
+          "trustRegistryVersion": "SYNTHETIC-V1",
+          "trustRegistryHash": "602de39894892051188d6afc0dc42cc8aa3cf4f733500676b3f5ed4651c83e6c",
+          "signerMappingId": "SYNTHETIC-INTERNAL_AUDIT_VERDICT-SIGNER-MAPPING",
+          "signerMappingVersion": "SYNTHETIC-V1",
+          "signerMappingHash": "d9c39757f8aefc021a0a3958224181a983f912e54214e2497f7c6d70d22d37fd",
+          "producerOrSignerTenantId": "SYNTHETIC-INTERNAL-AUDIT-TENANT",
+          "producerOrSignerObjectId": "SYNTHETIC-INTERNAL-AUDIT-OBJECT",
+          "keyId": "SYNTHETIC-VERDICT-KEY",
+          "keyVersion": "SYNTHETIC-KV1",
+          "keyValidFrom": "1999-01-01T00:00:00.000Z",
+          "keyValidTo": "2001-01-01T00:00:00.000Z",
+          "keyValidityEvidenceId": "SYNTHETIC-INTERNAL_AUDIT_VERDICT-KEY-VALIDITY",
+          "keyValidityEvidenceHash": "8a04d6be9698a87c5e9e68c7dc453185709c687862b88f0311de6cae28fbf0d5",
+          "revocationCompromiseStatus": "VALID_AT_SIGNING",
+          "revocationCompromiseEffectiveTimeDisposition": "NO_EFFECTIVE_EVENT_AT_SIGNING",
+          "revocationCompromiseEvidenceId": "SYNTHETIC-INTERNAL_AUDIT_VERDICT-REVOCATION-EVIDENCE",
+          "revocationCompromiseEvidenceHash": "6d879944f4b9490f5e22673c19f08db3cc2a8b4c02b59505869d81e2bbf56c6d",
+          "verificationPolicyVersion": "SYNTHETIC-V1",
+          "snapshotSchemaVersion": "STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1",
+          "retentionLegalHoldClass": "SYNTHETIC-RETENTION-CLASS",
+          "snapshotId": "l111JCfZaeFDkoobjzQJYmQYhoJ636zE8C76j9wMLiA",
+          "snapshotHash": "90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62"
+        },
+        "trustVerificationSnapshotHash": "90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62",
+        "verdictHash": "02d2c7e95b288f09e609636166d1d95f981cff1f9e8469c9057a322fb4af4cd9",
+        "verdictSignature": "SYNTHETIC-SIGNATURE-BYTES"
+      },
+      "excludedFields": [
+        "verdictHash",
+        "verdictSignature"
+      ],
+      "canonicalCoveredObject": "{\"assuranceCopyObjectHashes\":[\"2ff6780b2d1ebef496c048fc24bb27c676760518fbde5b06978d741b0b5adc2c\"],\"benchmarkRegistryHash\":\"96ec7535198aca4ed4e50754c06b0f8646c515cb5277bfa218b2f9049b791d0e\",\"benchmarkRegistryVersion\":\"SYNTHETIC-V1\",\"decision\":\"INCONCLUSIVE\",\"evaluationPolicyHash\":\"3088ec68f75b927aba3ada8d2470007a1414b1ba93b3b4d2ac6af4f5b5281cd0\",\"evaluationPolicyId\":\"SYNTHETIC-EVALUATION-POLICY\",\"evaluationPolicyVersion\":\"SYNTHETIC-V1\",\"evaluatorImageDigests\":[\"1a328e90cefaa329b362f59727866cce116cd117a5430ac7c0819ab7d3138096\"],\"evaluatorReleaseManifestHash\":\"250a6949e13ce4dbe92bb3b2bf2d8456bec6a48f895f6e96f8fc6e3858f0b4c2\",\"issuedAt\":\"2000-01-01T00:00:02.500Z\",\"limitsProfileHash\":\"5a71356396d4e890f4c9ed3036f27f4269b3c419a46d94f1a3a8ad8f04588429\",\"manifestHash\":\"a361599c127d5a658a2ae61c3363b4e8fe45504595325da6ebb27aa816b293df\",\"producerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"reasonCodes\":[\"SYNTHETIC_REASON\"],\"schemaVersionSet\":[\"STRATTON_ASSURANCE_VERDICT_V2\"],\"signedAt\":\"2000-01-01T00:00:03.000Z\",\"signedRecordId\":\"SYNTHETIC-VERDICT-001\",\"submissionId\":\"SYNTHETIC-SUBMISSION-ID\",\"testSuiteRegistryHash\":\"942d160e6b673b87ddda5c89065c7684f56aae331ff3aaaa6464c406d954069f\",\"testSuiteRegistryVersion\":\"SYNTHETIC-V1\",\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"38438c7f83c2459a2bad71e97756ca154314830eac28cf239a11bd0908cc7ede\",\"algorithmPolicyId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-VERDICT-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"8a04d6be9698a87c5e9e68c7dc453185709c687862b88f0311de6cae28fbf0d5\",\"keyValidityEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"6d879944f4b9490f5e22673c19f08db3cc2a8b4c02b59505869d81e2bbf56c6d\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"INTERNAL_AUDIT_VERDICT\",\"signedAt\":\"2000-01-01T00:00:03.000Z\",\"signedRecordId\":\"SYNTHETIC-VERDICT-001\",\"signerMappingHash\":\"d9c39757f8aefc021a0a3958224181a983f912e54214e2497f7c6d70d22d37fd\",\"signerMappingId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62\",\"snapshotId\":\"l111JCfZaeFDkoobjzQJYmQYhoJ636zE8C76j9wMLiA\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"602de39894892051188d6afc0dc42cc8aa3cf4f733500676b3f5ed4651c83e6c\",\"trustRegistryId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62\",\"validationRunId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"verdictId\":\"SYNTHETIC-VERDICT-001\",\"verdictSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"verdictSignerKeyId\":\"SYNTHETIC-VERDICT-KEY\",\"verdictSignerKeyVersion\":\"SYNTHETIC-KV1\",\"verdictSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"verdictSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\"}",
+      "preimageUtf8": "STRATTON-ASSURANCE-VERDICT-v1\n{\"assuranceCopyObjectHashes\":[\"2ff6780b2d1ebef496c048fc24bb27c676760518fbde5b06978d741b0b5adc2c\"],\"benchmarkRegistryHash\":\"96ec7535198aca4ed4e50754c06b0f8646c515cb5277bfa218b2f9049b791d0e\",\"benchmarkRegistryVersion\":\"SYNTHETIC-V1\",\"decision\":\"INCONCLUSIVE\",\"evaluationPolicyHash\":\"3088ec68f75b927aba3ada8d2470007a1414b1ba93b3b4d2ac6af4f5b5281cd0\",\"evaluationPolicyId\":\"SYNTHETIC-EVALUATION-POLICY\",\"evaluationPolicyVersion\":\"SYNTHETIC-V1\",\"evaluatorImageDigests\":[\"1a328e90cefaa329b362f59727866cce116cd117a5430ac7c0819ab7d3138096\"],\"evaluatorReleaseManifestHash\":\"250a6949e13ce4dbe92bb3b2bf2d8456bec6a48f895f6e96f8fc6e3858f0b4c2\",\"issuedAt\":\"2000-01-01T00:00:02.500Z\",\"limitsProfileHash\":\"5a71356396d4e890f4c9ed3036f27f4269b3c419a46d94f1a3a8ad8f04588429\",\"manifestHash\":\"a361599c127d5a658a2ae61c3363b4e8fe45504595325da6ebb27aa816b293df\",\"producerObjectId\":\"SYNTHETIC-WORKLOAD-OBJECT\",\"producerTenantId\":\"SYNTHETIC-WORKLOAD-TENANT\",\"reasonCodes\":[\"SYNTHETIC_REASON\"],\"schemaVersionSet\":[\"STRATTON_ASSURANCE_VERDICT_V2\"],\"signedAt\":\"2000-01-01T00:00:03.000Z\",\"signedRecordId\":\"SYNTHETIC-VERDICT-001\",\"submissionId\":\"SYNTHETIC-SUBMISSION-ID\",\"testSuiteRegistryHash\":\"942d160e6b673b87ddda5c89065c7684f56aae331ff3aaaa6464c406d954069f\",\"testSuiteRegistryVersion\":\"SYNTHETIC-V1\",\"trustVerificationSnapshot\":{\"algorithmPolicyHash\":\"38438c7f83c2459a2bad71e97756ca154314830eac28cf239a11bd0908cc7ede\",\"algorithmPolicyId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-ALGORITHM-POLICY\",\"algorithmPolicyVersion\":\"SYNTHETIC-V1\",\"keyId\":\"SYNTHETIC-VERDICT-KEY\",\"keyValidFrom\":\"1999-01-01T00:00:00.000Z\",\"keyValidTo\":\"2001-01-01T00:00:00.000Z\",\"keyValidityEvidenceHash\":\"8a04d6be9698a87c5e9e68c7dc453185709c687862b88f0311de6cae28fbf0d5\",\"keyValidityEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-KEY-VALIDITY\",\"keyVersion\":\"SYNTHETIC-KV1\",\"producerOrSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"producerOrSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\",\"retentionLegalHoldClass\":\"SYNTHETIC-RETENTION-CLASS\",\"revocationCompromiseEffectiveTimeDisposition\":\"NO_EFFECTIVE_EVENT_AT_SIGNING\",\"revocationCompromiseEvidenceHash\":\"6d879944f4b9490f5e22673c19f08db3cc2a8b4c02b59505869d81e2bbf56c6d\",\"revocationCompromiseEvidenceId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-REVOCATION-EVIDENCE\",\"revocationCompromiseStatus\":\"VALID_AT_SIGNING\",\"signaturePurpose\":\"INTERNAL_AUDIT_VERDICT\",\"signedAt\":\"2000-01-01T00:00:03.000Z\",\"signedRecordId\":\"SYNTHETIC-VERDICT-001\",\"signerMappingHash\":\"d9c39757f8aefc021a0a3958224181a983f912e54214e2497f7c6d70d22d37fd\",\"signerMappingId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-SIGNER-MAPPING\",\"signerMappingVersion\":\"SYNTHETIC-V1\",\"snapshotHash\":\"90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62\",\"snapshotId\":\"l111JCfZaeFDkoobjzQJYmQYhoJ636zE8C76j9wMLiA\",\"snapshotSchemaVersion\":\"STRATTON_TRUST_VERIFICATION_SNAPSHOT_V1\",\"trustRegistryHash\":\"602de39894892051188d6afc0dc42cc8aa3cf4f733500676b3f5ed4651c83e6c\",\"trustRegistryId\":\"SYNTHETIC-INTERNAL_AUDIT_VERDICT-TRUST-REGISTRY\",\"trustRegistryVersion\":\"SYNTHETIC-V1\",\"verificationPolicyVersion\":\"SYNTHETIC-V1\"},\"trustVerificationSnapshotHash\":\"90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62\",\"validationRunId\":\"SYNTHETIC-VALIDATION-RUN-001\",\"verdictId\":\"SYNTHETIC-VERDICT-001\",\"verdictSignatureAlgorithm\":\"SYNTHETIC-ALGORITHM\",\"verdictSignerKeyId\":\"SYNTHETIC-VERDICT-KEY\",\"verdictSignerKeyVersion\":\"SYNTHETIC-KV1\",\"verdictSignerObjectId\":\"SYNTHETIC-INTERNAL-AUDIT-OBJECT\",\"verdictSignerTenantId\":\"SYNTHETIC-INTERNAL-AUDIT-TENANT\"}",
+      "expectedLowercaseSha256": "02d2c7e95b288f09e609636166d1d95f981cff1f9e8469c9057a322fb4af4cd9"
+    }
+  ],
+  "positiveVectorValidation": [
+    {
+      "vectorId": "TV-SUBMISSION-001",
+      "checks": {
+        "purposeEquality": true,
+        "signedRecordIdEquality": true,
+        "signedAtEquality": true,
+        "signerAndKeyEquality": true,
+        "signedAtWithinKeyInterval": true,
+        "derivedSnapshotIdEquality": true,
+        "embeddedSnapshotHashEquality": true,
+        "envelopeHashRecomputation": true
+      },
+      "result": "PASS"
+    },
+    {
+      "vectorId": "TV-AUDIT-001",
+      "checks": {
+        "purposeEquality": true,
+        "signedRecordIdEquality": true,
+        "signedAtEquality": true,
+        "signerAndKeyEquality": true,
+        "signedAtWithinKeyInterval": true,
+        "derivedSnapshotIdEquality": true,
+        "embeddedSnapshotHashEquality": true,
+        "envelopeHashRecomputation": true
+      },
+      "result": "PASS"
+    },
+    {
+      "vectorId": "TV-RECEIPT-001",
+      "checks": {
+        "purposeEquality": true,
+        "signedRecordIdEquality": true,
+        "signedAtEquality": true,
+        "signerAndKeyEquality": true,
+        "signedAtWithinKeyInterval": true,
+        "derivedSnapshotIdEquality": true,
+        "embeddedSnapshotHashEquality": true,
+        "envelopeHashRecomputation": true
+      },
+      "result": "PASS"
+    },
+    {
+      "vectorId": "TV-VERDICT-001",
+      "checks": {
+        "purposeEquality": true,
+        "signedRecordIdEquality": true,
+        "signedAtEquality": true,
+        "signerAndKeyEquality": true,
+        "signedAtWithinKeyInterval": true,
+        "derivedSnapshotIdEquality": true,
+        "embeddedSnapshotHashEquality": true,
+        "envelopeHashRecomputation": true
+      },
+      "result": "PASS"
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "TN-001",
+      "mutation": "snapshot missing or snapshotHash mismatch",
+      "expected": "DENY"
+    },
+    {
+      "id": "TN-002",
+      "mutation": "signedAt before keyValidFrom or after keyValidTo",
+      "expected": "DENY"
+    },
+    {
+      "id": "TN-003",
+      "mutation": "change valid purpose-specific snapshot signaturePurpose so it differs from envelope purpose",
+      "expected": "DENY"
+    },
+    {
+      "id": "TN-004",
+      "mutation": "trust registry ID/version/hash replaced",
+      "expected": "DENY"
+    },
+    {
+      "id": "TN-005",
+      "mutation": "revoked or compromised effective before/at signedAt",
+      "expected": "DENY"
+    },
+    {
+      "id": "TN-006",
+      "mutation": "known compromise strictly after signedAt",
+      "expected": "APPLY_IMMUTABLE_HISTORICAL_POLICY_NO_REWRITE"
+    },
+    {
+      "id": "TN-007",
+      "mutation": "compromise effective time unknown/ambiguous",
+      "expected": "TRUST_REVIEW_REQUIRED_BLOCK_MATERIAL_TRANSITIONS"
+    },
+    {
+      "id": "TN-008",
+      "mutation": "snapshot field or WORM version tampered",
+      "expected": "DENY_AND_ALERT"
+    },
+    {
+      "id": "TN-009",
+      "mutation": "WORM record/snapshot pair missing after recovery",
+      "expected": "RECOVERY_INCOMPLETE_BLOCK"
+    },
+    {
+      "id": "TN-010",
+      "mutation": "software rollback presents different registry/snapshot",
+      "expected": "VERIFY_ORIGINAL_SNAPSHOT_NO_REWRITE"
+    }
+  ],
+  "ownerValueBoundary": "All values are reserved synthetic fixtures and never production owner values.",
+  "generatedAt": "2026-08-02T15:47:29.395+02:00",
+  "candidateRevision": "R2_PURPOSE_VECTOR_EVIDENCE_CORRECTED"
+}

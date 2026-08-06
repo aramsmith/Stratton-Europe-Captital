@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "102",
+  "createdAt": "2026-08-04T23:53:03.2571651+02:00",
+  "revisionReason": "Remediate independent Slide 10 review by strengthening regression protection and honoring reduced motion for the presentation timer.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-101.json",
+    "sha256": "5254b91995fe5fe3a7194289cf690d970c972e9a6240a37455a23b15dbbc1c63",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 10,
+    "request": "Make Slide 10 text comparable to Slide 2 and add Microsoft AI logos to the respective AI blocks."
+  },
+  "contentChange": {
+    "summary": [
+      "The Slide 10 contract now validates complete capability-to-logo objects, selector-specific typography and measured relay-width thresholds instead of independent source substrings.",
+      "Negative mutation probes confirm that swapped accessible names, visible product titles, incorrect typography selectors and undersized initiation geometry are rejected.",
+      "The presentation timer and font control now disable animation and transitions when reduced motion is requested.",
+      "The Slide 10 content, approved typography, Microsoft logos, human authority allocation and five-zone relay remain unchanged from revision 101."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "quality": {
+    "logoTypographyContract": "pass",
+    "mutationProbes": 4,
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 10,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotionRunningTimer": "pass",
+    "microsoftLogoCount": 4,
+    "independentReviewCriticalFindings": 0,
+    "independentReviewImportantFindingsRemediated": 2
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "5473815b3ba842b45d2f050ea920921baed1025baf9ebf95ea376179dc0aea01"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "c1bbd67e2147c6c33829642aea25ee94612ce8e315e88c3ac4acda5b9ddf198e"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "6e03e5b1adfaffc865e22ad23e5afcbd34f447de370f9144e43329b37b4a3b14"
+    },
+    "presentationStatusStyles": {
+      "path": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+      "sha256": "66d3ee87dbaf19af3325d3cfc9450d4d771bc5052f46e2816cb7e1acbda651ed"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "formalReviewRound": 7,
+  "changeControlId": "STRATTON-CC-002",
+  "reviewTime": "2026-08-06T11:05:19.4307851+02:00",
+  "invokedBy": "AFF-4",
+  "subjectModificationPerformed": false,
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+    "sha256BeforeReview": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "sha256AfterReview": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "status": "UNCHANGED",
+    "artifactCount": 6,
+    "candidateFileCount": 7,
+    "schemaValidationStatus": "FAIL"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-7/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "2ef55d95ecb5fb3a76b56f8d43901cb608f074df3b88b2131783972fde7adfab"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-7/stratton-aff-a-model-receipt.json",
+    "sha256": "7342ee865d5ca4e716d3c17b4c4fde43f52251ab60bf9bb546a7c5cc24a58f95"
+  },
+  "confirmedItems": [
+    "The manifest SHA-256 is 07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154 before and after review and matches the invocation.",
+    "All six declared artifact SHA-256 values match independently recomputed raw-byte hashes; all seven candidate files were copied byte-identically to reviewed-subject.",
+    "The Phase 4 CC-002 contract and its self-test both exit 0 when run from the repository root.",
+    "The candidate preserves a fail-closed non-deployment boundary: no Azure sign-in, what-if, deployment, runtime cloud test or route promotion is authorised."
+  ],
+  "findings": [
+    {
+      "id": "AFFA-CC002-P4-R7-MAJ-001",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Canonical manifest fails the required AFF phase-hash schema",
+      "evidence": [
+        "Independent Draft 2020-12 validation against .github/schemas/aff-phase-hashes.schema.json fails with 12 errors.",
+        "The manifest omits schemaVersion, caseName, artifactPrefix, phaseId, modelPlanRevision and generatedAt.",
+        "Every one of the six artifacts omits the required role property."
+      ],
+      "impact": "The subject is not a schema-conforming canonical Phase 4 manifest and cannot provide complete phase, model-plan or artifact-role traceability for a human gate.",
+      "owner": "AFF-4",
+      "remediation": "Preserve this bound candidate. Create a new append-only candidate manifest with all required top-level metadata and one valid AFF role for every artifact, validate it against the schema, then obtain new reviews."
+    },
+    {
+      "id": "AFFA-CC002-P4-R7-MAJ-002",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "MP-08 invents a Phase 5 approval hash and targets the wrong approval path",
+      "evidence": [
+        "stratton-implementation-catalogue-cc-002-proposed.json workPackages[7].phase5ApprovalGate.sha256 is 64 one characters, which is not evidence derived from a future record.",
+        "workPackages[7].phase5ApprovalGate.evidencePath is cases/Stratton-Europe-Captital/5-coding/evidence/stratton-phase-5-approval-evidence.json rather than the approval-record convention.",
+        "The required CC-002 future target is approvals/5/stratton-phase-5-cc-002-approval-1.json; no such approved record is present in this subject."
+      ],
+      "impact": "A fabricated-looking hash and non-canonical path can falsely satisfy or misroute a future approval dependency.",
+      "owner": "AFF-4 / AFF-5",
+      "remediation": "Represent the pending dependency with a null/unresolved SHA-256 state, retain PENDING_BLOCKED and failClosed true, and target cases/Stratton-Europe-Captital/approvals/5/stratton-phase-5-cc-002-approval-1.json. Populate its hash only from the immutable record after approval exists."
+    },
+    {
+      "id": "AFFA-CC002-P4-R7-MAJ-003",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "MP-07 does not carry the approved evaluation and security promotion contract",
+      "evidence": [
+        "The approved Phase 3 evaluation contract defines blocking EVAL-001 through EVAL-010 with thresholds: 100 cases; 100% material citation; at least 95% extraction accuracy; at least 99% critical-field accuracy; zero critical unsupported claims; zero missed critical risks; at most 2% other unsupported claims; at least 90% high-risk recall; p95 below 5 seconds; and completion within 30 minutes.",
+        "Its eight route records each require primaryAndRecoveryParityRequired=true.",
+        "Evaluation, routing and security contracts contain the same 12 immutable blocking gates CC002-R2-SEC-GATE-001 through -012.",
+        "Phase 4 MP-07 records only the 100-case minimum and raw/derived retention, omitting the other nine EVAL thresholds, route parity and all 12 security gates."
+      ],
+      "impact": "Phase 5 could implement and report a benchmark that passes a materially weaker gate than the approved Phase 3 design.",
+      "owner": "AFF-4 / Model Evaluation and Validation Owner / Security Owner / AI Governance",
+      "remediation": "Bind MP-07 to the approved evaluation, routing and security contract hashes; encode EVAL-001..010 exactly, require primary/recovery parity for every route, require all 12 immutable security gates, and fail closed unless every applicable gate passes with retained evidence."
+    },
+    {
+      "id": "AFFA-CC002-P4-R7-MAJ-004",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "All owner inputs are assigned to one technically scoped owner",
+      "evidence": [
+        "All six requiredOwnerInputs records assign Accountable Azure Platform Owner, including provider data-use and EU AI Act classification evidence.",
+        "Approved Phase 3 records allocate technical deployment evidence across Azure Platform, AI Governance and Service Operations; privacy lifecycle to DPO, Data Owners and Records Owner; EU AI Act classification to General Counsel and Head of AI Governance; and source/provider-use evidence to General Counsel, Source Owners and AI Governance.",
+        "A platform owner alone cannot provide accountable legal classification, privacy disposition, provider-use terms or source-use authority."
+      ],
+      "impact": "The plan can treat evidence from an unauthorised role as sufficient to unblock legal, privacy, provider-use and regulatory gates.",
+      "owner": "AFF-4 / accountable owner groups",
+      "remediation": "Split typed owner inputs by authority: Azure Platform with AI Governance/Service Operations for regions, quota, capacity and deployment IDs; Data/Search/AI Governance owners for embedding and chunking; DPO, General Counsel, Source Owners and AI Governance for privacy/provider/source use; and General Counsel, Head of AI Governance and Compliance as applicable for EU AI Act classification. Require all applicable approvals and remain fail closed."
+    },
+    {
+      "id": "AFFA-CC002-P4-R7-MAJ-005",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "The implementation portfolio omits the approved embedding deployment",
+      "evidence": [
+        "Approved Phase 3 portfolio specialistFoundation.embeddings specifies Azure OpenAI text-embedding-3-large with DataZoneStandard and primary/recovery deployment references.",
+        "Approved routeDeploymentSemantics includes CC002-R2-ROUTE-EMBEDDING for text-embedding-3-large.",
+        "Phase 4 modelDeploymentPolicy.selectedModels contains only LUNA, TERRA and SOL."
+      ],
+      "impact": "Phase 5 can implement a three-model portfolio that cannot satisfy the approved retrieval and embedding design.",
+      "owner": "AFF-4 / Azure AI Model Deployment Owner / Search Owner",
+      "remediation": "Add the text-embedding-3-large supporting deployment, its owner-supplied supported version, primary/recovery IDs, DataZoneStandard policy, dimensions/chunking evidence, recovery parity and fail-closed admission checks."
+    },
+    {
+      "id": "AFFA-CC002-P4-R7-MIN-001",
+      "severity": "MINOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Required Owner Inputs Markdown delimiter has the wrong cell count",
+      "evidence": [
+        "stratton-cc-002-phase-4-amendment.md line 18 declares seven columns.",
+        "Line 19 delimiter contains six cells (seven pipe characters), while each data row contains seven cells (eight pipe characters)."
+      ],
+      "impact": "Markdown renderers can misparse the authoritative owner-input table and break Markdown/HTML parity.",
+      "owner": "AFF-4",
+      "remediation": "In a new append-only candidate, use seven delimiter cells and regenerate the HTML from the corrected authoritative Markdown."
+    },
+    {
+      "id": "AFFA-CC002-P4-R7-MIN-002",
+      "severity": "MINOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Relative validation commands omit the required Phase 5 working directory and path guards",
+      "evidence": [
+        "MP-01 through MP-07 use relative .\\tests or .\\app paths, but their files are explicitly under cases/Stratton-Europe-Captital/5-coding-r4.",
+        "No work package records a workingDirectory, repository-root assertion, LiteralPath/path allow-list check or no-Azure-command guard."
+      ],
+      "impact": "Commands can fail, validate a similarly named path or produce misleading evidence when invoked from another directory.",
+      "owner": "AFF-4",
+      "remediation": "Bind each command to cases/Stratton-Europe-Captital/5-coding-r4 (or use explicit repository-root paths), assert the resolved path remains inside that package, use literal paths, and record that local validation performs no Azure sign-in, what-if or deployment."
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 5,
+    "MINOR": 2
+  },
+  "crossReviewCorroboration": [
+    {
+      "source": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-5/stratton-aff-b-review.json#AFFB-CC002-P4-R5-MAJ-002",
+      "status": "INDEPENDENTLY_CONFIRMED_CROSS_REVIEW_ONLY",
+      "finding": "Audit-evidence custody and tamper protection are not bound.",
+      "independentEvidence": "A candidate-wide case-insensitive search found no audit-custody, WORM, evidence-envelope, co-retention, independent writer/reader or immutable-store contract. Work packages name evidence outputs without custody metadata or verification authority.",
+      "remediation": "Bind immutable evidence envelopes containing subject, command, runtime/tool, input/output hashes, signer, timestamp, owner and disposition; separate write/read authority and block promotion without custody verification."
+    },
+    {
+      "source": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-5/stratton-aff-b-review.json#AFFB-CC002-P4-R5-MAJ-003",
+      "status": "INDEPENDENTLY_CONFIRMED_CROSS_REVIEW_ONLY",
+      "finding": "Rollback text permits destructive deletion or mutation without an execution boundary.",
+      "independentEvidence": "MP-01 says remove evidence outputs; MP-02 and MP-03 say restore prior IaC/parameter bytes; MP-04, MP-06 and MP-08 also say remove or restore changes. The candidate does not require a human execution authorisation, exact path/hash allow-list or immutable evidence preservation.",
+      "remediation": "Use stop/disable and append-only forward correction. Preserve prior bytes and evidence; require separately authorised Phase 7 execution bound to exact paths, hashes, identity and abort conditions for any destructive cleanup."
+    }
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "Five open MAJOR findings make the Phase 4 candidate materially weaker than the approved Phase 3 contract and non-conforming to the AFF manifest schema. Passing author contract tests do not close these omissions.",
+  "residualGaps": [
+    "Owner-supplied Azure region, resource, quota, capacity, deployment and recovery evidence remains unresolved and fail closed.",
+    "Provider-use, privacy, source-use and EU AI Act evidence remains unresolved and must be approved by the accountable owner groups.",
+    "No benchmark, security-gate, route-parity, deployment, runtime or operating-effectiveness result is established."
+  ],
+  "finalRoundStatus": false,
+  "finalRound": false,
+  "requiredAction": "Do not approve, promote, deploy or present this subject as complete. Preserve these exact seven candidate bytes and create a new append-only Phase 4 CC-002 remediation candidate correcting all findings; then obtain fresh AFF-A and AFF-B reviews against the unchanged new manifest.",
+  "nonDeploymentStatement": "AFF-A does not approve, waive, certify, authorise Azure sign-in, what-if, deployment, route promotion, production inference, destructive rollback, Phase 7 or runtime testing.",
+  "supersedesRound": null,
+  "previousRoundSameSubject": null
+}

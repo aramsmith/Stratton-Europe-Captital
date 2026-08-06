@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260802T134524027Z",
+  "generatedAt": "2026-08-02T13:46:23.1690613Z",
+  "status": "PASS",
+  "signing": {
+    "method": "ephemeral-local-cosign-key",
+    "identityBacked": false,
+    "statement": "evidence/containers/20260802T134524027Z/container-digests.json",
+    "signature": "evidence/containers/20260802T134524027Z/container-digests.sig",
+    "publicKey": "evidence/containers/20260802T134524027Z/container-digests.pub",
+    "limitation": "Local integrity evidence only; an approved release identity must sign any deployable registry artifact."
+  },
+  "baseImage": {
+    "reference": "mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc",
+    "indexDigest": "sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc",
+    "amd64ManifestDigest": "sha256:6b54af097b07e5e128fb4ee90ba59cbeff889ccc87d1466361ec62f7b3b15286",
+    "evidence": "evidence/containers/20260802T134524027Z/node-base-index.json"
+  },
+  "scannerDatabase": "evidence/containers/20260802T134524027Z/trivy-db-metadata.json",
+  "images": [
+    {
+      "name": "api",
+      "image": "localhost/stratton-api:20260802T134524027Z",
+      "digest": "sha256:04e9cec850a169b1f38f8cc202523ae1404599fd0a1112c7abece91a9b8505fd",
+      "platform": "linux/amd64",
+      "archive": "out/containers/20260802T134524027Z/api.docker.tar",
+      "sbom": "evidence/containers/20260802T134524027Z/api.sbom.cdx.json",
+      "scan": "evidence/containers/20260802T134524027Z/api.trivy.json",
+      "highVulnerabilities": 0,
+      "criticalVulnerabilities": 0,
+      "secretFindings": 0,
+      "licenseFindings": 206,
+      "licenseSummary": [
+        {
+          "spdxId": "(LGPLv3+ or GPLv2+) and GPLv3+",
+          "count": 1
+        },
+        {
+          "spdxId": "0BSD",
+          "count": 1
+        },
+        {
+          "spdxId": "Apache-2.0",
+          "count": 6
+        },
+        {
+          "spdxId": "ASL 2.0",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD",
+          "count": 12
+        },
+        {
+          "spdxId": "BSD and CC0 and GPLv2+ and LGPLv2+",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD AND GPLv2+ AND Inner-Net AND ISC AND LGPLv2+ AND MIT",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD AND MIT AND Public Domain AND NAIST-2003 AND Artistic-2.0",
+          "count": 3
+        },
+        {
+          "spdxId": "BSD AND Public Domain AND (ASL 2.0 OR CC0 1.0 OR OpenSSL)",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-Clause",
+          "count": 5
+        },
+        {
+          "spdxId": "BSD-3-Clause AND GPL-2.0-only",
+          "count": 1
+        },
+        {
+          "spdxId": "curl",
+          "count": 2
+        },
+        {
+          "spdxId": "GPLv2",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv2 AND LGPLv2 AND BSD AND MIT",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv2+ and GPLv3+ and LGPLv2+",
+          "count": 2
+        },
+        {
+          "spdxId": "GPLv2+ AND GPLv3+ AND LGPLv3+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+ AND LGPLv2+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+ AND LGPLv2+ AND BSD",
+          "count": 2
+        },
+        {
+          "spdxId": "GPLv2+ and LGPLv2+ and BSD and MIT and Public Domain",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+ OR LGPLv3+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv3",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv3+",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv3+ AND LGPLv2+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv3+ and LGPLv2+ and MIT",
+          "count": 1
+        },
+        {
+          "spdxId": "ISC",
+          "count": 2
+        },
+        {
+          "spdxId": "LGPLv2.1 AND GPLv2",
+          "count": 3
+        },
+        {
+          "spdxId": "LGPLv2+",
+          "count": 5
+        },
+        {
+          "spdxId": "MIT",
+          "count": 126
+        },
+        {
+          "spdxId": "MPLv2.0",
+          "count": 4
+        },
+        {
+          "spdxId": "pubkey",
+          "count": 1
+        },
+        {
+          "spdxId": "Public Domain",
+          "count": 2
+        },
+        {
+          "spdxId": "zlib",
+          "count": 1
+        }
+      ],
+      "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+    },
+    {
+      "name": "worker",
+      "image": "localhost/stratton-worker:20260802T134524027Z",
+      "digest": "sha256:53a65aa058888a30c23db294bbef59e3cdc847cc15768ad0956750d43dce79a7",
+      "platform": "linux/amd64",
+      "archive": "out/containers/20260802T134524027Z/worker.docker.tar",
+      "sbom": "evidence/containers/20260802T134524027Z/worker.sbom.cdx.json",
+      "scan": "evidence/containers/20260802T134524027Z/worker.trivy.json",
+      "highVulnerabilities": 0,
+      "criticalVulnerabilities": 0,
+      "secretFindings": 0,
+      "licenseFindings": 206,
+      "licenseSummary": [
+        {
+          "spdxId": "(LGPLv3+ or GPLv2+) and GPLv3+",
+          "count": 1
+        },
+        {
+          "spdxId": "0BSD",
+          "count": 1
+        },
+        {
+          "spdxId": "Apache-2.0",
+          "count": 6
+        },
+        {
+          "spdxId": "ASL 2.0",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD",
+          "count": 12
+        },
+        {
+          "spdxId": "BSD and CC0 and GPLv2+ and LGPLv2+",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD AND GPLv2+ AND Inner-Net AND ISC AND LGPLv2+ AND MIT",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD AND MIT AND Public Domain AND NAIST-2003 AND Artistic-2.0",
+          "count": 3
+        },
+        {
+          "spdxId": "BSD AND Public Domain AND (ASL 2.0 OR CC0 1.0 OR OpenSSL)",
+          "count": 1
+        },
+        {
+          "spdxId": "BSD-3-Clause",
+          "count": 5
+        },
+        {
+          "spdxId": "BSD-3-Clause AND GPL-2.0-only",
+          "count": 1
+        },
+        {
+          "spdxId": "curl",
+          "count": 2
+        },
+        {
+          "spdxId": "GPLv2",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv2 AND LGPLv2 AND BSD AND MIT",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv2+ and GPLv3+ and LGPLv2+",
+          "count": 2
+        },
+        {
+          "spdxId": "GPLv2+ AND GPLv3+ AND LGPLv3+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+ AND LGPLv2+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+ AND LGPLv2+ AND BSD",
+          "count": 2
+        },
+        {
+          "spdxId": "GPLv2+ and LGPLv2+ and BSD and MIT and Public Domain",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv2+ OR LGPLv3+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv3",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv3+",
+          "count": 4
+        },
+        {
+          "spdxId": "GPLv3+ AND LGPLv2+",
+          "count": 1
+        },
+        {
+          "spdxId": "GPLv3+ and LGPLv2+ and MIT",
+          "count": 1
+        },
+        {
+          "spdxId": "ISC",
+          "count": 2
+        },
+        {
+          "spdxId": "LGPLv2.1 AND GPLv2",
+          "count": 3
+        },
+        {
+          "spdxId": "LGPLv2+",
+          "count": 5
+        },
+        {
+          "spdxId": "MIT",
+          "count": 126
+        },
+        {
+          "spdxId": "MPLv2.0",
+          "count": 4
+        },
+        {
+          "spdxId": "pubkey",
+          "count": 1
+        },
+        {
+          "spdxId": "Public Domain",
+          "count": 2
+        },
+        {
+          "spdxId": "zlib",
+          "count": 1
+        }
+      ],
+      "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+    }
+  ]
+}

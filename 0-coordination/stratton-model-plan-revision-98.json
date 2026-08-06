@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "98",
+  "createdAt": "2026-08-04T18:50:16.1164071+02:00",
+  "revisionReason": "Insert a vendor-neutral human-AI operating-model slide after the approved TOGAF architecture and update the deck to sixteen slides.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-97.json",
+    "sha256": "aec6a91db5127a55c9cc5320d286e19c18af5776da2f1f7fd7c556554dc8b91e",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 10,
+    "request": "Add a new slide after Slide 9 that clearly shows AI work and the handoff to accountable humans."
+  },
+  "contentChange": {
+    "summary": [
+      "A new Slide 10 separates human initiation, deterministic controls, four logical AI capabilities, the governed evidence handoff and retained human authority.",
+      "The slide remains vendor-neutral and explicitly leaves committee-ready draft assembly unassigned to AI.",
+      "Azure Design and all later slides shift forward by one; the working deck now contains sixteen registered slides."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentOrRuntimeClaimed": false
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 10,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotion": "pass",
+    "vendorNeutral": true,
+    "prohibitedAutonomyClaimed": false
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "83299fc2dbe3adaae76db09e1e6db10f8fb351f7d2d6fcbdcdb429f52921a258"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "3a0fb770f64f0ef3fba4e275c341b0a3e41278691b6ace816acd15cfca973131"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "d080e6cce26cde5129cf9da3f4f1bbfc73bc432c6d9714ee19e31624d2d5193c"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

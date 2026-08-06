@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "74",
+  "createdAt": "2026-08-04T01:50:23+02:00",
+  "revisionReason": "Replace slide 4's miniature architecture-crew visual with Microsoft solution accelerator references and compact the Agentic Architecture Framework callout.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-73.json",
+    "sha256": "c66bd4ba778ddcbb46c22b2aab1981176b2095b64f6d02955c20fe3915dc518e",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 4,
+    "change": "Remove the miniature picture, make the Solution 1 block smaller, and add a left-hand Microsoft Solution Accelerators block linking to Chat with your Data and Agentic AI Investment Analyses."
+  },
+  "implementation": {
+    "removed": {
+      "architectureCrewMiniature": true
+    },
+    "layout": {
+      "bottomRowColumns": [
+        "Microsoft Solution Accelerators",
+        "Solution 1: The Agentic Architecture Framework"
+      ],
+      "solutionOneBlockCompacted": true
+    },
+    "solutionAccelerators": [
+      {
+        "label": "Chat with your Data",
+        "href": "https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator"
+      },
+      {
+        "label": "Agentic AI Investment Analyses",
+        "href": "https://github.com/Azure-Samples/Agentic-AI-Investment-Analysis-Sample"
+      }
+    ],
+    "interaction": {
+      "externalLinksOpenInNewTab": true,
+      "slideNavigationPropagationStopped": true,
+      "editableContentPreserved": true
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "bottomRowOverflow": false,
+      "acceleratorLinkOverflow": false,
+      "calloutLinkOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "gitDiffCheck": "pass"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 4,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

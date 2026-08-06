@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "formalReviewRound": 7,
+  "changeControlId": "STRATTON-CC-002",
+  "createdAt": "2026-08-06T11:05:19.4307851+02:00",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "selectedModelRationale": "The active interaction explicitly assigns gpt-5.6-sol as the independent reviewer; it differs from the recorded gpt-5.6-terra author runtime and is fit for Phase 4 traceability, contract and hash review.",
+    "runScopedOverrideRequired": true,
+    "overrideDecisionEvidence": "ACTIVE_AI_INTERACTION_USER_DIRECTION"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "bindingEvidence": "4-implementation-plan/evidence/stratton-cc-002-candidate-validation.json and active interaction"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "authorModelBinding": "NOT_EXPLICITLY_PRESENT_IN_REVISION_111; bound by candidate evidence and active interaction"
+  },
+  "invocation": {
+    "invokedBy": "AFF-4",
+    "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+    "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "status": "UNCHANGED_DURING_REVIEW"
+  },
+  "reviewedSubjectHashReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-7/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "2ef55d95ecb5fb3a76b56f8d43901cb608f074df3b88b2131783972fde7adfab"
+  },
+  "nonDeploymentBoundary": "Model selection and review performed no Azure sign-in, what-if, deployment, runtime cloud test, promotion or destructive rollback."
+}

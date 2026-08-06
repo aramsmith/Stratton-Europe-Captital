@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "24",
+  "createdAt": "2026-08-03T17:18:21.1165791+02:00",
+  "revisionReason": "Correct the Phase 6 revision-4 timer start gate after reproducing that normal deck navigation to slide 2 did not start the countdown unless browser fullscreen was active.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-23.json",
+    "sha256": "f17597641ed7f9a0c1615132176499f364b63122c51ed0a8a73959a64d4ee202",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingMethod": "STEP_BY_STEP",
+    "workingCandidate": "6-presentation-r4",
+    "currentStep": {
+      "id": "R4-STEP-05",
+      "name": "Correct timer start reliability",
+      "status": "AUTHORISED",
+      "reproducedFailure": "SLIDE_2_NORMAL_VIEW_REMAINED_AT_45_00",
+      "correctedInitialStartTrigger": "ADVANCE_BEYOND_FIRST_VISIBLE_SLIDE",
+      "fullscreenRequiredForInitialStart": false
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for reproducing browser-state defects and correcting shared React lifecycle logic without regressing fullscreen pause and resume behaviour."
+  },
+  "preservedBaseline": {
+    "revision3ManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "revision4Step4ValidationPath": "6-presentation-r4/evidence/timer-start-gate-step-validation.json",
+    "revision4Step4ValidationSha256": "83af0e709c948f351c2e823affa40e9fa3ad0a99df157f04d2bd930097cd1902",
+    "state": "R4_STEP4_COMPLETE_BEHAVIOUR_CORRECTION_REQUIRED"
+  },
+  "implementationContract": {
+    "componentPath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.jsx",
+    "requirements": [
+      "Keep the timer at 45:00 while the first visible slide remains active.",
+      "Start the countdown whenever the presenter advances beyond the first visible slide, whether or not browser fullscreen is active.",
+      "Keep the 44×44-pixel square timer presentation.",
+      "After the first start, continue counting across slide navigation.",
+      "If fullscreen is used, pause on fullscreen exit and resume without resetting on fullscreen re-entry.",
+      "Preserve one shared drift-resistant timer store across all mounted slides."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "formalReviewEligible": false
+  },
+  "constraints": [
+    "Preserve revisions 1, 2 and 3 byte-identically.",
+    "Do not authorise Azure activity, Phase 7 or Phase 8.",
+    "Do not freeze revision 4 until the remaining human-directed revisions are complete."
+  ]
+}

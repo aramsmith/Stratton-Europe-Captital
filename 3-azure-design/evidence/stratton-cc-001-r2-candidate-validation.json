@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC001_R2_PHASE_3_CANDIDATE_VALIDATION",
+  "phaseId": "3",
+  "modelPlanRevision": "9",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "generatedAt": "2026-08-02T15:47:29.395+02:00",
+  "status": "PASS",
+  "method": "Independent local JSON/hash/vector/XML/HTML/reference checks only",
+  "checks": [
+    {
+      "id": "R2-P3-VAL-001",
+      "check": "New r2 JSON deterministic parse and 244 unique fail-closed parameters",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-002",
+      "check": "Both formal MAJOR findings, revision-9 model/review/coverage bindings and no approval claim",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-003",
+      "check": "Revision-8 manifests and every bound artifact remain byte-identical",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-004",
+      "check": "Canonical trust snapshot and four signed-envelope vectors recompute; ten negative cases declared",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-005",
+      "check": "Repository/SOD/chain/trust snapshot contracts and r2 cross-references present",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-006",
+      "check": "Markdown/Clawpilot HTML parity and accessible sanitised editable/standalone diagrams",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-007",
+      "check": "Planned r2 manifest uses revision 9 schema-allowed fields/roles and 17 artifacts; verified independently after generation",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-008",
+      "check": "Local-only boundary; no Azure, Phase 5/IaC, review/coverage/approval action",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P3-VAL-009",
+      "check": "Every positive vector has complete purpose-specific snapshot/envelope, matching purpose/record/time/signer/key, valid interval, derived snapshot ID/hash, recomputed envelope hash and audit IDs/body hash; TN-003 is mutation-only",
+      "observed": {
+        "positiveVectors": 4,
+        "positiveResults": "ALL_PASS",
+        "negativeTN003": "DENY_AFTER_PURPOSE_MUTATION",
+        "otherContractInvalidPlaceholdersFound": 0
+      },
+      "result": "PASS"
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "Formal re-review and human approval remain pending.",
+    "No Azure validation or runtime testing."
+  ],
+  "candidateRevision": "R2_PURPOSE_VECTOR_EVIDENCE_CORRECTED"
+}

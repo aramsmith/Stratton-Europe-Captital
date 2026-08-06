@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="AFF-B Phase 2 round 1 security and compliance review for Stratton">
+<meta name="reviewer" content="AFF-B Security and Compliance Reviewer">
+<meta name="phase-id" content="2">
+<meta name="round" content="1">
+<meta name="model-plan-revision" content="3">
+<meta name="canonical-manifest-sha256" content="8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9">
+<meta name="review-json-sha256" content="fa7d3be880821f00c008403331bfb5ba4ccd05ac0211c2cbdbcc0f1c2eaa1245">
+<meta name="coverage-sha256" content="aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe">
+<title>AFF-B Review — Phase 2 Round 1 — Stratton</title>
+<style>
+:root{color-scheme:light;--cp-bg:#f7f4ef;--cp-elevated:#fcfbf8;--cp-surface:#fff;--cp-border:#dedede;--cp-text:#242424;--cp-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-ok:#16a34a;--cp-warn:#a16207;--cp-danger:#dc2626;--cp-shadow:0 18px 48px rgba(0,0,0,.12)}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--cp-bg:#3d3b3a;--cp-elevated:#343231;--cp-surface:#292929;--cp-border:#474747;--cp-text:#dedede;--cp-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-ok:#4ade80;--cp-warn:#fbbf24;--cp-danger:#f87171;--cp-shadow:0 18px 48px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(135deg,var(--cp-bg),var(--cp-elevated));color:var(--cp-text);font:15px/1.55 "Segoe UI",Aptos,Calibri,system-ui,sans-serif}
+header,main,footer{max-width:1180px;margin:auto;padding:24px}header{padding-top:36px}.hero,.card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:20px;box-shadow:var(--cp-shadow)}.hero{padding:28px}.card{padding:18px;box-shadow:none}
+h1{margin:.25rem 0;font-size:clamp(1.8rem,4vw,3rem);line-height:1.1}h2{margin-top:32px;border-bottom:1px solid var(--cp-border);padding-bottom:8px}.badge,.status{display:inline-block;border-radius:999px;padding:6px 12px;font-weight:700}.badge{background:rgba(177,31,75,.12);color:var(--cp-accent)}.status{background:rgba(161,98,7,.12);color:var(--cp-warn)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}.card strong{color:var(--cp-accent)}.ok{color:var(--cp-ok);font-weight:700}.warn{color:var(--cp-warn);font-weight:700}
+.table-wrap{overflow:auto;border:1px solid var(--cp-border);border-radius:14px;background:var(--cp-surface)}table{width:100%;border-collapse:collapse}th,td{border:1px solid var(--cp-border);padding:10px;text-align:left;vertical-align:top}th{background:rgba(177,31,75,.10)}
+code{font-family:Consolas,"Courier New",monospace;overflow-wrap:anywhere}ul{padding-left:1.25rem}.callout{border-left:5px solid var(--cp-accent);background:var(--cp-surface);padding:16px 18px;border-radius:10px}.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:var(--cp-surface);padding:.7rem;z-index:10}footer{color:var(--cp-muted);font-size:.92rem}
+@media print{body{background:#fff;font-size:10pt}.hero,.card{box-shadow:none}.skip{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header>
+<section class="hero">
+<span class="badge">AFF-B Security and Compliance Reviewer</span>
+<h1>Phase 2 — TOGAF Architecture review</h1>
+<p>Stratton Release 1 · Round 1 · Final for exact manifest <code>8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9</code></p>
+<div class="meta">
+<div class="card"><strong>Verdict</strong><br><span class="status">CONFORMS-WITH-GAPS</span></div>
+<div class="card"><strong>Findings</strong><br><span class="ok">No BLOCKER, MAJOR or MINOR findings</span></div>
+<div class="card"><strong>Runtime model</strong><br><code>gpt-5.6-sol</code> · plan revision <code>3</code></div>
+<div class="card"><strong>Hash verification</strong><br>Manifest and 10/10 artifacts locally recomputed and matched</div>
+<div class="card"><strong>AFF-A convergence</strong><br>Final round 1 · same unchanged manifest</div>
+<div class="card"><strong>Coverage</strong><br>Sequence <code>004</code> · 25/25 obligation clusters mapped</div>
+</div>
+</section>
+</header>
+<main id="main">
+<section>
+<h2>Verdict rationale</h2>
+<div class="callout">
+<p><strong>CONFORMS-WITH-GAPS.</strong> No finding was identified against the complete frozen ten-artifact subject. Vendor-neutral logical controls preserve privacy, sovereignty, privileged access, human authority, independent Internal Audit validation, no foundation-model training, production isolation, incident evidence and resilience. DORA and EU AI Act classification remain conditional. All seven residual controls remain owner-bound, unwaived and linked to required-before points.</p>
+<p>This is architecture assurance, not legal advice, certification, formal compliance attestation, waiver or approval.</p>
+</div>
+</section>
+
+<section>
+<h2>Assurance assessment</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Focus</th><th>Status</th><th>Evidence-based conclusion</th></tr></thead>
+<tbody>
+<tr><td>Logical controls and trust boundaries</td><td class="ok">CONFORMS</td><td>Nineteen ABBs, five views and ten decisions implement fail-closed admission, purpose, identity, access, analysis, review and transfer boundaries without claiming certification or operating effectiveness.</td></tr>
+<tr><td>GDPR, minimisation, purpose, retention and transfer</td><td class="warn">CONFORMS-WITH-GAPS</td><td>ABB-03, ABB-09, ABB-10 and ABB-18 cover screening, purpose, privacy evidence, legal holds, authoritative schedules, working-copy deletion and transfer gates. VAL-004 and VAL-005 retain exact schedules and approved locations.</td></tr>
+<tr><td>Sovereignty and legal jurisdiction</td><td class="warn">CONFORMS-WITH-GAPS</td><td>EU/EEA location, extra-EEA transfer, EU-based privileged operation and foreign-jurisdiction assessment boundaries are preserved. No Azure region is inferred.</td></tr>
+<tr><td>Identity, privilege and isolation</td><td class="ok">CONFORMS</td><td>Controlled identities, least privilege, time-bound elevation, emergency access and audit remain explicit; development, test and production are separate and non-production uses synthetic data.</td></tr>
+<tr><td>AI governance, data use and human authority</td><td class="warn">CONFORMS-WITH-GAPS</td><td>AI remains assistive and draft-only, required humans approve, the Investment Committee decides, foundation-model training is prohibited and Internal Audit remains independent. AI classification evidence remains open.</td></tr>
+<tr><td>DORA and EU AI Act conditionality</td><td class="warn">CONFORMS-WITH-GAPS</td><td>No formal DORA compliance or high-risk/non-high-risk AI Act claim is made. VAL-001 and AFFB-RES-001 remain controlling gates.</td></tr>
+<tr><td>Audit, incidents, resilience and operations</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Correlated evidence, named incident ownership and consistent recovery of case, evidence, policy and audit state are defined. Operational definitions remain open under VAL-002.</td></tr>
+<tr><td>Regulatory traceability</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Coverage 004 maps all 21 confirmed and four conditional obligation clusters to requirements and logical controls. Official citations and article mappings remain open.</td></tr>
+<tr><td>Vendor neutrality and evidence claims</td><td class="ok">CONFORMS</td><td>No SBB, Azure service, region, SKU, CIDR, module, deployment, runtime or control-operating claim is selected or asserted.</td></tr>
+<tr><td>Material consistency</td><td class="ok">CONFORMS</td><td>Markdown, HTML, catalogue and five views consistently represent 31 requirements, 19 ABBs, ten decisions and seven residual controls. The subject HTML has no external dependency or unsafe embedded object.</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section>
+<h2>Confirmed control outcomes</h2>
+<ul>
+<li>Personal-data minimisation, purpose limitation, special-category exclusion and fail-closed privacy evidence.</li>
+<li>EU/EEA location and extra-EEA transfer gates, with General Counsel assessment of foreign-jurisdiction exposure.</li>
+<li>Stratton-controlled identities, authorised EU-based operation, least privilege, time-bound elevation, complete audit and emergency access.</li>
+<li>Licence-gated external data, read-only source authority, no AI source write-back and no foundation-model training with Stratton data.</li>
+<li>Assistive-only AI, mandatory human and specialist review, draft-only outputs and retained Investment Committee authority.</li>
+<li>Independent Internal Audit verdict protected from delivery and operations modification.</li>
+<li>Production isolation, synthetic non-production data, correlated incident evidence and trustworthy recovery against RTO/RPO objectives.</li>
+</ul>
+</section>
+
+<section>
+<h2>Findings</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>ID</th><th>Severity</th><th>Finding</th><th>Required remediation</th></tr></thead>
+<tbody><tr><td colspan="4">No BLOCKER, MAJOR or MINOR findings.</td></tr></tbody>
+</table></div>
+</section>
+
+<section>
+<h2>Seven residual controls carried forward</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>ID</th><th>Owner</th><th>Open control</th><th>Required before</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>VAL-001</td><td>General Counsel</td><td>Record entity-specific DORA applicability or exemption and resulting obligations.</td><td>Any formal DORA claim or scope-changing obligation</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+<tr><td>VAL-002</td><td>Chief Investment Officer and Service Operations</td><td>Approve business hours, typical document-pack characteristics and critical-alert criteria.</td><td>Service and performance acceptance</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+<tr><td>VAL-003</td><td>Deal Operations, AI Governance, General Counsel, Compliance and CIO</td><td>Approve eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions.</td><td>Internal Audit validation</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+<tr><td>VAL-004</td><td>Source and records owners</td><td>Map exact source instances, retention schedules, volumes and production quality-remediation procedures.</td><td>Production ingestion</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+<tr><td>VAL-005</td><td>General Counsel</td><td>Confirm approved EU/EEA locations and the sovereignty exception evidence process.</td><td>Production location and transfer acceptance</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+<tr><td>AFFB-RES-001</td><td>General Counsel and Head of AI Governance</td><td>Provide EU AI Act role and use-case classification evidence; neither high-risk nor non-high-risk status is asserted.</td><td>Production or any classification claim</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+<tr><td>AFFB-RES-002</td><td>Legal and compliance owners; AFF-0 custodian</td><td>Add official-source citations, publication/effective dates and article-level obligation mappings.</td><td>Any formal representation relying on the regulatory register</td><td>OPEN_OWNER_BOUND_NOT_WAIVED</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section>
+<h2>Evidence and hash binding</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Record</th><th>SHA-256 / status</th></tr></thead>
+<tbody>
+<tr><td>Canonical Phase 2 manifest</td><td><code>8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9</code></td></tr>
+<tr><td>Manifest artifacts</td><td>10/10 match manifest, independent receipt and AFF-B local recompute</td></tr>
+<tr><td>Final AFF-A round 1 JSON</td><td><code>37f180026d35af2e6fdb18688337842c008bf6fe636434eb8ac530757703abef</code> · same manifest · final</td></tr>
+<tr><td>AFF-B coverage 004 JSON</td><td><code>aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe</code></td></tr>
+<tr><td>AFF-B review JSON</td><td><code>fa7d3be880821f00c008403331bfb5ba4ccd05ac0211c2cbdbcc0f1c2eaa1245</code></td></tr>
+<tr><td>Approved Phase 1 manifest</td><td><code>b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a</code></td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section>
+<h2>Required actions</h2>
+<ol>
+<li>No AFF-B remediation is required for the exact frozen manifest.</li>
+<li>Present the unchanged Phase 2 subject, final AFF-A round 1, this final AFF-B round 1 and all seven residual controls to the human architect for the explicit Phase 2 approve-or-reject decision.</li>
+<li>Keep Phase 3 ineligible until that human decision is recorded.</li>
+<li>If any Phase 2 subject artifact changes materially, regenerate hashes and repeat complete AFF-A and AFF-B review.</li>
+</ol>
+</section>
+
+<section>
+<h2>Non-approval statement</h2>
+<p>AFF-B provides architecture assurance only. This review is not legal advice, legal or regulatory certification, formal compliance attestation, a waiver, Phase 2 approval, deployment evidence, runtime evidence or a substitute for accountable human decisions.</p>
+</section>
+</main>
+<footer>
+<p>Self-contained Clawpilot-themed AFF-B review. JSON source: <code>reviews/aff-b/2/round-1/stratton-aff-b-review.json</code>. Coverage: <code>reviews/aff-b/coverage/stratton-compliance-coverage-004.json</code>.</p>
+</footer>
+</body>
+</html>

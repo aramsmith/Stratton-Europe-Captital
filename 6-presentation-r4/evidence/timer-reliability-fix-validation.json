@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE6_WORKING_DRAFT_DEFECT_VALIDATION",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "6",
+  "revision": "4",
+  "stepId": "R4-STEP-05",
+  "generatedAt": "2026-08-03T17:21:19.8718226+02:00",
+  "status": "PASS_WORKING_DRAFT_NOT_FROZEN",
+  "modelPlan": {
+    "revision": "24",
+    "path": "0-coordination/stratton-model-plan-revision-24.json",
+    "sha256": "5e9d5ccc5fdb44f17054ef23f3a7b0acc61e266565a5fabbc8329b525fefe162"
+  },
+  "reproducedDefect": {
+    "subjectEvidencePath": "6-presentation-r4/evidence/timer-start-gate-step-validation.json",
+    "subjectEvidenceSha256": "83af0e709c948f351c2e823affa40e9fa3ad0a99df157f04d2bd930097cd1902",
+    "steps": [
+      "Open the deck on slide 1 in normal browser view.",
+      "Advance to slide 2 without entering browser fullscreen.",
+      "Observe the timer."
+    ],
+    "observedBeforeCorrection": {
+      "slideNumber": "02 / 11",
+      "timer": "45:00",
+      "running": false,
+      "started": false,
+      "fullscreen": false
+    },
+    "rootCause": "The first-start function required both displayIndex greater than zero and browser fullscreen.",
+    "status": "REPRODUCED"
+  },
+  "correction": {
+    "componentPath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.jsx",
+    "componentSha256": "69012e0037e49ea20d6615e53038633faa520804fc0ba737b463d229a127a91b",
+    "change": "The first-start gate now depends only on displayIndex greater than zero; fullscreen is not required.",
+    "timerShapePreserved": "44_BY_44_PIXEL_SQUARE",
+    "fullscreenPauseResumeLogicPreserved": true
+  },
+  "correctedBrowserInspection": {
+    "url": "http://127.0.0.1:4174/?slide=0&revision=24",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "observations": [
+      {
+        "state": "NORMAL_VIEW_SLIDE_1_INITIAL",
+        "slideNumber": "01 / 11",
+        "timer": "45:00",
+        "running": false,
+        "started": false,
+        "fullscreen": false
+      },
+      {
+        "state": "NORMAL_VIEW_SLIDE_1_AFTER_WAIT",
+        "slideNumber": "01 / 11",
+        "timer": "45:00",
+        "running": false,
+        "started": false,
+        "fullscreen": false
+      },
+      {
+        "state": "NORMAL_VIEW_AFTER_ADVANCING_TO_SLIDE_2",
+        "slideNumber": "02 / 11",
+        "timer": "44:47",
+        "running": true,
+        "started": true,
+        "fullscreen": false
+      },
+      {
+        "state": "FULLSCREEN_REENTRY_AFTER_A_PAUSE",
+        "timer": "43:59",
+        "running": true,
+        "started": true,
+        "fullscreen": true
+      },
+      {
+        "state": "AFTER_FULLSCREEN_EXIT_EFFECT_SETTLED",
+        "timer": "43:52",
+        "running": false,
+        "started": true,
+        "fullscreen": false
+      }
+    ],
+    "allMountedSlideInstancesSharedOneTimerValue": true,
+    "observationTimingBoundary": "Timer values demonstrate state transitions; browser-tool interaction latency is not an elapsed-time benchmark.",
+    "status": "PASS"
+  },
+  "visualAndLayoutInspection": {
+    "slideCount": 11,
+    "squareTimers": 11,
+    "timerWidthCssPixels": 44,
+    "timerHeightCssPixels": 44,
+    "slideBodiesWithinContentBoundary": 11,
+    "slideBodiesOutsideContentBoundary": 0,
+    "status": "PASS"
+  },
+  "build": {
+    "command": "node deck/tooling/build-portable-hardened.mjs",
+    "viteVersion": "8.1.5",
+    "transformedModuleCount": 358,
+    "status": "PASS",
+    "sourceTreeFileCount": 52,
+    "sourceTreeSha256": "285a4b4434c534173022ab83fc11d39eb8002feb8e35186b4d261de4843d3bac",
+    "distIndexPath": "6-presentation-r4/deck/dist/index.html",
+    "distIndexSha256": "4fdd75dc244cabedfb3f5fc7d45dd45dd9df8a3ebcfe8c896dc39c0dc082d9fd",
+    "mainBundlePath": "6-presentation-r4/deck/dist/assets/index-Bmg67DuA.js",
+    "mainBundleSha256": "46e4454c370b664d5a8c1a76dc79704570854ded5cdceb003c019bd2b622eb68",
+    "hardenedCssPath": "6-presentation-r4/deck/dist/assets/index-7MBoJvQ8.css",
+    "hardenedCssSha256": "8543060d853d1609b4d8201d3c0be183737d40e34f31c58f2cd7747bd45b864d",
+    "removedRemoteCssImportCount": 1,
+    "remainingExternalCssDependencyCount": 0
+  },
+  "runtimeInspection": {
+    "successfulLocalRequestCount": 9,
+    "failedRequestCount": 0,
+    "externalRequestCount": 0,
+    "consoleErrorCount": 0
+  },
+  "contentAndTraceability": {
+    "materialClaimRecordCount": 32,
+    "materialClaimRecordsChanged": false,
+    "claimCatalogueModelPlanRevision": "24",
+    "presentationMarkdownSha256": "d70d0022aca1bf67478d1133eb77ec4deb23a39bf9f5fd86eef6f6eba5c6a7c7",
+    "presentationHtmlSha256": "3bab2ea501393db64d1e8f9d5d6f0fc3d6c90c865ab30d85e5640befc5278842",
+    "claimCatalogueSha256": "df568330970815b7bcefbbbca9bf278fe71ed6967ccea250360ebb8f01fb02de"
+  },
+  "gateBoundary": {
+    "workingDraft": true,
+    "canonicalManifestCreated": false,
+    "formalAffAReviewInvoked": false,
+    "formalAffBReviewInvoked": false,
+    "humanApprovalRecorded": false,
+    "azureExecutionAuthorised": false
+  }
+}

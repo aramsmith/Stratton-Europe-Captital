@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "25",
+  "createdAt": "2026-08-03T17:26:36.8623106+02:00",
+  "revisionReason": "Govern Phase 6 revision-4 step 6: delete every slide after physical slide 1 and retain only the Stratton Europe Capital title slide.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-24.json",
+    "sha256": "5e9d5ccc5fdb44f17054ef23f3a7b0acc61e266565a5fabbc8329b525fefe162",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingMethod": "STEP_BY_STEP",
+    "workingCandidate": "6-presentation-r4",
+    "currentStep": {
+      "id": "R4-STEP-06",
+      "name": "Reduce deck to slide 1 only",
+      "status": "AUTHORISED",
+      "retainedPhysicalSlide": 1,
+      "retainedLogicalSlideId": "S00",
+      "deletedPhysicalSlides": "2-11",
+      "deletedLogicalSlideIds": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10"
+      ]
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for precise multi-file deck reduction, traceability updates and validation of a one-slide DECKIO working draft."
+  },
+  "implementationContract": {
+    "retainedComponentPath": "6-presentation-r4/deck/src/slides/TitleSlide.jsx",
+    "retainedStylePath": "6-presentation-r4/deck/src/slides/TitleSlide.module.css",
+    "requirements": [
+      "Keep TitleSlide as the sole registered slide.",
+      "Remove the ten later slide imports and registrations from deck.config.js.",
+      "Delete each later slide's JSX and matching CSS module.",
+      "Preserve the title slide, logo, shared presentation status and Dark theme.",
+      "Preserve revision 3 and all prior revision-4 evidence as immutable history.",
+      "Do not claim that the retained 32 historical claim records are actively presented."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 1,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "formalReviewEligible": false
+  },
+  "constraints": [
+    "Preserve revisions 1, 2 and 3 byte-identically.",
+    "Do not authorise Azure activity, Phase 7 or Phase 8.",
+    "Do not freeze revision 4 until the human-directed rebuild is complete."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "12",
+  "createdAt": "2026-08-03T01:29:58.1675476+02:00",
+  "revisionReason": "Record the explicit human-approved run-scoped GPT-5.6 Sol override for final Phase 5 hardening, require regeneration of the still-unreviewed Phase 5 hash manifest with model-plan and artifact-role metadata, and bind the formal Phase 5 reviewer models.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-11.json",
+    "sha256": "b9fe50b7de6ba21e452d09fde4c827d03d763163dfb60c8bad9d9bd273fa900a",
+    "overwrite": false
+  },
+  "phase5Assignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefaultModelId": "gpt-5.3-codex",
+    "initialAuthorActualRuntimeModelId": "gpt-5.3-codex",
+    "finalisationSelectedExactGptModelId": "gpt-5.6-sol",
+    "finalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "runScopedOverrideRequired": true,
+    "runScopedOverrideDecision": "APPROVED",
+    "decisionCapturedIn": "ACTIVE_AI_INTERACTION",
+    "decisionTimestamp": "2026-08-03T01:29:58.1675476+02:00",
+    "decisionScope": "Phase 5 local finalisation, validation remediation, candidate freezing and formal-review preparation only.",
+    "taskFitRationale": "GPT-5.6 Sol was used for cross-cutting architecture-governance, release-integrity and assurance remediation while retaining the original GPT-5.3-Codex implementation provenance.",
+    "repositoryDefaultChanged": false
+  },
+  "candidate": {
+    "path": "5-coding/stratton-phase-5-hashes.json",
+    "state": "REGENERATE_UNDER_MODEL_PLAN_REVISION_12_BEFORE_FORMAL_REVIEW",
+    "provisionalPreRevisionSha256": "1f4077bbcc7f125f7a3b77327ace988340979b223cb6654ef03eba0d723649a1",
+    "provisionalHashHasFormalReviewEffect": false,
+    "requiredMetadata": [
+      "modelPlanRevision",
+      "artifactRole for every file entry",
+      "generation time",
+      "ordinal path ordering",
+      "SHA-256 for every reviewed subject and evidence path"
+    ]
+  },
+  "reviewAssignments": {
+    "affA": {
+      "reviewer": "AFF-A",
+      "displayName": "Rubber Duck Reviewer",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromAllPhaseAuthorActualRuntimeModelIds": true,
+      "phaseAuthorActualRuntimeModelIds": [
+        "gpt-5.3-codex",
+        "gpt-5.6-sol"
+      ],
+      "separationStatus": "PLANNED_DIFFERENT_EXACT_MODEL"
+    },
+    "affB": {
+      "reviewer": "AFF-B",
+      "displayName": "Security and Compliance Reviewer",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "sameModelAsFinalisationAllowed": true,
+      "separationBasis": "Independent reviewer role, invocation context and review-only write boundary."
+    }
+  },
+  "authorityBinding": {
+    "changeControlId": "STRATTON-CC-001",
+    "approvalPath": "approvals/change-control/stratton-cc-001-approval-1.json",
+    "approvalSha256": "ec2ddad8bc9c38993d5266985db5c9e9f12358034ba3aad9c61cd93465d8b21d",
+    "approvalModelPlanRevision": "11",
+    "interpretation": "Revision 11 remains the immutable model plan bound by the approved change control. Revision 12 governs subsequent Phase 5 finalisation and formal review without changing that approval."
+  },
+  "formalReviewGate": {
+    "state": "PENDING_REGENERATED_CANONICAL_SUBJECT",
+    "sequence": [
+      "Regenerate and independently verify one Phase 5 hash manifest under revision 12.",
+      "Invoke AFF-A round 1 with actual runtime model gpt-5.5.",
+      "Resolve accepted findings and regenerate the candidate when material.",
+      "Invoke AFF-B round 1 with actual runtime model gpt-5.6-sol.",
+      "Re-invoke both reviewers until final verdicts bind one unchanged hash manifest and revision 12.",
+      "Request explicit human Phase 5 approval in the active AI interaction."
+    ]
+  },
+  "constraints": [
+    "No Azure authentication, target validation, what-if, deployment or cloud runtime testing is authorised.",
+    "No owner-bound value may be invented, inferred, waived or enabled.",
+    "The three unimplemented STRATTON-CC-001 authority-provisioning flags remain false.",
+    "Any material candidate change after a formal review requires a revisioned subject path and new review rounds; the reviewed subject remains byte-identical.",
+    "Phase 6 must not start before final AFF-A and AFF-B convergence and explicit human Phase 5 approval."
+  ]
+}

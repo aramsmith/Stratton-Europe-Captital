@@ -1,0 +1,11 @@
+flowchart LR
+  DT[Stratton deal teams] -->|open eligible case; review evidence| R1[Release 1 architecture boundary]
+  LC[Legal and Compliance] -->|specialist approval| R1
+  AG[AI Governance] -->|policy and quality oversight| R1
+  IC[Investment Committee] -->|retains investment decision| R1
+  IA[Internal Audit] -->|independent validation verdict| R1
+  SRC[Authoritative internal sources] -->|read-only API or controlled ingestion| R1
+  EXT[Licensed external sources] -->|licence-gated ingestion| R1
+  R1 -->|cited draft recommendation| DT
+  R1 -->|audit and control evidence| GOV[Legal, privacy, security and service governance]
+  R1 -. no source write-back .-> SRC

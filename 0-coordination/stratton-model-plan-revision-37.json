@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "37",
+  "createdAt": "2026-08-03T18:10:54.3371997+02:00",
+  "revisionReason": "Replace the AMA Case 18 footer prefix on every R4 slide with Stratton Europe Capital and retain bottom-bar clearance on the enlarged slide 2 layout.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-36.json",
+    "sha256": "d1e1971340ce71ee098728dbf071133f20102031ca1352ad6dfb91d26379e8c7",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlides": [
+      1,
+      2,
+      3
+    ],
+    "footerPrefix": "Stratton Europe Capital"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE_3_AUTHORITATIVE_SOURCE_REGISTER",
+  "compiledAt": "2026-08-01T22:22:38.202+02:00",
+  "revisedAt": "2026-08-02T02:45:13.366+02:00",
+  "retrievalContext": "Microsoft Learn, Azure Architecture Center and the user-provided Azure-Samples Foundry Citadel repository selected for design reuse. AFF-4 must revalidate service capabilities, pin the repository revision and resolve AVM releases before implementation.",
+  "sources": [
+    {
+      "id": "SRC-AZ-001",
+      "title": "What is an Azure landing zone?",
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/?tabs=conceptual",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses the Microsoft Azure Landing Zone platform/application hierarchy as the foundation of the new Citadel platform; Citadel-specific AI governance and sovereignty overlays are additions, not replacements."
+    },
+    {
+      "id": "SRC-AZ-002",
+      "title": "Azure landing zone design areas",
+      "url": "https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-areas",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses the design-area checklist for identity, organisation, networking, security, governance, management and automation."
+    },
+    {
+      "id": "SRC-AZ-003",
+      "title": "Define your naming convention",
+      "url": "https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Adapts CAF resource abbreviations into parameterised Stratton names without inventing tenant-specific standards."
+    },
+    {
+      "id": "SRC-AZ-004",
+      "title": "Define your tagging strategy",
+      "url": "https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses governance and cost-management tagging principles; owner and cost centre remain required deployment inputs."
+    },
+    {
+      "id": "SRC-AZ-005",
+      "title": "Azure Well-Architected Framework",
+      "url": "https://learn.microsoft.com/azure/well-architected/",
+      "publisher": "Azure Architecture Center",
+      "reusedOrAdapted": "Uses the five pillars to record explicit benefits, costs and residual risks for each material design decision."
+    },
+    {
+      "id": "SRC-AZ-006",
+      "title": "Azure Private Endpoint private DNS zone values",
+      "url": "https://learn.microsoft.com/azure/private-link/private-endpoint-dns",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses documented private DNS zone names and central-resolution guidance; zone ownership depends on the chosen landing-zone option."
+    },
+    {
+      "id": "SRC-AZ-007",
+      "title": "Networking in Azure Container Apps environment",
+      "url": "https://learn.microsoft.com/azure/container-apps/networking",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses internal environments, workload-profile VNet integration and subnet requirements for private application workloads."
+    },
+    {
+      "id": "SRC-AZ-008",
+      "title": "Reliability in Azure Container Apps",
+      "url": "https://learn.microsoft.com/azure/reliability/reliability-azure-container-apps",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Adapts availability-zone and replica guidance for the production interactive tier; regional disaster recovery remains conditional on approved locations."
+    },
+    {
+      "id": "SRC-AZ-009",
+      "title": "Data, privacy, and security for Azure OpenAI Service",
+      "url": "https://learn.microsoft.com/legal/cognitive-services/openai/data-privacy",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Uses provider statements about prompts, completions and training as evidence input; contractual and configuration checks remain mandatory and no fine-tuning is allowed."
+    },
+    {
+      "id": "SRC-AZ-010",
+      "title": "Configure Azure OpenAI networking",
+      "url": "https://learn.microsoft.com/azure/ai-foundry/openai/how-to/network",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses private endpoint and public-network-disable controls for a regional model endpoint."
+    },
+    {
+      "id": "SRC-AZ-011",
+      "title": "Availability through redundancy - Azure SQL Database",
+      "url": "https://learn.microsoft.com/azure/azure-sql/database/high-availability-sla-local-zone-redundancy",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Supports the production zone-redundant Business Critical starting tier; exact region support must be checked after location approval."
+    },
+    {
+      "id": "SRC-AZ-012",
+      "title": "Business continuity overview - Azure SQL Database",
+      "url": "https://learn.microsoft.com/azure/azure-sql/database/business-continuity-high-availability-disaster-recover-hadr-overview",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses point-in-time restore and failover-group patterns; cross-region failover is withheld until a second approved location exists."
+    },
+    {
+      "id": "SRC-AZ-013",
+      "title": "Azure Storage redundancy",
+      "url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Uses ZRS as the in-region production baseline and leaves GZRS/RA-GZRS unavailable until transfer and secondary-location approval."
+    },
+    {
+      "id": "SRC-AZ-014",
+      "title": "Immutable storage for Azure Blob Storage",
+      "url": "https://learn.microsoft.com/azure/storage/blobs/immutable-storage-overview",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses version-level WORM and legal-hold capabilities for audit evidence; no retention duration is invented."
+    },
+    {
+      "id": "SRC-AZ-015",
+      "title": "Privileged Identity Management",
+      "url": "https://learn.microsoft.com/entra/id-governance/privileged-identity-management/pim-configure",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses eligible, time-bound privileged role activation with approval and audit."
+    },
+    {
+      "id": "SRC-AZ-016",
+      "title": "Managed identities for Azure resources",
+      "url": "https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses managed identities to avoid stored workload credentials."
+    },
+    {
+      "id": "SRC-AZ-017",
+      "title": "Azure Monitor best practices",
+      "url": "https://learn.microsoft.com/azure/azure-monitor/fundamentals/best-practices",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Adapts workspace-based Application Insights, diagnostic settings, action groups and data collection boundaries."
+    },
+    {
+      "id": "SRC-AZ-018",
+      "title": "Service Bus outages and disasters",
+      "url": "https://learn.microsoft.com/azure/service-bus-messaging/service-bus-outages-disasters",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Uses Premium messaging and availability-zone support for production; geo-disaster recovery remains secondary-region dependent."
+    },
+    {
+      "id": "SRC-AZ-019",
+      "title": "Private endpoint for Azure API Management",
+      "url": "https://learn.microsoft.com/azure/api-management/private-endpoint",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses inbound private connectivity and explicitly disables public network access after private DNS validation."
+    },
+    {
+      "id": "SRC-AZ-020",
+      "title": "Security in Azure AI Search",
+      "url": "https://learn.microsoft.com/azure/search/search-security-overview",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Reuses private access, Entra authorisation, encryption and role separation for the derived evidence index."
+    },
+    {
+      "id": "SRC-AZ-021",
+      "title": "Azure Policy design area",
+      "url": "https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/azure-policy",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Uses policy inheritance and compliance evidence across the confirmed Citadel platform, landing-zone and assurance management groups; exact tenant parent and assignment versions remain parameters."
+    },
+    {
+      "id": "SRC-AZ-022",
+      "title": "Azure Web Application Firewall on Application Gateway",
+      "url": "https://learn.microsoft.com/azure/web-application-firewall/ag/ag-overview",
+      "publisher": "Microsoft Learn",
+      "reusedOrAdapted": "Uses prevention mode and a private frontend for internal ingress."
+    },
+    {
+      "id": "SRC-AZ-023",
+      "title": "Azure pricing calculator",
+      "url": "https://azure.microsoft.com/pricing/calculator/",
+      "publisher": "Microsoft",
+      "reusedOrAdapted": "Defines the required mechanism for an owner-approved estimate after region, capacity and commercial terms are known; no price is asserted here."
+    },
+    {
+      "id": "SRC-AZ-024",
+      "title": "Azure Verified Modules - Bicep resource modules",
+      "url": "https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/",
+      "publisher": "Microsoft Azure Verified Modules",
+      "reusedOrAdapted": "Provides the registry reference for pinned module candidates; AFF-4 must verify each exact version and lock integrity before implementation."
+    },
+    {
+      "id": "SRC-AZ-025",
+      "title": "Foundry Citadel Platform",
+      "url": "https://github.com/Azure-Samples/foundry-citadel-platform",
+      "publisher": "Azure-Samples",
+      "sourceStatus": "User-provided reference; implementation revision must be pinned and reviewed by AFF-4.",
+      "reusedOrAdapted": "Adapts the repository's opinionated layered AI-governance architecture into Citadel's separate AI-governance subscription and policy/evaluation/approval layers. It is not represented as a standalone Microsoft product or as a replacement for Azure Landing Zones."
+    },
+    {
+      "id": "SRC-AZ-026",
+      "title": "Implement sovereignty controls and principles",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/implement-controls-principles",
+      "publisher": "Microsoft Learn",
+      "sourceStatus": "Verified additional Microsoft Sovereign Landing Zone reference supplied in the active interaction.",
+      "reusedOrAdapted": "Reuses sovereignty control principles for location, privileged operations, data protection, transparency and evidence; exact legal applicability and region choices remain accountable-owner decisions."
+    },
+    {
+      "id": "SRC-AZ-027",
+      "title": "Design sovereign policies",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/design-sovereign-policies",
+      "publisher": "Microsoft Learn",
+      "sourceStatus": "Verified additional Microsoft Sovereign Landing Zone reference supplied in the active interaction.",
+      "reusedOrAdapted": "Adapts sovereign policy design into Citadel initiatives that deny unapproved locations, public data services, Global/DataZone AI deployments and missing sovereignty evidence while preserving human legal authority."
+    },
+    {
+      "id": "SRC-AZ-028",
+      "title": "Private Application Gateway deployment",
+      "url": "https://learn.microsoft.com/en-us/azure/application-gateway/application-gateway-private-deployment",
+      "publisher": "Microsoft Learn",
+      "sourceStatus": "Verified during AFF-A round-1 remediation.",
+      "reusedOrAdapted": "Uses the generally available private IP-only Application Gateway v2 capability and carries Microsoft.Network/EnableApplicationGatewayNetworkIsolation registration state as fail-closed subscription evidence before AFF-4 can plan private ingress."
+    },
+    {
+      "id": "SRC-AZ-029",
+      "title": "Automatic, geo-redundant backups - Azure SQL Database",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/automated-backups-overview?view=azuresql",
+      "publisher": "Microsoft Learn",
+      "sourceStatus": "Verified during AFF-B round-1 remediation.",
+      "reusedOrAdapted": "Azure SQL defaults new database backups to geo-redundant storage in an Azure paired region. Citadel therefore requires explicit requestedBackupStorageRedundancy for every database, restricts production to Local or Zone after approved-region capability evidence, applies the choice to STR and LTR, and denies Geo or GeoZone without a later approved boundary decision."
+    }
+  ]
+}

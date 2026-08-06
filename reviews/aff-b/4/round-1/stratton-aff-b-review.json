@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "runtimeIdentityEvidence": "The active invocation used exact actual runtime model gpt-5.6-sol as required by model-plan revision 5. AFF-B remained independent from AFF-4 by reviewer role, assurance scope and write boundary.",
+    "complexityReassessment": {
+      "regulatoryComplexity": "HIGH",
+      "securityComplexity": "HIGH",
+      "evidenceComplexity": "HIGH",
+      "contextComplexity": "HIGH_BUT_TRACTABLE",
+      "rationale": "The complete implementation plan spans private-service sequencing, identity separation, supply-chain assurance, highly confidential investment data, regional AI, sovereignty, records, recovery and conditional regulatory boundaries.",
+      "selectedDefaultRemainsSuitable": true,
+      "runScopedOverrideRequired": false,
+      "humanOverrideApprovalRequired": false
+    }
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "4",
+    "phaseName": "Phase 4 — Implementation Plan",
+    "owner": "AFF-4"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-02T10:35:55.888+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-5.json",
+    "revision": "5",
+    "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol",
+    "affBModelRelationshipStatus": "ALLOWED_SAME_EXACT_MODEL_INDEPENDENT_ROLE_SCOPE_AND_WRITE_BOUNDARY",
+    "changedForThisReview": false
+  },
+  "assuranceBoundary": "Architecture assurance only. This record is not legal advice, certification, attestation, waiver, approval, deployment authorisation or runtime evidence.",
+  "canonicalReviewedEvidenceSet": {
+    "canonicalSubjectManifest": {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes.json",
+      "sha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+      "expectedSha256FromInvocation": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+      "modelPlanRevision": "5",
+      "artifactCount": 8,
+      "hashVerificationStatus": "ALL_EIGHT_ENTRIES_INDEPENDENTLY_RECOMPUTED_AND_MATCHED",
+      "independentReceiptPath": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-phase-4-hash-verification-receipt.json",
+      "independentReceiptSha256": "131fa2681752c8e82ddeb73be3ddc0d68e4fc38dbfd57a3a5681ee13cdd30607",
+      "independentReceiptAllEntriesMatch": true
+    },
+    "affAFinalReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-3/stratton-aff-a-review.json",
+      "sha256": "45cb61449c22261c4835eb15cef9bc4f050b807a1f2c239e6539c80a49d0f989",
+      "round": 3,
+      "actualRuntimeModelId": "gpt-5.5",
+      "verdict": "CONFORMS-WITH-GAPS",
+      "findings": 0,
+      "finalRoundForManifest": true,
+      "canonicalManifestSha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4"
+    },
+    "activeCoverage": {
+      "sequence": "005",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-005.json",
+      "sha256": "2c0c5b1f65a46b2359712309fd9699d52e9705ed417651a877965fa2500456b7",
+      "status": "ACTIVE_FOR_BOUND_MANIFEST",
+      "supersedesSequence": "004",
+      "obligationClustersPreserved": 25,
+      "requirementsPreserved": 31,
+      "phase4MappingGroups": 9,
+      "missingImplementationControlOutcomes": 0
+    },
+    "retainedCoverage": {
+      "sequence": "004",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-004.json",
+      "sha256": "aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe",
+      "overwrite": false
+    }
+  },
+  "scope": [
+    "Complete Phase 4 subject, manifest, receipt and final AFF-A convergence",
+    "Secure sequencing, private networking, identity/RBAC and assurance separation",
+    "Authentication, secret handling, deployment and rollback boundaries",
+    "AVM, Bicep, software supply-chain and release-integrity gates",
+    "Source admission, records, privacy, AI and retained human authority",
+    "Recovery, immutable evidence and regulatory applicability boundaries",
+    "Traceability of 31 requirements, 19 ABBs, 23 SBBs, 10 decisions, 44 inventory entries and seven residual controls"
+  ],
+  "confirmedControlOutcomes": [
+    "The 17-node, 44-edge dependency graph is acyclic and every dependency points to an earlier stage.",
+    "Platform, workload, deployment, role-assignment and Internal Audit authority remain separated and least-privileged.",
+    "Deployment uses interactive sign-in or an explicitly authorised managed identity; GitHub OIDC, stored credentials, secret parameters and cached credentials as release artefacts are prohibited.",
+    "SQL, Storage, App Configuration, Search, AI and other supported private resources disable public access from creation; APIM exposes no route before private approval, DNS/path proof and lockdown.",
+    "Private endpoint group IDs, DNS zones, links and resolver or forwarder paths are explicit rather than inferred.",
+    "Exact AVM candidates require interface, changelog, source, rendered-template and digest review; Foundry Citadel remains blocked pending an immutable reviewed revision.",
+    "Phase 5 requires pinned tools, deterministic builds, content hashes, SBOM, image signature, vulnerability and licence evidence with no unaccepted finding.",
+    "External data remains quarantined until permission, licence, purpose, privacy and admission evidence passes; source write-back and foundation-model training are prohibited.",
+    "AI remains regional, private, assistive and draft-only with retained human and specialist authority.",
+    "SQL Local or Zone backup policy, explicit failover groups, PITR, rebuild or replay procedures, hash-chain verification and immutable Internal Audit evidence are retained.",
+    "Destructive rollback, failover or failback, restoration, role revocation, immutability changes and Key Vault purge require explicit scoped authorisation.",
+    "All approved traceability and seven residual controls are mapped without waiver."
+  ],
+  "assessment": [
+    {"focus":"HASH_AND_EVIDENCE_INTEGRITY","status":"CONFORMS"},
+    {"focus":"MODEL_SUITABILITY_AND_REVIEWER_INDEPENDENCE","status":"CONFORMS"},
+    {"focus":"IDENTITY_RBAC_AND_ROLE_ASSIGNMENT_SEPARATION","status":"CONFORMS"},
+    {"focus":"PRIVATE_SERVICE_SEQUENCE_AND_PUBLIC_FALLBACK_PROHIBITION","status":"CONFORMS"},
+    {"focus":"SECRET_FREE_AUTHENTICATION_AND_EXECUTION","status":"CONFORMS"},
+    {"focus":"BICEP_AVM_AND_SUPPLY_CHAIN_GATES","status":"CONFORMS"},
+    {"focus":"SOURCE_LICENCE_PRIVACY_QUARANTINE_AND_RECORDS","status":"CONFORMS-WITH-GAPS"},
+    {"focus":"REGIONAL_AI_PROVIDER_EVIDENCE_AND_HUMAN_AUTHORITY","status":"CONFORMS-WITH-GAPS"},
+    {"focus":"RECOVERY_ROLLBACK_AND_IMMUTABLE_EVIDENCE","status":"CONFORMS"},
+    {"focus":"SOVEREIGNTY_AND_REGULATORY_CLAIM_BOUNDARIES","status":"CONFORMS-WITH-GAPS"},
+    {"focus":"FAIL_CLOSED_UNKNOWNS_AND_TRACEABILITY","status":"CONFORMS"},
+    {"focus":"PHASE_BOUNDARY_AND_UNSUPPORTED_CLAIMS","status":"CONFORMS"}
+  ],
+  "officialSourcesVerified": [],
+  "officialSourceVerificationStatus": "NO_FRESH_OFFICIAL_SOURCE_FETCH_PERFORMED; retained source registers, prior official-source evidence and correction records were reviewed without claiming fresh verification.",
+  "findings": [],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "unresolvedMajor": 0
+  },
+  "residualControls": [
+    {"id":"VAL-001","owner":"General Counsel","requiredBefore":"Formal DORA claim or scope-changing obligation","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"},
+    {"id":"VAL-002","owner":"Chief Investment Officer and Service Operations","requiredBefore":"Service and performance acceptance","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"},
+    {"id":"VAL-003","owner":"Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer","requiredBefore":"Internal Audit validation","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"},
+    {"id":"VAL-004","owner":"Source and records owners","requiredBefore":"Production ingestion","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"},
+    {"id":"VAL-005","owner":"General Counsel","requiredBefore":"Production regional deployment, location and transfer acceptance","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"},
+    {"id":"AFFB-RES-001","owner":"General Counsel and Head of AI Governance","requiredBefore":"Production AI use or classification claim","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"},
+    {"id":"AFFB-RES-002","owner":"Legal and compliance owners","requiredBefore":"Formal regulatory representation","status":"OPEN_FAIL_CLOSED_NOT_WAIVED"}
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "No security or compliance finding was identified on the unchanged manifest. The seven approved owner-bound controls remain explicit, fail-closed and unwaived.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_AFF_B_FOR_MANIFEST_87FF470043FCE913E6DD3E2121430072552443AE5CACAAA1454CB8396A9265C4_AND_MODEL_PLAN_REVISION_5",
+  "sameManifestAsFinalAffA": true,
+  "gateConvergenceStatus": "CONVERGED_AFF_A_AND_AFF_B_CONFORMS_WITH_GAPS_SAME_UNCHANGED_MANIFEST",
+  "convergence": {
+    "affAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-3/stratton-aff-a-review.json",
+    "affARound": 3,
+    "affAVerdict": "CONFORMS-WITH-GAPS",
+    "affAFindings": 0,
+    "affBPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-1/stratton-aff-b-review.json",
+    "affBRound": 1,
+    "affBVerdict": "CONFORMS-WITH-GAPS",
+    "affBFindings": 0,
+    "canonicalManifestSha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+    "modelPlanRevision": "5",
+    "status": "CONVERGED_FOR_HUMAN_GATE_NOT_APPROVED"
+  },
+  "requiredActions": [
+    "Retain all seven residual controls for the accountable human Phase 4 decision.",
+    "Enforce every Phase 5 validation and supply-chain gate before release eligibility.",
+    "Do not infer deployment, runtime effectiveness, regulatory compliance or certification.",
+    "Any material subject remediation requires a new manifest and complete AFF-A and AFF-B re-review.",
+    "Present the exact hash-bound subject, final reviews and residual controls to the accountable human Phase 4 gate."
+  ],
+  "subjectModificationPerformed": false,
+  "recordSerialization": "AFF-B returned the complete review and coverage proposal. Orchestration normalized repository paths, activated append-only coverage sequence 005 and serialized the assessment without changing its verdict or findings.",
+  "nonApprovalStatement": "AFF-B does not approve, waive, certify, attest, deploy, test, fix or modify the reviewed subject."
+}

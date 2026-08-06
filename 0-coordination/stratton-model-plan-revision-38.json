@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "38",
+  "createdAt": "2026-08-03T18:13:46.5889443+02:00",
+  "revisionReason": "Increase all typography within slide 2's Where Stratton is today panel while preserving the enlarged four-column layout and bottom-bar clearance.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-37.json",
+    "sha256": "6a6b29468c1446bdda9fc87d2472662a1ba63f0bce311b42c85c73b2f7933489",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "targetPanel": "Where Stratton is today",
+    "changes": [
+      "Increase the panel heading, card titles and card descriptions.",
+      "Increase the operating-ecosystem label, chips and source-boundary note.",
+      "Reduce card side padding to keep the larger descriptions on three lines."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

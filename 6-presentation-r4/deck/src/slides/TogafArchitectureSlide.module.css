@@ -1,0 +1,537 @@
+.togafArchitectureSlide {
+  padding: 0 0 44px;
+}
+
+.subtitle {
+  color: var(--secondary-foreground);
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.architectureStage {
+  position: relative;
+  display: grid;
+  height: 502px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  min-width: 0;
+}
+
+.architectureStage.isComplete .layerStack::after {
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 34px color-mix(in srgb, color-mix(in srgb, var(--purple) 58%, var(--green)) 34%, transparent);
+}
+
+.layerStack {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 16px 46px 16px 16px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 58%, var(--border));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--secondary) 88%, var(--foreground) 12%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+.layerStack::after {
+  position: absolute;
+  top: 28px;
+  right: 22px;
+  bottom: 28px;
+  width: 3px;
+  content: '';
+  border-radius: 999px;
+  background: linear-gradient(var(--cyan), var(--green), var(--purple), var(--pink), #fbbf24);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 52%, transparent);
+}
+
+.layerShell,
+.blockShell,
+.satelliteShell,
+.metricShell {
+  min-width: 0;
+}
+
+.layer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, currentColor 56%, var(--border));
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, currentColor 18%, var(--secondary)),
+      color-mix(in srgb, var(--secondary) 88%, var(--foreground) 12%)
+    );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent);
+  transition:
+    opacity 420ms ease,
+    transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 420ms ease;
+}
+
+.isMuted {
+  opacity: 0.82;
+  filter: saturate(0.92);
+  transform: none;
+}
+
+.isRevealed {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.layerIdentity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: currentColor;
+}
+
+.layerIdentity svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.layerIdentity strong {
+  color: currentColor;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+}
+
+.layerBlocks {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.layerBlock {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  min-width: 0;
+  padding: 7px 9px;
+  border: 1px solid color-mix(in srgb, currentColor 42%, var(--border));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--secondary) 82%, var(--foreground) 18%);
+  text-align: center;
+}
+
+.layerBlock span {
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 1.26;
+  font-weight: 600;
+}
+
+.context {
+  color: var(--cyan);
+}
+
+.business {
+  color: var(--green);
+}
+
+.application {
+  color: var(--purple);
+}
+
+.data {
+  color: var(--pink);
+}
+
+.technology {
+  color: #fbbf24;
+}
+
+.layerConnector {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  width: 30px;
+  height: 1px;
+  content: '';
+  background: currentColor;
+  opacity: 0.72;
+}
+
+.authorityHub {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  overflow: hidden;
+  padding: 52px 16px 62px;
+  border: 1px solid color-mix(in srgb, var(--green) 68%, var(--border));
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--green) 30%, transparent), transparent 38%),
+    radial-gradient(circle at 78% 24%, color-mix(in srgb, var(--cyan) 8%, transparent), transparent 42%),
+    color-mix(in srgb, var(--secondary) 84%, var(--foreground) 16%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 8%, transparent);
+  transition:
+    opacity 420ms ease,
+    transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 420ms ease;
+}
+
+.hubEyebrow {
+  position: absolute;
+  top: 17px;
+  left: 0;
+  width: 100%;
+  color: color-mix(in srgb, var(--green) 82%, white);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.35px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hubOrbit {
+  position: absolute;
+  width: 252px;
+  height: 252px;
+  border: 1px solid color-mix(in srgb, var(--accent) 52%, transparent);
+  border-radius: 50%;
+  opacity: 0.30;
+}
+
+.hubOrbit::before {
+  position: absolute;
+  inset: 30px;
+  border: 1px solid color-mix(in srgb, var(--green) 52%, transparent);
+  border-radius: 50%;
+  content: '';
+  opacity: 0.38;
+}
+
+.hubOrbit::after {
+  position: absolute;
+  inset: 58px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 52%, transparent);
+  border-radius: 50%;
+  content: '';
+  opacity: 0.46;
+}
+
+.hubOrbit,
+.hubOrbit::before,
+.hubOrbit::after {
+  position: absolute;
+  border-radius: 50%;
+  content: '';
+  transform-origin: center;
+}
+
+.hubCore {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: 146px;
+  height: 146px;
+  place-items: center;
+  gap: 7px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--green) 88%, var(--border));
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 30%, color-mix(in srgb, var(--green) 30%, transparent), transparent 42%),
+    color-mix(in srgb, var(--background) 46%, #0a2c24);
+  box-shadow:
+    0 0 42px color-mix(in srgb, var(--green) 42%, transparent),
+    0 0 72px color-mix(in srgb, var(--green) 16%, transparent);
+  text-align: center;
+}
+
+.hubCore svg {
+  width: 28px;
+  height: 28px;
+  color: var(--green);
+}
+
+.hubCore strong {
+  color: var(--foreground);
+  font-size: 16px;
+  line-height: 1.16;
+  font-weight: 800;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(.slide.active) .authorityHub.isRevealed .hubOrbit {
+    animation: slide9EvidenceBoundaryPulse 5400ms cubic-bezier(0.16, 1, 0.3, 1) 1440ms infinite;
+    will-change: transform, opacity, box-shadow;
+  }
+
+  :global(.slide.active) .authorityHub.isRevealed .hubOrbit::before {
+    animation: slide9GovernanceRingPulse 5400ms cubic-bezier(0.16, 1, 0.3, 1) 720ms infinite;
+    will-change: transform, opacity, box-shadow;
+  }
+
+  :global(.slide.active) .authorityHub.isRevealed .hubOrbit::after {
+    animation: slide9AuthorityRingPulse 5400ms cubic-bezier(0.16, 1, 0.3, 1) 0ms infinite;
+    will-change: transform, opacity, box-shadow;
+  }
+
+  :global(.slide.active) .authorityHub.isRevealed .hubCore {
+    animation: slide9AuthorityCoreBreath 4200ms cubic-bezier(0.16, 1, 0.3, 1) 0ms infinite;
+    will-change: transform, box-shadow;
+  }
+}
+
+.satellites {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.satelliteShell {
+  position: absolute;
+  width: 126px;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+.satelliteShell:nth-child(1) {
+  top: 76px;
+  left: 14px;
+}
+
+.satelliteShell:nth-child(2) {
+  top: 76px;
+  right: 14px;
+}
+
+.satelliteShell:nth-child(3) {
+  right: 14px;
+  bottom: 74px;
+}
+
+.satelliteShell:nth-child(4) {
+  bottom: 74px;
+  left: 14px;
+}
+
+.satellite {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  min-height: 54px;
+  padding: 8px 9px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 56%, var(--border));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--secondary) 84%, var(--foreground) 16%);
+}
+
+.satellite svg {
+  width: 17px;
+  height: 17px;
+  color: var(--cyan);
+}
+
+.satellite span {
+  color: var(--foreground);
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.authorityBoundary {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb, #fbbf24 70%, var(--border));
+  border-radius: 8px;
+  color: #fbbf24;
+  background: color-mix(in srgb, #f59e0b 18%, var(--secondary));
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.22;
+  text-align: center;
+}
+
+.metricsRibbon {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.metric {
+  display: grid;
+  gap: 2px;
+  min-height: 68px;
+  align-content: center;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--accent) 44%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--secondary) 86%, var(--foreground) 14%);
+}
+
+.metric strong {
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.metric span {
+  color: var(--secondary-foreground);
+  font-size: 12px;
+  line-height: 1.22;
+  font-weight: 600;
+}
+
+@keyframes slide9AuthorityRingPulse {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.46;
+    box-shadow: 0 0 18px color-mix(in srgb, var(--cyan) 20%, transparent);
+  }
+
+  38% {
+    transform: scale(1.05);
+    opacity: 0.16;
+    box-shadow: 0 0 22px color-mix(in srgb, var(--cyan) 14%, transparent);
+  }
+
+  48% {
+    transform: scale(1.05);
+    opacity: 0;
+    box-shadow: none;
+  }
+
+  100% {
+    transform: scale(1.05);
+    opacity: 0;
+    box-shadow: none;
+  }
+}
+
+@keyframes slide9GovernanceRingPulse {
+  0% {
+    transform: scale(0.98);
+    opacity: 0.38;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--green) 18%, transparent);
+  }
+
+  38% {
+    transform: scale(1.08);
+    opacity: 0.10;
+    box-shadow: 0 0 24px color-mix(in srgb, var(--green) 12%, transparent);
+  }
+
+  48% {
+    transform: scale(1.08);
+    opacity: 0;
+    box-shadow: none;
+  }
+
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
+    box-shadow: none;
+  }
+}
+
+@keyframes slide9EvidenceBoundaryPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.30;
+    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  38% {
+    transform: scale(1.12);
+    opacity: 0;
+    box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  48% {
+    transform: scale(1.12);
+    opacity: 0;
+    box-shadow: none;
+  }
+
+  100% {
+    transform: scale(1.12);
+    opacity: 0;
+    box-shadow: none;
+  }
+}
+
+@keyframes slide9AuthorityCoreBreath {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 42px color-mix(in srgb, var(--green) 28%, transparent),
+      0 0 72px color-mix(in srgb, var(--green) 16%, transparent);
+  }
+
+  50% {
+    transform: scale(1.018);
+    box-shadow:
+      0 0 42px color-mix(in srgb, var(--green) 42%, transparent),
+      0 0 72px color-mix(in srgb, var(--green) 16%, transparent);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 42px color-mix(in srgb, var(--green) 28%, transparent),
+      0 0 72px color-mix(in srgb, var(--green) 16%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer,
+  .authorityHub,
+  .layerStack::after,
+  .hubOrbit,
+  .hubOrbit::before,
+  .hubOrbit::after,
+  .hubCore {
+    transition: none;
+    animation: none;
+    will-change: auto;
+  }
+
+  .hubOrbit {
+    opacity: 0.20;
+    transform: none;
+  }
+
+  .hubOrbit::before {
+    opacity: 0.24;
+    transform: none;
+  }
+
+  .hubOrbit::after {
+    opacity: 0.34;
+    transform: none;
+  }
+
+  .hubCore {
+    transform: none;
+    box-shadow:
+      0 0 42px color-mix(in srgb, var(--green) 28%, transparent),
+      0 0 72px color-mix(in srgb, var(--green) 16%, transparent);
+  }
+}

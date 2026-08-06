@@ -1,0 +1,673 @@
+.agenticAssuranceRoster {
+  background: var(--background);
+  padding: 0 0 44px 0;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 500px;
+  height: 500px;
+  top: -220px;
+  right: -90px;
+  background: radial-gradient(
+    circle at 42% 42%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 23%, transparent) 52%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 420px;
+  height: 420px;
+  bottom: -160px;
+  left: 160px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 18%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  padding-top: 10px;
+  padding-bottom: 17px;
+}
+
+.header {
+  display: grid;
+  gap: 6px;
+  max-width: 1180px;
+  padding-right: 150px;
+}
+
+.title {
+  padding-bottom: 5px;
+  color: var(--foreground);
+  font-size: clamp(37px, 3.6vw, 47px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.1;
+}
+
+.subtitle {
+  max-width: 1080px;
+  color: var(--muted-foreground);
+  font-size: 15.5px;
+  line-height: 1.4;
+}
+
+.assurancePanel,
+.rosterPanel {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--secondary) 72%, transparent);
+  box-shadow: var(--shadow-elevated);
+}
+
+.assurancePanel::before,
+.rosterPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+  opacity: 0.88;
+}
+
+.assurancePanel {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 13px 14px 14px;
+}
+
+.sectionLead,
+.rosterHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sectionLead h3,
+.rosterHeader h3 {
+  color: var(--foreground);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.sectionLead p,
+.rosterHeader p {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.gateSteps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.gateSteps::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: 6%;
+  left: 6%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple) 68%, var(--pink));
+  opacity: 0.42;
+}
+
+.gateStepShell {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.gateStep {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  isolation: isolate;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--purple) 24%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--secondary) 88%, var(--background));
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px color-mix(in srgb, var(--cyan) 4%, transparent),
+    0 0 8px color-mix(in srgb, var(--purple) 5%, transparent);
+  text-align: center;
+}
+
+.gateStep::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  padding: 3px;
+  border-radius: 15px;
+  background: linear-gradient(
+    105deg,
+    transparent 8%,
+    color-mix(in srgb, var(--cyan) 54%, transparent) 30%,
+    color-mix(in srgb, var(--cyan) 96%, white) 44%,
+    white 51%,
+    color-mix(in srgb, var(--purple) 94%, white) 61%,
+    color-mix(in srgb, var(--purple) 52%, transparent) 76%,
+    transparent 92%
+  );
+  background-position: 120% 0;
+  background-size: 220% 100%;
+  opacity: 0;
+  filter:
+    drop-shadow(0 0 12px color-mix(in srgb, var(--cyan) 96%, transparent))
+    drop-shadow(0 0 30px color-mix(in srgb, var(--purple) 76%, transparent));
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.gateStep strong {
+  color: var(--secondary-foreground);
+  font-size: 14px;
+  line-height: 1.18;
+}
+
+.gateStep span {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.2;
+}
+
+.humanGate {
+  border-color: color-mix(in srgb, var(--pink) 38%, var(--border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pink) 16%, var(--secondary)), color-mix(in srgb, var(--purple) 12%, var(--secondary)));
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.28),
+    0 0 10px color-mix(in srgb, var(--pink) 7%, transparent);
+}
+
+.humanGate strong {
+  color: color-mix(in srgb, var(--pink) 74%, white);
+}
+
+.rosterPanel {
+  display: grid;
+  gap: 11px;
+  padding: 13px 14px 15px;
+}
+
+.standardLane,
+.supportingLane {
+  display: grid;
+  grid-template-columns: 152px minmax(0, 1fr);
+  gap: 10px;
+  min-width: 0;
+}
+
+.laneLabel {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  padding: 11px 12px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 25%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--background) 54%, transparent);
+}
+
+.laneLabel strong {
+  color: var(--foreground);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.laneLabel span {
+  color: var(--muted-foreground);
+  font-family: var(--font-family-mono);
+  font-size: 12.25px;
+  line-height: 1.25;
+}
+
+.standardAgents {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.standardAgentShell,
+.supportingAgentShell {
+  min-width: 0;
+}
+
+.agentTile {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  height: 100%;
+  min-height: 138px;
+  padding: 10px 11px;
+  border: 1px solid color-mix(in srgb, var(--purple) 24%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--secondary) 78%, transparent);
+}
+
+.compactAgentTile {
+  min-height: 126px;
+  padding: 9px;
+}
+
+.agentMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.agentCode {
+  color: var(--cyan);
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+}
+
+.agentModel {
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agentTile h4 {
+  color: var(--secondary-foreground);
+  font-size: 15.25px;
+  line-height: 1.16;
+}
+
+.agentTile p {
+  color: var(--muted-foreground);
+  font-size: 12.25px;
+  line-height: 1.28;
+}
+
+.compactAgentTile h4 {
+  font-size: 13.75px;
+}
+
+.compactAgentTile p {
+  font-size: 11.5px;
+  line-height: 1.27;
+}
+
+.supportingLanes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+
+.supportingLane {
+  padding: 0;
+}
+
+.supportingAgents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.standardLane > .laneLabel,
+.optionalLane > .laneLabel {
+  background:
+    radial-gradient(
+      circle at 27% 22%,
+      rgba(255, 255, 255, 0.48) 0 4%,
+      rgba(255, 255, 255, 0.12) 10%,
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 36% 30%,
+      color-mix(in srgb, var(--sphere-accent) 42%, var(--secondary)) 0 16%,
+      color-mix(in srgb, var(--sphere-accent) 18%, var(--secondary)) 38%,
+      color-mix(in srgb, var(--sphere-deep) 54%, var(--background)) 72%,
+      #05070b 100%
+    );
+  box-shadow:
+    0 11px 20px rgba(0, 0, 0, 0.38),
+    inset 9px 8px 14px rgba(255, 255, 255, 0.05),
+    inset -13px -15px 20px rgba(0, 0, 0, 0.48),
+    0 0 14px color-mix(in srgb, var(--sphere-accent) 16%, transparent);
+}
+
+.standardLane > .laneLabel {
+  --sphere-accent: var(--cyan);
+  --sphere-deep: var(--purple-deep);
+
+  border-color: color-mix(in srgb, var(--cyan) 38%, var(--border));
+}
+
+.standardLane > .laneLabel strong {
+  color: color-mix(in srgb, var(--cyan) 74%, white);
+}
+
+.optionalLane .laneLabel,
+.optionalLane .agentTile {
+  border-color: color-mix(in srgb, #fbbf24 48%, var(--border));
+  border-style: dashed;
+}
+
+.optionalLane > .laneLabel {
+  --sphere-accent: #fbbf24;
+  --sphere-deep: #6b3d00;
+
+  border-color: color-mix(in srgb, #fbbf24 68%, var(--border));
+}
+
+.optionalLane > .laneLabel strong {
+  color: #fbbf24;
+}
+
+.optionalLane .agentCode {
+  color: #fbbf24;
+}
+
+.reviewLane .laneLabel,
+.reviewLane .agentTile {
+  border-color: color-mix(in srgb, var(--pink) 42%, var(--border));
+}
+
+.reviewLane > .laneLabel {
+  --sphere-accent: var(--pink);
+  --sphere-deep: var(--purple-deep);
+
+  border-color: color-mix(in srgb, var(--pink) 64%, var(--border));
+  background:
+    radial-gradient(
+      circle at 27% 22%,
+      rgba(255, 255, 255, 0.5) 0 4%,
+      rgba(255, 255, 255, 0.12) 10%,
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 36% 30%,
+      color-mix(in srgb, var(--sphere-accent) 42%, var(--secondary)) 0 16%,
+      color-mix(in srgb, var(--sphere-accent) 18%, var(--secondary)) 38%,
+      color-mix(in srgb, var(--sphere-deep) 54%, var(--background)) 72%,
+      #08050b 100%
+    );
+  box-shadow:
+    0 11px 20px rgba(0, 0, 0, 0.4),
+    inset 8px 7px 13px rgba(255, 255, 255, 0.05),
+    inset -12px -14px 19px rgba(0, 0, 0, 0.5),
+    0 0 16px color-mix(in srgb, var(--sphere-accent) 18%, transparent);
+}
+
+.reviewLane > .laneLabel strong {
+  color: color-mix(in srgb, var(--pink) 74%, white);
+}
+
+.reviewLane .agentCode {
+  color: color-mix(in srgb, var(--pink) 76%, white);
+}
+
+.agenticAssuranceRoster:global(.active) .title,
+.agenticAssuranceRoster:global(.active) .subtitle,
+.agenticAssuranceRoster:global(.active) .sectionLead,
+.agenticAssuranceRoster:global(.active) .gateStepShell,
+.agenticAssuranceRoster:global(.active) .rosterHeader,
+.agenticAssuranceRoster:global(.active) .laneLabel,
+.agenticAssuranceRoster:global(.active) .standardAgentShell,
+.agenticAssuranceRoster:global(.active) .supportingAgentShell {
+  opacity: 0;
+}
+
+.agenticAssuranceRoster:global(.active) .title {
+  animation: rosterTitleIn 620ms cubic-bezier(.16, 1, .3, 1) 70ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .subtitle {
+  animation: rosterTextIn 680ms cubic-bezier(.16, 1, .3, 1) 220ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .sectionLead {
+  animation: rosterTextIn 520ms cubic-bezier(.16, 1, .3, 1) 430ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell {
+  animation: gateStepIn 520ms cubic-bezier(.22, 1, .36, 1) 620ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(2) {
+  animation-delay: 740ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(3) {
+  animation-delay: 860ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(4) {
+  animation-delay: 980ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(5) {
+  animation-delay: 1100ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(6) {
+  animation-delay: 1220ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(7) {
+  animation: gateStepIn 520ms cubic-bezier(.22, 1, .36, 1) 1340ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStep::after {
+  animation: gateStepBorderGlow 14000ms cubic-bezier(.37, 0, .63, 1) 1240ms infinite both;
+  will-change: background-position, opacity;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(2) .gateStep::after {
+  animation-delay: 3240ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(3) .gateStep::after {
+  animation-delay: 5240ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(4) .gateStep::after {
+  animation-delay: 7240ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(5) .gateStep::after {
+  animation-delay: 9240ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(6) .gateStep::after {
+  animation-delay: 11240ms;
+}
+
+.agenticAssuranceRoster:global(.active) .gateStepShell:nth-child(7) .gateStep::after {
+  animation-delay: 13240ms;
+}
+
+.agenticAssuranceRoster:global(.active) .rosterHeader {
+  animation: rosterTextIn 520ms cubic-bezier(.16, 1, .3, 1) 1220ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .laneLabel {
+  animation: laneReveal 620ms cubic-bezier(.16, 1, .3, 1) 1380ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell {
+  animation: agentRise 520ms cubic-bezier(.16, 1, .3, 1) 1480ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell:nth-child(2) {
+  animation-delay: 1550ms;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell:nth-child(3) {
+  animation-delay: 1620ms;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell:nth-child(4) {
+  animation-delay: 1690ms;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell:nth-child(5) {
+  animation-delay: 1760ms;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell:nth-child(6) {
+  animation-delay: 1830ms;
+}
+
+.agenticAssuranceRoster:global(.active) .standardAgentShell:nth-child(7) {
+  animation-delay: 1900ms;
+}
+
+.agenticAssuranceRoster:global(.active) .supportingAgentShell {
+  animation: agentRise 560ms cubic-bezier(.16, 1, .3, 1) 1940ms both;
+}
+
+.agenticAssuranceRoster:global(.active) .supportingAgentShell:nth-child(2) {
+  animation-delay: 2040ms;
+}
+
+@keyframes rosterTitleIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(0, -14px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes rosterTextIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translate3d(0, 9px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gateStepIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gateStepBorderGlow {
+  0% {
+    opacity: 0;
+    background-position: 120% 0;
+  }
+  2% {
+    opacity: 0.55;
+  }
+  5.4% {
+    opacity: 1;
+  }
+  11.1% {
+    opacity: 0.92;
+  }
+  14.3% {
+    opacity: 0;
+    background-position: -120% 0;
+  }
+  100% {
+    opacity: 0;
+    background-position: -120% 0;
+  }
+}
+
+@keyframes laneReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0 round 12px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 12px);
+  }
+}
+
+@keyframes agentRise {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agenticAssuranceRoster:global(.active) .title,
+  .agenticAssuranceRoster:global(.active) .subtitle,
+  .agenticAssuranceRoster:global(.active) .sectionLead,
+  .agenticAssuranceRoster:global(.active) .gateStepShell,
+  .agenticAssuranceRoster:global(.active) .rosterHeader,
+  .agenticAssuranceRoster:global(.active) .laneLabel,
+  .agenticAssuranceRoster:global(.active) .standardAgentShell,
+  .agenticAssuranceRoster:global(.active) .supportingAgentShell {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    clip-path: none;
+    transform: none;
+  }
+
+  .agenticAssuranceRoster:global(.active) .gateStep::after {
+    opacity: 0;
+    animation: none;
+  }
+}

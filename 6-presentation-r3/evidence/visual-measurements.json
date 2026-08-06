@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "architecture-decision-executive-brief",
+  "inspectedArtifact": "deck/dist/index.html",
+  "viewport": "1280x720",
+  "slideCount": 10,
+  "generatedBy": "Puppeteer final static-build DOM bounds and screenshot capture",
+  "results": [
+    {
+      "slide": 1,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 2,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 3,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 4,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 5,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 6,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 7,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 8,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 9,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    },
+    {
+      "slide": 10,
+      "found": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scroll": {
+        "width": 1280,
+        "height": 720
+      },
+      "overflow": false,
+      "offenders": []
+    }
+  ]
+}

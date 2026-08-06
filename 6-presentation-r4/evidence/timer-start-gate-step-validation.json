@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE6_WORKING_DRAFT_STEP_VALIDATION",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "6",
+  "revision": "4",
+  "stepId": "R4-STEP-04",
+  "generatedAt": "2026-08-03T16:49:06.6682449+02:00",
+  "status": "PASS_WORKING_DRAFT_NOT_FROZEN",
+  "modelPlan": {
+    "revision": "23",
+    "path": "0-coordination/stratton-model-plan-revision-23.json",
+    "sha256": "f17597641ed7f9a0c1615132176499f364b63122c51ed0a8a73959a64d4ee202"
+  },
+  "supersededWorkingBehaviour": {
+    "evidencePath": "6-presentation-r4/evidence/interactive-title-step-validation.json",
+    "evidenceSha256": "aeddcb104314c35592f1848f1e5e88d5361438acb29cbb05c972b2af484295ad",
+    "previousInitialStartTrigger": "ENTER_FULLSCREEN",
+    "disposition": "PRESERVED_AS_HISTORICAL_STEP_EVIDENCE_SUPERSEDED_FOR_TIMER_START_BEHAVIOUR"
+  },
+  "preservedBaseline": {
+    "manifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "state": "IMMUTABLE_ASSURANCE_CONVERGED_NOT_HUMAN_APPROVED"
+  },
+  "workingSubject": {
+    "phaseFolder": "6-presentation-r4",
+    "srcTreeFileCount": 52,
+    "srcTreeSha256": "a16fa5c6628dcddb9bf4275578680056c0eb735cde62bf0eda43286cf1d65d55",
+    "deckConfigSha256": "a150264c0fa1a2bee01bd528a4ad7a3e2546a8ae627ab0f6ba158ff427b61bf6",
+    "indexCssSha256": "64d0069a07d18ea282e2b56aa1ce59620a3861fe24d0cc0d3de9b439e050995b",
+    "canonicalManifestCreated": false,
+    "pdfCreated": false
+  },
+  "implementation": {
+    "componentPath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.jsx",
+    "componentSha256": "f13af5e8a06e24d063ad81ed2f58991465c4d83dc25336d856e6ef6aa3b720ff",
+    "stylePath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+    "styleSha256": "807f78403b6279bd84078e616e742c34bcf6d3c017a3571e173c3c0a57a5db59",
+    "timerDimensionsCssPixels": {
+      "width": 44,
+      "height": 44
+    },
+    "timerBorderRadiusCssPixels": 4,
+    "shape": "SQUARE",
+    "initialStartTrigger": "FULLSCREEN_AND_DISPLAY_INDEX_GREATER_THAN_ZERO",
+    "afterFirstStartBehaviour": "CONTINUE_ACROSS_SLIDE_NAVIGATION",
+    "fullscreenExitBehaviour": "PAUSE",
+    "fullscreenReentryBehaviour": "RESUME_WITHOUT_RESET"
+  },
+  "browserLifecycleInspection": {
+    "url": "http://127.0.0.1:4174/?slide=0&revision=23",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "observations": [
+      {
+        "state": "BEFORE_FULLSCREEN_ON_SLIDE_1",
+        "slideNumber": "01 / 11",
+        "timer": "45:00",
+        "running": false,
+        "started": false
+      },
+      {
+        "state": "FULLSCREEN_REMAINS_ON_SLIDE_1_AFTER_WAIT",
+        "slideNumber": "01 / 11",
+        "timer": "45:00",
+        "running": false,
+        "started": false
+      },
+      {
+        "state": "ADVANCED_TO_SLIDE_2",
+        "slideNumber": "02 / 11",
+        "timer": "44:45",
+        "running": true,
+        "started": true
+      },
+      {
+        "state": "RETURNED_TO_SLIDE_1_AFTER_START",
+        "slideNumber": "01 / 11",
+        "timer": "44:23",
+        "running": true,
+        "started": true
+      },
+      {
+        "state": "FULLSCREEN_EXIT",
+        "slideNumber": "01 / 11",
+        "timer": "44:01",
+        "running": false,
+        "started": true
+      },
+      {
+        "state": "PAUSED_AFTER_TWO_SECOND_WAIT",
+        "slideNumber": "01 / 11",
+        "timer": "44:01",
+        "running": false,
+        "started": true
+      },
+      {
+        "state": "FULLSCREEN_REENTRY_ON_SLIDE_1_AFTER_START",
+        "slideNumber": "01 / 11",
+        "timer": "43:47",
+        "running": true,
+        "started": true
+      }
+    ],
+    "observationTimingBoundary": "Values demonstrate start, monotonic continuation, pause stability and resume; tool interaction latency is not an elapsed-time benchmark.",
+    "allMountedSlideInstancesSharedOneTimerValue": true,
+    "status": "PASS"
+  },
+  "visualAndLayoutInspection": {
+    "slideCount": 11,
+    "timersChecked": 11,
+    "squareTimers": 11,
+    "timerWidthCssPixels": 44,
+    "timerHeightCssPixels": 44,
+    "slideBodiesWithinContentBoundary": 11,
+    "slideBodiesOutsideContentBoundary": 0,
+    "transientScreenshotsIncludedInCandidate": false,
+    "status": "PASS"
+  },
+  "build": {
+    "command": "node deck/tooling/build-portable-hardened.mjs",
+    "viteVersion": "8.1.5",
+    "transformedModuleCount": 358,
+    "status": "PASS",
+    "distIndexPath": "6-presentation-r4/deck/dist/index.html",
+    "distIndexSha256": "eb93ca107096da1579c67613acdab564a609e2987697bbde61b12095247de022",
+    "mainBundlePath": "6-presentation-r4/deck/dist/assets/index-Co6a_6N7.js",
+    "mainBundleSha256": "0d5c8f6e9aac10007944d5cfa8139603cddc78af59b0be52d17e8adb2e48ffee",
+    "hardenedCssPath": "6-presentation-r4/deck/dist/assets/index-7MBoJvQ8.css",
+    "hardenedCssSha256": "8543060d853d1609b4d8201d3c0be183737d40e34f31c58f2cd7747bd45b864d",
+    "removedRemoteCssImportCount": 1,
+    "remainingExternalCssDependencyCount": 0
+  },
+  "runtimeInspection": {
+    "successfulLocalRequestCount": 8,
+    "failedRequestCount": 0,
+    "externalRequestCount": 0,
+    "consoleErrorCount": 0
+  },
+  "contentAndTraceability": {
+    "materialClaimRecordCount": 32,
+    "materialClaimRecordsChanged": false,
+    "claimCatalogueModelPlanRevision": "23",
+    "presentationMarkdownSha256": "ecbaba43bdf4ad5be94ad359fff1f750ffe8a8c28c24815cda70403d69e5d202",
+    "presentationHtmlSha256": "9f3e62071b39aa21d0be2f8056dd32446ccdd7cc597f3dc4ee525f39039a0f99",
+    "claimCatalogueSha256": "8438f4885c433b05d48e63fda2402a4cf43c577bf0d4075e55e0668a8f570577"
+  },
+  "gateBoundary": {
+    "workingDraft": true,
+    "formalAffAReviewInvoked": false,
+    "formalAffBReviewInvoked": false,
+    "humanApprovalRecorded": false,
+    "azureExecutionAuthorised": false,
+    "phase7Invoked": false,
+    "phase8Invoked": false
+  }
+}

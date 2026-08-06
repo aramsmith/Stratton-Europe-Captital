@@ -1,0 +1,652 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_2_VENDOR_NEUTRAL_ARCHITECTURE_CATALOGUE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": {
+    "phaseId": "2",
+    "phaseName": "Phase 2 — TOGAF Architecture",
+    "owner": "AFF-2"
+  },
+  "status": "CANDIDATE_AWAITING_PARENT_HASH_AND_REVIEWS",
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-3.json",
+    "revision": "3",
+    "authorActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "upstreamBindings": {
+    "requirementsCataloguePath": "1-requirements/stratton-requirements-catalogue.json",
+    "activeRequirementCount": 31,
+    "phase1ApprovalPath": "approvals/1/stratton-phase-1-approval-1.json",
+    "phase1ApprovalSha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a",
+    "phase1ManifestPath": "1-requirements/stratton-phase-1-hashes.json",
+    "phase1ManifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "requirementsModified": false
+  },
+  "requirementsManagement": {
+    "authoritativeRevision": "Phase 1 approved canonical manifest b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "activeMustCount": 31,
+    "added": 0,
+    "changed": 0,
+    "superseded": 0,
+    "withdrawn": 0,
+    "architectureImpact": "Nineteen ABBs, five stakeholder views and ten proposed architecture decisions provide full target coverage.",
+    "openControlImpact": "Seven owner-bound controls constrain later evidence or SBB choices and remain open without waiver.",
+    "changeProtocol": "Return infeasibility, weakened boundaries or changed intent through AFF-1 and AFF-0 governance; never edit Phase 1 from Phase 2."
+  },
+  "scope": {
+    "admTailoring": "Combined target-depth TOGAF Phases A–D with continuous requirements management.",
+    "included": [
+      "Architecture vision",
+      "Target Business Architecture",
+      "Target Data Architecture",
+      "Target Application Architecture",
+      "Logical Technology, Security, Operations and Resilience Architecture",
+      "Architecture Building Blocks",
+      "Gaps, decisions, risks and traceability",
+      "AFF-3 handoff constraints"
+    ],
+    "excluded": [
+      "Solution Building Block selection",
+      "Azure services, SKUs, regions, CIDRs, modules or landing-zone resources",
+      "Implementation or migration planning",
+      "Deployment or runtime testing"
+    ]
+  },
+  "stakeholderConcerns": [
+    {
+      "id": "CON-01",
+      "stakeholders": ["Chief Investment Officer", "Deal professionals"],
+      "concern": "Reduce cycle time without weakening quality.",
+      "requirementIds": ["BR-001", "NR-001", "NR-003"]
+    },
+    {
+      "id": "CON-02",
+      "stakeholders": ["Investment Committee", "Chief Investment Officer"],
+      "concern": "Retain human investment authority and required approvals.",
+      "requirementIds": ["FR-002", "AR-001", "AR-002", "NR-002"]
+    },
+    {
+      "id": "CON-03",
+      "stakeholders": ["Source owners", "General Counsel", "Data Protection Officer"],
+      "concern": "Use only governed, lawful, classified and traceable evidence.",
+      "requirementIds": ["DR-001", "DR-002", "DR-003", "DR-004", "DR-005", "DR-007"]
+    },
+    {
+      "id": "CON-04",
+      "stakeholders": ["General Counsel", "Data Protection Officer", "Chief Information Security Officer"],
+      "concern": "Meet approved sovereignty, transfer, privacy and legal-jurisdiction outcomes.",
+      "requirementIds": ["SR-001", "SR-002", "SR-003", "SR-007", "SR-010"]
+    },
+    {
+      "id": "CON-05",
+      "stakeholders": ["Head of Compliance", "Fund Legal", "Head of AI Governance"],
+      "concern": "Produce supportable regulatory and AI-governance evidence without unsupported claims.",
+      "requirementIds": ["SR-004", "SR-005", "SR-006", "SR-009"]
+    },
+    {
+      "id": "CON-06",
+      "stakeholders": ["Internal Audit", "Model Risk"],
+      "concern": "Preserve independent validation and trustworthy acceptance evidence.",
+      "requirementIds": ["SR-008", "NR-001", "NR-002", "NR-003"]
+    },
+    {
+      "id": "CON-07",
+      "stakeholders": ["Enterprise Platform", "Integration Lead", "Service Operations", "Business Continuity"],
+      "concern": "Operate isolated, observable, performant and recoverable services.",
+      "requirementIds": ["IR-001", "TR-001", "TR-003", "TR-004", "NR-003"]
+    },
+    {
+      "id": "CON-08",
+      "stakeholders": ["Head of Deal Operations", "Programme Delivery", "General Counsel"],
+      "concern": "Control eligibility, rollout and incremental transition.",
+      "requirementIds": ["BR-002", "TR-002"]
+    }
+  ],
+  "views": [
+    {
+      "id": "VIEW-01",
+      "name": "Context and architecture vision",
+      "sourcePath": "2-togaf-architecture/stratton-view-01-context.mmd",
+      "concernIds": ["CON-02", "CON-03", "CON-06", "CON-08"],
+      "requirementIds": ["BR-002", "FR-001", "FR-002", "AR-001", "AR-002", "DR-001", "DR-002", "SR-008", "IR-001"]
+    },
+    {
+      "id": "VIEW-02",
+      "name": "Business capability and process",
+      "sourcePath": "2-togaf-architecture/stratton-view-02-business.mmd",
+      "concernIds": ["CON-01", "CON-02", "CON-06", "CON-08"],
+      "requirementIds": ["BR-001", "BR-002", "FR-001", "FR-002", "AR-001", "AR-002", "SR-008", "TR-002", "NR-001", "NR-002"]
+    },
+    {
+      "id": "VIEW-03",
+      "name": "Logical application and integration",
+      "sourcePath": "2-togaf-architecture/stratton-view-03-application.mmd",
+      "concernIds": ["CON-01", "CON-02", "CON-03", "CON-07"],
+      "requirementIds": ["FR-001", "FR-002", "AR-001", "AR-002", "DR-001", "DR-002", "DR-004", "DR-006", "SR-004", "SR-006", "IR-001", "NR-001", "NR-002", "NR-003"]
+    },
+    {
+      "id": "VIEW-04",
+      "name": "Logical data and data flow",
+      "sourcePath": "2-togaf-architecture/stratton-view-04-data.mmd",
+      "concernIds": ["CON-03", "CON-04", "CON-05"],
+      "requirementIds": ["DR-001", "DR-002", "DR-003", "DR-004", "DR-005", "DR-006", "DR-007", "SR-001", "SR-002", "SR-003", "SR-004", "SR-005", "SR-010", "IR-001", "TR-001", "NR-001"]
+    },
+    {
+      "id": "VIEW-05",
+      "name": "Logical technology, security and operations",
+      "sourcePath": "2-togaf-architecture/stratton-view-05-technology.mmd",
+      "concernIds": ["CON-04", "CON-05", "CON-06", "CON-07"],
+      "requirementIds": ["DR-003", "DR-007", "SR-001", "SR-002", "SR-003", "SR-006", "SR-007", "SR-008", "SR-009", "SR-010", "TR-001", "TR-003", "TR-004", "NR-002", "NR-003"]
+    }
+  ],
+  "architectureBuildingBlocks": [
+    {
+      "id": "ABB-01",
+      "name": "Case and Eligibility Management",
+      "domain": "Business/Application",
+      "responsibility": "Control case identity, the 20-deal boundary, eligibility, workflow state and outcome timestamps.",
+      "requirementIds": ["BR-001", "BR-002", "TR-002"],
+      "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03"]
+    },
+    {
+      "id": "ABB-02",
+      "name": "Governed Source Connectivity",
+      "domain": "Application/Integration",
+      "responsibility": "Provide approved read-only APIs or controlled source access without AI-generated write-back.",
+      "requirementIds": ["DR-001", "IR-001"],
+      "viewIds": ["VIEW-01", "VIEW-03", "VIEW-04"]
+    },
+    {
+      "id": "ABB-03",
+      "name": "Controlled Ingestion",
+      "domain": "Application/Data",
+      "responsibility": "Quarantine content and enforce owner, classification, purpose and admission controls.",
+      "requirementIds": ["DR-003", "DR-007", "IR-001"],
+      "viewIds": ["VIEW-03", "VIEW-04", "VIEW-05"]
+    },
+    {
+      "id": "ABB-04",
+      "name": "Evidence and Provenance",
+      "domain": "Data",
+      "responsibility": "Maintain evidence envelopes, source lineage, ownership, timestamps, licence and quality status.",
+      "requirementIds": ["DR-004", "SR-004", "NR-001"],
+      "viewIds": ["VIEW-03", "VIEW-04"]
+    },
+    {
+      "id": "ABB-05",
+      "name": "Assistive Analysis",
+      "domain": "Application",
+      "responsibility": "Perform retrieval, extraction, comparison, anomaly, risk and ESG analysis within approved AI boundaries.",
+      "requirementIds": ["FR-001", "AR-001", "DR-006"],
+      "viewIds": ["VIEW-02", "VIEW-03", "VIEW-04"]
+    },
+    {
+      "id": "ABB-06",
+      "name": "Grounding and Citation",
+      "domain": "Application/Data",
+      "responsibility": "Bind every material claim to accessible governed source evidence.",
+      "requirementIds": ["DR-004", "NR-001"],
+      "viewIds": ["VIEW-02", "VIEW-03", "VIEW-04"]
+    },
+    {
+      "id": "ABB-07",
+      "name": "Human Review and Approval",
+      "domain": "Business/Application",
+      "responsibility": "Enforce deal-professional validation and applicable Legal and Compliance approval.",
+      "requirementIds": ["FR-002", "AR-002", "NR-002"],
+      "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03"]
+    },
+    {
+      "id": "ABB-08",
+      "name": "Decision Rights Guardrail",
+      "domain": "Business/Application",
+      "responsibility": "Keep outputs draft-only, prevent prohibited actions and retain Investment Committee authority.",
+      "requirementIds": ["AR-001", "AR-002", "NR-002"],
+      "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03"]
+    },
+    {
+      "id": "ABB-09",
+      "name": "Data Governance and Lifecycle",
+      "domain": "Data",
+      "responsibility": "Apply minimisation, classification, authoritative schedules, legal holds and working-copy disposition.",
+      "requirementIds": ["DR-003", "DR-005", "DR-007", "SR-003", "SR-005"],
+      "viewIds": ["VIEW-04", "VIEW-05"]
+    },
+    {
+      "id": "ABB-10",
+      "name": "Policy Decision and Enforcement",
+      "domain": "Security/Governance",
+      "responsibility": "Evaluate and enforce purpose, location, transfer, data-use, classification and legal control decisions.",
+      "requirementIds": ["DR-003", "DR-006", "DR-007", "SR-001", "SR-002", "SR-003", "SR-006", "SR-010"],
+      "viewIds": ["VIEW-03", "VIEW-04", "VIEW-05"]
+    },
+    {
+      "id": "ABB-11",
+      "name": "Identity and Privileged Access",
+      "domain": "Security",
+      "responsibility": "Provide controlled identities, least privilege, EU-based operation, time-bound elevation and emergency access.",
+      "requirementIds": ["SR-007"],
+      "viewIds": ["VIEW-01", "VIEW-05"]
+    },
+    {
+      "id": "ABB-12",
+      "name": "Audit Evidence",
+      "domain": "Security/Operations",
+      "responsibility": "Correlate and protect material business, data, AI, access, review and control evidence.",
+      "requirementIds": ["FR-002", "AR-001", "SR-004", "SR-006", "SR-008", "SR-009", "TR-002", "NR-002"],
+      "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03", "VIEW-04", "VIEW-05"]
+    },
+    {
+      "id": "ABB-13",
+      "name": "Observability and Incident Management",
+      "domain": "Operations",
+      "responsibility": "Provide metrics, logs, traces, critical-alert monitoring and named incident ownership.",
+      "requirementIds": ["SR-009", "TR-004"],
+      "viewIds": ["VIEW-05"]
+    },
+    {
+      "id": "ABB-14",
+      "name": "Resilience and Recovery",
+      "domain": "Technology/Operations",
+      "responsibility": "Protect recoverable case, evidence, policy and audit state and support continuity evidence.",
+      "requirementIds": ["SR-009", "TR-003"],
+      "viewIds": ["VIEW-05"]
+    },
+    {
+      "id": "ABB-15",
+      "name": "Environment and Data Isolation",
+      "domain": "Technology/Security",
+      "responsibility": "Separate development, test and production and restrict production-confidential data to production.",
+      "requirementIds": ["DR-007", "SR-001", "TR-001"],
+      "viewIds": ["VIEW-04", "VIEW-05"]
+    },
+    {
+      "id": "ABB-16",
+      "name": "Quality Evaluation and Independent Validation",
+      "domain": "Application/Governance",
+      "responsibility": "Provide benchmark, negative-test, performance and independent verdict evidence boundaries.",
+      "requirementIds": ["SR-008", "NR-001", "NR-002", "NR-003"],
+      "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03", "VIEW-05"]
+    },
+    {
+      "id": "ABB-17",
+      "name": "External Data Licence Gate",
+      "domain": "Data/Governance",
+      "responsibility": "Block external data until licence and AI-assisted-use permission are approved.",
+      "requirementIds": ["DR-002"],
+      "viewIds": ["VIEW-01", "VIEW-03", "VIEW-04"]
+    },
+    {
+      "id": "ABB-18",
+      "name": "Legal and Regulatory Evidence",
+      "domain": "Governance",
+      "responsibility": "Maintain approved privacy, SFDR, AIFMD, AI-governance, DORA-aligned and jurisdiction evidence without unsupported claims.",
+      "requirementIds": ["SR-001", "SR-002", "SR-003", "SR-004", "SR-005", "SR-006", "SR-009", "SR-010"],
+      "viewIds": ["VIEW-01", "VIEW-04", "VIEW-05"]
+    },
+    {
+      "id": "ABB-19",
+      "name": "Workload and Performance Management",
+      "domain": "Technology/Operations",
+      "responsibility": "Control interactive and document-pack workloads against approved performance and business objectives.",
+      "requirementIds": ["BR-001", "NR-003"],
+      "viewIds": ["VIEW-02", "VIEW-03", "VIEW-05"]
+    }
+  ],
+  "architectureDecisions": [
+    {
+      "id": "AD-001",
+      "title": "Case-centred control spine",
+      "decision": "Use a case-centred workflow to bind eligibility, evidence, review, timestamps and rollout.",
+      "rationale": "One governed case identity provides the control and measurement boundary required by the business outcome.",
+      "alternatives": ["Document-only workspace", "Uncoordinated specialist tools"],
+      "requirementIds": ["BR-001", "BR-002", "TR-002"],
+      "concernIds": ["CON-01", "CON-08"],
+      "riskIds": ["R2-01"],
+      "implications": ["Every material event carries a case identifier.", "Eligibility and rollout state are auditable."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-001", "INT-D-008"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-002",
+      "title": "Preserve authoritative source boundary",
+      "decision": "Use read-only source connectivity or controlled ingestion and prohibit AI-generated write-back.",
+      "rationale": "This preserves source integrity and the approved system-of-record boundary.",
+      "alternatives": ["AI source write-back", "Release 1 source replacement"],
+      "requirementIds": ["DR-001", "IR-001", "TR-002"],
+      "concernIds": ["CON-03", "CON-07"],
+      "riskIds": ["R2-02"],
+      "implications": ["Source permissions deny AI writes.", "Connector evidence is required."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-006"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-003",
+      "title": "Mandatory evidence envelope",
+      "decision": "Require a classified evidence envelope with provenance, owner, timestamp, licence and quality status.",
+      "rationale": "Complete metadata is necessary for lawful use, reproducibility, citation and audit.",
+      "alternatives": ["Optional metadata", "Separate unbound metadata register"],
+      "requirementIds": ["DR-003", "DR-004", "DR-005", "DR-007", "SR-004", "SR-005", "NR-001"],
+      "concernIds": ["CON-03", "CON-05"],
+      "riskIds": ["R2-03"],
+      "implications": ["Incomplete evidence is unavailable to analysis.", "Derived items retain lineage."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-003"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-004",
+      "title": "Separate analysis from authority",
+      "decision": "Separate assistive analysis from human review, specialist approval and investment decisions.",
+      "rationale": "The approved AI boundary is assistive and requires accountable human authority.",
+      "alternatives": ["Autonomous agent", "Advisory output without enforced review gates"],
+      "requirementIds": ["FR-001", "FR-002", "AR-001", "AR-002", "DR-006", "SR-006", "NR-001", "NR-002"],
+      "concernIds": ["CON-01", "CON-02", "CON-05"],
+      "riskIds": ["R2-04"],
+      "implications": ["Outputs remain drafts.", "Analysis cannot advance required approval state."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-004"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-005",
+      "title": "Common policy decisions with boundary enforcement",
+      "decision": "Use logically common policy decisions enforced at admission, access, analysis, review and transfer boundaries.",
+      "rationale": "Consistent fail-closed decisions reduce control divergence across channels and workloads.",
+      "alternatives": ["User-interface-only controls", "Manual policy checks"],
+      "requirementIds": ["DR-003", "DR-006", "DR-007", "SR-001", "SR-002", "SR-003", "SR-006", "SR-007", "SR-010"],
+      "concernIds": ["CON-03", "CON-04", "CON-05"],
+      "riskIds": ["R2-05"],
+      "implications": ["Missing approval or evidence blocks progression.", "Decision and enforcement evidence is correlated."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-002", "INT-D-007"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-006",
+      "title": "Environment and data trust separation",
+      "decision": "Treat development, test and production as separate logical trust and data boundaries.",
+      "rationale": "This enforces the approved environment and production-confidential data boundary.",
+      "alternatives": ["Shared environment", "Copied production-confidential test data"],
+      "requirementIds": ["DR-007", "SR-001", "TR-001"],
+      "concernIds": ["CON-04", "CON-07"],
+      "riskIds": ["R2-06"],
+      "implications": ["Non-production uses synthetic data.", "Access and evidence are environment-specific."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-006"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-007",
+      "title": "Separate interactive and document-pack work",
+      "decision": "Separate interactive requests from controlled document-pack work at the logical level.",
+      "rationale": "The two workloads have distinct latency, duration, progress and failure characteristics.",
+      "alternatives": ["One undifferentiated synchronous path"],
+      "requirementIds": ["BR-001", "TR-004", "NR-003"],
+      "concernIds": ["CON-01", "CON-07"],
+      "riskIds": ["R2-07"],
+      "implications": ["Work admission, progress and failure are observable.", "Technology choice remains deferred."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-006"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-008",
+      "title": "Recover complete trustworthy service state",
+      "decision": "Protect case, evidence, audit and policy records as recoverable service state.",
+      "rationale": "Recovery is trustworthy only when operational and control state remains consistent.",
+      "alternatives": ["Recover source documents only", "Best-effort application restoration"],
+      "requirementIds": ["SR-009", "TR-003"],
+      "concernIds": ["CON-05", "CON-07"],
+      "riskIds": ["R2-08"],
+      "implications": ["Each state class requires RTO/RPO and integrity evidence.", "Recovery includes control consistency."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-006", "INT-D-009"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-009",
+      "title": "Independent validation evidence boundary",
+      "decision": "Prevent delivery and operations from issuing or modifying the Internal Audit verdict.",
+      "rationale": "The approved validator must remain organisationally and evidentially independent.",
+      "alternatives": ["Model Risk verdict", "Delivery-owned acceptance verdict"],
+      "requirementIds": ["SR-008", "NR-001", "NR-002", "NR-003"],
+      "concernIds": ["CON-06"],
+      "riskIds": ["R2-09"],
+      "implications": ["Model Risk advises methods only.", "Internal Audit receives read-only complete evidence and issues the verdict."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-009"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    },
+    {
+      "id": "AD-010",
+      "title": "External data quarantine",
+      "decision": "Quarantine external data until licence, purpose and AI-use permission pass.",
+      "rationale": "Pre-use enforcement avoids unlicensed or unlawful analysis.",
+      "alternatives": ["Post-ingestion legal review", "Source allow-list without licence evidence"],
+      "requirementIds": ["DR-002", "SR-003"],
+      "concernIds": ["CON-03", "CON-04"],
+      "riskIds": ["R2-10"],
+      "implications": ["External content cannot reach analysis before approval.", "Licence changes can suspend use."],
+      "status": "PROPOSED_FOR_PHASE_2_APPROVAL",
+      "upstreamHumanEvidence": ["INT-D-003"],
+      "phase2HumanDecisionEvidence": "PENDING"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "GAP-01",
+      "component": "Authoritative business systems",
+      "baselineState": "Existing deal-room, CRM, finance, ESG and legal systems remain authoritative.",
+      "targetState": "Authority is retained with governed read-only connectivity.",
+      "gapType": "Carried Forward",
+      "priority": "High",
+      "remediationApproach": "Preserve ownership and map compliant interfaces in Phase 3."
+    },
+    {
+      "id": "GAP-02",
+      "component": "Release case control",
+      "baselineState": "No approved evidence of one cross-domain case control.",
+      "targetState": "Eligibility, 20-deal boundary, timestamps and controlled state.",
+      "gapType": "New",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-01."
+    },
+    {
+      "id": "GAP-03",
+      "component": "Evidence admission",
+      "baselineState": "Source domains are known; exact instances and operational mappings remain open.",
+      "targetState": "Owner, licence, purpose, classification and quality gates.",
+      "gapType": "Changed",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-02, ABB-03 and ABB-17; close VAL-004 before production ingestion."
+    },
+    {
+      "id": "GAP-04",
+      "component": "Provenance and lineage",
+      "baselineState": "Metadata requirements exist but no target service is approved.",
+      "targetState": "Evidence envelope and end-to-end claim lineage.",
+      "gapType": "New",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-04 and ABB-06."
+    },
+    {
+      "id": "GAP-05",
+      "component": "Assistive analysis and human control",
+      "baselineState": "AI infusion is desired; no approved target architecture existed.",
+      "targetState": "Bounded analysis, mandatory approvals and retained committee authority.",
+      "gapType": "New",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-05, ABB-07, ABB-08 and ABB-16."
+    },
+    {
+      "id": "GAP-06",
+      "component": "Privacy, sovereignty and regulatory evidence",
+      "baselineState": "Outcomes and applicability boundaries exist; detailed evidence remains incomplete.",
+      "targetState": "Enforced policy decisions and complete evidence without unsupported claims.",
+      "gapType": "Changed",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-09, ABB-10 and ABB-18; retain VAL-001, VAL-005, AFFB-RES-001 and AFFB-RES-002."
+    },
+    {
+      "id": "GAP-07",
+      "component": "Environment, operations and resilience",
+      "baselineState": "Objectives and owners are approved; operational definitions and target controls are not selected.",
+      "targetState": "Isolated, observable, supportable and recoverable logical platform.",
+      "gapType": "New",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-13, ABB-14, ABB-15 and ABB-19; retain VAL-002 and VAL-004."
+    },
+    {
+      "id": "GAP-08",
+      "component": "Independent validation",
+      "baselineState": "Internal Audit is assigned; segregated evidence delivery is not established.",
+      "targetState": "Read-only complete evidence and independent verdict boundary.",
+      "gapType": "New",
+      "priority": "High",
+      "remediationApproach": "Realise ABB-16 and AD-009."
+    }
+  ],
+  "residualControls": [
+    {
+      "id": "VAL-001",
+      "owner": "General Counsel",
+      "control": "Record entity-specific DORA applicability or exemption and resulting obligations.",
+      "architectureTreatment": ["ABB-18"],
+      "requiredBefore": "Any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "owner": "Chief Investment Officer and Service Operations",
+      "control": "Define business hours, typical document-pack characteristics and critical-alert criteria.",
+      "architectureTreatment": ["ABB-13", "ABB-19"],
+      "requiredBefore": "Service and performance acceptance",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "owner": "Head of Deal Operations, Head of AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "control": "Define eligibility, benchmark, critical-field, unsupported-claim severity and control-exception handling.",
+      "architectureTreatment": ["ABB-01", "ABB-16"],
+      "requiredBefore": "Internal Audit validation",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "owner": "Respective source owners and records owners",
+      "control": "Identify exact source instances, schedules, volumes and production quality-remediation procedures.",
+      "architectureTreatment": ["ABB-02", "ABB-03", "ABB-09"],
+      "requiredBefore": "Production ingestion",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "owner": "General Counsel",
+      "control": "Confirm approved EU/EEA location list and sovereignty exception evidence process.",
+      "architectureTreatment": ["ABB-10", "ABB-18"],
+      "requiredBefore": "Production location and transfer acceptance",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "owner": "General Counsel and Head of AI Governance",
+      "control": "Provide EU AI Act role and use-case classification evidence.",
+      "architectureTreatment": ["ABB-10", "ABB-18"],
+      "requiredBefore": "Production or any classification claim",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "owner": "Legal and compliance owners",
+      "control": "Add official-source citations, publication/effective dates and article-level obligation mappings.",
+      "architectureTreatment": ["ABB-18"],
+      "requiredBefore": "Any formal representation relying on the regulatory register",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    }
+  ],
+  "risks": [
+    {"id": "R2-01", "risk": "Eligibility or timestamp definitions diverge.", "impact": "Invalid rollout and outcome evidence.", "owner": "Chief Investment Officer and Head of Deal Operations", "treatment": "ABB-01 and VAL-003", "status": "OPEN"},
+    {"id": "R2-02", "risk": "Connector permissions exceed the read-only boundary.", "impact": "Source integrity or unauthorised write.", "owner": "Integration Lead", "treatment": "ABB-02, ABB-03 and AD-002", "status": "OPEN"},
+    {"id": "R2-03", "risk": "Incomplete provenance reaches analysis.", "impact": "Unsupported claims and failed audit.", "owner": "Data owners and Head of AI Governance", "treatment": "ABB-04 and ABB-06 fail closed", "status": "OPEN"},
+    {"id": "R2-04", "risk": "Human gates are bypassed.", "impact": "Autonomous or unapproved investment use.", "owner": "Chief Investment Officer, Legal and Compliance", "treatment": "ABB-07, ABB-08 and ABB-12", "status": "OPEN"},
+    {"id": "R2-05", "risk": "Policy differs across channels or workloads.", "impact": "Residency, privacy or access breach.", "owner": "CISO, General Counsel and DPO", "treatment": "ABB-10 common decision semantics", "status": "OPEN"},
+    {"id": "R2-06", "risk": "Production-confidential data leaks into non-production.", "impact": "Privacy and confidentiality harm.", "owner": "Enterprise Platform and CISO", "treatment": "ABB-15 and synthetic non-production data", "status": "OPEN"},
+    {"id": "R2-07", "risk": "Unknown pack and volume characteristics invalidate performance design.", "impact": "Missed business or service targets.", "owner": "Enterprise Platform and Chief Investment Officer", "treatment": "ABB-19, VAL-002 and VAL-004", "status": "OPEN"},
+    {"id": "R2-08", "risk": "Recovery restores inconsistent data, audit or policy state.", "impact": "Untrustworthy post-incident evidence.", "owner": "Business Continuity", "treatment": "ABB-14 and AD-008", "status": "OPEN"},
+    {"id": "R2-09", "risk": "Delivery can alter validation evidence or verdict.", "impact": "Loss of independent assurance.", "owner": "Internal Audit", "treatment": "ABB-16 and AD-009", "status": "OPEN"},
+    {"id": "R2-10", "risk": "External licence terms are ambiguous or change.", "impact": "Unlicensed or unlawful AI use.", "owner": "General Counsel and data owner", "treatment": "ABB-17 blocks use", "status": "OPEN"},
+    {"id": "R2-11", "risk": "Regulatory classification or official mapping remains incomplete.", "impact": "Unsupported compliance representation.", "owner": "General Counsel and Head of AI Governance", "treatment": "AFFB-RES-001 and AFFB-RES-002; no formal claim", "status": "OPEN"},
+    {"id": "R2-12", "risk": "Phase 3 solution mapping weakens logical boundaries.", "impact": "Architecture divergence.", "owner": "Human architect and AFF-3", "treatment": "SBB-to-ABB compliance review", "status": "OPEN"}
+  ],
+  "requirementCoverage": [
+    {"requirementId":"BR-001","abbIds":["ABB-01","ABB-19"],"viewIds":["VIEW-02","VIEW-05"],"decisionIds":["AD-001","AD-007"],"coverage":"FULL"},
+    {"requirementId":"BR-002","abbIds":["ABB-01"],"viewIds":["VIEW-01","VIEW-02"],"decisionIds":["AD-001"],"coverage":"FULL"},
+    {"requirementId":"FR-001","abbIds":["ABB-05","ABB-06","ABB-07"],"viewIds":["VIEW-01","VIEW-02","VIEW-03"],"decisionIds":["AD-004"],"coverage":"FULL"},
+    {"requirementId":"FR-002","abbIds":["ABB-07","ABB-08","ABB-12"],"viewIds":["VIEW-01","VIEW-02","VIEW-03"],"decisionIds":["AD-004"],"coverage":"FULL"},
+    {"requirementId":"AR-001","abbIds":["ABB-05","ABB-08","ABB-12"],"viewIds":["VIEW-01","VIEW-02","VIEW-03"],"decisionIds":["AD-004"],"coverage":"FULL"},
+    {"requirementId":"AR-002","abbIds":["ABB-07","ABB-08"],"viewIds":["VIEW-01","VIEW-02","VIEW-03"],"decisionIds":["AD-004"],"coverage":"FULL"},
+    {"requirementId":"DR-001","abbIds":["ABB-02","ABB-03"],"viewIds":["VIEW-01","VIEW-03","VIEW-04"],"decisionIds":["AD-002"],"coverage":"FULL"},
+    {"requirementId":"DR-002","abbIds":["ABB-17"],"viewIds":["VIEW-01","VIEW-03","VIEW-04"],"decisionIds":["AD-010"],"coverage":"FULL"},
+    {"requirementId":"DR-003","abbIds":["ABB-03","ABB-09","ABB-10"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-003","AD-005"],"coverage":"FULL"},
+    {"requirementId":"DR-004","abbIds":["ABB-04","ABB-06"],"viewIds":["VIEW-03","VIEW-04"],"decisionIds":["AD-003"],"coverage":"FULL"},
+    {"requirementId":"DR-005","abbIds":["ABB-09"],"viewIds":["VIEW-04"],"decisionIds":["AD-003"],"coverage":"FULL"},
+    {"requirementId":"DR-006","abbIds":["ABB-05","ABB-10"],"viewIds":["VIEW-03","VIEW-04"],"decisionIds":["AD-004","AD-005"],"coverage":"FULL"},
+    {"requirementId":"DR-007","abbIds":["ABB-03","ABB-09","ABB-10","ABB-15"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-003","AD-005","AD-006"],"coverage":"FULL"},
+    {"requirementId":"SR-001","abbIds":["ABB-10","ABB-15","ABB-18"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-005","AD-006"],"coverage":"FULL"},
+    {"requirementId":"SR-002","abbIds":["ABB-10","ABB-18"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-005"],"coverage":"FULL"},
+    {"requirementId":"SR-003","abbIds":["ABB-09","ABB-10","ABB-18"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-005","AD-010"],"coverage":"FULL"},
+    {"requirementId":"SR-004","abbIds":["ABB-04","ABB-12","ABB-18"],"viewIds":["VIEW-03","VIEW-04"],"decisionIds":["AD-003"],"coverage":"FULL"},
+    {"requirementId":"SR-005","abbIds":["ABB-09","ABB-18"],"viewIds":["VIEW-04"],"decisionIds":["AD-003"],"coverage":"FULL"},
+    {"requirementId":"SR-006","abbIds":["ABB-10","ABB-12","ABB-18"],"viewIds":["VIEW-03","VIEW-05"],"decisionIds":["AD-004","AD-005"],"coverage":"FULL"},
+    {"requirementId":"SR-007","abbIds":["ABB-11","ABB-12"],"viewIds":["VIEW-01","VIEW-05"],"decisionIds":["AD-005"],"coverage":"FULL"},
+    {"requirementId":"SR-008","abbIds":["ABB-12","ABB-16"],"viewIds":["VIEW-01","VIEW-02","VIEW-05"],"decisionIds":["AD-009"],"coverage":"FULL"},
+    {"requirementId":"SR-009","abbIds":["ABB-12","ABB-13","ABB-14","ABB-18"],"viewIds":["VIEW-05"],"decisionIds":["AD-008"],"coverage":"FULL"},
+    {"requirementId":"SR-010","abbIds":["ABB-10","ABB-18"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-005"],"coverage":"FULL"},
+    {"requirementId":"IR-001","abbIds":["ABB-02","ABB-03"],"viewIds":["VIEW-01","VIEW-03","VIEW-04"],"decisionIds":["AD-002"],"coverage":"FULL"},
+    {"requirementId":"TR-001","abbIds":["ABB-15"],"viewIds":["VIEW-04","VIEW-05"],"decisionIds":["AD-006"],"coverage":"FULL"},
+    {"requirementId":"TR-002","abbIds":["ABB-01","ABB-12"],"viewIds":["VIEW-02"],"decisionIds":["AD-001","AD-002"],"coverage":"FULL"},
+    {"requirementId":"TR-003","abbIds":["ABB-14"],"viewIds":["VIEW-05"],"decisionIds":["AD-008"],"coverage":"FULL"},
+    {"requirementId":"TR-004","abbIds":["ABB-13"],"viewIds":["VIEW-05"],"decisionIds":["AD-007"],"coverage":"FULL"},
+    {"requirementId":"NR-001","abbIds":["ABB-04","ABB-06","ABB-16"],"viewIds":["VIEW-02","VIEW-03","VIEW-04"],"decisionIds":["AD-003","AD-004","AD-009"],"coverage":"FULL"},
+    {"requirementId":"NR-002","abbIds":["ABB-07","ABB-08","ABB-12","ABB-16"],"viewIds":["VIEW-02","VIEW-03","VIEW-05"],"decisionIds":["AD-004","AD-009"],"coverage":"FULL"},
+    {"requirementId":"NR-003","abbIds":["ABB-16","ABB-19"],"viewIds":["VIEW-03","VIEW-05"],"decisionIds":["AD-007"],"coverage":"FULL"}
+  ],
+  "coverageSummary": {
+    "activeRequirementCount": 31,
+    "fullyCoveredRequirementCount": 31,
+    "partiallyCoveredRequirementCount": 0,
+    "blockedRequirementCount": 0,
+    "unmappedRequirementCount": 0,
+    "architectureBuildingBlockCount": 19,
+    "viewCount": 5,
+    "candidateDecisionCount": 10,
+    "openResidualControlCount": 7
+  },
+  "aff3HandoffConstraints": [
+    "Map every selected Solution Building Block to one or more approved ABBs and requirements.",
+    "Do not weaken human authority, source authority, fail-closed policy or Internal Audit independence.",
+    "Do not infer Azure regions; consume the General Counsel-approved EU/EEA list after VAL-005.",
+    "Keep evidence stores, databases, integration and administrative paths logically private.",
+    "Preserve Stratton-controlled identity, EU-based privileged operation, least privilege, time-bound elevation, emergency access and audit.",
+    "Evidence that provider and model terms prohibit foundation-model training with Stratton data.",
+    "Preserve read-only source connectivity and licence-gated external ingestion.",
+    "Treat VAL-002 and VAL-004 as design dependencies for performance, operations and capacity.",
+    "Make no formal DORA or AI Act classification claim while the corresponding residual controls remain open.",
+    "Return infeasible requirements or weakened boundaries through governed architecture change."
+  ],
+  "solutionBuildingBlocks": {
+    "status": "NOT_SELECTED_PHASE_3_RESPONSIBILITY",
+    "selected": []
+  },
+  "gate": {
+    "canonicalHashManifest": "PENDING_PARENT_SESSION",
+    "affAReview": "PENDING_PARENT_SESSION",
+    "affBReview": "PENDING_PARENT_SESSION",
+    "humanPhase2Decision": "PENDING",
+    "phase3Eligible": false
+  }
+}

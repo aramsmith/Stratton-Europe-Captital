@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "44",
+  "createdAt": "2026-08-03T18:33:52.3885963+02:00",
+  "revisionReason": "Remove the numeric prefix from Business challenges and enlarge slide 2 blocks 2 and 3 by tightening supporting copy to preserve fit.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-43.json",
+    "sha256": "84f651eb2821aa26a22613cb07e08081af4b4a6c0529c108c51646dfdde6fa73",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "changes": [
+      "Rename 01 · Business challenges to Business challenges.",
+      "Increase all typography in Where Stratton is today.",
+      "Increase all typography in Business challenges."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

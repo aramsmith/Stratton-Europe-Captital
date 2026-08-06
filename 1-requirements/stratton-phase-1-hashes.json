@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "1",
+  "modelPlanRevision": "2",
+  "generatedAt": "2026-08-01T21:21:00+02:00",
+  "hashAlgorithm": "SHA-256",
+  "artifacts": [
+    {
+      "path": "1-requirements/stratton-requirements.md",
+      "role": "authoritative-markdown",
+      "sha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917"
+    },
+    {
+      "path": "1-requirements/stratton-requirements.html",
+      "role": "rendered-html",
+      "sha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83"
+    },
+    {
+      "path": "1-requirements/stratton-requirements-catalogue.json",
+      "role": "catalogue",
+      "sha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd"
+    },
+    {
+      "path": "1-requirements/stratton-interview-decisions.json",
+      "role": "evidence",
+      "sha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-2.json",
+      "role": "catalogue",
+      "sha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "sha256": "37f3830a3186ac893ee90d6544ee7f03e9d1a477724a59ba77c2f64ee6658dfa"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "sha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320"
+    },
+    {
+      "path": "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "edbb016099a25ea5997abf7fd7201d8bf96c677bd51fced5b4c319ad327b4ef5"
+    }
+  ]
+}

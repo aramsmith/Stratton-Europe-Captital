@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260802T113328779Z",
+  "scope": "Security",
+  "status": "PASS",
+  "generatedAt": "2026-08-02T11:33:29.8130974Z",
+  "packageRoot": "<PACKAGE_ROOT>",
+  "steps": [
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "package-integrity",
+      "scope": "Security",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File tests/package/Test-PackageIntegrity.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-02T11:33:28.7911594Z",
+      "endedAt": "2026-08-02T11:33:29.7809754Z",
+      "durationMilliseconds": 990.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260802T113328779Z/package-integrity.log"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-2-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "2",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-01T22:12:29.627+02:00",
+  "modelPlanRevision": "3",
+  "subjectHashManifest": {
+    "path": "2-togaf-architecture/stratton-phase-2-hashes.json",
+    "sha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/2/round-1/stratton-aff-a-review.json",
+    "sha256": "37f180026d35af2e6fdb18688337842c008bf6fe636434eb8ac530757703abef"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/2/round-1/stratton-aff-b-review.json",
+    "sha256": "fa7d3be880821f00c008403331bfb5ba4ccd05ac0211c2cbdbcc0f1c2eaa1245"
+  },
+  "residualGaps": [
+    "VAL-001: General Counsel must record entity-specific DORA applicability or exemption and resulting obligations before any formal DORA claim or scope-changing obligation.",
+    "VAL-002: The Chief Investment Officer and Service Operations must approve business hours, typical document-pack characteristics and critical-alert criteria before service and performance acceptance tests.",
+    "VAL-003: Deal Operations, AI Governance, General Counsel, Compliance and the Chief Investment Officer must approve eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions before Internal Audit validation.",
+    "VAL-004: Source and records owners must map exact source instances, retention schedules, volumes and production data-quality remediation procedures before production ingestion.",
+    "VAL-005: General Counsel must confirm approved EU/EEA locations and the sovereignty exception evidence process before production location and transfer acceptance.",
+    "AFFB-RES-001: General Counsel and the Head of AI Governance must provide EU AI Act role and use-case classification evidence before production or any classification claim.",
+    "AFFB-RES-002: Legal and compliance owners must add official-source citations, publication and effective dates, and article-level obligation mappings before any formal representation relying on the regulatory register."
+  ],
+  "constraints": [
+    "Approval accepts architecture decisions AD-001 through AD-010 as the Phase 2 vendor-neutral baseline.",
+    "Approval accepts no waiver, closure or solved status for any residual gap.",
+    "All seven residual gaps remain mandatory, owner-bound downstream validation controls.",
+    "AFF-3 must map every selected Azure Solution Building Block to approved Architecture Building Blocks and requirements without weakening human authority, source authority, fail-closed policy or Internal Audit independence.",
+    "Any design infeasibility, weakened boundary or changed requirement intent must return through governed change control.",
+    "Approval makes Phase 3 eligible but does not invoke or start Phase 3.",
+    "No later phase is approved or invoked by this decision."
+  ]
+}

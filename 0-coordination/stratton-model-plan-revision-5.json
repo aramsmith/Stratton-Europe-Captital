@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "5",
+  "supersedesRevision": "4",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-4.json",
+  "generatedAt": "2026-08-02T03:36:19.308+02:00",
+  "changeReason": "Append-only Phase 4 authoring reassessment following explicit human invocation; prior model-plan revisions remain immutable.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-4",
+    "phaseId": "4",
+    "approvedDefault": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved default remains the best fit for dependency planning, Bicep and AVM strategy, ordered implementation sequencing, Azure validation design, rollback planning, and evidence-bound traceability across the approved Citadel architecture.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "COMPLETE_FOR_PHASE_4_AUTHORING"
+  },
+  "reviewAssignments": {
+    "affA": {
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationRequiredOnEveryRound": true
+    },
+    "affB": {
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol"
+    }
+  },
+  "upstreamGateBinding": {
+    "phase3ApprovalPath": "approvals/3/stratton-phase-3-approval-1.json",
+    "phase3ApprovalSha256": "f6f9de73a70ef3376b90a0ea467ac5d35531f970d362a84bd3b653d35b8a85f3",
+    "phase3CanonicalManifestPath": "3-azure-design/stratton-phase-3-hashes.json",
+    "phase3CanonicalManifestSha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945",
+    "humanInvocationTimestamp": "2026-08-02T03:36:19.308+02:00",
+    "journalStartEventId": "EVT-0056",
+    "journalDashboardEventId": "EVT-0057"
+  },
+  "constraints": [
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every Phase 4 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every Phase 4 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "All seven Phase 3 residual gaps remain open, owner-bound downstream validation controls unless legitimate evidence resolves one.",
+    "Phase 4 must preserve the approved Citadel design, every fail-closed handoff parameter, security boundary, assertion, validation step and release constraint.",
+    "Phase 4 must not invent tenant IDs, subscription IDs, Azure locations, CIDRs, DNS targets, quotas, workload volumes, retention values, legal conclusions or runtime evidence.",
+    "No implementation code, Azure deployment, Azure what-if or runtime test is authorised in Phase 4."
+  ]
+}

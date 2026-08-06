@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "60",
+  "createdAt": "2026-08-03T23:11:37+02:00",
+  "revisionReason": "Add a slow continuous rotation to the slide 3 AI sun corona after its one-time entrance reveal.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-59.json",
+    "sha256": "0ae4a2856162896375c04c4f0513d714743570bd78727881bb1a26f741e5b47f",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Let the slide 3 sun corona rotate slowly."
+    ]
+  },
+  "implementation": {
+    "target": "slide-3-ai-sun-corona",
+    "rotationDurationSeconds": 36,
+    "direction": "clockwise",
+    "timing": "linear",
+    "startsAfterEntranceMs": 3020,
+    "lifecycle": "runs only while slide 3 is active and resets when the slide is left",
+    "reducedMotion": "rotation disabled"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script><title>Stratton Phase 4 amendment proposal</title><style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}main{max-width:1120px;margin:0 auto;padding:2rem}article,nav{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}h1,h2,h3{color:var(--cp-text);line-height:1.25}h2{border-bottom:1px solid var(--cp-border);padding-bottom:.5rem}a{color:var(--cp-link)}a:hover{color:var(--cp-accent-hover)}a:focus{outline:3px solid var(--cp-accent)}code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.1rem .3rem}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%}th,td{border:1px solid var(--cp-border);padding:.6rem;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}strong{color:var(--cp-text)}@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}nav{display:none}}</style></head><body><main><nav aria-label="Contents"><h2>Contents</h2><ul><li><a href="#p4-1-control-and-scope">1. Control and scope</a></li><li><a href="#p4-2-minimum-infrastructure-du-refinement">2. Minimum infrastructure DU refinement</a></li><li><a href="#p4-3-internal-audit-owned-assurance-software-package">3. Internal Audit-owned assurance software package</a></li><li><a href="#p4-4-activation-sequence">4. Activation sequence</a></li><li><a href="#p4-5-verification-and-rollback">5. Verification and rollback</a></li><li><a href="#p4-6-waf-balance-and-approval-block">6. WAF balance and approval block</a></li></ul></nav><article><h1 id="p4-stratton-phase-4-implementation-plan-amendment-proposal">Stratton Phase 4 implementation-plan amendment proposal</h1><p><strong>Change control:</strong> <code>STRATTON-CC-001</code> <strong>Status:</strong> <code>PROPOSED_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL</code> <strong>Model-plan revision / author:</strong> <code>8</code> / <code>gpt-5.6-sol</code> <strong>Proposed Phase 3 input:</strong> <code>3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json</code> / <code>87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16</code></p><h2 id="p4-1-control-and-scope">1. Control and scope</h2><p>This proposal plans <strong>HS-001</strong> Internal Audit verdict authority, <strong>HS-002</strong> governed analysis/vectorisation and <strong>HS-003</strong> immutable audit push/receipt. Approved Phase 3/4 baselines, approvals, Phase 5 code/IaC and coordinator/review records remain unchanged. Preliminary manifests are preserved byte-for-byte and superseded. This candidate requires formal hash-bound AFF-A/AFF-B re-review and explicit human approval; no convergence, deployment or runtime result is claimed.</p><p>The catalogue carries 17 infrastructure DUs, 46 acyclic edges, five work packages, 170 fail-closed parameters, 60 assertions, 12 open controls, 10 role-separated identity mappings and 19 local validation entries. Every parameter has named owner, evidence and <code>UNRESOLVED_FAIL_CLOSED</code> status.</p><h2 id="p4-2-minimum-infrastructure-du-refinement">2. Minimum infrastructure DU refinement</h2><p>No infrastructure DU is added. The 46-edge DAG remains correct: DU-16 already depends on DU-09 because assurance pull/copy needs the approved private, versioned workload evidence source account/container IDs; it is not a cross-database dependency.</p><div class="table-wrap"><table><thead><tr><th>Unit</th><th>Revision 8 responsibility</th></tr></thead><tbody><tr><td>DU-09</td><td>Expose approved exact-version evidence source IDs and least-privilege private read path</td></tr><tr><td>DU-10</td><td>Canonical producer-signed event, final body hash, strict stream order and size/TTL/deduplication/expiry assertions</td></tr><tr><td>DU-11</td><td>Canonical analysis bindings, complete vector provenance, server filters, hostile-content/revocation and known-good alias recovery</td></tr><tr><td>DU-12</td><td>Purpose-specific workload clients, exact-submission verdict read, role-separated receipt reconciliation and transition guard</td></tr><tr><td>DU-13</td><td>Evidence pull private DNS/RBAC, SSRF/version-swap denial, sandbox private dependency and no-management/no-public path</td></tr><tr><td>DU-16</td><td>Internal Audit infrastructure using only accepted signed release/images; pull/copy, isolated evaluation, audit receiver and purpose signers</td></tr><tr><td>DU-17</td><td>Trust, pull/copy, sandbox, injection/retrieval/index and signed audit/receipt operational alerts</td></tr></tbody></table></div><h2 id="p4-3-internal-audit-owned-assurance-software-package">3. Internal Audit-owned assurance software package</h2><p><code>WP-05</code> plans a separate candidate <code>5-coding/assurance/</code> package: private API, evidence copier/verifier, isolated evaluator, audit receiver, receipt/verdict signers, SQL migrations/outboxes, schemas/clients, tests, SBOM/scans/signatures/release manifest and recovery runbooks. AFF-5 may author a candidate, but Internal Audit owns repository acceptance, independent review, build/release signing, ACR, image digests, deployment identity, configuration, operations and rollback. Delivery/workload identities cannot push assurance images or administer the package. DU-16 deploys only exact Internal Audit-approved signed digests and release-manifest hash.</p><p>No package or Phase 5 file is created by this proposal.</p><h2 id="p4-4-activation-sequence">4. Activation sequence</h2><ol><li>Internal Audit accepts and signs WP-05 software/release evidence.</li><li>DU-09 exposes approved private exact-version sources; DU-16 deploys assurance infrastructure with the accepted release only.</li><li>DU-13 completes private endpoints, DNS, source RBAC and sandbox network denial; no public, SAS or redirect fallback.</li><li>Pull/copy, SSRF/version-swap/scan, purpose trust/signature, sandbox and recovery tests pass.</li><li>DU-12 activates workload submission, exact-verdict and receipt clients after role-separation tests.</li><li>Analysis and audit remain disabled until all owner inputs, hostile-content/provenance, signed-stream/receipt, configuration-relation and DU-17 alert gates pass.</li></ol><p>Failure at any step leaves clients/material transitions disabled and preserves SQL outboxes, Service Bus queues/DLQ, quarantine and WORM records.</p><h2 id="p4-5-verification-and-rollback">5. Verification and rollback</h2><p>Local tests cover non-self-referential canonical vectors; four signer purposes and token/producer mapping; replay/conflict/supersession; exact private Blob version pull/copy and negative SSRF/redirect/version-swap cases; signed assurance release and sandbox isolation; injection/cross-tenant/citation/index poison/revocation; signed audit order/conflict/gap/poison; exact signed receipt guard; and message size, duplicate window, expiry and TTL relationship.</p><p>Rollback is authority-specific. Workload stops clients/senders and retains outbox/trust state. Internal Audit alone rolls assurance back to a previously accepted signed release while preserving SQL, queues/DLQ, quarantine, WORM copies, events, receipts and verdicts. Immutability is never shortened and no public/lower-control fallback is enabled.</p><h2 id="p4-6-waf-balance-and-approval-block">6. WAF balance and approval block</h2><div class="table-wrap"><table><thead><tr><th>Pillar</th><th>Plan outcome</th><th>Trade-off</th></tr></thead><tbody><tr><td>Security</td><td>Purpose trust, independent release, private pull/copy, sandbox and role-separated guard</td><td>More identities, evidence and owner gates</td></tr><tr><td>Reliability</td><td>Ordered replay, immutable copies/receipts and known-good index recovery</td><td>Fail-closed pauses are expected</td></tr><tr><td>Performance efficiency</td><td>Explicit provider, evaluator, object and queue limits</td><td>Excess work rejects rather than degrades controls</td></tr><tr><td>Cost optimisation</td><td>Keeps 17 DUs and reuses service classes</td><td>WP-05 assurance build/ACR/compute and recovery capacity add cost</td></tr><tr><td>Operational excellence</td><td>Signed release, 19 local validation areas and explicit rollback authority</td><td>Internal Audit must operate a separate software lifecycle</td></tr></tbody></table></div><p><strong>Required next action:</strong> formal AFF-A and AFF-B review of one unchanged Phase 4 manifest, then explicit human decision. <strong>Human architect decision:</strong> PENDING. No approval or convergence is claimed.</p></article></main></body></html>

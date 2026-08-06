@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_ANONYMOUS_BUNDLE_SCAN",
+  "generatedAt": "2026-08-03T10:56:39.309041+02:00",
+  "caseInsensitive": true,
+  "forbiddenStrings": [
+    "stratton",
+    "Stratton-Europe",
+    "Agentic-Architecture",
+    "5-coding",
+    "reviews/aff",
+    "approvals/"
+  ],
+  "overallStatus": "PASS",
+  "results": [
+    {
+      "scope": "deck/src",
+      "filesScanned": 47,
+      "matchCount": 0,
+      "matches": []
+    },
+    {
+      "scope": "deck/dist JS",
+      "filesScanned": 11,
+      "matchCount": 0,
+      "matches": []
+    }
+  ]
+}

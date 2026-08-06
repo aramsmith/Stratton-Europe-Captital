@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedAt": "2026-08-02T11:27:54.870+02:00",
+  "status": "FROZEN_FOR_ASSURANCE",
+  "required": {
+    "azureCli": "2.88.0",
+    "bicepCli": "0.44.1",
+    "powerShell": "7.6.4",
+    "node": "26.5.1",
+    "npm": "11.17.0",
+    "git": "2.55.0.windows.3",
+    "pester": "6.0.1",
+    "psRule": "2.9.0",
+    "psRuleRulesAzure": "1.47.0",
+    "wslDistribution": "Ubuntu-26.04",
+    "podman": "5.7.0",
+    "buildah": "1.42.1",
+    "skopeo": "1.21.0-dev",
+    "jq": "1.8.1",
+    "cosignPackage": "2.6.2-1",
+    "syft": "1.50.0",
+    "trivy": "0.72.0",
+    "qemuUser": "10.2.1"
+  },
+  "observedAtStart": {
+    "azureCli": "2.88.0",
+    "bicepCli": "0.44.1",
+    "powerShell": "7.6.4",
+    "node": "26.5.1",
+    "npm": "11.17.0",
+    "git": "2.55.0.windows.3",
+    "pester": "6.0.1",
+    "psRule": "2.9.0",
+    "psRuleRulesAzure": "1.47.0",
+    "wslDistribution": "Ubuntu-26.04",
+    "podman": "5.7.0",
+    "buildah": "1.42.1",
+    "skopeo": "1.21.0-dev",
+    "jq": "1.8.1",
+    "cosignPackage": "2.6.2-1",
+    "syft": "1.50.0",
+    "trivy": "0.72.0",
+    "qemuUser": "10.2.1"
+  },
+  "notes": [
+    "Pester, PSRule and PSRule.Rules.Azure were installed from PSGallery at exact versions for the approved Phase 5 validation contract.",
+    "Syft and Trivy ARM64 release binaries were checksum-verified before installation in WSL Ubuntu-26.04.",
+    "QEMU user-mode emulation is pinned so the ARM64 workstation can build the linux/amd64 images supported by Azure Container Apps.",
+    "Exact tool versions are rechecked by prerequisite validation before the assurance candidate is frozen."
+  ]
+}

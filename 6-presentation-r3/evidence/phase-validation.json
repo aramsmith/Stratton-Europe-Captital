@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_VALIDATION_EVIDENCE",
+  "phaseId": "6",
+  "modelPlanRevision": "18",
+  "overallStatus": "PASS",
+  "checks": [
+    {
+      "name": "phase-json-parse",
+      "status": "PASS",
+      "detail": "20 JSON files parsed"
+    },
+    {
+      "name": "claim-catalogue-and-sources",
+      "status": "PASS",
+      "detail": "32 claims, 66 existing sources, revision 18"
+    },
+    {
+      "name": "registered-slide-count",
+      "status": "PASS",
+      "detail": "10 slides registered in stable order"
+    },
+    {
+      "name": "browser-static-and-network",
+      "status": "PASS",
+      "detail": "Recursive CSS/assets and runtime network retain zero external dependencies/calls"
+    },
+    {
+      "name": "visual-no-overflow",
+      "status": "PASS",
+      "detail": "10/10 final hardened slides, no overflow"
+    },
+    {
+      "name": "pdf-sanitisation-disclosure-boundary",
+      "status": "PASS",
+      "detail": "Pre fields recorded without values; dynamic checks retained no literals; post metadata/path/value matches 0; PDF hash unchanged"
+    },
+    {
+      "name": "dynamic-sanitisation-workflow",
+      "status": "PASS",
+      "detail": "Sanitisation script derives local identity/profile/workspace checks at runtime and contains no current local literals"
+    },
+    {
+      "name": "candidate-wide-evidence-disclosure",
+      "status": "PASS",
+      "detail": "121 files scanned; 0 findings across 7 dynamic/ephemeral categories; values retained false"
+    },
+    {
+      "name": "self-contained-html",
+      "status": "PASS",
+      "detail": "HTML parses, remains self-contained and links disclosure evidence"
+    },
+    {
+      "name": "preserved-input-integrity",
+      "status": "PASS",
+      "detail": "All required prior hashes remain matched"
+    },
+    {
+      "name": "finding-dispositions",
+      "status": "PASS",
+      "detail": "Both AFF-B dispositions retained; disclosure scan added"
+    }
+  ]
+}

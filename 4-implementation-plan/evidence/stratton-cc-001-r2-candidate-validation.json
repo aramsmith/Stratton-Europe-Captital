@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC001_R2_PHASE_4_CANDIDATE_VALIDATION",
+  "phaseId": "4",
+  "modelPlanRevision": "9",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "generatedAt": "2026-08-02T15:47:29.395+02:00",
+  "status": "PASS",
+  "method": "Independent local JSON/hash/XML/HTML/graph/reference checks only",
+  "counts": {
+    "deployableUnits": 17,
+    "nonDeployableWorkPackages": 5,
+    "resourceClassMappingEntries": 35,
+    "resourceInventoryEntriesMapped": 44,
+    "openControlsCarried": 14,
+    "failClosedParametersCarried": 276,
+    "compileAndPolicyAssertionsCarried": 82,
+    "dagNodes": 17,
+    "dagEdges": 46,
+    "identityMappings": 20,
+    "phase5ValidationMatrixEntries": 27,
+    "packageStructureEntries": 20
+  },
+  "checks": [
+    {
+      "id": "R2-P4-VAL-001",
+      "check": "Exact Phase 3 r2 upstream path/hash and revision-9 binding",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-002",
+      "check": "276 unique parameters each have owner/evidence/fail-closed status and carry all 244 Phase 3 parameters",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-003",
+      "check": "17 DUs, 46 acyclic ordered edges, five WPs and recomputed coverage counts",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-004",
+      "check": "Dedicated repository, WP-05/software acceptance, 20 split identity mappings and 10-stage activation sequence",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-005",
+      "check": "82 assertions, 14 controls, 27 local validation areas and 35 class mappings",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-006",
+      "check": "Both formal findings/reviews/coverage bound and revision-8 manifests/all artifacts immutable",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-007",
+      "check": "Markdown/Clawpilot HTML parity and accessible sanitised r2 DAG",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-008",
+      "check": "Planned r2 manifest uses revision 9 schema-allowed fields/roles and 13 artifacts; independently verified after generation",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-009",
+      "check": "Local plan boundary; no Phase 5/IaC, review/coverage/approval or Azure action",
+      "result": "PASS"
+    },
+    {
+      "id": "R2-P4-VAL-010",
+      "check": "Corrected purpose-specific positive vectors and Phase 4 upstream binding",
+      "observed": {
+        "phase3ManifestSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "positiveVectors": 4,
+        "purposeRecordTimeSignerKeySnapshotAndEnvelopeChecks": "ALL_PASS",
+        "TN003": "NEGATIVE_PURPOSE_MUTATION_ONLY"
+      },
+      "result": "PASS"
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "Formal re-review and human approval remain pending.",
+    "No Azure validation or runtime testing."
+  ],
+  "candidateRevision": "R2_PURPOSE_VECTOR_EVIDENCE_CORRECTED"
+}

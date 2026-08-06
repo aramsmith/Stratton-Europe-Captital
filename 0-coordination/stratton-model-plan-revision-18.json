@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "18",
+  "createdAt": "2026-08-03T11:24:04.0065567+02:00",
+  "revisionReason": "Preserve Phase 6 revisions 1 and 2 after AFF-B round 1 DIVERGES and govern remediation of one MAJOR external-font finding and one MINOR local-system metadata finding in sibling candidate 6-presentation-r3.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-17.json",
+    "sha256": "922c8e5210fe287d781c631828e58ef98e6b0fde4ea1d0f68d67d3a78e4d04ae",
+    "overwrite": false
+  },
+  "phase5Approval": {
+    "approvalId": "STRATTON-PHASE-5-APPROVAL-001",
+    "path": "approvals/5/stratton-phase-5-approval-1.json",
+    "sha256": "f39fbd68d4574f77e7d31d5fb7608739a1e472fa808fc91b14969009a27b1cd4",
+    "subjectManifestPath": "5-coding-r4/stratton-phase-5-hashes.json",
+    "subjectManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626"
+  },
+  "phase6Assurance": {
+    "affARound2": {
+      "path": "reviews/aff-a/6/round-2/stratton-aff-a-review.json",
+      "sha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+      "verdict": "CONFORMS",
+      "findingSummary": {
+        "BLOCKER": 0,
+        "MAJOR": 0,
+        "MINOR": 0
+      }
+    },
+    "affBRound1": {
+      "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.json",
+      "sha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "verdict": "DIVERGES",
+      "findingSummary": {
+        "BLOCKER": 0,
+        "MAJOR": 1,
+        "MINOR": 1
+      }
+    },
+    "coverage010": {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+      "sha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "status": "ACTIVE_PHASE6_REVISION2_AFF_B_ROUND1_DIVERGES_REMEDIATION_REQUIRED"
+    },
+    "reviewedManifestPath": "6-presentation-r2/stratton-phase-6-hashes.json",
+    "reviewedManifestSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+    "reviewedArtifactCount": 88,
+    "subjectState": "PRESERVED_IMMUTABLE"
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "GPT-5.6 Sol remains the best available GPT model for security-focused presentation remediation, portable browser packaging, metadata sanitisation and evidence regeneration.",
+    "modelSelectionChanged": false,
+    "runScopedOverrideRequired": false,
+    "additionalHumanModelApprovalRequired": false
+  },
+  "presentationSetup": {
+    "humanDecisionEvidence": "ACTIVE_AI_INTERACTION",
+    "audience": "MIXED_ARCHITECTURE_BOARD_AND_C_LEVEL",
+    "decisionGoal": "ENDORSE_APPROVED_BASELINE_AND_CONTROLLED_NEXT_STEP_ROADMAP",
+    "deckType": "EXECUTIVE_VALUE_PROPOSITION_WITH_ARCHITECTURE_ASSURANCE",
+    "targetSlideCount": 10,
+    "theme": {
+      "engine": "DECKIO",
+      "designSystem": "shadcn",
+      "palette": "ocean",
+      "humanSelected": true
+    },
+    "brandingBoundary": "No customer logo, external imagery or unapproved branding is authorised."
+  },
+  "reviewAssignments": {
+    "affA": {
+      "reviewer": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthorActualRuntimeModelId": true,
+      "nextRound": 3
+    },
+    "affB": {
+      "reviewer": "AFF-B",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "separateRoleContextAndWriteBoundaryRequired": true,
+      "nextRound": 2
+    }
+  },
+  "evidenceBoundary": {
+    "approvedPhases": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "latestApprovedManifestPath": "5-coding-r4/stratton-phase-5-hashes.json",
+    "latestApprovedManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "latestAffAReviewPath": "reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+    "latestAffAReviewSha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+    "latestAffBReviewPath": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+    "latestAffBReviewSha256": "b5f45d920b7d6a75cc47aabe1b1b6057d364f0c682875d93473e2bb4497b361b",
+    "activeCoveragePath": "reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+    "activeCoverageSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+    "claimClasses": [
+      "SOURCE_FACT",
+      "HUMAN_OWNED_HYPOTHESIS",
+      "APPROVED_DESIGN_INTENT",
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "UNTESTED_RUNTIME_BEHAVIOUR"
+    ]
+  },
+  "residualDisclosure": {
+    "authorityConflictCount": 3,
+    "ownerBoundControlCount": 14,
+    "retainedAffBMinorGapCount": 2,
+    "waivedCount": 0,
+    "deploymentReady": false,
+    "runtimeValidated": false,
+    "operatingEffectivenessEstablished": false
+  },
+  "preservedCandidates": [
+    {
+      "phaseFolder": "6-presentation",
+      "canonicalManifestPath": "6-presentation/stratton-phase-6-hashes.json",
+      "canonicalManifestSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "state": "IMMUTABLE_AFF_A_ROUND1_DIVERGED"
+    },
+    {
+      "phaseFolder": "6-presentation-r2",
+      "canonicalManifestPath": "6-presentation-r2/stratton-phase-6-hashes.json",
+      "canonicalManifestSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "state": "IMMUTABLE_AFF_A_ROUND2_CONFORMS_AFF_B_ROUND1_DIVERGED"
+    }
+  ],
+  "candidate": {
+    "phaseFolder": "6-presentation-r3",
+    "canonicalManifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "deckSourcePath": "6-presentation-r3/deck",
+    "pdfPath": "6-presentation-r3/deck/deck.pdf",
+    "state": "REMEDIATION_IN_PROGRESS"
+  },
+  "requiredRemediation": [
+    {
+      "findingId": "AFFB-P6-R1-MAJ-001",
+      "requiredOutcome": "Remove the Google Fonts runtime dependency, use only local or system font resources, recursively inspect browser assets, and retain a complete network-request receipt proving no external runtime requests."
+    },
+    {
+      "findingId": "AFFB-P6-R1-MIN-001",
+      "requiredOutcome": "Use only case-relative paths in export evidence and sanitise unnecessary PDF creator, producer, platform and timestamp metadata before freezing the replacement PDF."
+    }
+  ],
+  "constraints": [
+    "Preserve every file beneath 6-presentation, 6-presentation-r2, AFF-A rounds 1 and 2, AFF-B round 1 and coverage 010 byte-identically.",
+    "Create remediation only in sibling folder 6-presentation-r3; do not overwrite any reviewed candidate.",
+    "Use only approved evidence through Phase 5 and preserve every upstream approved artifact byte-identically.",
+    "Do not invent business benefits, ROI, Azure prices, rates, cost totals, dates, customer facts, legal conclusions or runtime observations.",
+    "Label estimates and human-owned hypotheses explicitly and include their owner and validation need.",
+    "Present Phase 5 as implemented and statically validated locally, not deployed or runtime tested.",
+    "Disclose the three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps without implying waiver or closure.",
+    "The production browser package must use relative local assets and make no external runtime network request; retain recursive static and runtime network evidence.",
+    "Use system or locally bundled fonts without modifying the DECKIO engine or node_modules.",
+    "PDF export evidence must use case-relative paths, and the canonical PDF must not disclose unnecessary authoring-platform metadata.",
+    "Do not embed source code or IaC in the presentation.",
+    "No Azure sign-in, target validation, what-if, deployment, retention finalisation, cloud validation or runtime testing is authorised.",
+    "Phases 7 and 8 remain separately human-invocable and unauthorised.",
+    "Phase 6 remains unapproved until final AFF-A and AFF-B reviews converge on one unchanged revision-3 canonical manifest and the human explicitly approves it."
+  ]
+}

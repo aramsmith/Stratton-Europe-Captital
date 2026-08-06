@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 2,
+  "recordedAt": "2026-08-03T11:08:48.4701246+02:00",
+  "modelPlanRevision": "17",
+  "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-17.json",
+  "modelPlanSha256": "922c8e5210fe287d781c631828e58ef98e6b0fde4ea1d0f68d67d3a78e4d04ae",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.5",
+  "actualRuntimeModelId": "gpt-5.5",
+  "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+  "selectedModelRationale": "AFF-A approved default gpt-5.5 remains the dedicated independent GPT reasoning challenger for formal logic, traceability and evidence review; it is available and different from the Phase 6 author actual runtime model.",
+  "phaseAuthorModelEvidence": "model-plan revision 17 phase6Assignment.actualRuntimeModelId",
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "reviewerBoundary": "Read-only subject review; wrote only AFF-A round-2 records."
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "NETWORK_AND_SECURITY_BOUNDARY_CONTRACT",
+  "topology": {
+    "decisionStatus": "CONFIRMED_PATTERN_EXACT_CIDRS_AND_CONNECTION_IDS_PENDING",
+    "pattern": "Enterprise hub-connected Citadel spokes with central DNS and enterprise IPAM.",
+    "citadelConnectivitySubscription": "sub-citadel-connectivity",
+    "regionalHubs": [
+      {"role":"primary","namePattern":"vnet-citadel-hub-primary-<locationCode>","services":["Azure Firewall Premium","Azure Private DNS Resolver","enterprise WAN connection"],"exactRegion":"FAIL_CLOSED_PARAMETER"},
+      {"role":"recovery","namePattern":"vnet-citadel-hub-recovery-<locationCode>","services":["Azure Firewall Premium","Azure Private DNS Resolver","enterprise WAN connection"],"exactRegion":"FAIL_CLOSED_PARAMETER"}
+    ],
+    "spokes": [
+      {"role":"nonproduction","namePattern":"vnet-stratton-<env>-primary-<locationCode>","hub":"primary Citadel hub","data":"synthetic only"},
+      {"role":"production-primary","namePattern":"vnet-stratton-prd-primary-<locationCode>","hub":"primary Citadel hub","data":"highly confidential"},
+      {"role":"production-recovery","namePattern":"vnet-stratton-prd-recovery-<locationCode>","hub":"recovery Citadel hub","data":"approved recovery copies only"},
+      {"role":"assurance","namePattern":"vnet-stratton-assurance-<regionRole>-<locationCode>","hub":"corresponding Citadel hub","data":"Internal Audit-controlled evidence only"}
+    ],
+    "addressSpace": "<required-Network-Lead-enterprise-IPAM-allocation-for-each-hub-and-spoke>",
+    "routing": "All non-private-link egress follows a 0.0.0.0/0 user-defined route to the Azure Firewall Premium in the corresponding Citadel regional hub. Hubs connect to the enterprise network through approved connection identifiers. No direct Internet route is permitted.",
+    "ingress": "Authorised Stratton enterprise networks reach a private Application Gateway frontend through evidenced private connectivity. No public frontend IP is deployed. Deployment planning fails closed until Microsoft.Network/EnableApplicationGatewayNetworkIsolation is proven Registered in every target subscription.",
+    "apiGatewayRule": "API Management uses an approved inbound private endpoint and central private DNS. publicNetworkAccess is set to Disabled only after the private endpoint connection is approved and private DNS resolution is proven. Public gateway access is never a temporary, recovery or break-glass fallback.",
+    "configurationPlaneRule": "Azure App Configuration uses a private endpoint and public network access Disabled in every environment.",
+    "environmentPeering": "No dev-to-test, dev-to-production or test-to-production VNet peering.",
+    "regionalConnectivity": "Production primary and recovery spokes do not form an unrestricted mesh. Recovery flows use explicit hub-routed allow rules and owner-approved replication endpoints.",
+    "databaseRule": "Azure SQL Database publicNetworkAccess=Disabled in dev, test, production-primary and production-recovery; access is only through regional private endpoints and Citadel central private DNS."
+  },
+  "subnets": [
+    {"name":"snet-ingress","minimumPrefix":"/27","delegation":"none","purpose":"Private Application Gateway","nsg":"Allow TCP 443 from approved enterprise prefixes; required Azure platform health flows only; deny other inbound and lateral traffic."},
+    {"name":"snet-apim","minimumPrefix":"/27","delegation":"As required by selected API Management v2 networking mode","purpose":"Private API boundary and controlled backend access","nsg":"Allow 443 from ingress; allow 443 to application endpoints and Azure control dependencies; deny other."},
+    {"name":"snet-app","minimumPrefix":"/23","delegation":"Microsoft.App/environments","purpose":"Internal Container Apps environment and jobs","nsg":"Allow 443 from APIM, required internal platform flows and private endpoints; deny direct user ingress."},
+    {"name":"snet-private-endpoints","minimumPrefix":"/24","delegation":"none; private endpoint network policies configured as required","purpose":"SQL, Storage, Search, OpenAI, Document Intelligence, Key Vault, App Configuration, Service Bus, ACR, APIM and Monitor private endpoints","nsg":"Permit 443 and SQL 1433 only from approved workload subnets; deny lateral endpoint-to-endpoint traffic where enforceable."},
+    {"name":"AzureFirewallSubnet","minimumPrefix":"/26","delegation":"reserved Azure Firewall name","purpose":"Required in each Citadel regional hub","nsg":"None; controlled by regional Azure Firewall policy."},
+    {"name":"snet-dns-resolver-inbound and snet-dns-resolver-outbound","minimumPrefix":"/28 for each resolver endpoint subnet","delegation":"Microsoft.Network/dnsResolvers","purpose":"Required central DNS resolver subnets in each Citadel regional hub","nsg":"DNS TCP/UDP 53 only from approved hubs, spokes and enterprise resolvers."}
+  ],
+  "privateDnsZones": [
+    "privatelink.database.windows.net",
+    "privatelink.blob.core.windows.net",
+    "privatelink.queue.core.windows.net",
+    "privatelink.servicebus.windows.net",
+    "privatelink.vaultcore.azure.net",
+    "privatelink.azconfig.io",
+    "privatelink.search.windows.net",
+    "privatelink.openai.azure.com",
+    "privatelink.cognitiveservices.azure.com",
+    "privatelink.azurecr.io",
+    "privatelink.azure-api.net",
+    "privatelink.monitor.azure.com",
+    "privatelink.oms.opinsights.azure.com",
+    "privatelink.ods.opinsights.azure.com",
+    "privatelink.agentsvc.azure-automation.net",
+    "<container-apps-internal-environment-default-domain-private-zone>"
+  ],
+  "flowRules": [
+    {"id":"NET-001","source":"Approved enterprise user prefixes","destination":"Private Application Gateway","protocol":"TCP 443","purpose":"User access","default":"DENY"},
+    {"id":"NET-002","source":"Application Gateway","destination":"API Management approved private endpoint with publicNetworkAccess Disabled","protocol":"TCP 443","purpose":"Only API ingress path","default":"DENY"},
+    {"id":"NET-003","source":"API Management","destination":"Case/workflow Container App","protocol":"TCP 443","purpose":"Authenticated API forwarding","default":"DENY"},
+    {"id":"NET-004","source":"Container Apps","destination":"Azure SQL private endpoint","protocol":"TCP 1433","purpose":"Case/policy metadata","default":"DENY"},
+    {"id":"NET-005","source":"Container Apps and jobs","destination":"Storage, Service Bus, Search, Key Vault, App Configuration, AI and Monitor private endpoints","protocol":"TCP 443","purpose":"Application dependencies","default":"DENY"},
+    {"id":"NET-006","source":"Connector jobs","destination":"Approved source APIs or licensed external FQDNs through firewall","protocol":"TCP 443","purpose":"Read-only ingestion","default":"DENY; per-source allow only after owner/licence evidence"},
+    {"id":"NET-007","source":"Any workload","destination":"Unapproved Internet, extra-EEA endpoint or source write endpoint","protocol":"Any","purpose":"Prohibited","default":"DENY_AND_ALERT"},
+    {"id":"NET-008","source":"Authorised admin workstation/network","destination":"Azure management endpoints and private service endpoints","protocol":"TCP 443","purpose":"Time-bound administration","default":"DENY unless PIM and Conditional Access pass"}
+  ],
+  "egressControls": {
+    "tlsMinimum": "TLS 1.2 or later; prefer TLS 1.3 where service-supported",
+    "firewallMode": "Premium threat-intelligence alert-and-deny and IDPS prevention after tested exceptions",
+    "allowListInputs": ["sourceOwnerApprovalId","licenceApprovalId","purposeId","destinationFqdn","destinationJurisdiction","expiryTime"],
+    "failClosed": "Expired, incomplete or mismatched approval removes the rule and suspends ingestion.",
+    "dns": "Only approved resolvers; block direct external DNS.",
+    "sourceAuthority": "Connector managed identities or source credentials are read-only; no route or API operation for AI-generated write-back."
+  },
+  "policyGuardrails": [
+    "Deny Microsoft.Sql/servers where publicNetworkAccess is not Disabled.",
+    "Deny API Management public network access after its private endpoint and DNS are proven; deny any public-gateway fallback.",
+    "Deny Storage, Search, Key Vault, App Configuration, Service Bus, Container Registry, Azure OpenAI and Document Intelligence public network access where the resource provider supports deny.",
+    "Deny public IP addresses in workload resource groups; permit only the Citadel regional Firewall Premium egress IP resources in sub-citadel-connectivity.",
+    "Deny resources outside the signed approved-location parameter set.",
+    "Deny Global and DataZone Azure AI deployment types; permit only regional deployments in the signed primary/recovery location pair.",
+    "Deny VNet address spaces or subnet prefixes not present in Network Lead-approved enterprise IPAM evidence.",
+    "Deny workload-owned private DNS zones when the zone is centrally owned by sub-citadel-connectivity.",
+    "Audit required private endpoints, private DNS records, diagnostic settings, TLS and managed identity.",
+    "Deny broad NSG inbound rules and unapproved VNet peering."
+  ],
+  "remainingFailClosedParameters": [
+    "Citadel tenant-root parent management-group ID",
+    "Exact primary and recovery Azure region names",
+    "All hub, spoke and subnet CIDRs from enterprise IPAM",
+    "Enterprise WAN connection resource IDs and BGP/routing parameters",
+    "Enterprise DNS forwarding targets and zone ownership records",
+    "Microsoft.Network/EnableApplicationGatewayNetworkIsolation registration evidence for every target subscription"
+  ],
+  "sources": ["SRC-AZ-001","SRC-AZ-006","SRC-AZ-007","SRC-AZ-010","SRC-AZ-019","SRC-AZ-022","SRC-AZ-026","SRC-AZ-027","SRC-AZ-028"]
+}

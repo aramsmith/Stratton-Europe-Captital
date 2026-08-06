@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_R2_PHASE_3_CHANGE_CONTROL_EVIDENCE",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "authorModelReceipt": {
+    "agent": "AFF-3",
+    "profile": ".github/agents/AFF-3-design.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "selectionRationale": "Material append-only Azure design remediation across sovereignty, recovery, security, privacy and provenance.",
+    "runScopedOverrideRequired": false
+  },
+  "governingSpecification": {
+    "path": "docs/superpowers/specs/2026-08-06-stratton-gpt-5-6-model-portfolio-design.md",
+    "sha256": "f714e995129c68b295cd30b98281619579dae1f2fb8a9e6fb6e3efc793212c86",
+    "decisionStatus": "HUMAN_SELECTED_DESIGN_DIRECTION_REMEDIATION_PENDING_REVIEW",
+    "bytes": 16043
+  },
+  "modelPlanRevision": {
+    "path": "0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "bytes": 11464,
+    "verificationState": "MATCHED_ACTUAL_FILE_AND_TASK_1_BASELINE"
+  },
+  "immutableOriginalCandidate": {
+    "manifest": {
+      "path": "3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+      "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+      "artifactCount": 10,
+      "candidateFileCount": 11,
+      "modified": false
+    },
+    "affAReview": {
+      "path": "reviews/aff-a/3/round-6/stratton-aff-a-review.json",
+      "verdict": "DIVERGES",
+      "subjectManifestSha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+      "modified": false
+    },
+    "affBReview": {
+      "path": "reviews/aff-b/3/round-5/stratton-aff-b-review.json",
+      "verdict": "DIVERGES",
+      "subjectManifestSha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+      "modified": false
+    },
+    "coverage": {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-012.json",
+      "sha256": "d835b1f6a2d7b0679fa32a04c6237022ce3c320a193cac300b5baf7291ed8458",
+      "modified": false
+    },
+    "reviewedSubjectSnapshots": [
+      "reviews/aff-a/3/round-6/reviewed-subject",
+      "reviews/aff-b/3/round-5/reviewed-subject"
+    ],
+    "verification": "ALL_ELEVEN_ORIGINAL_LIVE_FILES_MATCH_ORIGINAL_MANIFEST_AND_BOTH_REVIEWED_SUBJECT_SNAPSHOTS"
+  },
+  "designChanges": [
+    {
+      "id": "CC002-R2-CHG-001",
+      "change": "Convert every hostile-evidence, routing-misuse, deployment-failure and authority-abuse scenario into an immutable blocking promotion gate.",
+      "gateCount": 12
+    },
+    {
+      "id": "CC002-R2-CHG-002",
+      "change": "Bind owner-parameterised primary and recovery EU Data Zone resources and deployment IDs for Luna, Terra, Sol and embeddings.",
+      "routeCount": 4
+    },
+    {
+      "id": "CC002-R2-CHG-003",
+      "change": "Bind provider-selected processing-region limitations, prompt/output/data/vector/index/log/backup recovery boundaries and missing-evidence deny/queue handling."
+    },
+    {
+      "id": "CC002-R2-CHG-004",
+      "change": "Add claim-bound official-source evidence with licence/use and review/expiry disposition."
+    },
+    {
+      "id": "CC002-R2-CHG-005",
+      "change": "Add owner-bound privacy lifecycle controls for prompts/outputs, vectors/indexes, benchmarks, route logs and telemetry."
+    },
+    {
+      "id": "CC002-R2-CHG-006",
+      "change": "Regenerate HTML from substantive Markdown to preserve exact anomaly and supervised-prediction decisions."
+    }
+  ],
+  "sourceBindingRecord": {
+    "path": "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json",
+    "requiredBeforePromotion": true,
+    "boundByCatalogue": true,
+    "boundByHashEvidence": true,
+    "boundByOuterManifest": true
+  },
+  "candidateArtifacts": [
+    "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md",
+    "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html",
+    "3-azure-design/stratton-design-catalogue-cc-002-r2-proposed.json",
+    "3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-cc-002-r2-candidate-validation.json",
+    "3-azure-design/evidence/stratton-cc-002-r2-change-control-evidence.json",
+    "3-azure-design/evidence/stratton-cc-002-r2-hash-generation-evidence.json"
+  ],
+  "findingRemediation": [
+    {
+      "findingId": "AFFA-P3-R6-MAJ-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFA-P3-R6-MAJ-002",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md"
+      ]
+    },
+    {
+      "findingId": "AFFA-P3-R6-MAJ-003",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFA-P3-R6-MIN-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-002",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-003",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-004",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MIN-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "evidencePaths": [
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html"
+      ]
+    }
+  ],
+  "hashCycleControl": {
+    "completeSubjectsFirst": true,
+    "hashGenerationEvidenceSecond": true,
+    "outerManifestLast": true,
+    "manifestExcludedFromItsOwnArtifacts": true,
+    "hashGenerationEvidenceExcludesItsOwnDigest": true,
+    "manifestBindsHashGenerationEvidence": true,
+    "currentState": "SUBJECTS_COMPLETE_HASH_EVIDENCE_AND_MANIFEST_PENDING"
+  },
+  "requiredReviews": [
+    {
+      "reviewer": "AFF-A",
+      "requiredRound": 7,
+      "state": "CONTROLLER_OWNED_NOT_CREATED"
+    },
+    {
+      "reviewer": "AFF-B",
+      "requiredRound": 6,
+      "coverageSequence": "013",
+      "state": "CONTROLLER_OWNED_NOT_CREATED"
+    }
+  ],
+  "approval": {
+    "granted": false,
+    "humanDecision": "PENDING",
+    "reviewerConvergenceClaimed": false,
+    "productionPromotionClaimed": false
+  },
+  "executionBoundary": {
+    "localAuthoringOnly": true,
+    "azureSignIn": false,
+    "azureValidation": false,
+    "whatIf": false,
+    "deployment": false,
+    "runtimeTesting": false,
+    "localHashAndContractValidation": true
+  }
+}

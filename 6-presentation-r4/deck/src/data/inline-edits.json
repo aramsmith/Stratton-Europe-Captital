@@ -1,0 +1,58 @@
+{
+  "phase2-human-ai.eyebrow": {
+    "value": "PHASE 2 · HUMAN-AI OPERATING MODEL",
+    "base": "Phase 2 · Human-AI operating model"
+  },
+  "phase2-human-ai.legend.human": {
+    "value": "HUMAN AUTHORITY",
+    "base": "Human authority"
+  },
+  "phase2-human-ai.legend.ai": {
+    "value": "AI ASSISTANCE",
+    "base": "AI assistance"
+  },
+  "phase2-human-ai.evidence-note.label": {
+    "value": "EVIDENCE BOUNDARY",
+    "base": "Evidence boundary"
+  },
+  "phase2-human-ai.footer": {
+    "value": "STRATTON EUROPE CAPITAL · PHASE 2 HUMAN-AI OPERATING MODEL",
+    "base": "Stratton Europe Capital · Phase 2 human-AI operating model"
+  },
+  "phase2-human-ai.legend.control": {
+    "value": "POLICY CONTROLS ARE NOT AI",
+    "base": "Policy controls are not AI"
+  },
+  "phase2-human-ai.initiation": {
+    "order": [
+      "case-opening",
+      "eligibility"
+    ]
+  },
+  "phase2-human-ai.controls": {
+    "order": [
+      "source-gates",
+      "quarantine",
+      "fail-closed"
+    ]
+  },
+  "phase2-human-ai.ai-capabilities": {
+    "order": [
+      "retrieval",
+      "document",
+      "analysis",
+      "grounding"
+    ]
+  },
+  "phase2-human-ai.authority": {
+    "order": [
+      "validation",
+      "specialist-approval",
+      "committee-decision"
+    ]
+  },
+  "phase3-azure.core.label": {
+    "value": "CITADEL AI CORE",
+    "base": "Citadel AI core"
+  }
+}

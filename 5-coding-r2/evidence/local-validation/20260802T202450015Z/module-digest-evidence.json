@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "module-digest-evidence",
+  "scope": "Bicep",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File validation/Capture-OciDigestEvidence.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T20:38:13.9018985Z",
+  "endedAt": "2026-08-02T20:38:14.6441396Z",
+  "durationMilliseconds": 742.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T202450015Z/module-digest-evidence.log"
+}

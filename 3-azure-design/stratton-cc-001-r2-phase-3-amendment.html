@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script><title>Stratton Phase 3 round-2 amendment proposal</title><style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}main{max-width:1120px;margin:0 auto;padding:2rem}article,nav{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}h1,h2,h3{color:var(--cp-text);line-height:1.25}h2{border-bottom:1px solid var(--cp-border);padding-bottom:.5rem}a{color:var(--cp-link)}a:hover{color:var(--cp-accent-hover)}a:focus{outline:3px solid var(--cp-accent)}code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.1rem .3rem}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%}th,td{border:1px solid var(--cp-border);padding:.6rem;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}strong{color:var(--cp-text)}@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}nav{display:none}}</style></head><body><main><nav aria-label="Contents"><h2>Contents</h2><ul><li><a href="#p3r2-1-historical-and-review-boundary">1. Historical and review boundary</a></li><li><a href="#p3r2-2-dedicated-internal-audit-source-boundary">2. Dedicated Internal Audit source boundary</a></li><li><a href="#p3r2-3-separation-of-duties-and-chain-of-custody">3. Separation of duties and chain of custody</a></li><li><a href="#p3r2-4-immutable-signing-time-trust-snapshot">4. Immutable signing-time trust snapshot</a></li><li><a href="#p3r2-5-verification-and-waf-trade-offs">5. Verification and WAF trade-offs</a></li><li><a href="#p3r2-6-approval-block">6. Approval block</a></li></ul></nav><article><h1 id="p3r2-stratton-phase-3-amendment-proposal-remediation-round-2">Stratton Phase 3 amendment proposal — remediation round 2</h1><p><strong>Change control:</strong> <code>STRATTON-CC-001</code> <strong>Status:</strong> <code>PROPOSED_R2_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL</code> <strong>Model-plan revision / author:</strong> <code>9</code> / <code>gpt-5.6-sol</code> <strong>Evidence correction timestamp:</strong> <code>2026-08-02T15:47:29.395+02:00</code> <strong>Scope:</strong> resolves <code>AFFB-CC001-MAJ-001</code> and <code>AFFB-CC001-MAJ-002</code>; no approval or Azure/runtime claim</p><h2 id="p3r2-1-historical-and-review-boundary">1. Historical and review boundary</h2><p>The revision-8 Phase 3 and Phase 4 manifests and every path they bind remain immutable. Formal AFF-A accepted those subjects with gaps; formal AFF-B diverged on exactly two MAJOR findings. Round 2 uses only new <code>-r2</code> paths, cites the formal reviews and coverage 006, and requires new hash-bound AFF-A/AFF-B review plus explicit human approval. Existing HS-001 verdict authority, HS-002 governed analysis/vectorisation and HS-003 immutable audit push controls remain in force.</p><h2 id="p3r2-2-dedicated-internal-audit-source-boundary">2. Dedicated Internal Audit source boundary</h2><p>Assurance source resides in a dedicated source-control repository or equivalent isolated source boundary independently administered by Internal Audit. Repository platform/ID, tenant or organisation, authentication, branch protection, CODEOWNERS, required reviewers, audit retention and legal hold are owner-supplied fail-closed values. Delivery can submit candidate source only through controlled contribution; it has no direct write, merge, branch-bypass, repository/pipeline administration, assurance ACR push, release-signing, DU-16 deployment or production-operations permission.</p><p>Protected release branches deny direct/force push, history rewrite, deletion and self-approval. At least two independent owner-approved reviewers are required; author, merge actor and repository administrator cannot satisfy their own approval. Privileged human roles use owner-approved PIM, phishing-resistant Conditional Access and access review. Repository administration does not imply application merge authority.</p><h2 id="p3r2-3-separation-of-duties-and-chain-of-custody">3. Separation of duties and chain of custody</h2><div class="table-wrap"><table><thead><tr><th>Stage</th><th>Separate authority</th><th>Explicit prohibitions</th></tr></thead><tbody><tr><td>Contribution</td><td>Delivery candidate contributor</td><td>no merge, admin, pipeline edit or release action</td></tr><tr><td>Merge/acceptance</td><td>Internal Audit repository merge identity after CODEOWNERS/two-person approval</td><td>no self-approval, build, sign, publish, deploy or operate</td></tr><tr><td>Reproducible build</td><td>Internal Audit build identity</td><td>no merge, release-signing key, ACR push, deployment or operations</td></tr><tr><td>Release signing</td><td>Internal Audit release-signing identity</td><td>no merge, build, ACR push, deployment or operations</td></tr><tr><td>ACR publication</td><td>Internal Audit ACR publisher</td><td>no merge, build, signing or deployment</td></tr><tr><td>DU-16 deployment</td><td>Internal Audit deployment identity after independent approval</td><td>no merge, build, sign, push or self-approval</td></tr><tr><td>Operations / rollback</td><td>Separately authorised operations and rollback identities</td><td>no arbitrary publication/deployment; rollback only to prior approved signed release</td></tr></tbody></table></div><p>No human, group, workload identity, credential or pipeline identity may combine incompatible stages or self-grant a stage role. Every promotion binds: accepted commit/tree and merge evidence → source/build inputs/toolchain → reproducible provenance → SBOM/scans → image digest → release signature → immutable ACR digest → deployment approval → exact DU-16 deployed digest/configuration → operations handover. A missing or mismatched link denies promotion.</p><p>Release-signing key custody, activation, quorum, rotation, revocation and compromise are owner inputs. Break-glass is PIM/time-bound, phishing-resistant-CA protected, two-person approved, alerted and reviewed; it cannot sign releases, combine merge-to-deploy, disable audit/immutability or erase provenance. Emergency changes must repeat the normal chain before promotion. Rollback preserves failed-release evidence and never rebuilds or resigns history.</p><h2 id="p3r2-4-immutable-signing-time-trust-snapshot">4. Immutable signing-time trust snapshot</h2><p>Every workload assurance submission, workload audit event, Internal Audit receipt and Internal Audit verdict includes <code>signedAt</code>, the complete <code>TrustVerificationSnapshot</code>, and <code>snapshotHash</code>. The snapshot binds:</p><ul><li>signature purpose, signed record ID and signing time;</li><li>algorithm-policy ID/version/hash;</li><li>trust-registry ID/version/hash;</li><li>signer-mapping ID/version/hash;</li><li>producer/signer tenant and object IDs;</li><li>key ID/version and key-valid-from/to or immutable validity evidence ID/hash;</li><li>revocation/compromise status, effective-time disposition and evidence ID/hash as evaluated for <code>signedAt</code>;</li><li>verification policy/schema, snapshot ID/hash, and retention/legal-hold class.</li></ul><p>The domain-separated RFC 8785 snapshot hash is included in the signed record’s canonical preimage. Submission, event, receipt and verdict hashes now exclude only their own hash/signature mechanics; signed time, algorithm/key/trust metadata and snapshot are cryptographically covered. Receipts explicitly require <code>signedAt</code>; verdicts bind decision issuance and signing time.</p><p>Signed record and exact snapshot are stored together in Internal Audit WORM for the full record/legal-hold period. Planned rotation or registry replacement never rewrites history. Revocation/compromise effective before or at signing invalidates. Known post-signing compromise follows the immutable verification policy. Unknown or ambiguous compromise start yields <code>TRUST_REVIEW_REQUIRED</code> and blocks material transitions pending Internal Audit disposition. Disaster recovery and rollback restore and verify record/snapshot together.</p><h2 id="p3r2-5-verification-and-waf-trade-offs">5. Verification and WAF trade-offs</h2><p>Positive canonical fixtures require purpose, signed-record, signedAt, signer/key, derived snapshot ID, embedded snapshot hash and envelope hash equality. Negative tests cover cross-role permissions, self-approval, branch/CODEOWNERS bypass, chain mismatch, break-glass abuse, unsigned rollback, missing/tampered snapshot, invalid signing time, wrong purpose, replaced registry, pre/post-signing compromise, unknown compromise start, WORM loss/recovery and software rollback.</p><div class="table-wrap"><table><thead><tr><th>WAF pillar</th><th>Round-2 improvement</th><th>Trade-off</th></tr></thead><tbody><tr><td>Security</td><td>Independent source boundary, split identities and signing-time trust evidence</td><td>More identities, approvals and key/trust evidence</td></tr><tr><td>Reliability</td><td>Immutable provenance and historically verifiable signed records</td><td>Ambiguity deliberately pauses material transitions</td></tr><tr><td>Performance efficiency</td><td>Reproducible staged promotion and bounded verification</td><td>Additional promotion and verification latency</td></tr><tr><td>Cost optimisation</td><td>No new infrastructure DU; reuses assurance services</td><td>Repository/build/attestation and audit retention add cost</td></tr><tr><td>Operational excellence</td><td>Explicit chain, emergency limits and prior-release rollback</td><td>Internal Audit operates a separate controlled software lifecycle</td></tr></tbody></table></div><p>All 244 amendment parameters remain owner-bound and fail closed. No repository, tenant, group, reviewer, algorithm, key, region, endpoint, retention or threshold value is selected here.</p><h2 id="p3r2-6-approval-block">6. Approval block</h2><p><strong>Required next action:</strong> formal AFF-A and AFF-B re-review against the unchanged round-2 manifest, then explicit human decision. <strong>Human architect decision:</strong> PENDING. No convergence or approval is claimed.</p></article></main></body></html>

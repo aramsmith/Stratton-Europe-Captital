@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "13",
+  "createdAt": "2026-08-03T02:12:04.7894096+02:00",
+  "revisionReason": "Preserve the AFF-A-reviewed Phase 5 round-1 package byte-identically and govern a sibling revisioned candidate that remediates the two major and two minor correctness findings without changing the approved model assignments.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-12.json",
+    "sha256": "fb37f156239461815c70ade2b459dc935434619a3e88c1f94afe74c0e7d897d7",
+    "overwrite": false
+  },
+  "reviewedPhase5Subject": {
+    "path": "5-coding/stratton-phase-5-hashes.json",
+    "sha256": "412e573e287bb1056217f6a29475df596d280543fcbeae875ce020e73dc13e9b",
+    "state": "IMMUTABLE_AFF_A_ROUND_1_SUBJECT",
+    "reviewPath": "reviews/aff-a/5/round-1/stratton-aff-a-review.json",
+    "reviewSha256": "2b2b38d9df03235d907dde3f6a73cb3e2ebd6d608eeb8327fa78b9af83344e5d",
+    "verdict": "DIVERGES",
+    "findingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 2,
+      "MINOR": 2
+    }
+  },
+  "revisionedCandidate": {
+    "packageRoot": "5-coding-r2",
+    "manifestPath": "5-coding-r2/stratton-phase-5-hashes.json",
+    "state": "REMEDIATION_IN_PROGRESS",
+    "sourcePackageRoot": "5-coding",
+    "sourcePackageMustRemainByteIdentical": true,
+    "requiredFindingIds": [
+      "AFFA-P5-R1-MAJ-001",
+      "AFFA-P5-R1-MAJ-002",
+      "AFFA-P5-R1-MIN-001",
+      "AFFA-P5-R1-MIN-002"
+    ],
+    "requiredValidation": [
+      "Targeted IaC and deployment-preflight regression tests",
+      "Complete local Phase 5 validation",
+      "Release-manifest generation",
+      "Build-report generation",
+      "Canonical Phase 5 hash generation",
+      "Independent release-evidence recomputation"
+    ]
+  },
+  "phase5Assignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefaultModelId": "gpt-5.3-codex",
+    "initialAuthorActualRuntimeModelId": "gpt-5.3-codex",
+    "finalisationSelectedExactGptModelId": "gpt-5.6-sol",
+    "finalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "runScopedOverrideDecision": "APPROVED_IN_REVISION_12",
+    "modelSelectionChangedByRevision13": false,
+    "additionalHumanModelApprovalRequired": false
+  },
+  "reviewAssignments": {
+    "affA": {
+      "reviewer": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromAllPhaseAuthorActualRuntimeModelIds": true,
+      "nextRound": 2
+    },
+    "affB": {
+      "reviewer": "AFF-B",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "state": "HELD_UNTIL_AFF_A_ACCEPTS_THE_REVISIONED_CANDIDATE"
+    }
+  },
+  "authorityBinding": {
+    "changeControlId": "STRATTON-CC-001",
+    "approvalPath": "approvals/change-control/stratton-cc-001-approval-1.json",
+    "approvalSha256": "ec2ddad8bc9c38993d5266985db5c9e9f12358034ba3aad9c61cd93465d8b21d",
+    "approvalModelPlanRevision": "11",
+    "interpretation": "Revision 13 changes only the local Phase 5 remediation and review subject. It does not alter the approved authority amendment."
+  },
+  "releaseScopeDecision": {
+    "decisionId": "DEC-0006",
+    "decision": "The two assessed Microsoft accelerators are deferred to a governed future release.",
+    "release1CandidateImpact": "NONE"
+  },
+  "constraints": [
+    "Do not modify any file beneath 5-coding because it is bound by AFF-A round 1.",
+    "No Azure authentication, target validation, what-if, deployment or cloud runtime testing is authorised.",
+    "No owner-bound value may be invented, inferred, waived or enabled.",
+    "The three unimplemented STRATTON-CC-001 authority-provisioning flags remain false.",
+    "The revisioned candidate must receive a complete AFF-A round 2 review before AFF-B is invoked.",
+    "Phase 6 remains locked until final AFF-A and AFF-B convergence and explicit human Phase 5 approval."
+  ]
+}

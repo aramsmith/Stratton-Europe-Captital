@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "101",
+  "createdAt": "2026-08-04T23:31:13.9582201+02:00",
+  "revisionReason": "Add Microsoft AI implementation logos and Slide 2-scale typography to Slide 10 while preserving its approved human-AI allocation and visual fit.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-100.json",
+    "sha256": "d8a2f7b67df5f3c109ad0a25c7d3f5c405b697a3acba03eecf4312058b7e7143",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 10,
+    "request": "Make Slide 10 text comparable to Slide 2 and add Microsoft AI logos to the respective AI blocks."
+  },
+  "contentChange": {
+    "summary": [
+      "The four logical AI capability blocks retain their approved names and now show Azure AI Search, Azure AI Document Intelligence, Azure OpenAI and Azure AI Foundry implementation logos.",
+      "Zone, card, control, handoff, boundary and evidence typography is enlarged to the approved presentation-distance scale.",
+      "The relay columns are rebalanced to keep every card inside its zone in JetBrains Mono without reducing the approved typography.",
+      "The five-zone process relay, human authority, deterministic controls and evidence boundary remain unchanged."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "quality": {
+    "logoTypographyContract": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 10,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotion": "pass",
+    "microsoftLogoCount": 4,
+    "initiationZoneBottomClearancePxJetBrainsMono": 66.68
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "5473815b3ba842b45d2f050ea920921baed1025baf9ebf95ea376179dc0aea01"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "c1bbd67e2147c6c33829642aea25ee94612ce8e315e88c3ac4acda5b9ddf198e"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "6e03e5b1adfaffc865e22ad23e5afcbd34f447de370f9144e43329b37b4a3b14"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

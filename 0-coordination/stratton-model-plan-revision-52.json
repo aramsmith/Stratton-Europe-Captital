@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "52",
+  "createdAt": "2026-08-03T21:48:51.8842190+02:00",
+  "revisionReason": "Align slide 3 typography with slide 2, remove the 02 and 03 prefixes and establish the same 14-pixel subtitle-to-content gap.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-51.json",
+    "sha256": "9bfebb7271b01392efe00382757abaeb0f18fb53236da4202afc45f8078d7442",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 3,
+    "changes": [
+      "Use a 14px subtitle-to-content gap.",
+      "Remove 02 and 03 from the two area titles.",
+      "Match slide 2's title, subtitle, section-heading, card-title and description sizes."
+    ]
+  },
+  "typographyScale": {
+    "slideTitlePx": 46,
+    "subtitlePx": 16.5,
+    "sectionHeadingPx": 16.5,
+    "cardTitlePx": 18,
+    "descriptionPx": 15,
+    "sourcePx": 11
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

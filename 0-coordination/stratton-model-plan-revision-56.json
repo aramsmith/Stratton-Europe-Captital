@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "56",
+  "createdAt": "2026-08-03T22:51:32+02:00",
+  "revisionReason": "Slow the slide 1 briefing-scope border glow substantially so the one-time light sweep remains visible for longer.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-55.json",
+    "sha256": "7f75059d6c36dd6be543316547c70c54f863bb41b07681cbe885b98aefdcea9b",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Make the slide 1 block-border animation much slower.",
+      "Retain the larger glow, sequential progression and one-time execution."
+    ]
+  },
+  "implementation": {
+    "target": "slide-1-briefing-scope-blocks",
+    "durationMs": 3800,
+    "initialDelayMs": 1510,
+    "staggerMs": 320,
+    "easing": "cubic-bezier(.37, 0, .63, 1)",
+    "repeat": "once-per-slide-activation",
+    "preserved": [
+      "existing block fly-ins",
+      "larger cyan-to-purple glow",
+      "reduced-motion suppression"
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

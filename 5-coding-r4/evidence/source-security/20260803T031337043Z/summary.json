@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260803T031337043Z",
+  "generatedAt": "2026-08-03T03:13:39.0631497Z",
+  "status": "PASS",
+  "scan": "evidence/source-security/20260803T031337043Z/trivy-source.json",
+  "scannerDatabase": "evidence/source-security/20260803T031337043Z/trivy-db-metadata.json",
+  "highVulnerabilities": 0,
+  "criticalVulnerabilities": 0,
+  "highMisconfigurations": 0,
+  "criticalMisconfigurations": 0,
+  "secretFindings": 0,
+  "licenseFindings": 120,
+  "licenseSummary": [
+    {
+      "spdxId": "0BSD",
+      "count": 1
+    },
+    {
+      "spdxId": "Apache-2.0",
+      "count": 4
+    },
+    {
+      "spdxId": "BSD-3-Clause",
+      "count": 5
+    },
+    {
+      "spdxId": "ISC",
+      "count": 2
+    },
+    {
+      "spdxId": "MIT",
+      "count": 108
+    }
+  ],
+  "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+}

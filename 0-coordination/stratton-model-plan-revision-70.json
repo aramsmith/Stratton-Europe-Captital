@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "70",
+  "createdAt": "2026-08-04T00:54:27+02:00",
+  "revisionReason": "Refine and deliberately break two slide 3 statements so they fit their gears.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-69.json",
+    "sha256": "8cea8de085f7e0847c431dd54afe7d9d02cc5ec336b75a21cd8b6079d44d1e28",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Change the continuous-improvement objective to reference Stratton growth and development of new services.",
+      "Break the continuous-improvement statement into two pieces.",
+      "Break the new Azure environment proof statement as required to fit the outcome gear."
+    ]
+  },
+  "implementation": {
+    "continuousImprovement": [
+      "Continuously improve outcomes that will enable Stratton growth",
+      "and development of new services."
+    ],
+    "proofOfImprovement": [
+      "New Azure environment",
+      "with proof of improvement."
+    ],
+    "rendering": {
+      "editableMultiline": true,
+      "whiteSpace": "pre-line"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

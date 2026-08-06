@@ -1,0 +1,27 @@
+ARG NODE_BASE_IMAGE=mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc
+FROM ${NODE_BASE_IMAGE} AS build
+WORKDIR /workspace
+
+COPY package.json package-lock.json tsconfig.json tsconfig.build.json ./
+COPY src ./src
+RUN npm ci --ignore-scripts --cache /tmp/npm-cache
+RUN npm run build
+
+FROM ${NODE_BASE_IMAGE} AS production-dependencies
+WORKDIR /workspace
+
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts --omit=dev --cache /tmp/npm-cache \
+    && rm -rf /tmp/npm-cache /root/.npm
+
+FROM ${NODE_BASE_IMAGE} AS runtime
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN rm -rf /usr/lib/node_modules /usr/bin/npm /usr/bin/npx /usr/bin/corepack /root/.npm
+
+COPY --from=production-dependencies --chown=65532:65532 /workspace/node_modules ./node_modules
+COPY --from=build --chown=65532:65532 /workspace/dist ./dist
+
+USER 65532:65532
+CMD ["node", "dist/api-main.js"]

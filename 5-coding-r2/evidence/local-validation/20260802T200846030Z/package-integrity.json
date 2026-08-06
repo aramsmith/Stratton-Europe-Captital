@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "package-integrity",
+  "scope": "Security",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File tests/package/Test-PackageIntegrity.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T20:22:07.0176880Z",
+  "endedAt": "2026-08-02T20:22:09.6575631Z",
+  "durationMilliseconds": 2640.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T200846030Z/package-integrity.log"
+}

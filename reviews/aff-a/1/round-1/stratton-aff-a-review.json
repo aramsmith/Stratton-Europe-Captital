@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "selectedModelRationale": "The approved AFF-A default remains the best fit for independent requirements, logic, traceability and omission review. The Phase 1 author actual model is gpt-5.6-sol and therefore cannot be used for independent AFF-A review; gpt-5.3-codex is more implementation/testing oriented.",
+    "runtimeIdentityEvidence": "The active invocation explicitly states the exact AFF-A runtime model for this review as gpt-5.5."
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "1",
+    "phaseName": "Phase 1 \u2014 Requirements",
+    "owner": "AFF-1"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-01T21:13:18.187+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan.json",
+    "revision": "1",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "phaseAuthorActualRuntimeEvidence": [
+      "cases/Stratton-Europe-Captital/1-requirements/stratton-interview-decisions.json:29-40 records Phase 1 phaseEntryModelReassessment with actualRuntimeModelId gpt-5.6-sol.",
+      "The active invocation independently states the Phase 1 author actual runtime as gpt-5.6-sol."
+    ],
+    "reviewerActualRuntimeModelId": "gpt-5.5",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "runScopedOverrideRequired": false
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+    "sha256": null,
+    "sha256Status": "BLOCKED_NOT_INDEPENDENTLY_RECOMPUTED_IN_THIS_REVIEW_RUNTIME",
+    "modelPlanRevision": "1",
+    "hashAlgorithm": "SHA-256",
+    "artifactCount": 4,
+    "manifestEntriesRead": true,
+    "hashVerificationStatus": "BLOCKED",
+    "hashVerificationExplanation": "The manifest lists four subject hashes, but this AFF-A runtime exposes read/write review tooling only and no hash-capable local execution or retained Phase 1 independent verification receipt was present in the reviewed artifact set. No SHA-256 value is invented in this record."
+  },
+  "artifactsReviewed": [
+    {
+      "path": "1-requirements/stratton-requirements.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "9a80152a67c78500919359b86120357cf3ea4ab570c7f852b7e8241502224b34",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED_BLOCKED"
+    },
+    {
+      "path": "1-requirements/stratton-requirements.html",
+      "role": "rendered-html",
+      "manifestSha256": "e6615be08ec96f00d00b5241a4e9238fa0e96992c39265f5f89dc368c729b1d7",
+      "inspectionStatus": "SAFE_HTML_AND_MARKDOWN_CONSISTENCY_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED_BLOCKED"
+    },
+    {
+      "path": "1-requirements/stratton-requirements-catalogue.json",
+      "role": "catalogue",
+      "manifestSha256": "1f9b6aa336c02ea747025a6a54727437b346b2b8831fe3d42d9859050641a059",
+      "inspectionStatus": "CONTENT_AND_ACCEPTANCE_FIELDS_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED_BLOCKED"
+    },
+    {
+      "path": "1-requirements/stratton-interview-decisions.json",
+      "role": "evidence",
+      "manifestSha256": "ab3a7fc522c9ff894f790cab4fef92f47127528ec708870345d1a0c7807e6ebf",
+      "inspectionStatus": "CONTENT_AND_TRACEABILITY_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED_BLOCKED"
+    }
+  ],
+  "additionalRecordsRead": [
+    {
+      "path": ".github/agents/AFF-OPERATING-CONTRACT.md",
+      "purpose": "Operating contract"
+    },
+    {
+      "path": ".github/agents/AFF-LIFECYCLE.json",
+      "purpose": "Lifecycle and model policy"
+    },
+    {
+      "path": ".github/agents/AFF-A-rubber-duck.agent.md",
+      "purpose": "AFF-A reviewer profile"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "purpose": "Active model-plan revision"
+    },
+    {
+      "path": "approvals/0/stratton-phase-0-approval-1.json",
+      "purpose": "Approved upstream Phase 0 gate"
+    },
+    {
+      "path": "reviews/aff-a/0/round-2/stratton-aff-a-review.json",
+      "purpose": "Upstream AFF-A final review binding"
+    },
+    {
+      "path": "stratton-decisions.md",
+      "purpose": "Shared decisions"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "purpose": "Shared risk log"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "purpose": "Shared regulatory register"
+    },
+    {
+      "path": "stratton-run-journal.jsonl",
+      "purpose": "Lifecycle journal"
+    }
+  ],
+  "confirmedItems": [
+    "Phase 0 was approved for Phase 1 eligibility: approvals/0/stratton-phase-0-approval-1.json:8-15 records APPROVED over Phase 0 manifest 6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec.",
+    "The Phase 1 candidate stays inside the requirements boundary and does not select Azure services, assert deployment, claim runtime results, or record Phase 1 approval; see 1-requirements/stratton-requirements.md:17-21 and 145-149.",
+    "The core business outcome is traceable to confirmed interview decision INT-D-001 and is consistently carried into BR-001 and the Markdown executive position.",
+    "The catalogue contains 29 active requirements and records owner, priority, source decision IDs, dependencies and acceptance fields for each active requirement.",
+    "Scope, non-scope and controlled rollout are traceable to INT-D-008 and are reflected in the Markdown, catalogue nonScope list and HTML summary.",
+    "DORA handling in the candidate requirements is conditional and avoids a formal compliance claim: SR-009 and the Markdown regulatory boundary require DORA-aligned evidence pending General Counsel's entity-specific record.",
+    "Acceptance tests are generally stable, evidence-oriented and contain precondition, action/input, observable outcome, threshold, environment and evidence source fields.",
+    "The HTML artifact is self-contained, uses inline CSS, contains no external scripts or CDN links observed, and materially follows the authoritative Markdown at executive, scope, register, regulatory, validation and gate sections.",
+    "The candidate explicitly states that interview confirmation authorised candidate authoring only and did not approve Phase 1 or invoke Phase 2."
+  ],
+  "findings": [
+    {
+      "id": "STRATTON-P1-AFFA-R1-BLOCKER-001",
+      "severity": "BLOCKER",
+      "title": "Canonical manifest and listed subject SHA-256 values were not independently recomputable in this review runtime",
+      "owner": "AFF-1 with review-tooling support",
+      "status": "OPEN",
+      "evidence": [
+        "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json:1-31 lists four SHA-256 values but does not provide the manifest file's own SHA-256.",
+        "cases/Stratton-Europe-Captital/1-requirements contains only the four subject artifacts plus stratton-phase-1-hashes.json; no retained Phase 1 hash-generation or independent verification receipt was present.",
+        "The available AFF-A tools for this invocation allowed file viewing and writing own review records but did not expose a hash-capable local execution function. This record therefore does not invent a manifest hash or recomputed subject hashes."
+      ],
+      "impact": "AFF-A cannot satisfy the operating-contract requirement to bind the verdict to a verified canonical manifest path and hash or to independently verify every listed artifact hash. The Phase 1 gate must remain blocked until review can be repeated with verifiable hashes.",
+      "remediation": "Reinvoke AFF-A in a hash-capable runtime or add retained, reviewable Phase 1 hash-generation and independent verification evidence, then re-run AFF-A over the complete unchanged artifact set. The subsequent review must record the manifest SHA-256 and independently recomputed SHA-256 result for every listed artifact.",
+      "phaseBoundary": "Review process / evidence integrity"
+    },
+    {
+      "id": "STRATTON-P1-AFFA-R1-MAJOR-001",
+      "severity": "MAJOR",
+      "title": "Interview decision record retains contradictory OPEN openItems after declaring the interview closed with no material decisions pending",
+      "owner": "AFF-1",
+      "status": "OPEN",
+      "evidence": [
+        "1-requirements/stratton-interview-decisions.json:1343-1382 lists OPEN-001 through OPEN-006 with status OPEN, including the business outcome, sovereignty, data constraints, regulatory leads, DORA applicability and independent validator.",
+        "The same file records resolving transitions for these items, including TRANS-002 at lines 1073-1080, TRANS-004 at lines 1090-1097, TRANS-011 at lines 1148-1155, TRANS-014 at lines 1173-1180 and TRANS-015 at lines 1182-1189.",
+        "The same file then asserts closure at lines 1384-1398 and lines 1443-1455, including noCriticalUnknownOrMaterialDecisionPending=true and INTERVIEW_CLOSED_BY_HUMAN_CONFIRMATION."
+      ],
+      "impact": "Machine readers and downstream agents can reasonably interpret the authoritative interview evidence as still having open material decisions, contradicting the Phase 1 claim that no material decision remains unanswered.",
+      "remediation": "Preserve append-only history but add or correct a current-disposition section that marks each open item with its final resolved, partially resolved, or owned-validation status and links to the resolving decision or validation item. Regenerate affected artifacts and hashes.",
+      "phaseBoundary": "Phase 1 requirements evidence"
+    },
+    {
+      "id": "STRATTON-P1-AFFA-R1-MAJOR-002",
+      "severity": "MAJOR",
+      "title": "Active model plan does not clearly record Phase 1 authoring reassessment in the required model-plan record",
+      "owner": "AFF-1 with AFF-0 model-plan custody as applicable",
+      "status": "OPEN",
+      "evidence": [
+        ".github/agents/AFF-OPERATING-CONTRACT.md:47-50 requires each phase owner to reassess and record selected exact model ID, rationale, availability and actual runtime model ID in 0-coordination/<artifactPrefix>-model-plan.json before authoring.",
+        "0-coordination/stratton-model-plan.json:27-36 records AFF-1 selectedExactGptModelId and actualRuntimeModelId as gpt-5.6-sol, but the reassessmentStatus remains COMPLETE_FOR_PHASE_0_PLANNING rather than a Phase 1 authoring reassessment.",
+        "1-requirements/stratton-interview-decisions.json:29-40 separately records the Phase 1 phaseEntryModelReassessment, which shows the information exists but is not clearly recorded in the active model-plan record required by the operating contract."
+      ],
+      "impact": "Model-governance traceability is split across artifacts and the active model plan revision does not unambiguously demonstrate the required Phase 1 pre-authoring reassessment.",
+      "remediation": "Record the Phase 1 authoring reassessment in the active model-plan mechanism according to the operating contract, using append-only revision/change control if required, then regenerate the affected Phase 1 hash manifest and re-run reviews.",
+      "phaseBoundary": "Model governance"
+    },
+    {
+      "id": "STRATTON-P1-AFFA-R1-MAJOR-003",
+      "severity": "MAJOR",
+      "title": "Shared regulatory and risk records remain stale after Phase 1 confirmed decisions that the candidate uses as requirements evidence",
+      "owner": "AFF-0 for shared-record custody, with AFF-1 to request/update through the proper route",
+      "status": "OPEN",
+      "evidence": [
+        "stratton-regulatory-register.md:3-14 still states no instrument is confirmed applicable and keeps GDPR, EU AI Act, SFDR, AIFMD and sector-specific directives in inferred/open states.",
+        "stratton-risk-log.md:5-9 still leaves sovereignty, regulatory applicability, data constraints, outcome measures and mocked-evidence risks OPEN.",
+        "1-requirements/stratton-interview-decisions.json:1293-1300 and 1336 explicitly state that Phase 1 confirmed regulatory positions and that AFF-0 regulatory-register revision is required.",
+        "1-requirements/stratton-requirements.md:104-119 and catalogue requirements SR-003 through SR-009 rely on those confirmed regulatory decisions."
+      ],
+      "impact": "Downstream phases would see contradictory cross-phase baselines: the Phase 1 candidate treats regulatory applicability and residual-risk treatments as confirmed/owned, while the shared records remain in their Phase 0 inferred/open state.",
+      "remediation": "Have the shared-record custodian append the required regulatory-register and risk-log updates or explicitly bind a current disposition record before Phase 1 final convergence. Regenerate affected artifacts and hashes if the Phase 1 candidate references the updated shared records.",
+      "phaseBoundary": "Cross-phase traceability and shared-record freshness"
+    }
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "A blocker prevents independent hash binding, and unresolved major findings remain in the authoritative evidence, model-governance traceability and shared-record alignment. The requirements content is largely coherent and traceable, but the Phase 1 gate cannot open for this manifest in this round.",
+  "residualGaps": [
+    "No residual gap is accepted by AFF-A; all listed findings require remediation or explicit re-review.",
+    "AFF-A does not approve, waive or certify Phase 1."
+  ],
+  "finalRoundForManifest": true,
+  "requiredAction": "Do not seek human Phase 1 approval on this AFF-A result. Remediate the findings, regenerate any affected artifacts and canonical hashes, then re-invoke AFF-A over the complete final set. AFF-B must also cover the identical unchanged manifest before any human gate can open.",
+  "supersededRound": null,
+  "approvalStatement": "AFF-A does not approve the phase; only the human architect may approve or reject Phase 1 after converged final reviews."
+}

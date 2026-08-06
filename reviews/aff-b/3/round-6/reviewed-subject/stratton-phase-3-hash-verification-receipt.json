@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_R2_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "formalReviewRound": 6,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "verifiedAt": "2026-08-06T09:16:48.797+02:00",
+  "algorithm": "SHA-256",
+  "method": "Independent raw-byte SHA-256 recomputation, JSON parsing, static HTML inspection and byte-for-byte source-to-reviewed-subject comparison. No Azure sign-in, validation, deployment or runtime testing was performed.",
+  "r2Manifest": {
+    "path": "3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+    "sha256BeforeReview": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "sha256AfterReview": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "artifactCount": 11,
+    "candidateFileCount": 12,
+    "status": "UNCHANGED"
+  },
+  "originalManifest": {
+    "path": "3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "artifactCount": 10,
+    "candidateFileCount": 11,
+    "status": "UNCHANGED_AND_MATCHED_BOTH_PRIOR_REVIEWED_SUBJECT_SNAPSHOTS"
+  },
+  "verifiedCandidates": [
+    {"path": "3-azure-design/evidence/stratton-cc-002-r2-candidate-validation.json", "sha256": "e7aa33b7fea11572a63d22453b8471f6a64fe14d77b39fc03c9c7e26cf6c87f1", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-cc-002-r2-change-control-evidence.json", "sha256": "7bd5acd7da68685b3f743548970f51e9185d8ae171a113b6b3985dbaeaf7212a", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-cc-002-r2-hash-generation-evidence.json", "sha256": "d0b5c8a1eacb4aff9be932859c28c31d6c7d8f76ef622baec672c97fda0da23a", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json", "sha256": "a821f0153f0b8321783ffcf7f2e8f2d6dbb7092ad2b8974c845a6d0049cdb211", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json", "sha256": "3b4c5b1e17fbb996efc979e4f2dddbe2c80b02b763b71d6184bc241aa9e6470d", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json", "sha256": "ae03dff0998d113130d4cf2f1bfb7def6ed0e49fee383d5d385933eb86ca2c52", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json", "sha256": "547839bf37ecb68af52319636b852c3878f0cd3dfd2ecfe866817b94db070d18", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json", "sha256": "bcd9922acf559ff5ede1942652eeb39779225cb754d42ff7993f0a12ec28429c", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html", "sha256": "e48a62737fa57bf8a8250ab7a2bf7f25d14f11e875b2a09067f984f5cc5d5855", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md", "sha256": "c4b834f0a4a341ba43f7eb0e4b8659fee10760320b36f0c03fea72902e609a28", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/stratton-design-catalogue-cc-002-r2-proposed.json", "sha256": "6c34d3a4b546749eeb2971858687b6daa5af624c24d60e3909e1634717e11786", "byteIdenticalCopy": true},
+    {"path": "3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json", "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e", "byteIdenticalCopy": true}
+  ],
+  "staticChecks": {
+    "r2JsonDocumentsParsed": 10,
+    "r2ManifestEntriesMatched": 11,
+    "originalManifestEntriesMatched": 10,
+    "originalLiveFilesMatchedAffARound6Snapshot": 11,
+    "originalLiveFilesMatchedAffBRound5Snapshot": 11,
+    "securityGateCountsAcrossEvaluationRoutingSecurity": [12, 12, 12],
+    "securityGatesByteForSemanticStructureEquivalent": true,
+    "claimBoundSourceRecords": 12,
+    "sourceBoundClaims": 16,
+    "privacyLifecycleClasses": 5,
+    "markdownHtmlHeadingParity": [13, 13],
+    "externalScriptSources": 0,
+    "candidateManifestModifiedDuringReview": false
+  },
+  "result": "PASS"
+}

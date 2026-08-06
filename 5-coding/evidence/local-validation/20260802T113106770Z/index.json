@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260802T113106770Z",
+  "scope": "Prerequisites",
+  "status": "FAIL",
+  "generatedAt": "2026-08-02T11:31:10.8490664Z",
+  "packageRoot": "<PACKAGE_ROOT>",
+  "steps": [
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "prerequisites",
+      "scope": "Prerequisites",
+      "status": "FAIL",
+      "command": "Verify exact tool versions and required package inputs",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-02T11:31:06.7808354Z",
+      "endedAt": "2026-08-02T11:31:10.8168879Z",
+      "durationMilliseconds": 4036.0,
+      "exitCode": 1,
+      "redactedLog": "evidence/local-validation/20260802T113106770Z/prerequisites.log"
+    }
+  ]
+}

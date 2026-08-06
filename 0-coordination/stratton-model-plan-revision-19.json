@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "19",
+  "createdAt": "2026-08-03T15:39:17.6561062+02:00",
+  "revisionReason": "Govern the human-requested Phase 6 revision programme in sibling candidate 6-presentation-r4. The first agreed step converts the unchanged revision-3 presentation from shadcn Ocean dark to the DECKIO Fabric theme.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-18.json",
+    "sha256": "33ea20c25a88079a7d99cfa118d9882cd0142deef4b892a81daf5372360b07ca",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "decision": "REQUEST_REVISION",
+    "baseline": "6-presentation-r3",
+    "selectedRevisionAreas": [
+      "storyline",
+      "executive_message",
+      "business_value",
+      "architecture",
+      "visual_design",
+      "governance"
+    ],
+    "workingMethod": "STEP_BY_STEP",
+    "currentStep": {
+      "id": "R4-STEP-01",
+      "name": "Apply DECKIO Fabric theme",
+      "status": "AUTHORISED"
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for a cross-slide DECKIO theme migration that must preserve governed claims, presentation semantics, portable packaging and security evidence boundaries.",
+    "modelSelectionChanged": false,
+    "runScopedOverrideRequired": false,
+    "additionalHumanModelApprovalRequired": false
+  },
+  "preservedBaseline": {
+    "phaseFolder": "6-presentation-r3",
+    "canonicalManifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "canonicalManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "artifactCount": 95,
+    "affAReviewPath": "reviews/aff-a/6/round-3/stratton-aff-a-review.json",
+    "affAReviewSha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+    "affAVerdict": "CONFORMS",
+    "affBReviewPath": "reviews/aff-b/6/round-2/stratton-aff-b-review.json",
+    "affBReviewSha256": "b7e0123dde62a271572164063499c8258e694c5991b01cc2db83ba9f39125341",
+    "affBVerdict": "CONFORMS-WITH-GAPS",
+    "coveragePath": "reviews/aff-b/coverage/stratton-compliance-coverage-011.json",
+    "coverageSha256": "8936b09ba1bbb0277479ee7f1b3127c7372227a98fa6856697a461e77b83e264",
+    "state": "IMMUTABLE_ASSURANCE_CONVERGED_NOT_HUMAN_APPROVED"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "deckSourcePath": "6-presentation-r4/deck",
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "approvalEligible": false
+  },
+  "themeMigration": {
+    "engine": "DECKIO",
+    "from": {
+      "theme": "shadcn",
+      "designSystem": "shadcn",
+      "appearance": "dark",
+      "palette": "ocean"
+    },
+    "to": {
+      "theme": "fabric",
+      "designSystem": "default",
+      "appearance": "light",
+      "humanSelected": true
+    },
+    "requiredOutcomes": [
+      "Use the Fabric descriptor structure on all ten slides.",
+      "Make accent-bar the first child and BottomBar the last child on every slide.",
+      "Remove shadcn-only components, Aurora and deep-space decoration from slide content.",
+      "Use Fabric semantic tokens, Segoe UI system fonts, clean cards, subtle shadows and restrained accents.",
+      "Preserve slide order, wording, claim IDs, diagrams and evidence classifications during this theme-only step.",
+      "Preserve the hardened relative build and zero-external-runtime dependency controls inherited from revision 3."
+    ]
+  },
+  "futureReviewAssignments": {
+    "affA": {
+      "reviewer": "AFF-A",
+      "selectedExactGptModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthorActualRuntimeModelId": true,
+      "nextRound": 4,
+      "startCondition": "Final revision-4 candidate frozen after all human-directed revision steps"
+    },
+    "affB": {
+      "reviewer": "AFF-B",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "separateRoleContextAndWriteBoundaryRequired": true,
+      "nextRound": 3,
+      "startCondition": "AFF-A accepts the same unchanged final revision-4 manifest"
+    }
+  },
+  "constraints": [
+    "Preserve every file beneath 6-presentation, 6-presentation-r2 and 6-presentation-r3 byte-identically.",
+    "Create all new work only beneath sibling folder 6-presentation-r4.",
+    "Do not change presentation claims, evidence classifications or source references during the theme-only step.",
+    "Do not invent business benefits, ROI, Azure prices, rates, cost totals, dates, customer facts, legal conclusions or runtime observations.",
+    "Disclose the three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps without implying waiver or closure.",
+    "Use system fonts and retain the hardened build controls that prevent external runtime requests.",
+    "Do not create a canonical manifest or request formal reviews until the human confirms the remaining revision steps are complete.",
+    "No Azure sign-in, target validation, what-if, deployment, cloud validation or runtime testing is authorised.",
+    "Phases 7 and 8 remain separately human-invocable and unauthorised."
+  ]
+}

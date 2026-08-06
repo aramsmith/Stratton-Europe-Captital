@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "69",
+  "createdAt": "2026-08-04T00:49:36+02:00",
+  "revisionReason": "Add AI to the slide 3 sovereign landing-zone objective.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-68.json",
+    "sha256": "1ea45fb9507d5826bfab3c7e19541e85815e3d939e1390f17f1fcf24493a4666",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "change": "Move the legacy on-premises solution into an Azure AI & Sovereign Landing Zone."
+  },
+  "implementation": {
+    "slide": 3,
+    "section": "Transformation objectives",
+    "objectiveId": "landing-zone",
+    "text": "Move the legacy on-premises solution into an Azure AI & Sovereign Landing Zone."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/stratton/release-manifest.schema.json",
+  "title": "Stratton Phase 5 release manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactPrefix",
+    "generatedAt",
+    "phase",
+    "candidateStatus",
+    "deploymentReady",
+    "upstream",
+    "source",
+    "environments",
+    "deploymentUnits",
+    "validation",
+    "images",
+    "signing",
+    "dependencyEvidence",
+    "authorityChangeControl",
+    "unresolvedControls",
+    "retainedMinorGaps",
+    "authorityConflicts",
+    "azureExecution",
+    "canonicalization",
+    "files"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "artifactPrefix": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "phase": {
+      "const": 5
+    },
+    "candidateStatus": {
+      "enum": [
+        "READY_FOR_ASSURANCE",
+        "BLOCKED_PENDING_AUTHORITY_INPUTS"
+      ]
+    },
+    "deploymentReady": {
+      "type": "boolean"
+    },
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase4ManifestSha256",
+        "phase4ApprovalId",
+        "modelPlanRevision",
+        "phase5ModelPlan"
+      ],
+      "properties": {
+        "phase4ManifestSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "phase4ApprovalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelPlanRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "phase5ModelPlan": {
+          "$ref": "#/$defs/hashedPath"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit",
+        "commitScope",
+        "worktreeTracked",
+        "worktreeDirty",
+        "worktreeStatus"
+      ],
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "commitScope": {
+          "enum": [
+            "PACKAGE_TRACKED_IN_COMMIT",
+            "FRAMEWORK_REPOSITORY_ANCHOR_ONLY_CASE_PACKAGE_HASHED_SEPARATELY"
+          ]
+        },
+        "worktreeTracked": {
+          "type": "boolean"
+        },
+        "worktreeDirty": {
+          "type": "boolean"
+        },
+        "worktreeStatus": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "environments": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "dev"
+        },
+        {
+          "const": "tst"
+        },
+        {
+          "const": "prd"
+        }
+      ],
+      "items": false
+    },
+    "deploymentUnits": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "items": {
+        "type": "string",
+        "pattern": "^DU-[0-9]{2}$"
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "runId",
+        "evidence",
+        "evidenceBoundary"
+      ],
+      "properties": {
+        "status": {
+          "const": "PASS"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "string",
+          "pattern": "^evidence/"
+        },
+        "evidenceBoundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "localValidationReleaseStep",
+            "finalFreezeOutsideValidationRun",
+            "freezeSequence"
+          ],
+          "properties": {
+            "localValidationReleaseStep": {
+              "const": "RELEASE_MANIFEST_ONLY"
+            },
+            "finalFreezeOutsideValidationRun": {
+              "const": true
+            },
+            "freezeSequence": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "const": "validation/New-BuildReport.ps1"
+                },
+                {
+                  "const": "validation/New-Phase5Hashes.ps1"
+                },
+                {
+                  "const": "validation/Test-ReleaseEvidence.ps1"
+                }
+              ],
+              "items": false
+            }
+          }
+        }
+      }
+    },
+    "images": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "digest",
+          "platform",
+          "sbom",
+          "scan"
+        ],
+        "properties": {
+          "name": {
+            "enum": [
+              "api",
+              "worker"
+            ]
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "platform": {
+            "const": "linux/amd64"
+          },
+          "sbom": {
+            "type": "string",
+            "pattern": "^evidence/"
+          },
+          "scan": {
+            "type": "string",
+            "pattern": "^evidence/"
+          }
+        }
+      }
+    },
+    "signing": {
+      "type": "object"
+    },
+    "dependencyEvidence": {
+      "type": "object"
+    },
+    "authorityChangeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "changeControlId",
+        "status",
+        "modelPlanRevision",
+        "modelPlan",
+        "approval",
+        "subjects",
+        "affAReviews",
+        "affBReviews",
+        "complianceCoverage"
+      ],
+      "properties": {
+        "changeControlId": {
+          "const": "STRATTON-CC-001"
+        },
+        "status": {
+          "const": "APPROVED_FOR_PHASE5_AUTHORITY_INTERFACE_FINALISATION"
+        },
+        "modelPlanRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelPlan": {
+          "$ref": "#/$defs/hashedPath"
+        },
+        "approval": {
+          "$ref": "#/$defs/hashedPath"
+        },
+        "subjects": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/phaseHashedPath"
+          }
+        },
+        "affAReviews": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/phaseReview"
+          }
+        },
+        "affBReviews": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/phaseReview"
+          }
+        },
+        "complianceCoverage": {
+          "$ref": "#/$defs/hashedPath"
+        }
+      }
+    },
+    "unresolvedControls": {
+      "type": "array",
+      "prefixItems": [
+        { "const": "VAL-001" },
+        { "const": "VAL-002" },
+        { "const": "VAL-003" },
+        { "const": "VAL-004" },
+        { "const": "VAL-005" },
+        { "const": "AFFB-RES-001" },
+        { "const": "AFFB-RES-002" },
+        { "const": "CC1-OWN-001" },
+        { "const": "CC1-OWN-002" },
+        { "const": "CC1-OWN-003" },
+        { "const": "CC1-OWN-004" },
+        { "const": "CC1-OWN-005" },
+        { "const": "CC1-OWN-006" },
+        { "const": "CC1-OWN-007" }
+      ],
+      "items": false
+    },
+    "retainedMinorGaps": {
+      "type": "array",
+      "prefixItems": [
+        { "const": "AFFB-CC001-R2-MIN-001" },
+        { "const": "AFFB-CC001-R3-MIN-002" }
+      ],
+      "items": false
+    },
+    "authorityConflicts": {
+      "type": "array",
+      "prefixItems": [
+        { "const": "Assurance verdict issuance is not deployable in DU-12" },
+        { "const": "Analysis execution interface remains authority-blocked" },
+        { "const": "Audit evidence export interface remains authority-blocked" }
+      ],
+      "items": false
+    },
+    "azureExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authenticated",
+        "validateExecuted",
+        "whatIfExecuted",
+        "deploymentExecuted"
+      ],
+      "properties": {
+        "authenticated": {
+          "const": false
+        },
+        "validateExecuted": {
+          "const": false
+        },
+        "whatIfExecuted": {
+          "const": false
+        },
+        "deploymentExecuted": {
+          "const": false
+        }
+      }
+    },
+    "canonicalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hashRoot",
+        "canonicalManifestPath",
+        "pathSeparator",
+        "sort",
+        "encoding",
+        "trailingNewline",
+        "excluded"
+      ],
+      "properties": {
+        "hashRoot": {
+          "const": "5-coding-r4"
+        },
+        "canonicalManifestPath": {
+          "const": "5-coding-r4/stratton-phase-5-hashes.json"
+        },
+        "pathSeparator": {
+          "const": "/"
+        },
+        "sort": {
+          "const": "ordinal"
+        },
+        "encoding": {
+          "const": "UTF-8 without BOM"
+        },
+        "trailingNewline": {
+          "const": false
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256",
+          "sizeBytes"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\\\]+(?:/[^\\\\]+)*$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sizeBytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hashedPath": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "phaseHashedPath": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/hashedPath"
+        },
+        {
+          "type": "object",
+          "required": [
+            "phaseId"
+          ],
+          "properties": {
+            "phaseId": {
+              "enum": [
+                "3",
+                "4"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "phaseReview": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/phaseHashedPath"
+        },
+        {
+          "type": "object",
+          "required": [
+            "round",
+            "verdict"
+          ],
+          "properties": {
+            "round": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "verdict": {
+              "enum": [
+                "CONFORMS",
+                "CONFORMS-WITH-GAPS"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_CHANGE_CONTROL_APPROVAL",
+  "approvalId": "STRATTON-CC-001-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "changeControlId": "STRATTON-CC-001",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-02T16:47:54.8427830+02:00",
+  "modelPlanRevision": "11",
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-11.json",
+    "sha256": "b9fe50b7de6ba21e452d09fde4c827d03d763163dfb60c8bad9d9bd273fa900a"
+  },
+  "subjects": [
+    {
+      "phaseId": "3",
+      "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+      "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54"
+    },
+    {
+      "phaseId": "4",
+      "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+      "sha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626"
+    }
+  ],
+  "affAReviews": [
+    {
+      "phaseId": "3",
+      "round": 5,
+      "path": "reviews/aff-a/3/round-5/stratton-aff-a-review.json",
+      "sha256": "1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539",
+      "verdict": "CONFORMS-WITH-GAPS"
+    },
+    {
+      "phaseId": "4",
+      "round": 6,
+      "path": "reviews/aff-a/4/round-6/stratton-aff-a-review.json",
+      "sha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+      "verdict": "CONFORMS-WITH-GAPS"
+    }
+  ],
+  "affBReviews": [
+    {
+      "phaseId": "3",
+      "round": 4,
+      "path": "reviews/aff-b/3/round-4/stratton-aff-b-review.json",
+      "sha256": "0adf627a1e43de0553d106eb6c446a47f3b2718cf3adeafa844c7bd5944e5e9c",
+      "verdict": "CONFORMS-WITH-GAPS"
+    },
+    {
+      "phaseId": "4",
+      "round": 3,
+      "path": "reviews/aff-b/4/round-3/stratton-aff-b-review.json",
+      "sha256": "b220e01bbede12f7fff81e3220c15a2271b27b4970c35bd963ee877049e3d7b9",
+      "verdict": "CONFORMS-WITH-GAPS"
+    }
+  ],
+  "complianceCoverage": {
+    "path": "reviews/aff-b/coverage/stratton-compliance-coverage-007.json",
+    "sha256": "e769a9326a6bf362a566a42934ef6093d2dca8e37bc955a53474e17f664147d8"
+  },
+  "residualGaps": [
+    "Phase 3 retains 244 and Phase 4 retains 276 owner-bound parameters that remain fail closed until named-owner evidence exists.",
+    "Internal Audit WP-05 package acceptance and build, sign, publish, deploy and operate authority remain future gates.",
+    "Fourteen Phase 4 implementation controls remain open, unwaived and owner-bound.",
+    "AFFB-CC001-R2-MIN-001 requires helper purpose metadata to use signedAt before signature-client implementation while retaining issuedAt only as verdict decision time.",
+    "AFFB-CC001-R3-MIN-002 requires any future material Phase 4 revision to name the r3 subject accurately; current automation uses the canonical r3 hash.",
+    "VAL-001 through VAL-005 and AFFB-RES-001 through AFFB-RES-002 remain open fail-closed controls."
+  ],
+  "constraints": [
+    "This approval applies only to the exact Phase 3 r2 and Phase 4 r3 subject hashes recorded here.",
+    "The bounded r3 prose label does not change the approved Phase 4 r3 hash or its exact Phase 3 r2 binding.",
+    "This approval permits prospective local Phase 5 authority-interface finalisation, validation, candidate hashing and formal Phase 5 reviews.",
+    "This approval does not waive, populate or infer any owner-bound input, compliance applicability conclusion or control.",
+    "This approval does not authorise Azure sign-in, target validation, what-if, deployment, cloud runtime testing, Phase 6 or any optional phase."
+  ]
+}

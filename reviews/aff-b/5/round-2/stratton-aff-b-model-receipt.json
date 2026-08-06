@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "phaseName": "Phase 5 — Coding",
+  "round": 2,
+  "invokedBy": "AFF-5",
+  "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER",
+  "formalisedAt": "2026-08-03T05:57:03.9454885+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-sol",
+  "actualRuntimeModelId": "gpt-5.6-sol",
+  "actualRuntimeEvidence": "The authoritative full-capability AFF-B invocation explicitly bound the approved, selected and actual runtime model to gpt-5.6-sol.",
+  "selectionRationale": "The approved AFF-B default remains best suited to the Phase 5 security, privacy, sovereignty, compliance, evidence and context scope; no run-scoped model change was required.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-15.json",
+    "revision": "15",
+    "sha256": "7ce3ff77d47384ceaf3e0515b3350578831b5a2fedfcbeba4e586399dc9f6fb4",
+    "subjectManifestModelPlanRevision": "15",
+    "phaseAuthorActualRuntimeModelIds": [
+      "gpt-5.3-codex",
+      "gpt-5.6-sol"
+    ],
+    "phaseFinalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+    "sha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "fileCount": 155,
+    "listedFilesMatched": 155
+  },
+  "finalAffARecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+    "sha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+    "verdict": "CONFORMS-WITH-GAPS",
+    "finalRoundForManifest": true
+  },
+  "activeCoverage": {
+    "sequence": "009",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-009.json",
+    "sha256": "5c25df3283233120e814629dafd742c302ed5d44424bb75e7193c4ef0456e0ad",
+    "status": "ACTIVE_CONVERGED_PHASE5_REVISION4_AFF_B_ROUND2"
+  },
+  "separation": {
+    "authorModelDifferenceRequired": false,
+    "sameModelRelationship": "ALLOWED_ONLY_THROUGH_SEPARATE_AFF_B_ROLE_CONTEXT_AND_WRITE_BOUNDARY",
+    "relationshipStatus": "ALLOWED_SAME_EXACT_MODEL",
+    "independenceBasis": [
+      "separate AFF-B reviewer role",
+      "separate invocation and agent context from Phase 5 finalisation authoring",
+      "write scope restricted to AFF-B round-2 and coverage sequence 009 outputs",
+      "reviewed Phase 5 subject and AFF-A artifacts remained immutable"
+    ],
+    "status": "ESTABLISHED_SEPARATE_ROLE_CONTEXT_AND_WRITE_BOUNDARY"
+  },
+  "noUnauthorisedExecution": "AFF-B executed no reviewed package code, tests, Bicep, npm, containers, scanners, Azure commands, login, target validation, what-if, deployment, retention finalisation, cloud validation or runtime tests; only static reads, searches and SHA-256 hashing were used.",
+  "subjectModificationPerformed": false,
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, attest, deploy, authorise retention finalisation or provide runtime evidence."
+}

@@ -1,0 +1,1761 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "DATA_AND_INTEGRATION_CONTRACTS",
+  "dataDesign": {
+    "citadelGovernance": "Admission and AI-use decisions consume versioned references from the separate Citadel AI-governance plane. That plane stores policy, model, evaluation and approval metadata onlyâ€”not Stratton source documents, production inference state or Internal Audit verdicts.",
+    "regionalPattern": "Production uses separate private data services in the signed-approved primary/recovery region pair. Global/DataZone AI is prohibited and no implicit Azure geo-pair is accepted unless it is the explicitly approved recovery region.",
+    "systemOfRecordBoundary": "Existing deal-room, CRM, finance, ESG, legal and compliance systems remain authoritative. Release 1 stores governed evidence copies, metadata, derived analysis and workflow state only.",
+    "transactionalStore": "Azure SQL Database with Microsoft Entra-only authentication, private endpoint, publicNetworkAccess Disabled, TDE, auditing and automated backups.",
+    "objectStores": "Separate private Blob Storage accounts/containers for quarantine, admitted evidence, temporary work, audit export and Internal Audit verdicts, with controlled primary-to-approved-recovery replication under the owning boundary.",
+    "retrievalStore": "Azure AI Search holds rebuildable derived chunks and vectors keyed to evidenceId; it is not an authoritative record.",
+    "classification": "Production case, deal, financial, legal and portfolio data is highly confidential. Development and test contain synthetic data only.",
+    "partitioning": "All transactional and derived entities carry caseId. Blob paths use environment/caseId/evidenceId/version. Search filters include caseId, classification, policyVersion and admissionStatus.",
+    "retention": "No duration is invented. Every record carries retentionScheduleId, legalHoldId when applicable and dispositionStatus. Production lifecycle policies remain disabled or non-destructive until source/records owners approve schedules under VAL-004.",
+    "trainingBoundary": "No Azure OpenAI fine-tuning or custom foundation-model training is deployed. Stratton prompts, completions and source documents are not placed in a training dataset."
+  },
+  "logicalEntities": [
+    {
+      "entity": "Case",
+      "key": "caseId",
+      "requiredFields": [
+        "status",
+        "dealEligibilityDecisionId",
+        "jurisdictionEligibilityDecisionId",
+        "openedAt",
+        "committeeReadyAt",
+        "rolloutSequence"
+      ],
+      "rules": [
+        "rolloutSequence <= 20",
+        "status transition requires policy decision"
+      ]
+    },
+    {
+      "entity": "EligibilityDecision",
+      "key": "eligibilityDecisionId",
+      "requiredFields": [
+        "caseId",
+        "decisionType",
+        "decision",
+        "deciderObjectId",
+        "decidedAt",
+        "policyVersion"
+      ],
+      "rules": [
+        "append-only history"
+      ]
+    },
+    {
+      "entity": "SourceRegistration",
+      "key": "sourceId",
+      "requiredFields": [
+        "ownerId",
+        "domain",
+        "authoritativeStatus",
+        "interfaceType",
+        "permissionEvidenceId",
+        "jurisdiction",
+        "status"
+      ],
+      "rules": [
+        "production enabled only after VAL-004 evidence"
+      ]
+    },
+    {
+      "entity": "ExternalLicenceDecision",
+      "key": "licenceDecisionId",
+      "requiredFields": [
+        "sourceId",
+        "licenceEvidenceId",
+        "aiRetrievalAllowed",
+        "aiAnalysisAllowed",
+        "purposeId",
+        "approvedBy",
+        "expiresAt"
+      ],
+      "rules": [
+        "deny on false, missing or expired"
+      ]
+    },
+    {
+      "entity": "EvidenceEnvelope",
+      "key": "evidenceId",
+      "requiredFields": [
+        "caseId",
+        "sourceId",
+        "sourceVersion",
+        "ownerId",
+        "capturedAt",
+        "licenceDecisionId",
+        "purposeId",
+        "classification",
+        "qualityStatus",
+        "contentHash",
+        "admissionStatus"
+      ],
+      "rules": [
+        "analysis requires all fields and admissionStatus=ADMITTED"
+      ]
+    },
+    {
+      "entity": "EvidenceObject",
+      "key": "evidenceVersionId",
+      "requiredFields": [
+        "evidenceId",
+        "blobUriReference",
+        "contentHash",
+        "mediaType",
+        "sizeBytes",
+        "malwareScanStatus",
+        "retentionScheduleId",
+        "dispositionStatus"
+      ],
+      "rules": [
+        "content stored outside SQL; hash must match"
+      ]
+    },
+    {
+      "entity": "AnalysisRun",
+      "key": "analysisRunId",
+      "requiredFields": [
+        "caseId",
+        "providerAdapterId",
+        "providerAdapterVersion",
+        "modelDeploymentResourceId",
+        "modelName",
+        "modelVersion",
+        "promptTemplateId",
+        "promptTemplateVersion",
+        "promptTemplateHash",
+        "contentSafetyPolicyId",
+        "embeddingConfigurationHash",
+        "policyVersion",
+        "inputManifestHash",
+        "startedAt",
+        "completedAt",
+        "status"
+      ],
+      "rules": [
+        "draft output only",
+        "no approval transition permission",
+        "all governed values resolve and match approved hashes before provider call",
+        "no provider or model fallback"
+      ]
+    },
+    {
+      "entity": "MaterialClaim",
+      "key": "claimId",
+      "requiredFields": [
+        "caseId",
+        "analysisRunId",
+        "claimTextReference",
+        "severity",
+        "reviewStatus"
+      ],
+      "rules": [
+        "material claim cannot be publishable without citation and review"
+      ]
+    },
+    {
+      "entity": "Citation",
+      "key": "citationId",
+      "requiredFields": [
+        "claimId",
+        "evidenceId",
+        "evidenceVersionId",
+        "locator",
+        "accessibleAtReview"
+      ],
+      "rules": [
+        "foreign-key integrity to admitted evidence"
+      ]
+    },
+    {
+      "entity": "ReviewApproval",
+      "key": "reviewId",
+      "requiredFields": [
+        "caseId",
+        "subjectId",
+        "reviewType",
+        "reviewerObjectId",
+        "decision",
+        "decidedAt",
+        "evidenceManifestHash"
+      ],
+      "rules": [
+        "human identity required",
+        "append-only correction record"
+      ]
+    },
+    {
+      "entity": "PolicyDecision",
+      "key": "policyDecisionId",
+      "requiredFields": [
+        "caseId",
+        "decisionPoint",
+        "policyVersion",
+        "inputHash",
+        "result",
+        "reasonCodes",
+        "decidedAt"
+      ],
+      "rules": [
+        "default result DENY on dependency failure"
+      ]
+    },
+    {
+      "entity": "WorkItem",
+      "key": "workItemId",
+      "requiredFields": [
+        "caseId",
+        "workType",
+        "messageId",
+        "attempt",
+        "status",
+        "queuedAt",
+        "completedAt"
+      ],
+      "rules": [
+        "idempotency by messageId",
+        "bounded retries then dead letter"
+      ]
+    },
+    {
+      "entity": "AuditEvent",
+      "key": "eventId",
+      "requiredFields": [
+        "tenantId",
+        "caseId",
+        "sequence",
+        "occurredAt",
+        "actorId",
+        "action",
+        "subjectId",
+        "outcome",
+        "correlationId",
+        "previousEventHash",
+        "sourceTransactionId",
+        "schemaVersion",
+        "eventHash",
+        "eventId",
+        "producerTenantId",
+        "producerObjectId",
+        "producerSignatureAlgorithm",
+        "producerKeyId",
+        "producerKeyVersion",
+        "producerSignatureCreatedAt",
+        "producerSignature"
+      ],
+      "rules": [
+        "canonical non-self-referential hashes",
+        "producer signed",
+        "unique tenantId/caseId/sequence",
+        "same workload SQL transaction as outbox"
+      ]
+    },
+    {
+      "entity": "ValidationManifest",
+      "key": "validationManifestId",
+      "requiredFields": [
+        "benchmarkVersion",
+        "inputHashes",
+        "testSuiteVersion",
+        "resultHashes",
+        "producerIdentity",
+        "generatedAt"
+      ],
+      "rules": [
+        "delivery can submit; Internal Audit owns verdict"
+      ]
+    },
+    {
+      "entity": "ValidationVerdict",
+      "key": "verdictId",
+      "requiredFields": [
+        "validationManifestId",
+        "internalAuditSigner",
+        "decision",
+        "signedAt",
+        "verdictHash"
+      ],
+      "rules": [
+        "created only in assurance boundary",
+        "immutable to delivery and operations"
+      ]
+    },
+    {
+      "entity": "LegalRegulatoryEvidence",
+      "key": "legalEvidenceId",
+      "requiredFields": [
+        "evidenceType",
+        "owner",
+        "sourceUrl",
+        "publicationDate",
+        "effectiveDate",
+        "scopeDecision",
+        "status"
+      ],
+      "rules": [
+        "formal claim blocked while required fields are incomplete"
+      ]
+    },
+    {
+      "entity": "GovernedConfigurationBinding",
+      "key": "configurationBindingHash",
+      "requiredFields": [
+        "providerAdapterId",
+        "providerAdapterVersion",
+        "promptTemplateId",
+        "promptTemplateVersion",
+        "promptTemplateHash",
+        "modelDeploymentResourceId",
+        "modelName",
+        "modelVersion",
+        "embeddingDeploymentResourceId",
+        "embeddingModelName",
+        "embeddingModelVersion",
+        "vectorDimensions",
+        "contentSafetyPolicyId",
+        "contentSafetyPolicyVersion",
+        "limitsProfileId",
+        "approvalEvidenceIds"
+      ],
+      "rules": [
+        "immutable per run",
+        "all values owner-approved",
+        "missing, expired, mismatched or unavailable value denies execution"
+      ]
+    },
+    {
+      "entity": "AuditOutbox",
+      "key": "eventId",
+      "requiredFields": [
+        "caseId",
+        "sequence",
+        "eventHash",
+        "previousEventHash",
+        "messageBodyHash",
+        "status",
+        "attemptCount",
+        "nextAttemptAt",
+        "createdAt"
+      ],
+      "rules": [
+        "inserted in workload SQL transaction with business change",
+        "unique eventId and caseId/sequence",
+        "no delete before immutable assurance receipt and owner-approved disposition"
+      ]
+    },
+    {
+      "entity": "AssuranceSubmission",
+      "key": "submissionId",
+      "requiredFields": [
+        "validationRunId",
+        "manifestHash",
+        "manifestSchemaVersion",
+        "producerIdentity",
+        "signatureKeyId",
+        "signature",
+        "submittedAt",
+        "status"
+      ],
+      "rules": [
+        "stored only in assurance boundary",
+        "same id plus same hash is idempotent",
+        "same id plus different hash is conflict and security alert"
+      ]
+    },
+    {
+      "entity": "AssuranceReceipt",
+      "key": "receiptId",
+      "requiredFields": [
+        "subjectType",
+        "subjectId",
+        "subjectHash",
+        "receivedAt",
+        "disposition",
+        "assuranceSignerKeyId",
+        "receiptHash",
+        "signature"
+      ],
+      "rules": [
+        "Internal Audit-created",
+        "immutable",
+        "workload read-only"
+      ]
+    }
+  ],
+  "indexDesign": [
+    {
+      "store": "Azure SQL",
+      "object": "Case",
+      "indexes": [
+        "unique rolloutSequence where active",
+        "status, openedAt",
+        "committeeReadyAt"
+      ],
+      "purpose": "Eligibility, workflow and outcome measurement"
+    },
+    {
+      "store": "Azure SQL",
+      "object": "EvidenceEnvelope",
+      "indexes": [
+        "caseId, admissionStatus",
+        "sourceId, sourceVersion",
+        "contentHash"
+      ],
+      "purpose": "Admission, deduplication and lineage"
+    },
+    {
+      "store": "Azure SQL",
+      "object": "MaterialClaim/Citation",
+      "indexes": [
+        "claimId",
+        "evidenceId, evidenceVersionId"
+      ],
+      "purpose": "Citation completeness"
+    },
+    {
+      "store": "Azure SQL",
+      "object": "PolicyDecision/AuditEvent outbox",
+      "indexes": [
+        "caseId, decidedAt",
+        "correlationId",
+        "unexported sequence"
+      ],
+      "purpose": "Fail-closed decisions and immutable export"
+    },
+    {
+      "store": "Azure AI Search",
+      "object": "evidence-chunks-v<schema>",
+      "fields": [
+        "chunkId",
+        "caseId",
+        "evidenceId",
+        "evidenceVersionId",
+        "text",
+        "vector",
+        "classification",
+        "qualityStatus",
+        "policyVersion",
+        "citationLocator"
+      ],
+      "purpose": "Security-filtered hybrid retrieval; rebuilt from admitted evidence"
+    }
+  ],
+  "apiDefaults": {
+    "transport": "HTTPS with TLS 1.2 or later over private connectivity",
+    "authentication": "Microsoft Entra OAuth 2.0 access token; workload-to-workload managed identity",
+    "authorisation": "Application roles plus case/purpose policy decision; deny by default",
+    "mediaType": "application/json; versioned OpenAPI 3 contract",
+    "correlationHeaders": [
+      "traceparent",
+      "x-case-id",
+      "idempotency-key"
+    ],
+    "limits": "Request size, rate, timeout and concurrency are environment parameters derived from HD-005; APIM rejects absent or excessive values. Document bodies use time-limited managed uploads, not API payloads.",
+    "errors": [
+      {
+        "status": 400,
+        "code": "INVALID_CONTRACT",
+        "behaviour": "No state change; return field-safe validation details."
+      },
+      {
+        "status": 401,
+        "code": "UNAUTHENTICATED",
+        "behaviour": "No state change; audit identity failure without token content."
+      },
+      {
+        "status": 403,
+        "code": "POLICY_DENIED",
+        "behaviour": "No state change; return correlation and non-sensitive reason code."
+      },
+      {
+        "status": 409,
+        "code": "STATE_CONFLICT",
+        "behaviour": "No state change; return current version for reconciliation."
+      },
+      {
+        "status": 422,
+        "code": "EVIDENCE_INCOMPLETE",
+        "behaviour": "Quarantine or retain draft; never continue analysis."
+      },
+      {
+        "status": 429,
+        "code": "CAPACITY_LIMIT",
+        "behaviour": "Retry-After; no uncontrolled queue creation."
+      },
+      {
+        "status": 503,
+        "code": "DEPENDENCY_UNAVAILABLE",
+        "behaviour": "Fail closed; bounded retry only for idempotent asynchronous work."
+      }
+    ]
+  },
+  "apis": [
+    {
+      "operationId": "createCase",
+      "method": "POST",
+      "path": "/v1/cases",
+      "roles": [
+        "DealInitiator"
+      ],
+      "preconditions": [
+        "deal eligibility approval",
+        "jurisdiction eligibility approval",
+        "rollout count below 20"
+      ],
+      "result": "201 draft case or policy denial"
+    },
+    {
+      "operationId": "registerSource",
+      "method": "POST",
+      "path": "/v1/cases/{caseId}/sources",
+      "roles": [
+        "SourceOwner"
+      ],
+      "preconditions": [
+        "authoritative owner and interface evidence",
+        "VAL-004 fields for production"
+      ],
+      "result": "201 disabled registration until admission rules pass"
+    },
+    {
+      "operationId": "createExternalLicenceDecision",
+      "method": "POST",
+      "path": "/v1/sources/{sourceId}/licence-decisions",
+      "roles": [
+        "LegalApprover",
+        "DataOwner"
+      ],
+      "preconditions": [
+        "licence evidence and purpose"
+      ],
+      "result": "append-only decision"
+    },
+    {
+      "operationId": "requestIngestion",
+      "method": "POST",
+      "path": "/v1/cases/{caseId}/ingestions",
+      "roles": [
+        "DealContributor"
+      ],
+      "preconditions": [
+        "source active",
+        "purpose and classification pass"
+      ],
+      "result": "202 workItemId; content enters quarantine"
+    },
+    {
+      "operationId": "admitEvidence",
+      "method": "POST",
+      "path": "/v1/evidence/{evidenceId}/admission",
+      "roles": [
+        "DataSteward"
+      ],
+      "preconditions": [
+        "malware/content scan",
+        "complete envelope",
+        "licence and privacy policy"
+      ],
+      "result": "append-only admission decision"
+    },
+    {
+      "operationId": "requestAnalysis",
+      "method": "POST",
+      "path": "/v1/cases/{caseId}/analysis-runs",
+      "roles": [
+        "DealContributor"
+      ],
+      "preconditions": [
+        "admitted evidence only",
+        "AI governance and model deployment active"
+      ],
+      "result": "202 analysisRunId; draft outputs only"
+    },
+    {
+      "operationId": "getAnalysisStatus",
+      "method": "GET",
+      "path": "/v1/analysis-runs/{analysisRunId}",
+      "roles": [
+        "CaseReader"
+      ],
+      "preconditions": [
+        "case access"
+      ],
+      "result": "status and safe progress metadata"
+    },
+    {
+      "operationId": "submitReview",
+      "method": "POST",
+      "path": "/v1/cases/{caseId}/reviews",
+      "roles": [
+        "DealReviewer",
+        "LegalApprover",
+        "ComplianceApprover"
+      ],
+      "preconditions": [
+        "role matches review type",
+        "subject version unchanged"
+      ],
+      "result": "append-only review; policy recalculates state"
+    },
+    {
+      "operationId": "prepareDraft",
+      "method": "POST",
+      "path": "/v1/cases/{caseId}/draft-recommendations",
+      "roles": [
+        "DealReviewer"
+      ],
+      "preconditions": [
+        "all material claims cited",
+        "required reviews complete"
+      ],
+      "result": "draft artefact only; no investment decision"
+    },
+    {
+      "operationId": "submitAssuranceEvidence",
+      "method": "POST",
+      "path": "/assurance/v1/evidence-submissions",
+      "result": "202 submissionId and status URI; not acceptance or verdict"
+    },
+    {
+      "operationId": "getAssuranceSubmission",
+      "method": "GET",
+      "path": "/assurance/v1/evidence-submissions/{submissionId}",
+      "result": "pull/copy/evaluation state and acceptance receipt"
+    },
+    {
+      "operationId": "getAssuranceVerdict",
+      "method": "GET",
+      "path": "/assurance/v1/evidence-submissions/{submissionId}/verdict",
+      "result": "exact submission verdict; optional manifestHash must match or 409"
+    },
+    {
+      "operationId": "getAuditReceipt",
+      "method": "GET",
+      "path": "/assurance/v1/audit-receipts/{eventId}",
+      "result": "signed receipt; no mutation"
+    }
+  ],
+  "messaging": {
+    "topicsAndQueues": [
+      {
+        "name": "q-ingestion",
+        "sessionId": "caseId",
+        "consumer": "ingestion job",
+        "deadLetter": "after bounded retry; named owner alert"
+      },
+      {
+        "name": "q-extraction",
+        "sessionId": "caseId",
+        "consumer": "document extraction job",
+        "deadLetter": "no silent skip"
+      },
+      {
+        "name": "q-analysis",
+        "sessionId": "caseId",
+        "consumer": "analysis job",
+        "deadLetter": "draft remains incomplete"
+      },
+      {
+        "name": "q-indexing",
+        "sessionId": "caseId",
+        "consumer": "indexer",
+        "deadLetter": "evidence unavailable to retrieval"
+      },
+      {
+        "name": "q-audit-export",
+        "sessionId": "caseId",
+        "consumer": "audit export identity",
+        "deadLetter": "critical control alert"
+      }
+    ],
+    "controls": [
+      "duplicate detection",
+      "idempotency key",
+      "message TTL as approved operational parameter",
+      "payload contains references not document bodies",
+      "managed identity RBAC",
+      "private endpoint",
+      "dead-letter review runbook"
+    ]
+  },
+  "sourceConnectorContract": {
+    "permission": "Read-only API or controlled file ingestion",
+    "requiredEvidence": [
+      "sourceId",
+      "ownerId",
+      "purposeId",
+      "permissionEvidenceId",
+      "dataClassification",
+      "retentionScheduleId",
+      "location",
+      "qualityRemediationOwner"
+    ],
+    "externalAdditionalEvidence": [
+      "licenceDecisionId",
+      "AI-assisted retrieval allowed",
+      "AI-assisted analysis allowed",
+      "expiry"
+    ],
+    "prohibited": [
+      "write-back",
+      "delete at source",
+      "external communication",
+      "unapproved extra-EEA transfer"
+    ],
+    "changeControl": "Permission or licence change suspends connector until policy evidence is re-approved."
+  },
+  "sources": [
+    "SRC-AZ-009",
+    "SRC-AZ-012",
+    "SRC-AZ-013",
+    "SRC-AZ-014",
+    "SRC-AZ-018",
+    "SRC-AZ-020",
+    "SRC-AZ-025",
+    "SRC-AZ-026",
+    "SRC-AZ-027"
+  ],
+  "changeControl": {
+    "id": "STRATTON-CC-001",
+    "status": "PROPOSED_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL",
+    "baselinePath": "3-azure-design/evidence/stratton-data-api-contracts.json",
+    "proposalOnly": true,
+    "modelPlanRevision": "8",
+    "authorActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "assuranceVerdictBoundary": {
+    "authority": "Internal Audit",
+    "workloadPermissions": [
+      "submit signed/hash-bound manifest",
+      "expose exact approved private Blob versions for pull",
+      "read submission/acceptance status",
+      "read exact submission verdict and receipts"
+    ],
+    "workloadProhibitions": [
+      "supply authoritative decision/evaluation policy",
+      "push bytes into assurance store",
+      "compute/mutate/cancel/delete verdict",
+      "administer assurance API/evaluator/SQL/queues/storage/keys/images/configuration/RBAC"
+    ],
+    "submissionIdentity": {
+      "submissionId": "base64url without padding of SHA-256 over domain STRATTON-ASSURANCE-SUBMISSION-ID-v1 and RFC 8785 object {producerTenantId,producerObjectId,validationRunId}",
+      "uniqueConstraint": [
+        "producerTenantId",
+        "producerObjectId",
+        "validationRunId"
+      ],
+      "replay": "Same unique run plus same manifestHash returns existing submission/acceptance receipt/verdict. Same unique run plus different manifestHash returns 409 and security alert without mutation.",
+      "correction": "Corrected attempt has new validationRunId and explicit supersedesSubmissionId; prior immutable records remain."
+    },
+    "apis": [
+      {
+        "operationId": "submitAssuranceEvidence",
+        "method": "POST",
+        "path": "/assurance/v1/evidence-submissions",
+        "result": "202 submissionId and status URI; not acceptance or verdict"
+      },
+      {
+        "operationId": "getAssuranceSubmission",
+        "method": "GET",
+        "path": "/assurance/v1/evidence-submissions/{submissionId}",
+        "result": "pull/copy/evaluation state and acceptance receipt"
+      },
+      {
+        "operationId": "getAssuranceVerdict",
+        "method": "GET",
+        "path": "/assurance/v1/evidence-submissions/{submissionId}/verdict",
+        "result": "exact submission verdict; optional manifestHash must match or 409"
+      },
+      {
+        "operationId": "getAuditReceipt",
+        "method": "GET",
+        "path": "/assurance/v1/audit-receipts/{eventId}",
+        "result": "signed receipt; no mutation"
+      }
+    ],
+    "manifestSchema": {
+      "schemaVersion": "STRATTON_ASSURANCE_MANIFEST_V2",
+      "required": [
+        "producerTenantId",
+        "producerObjectId",
+        "validationRunId",
+        "supersedesSubmissionId",
+        "generatedAt",
+        "configurationBindingHash",
+        "inputManifestHash",
+        "evaluationRequest",
+        "resultObjects",
+        "manifestHash",
+        "signatureAlgorithm",
+        "signatureKeyId",
+        "signatureKeyVersion",
+        "signature"
+      ],
+      "canonicalHash": "canonicalCryptographicContract.hashes.manifestHash",
+      "resultObjectRequired": [
+        "storageAccountResourceId",
+        "containerName",
+        "blobName",
+        "blobVersionId",
+        "etag",
+        "sha256",
+        "mediaType",
+        "sizeBytes",
+        "objectRole"
+      ],
+      "resultObjectProhibited": [
+        "uri",
+        "url",
+        "uriReference",
+        "sas",
+        "redirect",
+        "publicEndpoint"
+      ],
+      "rules": [
+        "Immutable Azure Blob version in approved account/container allow-list",
+        "No SAS/arbitrary URL/redirect/public path",
+        "Canonical object ordering"
+      ]
+    },
+    "pullAndCopy": {
+      "reader": "Internal Audit-owned read-only managed identity at exact source account/container scope",
+      "steps": [
+        "Validate trusted producer/token/signer and manifest",
+        "Validate resource ID/container against source allow-list; construct SDK request without redirects",
+        "Use approved private DNS/path to fetch exact blobVersionId with ETag condition",
+        "Verify ETag, SHA-256, size, media type, malware, archive-bomb and active-content policy",
+        "Copy to Internal Audit WORM and persist source/version/copy hashes",
+        "Issue signed acceptance receipt only after durable copy and SQL/outbox commit"
+      ],
+      "failure": "Inaccessible/replaced/deleted/version/ETag/hash/size/type/redirect/public-path/scan/copy failure denies. Workload cannot write/delete assurance copy.",
+      "evidenceParameters": [
+        "approvedEvidenceSourceStorageAllowlistVersion",
+        "approvedEvidenceSourceStorageAllowlistHash",
+        "assuranceEvidenceReaderManagedIdentityObjectId",
+        "assuranceSourceBlobRbacEvidenceId",
+        "assuranceSourcePrivateDnsPathEvidenceId",
+        "assuranceMalwarePolicyIdVersionHash",
+        "assuranceArchiveBombPolicyIdVersionHash",
+        "assuranceActiveContentPolicyIdVersionHash",
+        "assuranceCopyRetentionScheduleId",
+        "assuranceCopyRecoveryEvidenceId"
+      ],
+      "negativeTests": [
+        "SSRF resource-ID/host confusion",
+        "SAS/arbitrary URL/redirect rejection",
+        "public path rejection",
+        "blob version swap",
+        "ETag race",
+        "hash/size/type mismatch",
+        "reader write/delete denial",
+        "workload assurance-copy write/delete denial"
+      ]
+    },
+    "evaluationInputs": {
+      "required": [
+        "internalAuditEvaluationPolicyId",
+        "internalAuditEvaluationPolicyVersion",
+        "internalAuditEvaluationPolicyHash",
+        "benchmarkRegistryPrivateUri",
+        "benchmarkRegistryVersion",
+        "benchmarkRegistryHash",
+        "testSuiteRegistryPrivateUri",
+        "testSuiteRegistryVersion",
+        "testSuiteRegistryHash",
+        "assuranceEvaluatorReleaseManifestHash",
+        "assuranceEvaluatorImageDigests",
+        "assuranceSchemaVersionSet",
+        "assuranceMaxObjectCount",
+        "assuranceMaxObjectSizeBytes",
+        "assuranceMaxAggregateSizeBytes",
+        "assuranceSubmissionRateLimit",
+        "assuranceEvaluationTimeoutSeconds",
+        "assuranceEvaluatorCpuLimit",
+        "assuranceEvaluatorMemoryLimit",
+        "assuranceEvaluatorProcessLimit",
+        "assuranceEvaluatorTemporaryStorageLimitBytes",
+        "approvalEvidenceIds"
+      ],
+      "authority": "Internal Audit approves values; workload may request a binding but cannot define authoritative policy/decision. Verdict binds values and copied object hashes.",
+      "unavailable": "Missing/mismatched/unavailable input yields no PASS."
+    },
+    "sandbox": {
+      "default": "Static verification only",
+      "dynamicExecution": "Requires separate Internal Audit authorisation for exact suite/artifact/release.",
+      "controls": [
+        "ephemeral isolated job",
+        "no Azure management-plane role",
+        "no workload/assurance secrets",
+        "no public egress; approved private dependencies only",
+        "read-only copied input",
+        "malware/archive-bomb/active-content controls",
+        "non-root immutable signed image",
+        "approved CPU/memory/time/process/object/temp limits",
+        "separate output/signing identity",
+        "destroy sandbox after result; retain evidence"
+      ],
+      "failure": "Unavailable sandbox/policy, limit breach or isolation uncertainty produces INCONCLUSIVE or FAIL, never PASS."
+    },
+    "verdictSchema": {
+      "schemaVersion": "STRATTON_ASSURANCE_VERDICT_V2",
+      "required": [
+        "verdictId",
+        "submissionId",
+        "producerTenantId",
+        "producerObjectId",
+        "validationRunId",
+        "manifestHash",
+        "assuranceCopyObjectHashes",
+        "evaluationPolicyId",
+        "evaluationPolicyVersion",
+        "evaluationPolicyHash",
+        "benchmarkRegistryVersion",
+        "benchmarkRegistryHash",
+        "testSuiteRegistryVersion",
+        "testSuiteRegistryHash",
+        "evaluatorReleaseManifestHash",
+        "evaluatorImageDigests",
+        "schemaVersionSet",
+        "limitsProfileHash",
+        "decision",
+        "reasonCodes",
+        "issuedAt",
+        "verdictSignatureAlgorithm",
+        "verdictSignerKeyId",
+        "verdictSignerKeyVersion",
+        "verdictHash",
+        "verdictSignature"
+      ],
+      "decisionEnum": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE"
+      ],
+      "canonicalHash": "canonicalCryptographicContract.hashes.verdictHash",
+      "rule": "Only Internal Audit creates; workload policy/decision non-authoritative; missing/non-final/invalid/inconclusive never PASS or human approval."
+    },
+    "privateImplementation": [
+      "Internal Container Apps API",
+      "isolated evaluator jobs",
+      "assurance SQL/outbox",
+      "Service Bus work queue",
+      "WORM copies/receipts/verdicts",
+      "Key Vault purpose keys",
+      "Internal Audit ACR signed digests"
+    ],
+    "failureRecovery": "No alternate/local verdict. Internal Audit restores and validates immutable copies/outbox/registries/releases before resuming exact submission."
+  },
+  "analysisAndVectorizationBoundary": {
+    "authority": {
+      "AI Governance": "approves exact provider adapter, prompt, model/deployment, embedding, safety, chunking, instruction/data separation, injection controls, retrieval schema/filter/revocation and limits",
+      "Application Engineering": "implements provider-neutral adapter without tools/autonomous action",
+      "Data Owner": "approves admitted evidence, licence/revocation and citation policy",
+      "Workload": "executes exact immutable binding and writes draft/rebuildable output only"
+    },
+    "configurationBinding": {
+      "required": [
+        "analysisProviderAdapterId",
+        "analysisProviderAdapterVersion",
+        "promptTemplateRegistryPrivateUri",
+        "approvedPromptTemplateId",
+        "approvedPromptTemplateVersion",
+        "approvedPromptTemplateHash",
+        "approvedAzureOpenAIDeploymentResourceId",
+        "approvedAzureOpenAIModelName",
+        "approvedAzureOpenAIModelVersion",
+        "approvedEmbeddingDeploymentResourceId",
+        "approvedEmbeddingModelName",
+        "approvedEmbeddingModelVersion",
+        "approvedEmbeddingVectorDimensions",
+        "approvedContentSafetyPolicyId",
+        "approvedContentSafetyPolicyVersion",
+        "chunkingPolicyId",
+        "chunkingPolicyVersion",
+        "chunkingPolicyHash",
+        "instructionDataSeparationPolicyId",
+        "instructionDataSeparationPolicyVersion",
+        "instructionDataSeparationPolicyHash",
+        "promptInjectionControlPolicyId",
+        "promptInjectionControlPolicyVersion",
+        "promptInjectionControlPolicyHash",
+        "promptInjectionEvaluationCorpusVersion",
+        "promptInjectionEvaluationCorpusHash",
+        "searchIndexSchemaVersion",
+        "searchIndexAlias",
+        "queryFilterPolicyId",
+        "queryFilterPolicyVersion",
+        "queryFilterPolicyHash",
+        "evidenceRevocationPolicyId",
+        "evidenceRevocationPolicyVersion",
+        "evidenceRevocationPolicyHash",
+        "noToolUsePolicyVersion",
+        "noToolUsePolicyHash",
+        "limitsProfileId",
+        "approvalEvidenceIds",
+        "configurationBindingHash"
+      ],
+      "canonicalHash": "canonicalCryptographicContract.hashes.configurationBindingHash",
+      "immutability": "Snapshot per run; any changed/missing/expired approval requires a new binding and run."
+    },
+    "inputManifest": {
+      "schemaVersion": "STRATTON_INPUT_MANIFEST_V2",
+      "required": [
+        "tenantId",
+        "caseId",
+        "entries",
+        "inputManifestHash"
+      ],
+      "entryRequired": [
+        "tenantId",
+        "caseId",
+        "evidenceId",
+        "evidenceVersionId",
+        "contentHash",
+        "classification",
+        "admissionStatus",
+        "licenceDecisionId",
+        "licenceExpiresAt",
+        "citationLocator",
+        "chunkingPolicyId",
+        "chunkingPolicyVersion",
+        "chunkingPolicyHash"
+      ],
+      "canonicalHash": "canonicalCryptographicContract.hashes.inputManifestHash",
+      "admission": "All entries ADMITTED, unrevoked, licence-valid and tenant/case matched at admission and again before use."
+    },
+    "adapterRequestSchema": {
+      "schemaVersion": "STRATTON_ANALYSIS_REQUEST_V2",
+      "required": [
+        "tenantId",
+        "analysisRunId",
+        "caseId",
+        "idempotencyKey",
+        "inputManifest",
+        "inputManifestHash",
+        "configurationBinding",
+        "configurationBindingHash",
+        "limitsProfileId",
+        "correlationId"
+      ],
+      "idempotency": "Unique tenantId/caseId/idempotencyKey plus canonical request hash. Exact replay returns run; different body is 409 before provider call."
+    },
+    "adapterResponseSchema": {
+      "schemaVersion": "STRATTON_ANALYSIS_RESPONSE_V2",
+      "required": [
+        "tenantId",
+        "analysisRunId",
+        "configurationBindingHash",
+        "inputManifestHash",
+        "status",
+        "claims",
+        "usage",
+        "providerRequestCorrelationHash"
+      ],
+      "claimRequired": [
+        "claimId",
+        "claimTextReference",
+        "citations",
+        "safetyDisposition"
+      ],
+      "citationRequired": [
+        "tenantId",
+        "caseId",
+        "evidenceId",
+        "evidenceVersionId",
+        "contentHash",
+        "locator"
+      ],
+      "rule": "Material claim without exact valid citation fails; citation locator/content/version is reverified at review."
+    },
+    "vectorRecordSchema": {
+      "schemaVersion": "STRATTON_VECTOR_RECORD_V2",
+      "required": [
+        "vectorKey",
+        "tenantId",
+        "caseId",
+        "inputManifestHash",
+        "configurationBindingHash",
+        "chunkId",
+        "chunkTextHash",
+        "chunkingPolicyId",
+        "chunkingPolicyVersion",
+        "chunkingPolicyHash",
+        "evidenceId",
+        "evidenceVersionId",
+        "evidenceContentHash",
+        "citationLocator",
+        "classification",
+        "admissionStatus",
+        "licenceExpiresAt",
+        "embeddingDeploymentResourceId",
+        "embeddingModelName",
+        "embeddingModelVersion",
+        "vectorDimensions",
+        "searchIndexSchemaVersion",
+        "vector"
+      ],
+      "key": "base64url SHA-256 over domain STRATTON-VECTOR-KEY-v1 and RFC 8785 {tenantId,caseId,evidenceId,evidenceVersionId,chunkId,configurationBindingHash}; prevents cross-tenant/case collision",
+      "chunkTextHash": "lowercase SHA-256 using domain STRATTON-CHUNK-TEXT-v1 over RFC 8785 {tenantId,caseId,evidenceVersionId,chunkId,chunkText}; raw text is not a key",
+      "validation": "Actual vector length equals approved dimension; all provenance/hash/policy/schema values match binding and manifest; reject whole batch without truncate/pad/fallback."
+    },
+    "searchContract": {
+      "persistedFields": [
+        "vectorKey",
+        "tenantId",
+        "caseId",
+        "inputManifestHash",
+        "configurationBindingHash",
+        "chunkId",
+        "chunkTextHash",
+        "chunkingPolicyId",
+        "chunkingPolicyVersion",
+        "chunkingPolicyHash",
+        "evidenceId",
+        "evidenceVersionId",
+        "evidenceContentHash",
+        "citationLocator",
+        "classification",
+        "admissionStatus",
+        "licenceExpiresAt",
+        "embeddingDeploymentResourceId",
+        "embeddingModelName",
+        "embeddingModelVersion",
+        "vectorDimensions",
+        "searchIndexSchemaVersion",
+        "vector"
+      ],
+      "query": "Server injects tenantId, caseId, permitted classification, ADMITTED and unexpired licence filters from authenticated/policy context. Caller filter text is never accepted or concatenated.",
+      "alias": "Versioned known-good index behind approved alias. Build/validate separately; atomically switch only after hostile/retrieval/citation/provenance validation.",
+      "revocation": "Evidence revocation, licence expiry or content/version/hash change invalidates affected chunks and runs, denies retrieval, and triggers rebuild from admitted evidence. Old index remains non-queryable after validated alias switch."
+    },
+    "hostileContentControls": [
+      "Treat evidence as data, never system/developer instruction",
+      "Instruction/data separation policy applied before chunking and inference",
+      "Prompt-injection classifier/control and approved evaluation corpus bound to configuration",
+      "No tool use, function calling, autonomous action, source write-back or external communication",
+      "No lower-control model/provider/prompt/index/public fallback"
+    ],
+    "negativeTests": [
+      "direct and indirect prompt injection",
+      "malicious instructions in evidence/archive metadata",
+      "cross-tenant and cross-case retrieval",
+      "caller filter override",
+      "schema escape and unknown field",
+      "citation spoof/version swap",
+      "poisoned index/vector/provenance",
+      "revoked evidence/licence expiry/content change",
+      "dimension/chunk hash/configuration mismatch",
+      "tool-use/autonomous-action attempt"
+    ],
+    "transactionRecovery": "Admission/binding snapshot commits in SQL before workload outbox. Provider/index writes are replay-safe by deterministic keys. Failure leaves drafts/non-queryable index; rebuild versioned index and switch alias only after validation."
+  },
+  "auditExportPushContract": {
+    "authority": "Workload owns source SQL transaction/outbox/signing sender. Internal Audit owns private queue, receiver, accepted continuity, WORM authority copy, receipt signer, quarantine/DLQ, retention and recovery. Receipt proves authenticated receipt/integrity only—not event truth, control effectiveness or compliance.",
+    "transaction": "Business mutation, unsigned canonical AuditEvent fields and AuditOutbox row commit in one workload SQL transaction; signer finalises event/message before send. No assurance database participates and no cross-database distributed transaction.",
+    "stream": {
+      "key": [
+        "tenantId",
+        "caseId"
+      ],
+      "positionUnique": [
+        "tenantId",
+        "caseId",
+        "sequence"
+      ],
+      "sessionId": "tenantId:caseId",
+      "allocation": "SQL transaction lock allocates sequence and previousEventHash. Sender dispatches strictly in ascending sequence per stream and does not send N+1 until N has transport acceptance; material guard still requires signed authority receipt.",
+      "replayConflict": "Same position and same eventHash is replay. Same position and different eventHash is conflict/quarantine/alert even though eventId differs. Unknown schema, gap, malformed signature, conflict or poison never advances accepted continuity."
+    },
+    "eventSchema": {
+      "schemaVersion": "STRATTON_AUDIT_EVENT_V2",
+      "required": [
+        "tenantId",
+        "caseId",
+        "sequence",
+        "occurredAt",
+        "actorId",
+        "action",
+        "subjectId",
+        "outcome",
+        "correlationId",
+        "previousEventHash",
+        "sourceTransactionId",
+        "schemaVersion",
+        "eventHash",
+        "eventId",
+        "producerTenantId",
+        "producerObjectId",
+        "producerSignatureAlgorithm",
+        "producerKeyId",
+        "producerKeyVersion",
+        "producerSignatureCreatedAt",
+        "producerSignature"
+      ],
+      "eventHash": "canonicalCryptographicContract.hashes.eventHash",
+      "eventId": "canonicalCryptographicContract.hashes.eventId",
+      "signature": "WORKLOAD_AUDIT_EVENT purpose; token tenant/object must match trusted producer/signer mapping"
+    },
+    "messageSchema": {
+      "schemaVersion": "STRATTON_AUDIT_MESSAGE_V2",
+      "contentType": "application/json",
+      "serviceBusMessageId": "eventId",
+      "sessionId": "tenantId:caseId",
+      "correlationId": "correlationId",
+      "required": [
+        "all event fields",
+        "messageBodyHash"
+      ],
+      "messageBodyHash": "canonicalCryptographicContract.hashes.messageBodyHash; computed last over final signed body excluding only messageBodyHash",
+      "size": "Canonical UTF-8 body byte length must not exceed approved auditMessageMaxBytes or Service Bus entity limit; no compression/fragment fallback",
+      "prohibited": [
+        "document/prompt/completion bodies",
+        "tokens",
+        "secrets"
+      ]
+    },
+    "transport": "Internal Audit-owned Service Bus Premium queue through approved private endpoint. Sender managed identity has Data Sender only at queue scope. Duplicate detection, TTL, dead-letter-on-expiry, maximum delivery and ordering are explicit approved inputs.",
+    "receiver": [
+      "Validate private authenticated transport, schema and message size",
+      "Resolve producer registry/signer mapping and require token producer tenant/object match",
+      "Recompute eventHash then eventId; verify producer signature; recompute final messageBodyHash",
+      "Enforce stream position uniqueness and predecessor against last VERIFIED_CONTIGUOUS authority event",
+      "Write event and receipt to WORM and commit assurance SQL/outbox before complete",
+      "Gap is GAP_HELD without continuity advancement; malformed/conflict/poison goes quarantine/DLQ without advancement"
+    ],
+    "receiptSchema": {
+      "schemaVersion": "STRATTON_AUDIT_RECEIPT_V2",
+      "required": [
+        "receiptId",
+        "eventId",
+        "verifiedProducerTenantId",
+        "verifiedProducerObjectId",
+        "producerSignatureAlgorithm",
+        "producerKeyId",
+        "producerKeyVersion",
+        "eventHash",
+        "messageBodyHash",
+        "tenantId",
+        "caseId",
+        "sequence",
+        "receivedAt",
+        "chainDisposition",
+        "duplicateDisposition",
+        "assuranceReceiptSignatureAlgorithm",
+        "assuranceReceiptSignerKeyId",
+        "assuranceReceiptSignerKeyVersion",
+        "receiptHash",
+        "assuranceReceiptSignature"
+      ],
+      "canonicalHash": "canonicalCryptographicContract.hashes.receiptHash",
+      "chainDispositionEnum": [
+        "VERIFIED_CONTIGUOUS",
+        "GAP_HELD",
+        "CONFLICT_REJECTED",
+        "SIGNATURE_REJECTED",
+        "POISON_REJECTED"
+      ],
+      "duplicateDispositionEnum": [
+        "FIRST_ACCEPTED",
+        "POSITION_REPLAY_IDENTICAL"
+      ],
+      "meaning": "Authenticated receipt/integrity/continuity disposition only; not truth or compliance attestation."
+    },
+    "reconciliation": {
+      "identity": "Role-separated workload receipt-reconciler identity has receipt-read only and cannot update authority receipt/event.",
+      "verification": "Resolve Internal Audit receipt trust, verify purpose/key/algorithm/validity/revocation, recompute receiptHash/signature, and match exact eventId/eventHash/messageBodyHash/tenantId/caseId/sequence before local status VERIFIED_CONTIGUOUS.",
+      "guard": "Material transition guard uses only a valid signed VERIFIED_CONTIGUOUS receipt for exact event/body/stream. Dispatcher/reconciler/business writer roles are separated; direct workload database update cannot fabricate success."
+    },
+    "configurationRelations": [
+      "auditDeadLetterOnExpiryEnabled must be true",
+      "auditMessageTtlSeconds > auditExportGraceThresholdSeconds + auditMaximumRetryAndReconciliationWindowSeconds",
+      "auditDuplicateDetectionWindowSeconds covers the approved maximum duplicate-send interval",
+      "auditMessageMaxBytes is positive and no greater than approved entity capability",
+      "sender ordering policy requires one active dispatcher lease per tenantId/caseId stream",
+      "invalid/missing relationship blocks deployment/configuration"
+    ],
+    "retryFailure": "Bounded exponential jittered retry from owner inputs. Exhaustion remains in outbox and alerts. DLQ/quarantine/immutable records are never skipped, purged or overwritten. Rollback stops sender/receiver and preserves outbox, DLQ, quarantine, WORM events/receipts and continuity state.",
+    "recovery": "Replay each stream in order, resolve gaps/conflicts under Internal Audit authority, verify producer and receipt signatures/trust and predecessor continuity, then authorise material-transition reopen."
+  },
+  "requiredFailClosedParameters": [
+    "assuranceVerdictApiPrivateBaseUri",
+    "assuranceVerdictApiAudience",
+    "assuranceEvidenceSubmitterAppRoleObjectId",
+    "assuranceVerdictReaderAppRoleObjectId",
+    "assuranceAuditReceiptReaderAppRoleObjectId",
+    "trustedProducerRegistryPrivateUri",
+    "trustedProducerRegistryVersion",
+    "trustedProducerRegistryHash",
+    "producerSignerMappingVersion",
+    "producerSignerMappingHash",
+    "assuranceVerdictSubmissionMaxBytes",
+    "assuranceVerdictProcessingTimeoutSeconds",
+    "assurancePollingIntervalSeconds",
+    "assuranceRetentionScheduleId",
+    "assuranceRecoveryConfigurationEvidenceId",
+    "workloadAssuranceSubmissionSignatureAlgorithmPolicyId",
+    "workloadAssuranceSubmissionTrustRegistryVersion",
+    "workloadAssuranceSubmissionTrustRegistryHash",
+    "workloadAssuranceSubmissionKeyValidityEvidenceId",
+    "workloadAssuranceSubmissionRotationRevocationCompromisePolicyId",
+    "workloadAuditEventSignatureAlgorithmPolicyId",
+    "workloadAuditEventTrustRegistryVersion",
+    "workloadAuditEventTrustRegistryHash",
+    "workloadAuditEventKeyValidityEvidenceId",
+    "workloadAuditEventRotationRevocationCompromisePolicyId",
+    "assuranceReceiptSignatureAlgorithmPolicyId",
+    "assuranceReceiptTrustRegistryVersion",
+    "assuranceReceiptTrustRegistryHash",
+    "assuranceReceiptKeyValidityEvidenceId",
+    "assuranceReceiptRotationRevocationCompromisePolicyId",
+    "assuranceVerdictSignatureAlgorithmPolicyId",
+    "assuranceVerdictTrustRegistryVersion",
+    "assuranceVerdictTrustRegistryHash",
+    "assuranceVerdictKeyValidityEvidenceId",
+    "assuranceVerdictRotationRevocationCompromisePolicyId",
+    "approvedEvidenceSourceStorageAllowlistVersion",
+    "approvedEvidenceSourceStorageAllowlistHash",
+    "assuranceEvidenceReaderManagedIdentityObjectId",
+    "assuranceSourceBlobRbacEvidenceId",
+    "assuranceSourcePrivateDnsPathEvidenceId",
+    "assuranceMalwarePolicyIdVersionHash",
+    "assuranceArchiveBombPolicyIdVersionHash",
+    "assuranceActiveContentPolicyIdVersionHash",
+    "assuranceCopyRetentionScheduleId",
+    "assuranceCopyRecoveryEvidenceId",
+    "internalAuditEvaluationPolicyId",
+    "internalAuditEvaluationPolicyVersion",
+    "internalAuditEvaluationPolicyHash",
+    "benchmarkRegistryPrivateUri",
+    "benchmarkRegistryVersion",
+    "benchmarkRegistryHash",
+    "testSuiteRegistryPrivateUri",
+    "testSuiteRegistryVersion",
+    "testSuiteRegistryHash",
+    "assuranceEvaluatorReleaseManifestHash",
+    "assuranceEvaluatorImageDigests",
+    "assuranceSchemaVersionSet",
+    "assuranceMaxObjectCount",
+    "assuranceMaxObjectSizeBytes",
+    "assuranceMaxAggregateSizeBytes",
+    "assuranceSubmissionRateLimit",
+    "assuranceEvaluationTimeoutSeconds",
+    "assuranceEvaluatorCpuLimit",
+    "assuranceEvaluatorMemoryLimit",
+    "assuranceEvaluatorProcessLimit",
+    "assuranceEvaluatorTemporaryStorageLimitBytes",
+    "assuranceDynamicExecutionApprovalEvidenceId",
+    "assuranceSandboxNetworkPolicyIdVersionHash",
+    "assuranceSandboxRuntimePolicyIdVersionHash",
+    "assuranceReleaseApprovalEvidenceId",
+    "analysisProviderAdapterId",
+    "analysisProviderAdapterVersion",
+    "promptTemplateRegistryPrivateUri",
+    "approvedPromptTemplateId",
+    "approvedPromptTemplateVersion",
+    "approvedPromptTemplateHash",
+    "approvedAzureOpenAIDeploymentResourceId",
+    "approvedAzureOpenAIModelName",
+    "approvedAzureOpenAIModelVersion",
+    "approvedAzureOpenAIQuotaEvidenceId",
+    "approvedEmbeddingDeploymentResourceId",
+    "approvedEmbeddingModelName",
+    "approvedEmbeddingModelVersion",
+    "approvedEmbeddingVectorDimensions",
+    "approvedContentSafetyPolicyId",
+    "approvedContentSafetyPolicyVersion",
+    "analysisMaxInputTokens",
+    "analysisMaxOutputTokens",
+    "analysisRequestTimeoutSeconds",
+    "analysisWorkerTimeoutSeconds",
+    "analysisMaxConcurrency",
+    "analysisRetryLimit",
+    "analysisVectorBatchLimit",
+    "citationCompletenessPolicyVersion",
+    "chunkingPolicyId",
+    "chunkingPolicyVersion",
+    "chunkingPolicyHash",
+    "instructionDataSeparationPolicyId",
+    "instructionDataSeparationPolicyVersion",
+    "instructionDataSeparationPolicyHash",
+    "promptInjectionControlPolicyId",
+    "promptInjectionControlPolicyVersion",
+    "promptInjectionControlPolicyHash",
+    "promptInjectionEvaluationCorpusVersion",
+    "promptInjectionEvaluationCorpusHash",
+    "searchIndexSchemaVersion",
+    "searchIndexAlias",
+    "queryFilterPolicyId",
+    "queryFilterPolicyVersion",
+    "queryFilterPolicyHash",
+    "evidenceRevocationPolicyId",
+    "evidenceRevocationPolicyVersion",
+    "evidenceRevocationPolicyHash",
+    "indexRebuildValidationPolicyIdVersionHash",
+    "noToolUsePolicyVersion",
+    "noToolUsePolicyHash",
+    "vectorDeterministicKeySchemaVersion",
+    "assuranceAuditQueueResourceId",
+    "assuranceAuditQueueEntityName",
+    "assuranceAuditSenderRoleAssignmentEvidenceId",
+    "auditExportGraceThresholdSeconds",
+    "auditExportMaxAttempts",
+    "auditExportBaseRetryDelaySeconds",
+    "auditExportMaxRetryDelaySeconds",
+    "auditMessageTtlSeconds",
+    "auditMaxDeliveryCount",
+    "auditOutboxBatchSize",
+    "auditReceiptPollIntervalSeconds",
+    "auditPoisonDispositionOwnerObjectId",
+    "auditMessageMaxBytes",
+    "auditDuplicateDetectionWindowSeconds",
+    "auditDeadLetterOnExpiryEnabled",
+    "auditMaximumRetryAndReconciliationWindowSeconds",
+    "auditSenderOrderingPolicyVersion",
+    "auditSenderOrderingLeaseSeconds",
+    "auditReceiptReconcilerManagedIdentityObjectId",
+    "auditMaterialTransitionGuardIdentityObjectId",
+    "auditReceiptVerificationPolicyIdVersionHash"
+  ],
+  "canonicalCryptographicContract": {
+    "common": {
+      "canonicalisation": "RFC 8785 JSON Canonicalization Scheme",
+      "encoding": "UTF-8 without BOM",
+      "hashEncoding": "lowercase hexadecimal SHA-256",
+      "preimage": "UTF-8(domainSeparator + U+000A + RFC8785(canonicalObject))",
+      "timestamp": "UTC RFC 3339 fixed millisecond precision YYYY-MM-DDTHH:mm:ss.fffZ; offsets and local time rejected",
+      "strings": "Unicode strings must be valid and represented exactly as RFC 8785; no pre-hash normalisation",
+      "signatureRule": "Signature bytes, algorithm and key versions are supplied only by approved algorithm policy/trust records; no algorithm default. Signatures cover the named lowercase hash and purpose context defined by the approved algorithm policy."
+    },
+    "arrayOrdering": {
+      "assuranceResultObjects": "ascending objectRole, storageAccountResourceId, containerName, blobName, blobVersionId using ordinal Unicode code-point order",
+      "configurationApprovalEvidenceIds": "ascending evidence ID",
+      "inputManifestEntries": "ascending tenantId, caseId, evidenceId, evidenceVersionId, citationLocator",
+      "verdictReasonCodes": "ascending reason code; duplicates rejected",
+      "evaluationObjectHashes": "ascending objectRole then assuranceCopyObjectId",
+      "citations": "ascending evidenceId, evidenceVersionId, locator",
+      "otherArrays": "Schema declares ordered or set semantics. Set-semantic arrays are ordinal-sorted and duplicate-free before hashing; undeclared ordering fails closed."
+    },
+    "hashes": {
+      "configurationBindingHash": {
+        "domainSeparator": "STRATTON-CONFIGURATION-BINDING-v1",
+        "object": "complete governed configuration binding",
+        "exclude": [
+          "configurationBindingHash",
+          "approvalSignatures"
+        ],
+        "requiredBinding": "provider adapter, prompt, model, embedding, chunking, instruction/data separation, prompt-injection controls, safety, retrieval/filter/index, revocation, limits and approval evidence"
+      },
+      "inputManifestHash": {
+        "domainSeparator": "STRATTON-INPUT-MANIFEST-v1",
+        "object": "tenant/case scoped admitted evidence manifest",
+        "exclude": [
+          "inputManifestHash",
+          "producerSignature",
+          "producerSignatureAlgorithm",
+          "producerKeyId",
+          "producerKeyVersion"
+        ],
+        "requiredBinding": "tenantId, caseId, evidence/version/content hashes, classification, admission, licence expiry, locator and chunking policy binding"
+      },
+      "manifestHash": {
+        "domainSeparator": "STRATTON-ASSURANCE-MANIFEST-v1",
+        "object": "assurance submission manifest",
+        "exclude": [
+          "manifestHash",
+          "signature",
+          "signatureAlgorithm",
+          "signatureKeyId",
+          "signatureKeyVersion"
+        ],
+        "requiredBinding": "trusted producer, validation run, supersession, all exact immutable result-object versions, evaluation inputs and schema versions"
+      },
+      "eventHash": {
+        "domainSeparator": "STRATTON-AUDIT-EVENT-v1",
+        "object": "audit event before event ID/signature/message body hash",
+        "exclude": [
+          "eventId",
+          "eventHash",
+          "messageBodyHash",
+          "producerSignature",
+          "producerSignatureAlgorithm",
+          "producerKeyId",
+          "producerKeyVersion",
+          "producerSignatureCreatedAt"
+        ],
+        "requiredBinding": "tenantId, caseId, sequence, predecessor, source transaction, actor/action/subject/outcome/correlation and schema"
+      },
+      "eventId": {
+        "domainSeparator": "STRATTON-AUDIT-EVENT-ID-v1",
+        "object": "tenantId, caseId, sequence and resulting eventHash",
+        "exclude": [],
+        "encoding": "base64url without padding of SHA-256 preimage digest; eventHash must already exist"
+      },
+      "messageBodyHash": {
+        "domainSeparator": "STRATTON-AUDIT-MESSAGE-BODY-v1",
+        "object": "final message body including eventId, eventHash and producer signature metadata/signature",
+        "exclude": [
+          "messageBodyHash"
+        ],
+        "requiredBinding": "exact Service Bus body; headers repeat identifiers but body is authoritative for hash verification"
+      },
+      "receiptHash": {
+        "domainSeparator": "STRATTON-AUDIT-RECEIPT-v1",
+        "object": "Internal Audit receipt",
+        "exclude": [
+          "receiptHash",
+          "assuranceReceiptSignature",
+          "assuranceReceiptSignatureAlgorithm",
+          "assuranceReceiptSignerKeyId",
+          "assuranceReceiptSignerKeyVersion"
+        ],
+        "requiredBinding": "verified producer tenant/object, producer signature metadata, eventHash, final messageBodyHash, stream position, disposition and assurance signer purpose"
+      },
+      "verdictHash": {
+        "domainSeparator": "STRATTON-ASSURANCE-VERDICT-v1",
+        "object": "Internal Audit verdict",
+        "exclude": [
+          "verdictHash",
+          "verdictSignature",
+          "verdictSignatureAlgorithm",
+          "verdictSignerKeyId",
+          "verdictSignerKeyVersion"
+        ],
+        "requiredBinding": "submission/manifest, copied object hashes, evaluation policy/registries/suite/evaluator release/schema/limits, decision and reasons"
+      }
+    },
+    "failClosed": "Unknown schema/domain, duplicate set entry, invalid timestamp/Unicode, non-canonical form, uppercase/non-64-hex referenced SHA-256, ordering mismatch or hash mismatch denies processing."
+  },
+  "signatureAndProducerTrust": {
+    "purposes": [
+      {
+        "purpose": "WORKLOAD_ASSURANCE_SUBMISSION",
+        "owner": "Workload signing authority",
+        "fields": [
+          "producerTenantId",
+          "producerObjectId",
+          "signatureAlgorithm",
+          "signatureKeyId",
+          "signatureKeyVersion",
+          "signature",
+          "signedAt"
+        ]
+      },
+      {
+        "purpose": "WORKLOAD_AUDIT_EVENT",
+        "owner": "Workload audit signing authority",
+        "fields": [
+          "producerTenantId",
+          "producerObjectId",
+          "producerSignatureAlgorithm",
+          "producerKeyId",
+          "producerKeyVersion",
+          "producerSignature",
+          "producerSignatureCreatedAt"
+        ]
+      },
+      {
+        "purpose": "INTERNAL_AUDIT_RECEIPT",
+        "owner": "Internal Audit",
+        "fields": [
+          "assuranceReceiptSignatureAlgorithm",
+          "assuranceReceiptSignerKeyId",
+          "assuranceReceiptSignerKeyVersion",
+          "assuranceReceiptSignature",
+          "signedAt"
+        ]
+      },
+      {
+        "purpose": "INTERNAL_AUDIT_VERDICT",
+        "owner": "Internal Audit",
+        "fields": [
+          "verdictSignatureAlgorithm",
+          "verdictSignerKeyId",
+          "verdictSignerKeyVersion",
+          "verdictSignature",
+          "issuedAt"
+        ]
+      }
+    ],
+    "verification": [
+      "Resolve exact purpose-specific algorithm policy and trust registry version/hash",
+      "Validate key purpose, producer/signer mapping, tenant/object identity, algorithm, key ID/version, validity interval, rotation state and revocation/compromise status",
+      "Require Entra token tenant/object identity to equal trusted producer registry identity and signer mapping",
+      "Verify signature over approved purpose context and named hash",
+      "Deny missing, expired, not-yet-valid, revoked, compromised, mismatched or unavailable policy/registry/key/identity"
+    ],
+    "separation": "Submission, audit event, receipt and verdict purposes use separately authorised keys and mappings. A key authorised for one purpose is invalid for another. No algorithm value is selected by this proposal."
+  },
+  "failClosedParameterGroups": [
+    {
+      "group": "Assurance API and identity",
+      "parameters": [
+        "assuranceVerdictApiPrivateBaseUri",
+        "assuranceVerdictApiAudience",
+        "assuranceEvidenceSubmitterAppRoleObjectId",
+        "assuranceVerdictReaderAppRoleObjectId",
+        "assuranceAuditReceiptReaderAppRoleObjectId",
+        "trustedProducerRegistryPrivateUri",
+        "trustedProducerRegistryVersion",
+        "trustedProducerRegistryHash",
+        "producerSignerMappingVersion",
+        "producerSignerMappingHash",
+        "assuranceVerdictSubmissionMaxBytes",
+        "assuranceVerdictProcessingTimeoutSeconds",
+        "assurancePollingIntervalSeconds",
+        "assuranceRetentionScheduleId",
+        "assuranceRecoveryConfigurationEvidenceId"
+      ]
+    },
+    {
+      "group": "Purpose-specific cryptographic trust",
+      "parameters": [
+        "workloadAssuranceSubmissionSignatureAlgorithmPolicyId",
+        "workloadAssuranceSubmissionTrustRegistryVersion",
+        "workloadAssuranceSubmissionTrustRegistryHash",
+        "workloadAssuranceSubmissionKeyValidityEvidenceId",
+        "workloadAssuranceSubmissionRotationRevocationCompromisePolicyId",
+        "workloadAuditEventSignatureAlgorithmPolicyId",
+        "workloadAuditEventTrustRegistryVersion",
+        "workloadAuditEventTrustRegistryHash",
+        "workloadAuditEventKeyValidityEvidenceId",
+        "workloadAuditEventRotationRevocationCompromisePolicyId",
+        "assuranceReceiptSignatureAlgorithmPolicyId",
+        "assuranceReceiptTrustRegistryVersion",
+        "assuranceReceiptTrustRegistryHash",
+        "assuranceReceiptKeyValidityEvidenceId",
+        "assuranceReceiptRotationRevocationCompromisePolicyId",
+        "assuranceVerdictSignatureAlgorithmPolicyId",
+        "assuranceVerdictTrustRegistryVersion",
+        "assuranceVerdictTrustRegistryHash",
+        "assuranceVerdictKeyValidityEvidenceId",
+        "assuranceVerdictRotationRevocationCompromisePolicyId"
+      ]
+    },
+    {
+      "group": "Evidence pull and copy",
+      "parameters": [
+        "approvedEvidenceSourceStorageAllowlistVersion",
+        "approvedEvidenceSourceStorageAllowlistHash",
+        "assuranceEvidenceReaderManagedIdentityObjectId",
+        "assuranceSourceBlobRbacEvidenceId",
+        "assuranceSourcePrivateDnsPathEvidenceId",
+        "assuranceMalwarePolicyIdVersionHash",
+        "assuranceArchiveBombPolicyIdVersionHash",
+        "assuranceActiveContentPolicyIdVersionHash",
+        "assuranceCopyRetentionScheduleId",
+        "assuranceCopyRecoveryEvidenceId"
+      ]
+    },
+    {
+      "group": "Assurance evaluation and sandbox",
+      "parameters": [
+        "internalAuditEvaluationPolicyId",
+        "internalAuditEvaluationPolicyVersion",
+        "internalAuditEvaluationPolicyHash",
+        "benchmarkRegistryPrivateUri",
+        "benchmarkRegistryVersion",
+        "benchmarkRegistryHash",
+        "testSuiteRegistryPrivateUri",
+        "testSuiteRegistryVersion",
+        "testSuiteRegistryHash",
+        "assuranceEvaluatorReleaseManifestHash",
+        "assuranceEvaluatorImageDigests",
+        "assuranceSchemaVersionSet",
+        "assuranceMaxObjectCount",
+        "assuranceMaxObjectSizeBytes",
+        "assuranceMaxAggregateSizeBytes",
+        "assuranceSubmissionRateLimit",
+        "assuranceEvaluationTimeoutSeconds",
+        "assuranceEvaluatorCpuLimit",
+        "assuranceEvaluatorMemoryLimit",
+        "assuranceEvaluatorProcessLimit",
+        "assuranceEvaluatorTemporaryStorageLimitBytes",
+        "assuranceDynamicExecutionApprovalEvidenceId",
+        "assuranceSandboxNetworkPolicyIdVersionHash",
+        "assuranceSandboxRuntimePolicyIdVersionHash",
+        "assuranceReleaseApprovalEvidenceId"
+      ]
+    },
+    {
+      "group": "Analysis and vectorisation",
+      "parameters": [
+        "analysisProviderAdapterId",
+        "analysisProviderAdapterVersion",
+        "promptTemplateRegistryPrivateUri",
+        "approvedPromptTemplateId",
+        "approvedPromptTemplateVersion",
+        "approvedPromptTemplateHash",
+        "approvedAzureOpenAIDeploymentResourceId",
+        "approvedAzureOpenAIModelName",
+        "approvedAzureOpenAIModelVersion",
+        "approvedAzureOpenAIQuotaEvidenceId",
+        "approvedEmbeddingDeploymentResourceId",
+        "approvedEmbeddingModelName",
+        "approvedEmbeddingModelVersion",
+        "approvedEmbeddingVectorDimensions",
+        "approvedContentSafetyPolicyId",
+        "approvedContentSafetyPolicyVersion",
+        "analysisMaxInputTokens",
+        "analysisMaxOutputTokens",
+        "analysisRequestTimeoutSeconds",
+        "analysisWorkerTimeoutSeconds",
+        "analysisMaxConcurrency",
+        "analysisRetryLimit",
+        "analysisVectorBatchLimit",
+        "citationCompletenessPolicyVersion",
+        "chunkingPolicyId",
+        "chunkingPolicyVersion",
+        "chunkingPolicyHash",
+        "instructionDataSeparationPolicyId",
+        "instructionDataSeparationPolicyVersion",
+        "instructionDataSeparationPolicyHash",
+        "promptInjectionControlPolicyId",
+        "promptInjectionControlPolicyVersion",
+        "promptInjectionControlPolicyHash",
+        "promptInjectionEvaluationCorpusVersion",
+        "promptInjectionEvaluationCorpusHash",
+        "searchIndexSchemaVersion",
+        "searchIndexAlias",
+        "queryFilterPolicyId",
+        "queryFilterPolicyVersion",
+        "queryFilterPolicyHash",
+        "evidenceRevocationPolicyId",
+        "evidenceRevocationPolicyVersion",
+        "evidenceRevocationPolicyHash",
+        "indexRebuildValidationPolicyIdVersionHash",
+        "noToolUsePolicyVersion",
+        "noToolUsePolicyHash",
+        "vectorDeterministicKeySchemaVersion"
+      ]
+    },
+    {
+      "group": "Audit transport and reconciliation",
+      "parameters": [
+        "assuranceAuditQueueResourceId",
+        "assuranceAuditQueueEntityName",
+        "assuranceAuditSenderRoleAssignmentEvidenceId",
+        "auditExportGraceThresholdSeconds",
+        "auditExportMaxAttempts",
+        "auditExportBaseRetryDelaySeconds",
+        "auditExportMaxRetryDelaySeconds",
+        "auditMessageTtlSeconds",
+        "auditMaxDeliveryCount",
+        "auditOutboxBatchSize",
+        "auditReceiptPollIntervalSeconds",
+        "auditPoisonDispositionOwnerObjectId",
+        "auditMessageMaxBytes",
+        "auditDuplicateDetectionWindowSeconds",
+        "auditDeadLetterOnExpiryEnabled",
+        "auditMaximumRetryAndReconciliationWindowSeconds",
+        "auditSenderOrderingPolicyVersion",
+        "auditSenderOrderingLeaseSeconds",
+        "auditReceiptReconcilerManagedIdentityObjectId",
+        "auditMaterialTransitionGuardIdentityObjectId",
+        "auditReceiptVerificationPolicyIdVersionHash"
+      ]
+    }
+  ]
+}

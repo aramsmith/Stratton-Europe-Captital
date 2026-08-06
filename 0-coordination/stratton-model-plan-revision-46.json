@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "46",
+  "createdAt": "2026-08-03T18:47:24.8892695+02:00",
+  "revisionReason": "Reproduce the reference deck's replayable eased count-up animation on slide 2's numeric company metrics.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-45.json",
+    "sha256": "3c6603508ef0cfe1f48fa082a4bdbb4bb73c92a4240554eafd62d10faf843bc8",
+    "overwrite": false
+  },
+  "reference": {
+    "url": "https://aramsmith.github.io/enterprise-resilience-architecture/",
+    "physicalSlide": 2,
+    "observedTechnique": "requestAnimationFrame count-up with cubic ease-out, per-value delay and replay on slide activation"
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "animatedMetrics": [
+      "EUR 18bn",
+      "34",
+      "5"
+    ],
+    "staticMetric": "Vienna"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

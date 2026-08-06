@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PROPOSED_AMENDED_BASELINE_HASH_MANIFEST",
+  "changeControlId": "STRATTON-CC-001",
+  "status": "PROPOSED_PENDING_HUMAN_APPROVAL",
+  "proposalOnly": true,
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "generatedAt": "2026-08-02T13:52:31.709+02:00",
+  "hashAlgorithm": "SHA-256",
+  "approvedBaseline": {
+    "manifestPath": "3-azure-design/stratton-phase-3-hashes.json",
+    "manifestSha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945",
+    "approvalPath": "approvals/3/stratton-phase-3-approval-1.json",
+    "approvalSha256": "f6f9de73a70ef3376b90a0ea467ac5d35531f970d362a84bd3b653d35b8a85f3",
+    "preservedUnchanged": true
+  },
+  "effect": "Does not replace canonical approved manifest and records no approval. Proposed files are an overlay/replacement candidate only.",
+  "artifacts": [
+    {
+      "path": "3-azure-design/stratton-cc-001-phase-3-amendment.md",
+      "role": "authoritative-amendment-markdown",
+      "sha256": "b1d12eaa051d13b4077f1f79f5f9d7c03e73bb517a811b29f8f30a5dd5fc84c9"
+    },
+    {
+      "path": "3-azure-design/stratton-cc-001-phase-3-amendment.html",
+      "role": "rendered-amendment-html",
+      "sha256": "a0072791bf6f05841cc81ab54f64f549a4d2c7ee22fe539fa3a198f290baf9d0"
+    },
+    {
+      "path": "3-azure-design/stratton-design-catalogue-cc-001-proposed.json",
+      "role": "proposed-catalogue-replacement",
+      "sha256": "8c307fd11ada64bfb7501e0c52c4819eb918785468f5f2ae659b28b32ca703ac",
+      "proposesReplacementFor": "3-azure-design/stratton-design-catalogue.json"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json",
+      "role": "proposed-contract-replacement",
+      "sha256": "53304ca919e19fa90c5d881f2939b8b7169c655724ef9d48eb472b31809f2630",
+      "proposesReplacementFor": "3-azure-design/evidence/stratton-data-api-contracts.json"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-security-compliance-contract-cc-001-proposed.json",
+      "role": "proposed-consolidated-contract",
+      "sha256": "6df2dbb24b41758df80ecdaf3e6c40b47b4a8de88e0d6756c3d7886a2c84f76e"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-proposed.json",
+      "role": "proposed-contract-replacement",
+      "sha256": "164bf9fa821c82d1cce1f12e055cf4d9565576c74cccbe0969abe66b4c68581e",
+      "proposesReplacementFor": "3-azure-design/evidence/stratton-operations-reliability-contract.json"
+    }
+  ]
+}

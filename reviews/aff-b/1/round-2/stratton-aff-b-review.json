@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "runtimeIdentityEvidence": "The active human invocation explicitly specifies exact runtime gpt-5.6-sol.",
+    "complexityReassessment": {
+      "regulatoryComplexity": "HIGH",
+      "securityComplexity": "HIGH",
+      "evidenceComplexity": "HIGH",
+      "contextComplexity": "HIGH_BUT_TRACTABLE",
+      "rationale": "The complete Phase 1 scope combines four human-confirmed regulatory boundaries, conditional DORA handling, highly confidential investment data, privacy, sovereignty and foreign-jurisdiction governance, privileged access, AI safety, independent acceptance and eight hash-bound artifacts. The approved AFF-B default remains the best suited available GPT model.",
+      "selectedDefaultRemainsSuitable": true,
+      "runScopedOverrideRequired": false,
+      "humanOverrideApprovalRequired": false,
+      "humanSpecifiedRuntimeMatchesApprovedDefault": true
+    }
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "1",
+    "phaseName": "Phase 1 — Requirements",
+    "owner": "AFF-1"
+  },
+  "round": 2,
+  "reviewTime": "2026-08-01T21:31:46.333+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-2.json",
+    "revision": "2",
+    "manifestEntrySha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "changedForThisReview": false
+  },
+  "scope": [
+    "Security and privacy requirements, data classification, ownership, retention and permitted use",
+    "Complete human-confirmed GDPR, conditional SFDR, conditional AIFMD and EU AI Act obligation coverage",
+    "Conditional DORA boundary and prohibition of premature formal compliance claims",
+    "Sovereignty, residency, transfers, privileged access, legal governance and foreign-jurisdiction exposure",
+    "AI safety, transparency, human oversight, logging, audit and unsupported-claim controls",
+    "Acceptance quality, independent validation and residual ownership",
+    "Prior AFF-B major finding remediation through DR-007 and SR-010",
+    "Complete eight-artifact canonical subject, final AFF-A round 3 and independent hash receipt"
+  ],
+  "context": {
+    "applicabilityStartingPosition": "No regulation was assumed at case start. Current potential applicability is derived from governed case inputs, human-confirmed decisions INT-D-007 and INT-D-009, and AFF-0 regulatory-register revision 002.",
+    "humanConfirmationUse": "Human-confirmed applicability and constraints are requirements evidence, not an AFF-B legal determination, certification or attestation.",
+    "dataContext": "Release 1 uses governed investment, financial, legal, portfolio, ESG and personal data. Deal, financial, legal and portfolio data is confirmed highly confidential.",
+    "solutionBoundary": "Controlled production rollout for the first 20 eligible new private-equity opportunities, with assistive AI and every investment decision retained by the Investment Committee.",
+    "assuranceLimit": "Architecture assurance only; not legal advice, legal or regulatory certification, formal attestation, waiver or approval."
+  },
+  "canonicalReviewedEvidenceSet": {
+    "canonicalSubjectManifest": {
+      "path": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+      "sha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+      "modelPlanRevision": "2",
+      "hashAlgorithm": "SHA-256",
+      "artifactCount": 8,
+      "manifestEntriesRead": true,
+      "hashVerificationStatus": "VERIFIED_BY_RETAINED_DUAL_TOOL_EVIDENCE",
+      "verificationEvidence": [
+        "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json records PowerShell Get-FileHash generation.",
+        "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json:6-11 records manifest SHA-256 b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a, Python hashlib verification and allManifestEntriesMatch=true.",
+        "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json:12-60 records matching SHA-256 values for all eight manifest entries."
+      ],
+      "localRecomputeStatus": "NOT_RECOMPUTED_NO_HASH_EXECUTION_TOOL_EXPOSED_IN_THIS_REVIEW_RUNTIME"
+    },
+    "activeCoverageRevision": {
+      "sequence": "003",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-003.json",
+      "sha256": null,
+      "sha256Status": "NOT_COMPUTABLE_WITH_EXPOSED_REVIEW_TOOLS",
+      "status": "ACTIVE_FOR_BOUND_MANIFEST",
+      "appendOnly": true,
+      "insideCanonicalSubjectManifest": false,
+      "role": "AFF-B_REVIEW_OUTPUT_AND_COVERAGE_CONTEXT"
+    },
+    "affAFinalReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/1/round-3/stratton-aff-a-review.json",
+      "round": 3,
+      "verdict": "CONFORMS-WITH-GAPS",
+      "finalRoundForManifest": true,
+      "canonicalManifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+      "modelPlanRevision": "2"
+    },
+    "independentHashReceipt": {
+      "path": "cases/Stratton-Europe-Captital/1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json",
+      "manifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+      "allManifestEntriesMatch": true,
+      "outsideManifestToAvoidSelfReference": true
+    }
+  },
+  "artifactsReviewed": [
+    {
+      "path": "1-requirements/stratton-requirements.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "COMPLETE_CONTENT_SECURITY_COMPLIANCE_ACCEPTANCE_AND_PHASE_BOUNDARY_REVIEWED"
+    },
+    {
+      "path": "1-requirements/stratton-requirements.html",
+      "role": "rendered-html",
+      "manifestSha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "SELF_CONTAINED_RENDERING_MATERIAL_FIDELITY_AND_UNSUPPORTED_CLAIMS_REVIEWED"
+    },
+    {
+      "path": "1-requirements/stratton-requirements-catalogue.json",
+      "role": "catalogue",
+      "manifestSha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "ALL_31_REQUIREMENTS_OWNERS_SOURCES_DEPENDENCIES_ACCEPTANCE_FIELDS_AND_VALIDATION_ITEMS_REVIEWED"
+    },
+    {
+      "path": "1-requirements/stratton-interview-decisions.json",
+      "role": "evidence",
+      "manifestSha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "CONFIRMED_DECISIONS_CURRENT DISPOSITIONS_SOVEREIGNTY_CLASSIFICATION_APPLICABILITY_AND_RESIDUAL_OWNERS_REVIEWED"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-2.json",
+      "role": "catalogue",
+      "manifestSha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "ACTIVE_REVISION_MODEL_REASSESSMENT_AND_AFF_B_ASSIGNMENT_REVIEWED"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "manifestSha256": "37f3830a3186ac893ee90d6544ee7f03e9d1a477724a59ba77c2f64ee6658dfa",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "APPEND_ONLY_PHASE_1_DISPOSITIONS_AND_RESIDUAL_OWNERS_REVIEWED"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "manifestSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "CONFIRMED_CONDITIONAL_REMOVED_AND_OPEN_APPLICABILITY_DISPOSITIONS_REVIEWED"
+    },
+    {
+      "path": "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json",
+      "role": "evidence",
+      "manifestSha256": "edbb016099a25ea5997abf7fd7201d8bf96c677bd51fced5b4c319ad327b4ef5",
+      "hashVerificationStatus": "MATCHES_INDEPENDENT_RECEIPT",
+      "inspection": "HASH_GENERATION_SCOPE_VALUES_AND_TOOL_RECORD_REVIEWED"
+    }
+  ],
+  "additionalRecordsRead": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json",
+    ".github/agents/AFF-B-security-compliance.agent.md",
+    "reviews/aff-b/1/round-1/stratton-aff-b-review.json",
+    "reviews/aff-b/coverage/stratton-compliance-coverage-002.json",
+    "reviews/aff-a/1/round-3/stratton-aff-a-review.json",
+    "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json"
+  ],
+  "confirmedControls": [
+    {
+      "controlOutcome": "Highly confidential classification with access, production-isolation, residency, transfer, audit and retention handling boundaries",
+      "requirementIds": ["DR-007", "DR-005", "SR-001", "SR-002", "SR-007", "TR-001"]
+    },
+    {
+      "controlOutcome": "Personal-data minimisation, purpose limitation, approved evidence and exclusion of unapproved special-category data",
+      "requirementIds": ["DR-003", "SR-003"]
+    },
+    {
+      "controlOutcome": "EU/EEA production-data and routine-processing location restriction with gated extra-EEA transfers",
+      "requirementIds": ["SR-001", "SR-002", "SR-003"]
+    },
+    {
+      "controlOutcome": "EU/member-state legal governance and General Counsel assessment and acceptance of foreign-jurisdiction exposure",
+      "requirementIds": ["SR-010"]
+    },
+    {
+      "controlOutcome": "Stratton-controlled, EU-based, least-privilege, time-bound and audited privileged access with emergency process",
+      "requirementIds": ["SR-007"]
+    },
+    {
+      "controlOutcome": "External-data AI-use licensing gate and foundation-model-training prohibition",
+      "requirementIds": ["DR-002", "DR-006"]
+    },
+    {
+      "controlOutcome": "Provenance, quality, lineage, reproducibility, accountable review and audit evidence",
+      "requirementIds": ["DR-004", "FR-002", "SR-004", "SR-005"]
+    },
+    {
+      "controlOutcome": "Assistive-only AI, prohibited-action prevention and retained human investment authority",
+      "requirementIds": ["AR-001", "AR-002", "NR-002"]
+    },
+    {
+      "controlOutcome": "AI literacy, transparency, oversight, logging, risk management and classification evidence without unsupported classification",
+      "requirementIds": ["SR-006", "NR-001", "NR-002"]
+    },
+    {
+      "controlOutcome": "Independent Internal Audit verdict with Model Risk limited to methods and advice",
+      "requirementIds": ["SR-008"]
+    },
+    {
+      "controlOutcome": "Conditional DORA-aligned ICT risk, incident, resilience-test and provider-oversight evidence without formal compliance claim",
+      "requirementIds": ["SR-009", "TR-003", "TR-004"]
+    }
+  ],
+  "assessment": [
+    {
+      "focus": "REGULATORY_APPLICABILITY_AND_COMPLETE_COVERAGE",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "Coverage revision 003 maps all 21 human-confirmed obligation clusters for GDPR, conditional SFDR, conditional AIFMD and the EU AI Act and all four conditional DORA clusters to active requirements. Official-source, date and article-level mappings remain explicitly owned validation work."
+    },
+    {
+      "focus": "DORA_CONDITIONAL_HANDLING",
+      "status": "CONFORMS",
+      "evidence": "SR-009 and VAL-001 preserve entity-specific applicability or exemption as General Counsel work, require interim ICT risk, incident, resilience and provider-oversight evidence, and prohibit formal DORA compliance claims."
+    },
+    {
+      "focus": "SOVEREIGNTY_CLASSIFICATION_AND_LEGAL_JURISDICTION",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "DR-007 now translates highly-confidential handling; SR-001, SR-002 and SR-007 govern location, transfer and privileged access; SR-010 translates EU/member-state legal governance and foreign-exposure assessment and acceptance. VAL-005 retains the approved-location and exception-evidence detail with General Counsel."
+    },
+    {
+      "focus": "PRIVACY_DATA_USE_AND_RETENTION",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "DR-002 through DR-007 and SR-002/SR-003 cover licensing, minimisation, special-category exclusion, provenance, retention, legal holds, working-copy deletion, transfer governance, training prohibition and classification-bound handling. Exact source schedules and privacy evidence remain owned validation work."
+    },
+    {
+      "focus": "AI_SAFETY_HUMAN_OVERSIGHT_AND_AUDIT",
+      "status": "CONFORMS",
+      "evidence": "FR-002, AR-001, AR-002, SR-006, NR-001 and NR-002 define assistive use, required review, retained decision authority, prohibited actions, citations, unsupported-claim thresholds, risk detection, logging and auditable review. No unsupported AI risk classification is asserted."
+    },
+    {
+      "focus": "ACCEPTANCE_QUALITY_AND_INDEPENDENCE",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "All 31 active requirements are sourced and have stable acceptance tests. T-DR-007 and T-SR-010 directly test the remediated outcomes. SR-008 assigns the independent verdict to Internal Audit. VAL-002 through VAL-005 retain definitions and operational evidence needed before execution."
+    },
+    {
+      "focus": "RESIDUAL_OWNERSHIP",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "DORA, AI classification, service definitions, benchmark definitions, source mappings and approved-location details have named accountable owners, validation timing and change-control consequences; none is presented as waived or complete."
+    },
+    {
+      "focus": "UNSUPPORTED_CLAIMS_AND_PHASE_BOUNDARY",
+      "status": "CONFORMS",
+      "evidence": "The candidate claims no architecture, Azure service, deployment, runtime result, AI risk classification, formal DORA compliance, certification, attestation or Phase 1 approval."
+    }
+  ],
+  "confirmedObligationCoverage": {
+    "activeCoverageSequence": "003",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-003.json",
+    "confirmedApplicabilityBoundaries": ["GDPR", "SFDR conditional", "AIFMD conditional", "EU AI Act governance framework"],
+    "conditionalOpenBoundary": "DORA entity-specific applicability or exemption",
+    "confirmedObligationClustersMapped": 21,
+    "conditionalObligationClustersMapped": 4,
+    "coveredClusters": 25,
+    "formalComplianceClaimsFound": 0
+  },
+  "priorFindingDispositions": [
+    {
+      "id": "STRATTON-P1-AFFB-R1-MAJOR-001",
+      "priorSeverity": "MAJOR",
+      "title": "Confirmed confidentiality and legal-jurisdiction sovereignty outcomes were not fully translated into active requirements",
+      "currentDisposition": "RESOLVED_FOR_CURRENT_MANIFEST",
+      "evidence": [
+        "1-requirements/stratton-requirements.md:86 records DR-007 for highly-confidential classification and handling.",
+        "1-requirements/stratton-requirements-catalogue.json:299-319 records active, sourced DR-007 and T-DR-007 with complete applicable control evidence as its threshold.",
+        "1-requirements/stratton-requirements.md:96 records SR-010 for EU/member-state legal governance and foreign-jurisdiction exposure.",
+        "1-requirements/stratton-requirements-catalogue.json:529-549 records active, sourced SR-010 and T-SR-010 with General Counsel assessment and acceptance before use.",
+        "Final AFF-A round 3 and this AFF-B round 2 cover the same unchanged manifest b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a and model-plan revision 2."
+      ],
+      "residualRisk": "Approved EU/EEA location details and exception evidence remain General Counsel validation under VAL-005; this does not reopen the translated requirement gap unless validation changes confirmed intent or scope."
+    }
+  ],
+  "findings": [],
+  "residualGaps": [
+    {
+      "id": "VAL-001",
+      "gap": "Entity-specific DORA applicability or exemption and resulting obligations remain unrecorded; formal DORA compliance must not be claimed.",
+      "owner": "General Counsel",
+      "requiredBefore": "Any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "gap": "Business hours, typical document-pack characteristics and critical-alert criteria require approval.",
+      "owner": "Chief Investment Officer and Service Operations",
+      "requiredBefore": "Service and performance acceptance tests",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "gap": "Deal and benchmark eligibility, critical fields, unsupported-claim severity and control-exception handling require approval.",
+      "owner": "Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "requiredBefore": "Internal Audit validation",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "gap": "Exact source instances, retention schedules, volumes and production quality-remediation procedures remain to be mapped.",
+      "owner": "Source and records owners",
+      "requiredBefore": "Production ingestion",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "gap": "Approved EU/EEA locations and the sovereignty exception evidence process require final confirmation.",
+      "owner": "General Counsel",
+      "requiredBefore": "Production location and transfer acceptance",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "gap": "EU AI Act role and use-case classification evidence remains required; neither high-risk nor non-high-risk classification is asserted.",
+      "owner": "General Counsel and Head of AI Governance",
+      "requiredBefore": "Production or any classification claim",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "gap": "Official-source citations, publication/effective dates and detailed article-level obligation mappings remain absent from the regulatory register's Phase 1 disposition.",
+      "owner": "Accountable legal/compliance owners and AFF-0 as register custodian",
+      "requiredBefore": "Any formal legal or compliance representation relying on the register",
+      "status": "OPEN_NOT_WAIVED"
+    }
+  ],
+  "inferredApplicability": [
+    {
+      "instrument": "DORA",
+      "jurisdiction": "European Union",
+      "exactScopeTrigger": "Stratton or the relevant managing entity is an in-scope AIFM or other financial entity.",
+      "confidence": "INFERRED",
+      "humanConfirmation": "The conditional boundary is confirmed; General Counsel's entity-specific applicability or exemption record remains required.",
+      "requirementIds": ["SR-009", "TR-003", "TR-004"],
+      "claimStatus": "NO_FORMAL_COMPLIANCE_CLAIM"
+    },
+    {
+      "instrument": "Sector-specific EU Directives",
+      "jurisdiction": "Unspecified",
+      "exactScopeTrigger": "No active trigger; Legal must identify an exact instrument and trigger before reconsideration.",
+      "confidence": "INFERRED",
+      "humanConfirmation": "General Counsel removed the generic lead pending new evidence.",
+      "requirementIds": [],
+      "claimStatus": "NOT_ACTIVE"
+    }
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "The prior major traceability defect is resolved by active, sourced and testable DR-007 and SR-010. Complete current coverage maps all 21 confirmed and four conditional obligation clusters; DORA remains correctly conditional; privacy, sovereignty, AI safety, independent acceptance and unsupported-claim boundaries are explicit. No blocker or major finding remains. The retained legal-source, DORA, AI-classification and operational validation gaps are visible, owner-bound and not waived, so a gap-qualified rather than unqualified conforming verdict is appropriate.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_FOR_MANIFEST_B0DD49069DF5370EE4E37BB4500773EFCDB04543016BB9B0A79ACD423D49100A_AND_MODEL_PLAN_REVISION_2",
+  "nextAction": "Present the unchanged Phase 1 candidate, final AFF-A round 3, this final AFF-B round 2 and explicit residual gaps to the human architect for the Phase 1 approve-or-reject decision. Any material subject change invalidates this review and requires complete AFF-A and AFF-B re-review.",
+  "nonApprovalStatement": "AFF-B provides architecture assurance only. This record is not legal advice, legal or regulatory certification, formal compliance attestation, a waiver, Phase 1 approval, or a substitute for accountable human legal, compliance, security, risk, audit or architecture decisions."
+}

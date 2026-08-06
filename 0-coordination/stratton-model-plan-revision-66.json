@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "66",
+  "createdAt": "2026-08-04T00:33:49+02:00",
+  "revisionReason": "Refine slide 2 copy, strengthen the customer-pain hierarchy, brighten key borders and animate the operating-ecosystem tags.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-65.json",
+    "sha256": "8fa17f2817e5dedd9bcc90cc9e437ca58f8006629fe6f84bba30db647e84212c",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Shorten the slide 2 subtitle.",
+      "Brighten the metric borders.",
+      "Rename 34-company portfolio to 34 portfolio companies.",
+      "Expand AIFMD in brackets.",
+      "Clarify that the current technology remains on premises until sovereign Azure transition completion.",
+      "State the due-diligence pain as a current 12-week, 60%-capacity burden.",
+      "Make Business challenges copy larger and brighter.",
+      "Brighten operating-ecosystem borders and apply slide 1's border glow animation."
+    ]
+  },
+  "implementation": {
+    "copy": {
+      "subtitle": "A fictitious Vienna-based private-equity fund.",
+      "portfolioTitle": "34 portfolio companies",
+      "aifmdExpansion": "Alternative Investment Fund Managers Directive",
+      "estate": "The current technology solution will remain on premises until the transition to sovereign Azure is complete.",
+      "dueDiligence": "It now takes 12 weeks and consumes 60% of deal-team capacity."
+    },
+    "metrics": {
+      "border": "38% cyan mixed with the deck border",
+      "addedInnerHighlight": true
+    },
+    "businessChallenges": {
+      "titlePx": 19,
+      "descriptionPx": 16,
+      "descriptionColour": "78% foreground mixed with muted foreground"
+    },
+    "operatingEcosystem": {
+      "border": "48% cyan mixed with the deck border",
+      "animation": "same 3.8-second cyan-to-purple one-time sweep as slide 1",
+      "staggerMs": 320,
+      "reducedMotion": "disabled"
+    },
+    "fit": {
+      "systemFooterClearancePx": 92.86,
+      "jetBrainsFooterClearancePx": 36.71,
+      "ecosystemRowsJetBrains": 1,
+      "challengeOverflow": false
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

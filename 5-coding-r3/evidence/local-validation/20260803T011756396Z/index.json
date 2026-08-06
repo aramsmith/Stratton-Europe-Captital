@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260803T011756396Z",
+  "scope": "All",
+  "status": "PASS",
+  "generatedAt": "2026-08-03T01:35:06.6883030Z",
+  "packageRoot": "<PACKAGE_ROOT>",
+  "releaseEvidenceBoundary": {
+    "localValidationReleaseStep": "RELEASE_MANIFEST_ONLY",
+    "finalFreezeOutsideValidationRun": true,
+    "freezeSequence": [
+      "validation/New-BuildReport.ps1",
+      "validation/New-Phase5Hashes.ps1",
+      "validation/Test-ReleaseEvidence.ps1"
+    ]
+  },
+  "steps": [
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "prerequisites",
+      "scope": "Prerequisites",
+      "status": "PASS",
+      "command": "Verify exact tool versions and required package inputs",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:17:56.4067163Z",
+      "endedAt": "2026-08-03T01:18:02.3905946Z",
+      "durationMilliseconds": 5984.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/prerequisites.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "iac-validation",
+      "scope": "Bicep",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File tests/iac/Invoke-IaCTests.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:18:02.4378741Z",
+      "endedAt": "2026-08-03T01:32:18.4068599Z",
+      "durationMilliseconds": 855969.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/iac-validation.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "module-digest-evidence",
+      "scope": "Bicep",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/Capture-OciDigestEvidence.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:18.4111254Z",
+      "endedAt": "2026-08-03T01:32:19.2362322Z",
+      "durationMilliseconds": 825.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/module-digest-evidence.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "package-integrity",
+      "scope": "Security",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File tests/package/Test-PackageIntegrity.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:19.2390311Z",
+      "endedAt": "2026-08-03T01:32:22.0554872Z",
+      "durationMilliseconds": 2816.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/package-integrity.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "source-security-scan",
+      "scope": "Security",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/Scan-SourceSecurity.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:22.0584061Z",
+      "endedAt": "2026-08-03T01:32:24.6722760Z",
+      "durationMilliseconds": 2614.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/source-security-scan.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "database-validation",
+      "scope": "Database",
+      "status": "PASS",
+      "command": "npm run check:migrations",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:24.6757122Z",
+      "endedAt": "2026-08-03T01:32:25.3934610Z",
+      "durationMilliseconds": 718.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/database-validation.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "application-dependencies",
+      "scope": "Application",
+      "status": "PASS",
+      "command": "npm ci --offline --ignore-scripts",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:25.3999224Z",
+      "endedAt": "2026-08-03T01:32:29.8533044Z",
+      "durationMilliseconds": 4453.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/application-dependencies.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "application-validation",
+      "scope": "Application",
+      "status": "PASS",
+      "command": "npm run validate",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:29.8560958Z",
+      "endedAt": "2026-08-03T01:32:46.5223550Z",
+      "durationMilliseconds": 16666.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/application-validation.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "container-validation",
+      "scope": "Containers",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/Build-ContainerEvidence.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:32:46.5255392Z",
+      "endedAt": "2026-08-03T01:35:04.8217700Z",
+      "durationMilliseconds": 138296.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/container-validation.log"
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "release-evidence",
+      "scope": "Release",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/New-ReleaseManifest.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-03T01:35:04.8487346Z",
+      "endedAt": "2026-08-03T01:35:06.6813144Z",
+      "durationMilliseconds": 1833.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260803T011756396Z/release-evidence.log"
+    }
+  ]
+}

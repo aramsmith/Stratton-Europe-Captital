@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.0.0",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "selectedModelRationale": "Approved independent reasoning challenger remains the best fit for Phase 0 correctness, traceability, boundary and omission review. gpt-5.6-sol is the Phase 0 author model and cannot be used for independent AFF-A review; gpt-5.3-codex is more implementation/testing oriented.",
+    "runtimeIdentityEvidence": "Active task launcher binding explicitly and exactly enforced gpt-5.5 for this review invocation."
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "0",
+    "phaseName": "Phase 0 \u2014 Coordinate",
+    "owner": "AFF-0"
+  },
+  "round": 2,
+  "reviewTime": "2026-08-01T20:11:20.943+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan.json",
+    "revision": "1",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "runScopedOverrideRequired": false
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-0-hashes.json",
+    "sha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec",
+    "modelPlanRevision": "1",
+    "hashAlgorithm": "SHA-256",
+    "artifactCount": 12,
+    "hashVerificationStatus": "VERIFIED_BY_RETAINED_DUAL_TOOL_RECEIPT",
+    "verificationReceipt": {
+      "path": "cases/Stratton-Europe-Captital/0-coordination/evidence/stratton-phase-0-hash-verification-receipt.json",
+      "sha256": "e80322b80c3223954ca499b5b8a6e0164151c1672981755b7d2121314eac3497",
+      "insideManifest": false,
+      "reasonOutsideManifest": "Avoids a self-referential hash cycle while retaining reviewable dual-tool verification evidence.",
+      "independentVerificationTool": "Python 3.13.14 hashlib.sha256",
+      "generationTool": "PowerShell Get-FileHash",
+      "allManifestEntriesMatch": true
+    }
+  },
+  "artifactsReviewed": [
+    {
+      "path": "0-coordination/stratton-coordination.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/stratton-coordination.html",
+      "role": "rendered-html",
+      "manifestSha256": "0934a429cb999889667b3111e61456d2f1f92f348e3c35f0f887ff1275a8432b",
+      "inspectionStatus": "SAFE_HTML_AND_MARKDOWN_CONSISTENCY_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/stratton-input-inventory.json",
+      "role": "catalogue",
+      "manifestSha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d",
+      "inspectionStatus": "CONTENT_AND_VALIDATION_LINK_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "role": "catalogue",
+      "manifestSha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+      "inspectionStatus": "CONTENT_REVIEWED_FOR_INDEPENDENCE",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.pdf",
+      "role": "evidence",
+      "manifestSha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "inspectionStatus": "BINARY_EXISTS_HEADER_AND_TWO_PAGE_TREE_OBSERVED_NORMALISED_COUNTERPART_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "role": "evidence",
+      "manifestSha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-normalisation-validation.json",
+      "role": "evidence",
+      "manifestSha256": "eef070843f2a93349b584f4ea48f1c4f7bb8601c4a00db7a880f11b0b94be24d",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-run-journal-phase-0-candidate.jsonl",
+      "role": "evidence",
+      "manifestSha256": "2c317160032f7063551f8fbd743de1b34647ad47e0f9f42179393939627c9647",
+      "inspectionStatus": "IMMUTABLE_CANDIDATE_JOURNAL_SNAPSHOT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "stratton-decisions.md",
+      "role": "catalogue",
+      "manifestSha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "manifestSha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "manifestSha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-hash-generation-evidence.json",
+      "role": "evidence",
+      "manifestSha256": "f13efaad00fb0260d3e4d369e1723500b546aaff6cce9ea7e90f33f49eb3e40f",
+      "inspectionStatus": "CONTENT_REVIEWED_AND_COVERED_BY_VERIFICATION_RECEIPT",
+      "hashVerificationStatus": "VERIFIED_BY_RECEIPT"
+    }
+  ],
+  "confirmedItems": [
+    "Governing files reviewed: AFF operating contract, AFF lifecycle, AFF-A profile, active model plan revision 1, round-1 review records, regenerated canonical Phase 0 manifest, all 12 listed subjects, retained normalisation validation evidence, hash-generation evidence, and the separate dual-tool verification receipt.",
+    "Reviewer and author actual model IDs differ: reviewer gpt-5.5; Phase 0 author gpt-5.6-sol.",
+    "The canonical manifest uses the expected Phase 0 path, model-plan revision 1, SHA-256 algorithm, and 12 subject artifacts.",
+    "The independent verification receipt consistently binds manifest SHA-256 6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec to the same 12 entries and reports all Python recomputations matching the manifest values.",
+    "The active mutable root journal is no longer relied on as immutable reviewed evidence; the reviewed lifecycle state is frozen in 0-coordination/evidence/stratton-run-journal-phase-0-candidate.jsonl, which is included in the manifest.",
+    "The normalisation method claim is now backed by retained validation evidence in the manifest.",
+    "Phase 0 content stays within coordination and does not assert approved requirements, architecture, Azure topology, service selection, legal obligation, deployment, runtime test result, or human approval.",
+    "Evidence-backed facts are traceable to the normalised source and are framed as source statements rather than approved requirements.",
+    "The rendered HTML is self-contained, uses inline CSS, has no external scripts/CDNs, links large evidence instead of embedding it, and materially matches the authoritative Markdown.",
+    "Shared decision, risk, and regulatory records remain concise and boundary-safe."
+  ],
+  "priorFindings": [
+    {
+      "id": "A0-R1-BLOCKER-001",
+      "round1Severity": "BLOCKER",
+      "title": "Listed SHA-256 hashes were not independently verifiable in this review runtime",
+      "round2Disposition": "RESOLVED",
+      "evidence": "PowerShell hash-generation evidence and a separate Python hashlib verification receipt cover the manifest and all 12 manifest entries, all matching."
+    },
+    {
+      "id": "A0-R1-MAJOR-001",
+      "round1Severity": "MAJOR",
+      "title": "Active run journal is cited but omitted from the canonical reviewed hash set",
+      "round2Disposition": "RESOLVED",
+      "evidence": "The Phase 0 artifact now distinguishes the mutable append-only root journal from the immutable reviewed lifecycle state; the candidate journal snapshot is included in the canonical manifest."
+    },
+    {
+      "id": "A0-R1-MINOR-001",
+      "round1Severity": "MINOR",
+      "title": "Normalisation method claim lacks retained validation evidence",
+      "round2Disposition": "RESOLVED",
+      "evidence": "The normalisation validation evidence is included in the manifest and records extraction, table, rendered-page comparison, and presentation-loss observations."
+    }
+  ],
+  "findings": [],
+  "verdict": "CONFORMS",
+  "verdictRationale": "Phase 0 now satisfies the reviewed AFF operating-contract, lifecycle, model-independence, phase-boundary, evidence, hash-manifest, and concise-communication expectations for this manifest. This review does not approve the phase and does not substitute for AFF-B assurance or the explicit human Phase 0 decision.",
+  "residualGaps": [],
+  "finalRoundForManifest": true,
+  "requiredAction": "No AFF-A remediation is required for canonical manifest SHA-256 6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec. The phase owner must still obtain converged AFF-B assurance over the same unchanged hashes and then await explicit human approval or rejection in the active interaction. Any material subject change invalidates this review.",
+  "supersededRound": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/0/round-1/stratton-aff-a-review.md",
+    "verdict": "DIVERGES"
+  }
+}

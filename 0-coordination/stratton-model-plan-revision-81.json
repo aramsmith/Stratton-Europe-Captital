@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "81",
+  "createdAt": "2026-08-04T02:47:54+02:00",
+  "revisionReason": "Fit the complete slide 5 title on one line while preserving the logo clearance and title hierarchy.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-80.json",
+    "sha256": "5392b81e0399f12fd432583e43a45fee71ba29876d15c84344420ac2fa10010d",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 5,
+    "change": "Keep 'Architecture is a conversation, not a conveyor belt.' on one line with 'belt' directly after 'conveyor'."
+  },
+  "implementation": {
+    "title": {
+      "textChanged": false,
+      "singleLine": true,
+      "whiteSpace": "nowrap",
+      "maximumFontPx": 41,
+      "headerMaximumWidthPx": 1240
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "viewportOverflow": false,
+      "logoOverlap": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "visualInspection": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticArchitectureRingSlide.module.css",
+      "sha256": "6d57c5b38ef2ff3bebb5b54cb23879536103a2e1f5e617da1df3628133a27967"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

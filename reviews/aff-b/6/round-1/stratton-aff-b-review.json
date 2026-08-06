@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "separationStatus": "ESTABLISHED_SEPARATE_SPECIALIST_CONTEXT_AND_WRITE_BOUNDARY_NOT_MODEL_ID_INDEPENDENCE"
+  },
+  "invocation": {
+    "invokedBy": "AFF-6",
+    "phaseOwnerInvocationStatus": "DIRECT_PHASE_OWNER_INVOCATION_RECORDED",
+    "authoritativeInvocation": true,
+    "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER"
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "6",
+    "phaseName": "Phase 6 — C-level Presentation",
+    "owner": "AFF-6"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-03T11:22:00.635440+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-17.json",
+    "revision": "17",
+    "sha256": "922c8e5210fe287d781c631828e58ef98e6b0fde4ea1d0f68d67d3a78e4d04ae",
+    "subjectManifestModelPlanRevision": "17",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol",
+    "affBModelRelationshipStatus": "SAME_EXACT_MODEL_ID_ALLOWED_ONLY_THROUGH_SEPARATE_AFF_B_SPECIALIST_CONTEXT_AND_WRITE_BOUNDARY",
+    "modelIdIndependenceClaimed": false,
+    "modelPlanBindingStatus": "BOUND_AND_HASH_RECOMPUTED"
+  },
+  "assuranceBoundary": "Independent architecture security/compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime evidence or operating-effectiveness evidence.",
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r2/stratton-phase-6-hashes.json",
+    "expectedSha256FromInvocation": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+    "preReviewSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+    "postReviewSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+    "computedSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+    "hashStatus": "MATCH_UNCHANGED_PRE_POST",
+    "phaseId": "6",
+    "modelPlanRevision": "17",
+    "artifactCount": 88,
+    "artifactHashVerificationStatus": "ALL_88_MANIFEST_ENTRIES_INDEPENDENTLY_RECOMPUTED_AND_MATCHED",
+    "reviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-1/reviewed-subject/stratton-phase-6-hashes.json",
+    "reviewedSubjectSnapshotSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+    "hashVerificationReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-1/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "hashVerificationReceiptSha256": "48096024039588ca408ed34e3afc144bda5ec72bc7a80d41c461fb428855dbdc"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-1/stratton-aff-b-model-receipt.json",
+    "sha256": "098fe54cafba8f1f5aeb693ebef8440cf2a31f98fc30aed7ad6071cede4c956c"
+  },
+  "finalAffA": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-2/stratton-aff-a-review.json",
+    "expectedSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+    "computedSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+    "verdict": "CONFORMS",
+    "findingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "finalRoundForManifest": true,
+    "sameExactSubject": true
+  },
+  "activeCoverage": {
+    "sequence": "010",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+    "sha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+    "status": "ACTIVE_PHASE6_REVISION2_AFF_B_ROUND1_DIVERGES_REMEDIATION_REQUIRED",
+    "supersedesSequence": "009",
+    "supersededCoverageSha256": "5c25df3283233120e814629dafd742c302ed5d44424bb75e7193c4ef0456e0ad",
+    "requirementsModified": false,
+    "legalObligationsAdded": false,
+    "ownerValuesChanged": false
+  },
+  "priorBindings": {
+    "revision1Manifest": {
+      "path": "cases/Stratton-Europe-Captital/6-presentation/stratton-phase-6-hashes.json",
+      "sha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "expectedSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "unchanged": true
+    },
+    "affARound1": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-1/stratton-aff-a-review.json",
+      "sha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9",
+      "expectedSha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9",
+      "unchanged": true
+    },
+    "coverage009": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-009.json",
+      "sha256": "5c25df3283233120e814629dafd742c302ed5d44424bb75e7193c4ef0456e0ad",
+      "expectedSha256": "5c25df3283233120e814629dafd742c302ed5d44424bb75e7193c4ef0456e0ad",
+      "unchanged": true
+    }
+  },
+  "scope": [
+    "Complete frozen Phase 6 revision-2 manifest and every one of its 88 enumerated artifacts",
+    "Ten slides, browser production output, PDF, Markdown/HTML, claim catalogue, speaker notes, diagrams, source/bundle and eleven evidence artifacts",
+    "Unsupported security, privacy, sovereignty, legal, compliance, resilience, deployment, runtime and operating-effectiveness claims",
+    "Sensitive data, local paths, metadata, source maps, stack traces, secrets, source/IaC and audience anonymity",
+    "Source, imagery, DECKIO engine/favicon/UI and branding boundary without a legal licensing conclusion",
+    "Financial evidence, all 32 claims/66 sources, high-risk metrics, residual gaps and negative runtime boundary",
+    "Coverage 009 applicability and control status carried forward append-only into coverage 010"
+  ],
+  "subjectCountsAndTraceability": {
+    "artifactCount": 88,
+    "roleCounts": {
+      "presentation-source": 52,
+      "presentation-export": 19,
+      "diagram": 3,
+      "evidence": 11,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "slideCount": 10,
+    "claimCount": 32,
+    "sourceReferenceCount": 66,
+    "missingSourceCount": 0,
+    "claimClassCounts": {
+      "APPROVED_DESIGN_INTENT": 13,
+      "HUMAN_OWNED_HYPOTHESIS": 3,
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED": 7,
+      "SOURCE_FACT": 6,
+      "UNTESTED_RUNTIME_BEHAVIOUR": 3
+    },
+    "authorityConflictCount": 3,
+    "ownerBoundControlCount": 14,
+    "retainedAffBMinorGapCount": 2,
+    "waivedCount": 0
+  },
+  "confirmedControls": [
+    "All 88 manifest-listed artifacts existed and recomputed SHA-256 values matched; the canonical manifest remained unchanged before and after review.",
+    "Final AFF-A round 2 is hash-valid, CONFORMS and binds the same exact revision-2 manifest.",
+    "The 32 unique claims contain 66 existing case-local source references, approved classifications and explicit caveats; no missing source or duplicate claim ID was found.",
+    "Three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps are accurately disclosed as open, unwaived and fail closed.",
+    "The browser source and production JavaScript omit customer/case identity, upstream approval/review paths, source code and IaC; the full governed catalogue remains outside the client bundle.",
+    "No secret, credential, email address, source map, SVG script, foreignObject, external SVG reference or customer logo was found in the manifest-bound subject.",
+    "No approved numeric ROI, Azure price, rate, cost total or realised benefit is asserted; hypotheses retain accountable owners and dated validation needs.",
+    "The slides, notes, Markdown, HTML and claim catalogue preserve no-certification, no-waiver, no-deployment and no-runtime-effectiveness boundaries.",
+    "DECKIO favicon and bundled export/edit mechanics are engine mechanics rather than audience claims. The GitHub star-prompt chunk is production-inert by its bundled guard; no licensing compatibility conclusion is made.",
+    "The PDF has ten pages and no embedded case identity or absolute path; PNGs and SVGs contain no ancillary sensitive metadata. PDF creator/platform metadata remains a minor disclosure finding.",
+    "No Azure activity, package execution, deck execution, rebuild, export, repair or evidence-script execution occurred in this review."
+  ],
+  "assessment": [
+    {
+      "focus": "CANONICAL_INTEGRITY_AND_EXACT_SUBJECT_IDENTITY",
+      "status": "CONFORMS",
+      "evidence": "Manifest matched a9116d…c8b5 pre/post; 88/88 artifact hashes matched; snapshot is byte-identical."
+    },
+    {
+      "focus": "CLAIM_TRACEABILITY_AND_HIGH_RISK_BOUNDARIES",
+      "status": "CONFORMS",
+      "evidence": "32 claims/66 sources are complete; class counts, caveats, three authority conflicts, fourteen controls, two retained gaps and negative runtime boundary are consistent."
+    },
+    {
+      "focus": "SECURITY_COMPLIANCE_AND_DEPLOYMENT_PORTRAYAL",
+      "status": "CONFORMS",
+      "evidence": "No certification, attestation, legal advice, waiver, secure/production-ready, deployment-authorisation or operating-effectiveness implication was found."
+    },
+    {
+      "focus": "FINANCIAL_EVIDENCE",
+      "status": "CONFORMS",
+      "evidence": "No fabricated ROI, Azure prices, rates, totals or realised benefits; hypotheses are explicit and owner-bound."
+    },
+    {
+      "focus": "AUDIENCE_ANONYMITY_SOURCE_AND_BUNDLE",
+      "status": "CONFORMS_WITH_MINOR_METADATA_GAP",
+      "evidence": "Browser source/bundle is audience-anonymous and excludes governed paths/catalogue; linked export evidence exposes a local path and PDF metadata fingerprints the authoring platform."
+    },
+    {
+      "focus": "SOURCE_IMAGERY_BRANDING_AND_ENGINE_BOUNDARY",
+      "status": "CONFORMS_WITH_OWNER_LICENCE_GATES",
+      "evidence": "No customer logo or external imagery. DECKIO mechanics are distinguishable from claims; package licence metadata was not treated as legal rights clearance."
+    },
+    {
+      "focus": "BROWSER_PORTABILITY_AND_EXTERNAL_RUNTIME_CALLS",
+      "status": "DIVERGES",
+      "evidence": "Relative index targets exist, but production CSS imports Google Fonts over HTTPS; current evidence does not enumerate successful external calls."
+    },
+    {
+      "focus": "PDF_SVG_AND_METADATA",
+      "status": "CONFORMS_WITH_MINOR_GAP",
+      "evidence": "PDF is a 10-page raster export with no case identity; SVGs have no scripts/external references; local-system metadata requires sanitisation."
+    },
+    {
+      "focus": "REVIEWER_BOUNDARY",
+      "status": "CONFORMS",
+      "evidence": "AFF-B wrote only its round-1 records and append-only coverage 010; subject and all prior records remained read-only."
+    }
+  ],
+  "findings": [
+    {
+      "id": "AFFB-P6-R1-MAJ-001",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "title": "Browser package makes an undeclared external Google Fonts request",
+      "mappedBasis": [
+        "Model-plan revision 17 requires relative production asset paths and a portable browser build.",
+        "Phase 6 review scope requires local relative assets and no unexpected external runtime calls.",
+        "Demonstrable privacy and portability defect in the frozen production CSS."
+      ],
+      "evidence": [
+        "deck/dist/assets/index-CKTjebYj.css:1 imports https://fonts.googleapis.com/css2?family=Inter... at browser runtime.",
+        "evidence/browser-portability.json enumerates only index.html local references and failed requests; it does not account for successful external CSS/font requests.",
+        "stratton-presentation.md describes the production build as portable and says the only local references are the four index targets, which is incomplete for recursive runtime dependencies."
+      ],
+      "risk": "Opening the deck can contact an ungoverned third party, disclose viewer network metadata and fail in offline or restricted environments. The current portability evidence can therefore overstate the package boundary.",
+      "owner": [
+        "AFF-6",
+        "Presentation Engineering"
+      ],
+      "remediation": "Create a new sibling candidate that removes the remote import or uses an explicitly approved local/system or bundled font. Regenerate the browser package and evidence with recursive CSS asset inspection and a complete network-request receipt covering successful and failed external calls, then create a new manifest and obtain fresh AFF-A and AFF-B reviews.",
+      "waiverStatus": "NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-P6-R1-MIN-001",
+      "severity": "MINOR",
+      "status": "OPEN",
+      "title": "Export evidence and PDF metadata disclose local-system details",
+      "mappedBasis": [
+        "AFF operating contract confidentiality and unnecessary-exposure boundary.",
+        "Demonstrable local-system metadata disclosure in manifest-bound, HTML-linked evidence and the PDF."
+      ],
+      "evidence": [
+        "evidence/pdf-export.log:18 contains a full Windows user-profile and case-workspace path.",
+        "stratton-presentation.html:75 links the export log from the generated review view.",
+        "Independent static PDF inspection found /Creator metadata identifying Windows NT 10 and HeadlessChrome 150; no username or case name was found in the PDF metadata."
+      ],
+      "risk": "The package unnecessarily fingerprints the authoring workstation and exposes a local account/workspace path if evidence is shared beyond the review boundary. No secret, credential or customer logo was found.",
+      "owner": [
+        "AFF-6"
+      ],
+      "remediation": "In the new sibling candidate, retain only case-relative export paths and sanitise unnecessary PDF creator/platform metadata. Add explicit scans for absolute paths and document/PDF metadata before freezing the replacement manifest.",
+      "waiverStatus": "NOT_WAIVED"
+    }
+  ],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 1,
+    "unresolvedMajor": 1
+  },
+  "inferredApplicability": {
+    "GDPR": "HUMAN_CONFIRMED; detailed official citations remain open under AFFB-RES-002.",
+    "EU_AI_Act": "CONFIRMED_GOVERNANCE_BOUNDARY; role and use-case classification remains open under AFFB-RES-001.",
+    "SFDR": "HUMAN_CONFIRMED_CONDITIONAL.",
+    "AIFMD": "HUMAN_CONFIRMED_CONDITIONAL.",
+    "DORA": "INFERRED_CONDITIONAL pending General Counsel confirmation under VAL-001.",
+    "otherInstruments": "No new applicability conclusion, law, jurisdiction, risk class or mandatory control introduced."
+  },
+  "residualRisk": [
+    "The remote Google Fonts request remains an unresolved MAJOR portability/privacy gap and blocks convergence.",
+    "The local absolute path and PDF creator/platform metadata remain an unresolved MINOR disclosure gap.",
+    "Three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps remain open, fail closed and unwaived.",
+    "DORA scope, EU AI Act role/use-case classification, official legal mappings, production values, retention finalisation, target behaviour and operating effectiveness remain owner/future-authorisation matters."
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "The exact 88-artifact subject is integrity-valid and its claims, financial boundary, residual disclosures and no-deployment/no-certification portrayal are otherwise well controlled. However, the production browser CSS makes an undeclared Google Fonts request, contradicting the required local/portable runtime boundary and creating a third-party metadata disclosure. A separate minor local-system metadata disclosure also remains. The unresolved MAJOR requires DIVERGES.",
+  "finalRoundForManifest": false,
+  "finalRoundStatusForThisManifest": "NON_FINAL_REMEDIATION_REQUIRED_NEW_SIBLING_CANDIDATE_AND_FULL_AFF_A_AFF_B_REVIEW",
+  "humanGateStatus": "NOT_ELIGIBLE_UNRESOLVED_MAJOR",
+  "humanGateMayBePresentedForExplicitDecision": false,
+  "requiredAction": "AFF-6 must preserve this reviewed revision-2 subject byte-identically and create a new sibling candidate. Remove or govern the remote font dependency, produce complete external-network evidence, redact absolute local paths, sanitise unnecessary PDF metadata, regenerate the manifest, and obtain fresh final AFF-A and AFF-B reviews on one unchanged replacement subject before any human Phase 6 decision may be presented.",
+  "nonApprovalStatement": "AFF-B does not approve Phase 6, waive any finding or residual control, certify compliance, provide legal advice or formal attestation, authorise Azure activity, deployment, retention finalisation or runtime testing, or attest operating effectiveness."
+}

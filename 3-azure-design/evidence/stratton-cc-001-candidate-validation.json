@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_001_PHASE_3_CANDIDATE_VALIDATION",
+  "phaseId": "3",
+  "modelPlanRevision": "8",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "generatedAt": "2026-08-02T14:19:15.948+02:00",
+  "method": "Local Python JSON/XML/HTML/reference/hash checks only",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "CC1-P3-VAL-001",
+      "check": "Proposal JSON parses and parameter IDs are unique",
+      "observed": {
+        "jsonFiles": 6,
+        "failClosedParameters": 138
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P3-VAL-002",
+      "check": "Nineteen findings and preliminary manifest preservation",
+      "observed": {
+        "findings": 19,
+        "preliminarySha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61"
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P3-VAL-003",
+      "check": "Markdown/Clawpilot HTML parity and theme",
+      "observed": "Token parity, theme detector first, exact variables and required font stack",
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P3-VAL-004",
+      "check": "Editable draw.io and accessible sanitised SVG",
+      "observed": "XML parse, title/description, no scripts, foreignObject or external URL",
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P3-VAL-005",
+      "check": "Execution boundary",
+      "observed": "Local file validation only; no Azure operation",
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P3-VAL-006",
+      "check": "Canonical proposed manifest schema and artifact hash verification",
+      "observed": {
+        "schema": ".github/schemas/aff-phase-hashes.schema.json",
+        "modelPlanRevision": "8",
+        "allowedTopLevelAndArtifactFieldsOnly": true,
+        "artifactCount": 15
+      },
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "No reviewer convergence or human approval is claimed.",
+    "No Azure validation or runtime testing."
+  ],
+  "errors": []
+}

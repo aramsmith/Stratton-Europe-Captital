@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_4_CANDIDATE_VALIDATION",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "4",
+  "modelPlanRevision": "5",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "generatedAt": "2026-08-02T03:54:08.595+02:00",
+  "validationMethod": "Local Python JSON, HTML, XML, graph and traceability inspection plus PowerShell SHA-256 generation; no Azure operation.",
+  "checks": [
+    {
+      "id": "P4-CHK-001",
+      "check": "Approved Phase 3 approval and canonical manifest remain the immutable upstream binding",
+      "expected": {
+        "approvalSha256": "f6f9de73a70ef3376b90a0ea467ac5d35531f970d362a84bd3b653d35b8a85f3",
+        "manifestSha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945"
+      },
+      "observed": "Both hashes match the Phase 4 catalogue and authoritative Markdown.",
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-002",
+      "check": "All candidate JSON records parse",
+      "expected": 3,
+      "observed": 3,
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-003",
+      "check": "Dependency DAG is complete and acyclic",
+      "expected": {
+        "nodes": 17,
+        "edges": 44,
+        "acyclic": true
+      },
+      "observed": {
+        "nodes": 17,
+        "edges": 44,
+        "acyclic": true,
+        "rule": "Every dependency points to a lower numbered stage."
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-004",
+      "check": "Standalone SVG edge set matches the catalogue DAG",
+      "expected": 44,
+      "observed": 44,
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-005",
+      "check": "Every approved Solution Building Block maps to implementation work",
+      "expected": 23,
+      "observed": 23,
+      "missing": [],
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-006",
+      "check": "Every approved Must requirement maps to implementation work",
+      "expected": 31,
+      "observed": 31,
+      "missing": [],
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-007",
+      "check": "Every Architecture Building Block is covered by deployable units or work packages",
+      "expected": 19,
+      "observed": 19,
+      "evidence": "ABB-17 is explicitly bound to WP-01 external-data quarantine state/index and permission-gated promotion tests.",
+      "missing": [],
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-008",
+      "check": "Every approved architecture decision maps through its Phase 3 SBBs to concrete implementation items",
+      "expected": 10,
+      "observed": 10,
+      "missing": [],
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-009",
+      "check": "Every Phase 3 resource-inventory entry maps to an implementation unit or work package",
+      "expected": 44,
+      "observed": 44,
+      "classMappings": 34,
+      "missing": [],
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-010",
+      "check": "Fail-closed handoff controls are carried without defaults or waiver",
+      "expected": {
+        "parameters": 32,
+        "assertions": 22,
+        "openControls": 7
+      },
+      "observed": {
+        "parameters": 32,
+        "assertions": 22,
+        "openControls": 7,
+        "waivedControls": 0
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-011",
+      "check": "Phase 3 AVM references have explicit official-source disposition",
+      "expected": 24,
+      "observed": {
+        "explicitlyListed": 24,
+        "publishedOlder": 21,
+        "invalidCorrected": 3,
+        "latestObservedTagsRecorded": 24
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-012",
+      "check": "HTML uses the complete Clawpilot light/dark variable set, source metadata and valid local links",
+      "expected": "Self-contained safe rendering with no external runtime dependency",
+      "observed": "Theme detector, all required cp variables, source paths and hashes, stable p4 IDs, visible focus, print rules and valid local links are present.",
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-013",
+      "check": "HTML and SVG contain no unsafe embedded content",
+      "expected": "No script beyond the fixed theme detector, foreignObject, iframe, object, embed, external resource reference, network API or inline event handler",
+      "observed": "No prohibited element, external resource reference, network API or inline event handler found; the HTML contains only the fixed theme detector.",
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-014",
+      "check": "Phase 5 local validation and Azure target preflights are separated",
+      "expected": "Local compilation, policy and hashing do not claim Azure target validation; ARM validate and what-if remain separately authenticated and authorised.",
+      "observed": "The Markdown, HTML and catalogue make the boundary explicit.",
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-015",
+      "check": "Phase boundary is preserved",
+      "expected": "No code authoring, deployment, Azure what-if or runtime testing",
+      "observed": "No such action or result is claimed or evidenced.",
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-016",
+      "check": "Release content-hash generation excludes its own output",
+      "expected": "iac/release/content-hashes.json is not part of the enumerated hash input set",
+      "observed": "The Phase 5 PowerShell pattern explicitly excludes both the out directory and release/content-hashes.json using normalised paths relative to the resolved iac root.",
+      "result": "PASS"
+    },
+    {
+      "id": "P4-CHK-017",
+      "check": "Release content-hash evidence is independent of checkout location",
+      "expected": "Resolved full paths are used only to read files; serialized paths are normalised iac-relative paths sorted with ordinal comparison and emitted as canonical UTF-8 JSON",
+      "observed": "The pattern derives each path with GetRelativePath, normalises separators to '/', ordinal-sorts the relative path array, hashes the resolved file and writes only the relative path as compact UTF-8 JSON without BOM or trailing newline. A two-checkout temporary fixture produced byte-identical output, remained stable on rerun, excluded out and the generated manifest, and contained no absolute test root.",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Exact tenant, subscription, identity, region, IPAM, WAN, DNS, quota, retention, source, workload, support, model/provider and Internal Audit values remain owner-bound fail-closed inputs.",
+    "Published AVM candidates still require AFF-5 interface and changelog review, restore, source inspection and separate digest evidence before use.",
+    "No Azure provider, feature, SKU, quota, policy, ARM validation, what-if, deployment or runtime evidence exists in Phase 4.",
+    "The seven governed controls remain open and unwaived at their approved production, acceptance or claim boundaries."
+  ],
+  "executionStatement": "No implementation code, Azure deployment, Azure what-if or runtime testing occurred in Phase 4."
+}

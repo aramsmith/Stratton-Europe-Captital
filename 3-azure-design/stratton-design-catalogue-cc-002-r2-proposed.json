@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_3_CC_002_R2_AZURE_DESIGN_CATALOGUE_OVERLAY",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "phaseName": "Phase 3 — Azure Design",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "authoringReceipt": {
+    "agent": "AFF-3",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "rationale": "Append-only remediation of hash-bound AFF-A and AFF-B findings.",
+    "availability": "AVAILABLE_IN_ACTIVE_AUTHORING_CONTEXT"
+  },
+  "historicalBoundary": {
+    "appendOnly": true,
+    "originalCandidateManifest": {
+      "path": "3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+      "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+      "artifactCount": 10,
+      "candidateFileCount": 11,
+      "verdict": "DIVERGES",
+      "modified": false
+    },
+    "originalAffAReview": {
+      "path": "reviews/aff-a/3/round-6/stratton-aff-a-review.json",
+      "verdict": "DIVERGES",
+      "modified": false
+    },
+    "originalAffBReview": {
+      "path": "reviews/aff-b/3/round-5/stratton-aff-b-review.json",
+      "verdict": "DIVERGES",
+      "modified": false
+    },
+    "coverage012": {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-012.json",
+      "status": "IMMUTABLE_REMEDIATION_INPUT",
+      "modified": false
+    }
+  },
+  "designPosition": {
+    "summary": "Fixed Luna/Terra/Sol and embedding routes use owner-parameterised primary/recovery DataZoneStandard resources, deterministic routing, twelve immutable blocking security gates, claim-bound official sources and fail-closed privacy lifecycle controls.",
+    "deploymentType": "EU Data Zone Standard",
+    "azureDeploymentSkuName": "DataZoneStandard",
+    "versionUpgradeOption": "NoAutoUpgrade",
+    "globalDeploymentPolicy": "Global Standard prohibited",
+    "productionModelRouter": "DEFERRED_NOT_A_PRODUCTION_COMPONENT",
+    "deploymentState": "BLOCKED_PENDING_OWNER_EVIDENCE_REVIEWS_AND_HUMAN_DECISION",
+    "release1ScopeChanged": false,
+    "specificProcessingRegionPromise": false
+  },
+  "architectureDecisions": [
+    {
+      "id": "CC002-R2-AD-001",
+      "decision": "Retain EU Data Zone Standard for every Azure OpenAI inference and embedding deployment.",
+      "constraints": [
+        "Global Standard prohibited",
+        "Microsoft selects processing region within the EU Data Zone",
+        "no specific processing-region promise",
+        "data at rest remains in designated EU geography"
+      ],
+      "status": "R2_CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-R2-AD-002",
+      "decision": "Require independently evidenced owner-parameterised primary and recovery resources/deployments for Luna, Terra, Sol and embeddings.",
+      "status": "R2_CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-R2-AD-003",
+      "decision": "Make all twelve hostile-evidence, routing-misuse, failure and authority-abuse scenarios immutable blocking promotion gates.",
+      "status": "R2_CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-R2-AD-004",
+      "decision": "Bind every material provider/model/Data Zone/network/privacy assertion to claim-bound official-source evidence.",
+      "status": "R2_CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-R2-AD-005",
+      "decision": "Apply owner-bound privacy lifecycle controls to prompt/output, vector/index, benchmark, route-log and telemetry data.",
+      "status": "R2_CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-R2-AD-006",
+      "decision": "Render exact substantive Markdown/HTML decision parity, including separate explainable anomaly and supervised prediction rows.",
+      "status": "R2_CANDIDATE_REVIEW_PENDING"
+    }
+  ],
+  "routeRecoveryCatalogue": [
+    {
+      "routeId": "CC002-R2-ROUTE-LUNA",
+      "tier": "LUNA",
+      "modelId": "gpt-5.6-luna",
+      "primaryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "recoveryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "requiredEvidence": [
+        "approved EU geography",
+        "primary/recovery resource allow-list",
+        "primary/recovery DataZoneStandard",
+        "route/security benchmark parity",
+        "private path and managed identity",
+        "capacity/quota",
+        "failover trigger and authority"
+      ],
+      "missingRecoveryEvidence": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE"
+    },
+    {
+      "routeId": "CC002-R2-ROUTE-TERRA",
+      "tier": "TERRA",
+      "modelId": "gpt-5.6-terra",
+      "primaryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "recoveryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "requiredEvidence": [
+        "approved EU geography",
+        "primary/recovery resource allow-list",
+        "primary/recovery DataZoneStandard",
+        "route/security benchmark parity",
+        "private path and managed identity",
+        "capacity/quota",
+        "failover trigger and authority",
+        "stateful feature lifecycle disposition"
+      ],
+      "missingRecoveryEvidence": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE"
+    },
+    {
+      "routeId": "CC002-R2-ROUTE-SOL",
+      "tier": "SOL",
+      "modelId": "gpt-5.6-sol",
+      "primaryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "recoveryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "requiredEvidence": [
+        "approved EU geography",
+        "primary/recovery resource allow-list",
+        "primary/recovery DataZoneStandard",
+        "route/security benchmark parity",
+        "private path and managed identity",
+        "capacity/quota",
+        "failover trigger and authority",
+        "stateful feature lifecycle disposition"
+      ],
+      "missingRecoveryEvidence": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE"
+    },
+    {
+      "routeId": "CC002-R2-ROUTE-EMBEDDING",
+      "tier": "EMBEDDING",
+      "modelId": "text-embedding-3-large",
+      "primaryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "recoveryDeploymentId": "REQUIRED_OWNER_INPUT",
+      "requiredEvidence": [
+        "approved EU geography",
+        "primary/recovery resource allow-list",
+        "primary/recovery DataZoneStandard",
+        "embedding version/dimension/chunking parity",
+        "index schema/filter/alias parity",
+        "validated rebuild or restore",
+        "private path and managed identity",
+        "capacity/quota",
+        "failover trigger and authority"
+      ],
+      "missingRecoveryEvidence": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE"
+    }
+  ],
+  "securityGateCatalogue": {
+    "gateCount": 12,
+    "requiredResult": "ALL_TWELVE_PASS_WITH_IMMUTABLE_EVIDENCE",
+    "gateIds": [
+      "CC002-R2-SEC-GATE-001",
+      "CC002-R2-SEC-GATE-002",
+      "CC002-R2-SEC-GATE-003",
+      "CC002-R2-SEC-GATE-004",
+      "CC002-R2-SEC-GATE-005",
+      "CC002-R2-SEC-GATE-006",
+      "CC002-R2-SEC-GATE-007",
+      "CC002-R2-SEC-GATE-008",
+      "CC002-R2-SEC-GATE-009",
+      "CC002-R2-SEC-GATE-010",
+      "CC002-R2-SEC-GATE-011",
+      "CC002-R2-SEC-GATE-012"
+    ],
+    "consistentContractReferences": [
+      "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+      "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+      "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+    ],
+    "missingOrExpiredEvidence": "BLOCK_PROMOTION"
+  },
+  "privacyLifecycleCatalogue": [
+    {
+      "dataClass": "PROMPT_AND_OUTPUT",
+      "state": "OWNER_BOUND_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "VECTOR_AND_INDEX",
+      "state": "OWNER_BOUND_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "BENCHMARK_CORPUS",
+      "state": "OWNER_BOUND_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "ROUTE_LOG",
+      "state": "OWNER_BOUND_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "TELEMETRY",
+      "state": "OWNER_BOUND_FAIL_CLOSED"
+    }
+  ],
+  "sourceBindingRecord": {
+    "path": "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json",
+    "claimBound": true,
+    "requiredFields": [
+      "claim/source IDs",
+      "exact official URL and section/title",
+      "retrieval date",
+      "evidence excerpt or hash",
+      "licence/use disposition",
+      "owner",
+      "review/expiry condition"
+    ],
+    "requiredBeforePromotion": true
+  },
+  "findingRemediation": [
+    {
+      "findingId": "AFFA-P3-R6-MAJ-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "All twelve security scenarios are immutable blocking gates with pass criteria, evidence IDs, owners and fail-closed outcomes shared by evaluation, routing and security records.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFA-P3-R6-MAJ-002",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "Luna, Terra, Sol and embedding routes bind primary/recovery resources, deployment IDs, EU geography/allow-list/DataZone evidence, data boundaries, failover authority and missing-evidence deny/queue behaviour.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md"
+      ]
+    },
+    {
+      "findingId": "AFFA-P3-R6-MAJ-003",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "New claim-bound official-source record is bound into catalogue, change control and hashes.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFA-P3-R6-MIN-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "HTML is generated from the substantive Markdown and retains separate anomaly challenger and supervised prediction rows.",
+      "evidencePaths": [
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "Primary/recovery EU Data Zone semantics, data/log/index/backup failover and missing-evidence deny/queue controls are explicit.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-002",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "Hostile-evidence, routing-misuse, deployment-failure and authority-abuse scenarios are explicit immutable blocking gates.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-003",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "Material claims bind official source sections, dates, excerpts, licence/use disposition, owners and expiry.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MAJ-004",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "Five data classes bind minimisation, classification, retention, deletion, legal hold, DSR, redaction, immutable integrity, recovery and operations ownership.",
+      "evidencePaths": [
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json"
+      ]
+    },
+    {
+      "findingId": "AFFB-CC002-MIN-001",
+      "status": "REMEDIATED_IN_R2_PENDING_FORMAL_REVIEW",
+      "remediation": "Rendered HTML preserves every substantive Markdown table decision without merging anomaly rows.",
+      "evidencePaths": [
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html"
+      ]
+    }
+  ],
+  "contractReferences": [
+    "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json",
+    "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json"
+  ],
+  "nonClaims": {
+    "quotaAvailability": false,
+    "azureDeployment": false,
+    "runtimeTesting": false,
+    "specificProcessingRegion": false,
+    "specificResourceRegionSelected": false,
+    "certification": false,
+    "regulatoryClassification": false,
+    "reviewerAcceptance": false,
+    "phaseApproval": false,
+    "productionPromotion": false
+  }
+}

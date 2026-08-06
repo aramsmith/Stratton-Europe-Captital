@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "phaseOwnerInvoker": "AFF-6",
+  "round": 1,
+  "reviewedAt": "2026-08-03T10:37:42.957+02:00",
+  "verdict": "DIVERGES",
+  "verdictRationale": "The subject is hash-integrity valid and largely evidence-disciplined, but the canonical browser deck export is not portable/self-contained because its production index uses root-absolute asset paths. That unresolved MAJOR finding is material to the Phase 6 presentation package and requires DIVERGES. Two MINOR findings also require cleanup in the next candidate.",
+  "finalRoundForManifest": true,
+  "subjectModificationPerformed": false,
+  "reviewedSubject": {
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/6-presentation/stratton-phase-6-hashes.json",
+    "expectedManifestSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "preReviewManifestSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "expectedHashMatched": true,
+    "artifactCount": 83,
+    "expectedArtifactCount": 83,
+    "artifactCountMatched": true,
+    "recomputedFileCount": 83,
+    "matchedFileCount": 83,
+    "allListedHashesMatched": true,
+    "problemCount": 0,
+    "problems": [],
+    "duplicatePathCount": 0,
+    "ordinalSorted": true,
+    "allRolesPresent": true,
+    "roleCounts": {
+      "presentation-source": 52,
+      "presentation-export": 19,
+      "diagram": 3,
+      "evidence": 6,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "manifestUtf8BomPresent": false,
+    "manifestNoTrailingNewline": true,
+    "hashAlgorithm": "SHA-256",
+    "modelPlanRevision": "16",
+    "generatedAt": "2026-08-03T10:27:52.801578+02:00",
+    "postReviewManifestSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "manifestFileCount": 83,
+    "reviewedSubjectSnapshotPath": "reviews/aff-a/6/round-1/reviewed-subject/stratton-phase-6-hashes.json",
+    "reviewedSubjectSnapshotSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "reviewedSubjectSnapshotByteIdentical": true,
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-16.json",
+    "modelPlanSha256": "fa96070b333172a30a6154aa416778657b438e0b2ac0badb2f6b41fa0eac0c81"
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "modelReceiptPath": "reviews/aff-a/6/round-1/stratton-aff-a-model-receipt.json",
+    "modelReceiptSha256": "2b34070231a5df9152e8d5e9a445da54352691976e0674a07d04509a7149c5eb"
+  },
+  "subjectCountsAndHashes": {
+    "manifestSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "artifactCount": 83,
+    "expectedArtifactCount": 83,
+    "matchedArtifactHashes": 83,
+    "roleCounts": {
+      "presentation-source": 52,
+      "presentation-export": 19,
+      "diagram": 3,
+      "evidence": 6,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "claimCount": 32,
+    "sourceReferenceCount": 66,
+    "claimClassCounts": {
+      "APPROVED_DESIGN_INTENT": 13,
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED": 7,
+      "UNTESTED_RUNTIME_BEHAVIOUR": 3,
+      "SOURCE_FACT": 6,
+      "HUMAN_OWNED_HYPOTHESIS": 3
+    },
+    "slideClaimCounts": {
+      "S01": 3,
+      "S02": 3,
+      "S03": 3,
+      "S04": 3,
+      "S05": 3,
+      "S06": 3,
+      "S07": 4,
+      "S08": 3,
+      "S09": 4,
+      "S10": 3
+    },
+    "pdf": {
+      "path": "6-presentation/deck/deck.pdf",
+      "sha256": "923eaa0938f4300dd23bc55b84c5634f78a5bc34860daf78afe9ee8e85c1a837",
+      "sizeBytes": 1457166,
+      "startsWithPdfHeader": true,
+      "endsWithEof": true,
+      "pageTypeCount": 10
+    },
+    "browserRootAbsoluteTargets": [
+      "/deckio.png",
+      "/assets/index-CTXLykoI.js",
+      "/assets/rolldown-runtime-BHe-jwch.js",
+      "/assets/index-CKTjebYj.css"
+    ]
+  },
+  "receipts": {
+    "modelReceipt": {
+      "path": "reviews/aff-a/6/round-1/stratton-aff-a-model-receipt.json",
+      "sha256": "2b34070231a5df9152e8d5e9a445da54352691976e0674a07d04509a7149c5eb"
+    },
+    "hashVerificationReceipt": {
+      "path": "reviews/aff-a/6/round-1/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+      "sha256": "5cdce6cc515ee35b74a6dcad0b106223bdaf47081dadfe2dfe1ba9d25ee77118"
+    },
+    "reviewedSubjectSnapshot": {
+      "path": "reviews/aff-a/6/round-1/reviewed-subject/stratton-phase-6-hashes.json",
+      "sha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951"
+    }
+  },
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 2
+  },
+  "findings": [
+    {
+      "id": "AFFA-P6-R1-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Browser deck export is not portable from a nested path or file open because dist/index.html uses root-absolute asset URLs",
+      "status": "OPEN",
+      "owner": "AFF-6",
+      "evidence": [
+        "6-presentation/deck/dist/index.html contains href=\"/deckio.png\", src=\"/assets/index-CTXLykoI.js\", href=\"/assets/rolldown-runtime-BHe-jwch.js\" and href=\"/assets/index-CKTjebYj.css\".",
+        "The referenced files exist under 6-presentation/deck/dist/deckio.png and 6-presentation/deck/dist/assets/*, but root-absolute URLs resolve to the web-server or file-system root rather than the deck/dist folder.",
+        "Model-plan revision 16 requires a self-contained browser build, and stratton-presentation.md links the browser output as deck/dist/index.html."
+      ],
+      "impact": "The governed browser artifact is represented as preserved and self-contained, but it can fail when opened via the linked nested path, copied as a folder, or opened from file:// without a root-mounted server. That is material for a C-level presentation package and invalidates the self-contained/browser-portability claim.",
+      "remediation": "Create a new sibling Phase 6 candidate with relative asset URLs (for example Vite base \"./\" or equivalent), regenerate the browser build/PDF/evidence/manifest, and run a full new AFF-A/AFF-B review on the new manifest."
+    },
+    {
+      "id": "AFFA-P6-R1-MIN-001",
+      "severity": "MINOR",
+      "title": "Slide S01 subtitle weakens the approved endorse/approve distinction",
+      "status": "OPEN",
+      "owner": "AFF-6",
+      "evidence": [
+        "6-presentation/deck/src/slides/DecisionSummarySlide.jsx renders S01 subtitle text: \"Approve the evidence-backed architecture and coding baseline as the controlled reference, with a gated roadmap for owner evidence and future validation.\"",
+        "Model-plan revision 16 presentationSetup.decisionGoal is ENDORSE_APPROVED_BASELINE_AND_CONTROLLED_NEXT_STEP_ROADMAP.",
+        "The same slide title and alert correctly say \"Endorse the baseline — not deployment\" and \"Endorse the approved baseline and controlled next-step roadmap. Do not authorise Azure activity.\""
+      ],
+      "impact": "The deck mostly preserves the boundary, but the subtitle can invite a board-level approval interpretation where the governed request is endorsement and Phase 6 approval remains a separate human gate.",
+      "remediation": "In the next candidate, replace the S01 subtitle verb with endorse/accept-as-reference language and keep approval reserved for formal AFF human-gate records."
+    },
+    {
+      "id": "AFFA-P6-R1-MIN-002",
+      "severity": "MINOR",
+      "title": "PDF export log names a non-manifest, non-existent PDF path while the manifest binds deck/deck.pdf",
+      "status": "OPEN",
+      "owner": "AFF-6",
+      "evidence": [
+        "6-presentation/evidence/pdf-export.log records: PDF saved to ...\\6-presentation\\deck\\architecture-decision-executive-brief-slides.pdf.",
+        "That logged file is absent from the candidate and absent from the canonical manifest.",
+        "The manifest instead binds 6-presentation/deck/deck.pdf with SHA-256 923eaa0938f4300dd23bc55b84c5634f78a5bc34860daf78afe9ee8e85c1a837; AFF-A verified that deck/deck.pdf is a valid PDF header/EOF file with 10 /Page entries."
+      ],
+      "impact": "The reviewed PDF itself is valid, but the retained export evidence is inconsistent with the canonical PDF path and weakens artifact/evidence traceability.",
+      "remediation": "Regenerate or correct export evidence in a new candidate so the log and validation receipt bind the exact canonical PDF path and hash."
+    }
+  ],
+  "confirmedItems": [
+    "Canonical Phase 6 manifest SHA-256 matched the expected b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951 before and after review.",
+    "All 83 listed artifacts existed and recomputed SHA-256 values matched; no subject file was modified by AFF-A.",
+    "Reviewed-subject manifest snapshot is byte-identical to the subject manifest.",
+    "Model separation is verified: AFF-A actual gpt-5.5 differs from Phase 6 author actual gpt-5.6-sol.",
+    "Claim catalogue contains 32 claims, 66 source references, and all referenced source paths exist inside the case boundary.",
+    "Ten slides are registered in deck.config.js and mapped to S01-S10 claim IDs.",
+    "Authoritative Markdown and rendered HTML disclose no deployment approval, no Azure sign-in/what-if/deployment/runtime test, no legal certification, and no approved numeric business case.",
+    "Deck source and production bundle scans found no case name, repository path, review path or approval path strings in the deck surface.",
+    "The canonical PDF deck/deck.pdf is structurally valid as a PDF with 10 page objects and the manifest-bound hash.",
+    "Visual measurement evidence reports all 10 slides at 1280x720 with no DOM overflow.",
+    "No Azure command, deployment, what-if, runtime test, rebuild, repair or export was executed by AFF-A."
+  ],
+  "reviewAreas": [
+    {
+      "area": "Canonical subject integrity",
+      "status": "CONFORMS",
+      "evidence": "Manifest hash matched expected pre/post; 83/83 listed artifact hashes matched; duplicate path count 0; roles present; ordinal path order verified by byte/Unicode sorting; snapshot byte-identical."
+    },
+    {
+      "area": "Model independence",
+      "status": "CONFORMS",
+      "evidence": "AFF-A approved/selected/actual gpt-5.5 differs from Phase 6 author actual gpt-5.6-sol recorded in model-plan revision 16."
+    },
+    {
+      "area": "Evidence boundary",
+      "status": "CONFORMS",
+      "evidence": "Presentation uses approved evidence through Phase 5 and repeatedly discloses no Azure target validation, what-if, deployment, runtime testing or operating-effectiveness evidence."
+    },
+    {
+      "area": "Claims and sources",
+      "status": "CONFORMS",
+      "evidence": "32 claims and 66 source references verified structurally; all source paths exist; classifications match the model-plan claim classes."
+    },
+    {
+      "area": "Narrative correctness and audience fit",
+      "status": "CONFORMS-WITH-GAPS",
+      "evidence": "Executive story is concise and board-facing, but S01 subtitle uses approve language inconsistent with the governed endorsement request."
+    },
+    {
+      "area": "High-risk metrics and residual disclosures",
+      "status": "CONFORMS",
+      "evidence": "No ROI, price, cost total or realised benefit is presented; the three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps are disclosed as open, unwaived and fail closed."
+    },
+    {
+      "area": "Deck anonymity and source/IaC boundary",
+      "status": "CONFORMS",
+      "evidence": "Deck source and dist scan found no case/repository/review/approval path strings; source code/IaC is linked only through governed evidence and not embedded in the executive deck."
+    },
+    {
+      "area": "Browser portability and self-containment",
+      "status": "DIVERGES",
+      "evidence": "deck/dist/index.html uses root-absolute /deckio.png and /assets/* URLs, so the linked nested/file browser artifact is not portable as represented."
+    },
+    {
+      "area": "PDF validity and export evidence",
+      "status": "CONFORMS-WITH-GAPS",
+      "evidence": "deck/deck.pdf is valid and 10 pages, but pdf-export.log records a non-existent non-manifest PDF path."
+    },
+    {
+      "area": "Visual/readability",
+      "status": "CONFORMS",
+      "evidence": "Visual measurements report 10/10 slides found with no viewport overflow at 1280x720; slide density is appropriate for an executive deck."
+    },
+    {
+      "area": "Reviewer boundary",
+      "status": "CONFORMS",
+      "evidence": "AFF-A wrote only beneath reviews/aff-a/6/round-1 and did not rebuild, export, repair, deploy, test Azure, invoke AFF-B, waive, approve or modify the subject."
+    }
+  ],
+  "residualGaps": [
+    "AFFA-P6-R1-MAJ-001 remains open and blocks this manifest.",
+    "AFFA-P6-R1-MIN-001 remains open.",
+    "AFFA-P6-R1-MIN-002 remains open.",
+    "Approved upstream residuals remain open and unwaived: three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps."
+  ],
+  "finalRoundStatusForThisManifest": "FINAL_RETAINED_ROUND_FOR_MANIFEST_BUT_NOT_GATE_OPENING",
+  "requiredAction": "Do not send this manifest to AFF-B or the human gate as final. Because the subject diverges, AFF-6 must create a new sibling Phase 6 candidate, regenerate affected artifacts and a new canonical manifest, preserve this reviewed subject byte-identically, and obtain full new AFF-A and AFF-B reviews on the new manifest before any human Phase 6 decision.",
+  "nonApprovalStatement": "AFF-A does not approve Phase 6, waive any residual gap, certify compliance, authorise Azure activity, authorise deployment or runtime testing, invoke AFF-B, or provide human approval."
+}

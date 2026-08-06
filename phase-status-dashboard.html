@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="30">
+  <title>Stratton Architecture Run Dashboard</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: var(--cp-link); }
+    code { font-family: Consolas, "Courier New", Courier, monospace; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; font-size: clamp(28px, 4vw, 44px); }
+    h2 { font-size: 20px; margin-bottom: 16px; }
+    h3 { font-size: 16px; margin-bottom: 6px; }
+    .muted { color: var(--cp-text-muted); }
+    .eyebrow {
+      color: var(--cp-accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .header-actions {
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+    }
+    .sound-button {
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      padding: 7px 10px;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .sound-button:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+    .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cp-warning);
+      animation: pulse 1.5s infinite;
+    }
+    .idle-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cp-success);
+    }
+    body[data-process-state="idle"] .spinner { display: none; }
+    body[data-process-state="waiting"] .spinner { display: none; }
+    body[data-process-state="idle"] .process { border-left-color: var(--cp-success); }
+    body[data-process-state="idle"] .busy-line { color: var(--cp-success); }
+    @keyframes pulse { 50% { opacity: 0.35; } }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .card {
+      grid-column: span 4;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .wide { grid-column: span 8; }
+    .full { grid-column: 1 / -1; }
+    .metric { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+    .progress {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      margin-top: 12px;
+    }
+    .progress > span {
+      display: block;
+      width: 67%;
+      height: 100%;
+      background: var(--cp-accent);
+    }
+    .phase-list { display: grid; gap: 8px; }
+    .phase {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-bg-elevated);
+    }
+    .phase strong { color: var(--cp-accent); }
+    .pill {
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .success { color: var(--cp-success); }
+    .warning { color: var(--cp-warning); }
+    .danger { color: var(--cp-danger); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--cp-border); vertical-align: top; }
+    th { color: var(--cp-text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .process {
+      border-left: 4px solid var(--cp-warning);
+      padding-left: 12px;
+    }
+    .busy-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+      font-weight: 800;
+      color: var(--cp-warning);
+    }
+    .estimate-line {
+      color: var(--cp-warning);
+      font-weight: 800;
+    }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--cp-border);
+      border-top-color: var(--cp-accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .artifact-list { display: grid; gap: 8px; }
+    .artifact-list a {
+      display: block;
+      padding: 9px 10px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      text-decoration: none;
+      background: var(--cp-bg-elevated);
+    }
+    .artifact-list a:hover { border-color: var(--cp-accent); }
+    footer { margin-top: 18px; color: var(--cp-text-muted); font-size: 13px; }
+    @media (max-width: 820px) {
+      header { display: block; }
+      .header-actions { justify-items: start; margin-top: 14px; }
+      .card, .wide { grid-column: 1 / -1; }
+      .phase { grid-template-columns: 42px 1fr; }
+      .phase .pill { grid-column: 2; justify-self: start; }
+    }
+  </style>
+</head>
+<body
+  data-dashboard-version="2026-08-03T17:21:19.8718226+02:00"
+  data-process-state="waiting"
+  data-process-start="2026-08-03T17:21:19.8718226+02:00"
+  data-process-estimated-seconds="0"
+  data-process-elapsed-seconds="0"
+>
+  <main class="shell">
+    <header>
+      <div>
+        <div class="eyebrow">Agentic Architecture Factory</div>
+        <h1>Stratton run dashboard</h1>
+        <p class="muted">Case: <code>Stratton-Europe-Captital</code> · Artifact prefix: <code>stratton</code></p>
+      </div>
+      <div class="header-actions">
+        <div class="status">R4 steps 1–5 complete</div>
+        <button class="sound-button" id="soundToggle" type="button">Enable update sound</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <div class="eyebrow">Active gate</div>
+        <div class="metric">P6</div>
+        <h3>Revision steps 1–5 complete</h3>
+        <p class="muted">R4 now combines the Dark theme, 11-slide numbering, an identified AMA Case 18 title slide and a square 45-minute timer that starts reliably after slide 1 in normal or fullscreen navigation. Revision 3 remains the frozen assurance baseline.</p>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Lifecycle progress</div>
+        <div class="metric">6 / 9</div>
+        <p class="muted">Phases 0–5 are approved. Phase 6 is the final standard-route phase; optional Phases 7 and 8 remain separately human-invocable.</p>
+        <div class="progress" aria-label="Lifecycle progress"><span></span></div>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Interview confidence</div>
+        <div class="metric">96%</div>
+        <p class="muted">Interview closed by explicit human confirmation.</p>
+      </article>
+
+      <article class="card wide">
+        <h2>Lifecycle status</h2>
+        <div class="phase-list">
+          <div class="phase"><strong>P0</strong><span>Coordinate</span><span class="pill success">Approved</span></div>
+          <div class="phase"><strong>P1</strong><span>Requirements</span><span class="pill success">Approved</span></div>
+          <div class="phase"><strong>P2</strong><span>TOGAF Architecture</span><span class="pill success">Approved</span></div>
+          <div class="phase"><strong>P3</strong><span>Azure Design</span><span class="pill success">Approved baseline + amendment</span></div>
+          <div class="phase"><strong>P4</strong><span>Implementation Plan</span><span class="pill success">Approved baseline + amendment</span></div>
+          <div class="phase"><strong>P5</strong><span>Coding</span><span class="pill success">Approved</span></div>
+          <div class="phase"><strong>P6</strong><span>C-level Presentation</span><span class="pill warning">R4 steps 1–5 complete</span></div>
+          <div class="phase"><strong>P7–P8</strong><span>Optional deployment and testing</span><span class="pill">Human invoke only</span></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Process monitor</h2>
+        <div class="process">
+          <h3>R4 interactive identified deck active</h3>
+          <p><code>285a4b4434c534173022ab83fc11d39eb8002feb8e35186b4d261de4843d3bac</code></p>
+          <div class="busy-line">
+            <span aria-hidden="true">◌</span>
+            <span id="processState">Waiting for the next human-directed revision step</span>
+            <span>· elapsed <strong id="processElapsed">calculating…</strong></span>
+          </div>
+          <p class="estimate-line">Decision timer: <strong id="estimatedTotal">human-controlled</strong> · state: <strong id="estimatedRemaining">paused for input</strong></p>
+          <p class="muted">R4 is an unfrozen working draft under model plan 24. The reproduced normal-navigation timer failure is corrected; build, runtime, timer lifecycle, descriptor and visual checks pass across 11 slides. All 32 material claim records remain unchanged.</p>
+        </div>
+      </article>
+
+      <article class="card full">
+        <h2>Active change control</h2>
+        <table>
+          <thead><tr><th>Selection</th><th>Proposed boundary</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>HS-001 · Assurance verdict</td><td>Internal Audit-owned private API, asynchronous compute and immutable signed verdict</td><td class="success">Approved as a fail-closed Phase 5 baseline</td></tr>
+            <tr><td>HS-002 · Analysis and vectorisation</td><td>Governed provider adapter with exact prompt, model, embedding, safety and limit bindings</td><td class="success">Formal reviewers accepted design controls; owner gates remain</td></tr>
+            <tr><td>HS-003 · Audit export</td><td>Transactional workload SQL outbox to an Internal Audit-owned private queue and immutable receipt</td><td class="success">Approved as a fail-closed Phase 5 baseline</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Assurance pipeline</h2>
+        <table>
+          <thead><tr><th>Stage</th><th>Status</th><th>Latest result</th><th>Next action</th></tr></thead>
+          <tbody>
+            <tr><td>STRATTON-CC-001 revision-8 subject</td><td class="warning">Superseded after formal review</td><td>Phase 3 <code>87d2df17…e8c16</code>; Phase 4 <code>4b92d1ab…20f8</code>; preserved immutable</td><td>Do not overwrite reviewed artifacts</td></tr>
+            <tr><td>STRATTON-CC-001 Phase 3 candidate</td><td class="success">Frozen and formally reviewed</td><td><code>e1b344c5…bf54</code>; AFF-A round 5 and AFF-B round 4 have zero blocker or major findings</td><td>Keep unchanged for the human gate</td></tr>
+            <tr><td>STRATTON-CC-001 Phase 4 candidate</td><td class="success">r3 frozen and formally reviewed</td><td><code>4ecd7bd3…9626</code>; r2 remains immutable at <code>7a4d6a5e…8ed9</code></td><td>Keep r3 unchanged for the human gate</td></tr>
+            <tr><td>STRATTON-CC-001 formal AFF-A</td><td class="success">Complete on final subjects</td><td>Phase 3 round 5 and Phase 4 round 6 both have zero blocker or major findings; r3 remained byte-identical</td><td>Keep both subjects and reviews immutable</td></tr>
+            <tr><td>STRATTON-CC-001 formal AFF-B</td><td class="success">Complete on final subjects</td><td>Coverage 007 and both final reviews have zero blocker or major findings; both former major findings are resolved</td><td>Keep coverage and reviews immutable</td></tr>
+            <tr><td>STRATTON-CC-001 security remediation</td><td class="success">Formally converged</td><td>Authority duties are separated and signed records bind immutable signing-time trust snapshots</td><td>Retain explicit owner-bound and minor residual controls</td></tr>
+            <tr><td>Human STRATTON-CC-001 gate</td><td class="success">Approved</td><td><code>STRATTON-CC-001-APPROVAL-001</code>; record <code>ec2ddad8…b21d</code></td><td>Carry exact bindings and residual controls into Phase 5</td></tr>
+            <tr><td>Phase 5 candidate authoring</td><td class="success">Approved baseline</td><td><code>bcdf3755…1626</code>; 155 artifacts; full local validation and external freeze verification PASS</td><td>Keep the approved subject immutable</td></tr>
+            <tr><td>Phase 5 AFF-A</td><td class="success">Round 4 complete</td><td><code>CONFORMS-WITH-GAPS</code>; zero findings; 155/155 hashes matched; revision 4 unchanged</td><td>Keep record <code>a808d493…1981e</code> and subject immutable</td></tr>
+            <tr><td>Phase 5 AFF-B</td><td class="success">Round 2 complete</td><td><code>CONFORMS-WITH-GAPS</code>; zero findings; all six prior MAJOR findings resolved; coverage 009 active</td><td>Keep record, coverage and subject immutable</td></tr>
+            <tr><td>Human Phase 5 gate</td><td class="success">Approved</td><td><code>STRATTON-PHASE-5-APPROVAL-001</code>; residual gaps remain open, unwaived and fail closed</td><td>Use only this evidence boundary in Phase 6</td></tr>
+            <tr><td>Phase 6 revision 1</td><td class="danger">AFF-A DIVERGES</td><td><code>b714ba78…8951</code>; one MAJOR browser-portability finding and two MINOR wording/evidence findings</td><td>Preserve the reviewed subject byte-identically</td></tr>
+            <tr><td>Phase 6 AFF-A round 1</td><td class="danger">Complete</td><td><code>a715ab9b…06d9</code>; GPT-5.5; 83/83 hashes matched; subject unchanged</td><td>Remediate all three findings in a sibling candidate</td></tr>
+            <tr><td>Phase 6 revision 2</td><td class="success">Frozen</td><td><code>a9116def…b5f</code>; 88 artifacts; portable nested browser test, 10-page PDF and all hash checks PASS</td><td>Keep unchanged through final assurance</td></tr>
+            <tr><td>Phase 6 AFF-A round 2</td><td class="success">CONFORMS</td><td><code>a05394a1…1dc4</code>; zero findings; 88/88 hashes matched; all three prior findings resolved</td><td>Keep review and subject immutable</td></tr>
+            <tr><td>Phase 6 AFF-B round 1</td><td class="danger">DIVERGES</td><td><code>5db090b6…d27d</code>; one MAJOR Google Fonts runtime call and one MINOR local-system metadata disclosure</td><td>Preserve revision 2 and coverage 010</td></tr>
+            <tr><td>Phase 6 revision 3</td><td class="success">Frozen</td><td><code>c59220ac…6606</code>; 95 artifacts; zero external runtime calls; sanitised 10-page PDF; all hashes PASS</td><td>Keep unchanged through final assurance</td></tr>
+            <tr><td>Phase 6 AFF-A round 3</td><td class="success">CONFORMS</td><td><code>8c542720…b7cb</code>; zero findings; 95/95 hashes matched; both AFF-B findings resolved for correctness/evidence</td><td>Keep review and subject immutable</td></tr>
+            <tr><td>Phase 6 AFF-B round 2</td><td class="success">CONFORMS-WITH-GAPS</td><td><code>b7e0123d…5341</code>; zero findings; both prior findings resolved; subject unchanged</td><td>Keep review and subject immutable</td></tr>
+            <tr><td>Phase 6 coverage 011</td><td class="success">Active</td><td><code>8936b09b…e264</code>; revision-3 convergence; upstream residuals remain explicit and unwaived</td><td>Present with the human decision package</td></tr>
+            <tr><td>Phase 6 revision 4 · steps 1–5</td><td class="success">Complete</td><td>Dark theme retained; 11 slides numbered 01 / 11–11 / 11; 44×44 square timer holds at 45:00 on slide 1 and now starts after advancing in normal or fullscreen view; hardened build PASS; local-only runtime; source tree <code>285a4b44…3bac</code></td><td>Human review, then continue any remaining revisions</td></tr>
+            <tr><td>Human Phase 6 gate</td><td class="warning">Revision programme active</td><td>The converged revision-3 baseline was not approved; R4 remains unfrozen and review-ineligible</td><td>Continue step-by-step revisions, then freeze and re-review</td></tr>
+            <tr><td>Human Phase 4 gate</td><td class="success">Approved</td><td><code>STRATTON-PHASE-4-APPROVAL-001</code>; manifest <code>87ff4700…65c4</code>; seven controls remain open</td><td>Carried into active Phase 5</td></tr>
+            <tr><td>Phase 4 candidate authoring</td><td class="success">Complete</td><td>Path-independent canonical release evidence added; manifest <code>87ff4700…65c4</code> verified across eight artifacts</td><td>Frozen approved baseline</td></tr>
+            <tr><td>Phase 4 AFF-A round 3</td><td class="success">Final</td><td>CONFORMS-WITH-GAPS; zero findings; all three prior findings resolved</td><td>Converged on current manifest</td></tr>
+            <tr><td>Phase 4 AFF-A round 2</td><td class="danger">DIVERGES</td><td>Round-1 findings resolved; one MAJOR checkout-path portability finding</td><td>Remediated in manifest <code>87ff4700…65c4</code></td></tr>
+            <tr><td>Phase 4 AFF-A round 1</td><td class="danger">DIVERGES</td><td>Two MAJOR findings: self-referential release hashing and missing explicit ABB-17 mapping</td><td>Both remediated in the revised manifest</td></tr>
+            <tr><td>Phase 4 AFF-B round 1</td><td class="success">Final</td><td>CONFORMS-WITH-GAPS; zero findings; coverage 005 active</td><td>Converged on current manifest</td></tr>
+            <tr><td>Human Phase 3 gate</td><td class="success">Approved</td><td><code>STRATTON-PHASE-3-APPROVAL-001</code>; Citadel baseline accepted with seven controls open and unwaived</td><td>Carried into active Phase 4</td></tr>
+            <tr><td>Phase 3 candidate authoring</td><td class="success">Complete</td><td>Citadel baseline, 31/31 requirements, 23 SBBs and HD-001–HD-005</td><td>Frozen</td></tr>
+            <tr><td>Phase 3 AFF-A round 3</td><td class="success">Final</td><td>CONFORMS-WITH-GAPS; zero findings; GPT model independence verified</td><td>Converged</td></tr>
+            <tr><td>Phase 3 AFF-B round 2</td><td class="success">Final</td><td>CONFORMS-WITH-GAPS; zero findings; security/compliance review complete</td><td>Converged</td></tr>
+            <tr><td>Phase 2 candidate authoring</td><td class="success">Complete</td><td>Vendor-neutral architecture with 31/31 requirement coverage</td><td>Frozen manifest</td></tr>
+            <tr><td>Phase 2 AFF-A round 1</td><td class="success">Final</td><td>No findings; model independence verified</td><td>Converged</td></tr>
+            <tr><td>Phase 2 AFF-B round 1</td><td class="success">Final</td><td>No findings; assurance review complete</td><td>Converged</td></tr>
+            <tr><td>Human Phase 2 gate</td><td class="success">Approved</td><td>Ten architecture decisions accepted as the vendor-neutral baseline</td><td>Carry into Phase 3</td></tr>
+            <tr><td>Human Phase 1 gate</td><td class="success">Approved</td><td>Requirements baseline accepted</td><td>Carried forward</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 6 revision-4 working draft and revision-3 baseline</h2>
+        <div class="artifact-list">
+          <a href="6-presentation-r4/stratton-presentation.html">Working R4 presentation record HTML</a>
+          <a href="6-presentation-r4/stratton-presentation.md">Working R4 authoritative Markdown</a>
+          <a href="6-presentation-r4/stratton-claim-catalogue.json">Working R4 claim catalogue · 32 unchanged material claims</a>
+          <a href="6-presentation-r4/deck/dist/index.html">R4 Dark browser deck · hardened build</a>
+          <a href="6-presentation-r4/evidence/dark-theme-step-validation.json">R4 Dark theme validation · e4014d67…a363</a>
+          <a href="6-presentation-r4/evidence/interactive-title-step-validation.json">R4 timer, numbering and title validation · aeddcb10…95ad</a>
+          <a href="6-presentation-r4/evidence/timer-start-gate-step-validation.json">R4 square timer and delayed-start validation · 83af0e70…1902</a>
+          <a href="6-presentation-r4/evidence/timer-reliability-fix-validation.json">R4 timer reliability correction validation · 88ac1267…8787</a>
+          <a href="0-coordination/stratton-model-plan-revision-20.json">Model-plan revision 20 · Dark theme</a>
+          <a href="0-coordination/stratton-model-plan-revision-21.json">Model-plan revision 21 · numbering and timer</a>
+          <a href="0-coordination/stratton-model-plan-revision-22.json">Model-plan revision 22 · identified title slide</a>
+          <a href="0-coordination/stratton-model-plan-revision-23.json">Model-plan revision 23 · square timer and delayed start</a>
+          <a href="0-coordination/stratton-model-plan-revision-24.json">Model-plan revision 24 · normal-navigation timer fix</a>
+          <a href="6-presentation-r3/stratton-presentation.html">Revision-3 presentation record HTML</a>
+          <a href="6-presentation-r3/stratton-presentation.md">Revision-3 authoritative Markdown</a>
+          <a href="6-presentation-r3/stratton-claim-catalogue.json">Claim catalogue · 32 traced claims</a>
+          <a href="6-presentation-r3/deck/dist/index.html">Hardened browser deck · zero external calls</a>
+          <a href="6-presentation-r3/deck/deck.pdf">Sanitised ten-page board PDF</a>
+          <a href="6-presentation-r3/evidence/runtime-network-receipt.json">Complete runtime network receipt</a>
+          <a href="6-presentation-r3/evidence/pdf-metadata-sanitisation.json">PDF metadata sanitisation receipt</a>
+          <a href="6-presentation-r3/evidence/evidence-disclosure-scan.json">Candidate evidence disclosure scan</a>
+          <a href="6-presentation-r3/stratton-phase-6-hashes.json">Canonical revision-3 manifest · c59220ac…6606</a>
+          <a href="reviews/aff-a/6/round-3/stratton-aff-a-review.html">AFF-A round 3 · CONFORMS</a>
+          <a href="reviews/aff-a/6/round-3/stratton-aff-a-review.json">AFF-A round-3 formal JSON · 8c542720…b7cb</a>
+          <a href="reviews/aff-b/6/round-2/stratton-aff-b-review.html">AFF-B round 2 · CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/6/round-2/stratton-aff-b-review.json">AFF-B round-2 formal JSON · b7e0123d…5341</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-011.json">Active coverage 011 · 8936b09b…e264</a>
+        </div>
+      </article>
+
+      <article class="card wide">
+        <h2>STRATTON-CC-001 revision-9 candidate and reviewed history</h2>
+        <div class="artifact-list">
+          <a href="3-azure-design/stratton-cc-001-r2-phase-3-amendment.html">Revision-9 Phase 3 amendment HTML</a>
+          <a href="3-azure-design/stratton-cc-001-r2-phase-3-amendment.md">Revision-9 Phase 3 amendment Markdown</a>
+          <a href="3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json">Frozen revision-9 Phase 3 manifest</a>
+          <a href="4-implementation-plan/stratton-cc-001-r2-phase-4-amendment.html">Revision-9 Phase 4 amendment HTML</a>
+          <a href="4-implementation-plan/stratton-cc-001-r2-phase-4-amendment.md">Revision-9 Phase 4 amendment Markdown</a>
+          <a href="4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json">Frozen revision-9 Phase 4 manifest</a>
+          <a href="4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.html">Revision-10 Phase 4 r3 amendment HTML</a>
+          <a href="4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.md">Revision-10 Phase 4 r3 amendment Markdown</a>
+          <a href="4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json">Frozen Phase 4 r3 manifest</a>
+          <a href="reviews/aff-a/3/round-5/stratton-aff-a-review.html">AFF-A Phase 3 round 5 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-a/4/round-5/stratton-aff-a-review.html">AFF-A Phase 4 round 5 — bounded reference gap</a>
+          <a href="reviews/aff-a/4/round-6/stratton-aff-a-review.html">AFF-A Phase 4 round 6 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/3/round-4/stratton-aff-b-review.html">AFF-B Phase 3 round 4 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/4/round-3/stratton-aff-b-review.html">AFF-B Phase 4 round 3 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-007.html">Compliance coverage 007 — formal final</a>
+          <a href="3-azure-design/stratton-cc-001-phase-3-amendment.html">Phase 3 amendment HTML</a>
+          <a href="3-azure-design/stratton-cc-001-phase-3-amendment.md">Phase 3 amendment Markdown</a>
+          <a href="3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json">Proposed Phase 3 hash manifest</a>
+          <a href="4-implementation-plan/stratton-cc-001-phase-4-amendment.html">Phase 4 amendment HTML</a>
+          <a href="4-implementation-plan/stratton-cc-001-phase-4-amendment.md">Phase 4 amendment Markdown</a>
+          <a href="4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json">Proposed Phase 4 hash manifest</a>
+          <a href="reviews/aff-a/3/round-4/stratton-aff-a-review.html">Formal AFF-A Phase 3 round 4</a>
+          <a href="reviews/aff-b/3/round-3/stratton-aff-b-review.html">Formal AFF-B Phase 3 round 3 — DIVERGES</a>
+          <a href="reviews/aff-a/4/round-4/stratton-aff-a-review.html">Formal AFF-A Phase 4 round 4</a>
+          <a href="reviews/aff-b/4/round-2/stratton-aff-b-review.html">Formal AFF-B Phase 4 round 2 — DIVERGES</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-006.json">Compliance coverage 006</a>
+          <a href="0-coordination/stratton-model-plan-revision-9.json">Model-plan revision 9</a>
+          <a href="0-coordination/stratton-model-plan-revision-10.json">Model-plan revision 10 — bounded r3 correction</a>
+          <a href="0-coordination/stratton-model-plan-revision-11.json">Model-plan revision 11 — formal convergence and human gate</a>
+          <a href="approvals/change-control/stratton-cc-001-approval-1.json">Immutable STRATTON-CC-001 approval</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Change-control gate</h2>
+        <p class="muted">The historical Phase 3 and Phase 4 approvals remain valid for their original hashes. The approved amendment applies prospectively to local Phase 5 authority-interface finalisation only and does not authorise Azure activity or waive residual controls.</p>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 5 revision-4 approved baseline</h2>
+        <div class="artifact-list">
+          <a href="5-coding-r4/stratton-build-report.html">Revision 4 build report HTML</a>
+          <a href="5-coding-r4/stratton-build-report.md">Authoritative revision 4 build report Markdown</a>
+          <a href="5-coding-r4/stratton-release-manifest.json">Revision 4 release manifest</a>
+          <a href="5-coding-r4/stratton-phase-5-hashes.json">Canonical revision 4 hash manifest · bcdf3755…1626</a>
+          <a href="5-coding-r4/evidence/local-validation/20260803T031539999Z/index.json">Final full local validation evidence · 10/10 PASS</a>
+          <a href="0-coordination/stratton-model-plan-revision-15.json">Model-plan revision 15</a>
+          <a href="0-coordination/stratton-model-plan-revision-16.json">Phase 6 model-plan revision 16</a>
+          <a href="reviews/aff-a/5/round-4/stratton-aff-a-review.html">Revision 4 AFF-A round 4 · CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/5/round-2/stratton-aff-b-review.html">Revision 4 AFF-B round 2 · CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-009.json">Active compliance coverage 009</a>
+          <a href="approvals/5/stratton-phase-5-approval-1.json">Immutable Phase 5 approval · f39fbd68…1cd4</a>
+          <a href="reviews/aff-a/5/round-3/stratton-aff-a-review.html">Revision 3 AFF-A round 3 · CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/5/round-1/stratton-aff-b-review.html">Revision 3 AFF-B round 1 · six MAJOR findings</a>
+          <a href="5-coding/stratton-phase-5-hashes.json">Immutable revision 1 manifest</a>
+          <a href="5-coding-r2/stratton-phase-5-hashes.json">Immutable revision 2 manifest</a>
+          <a href="5-coding-r3/stratton-phase-5-hashes.json">Immutable revision 3 manifest</a>
+        </div>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 6 revision-1 reviewed candidate</h2>
+        <div class="artifact-list">
+          <a href="6-presentation/stratton-presentation.html">Executive presentation record HTML</a>
+          <a href="6-presentation/stratton-presentation.md">Authoritative presentation record Markdown</a>
+          <a href="6-presentation/stratton-claim-catalogue.json">Claim catalogue · 32 traced claims</a>
+          <a href="6-presentation/deck/dist/index.html">Revision-1 browser deck · superseded portability finding</a>
+          <a href="6-presentation/deck/deck.pdf">Ten-page board PDF</a>
+          <a href="6-presentation/stratton-phase-6-hashes.json">Canonical Phase 6 manifest · b714ba78…8951</a>
+          <a href="reviews/aff-a/6/round-1/stratton-aff-a-review.html">AFF-A round 1 · DIVERGES</a>
+          <a href="reviews/aff-a/6/round-1/stratton-aff-a-review.json">AFF-A round-1 formal JSON · a715ab9b…06d9</a>
+          <a href="0-coordination/stratton-model-plan-revision-17.json">Model-plan revision 17 · sibling remediation</a>
+        </div>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 6 revision-2 frozen candidate</h2>
+        <div class="artifact-list">
+          <a href="6-presentation-r2/stratton-presentation.html">Revision-2 presentation record HTML</a>
+          <a href="6-presentation-r2/stratton-presentation.md">Revision-2 authoritative Markdown</a>
+          <a href="6-presentation-r2/stratton-claim-catalogue.json">Claim catalogue · 32 traced claims</a>
+          <a href="6-presentation-r2/deck/dist/index.html">Portable browser deck · relative assets</a>
+          <a href="6-presentation-r2/deck/deck.pdf">Canonical ten-page board PDF</a>
+          <a href="6-presentation-r2/evidence/browser-portability.json">Browser portability evidence</a>
+          <a href="6-presentation-r2/evidence/pdf-export-receipt.json">Canonical PDF export receipt</a>
+          <a href="6-presentation-r2/stratton-phase-6-hashes.json">Canonical revision-2 manifest · a9116def…b5f</a>
+          <a href="reviews/aff-a/6/round-2/stratton-aff-a-review.html">AFF-A round 2 · CONFORMS</a>
+          <a href="reviews/aff-a/6/round-2/stratton-aff-a-review.json">AFF-A round-2 formal JSON · a05394a1…1dc4</a>
+          <a href="reviews/aff-b/6/round-1/stratton-aff-b-review.html">AFF-B round 1 · DIVERGES</a>
+          <a href="reviews/aff-b/6/round-1/stratton-aff-b-review.json">AFF-B round-1 formal JSON · 5db090b6…d27d</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-010.json">Coverage 010 · remediation required</a>
+          <a href="0-coordination/stratton-model-plan-revision-18.json">Model-plan revision 18 · sibling revision 3</a>
+        </div>
+      </article>
+
+      <article class="card wide">
+        <h2>Phase 4 artifacts</h2>
+        <div class="artifact-list">
+          <a href="4-implementation-plan/stratton-implementation-plan.html">Implementation plan HTML</a>
+          <a href="4-implementation-plan/stratton-implementation-plan.md">Authoritative implementation plan Markdown</a>
+          <a href="4-implementation-plan/stratton-implementation-catalogue.json">Implementation catalogue JSON</a>
+          <a href="4-implementation-plan/diagrams/stratton-dependency-dag.svg">Dependency DAG SVG</a>
+          <a href="4-implementation-plan/stratton-phase-4-hashes.json">Canonical Phase 4 hash manifest</a>
+          <a href="4-implementation-plan/evidence/stratton-phase-4-hash-verification-receipt.json">Independent hash verification receipt</a>
+          <a href="approvals/4/stratton-phase-4-approval-1.json">Immutable Phase 4 approval</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Phase 4 review history</h2>
+        <div class="artifact-list">
+          <a href="reviews/aff-a/4/round-1/stratton-aff-a-review.html">AFF-A round 1 — DIVERGES</a>
+          <a href="reviews/aff-a/4/round-1/stratton-aff-a-review.json">AFF-A round 1 JSON</a>
+          <a href="reviews/aff-a/4/round-1/reviewed-subject/stratton-phase-4-hashes.json">AFF-A round 1 reviewed manifest — superseded</a>
+          <a href="reviews/aff-a/4/round-2/stratton-aff-a-review.html">AFF-A round 2 — DIVERGES</a>
+          <a href="reviews/aff-a/4/round-2/stratton-aff-a-review.json">AFF-A round 2 JSON</a>
+          <a href="reviews/aff-a/4/round-2/reviewed-subject/stratton-phase-4-hashes.json">AFF-A round 2 reviewed manifest — superseded</a>
+          <a href="reviews/aff-a/4/round-3/stratton-aff-a-review.html">AFF-A final round 3 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-a/4/round-3/stratton-aff-a-review.json">AFF-A final round 3 JSON</a>
+          <a href="reviews/aff-b/4/round-1/stratton-aff-b-review.html">AFF-B final round 1 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/4/round-1/stratton-aff-b-review.json">AFF-B final round 1 JSON</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-005.json">Active compliance coverage 005</a>
+          <a href="reviews/aff-a/4/round-4/stratton-aff-a-review.html">CC-001 AFF-A round 4 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-a/4/round-6/stratton-aff-a-review.html">CC-001 AFF-A round 6 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/4/round-2/stratton-aff-b-review.html">CC-001 AFF-B round 2 — DIVERGES</a>
+          <a href="reviews/aff-b/4/round-3/stratton-aff-b-review.html">CC-001 AFF-B round 3 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-006.json">CC-001 compliance coverage 006</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-007.json">CC-001 compliance coverage 007</a>
+        </div>
+      </article>
+
+      <article class="card wide">
+        <h2>Phase 3 artifacts</h2>
+        <div class="artifact-list">
+          <a href="3-azure-design/stratton-azure-design.html">Citadel Azure design HTML</a>
+          <a href="3-azure-design/stratton-azure-design.md">Authoritative Azure design Markdown</a>
+          <a href="3-azure-design/stratton-design-catalogue.json">Azure design catalogue JSON</a>
+          <a href="3-azure-design/stratton-phase-3-hashes.json">Canonical Phase 3 hash manifest</a>
+          <a href="3-azure-design/evidence/stratton-phase-3-hash-verification-receipt.json">Independent hash verification receipt</a>
+          <a href="approvals/3/stratton-phase-3-approval-1.json">Immutable Phase 3 approval</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Phase 3 review history</h2>
+        <div class="artifact-list">
+          <a href="reviews/aff-a/3/round-3/stratton-aff-a-review.html">AFF-A final round 3</a>
+          <a href="reviews/aff-b/3/round-2/stratton-aff-b-review.html">AFF-B final round 2</a>
+          <a href="reviews/aff-a/3/round-4/stratton-aff-a-review.html">CC-001 AFF-A round 4 — CONFORMS-WITH-GAPS</a>
+          <a href="reviews/aff-b/3/round-3/stratton-aff-b-review.html">CC-001 AFF-B round 3 — DIVERGES</a>
+          <a href="reviews/aff-b/3/round-4/stratton-aff-b-review.html">CC-001 AFF-B round 4 — CONFORMS-WITH-GAPS</a>
+        </div>
+      </article>
+
+      <article class="card wide">
+        <h2>Phase 2 artifacts</h2>
+        <div class="artifact-list">
+          <a href="2-togaf-architecture/stratton-architecture.html">TOGAF architecture HTML</a>
+          <a href="2-togaf-architecture/stratton-architecture.md">Authoritative architecture Markdown</a>
+          <a href="2-togaf-architecture/stratton-architecture-catalogue.json">Architecture catalogue JSON</a>
+          <a href="2-togaf-architecture/stratton-phase-2-hashes.json">Canonical Phase 2 hash manifest</a>
+          <a href="approvals/2/stratton-phase-2-approval-1.json">Immutable Phase 2 approval</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Phase 2 reviews</h2>
+        <div class="artifact-list">
+          <a href="reviews/aff-a/2/round-1/stratton-aff-a-review.html">AFF-A final round 1</a>
+          <a href="reviews/aff-b/2/round-1/stratton-aff-b-review.html">AFF-B final round 1</a>
+          <a href="reviews/aff-b/coverage/stratton-compliance-coverage-004.json">Compliance coverage 004</a>
+        </div>
+      </article>
+
+      <article class="card wide">
+        <h2>Phase 1 artifacts</h2>
+        <div class="artifact-list">
+          <a href="1-requirements/stratton-requirements.html">Requirements HTML</a>
+          <a href="1-requirements/stratton-requirements.md">Authoritative requirements Markdown</a>
+          <a href="1-requirements/stratton-requirements-catalogue.json">Requirements catalogue JSON</a>
+          <a href="1-requirements/stratton-interview-decisions.json">Interview decision record</a>
+          <a href="1-requirements/stratton-phase-1-hashes.json">Canonical Phase 1 hash manifest</a>
+          <a href="approvals/1/stratton-phase-1-approval-1.json">Immutable Phase 1 approval</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Phase 1 reviews</h2>
+        <div class="artifact-list">
+          <a href="reviews/aff-a/1/round-1/stratton-aff-a-review.html">AFF-A round 1</a>
+          <a href="reviews/aff-a/1/round-2/stratton-aff-a-review.json">AFF-A round 2</a>
+          <a href="reviews/aff-a/1/round-3/stratton-aff-a-review.json">AFF-A final round 3</a>
+          <a href="reviews/aff-b/1/round-2/stratton-aff-b-review.json">AFF-B final round 2</a>
+          <a href="solution-overview.html">Approved solution overview</a>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Last updated: <time datetime="2026-08-03T16:06:36.5341751+02:00">3 August 2026, 16:06 CEST</time>.
+      The page refreshes every 30 seconds and the file is regenerated when phase or process state changes.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const versionKey = `aff-dashboard-version:${window.location.pathname}`;
+      const soundKey = `aff-dashboard-sound:${window.location.pathname}`;
+      const currentVersion = document.body.dataset.dashboardVersion;
+      const previousVersion = window.localStorage.getItem(versionKey);
+      const button = document.getElementById("soundToggle");
+
+      const playChime = () => {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const context = new AudioContext();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(660, context.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(880, context.currentTime + 0.16);
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, context.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.24);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.25);
+        oscillator.addEventListener("ended", () => context.close());
+      };
+
+      const updateButton = () => {
+        const enabled = window.localStorage.getItem(soundKey) === "enabled";
+        button.textContent = enabled ? "Update sound enabled" : "Enable update sound";
+      };
+
+      button.addEventListener("click", () => {
+        const enabled = window.localStorage.getItem(soundKey) === "enabled";
+        window.localStorage.setItem(soundKey, enabled ? "disabled" : "enabled");
+        updateButton();
+        if (!enabled) playChime();
+      });
+
+      if (
+        previousVersion &&
+        previousVersion !== currentVersion &&
+        window.localStorage.getItem(soundKey) === "enabled"
+      ) {
+        window.setTimeout(playChime, 250);
+      }
+
+      window.localStorage.setItem(versionKey, currentVersion);
+      updateButton();
+
+      const processState = document.body.dataset.processState;
+      const processStart = Date.parse(document.body.dataset.processStart);
+      const estimatedSeconds = Number(document.body.dataset.processEstimatedSeconds);
+      const completedElapsedSeconds = Number(document.body.dataset.processElapsedSeconds);
+      const elapsedElement = document.getElementById("processElapsed");
+      const estimatedTotalElement = document.getElementById("estimatedTotal");
+      const estimatedRemainingElement = document.getElementById("estimatedRemaining");
+      const stateElement = document.getElementById("processState");
+      const formatDuration = (totalSeconds) => {
+        const secondsValue = Math.max(0, Math.floor(totalSeconds));
+        const hours = Math.floor(secondsValue / 3600);
+        const minutes = Math.floor((secondsValue % 3600) / 60);
+        const seconds = secondsValue % 60;
+        return `${hours ? `${hours}h ` : ""}${minutes}m ${String(seconds).padStart(2, "0")}s`;
+      };
+      const updateElapsed = () => {
+        if (Number.isFinite(estimatedSeconds) && estimatedSeconds > 0) {
+          estimatedTotalElement.textContent = formatDuration(estimatedSeconds);
+        }
+        if (processState === "waiting" && !Number.isNaN(processStart)) {
+          const elapsedSeconds = Math.max(0, Math.floor((Date.now() - processStart) / 1000));
+          stateElement.textContent = "Waiting";
+          elapsedElement.textContent = formatDuration(elapsedSeconds);
+          estimatedRemainingElement.textContent = "paused for input";
+          return;
+        }
+        if (processState !== "busy" || Number.isNaN(processStart)) {
+          stateElement.textContent = "Idle";
+          elapsedElement.textContent =
+            Number.isFinite(completedElapsedSeconds) && completedElapsedSeconds > 0
+              ? formatDuration(completedElapsedSeconds)
+              : "not running";
+          if (!Number.isFinite(estimatedSeconds) || estimatedSeconds <= 0) {
+            estimatedTotalElement.textContent = "not started";
+          }
+          estimatedRemainingElement.textContent =
+            Number.isFinite(completedElapsedSeconds) && completedElapsedSeconds > 0
+              ? "complete"
+              : "not started";
+          return;
+        }
+        const elapsedSeconds = Math.max(0, Math.floor((Date.now() - processStart) / 1000));
+        elapsedElement.textContent = formatDuration(elapsedSeconds);
+        if (Number.isFinite(estimatedSeconds) && estimatedSeconds > 0) {
+          const remainingSeconds = estimatedSeconds - elapsedSeconds;
+          estimatedRemainingElement.textContent =
+            remainingSeconds > 0 ? `about ${formatDuration(remainingSeconds)}` : "finishing now";
+        }
+      };
+      updateElapsed();
+      window.setInterval(updateElapsed, 1000);
+    })();
+  </script>
+</body>
+</html>

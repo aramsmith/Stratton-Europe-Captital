@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "6",
+  "supersedesRevision": "5",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-5.json",
+  "generatedAt": "2026-08-02T11:27:54.870+02:00",
+  "changeReason": "Append-only Phase 5 coding reassessment following explicit human approval of Phase 4 and explicit invocation of Phase 5.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefault": "gpt-5.3-codex",
+    "selectedExactGptModelId": "gpt-5.3-codex",
+    "actualRuntimeModelId": "gpt-5.3-codex",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved coding default is specialised for implementing the complete Bicep and application package, writing executable tests, resolving compiler feedback and producing evidence-bound release artifacts without deployment.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "COMPLETE_FOR_PHASE_5_CODING"
+  },
+  "reviewAssignments": {
+    "affA": {
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.3-codex",
+      "separationRequiredOnEveryRound": true
+    },
+    "affB": {
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol"
+    }
+  },
+  "upstreamGateBinding": {
+    "phase4ApprovalPath": "approvals/4/stratton-phase-4-approval-1.json",
+    "phase4ApprovalSha256": "305e897a63291bb592d24ced46cc372e6ab2034d46eaca100d7af8db6490c0b5",
+    "phase4CanonicalManifestPath": "4-implementation-plan/stratton-phase-4-hashes.json",
+    "phase4CanonicalManifestSha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+    "humanInvocationTimestamp": "2026-08-02T11:27:54.870+02:00",
+    "journalStartEventId": "EVT-0074",
+    "journalDashboardEventId": "EVT-0075"
+  },
+  "constraints": [
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every Phase 5 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every Phase 5 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "All seven residual controls remain open, owner-bound and fail-closed unless legitimate accountable-owner evidence resolves one.",
+    "Phase 5 must implement the approved Phase 4 package without weakening the Phase 3 design or inventing requirements, identities, locations, networks, retention, source, model, quota or legal values.",
+    "Foundry Citadel source adaptation remains blocked until Enterprise Platform supplies a reviewed immutable revision and adaptation record.",
+    "Every mandatory local IaC and application validation must run successfully or remain an explicit blocker; missing tools and failed checks cannot be converted into success.",
+    "No Azure deployment, Azure what-if, subscription validation requiring target permissions, runtime test against Azure, GitHub OIDC or stored credential is authorised in Phase 5."
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "111",
+  "createdAt": "2026-08-06T06:22:43.2726946+02:00",
+  "revisionReason": "Refine Slides 5, 8 and 11-16 for reviewer motion, authority flow, readability, plain-language sequencing and four-benefit executive focus.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-110.json",
+    "sha256": "8733a14fc556a3c0e383e977453c519b3d38e8148239a439d0e529961051852f",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slides": [
+      5,
+      8,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "request": "Refine Slides 5, 8 and 11-16 for reviewer motion, authority flow, readability, plain-language sequencing and four-benefit executive focus."
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false,
+    "achievedBenefitsClaimed": false,
+    "productionReadinessClaimed": false,
+    "approvalClaimed": false,
+    "freezeClaimed": false
+  },
+  "quality": {
+    "slide5Contract": "pass",
+    "slide8Contract": "pass",
+    "slide11Contract": "pass",
+    "slide12Contract": "pass",
+    "slide13Contract": "pass",
+    "slide14Contract": "pass",
+    "slide15Contract": "pass",
+    "slide16Contract": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 19,
+    "renderedSlides": [
+      5,
+      8,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "browserRenderCount": 24,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "consoleClean": "pass",
+    "noTextClipping": true,
+    "contentBasedHiddenTextCoverage": "pass",
+    "textCandidateMinimum": 41,
+    "textCandidateMaximum": 178,
+    "hiddenCandidateMinimum": 1,
+    "hiddenCandidateMaximum": 137,
+    "slide13MinimumSparePx": 1.859375,
+    "slide14StaticFallback": "pass",
+    "evidenceBoundary": "pass",
+    "integratedReview": {
+      "status": "pass",
+      "critical": 0,
+      "important": 0,
+      "minor": 2
+    }
+  },
+  "artifacts": {
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "1d930b632a2a2c681cccd6a2a01d148b68fcc809ae5c141d643708c1587c273c"
+    },
+    "deckPackage": {
+      "path": "6-presentation-r4/deck/package.json",
+      "sha256": "ed67ae5a565f1458dc7ba557638c94228a770bc7038f31188f31e8946e5a85cb"
+    },
+    "deckPackageLock": {
+      "path": "6-presentation-r4/deck/package-lock.json",
+      "sha256": "33f222f745544b873425f4bad682dbb8a9695a2554af06ab5f141971f25c333e"
+    },
+    "playwrightConfig": {
+      "path": "6-presentation-r4/deck/playwright.config.mjs",
+      "sha256": "9996655dcf7fd51ee34cc7c874acc6781f3a5718b35ba399a0ce8c46c3738f7c"
+    },
+    "slide5Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticArchitectureRingSlide.jsx",
+      "sha256": "4df34597054c242f3a5ba69b56da490688260a1f5887cf835dadb154d7b67e47"
+    },
+    "slide5Css": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticArchitectureRingSlide.module.css",
+      "sha256": "092db75b25e9bb7adf6063796efc582a751225b0de9d4c5fda5ee91f6886e7ce"
+    },
+    "slide8Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.jsx",
+      "sha256": "07fc18096e64aab391dadb247786a8cfce8d6215f86d662a2974c96bbf8b4425"
+    },
+    "slide8Css": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.module.css",
+      "sha256": "2c15cfadcbb44517142bbe4d9540b83ba126e0408bd655e81c211a73d7e106b7"
+    },
+    "slide11Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/AzureDesignSlide.jsx",
+      "sha256": "cab32a671996664f46ac40deeabc98c9392dc37901484109b6e2b1cd8ab387b4"
+    },
+    "slide12Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/ImplementationPlanSlide.jsx",
+      "sha256": "0743c5b7b3a70ce36e1498ae04f9189b9f47ac00beccb0c0691774029d2e0b4a"
+    },
+    "slide13Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/CodingSlide.jsx",
+      "sha256": "2cb243cbe14c99e2027f0cca2dbacb32e83c690a7bd1143f63b0ce2eeaa5b38a"
+    },
+    "slide14Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/DeploymentSlide.jsx",
+      "sha256": "ad9a02330e73ed469a75e00a1851514a10b5ea38f5ae4e33550784802ec020a9"
+    },
+    "slide15Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/RunTestsSlide.jsx",
+      "sha256": "fbba51783c2381fa22b259968c0752f12e44d2939bf06a841c85074992b81b98"
+    },
+    "slide16Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/CostsBenefitsSlide.jsx",
+      "sha256": "f6e5a51402c663a24b3b82bbdef9c9259683e3a225267603b7eb9b2870e22621"
+    },
+    "sharedStyles": {
+      "path": "6-presentation-r4/deck/src/styles/PhaseSummarySlides.module.css",
+      "sha256": "2e382b60d3a215c35e39ec2526925091ae85e9ee7396fa2db2b37e44599bc6d3"
+    },
+    "inlineEditState": {
+      "path": "6-presentation-r4/deck/src/data/inline-edits.json",
+      "sha256": "ae7a45a1c01887b60c598a9cf7e06bd197c0ad9c752b21208cd201d607cb3f66"
+    }
+  },
+  "verificationArtifacts": {
+    "contractHelper": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\contract-helpers.mjs",
+      "sha256": "89e673db94d7676c980d229e9e805735385c4a5baec309d5683daf660858ca59"
+    },
+    "slide5Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-5-contract.mjs",
+      "sha256": "a428d73cfc4d7c8eb1691c32259e936a909bf8923cc69da62532eac93ba78937"
+    },
+    "slide8Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-8-contract.mjs",
+      "sha256": "a1a97c559f12003891bbd43f965dc11df7a270d0d4981c8df9ec83c18f71da2c"
+    },
+    "slide11Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-11-contract.mjs",
+      "sha256": "4f214eb43f91104dd65c9eaac0c991ac3ac5f805fb36f0da1201b9f5c6a1225e"
+    },
+    "slide12Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-12-contract.mjs",
+      "sha256": "20bf33ce17e5615fa77ee4571e3030d0f45cbe5773ea4ff092d3ef904008633c"
+    },
+    "slide13Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-13-contract.mjs",
+      "sha256": "dbdc91097472441d1b0d5bc89f11d6f6d44204900b7498b7e5bccbca256a2fd6"
+    },
+    "slide14Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-14-contract.mjs",
+      "sha256": "217917b3e4b7bf07f09021e3b2ba10722c7ce6491af4dc9ae1993aa41376904b"
+    },
+    "slide15Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-15-contract.mjs",
+      "sha256": "1d39b44952f8bab6248121279facb57ad3597fbfdebef7bb742501bb858444e3"
+    },
+    "slide16Contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\contracts\\slide-16-contract.mjs",
+      "sha256": "039bc48f18d583a203493e6c658d0b0e56e3a7f8cbdb50508ac3d3ef50b3ff82"
+    },
+    "slide5BrowserTest": {
+      "repositoryPath": "cases\\Stratton-Europe-Captital\\6-presentation-r4\\deck\\tests\\slide-5-assurance.spec.mjs",
+      "sha256": "139c3f25e90f488d05d87dc32414b9ed305b512dd4186710f9431e84bbcf408d"
+    },
+    "slide5BrowserHelper": {
+      "repositoryPath": "cases\\Stratton-Europe-Captital\\6-presentation-r4\\deck\\tests\\helpers\\slide-5-browser-assurance.mjs",
+      "sha256": "1ba65e0e75c14c5de3310c34c33ce17d979c56ac1526c3238afd1ab4545eb6e1"
+    },
+    "task1Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-1-report.md",
+      "sha256": "d3d6615cf8078c8e6e53513b90fdf3c13c252634fe97a8022435169798746bfe"
+    },
+    "task2Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-2-report.md",
+      "sha256": "65ff3a1bd7be2cd70cfc8206958e08a24c7f61727e1bfdf4423a3d876a8badfb"
+    },
+    "task3Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-3-report.md",
+      "sha256": "d93563994cb3fd75c04c0cf33805b33236d021b31f074a72d9c9b6940055b977"
+    },
+    "task4Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-4-report.md",
+      "sha256": "8cb9425f27923e85f42c7ddbbc373938ac287f199e5cfee2564a361e780797b5"
+    },
+    "task5Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-5-report.md",
+      "sha256": "3be6c856dfc636d9b2b4cdac406e869ac09a6495364c380bbb41b545d6727c70"
+    },
+    "task6Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-6-report.md",
+      "sha256": "b9a8d285996d2216a9e97c92508720d96d0eafe49651eb0f3577070acacdefab"
+    },
+    "task7Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-7-report.md",
+      "sha256": "33c382bc35b00d37a93baa752a519aa669add05bba255c3ff30661c841e3fcff"
+    },
+    "task8Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-8-report.md",
+      "sha256": "930cd9f4539d3f00906df6a8b966846348f3428e5c5eceb69148d848c53b070c"
+    },
+    "task9Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-9-report.md",
+      "sha256": "01fdb071fda5232be2403a47c78ee5d81be99b90f066700fc37c09832229da9f"
+    },
+    "task10Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-10-report.md",
+      "sha256": "074d2a071e40bf358fc92009377e30cc47dc4b4ace9fe5945656ebb8c5e54eb4"
+    },
+    "browserAssurance": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\browser-assurance.mjs",
+      "sha256": "f1b4c26de9a03df706fd0bd4c8afafc2101f88bb4fbe9060efd97157778c0e70"
+    },
+    "task11Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\task-11-final-report.md",
+      "sha256": "3eeeb64cb1ac496a8e2ffed4889e24d5dca7fee8031d259259a80036fd81e394"
+    },
+    "integratedReview": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-5-8-11-16-executive-refinements\\review-task-11-integrated.md",
+      "sha256": "1b09d4bbf773bf2af63a9645d6ce3bdaa4a5d414e6fcb8eb6778b292564d0f21"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 19,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  },
+  "updatedAt": "2026-08-06T06:22:43.2726946+02:00"
+}

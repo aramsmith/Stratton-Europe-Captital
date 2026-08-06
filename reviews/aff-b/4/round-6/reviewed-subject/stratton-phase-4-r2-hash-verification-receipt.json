@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "formalReviewRound": 6,
+  "changeControlId": "STRATTON-CC-002",
+  "reviewerActualRuntimeModelId": "gpt-5.6-luna",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r2-proposed.json",
+    "sha256": "1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a"
+  },
+  "originalSubject": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+    "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "status": "UNCHANGED"
+  },
+  "r2Artifacts": [
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-cc-002-r2-candidate-validation.json",
+      "role": "evidence",
+      "sha256": "dd08ff89482205eef73d3e46e7543c81c4732904cd3c7839bb717ddb7859302f"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-cc-002-r2-change-control-evidence.json",
+      "role": "evidence",
+      "sha256": "f01a7457cc84fc9648859a611958c4f13ef1c5afbbfb825906f75c5ec9e8d38b"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-cc-002-r2-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "8e65806da4e42461ae7a25deb360a3cec466465e7f1d7989eb83e7e8c8c3a2d6"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-cc-002-r2-phase-4-amendment.html",
+      "role": "rendered-html",
+      "sha256": "33467ca4ed3edf045c1cd97014abe2f15a6779a03c35c2d94341a21a3b7da062"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-cc-002-r2-phase-4-amendment.md",
+      "role": "authoritative-markdown",
+      "sha256": "f10ad2354e575cdcee4ab312a0c78e8f2eeb875961b70b585f03865bfdfab31c"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-implementation-catalogue-cc-002-r2-proposed.json",
+      "role": "catalogue",
+      "sha256": "5aea76eca2a96e6060bfbbae38b5571970446d40aea3b511e52a6cb428bd0766"
+    }
+  ],
+  "verificationMethod": {
+    "algorithm": "SHA-256",
+    "rawByteComparison": true,
+    "manifestSchema": "PASS",
+    "manifestEntryCount": 6,
+    "allDeclaredEntriesMatched": true,
+    "originalCandidateUnchanged": true
+  },
+  "status": "PASS",
+  "nonApprovalStatement": "This receipt verifies integrity only and does not approve, waive, certify, attest, deploy, promote or authorise Phase 7."
+}

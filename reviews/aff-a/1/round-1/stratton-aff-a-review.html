@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AFF-A Review — Phase 1 — Round 1</title>
+  <style>
+    body{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;margin:2rem;max-width:70rem;color:#172033}
+    h1,h2{color:#174ea6} code{background:#eef2f7;padding:.1rem .25rem;border-radius:.2rem}
+    table{border-collapse:collapse;width:100%} th,td{border:1px solid #cbd5e1;padding:.5rem;text-align:left;vertical-align:top}
+    th{background:#e8eef7}.verdict{font-weight:700;color:#991b1b}
+  </style>
+</head>
+<body>
+  <h1>AFF-A Review — Phase 1 — Requirements — Round 1</h1>
+  <p><strong>Case:</strong> <code>Stratton-Europe-Captital</code></p>
+  <p><strong>Artifact prefix:</strong> <code>stratton</code></p>
+  <p><strong>Review time:</strong> <code>2026-08-01T21:13:18.187+02:00</code></p>
+  <p><strong>Model-plan revision:</strong> <code>1</code></p>
+  <p><strong>Reviewer actual model:</strong> <code>gpt-5.5</code></p>
+  <p><strong>Phase author actual model:</strong> <code>gpt-5.6-sol</code></p>
+  <p><strong>Canonical manifest:</strong> <code>cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json</code></p>
+  <p><strong>Canonical manifest SHA-256:</strong> not independently recomputed in this runtime</p>
+  <p class="verdict"><strong>Verdict:</strong> DIVERGES</p>
+  <p><strong>Final round for this manifest:</strong> true</p>
+  <p><strong>AFF-A does not approve Phase 1.</strong></p>
+
+  <h2>Summary</h2>
+  <p>The requirements content is largely coherent, traceable to confirmed interview decisions, bounded to Phase 1, and avoids architecture, deployment, runtime-result and approval claims. However, this round diverges because independent SHA-256 recomputation could not be completed, the interview evidence contains contradictory open-item state, the active model-plan record does not clearly carry the Phase 1 authoring reassessment, and shared regulatory/risk records remain stale against Phase 1 confirmed decisions.</p>
+
+  <h2>Findings</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Severity</th><th>Title</th></tr></thead>
+    <tbody>
+      <tr><td>STRATTON-P1-AFFA-R1-BLOCKER-001</td><td>BLOCKER</td><td>Canonical manifest and listed subject SHA-256 values were not independently recomputable in this review runtime</td></tr>
+      <tr><td>STRATTON-P1-AFFA-R1-MAJOR-001</td><td>MAJOR</td><td>Interview decision record retains contradictory OPEN openItems after declaring the interview closed with no material decisions pending</td></tr>
+      <tr><td>STRATTON-P1-AFFA-R1-MAJOR-002</td><td>MAJOR</td><td>Active model plan does not clearly record Phase 1 authoring reassessment in the required model-plan record</td></tr>
+      <tr><td>STRATTON-P1-AFFA-R1-MAJOR-003</td><td>MAJOR</td><td>Shared regulatory and risk records remain stale after Phase 1 confirmed decisions that the candidate uses as requirements evidence</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Required action</h2>
+  <p>Do not seek human Phase 1 approval on this AFF-A result. Remediate the findings, regenerate affected artifacts and canonical hashes, then re-invoke AFF-A over the complete final set. AFF-B must cover the identical unchanged manifest before any human gate can open.</p>
+</body>
+</html>

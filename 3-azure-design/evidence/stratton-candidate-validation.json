@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE_3_CANDIDATE_STATIC_VALIDATION",
+  "validationScope": "Author inspection only; no deployment, implementation code, Azure what-if, registry resolution or runtime test was performed.",
+  "status": "AFFB_ROUND_1_REMEDIATED_WITH_DOCUMENTED_TOOL_LIMITATIONS",
+  "humanDecisionTimestamp": "2026-08-01T22:36:23.383+02:00 onward",
+  "validatedAt": "2026-08-02T02:45:13.366+02:00",
+  "checks": [
+    {"id":"CHK-001","check":"31 approved Must requirements have SBB mappings","expected":31,"observed":31,"result":"PASS"},
+    {"id":"CHK-002","check":"19 approved ABBs have SBB mappings","expected":19,"observed":19,"result":"PASS"},
+    {"id":"CHK-003","check":"AD-001 through AD-010 have preserved Azure realisations","expected":10,"observed":10,"result":"PASS"},
+    {"id":"CHK-004","check":"Seven governed validation controls are carried in formal evidence","expected":7,"observed":7,"result":"PASS"},
+    {"id":"CHK-005","check":"Database public access disabled in dev, test and production","expected":"all","observed":"explicit catalogue, network, environment and handoff controls","result":"PASS"},
+    {"id":"CHK-006","check":"Five WAF pillars have explicit trade-offs","expected":5,"observed":5,"result":"PASS"},
+    {"id":"CHK-007","check":"Required solution/LZ, network/security and data-flow diagrams have draw.io and standalone SVG pairs reflecting Citadel and the regional topology","expected":6,"observed":"3 revised editable draw.io files and 3 revised standalone SVG files; each SVG has title/description and author inspection found no script, foreignObject or external reference","result":"PASS_BY_AUTHOR_INSPECTION"},
+    {"id":"CHK-008","check":"HTML uses mandatory Clawpilot theme detection and exact variable set with no external runtime dependency","expected":"pass","observed":"theme detector and complete light/dark --cp-* variable set present; inline diagrams and no CDN/import","result":"PASS_BY_AUTHOR_INSPECTION"},
+    {"id":"CHK-009","check":"JSON evidence documents are structurally well-formed","expected":"pass","observed":"Author inspection only; executable JSON parser unavailable in this agent tool context","result":"LIMITED"},
+    {"id":"CHK-010","check":"Pinned AVM candidates use exact versions, not latest","expected":"all","observed":"exact versions recorded; registry existence/digest deferred to AFF-4","result":"PASS_WITH_AFF4_VERIFICATION"},
+    {"id":"CHK-011","check":"No Phase 1, Phase 2, dashboard, overview, approvals or journal file modified","expected":"none","observed":"Author changes restricted to model-plan revision 4 and Phase 3 candidate paths","result":"PASS_BY_PATH_REVIEW"},
+    {"id":"CHK-012","check":"No deployment, code authoring or runtime testing","expected":"none","observed":"none","result":"PASS"},
+    {"id":"CHK-013","check":"HD-001 through HD-005 distinguish confirmed patterns from pending exact parameters","expected":5,"observed":5,"result":"PASS"},
+    {"id":"CHK-014","check":"Citadel is represented as ALZ foundation plus adapted Azure-Samples Foundry Citadel governance and Sovereign Landing Zone overlays, not as a standalone product","expected":"accurate composition","observed":"catalogue, Markdown, HTML, decisions, source register, handoff and diagrams","result":"PASS"},
+    {"id":"CHK-015","check":"Required ALZ, Foundry Citadel and Sovereign Landing Zone source links and reuse notes are present","expected":4,"observed":4,"result":"PASS_BY_AUTHOR_LINK_INSPECTION"},
+    {"id":"CHK-016","check":"Two-region pattern uses regional AI and denies Global/DataZone deployment types","expected":"all production AI","observed":"catalogue, network policy, WAF, traceability, handoff and diagrams","result":"PASS"},
+    {"id":"CHK-017","check":"Formal Citadel landing-zone evidence distinguishes ALZ foundation, Foundry Citadel adaptation, sovereign overlays, platform subscriptions and workload/assurance separation","expected":"complete","observed":"stratton-citadel-landing-zone-contract.json","result":"PASS"},
+    {"id":"CHK-018","check":"AFFA-P3-R1-MAJ-001 removes the unbound generic Backup vault","expected":"Only workload-supported recovery controls","observed":"SBB-16 and the inventory now use Azure SQL PITR/LTR/failover controls plus Blob lifecycle/immutability; no Microsoft.DataProtection/backupVaults resource remains","result":"PASS"},
+    {"id":"CHK-019","check":"AFFA-P3-R1-MIN-001 carries private-only Application Gateway feature registration as a fail-closed AFF-4 input","expected":"Registration evidence required","observed":"Markdown, HTML, catalogue, network contract and AFF-4 handoff require Microsoft.Network/EnableApplicationGatewayNetworkIsolation=Registered with no public fallback","result":"PASS"},
+    {"id":"CHK-020","check":"AFFB-P3-R1-MAJ-001 prevents implicit Azure SQL paired-region backup replication","expected":"Explicit in-region STR/LTR redundancy","observed":"Every SQL database requires requestedBackupStorageRedundancy; production has no default, permits Local or Zone only after region evidence, denies Geo/GeoZone, and records that future backups are affected","result":"PASS"},
+    {"id":"CHK-021","check":"AFFB-P3-R1-MAJ-002 makes the APIM private endpoint the only gateway path","expected":"Public gateway explicitly disabled","observed":"Network contract, catalogue, diagrams, HTML, Markdown and AFF-4 handoff require approved private endpoint and DNS before publicNetworkAccess=Disabled, prohibit public fallback, and include App Configuration in explicit public-access denial","result":"PASS"}
+  ],
+  "limitations": [
+    "No shell/JSON parser, Azure API, AVM registry resolver, browser accessibility scanner or SVG sanitiser was available through the active authoring tools.",
+    "AFF-4 must resolve AVM versions and service/SKU/feature availability in the approved Azure locations.",
+    "Parent session must create canonical hashes and invoke AFF-A/AFF-B; this record is not reviewer evidence."
+  ]
+}

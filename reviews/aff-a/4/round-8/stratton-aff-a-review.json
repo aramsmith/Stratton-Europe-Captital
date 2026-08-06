@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "formalReviewRound": 8,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "reviewTime": "2026-08-06T12:15:30.272+02:00",
+  "invokedBy": "AFF-4",
+  "subjectModificationPerformed": false,
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r2-proposed.json",
+    "sha256BeforeReview": "1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a",
+    "sha256AfterReview": "1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a",
+    "status": "UNCHANGED",
+    "artifactCount": 6,
+    "candidateFileCount": 7,
+    "schemaValidationStatus": "PASS"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-8/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "73b127ea8e6a9f8ea66a0127b3a70bd580829db892d7d0ccb212fd4a827d1d17"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-8/stratton-aff-a-model-receipt.json",
+    "sha256": "825012b6f8c24d207d8f87250a034c6874692a8f65127ecccc67a3e83753a1d8"
+  },
+  "confirmedItems": [
+    "The R2 manifest SHA-256 is 1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a before and after review and matches the invocation.",
+    "All six declared artifact SHA-256 values match independently recomputed raw-byte hashes; all seven R2 candidate files were copied byte-identically to reviewed-subject.",
+    "The original Phase 4 CC-002 contract, the R2 contract and the R2 self-test exit 0 from the repository root; independent Draft 2020-12 schema validation passes with zero errors.",
+    "Round-7 manifest-schema, MP-08 future approval, MP-07 evaluation/route/security, accountable-owner, embedding-deployment, Markdown-delimiter and working-directory/path-guard findings remain addressed.",
+    "The R2 catalogue retains immutable evidence-envelope and independent-verifier requirements plus non-destructive stop/disable and append-only forward correction, addressing the prior custody and rollback concerns at the plan-contract level.",
+    "The candidate preserves a fail-closed non-deployment boundary: no Azure sign-in, what-if, deployment, runtime cloud test, route promotion or destructive rollback is authorised."
+  ],
+  "findings": [
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-001",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Work-package validation commands are not executable evidence-producing commands",
+      "evidence": [
+        "MP-01 validationCommand and evidenceRecordBinding.command are exactly pwsh -NoProfile -File '.\\tests\\iac\\Invoke-DeploymentPreflight.ps1', but Invoke-DeploymentPreflight.ps1 declares BicepParamFile mandatory for its default BicepParam parameter set and ParameterObjectFile mandatory for its alternative set; the recorded command supplies neither.",
+        "MP-01 declares capability-and-quota-validation.json as evidenceOutput, yet its command contains no output path, OutputJson capture, serialization or evidence-writer step.",
+        "MP-02 through MP-08 similarly declare evidenceOutput paths while their recorded pwsh, npm or node commands only invoke validation; none explicitly creates, hashes and persists the declared evidence record."
+      ],
+      "impact": "Phase 5 cannot execute the plan as written or prove that the declared immutable validation evidence was produced by the recorded command, so a package can appear complete without reproducible evidence.",
+      "owner": "AFF-4 / work-package accountable owners",
+      "remediation": "In a new append-only candidate, provide executable parameterised commands, including an exact -BicepParamFile or -ParameterObjectFile for MP-01, and add explicit fail-closed evidence capture that writes each declared evidenceOutput with the command result and hashes."
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-002",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Implementation-file propagation is incomplete and MP-05 targets the wrong migration path",
+      "evidence": [
+        "MP-05 records cases/Stratton-Europe-Captital/5-coding-r4/app/database/migrations/002_model_routing.sql in implementationFiles and evidenceRecordBinding.subjectPaths; the controlling implementation plan requires cases/Stratton-Europe-Captital/5-coding-r4/app/migrations/002_model_routing.sql.",
+        "Plan-required IaC, governance/policy, parameter, fixture and documentation files are: infra/main.bicep; infra/deployments/DU-11/main.bicep; infra/modules/governance/main.bicep; infra/parameters/dev.bicepparam; infra/parameters/tst.bicepparam; infra/parameters/prd.bicepparam; tests/iac/Invoke-DeploymentPreflight.ps1; tests/iac/Infra.Tests.ps1; tests/iac/fixtures/preflight-valid.json; tests/iac/fixtures/preflight-invalid-assertion.json; tests/iac/fixtures/preflight-invalid-cc001-pending-enable.json; tests/iac/fixtures/preflight-invalid-sentinel.json; infra/README.md; validation/README.md. R2 omits DU-11, governance/policy, every fixture and both documentation files.",
+        "Plan-required application, API, OpenAPI and application-test files are: app/src/model-routing-policy.ts; app/migrations/002_model_routing.sql; app/src/types.ts; app/src/config.ts; app/src/api-main.ts; app/src/api-runtime.ts; app/src/worker-main.ts; app/src/worker-runtime.ts; app/src/policy-service.ts; app/src/workload-repository.ts; app/src/provider-adapters.ts; app/src/benchmark-runner.ts; app/openapi/stratton-openapi-3.1.yaml; app/README.md; tests/app/unit/model-routing-policy.test.ts; tests/app/integration/api-runtime.test.ts; tests/app/integration/contracts-and-migrations.test.ts; tests/app/integration/runtime-processes.test.ts; tests/app/unit/benchmark-runner.test.ts; tests/app/unit/policy-state.test.ts; tests/app/unit/worker-runtime-transactions.test.ts; evidence/model-portfolio/model-portfolio-benchmark-template.json. R2 omits the runtime/config/type/policy/repository/API/OpenAPI/docs and three listed tests, and mispaths the migration.",
+        "Plan-required presentation files are: 6-presentation-r4/deck/src/slides/ModelPortfolioSlide.jsx; ModelPortfolioSlide.module.css; deck.config.js; AzureDesignSlide.jsx; and AzureDesignSlide.module.css if the approved Data Zone copy requires a fit change. R2 omits AzureDesignSlide.jsx and the conditional fit file."
+      ],
+      "impact": "Phase 5 and Phase 6 can satisfy the overlay while failing to propagate the approved model portfolio through the actual deployment unit, policy, fixtures, runtime, persistence, API contract, documentation and Azure Design presentation surfaces.",
+      "owner": "AFF-4 / AFF-5 / Architecture Presentation Owner",
+      "remediation": "Correct MP-05 to app/migrations/002_model_routing.sql and enumerate every controlling-plan file in the owning work package, including all IaC, governance/policy, parameters, fixtures, tests, application/runtime, API/OpenAPI, documentation and presentation propagation surfaces."
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-003",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Candidate evidence is circular, chronologically invalid and does not bind the R2 content set",
+      "evidence": [
+        "The R2 manifest generatedAt is 2026-08-06T11:14:30.586+02:00, while all three evidence records state generatedAt 2026-08-06T11:30:00.000+02:00; the manifest therefore claims generation before the evidence bytes it hashes existed.",
+        "stratton-cc-002-r2-hash-generation-evidence.json records a hash command whose six inputs include stratton-cc-002-r2-hash-generation-evidence.json itself, making reproduction of its final raw-byte hash circular.",
+        "Each concrete evidence record declares toolRuntimeVersions, timestamp, accountableOwner and disposition as required envelope fields, but none contains those concrete properties; generatedAt is not the required timestamp property.",
+        "All three evidence records bind subjectPath/subjectSha256 to the original manifest 07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154 rather than the R2 content set represented by 1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a.",
+        "Each evidence outputHashes array contains only the catalogue hash; the six final non-manifest hashes resulting from candidate finalisation are not captured in the hash-generation evidence."
+      ],
+      "impact": "The evidence cannot establish a reproducible chronology or complete provenance chain from final R2 bytes to the manifest, despite the manifest hashes currently matching disk.",
+      "owner": "AFF-4 / evidence owner",
+      "remediation": "Create a new append-only candidate using a non-circular content-set procedure: finalise and hash the substantive files, record concrete toolRuntimeVersions, timestamp, accountableOwner, disposition and all resulting hashes in evidence without self-hashing, then generate the canonical manifest last over the final six non-manifest bytes."
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 3,
+    "MINOR": 0
+  },
+  "crossReviewCorroboration": [],
+  "verdict": "DIVERGES",
+  "verdictRationale": "Three open MAJOR findings leave the Phase 4 R2 plan non-executable, incompletely propagated and evidentially circular despite passing its contracts, schema validation and raw-byte hash checks.",
+  "residualGaps": [
+    "Owner-supplied Azure region, resource, quota, capacity, deployment, embedding and recovery evidence remains unresolved and fail closed.",
+    "Provider-use, privacy, source-use and EU AI Act evidence remains unresolved and requires the accountable owner groups.",
+    "No benchmark, security-gate, route-parity, deployment, runtime or operating-effectiveness result is established."
+  ],
+  "finalRoundStatus": false,
+  "finalRound": false,
+  "requiredAction": "Do not approve, promote, deploy or present this subject as complete. Preserve these exact seven R2 candidate bytes and create a new append-only Phase 4 CC-002 remediation candidate correcting all three findings; then obtain fresh AFF-A and AFF-B reviews against the unchanged new manifest.",
+  "nonDeploymentStatement": "AFF-A does not approve, waive, certify, authorise Azure sign-in, what-if, deployment, route promotion, production inference, destructive rollback, Phase 7 or runtime testing.",
+  "supersedesRound": null,
+  "previousRoundSameSubject": null
+}

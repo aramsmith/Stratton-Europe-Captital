@@ -1,0 +1,27 @@
+{
+   "schemaVersion": 2,
+   "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+   "manifests": [
+      {
+         "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+         "size": 951,
+         "digest": "sha256:6b54af097b07e5e128fb4ee90ba59cbeff889ccc87d1466361ec62f7b3b15286",
+         "platform": {
+            "architecture": "amd64",
+            "os": "linux",
+            "os.version": "azurelinux-3.0"
+         }
+      },
+      {
+         "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+         "size": 951,
+         "digest": "sha256:0eb1a10a62a2e00f68bf59d5c309e7c2f759e0945e588fd9ee6ae7009a83971c",
+         "platform": {
+            "architecture": "arm64",
+            "os": "linux",
+            "os.version": "azurelinux-3.0",
+            "variant": "v8"
+         }
+      }
+   ]
+}

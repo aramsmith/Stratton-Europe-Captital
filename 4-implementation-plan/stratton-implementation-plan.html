@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stratton Phase 4 Bicep-first implementation plan">
+  <meta name="aff-source-markdown-path" content="4-implementation-plan/stratton-implementation-plan.md">
+  <meta name="aff-source-markdown-sha256" content="2d6308656348e2cd99e5af2b3e374a3b1405aa4ec19777829f87fa43b722099d">
+  <meta name="aff-source-catalogue-path" content="4-implementation-plan/stratton-implementation-catalogue.json">
+  <meta name="aff-source-catalogue-sha256" content="a089c45957834d2e24b7fc244ae4373a1d6d3227160e12fa270a757a0c40396a">
+  <meta name="aff-source-official-evidence-path" content="4-implementation-plan/evidence/stratton-official-source-corrections.json">
+  <meta name="aff-source-official-evidence-sha256" content="cadc5f6893d02bf832c09912718730a8cad71d9da5a5644650c7e6f91a633312">
+  <meta name="aff-model-plan-revision" content="5">
+  <title>Stratton — Phase 4 Implementation Plan</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+    }
+    a { color: var(--cp-link); }
+    a:hover { color: var(--cp-accent-hover); }
+    a:focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 3px; }
+    code, pre { font-family: Consolas, "Courier New", monospace; }
+    code { background: var(--cp-surface-soft); padding: .08rem .28rem; border-radius: 4px; }
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow: auto;
+      border: 1px solid var(--cp-border);
+      border-radius: 8px;
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+    }
+    .skip {
+      position: absolute; left: -9999px; top: 8px;
+      background: var(--cp-accent); color: var(--cp-accent-fg); padding: 8px 12px;
+    }
+    .skip:focus { left: 8px; z-index: 10; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0 56px; }
+    header {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: clamp(22px, 4vw, 42px);
+      background: var(--cp-surface);
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    .eyebrow { color: var(--cp-accent); font-weight: 800; letter-spacing: .11em; text-transform: uppercase; font-size: 12px; }
+    h1 { font-size: clamp(30px, 5vw, 54px); line-height: 1.05; margin: 8px 0 14px; }
+    h2 { margin: 0 0 14px; font-size: 25px; }
+    h3 { margin: 18px 0 8px; font-size: 18px; }
+    p { margin: 0 0 12px; }
+    .lead { max-width: 78ch; font-size: 18px; }
+    .meta, .metrics { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .pill, .metric {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      padding: 7px 11px;
+      color: var(--cp-text-muted);
+      font-size: 13px;
+    }
+    .blocked { border-color: var(--cp-danger); color: var(--cp-danger); font-weight: 700; }
+    nav {
+      position: sticky; top: 0; z-index: 4;
+      margin: 20px 0;
+      padding: 10px 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 10px;
+      background: var(--cp-surface);
+    }
+    nav ul { display: flex; flex-wrap: wrap; gap: 8px 16px; list-style: none; padding: 0; margin: 0; }
+    section {
+      margin: 18px 0;
+      padding: clamp(18px, 3vw, 30px);
+      border: 1px solid var(--cp-border);
+      border-radius: 14px;
+      background: var(--cp-surface);
+    }
+    .decision { border-left: 6px solid var(--cp-accent); }
+    .warning { border-left: 6px solid var(--cp-warning); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .card { border: 1px solid var(--cp-border); border-radius: 10px; padding: 15px; background: var(--cp-surface); box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14); }
+    .card h3 { margin-top: 0; }
+    .muted { color: var(--cp-text-muted); }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--cp-border); padding: 9px 10px; text-align: left; vertical-align: top; }
+    th { color: var(--cp-text-muted); background: var(--cp-surface-soft); }
+    .dag { width: 100%; min-height: 500px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-surface); }
+    .dag .node { fill: var(--cp-surface); stroke: var(--cp-border-strong); stroke-width: 2; }
+    .dag .edge { fill: none; stroke: var(--cp-text-muted); stroke-width: 1.6; }
+    .dag .arrow { fill: var(--cp-text-muted); }
+    .dag text { fill: var(--cp-text); font-family: "Segoe UI", Aptos, sans-serif; text-anchor: middle; }
+    ul, ol { margin-top: 6px; }
+    footer { margin-top: 24px; color: var(--cp-text-muted); font-size: 13px; }
+    @media (max-width: 700px) { nav { position: static; } .dag { min-height: 360px; } }
+    @media print {
+      nav, .skip { display: none; }
+      body { background: var(--cp-surface); }
+      .shell { width: 100%; padding: 0; }
+      header, section { box-shadow: none; break-inside: avoid; }
+      a { text-decoration: none; color: var(--cp-text); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="shell">
+    <header>
+      <div class="eyebrow">Phase 4 — Implementation Plan</div>
+      <h1>Stratton Release 1</h1>
+      <p class="lead"><strong>Decision:</strong> one modular Bicep-first package, deployed only in
+      acyclic stage order, with every unknown retained as a fail-closed owner gate.</p>
+      <div class="meta" aria-label="Plan metadata">
+        <span class="pill">Owner AFF-4</span>
+        <span class="pill">Runtime gpt-5.6-sol</span>
+        <span class="pill">Model plan revision 5</span>
+        <span class="pill blocked">Candidate — not deployment-authorised</span>
+      </div>
+      <div class="metrics" aria-label="Coverage">
+        <span class="metric">17 deployable units</span><span class="metric">4 work packages</span>
+        <span class="metric">23/23 SBBs</span><span class="metric">31/31 Must requirements</span>
+        <span class="metric">19/19 ABBs</span><span class="metric">10/10 architecture decisions</span>
+        <span class="metric">44/44 resource inventory</span><span class="metric">7 open controls</span>
+      </div>
+    </header>
+
+    <nav aria-label="Contents"><ul>
+      <li><a href="#p4-decision">Decision</a></li><li><a href="#p4-package">Package</a></li>
+      <li><a href="#p4-dag">DAG</a></li><li><a href="#p4-units">Units</a></li>
+      <li><a href="#p4-controls">Controls</a></li><li><a href="#p4-validation">Phase 5</a></li>
+      <li><a href="#p4-deployment">Deployment</a></li><li><a href="#p4-handoff">Handoff</a></li>
+    </ul></nav>
+
+    <main id="main">
+      <section id="p4-decision" class="decision">
+        <h2>Decision first</h2>
+        <p>AFF-5 authors shared Bicep modules and only <code>dev.bicepparam</code>,
+        <code>tst.bicepparam</code> and <code>prd.bicepparam</code>. Environment forks, floating
+        modules, GitHub OIDC, stored credentials, public databases, public application ingress and
+        Global/DataZone AI are prohibited.</p>
+        <p>Production remains blocked by exact tenant/subscription/identity, region, IPAM/WAN/DNS,
+        SQL backup, retention/source/workload, support, model/provider and Internal Audit inputs. No
+        value is selected by this plan.</p>
+        <p><strong>No coding, deployment, Azure what-if or runtime testing occurred in Phase 4.</strong></p>
+      </section>
+
+      <section id="p4-package">
+        <h2>One package and dependency policy</h2>
+        <div class="grid">
+          <div class="card"><h3>Structure</h3><p><code>iac/infra/main.bicep</code>, scope entry points,
+          shared modules, three environment parameter files, contracts, migrations, policies, tests,
+          validation, tool versions and separate dependency/digest evidence.</p></div>
+          <div class="card"><h3>AVM</h3><p>Of 24 Phase 3 pins, 21 are published but older—not current.
+          Invalid pins are corrected: App Configuration <code>0.10.0</code>, Action Group
+          <code>0.8.0</code>; generic diagnostic-setting <code>0.7.2</code> is rejected. AFF-5 reviews
+          interfaces/changelogs and records OCI digest evidence separately; never use
+          <code>latest</code>.</p></div>
+          <div class="card"><h3>Hand-written Bicep</h3><p>Use for tenant policy/placement, transparent
+          RBAC, DNS Resolver children, failover/database controls, regional model deployment and
+          gated property updates where no reviewed module fit is evidenced. Container Apps Job
+          <code>0.7.2</code> remains subject to interface/changelog review.</p></div>
+        </div>
+      </section>
+
+      <section id="p4-dag">
+        <h2>Acyclic deployment DAG</h2>
+        <p class="muted">Every dependency points from a lower stage to a higher stage; governance and
+        monitoring, then integration and regional AI, are the only parallel pairs.</p>
+        <svg class="dag" viewBox="0 0 1100 650" role="img" aria-labelledby="dag-title dag-desc">
+          <title id="dag-title">Stratton ordered deployment DAG</title>
+          <desc id="dag-desc">Hierarchy leads to guardrails, organisation, networking, platform,
+          data, integration and AI, application, private connectivity, ingress, assurance and
+          diagnostics.</desc>
+          <defs><marker id="p4-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrow" d="M0 0L10 5L0 10Z"/></marker></defs>
+          <g class="edge" marker-end="url(#p4-arrow)">
+            <path d="M550 60V90M550 140V170M550 220V250M550 300V330M550 380V410M550 460V490M550 540V570"/>
+            <path d="M550 220C390 220 350 250 290 330M290 380C360 400 410 410 450 410"/>
+            <path d="M550 300C720 300 770 330 810 410M810 460C730 480 690 490 650 490"/>
+          </g>
+          <g>
+            <rect class="node" x="430" y="10" width="240" height="50" rx="8"/><text x="550" y="40">DU-01 Hierarchy</text>
+            <rect class="node" x="430" y="90" width="240" height="50" rx="8"/><text x="550" y="120">DU-02 Guardrails</text>
+            <rect class="node" x="430" y="170" width="240" height="50" rx="8"/><text x="550" y="200">DU-03 Organisation</text>
+            <rect class="node" x="430" y="250" width="240" height="50" rx="8"/><text x="550" y="280">DU-04 Network → DU-05 DNS</text>
+            <rect class="node" x="170" y="330" width="240" height="50" rx="8"/><text x="290" y="360">DU-07 Governance</text>
+            <rect class="node" x="690" y="330" width="240" height="50" rx="8"/><text x="810" y="360">DU-08 Monitoring</text>
+            <rect class="node" x="430" y="410" width="240" height="50" rx="8"/><text x="550" y="440">DU-09 Data / recovery</text>
+            <rect class="node" x="170" y="490" width="240" height="50" rx="8"/><text x="290" y="520">DU-10 Integration</text>
+            <rect class="node" x="690" y="490" width="240" height="50" rx="8"/><text x="810" y="520">DU-11 Regional AI</text>
+            <rect class="node" x="430" y="570" width="240" height="50" rx="8"/><text x="550" y="592">DU-12 Application</text><text x="550" y="610">then DU-13–DU-17</text>
+          </g>
+        </svg>
+        <p><strong>Complete direct edge set (44):</strong>
+        01→02; 02→03; 03→04,06; 04→05,07,08; 05→07,08,09,13,16;
+        06→07,08,09,12,16; 07→11,13,17; 08→09,12,16,17;
+        09→10,11,12,13,16,17; 10→12,13,17; 11→12,13,17;
+        12→13,15,17; 13→14; 14→15,17; 15→17; 16→17.</p>
+      </section>
+
+      <section id="p4-units">
+        <h2>Deployable units</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Stage</th><th>Unit</th><th>Depends on</th><th>Owner / module decision</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>DU-01 hierarchy/placements</td><td>—</td><td>Management group <code>0.2.0</code> after fit review; pre-provisioned subscriptions preferred, vending <code>0.8.0</code> only when required.</td></tr>
+            <tr><td>2</td><td>DU-02 guardrails</td><td>01</td><td>Management-group policy assignment <code>0.1.0</code> after fit review; custom definitions/initiatives remain explicit.</td></tr>
+            <tr><td>3</td><td>DU-03 resource organisation</td><td>02</td><td>Resource group AVM <code>0.4.1</code>.</td></tr>
+            <tr><td>4</td><td>DU-04 hubs/spokes/egress</td><td>03</td><td>Network Lead; VNet <code>0.7.0</code>, NSG <code>0.5.1</code>, route <code>0.4.1</code>, firewall <code>0.5.0</code>.</td></tr>
+            <tr><td>5</td><td>DU-05 central DNS</td><td>04</td><td>Network Lead; DNS zone <code>0.7.1</code>, explicit resolver children.</td></tr>
+            <tr><td>6</td><td>DU-06 identity/RBAC</td><td>03</td><td>Identity Lead/Internal Audit; identity <code>0.4.1</code>, deterministic RBAC.</td></tr>
+            <tr><td>7</td><td>DU-07 governance ∥ DU-08 monitoring</td><td>04–06</td><td>Workspace <code>0.12.0</code>, storage <code>0.25.0</code>, corrected App Configuration <code>0.10.0</code>, Insights <code>0.6.0</code>, corrected action group <code>0.8.0</code>.</td></tr>
+            <tr><td>8</td><td>DU-09 data/recovery</td><td>05,06,08</td><td>SQL server <code>0.17.0</code> once with databases input, or database <code>0.3.0</code>; storage <code>0.25.0</code>.</td></tr>
+            <tr><td>9</td><td>DU-10 integration ∥ DU-11 AI</td><td>07,09</td><td>Service Bus <code>0.11.0</code>, APIM <code>0.11.0</code>, Search <code>0.11.0</code>, Cognitive Services <code>0.12.0</code>.</td></tr>
+            <tr><td>10</td><td>DU-12 application platform</td><td>06,08–11</td><td>Vault <code>0.13.3</code>, ACR <code>0.8.0</code>, environment <code>0.8.1</code>, app <code>0.11.0</code>, job <code>0.7.2</code> after fit review.</td></tr>
+            <tr><td>11–12</td><td>DU-13 private endpoints → DU-14 APIM lockdown</td><td>05,07,09–12</td><td>Existing APIM → <code>Gateway</code> PE → approval → <code>privatelink.azure-api.net</code> link/resolution/path proof → disable public access.</td></tr>
+            <tr><td>13</td><td>DU-15 private ingress</td><td>12,14</td><td>Application Gateway <code>0.6.0</code>, WAF policy <code>0.3.0</code>; subnet delegation and per-subscription feature evidence mandatory.</td></tr>
+            <tr><td>14</td><td>DU-16 assurance</td><td>05,06,08,09</td><td>Internal Audit; storage <code>0.25.0</code> plus reviewed immutability.</td></tr>
+            <tr><td>15</td><td>DU-17 diagnostics</td><td>all governed services</td><td>Reviewed parent diagnostic inputs or hand-written extensions; do not use invalid/wrong-scope <code>0.7.2</code>.</td></tr>
+          </tbody>
+        </table></div>
+        <p>Each unit's inputs, outputs, validation, rollback and evidence, plus all resource/SBB/
+        requirement mappings, are embedded in the catalogue source. <code>ABB-17</code> is explicitly
+        bound to WP-01 external-data quarantine state/index and permission-gated promotion tests.</p>
+      </section>
+
+      <section id="p4-controls" class="warning">
+        <h2>Open controls and release boundaries</h2>
+        <div class="grid">
+          <div class="card"><h3>Legal/regulatory</h3><p>VAL-001, VAL-005, AFFB-RES-001 and
+          AFFB-RES-002 block their DORA, location/transfer, AI classification and formal regulatory
+          claim boundaries.</p></div>
+          <div class="card"><h3>Acceptance/data</h3><p>VAL-002 and VAL-003 block service,
+          performance and Internal Audit validation. VAL-004 blocks production ingestion.</p></div>
+          <div class="card"><h3>Rollback</h3><p>Stop/scale/previous digest and forward correction are
+          preferred. Destructive cleanup, failover, restore, role or immutability changes require
+          explicit scoped approval; Internal Audit controls assurance cleanup.</p></div>
+        </div>
+        <p>Azure SQL accepts <code>Geo</code>, <code>GeoZone</code>, <code>Local</code> and
+        <code>Zone</code>. Stratton production policy permits only explicit Local/Zone after capability
+        evidence. The choice covers STR/LTR, affects future backups, can take up to 48 hours and
+        removes geo-restore; approved failover groups provide cross-region recovery.</p>
+        <p>Every private endpoint has an explicit group ID, central zone, VNet link and
+        resolver/forwarder path. DNS topology is never inferred.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Service</th><th>PE group ID</th><th>Central private DNS zone</th></tr></thead>
+          <tbody>
+            <tr><td>SQL</td><td><code>sqlServer</code></td><td><code>privatelink.database.windows.net</code></td></tr>
+            <tr><td>Storage Blob / Queue</td><td><code>blob</code> / <code>queue</code></td><td><code>privatelink.blob.core.windows.net</code> / <code>privatelink.queue.core.windows.net</code></td></tr>
+            <tr><td>Service Bus</td><td><code>namespace</code></td><td><code>privatelink.servicebus.windows.net</code></td></tr>
+            <tr><td>Key Vault / App Configuration</td><td><code>vault</code> / <code>configurationStores</code></td><td><code>privatelink.vaultcore.azure.net</code> / <code>privatelink.azconfig.io</code></td></tr>
+            <tr><td>Search</td><td><code>searchService</code></td><td><code>privatelink.search.windows.net</code></td></tr>
+            <tr><td>OpenAI / Document Intelligence</td><td><code>account</code></td><td><code>privatelink.openai.azure.com</code> / <code>privatelink.cognitiveservices.azure.com</code></td></tr>
+            <tr><td>Container Registry</td><td><code>registry</code></td><td><code>privatelink.azurecr.io</code></td></tr>
+            <tr><td>API Management</td><td><code>Gateway</code></td><td><code>privatelink.azure-api.net</code></td></tr>
+            <tr><td>Azure Monitor Private Link Scope</td><td><code>azuremonitor</code></td><td>Monitor, OMS, ODS and Automation private-link zones in the catalogue</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="p4-validation">
+        <h2>Phase 5 local validation</h2>
+        <p>AFF-5 pins tools, restores exact tags to cache, separately records OCI digests and runs format, lint, build,
+        parameter consistency, policy/security, template/unit, deterministic-build, contracts,
+        migrations, application and container checks, then creates a release manifest and content
+        hashes. Phase 5 never deploys.</p>
+        <pre><code>az bicep format --file $BicepFile --stdout
+az bicep restore --file iac/infra/main.bicep --force
+az bicep lint --file iac/infra/main.bicep
+az bicep build --file iac/infra/main.bicep --outfile iac/out/main.json
+Invoke-Pester -Path iac/tests -CI
+Invoke-PSRule -InputPath iac/out -Module PSRule.Rules.Azure -Outcome Fail,Error
+pwsh -NoProfile -File iac/validation/Capture-OciDigestEvidence.ps1
+pwsh -NoProfile -File iac/validation/Invoke-LocalValidation.ps1 -Scope Release</code></pre>
+        <p>Formatting uses stdout plus comparison and does not modify files. Restore creates a
+        tag-keyed cache, not a lock/digest; digest capture is separate. Two byte-identical builds must
+        hash identically. Application checks may be marked not
+        applicable only when no application artefact exists; applicable checks cannot be silently
+        skipped. Release content hashing uses an explicit sorted file set that excludes
+        <code>iac/release/content-hashes.json</code> itself, preventing self-reference on rerun.
+        Files are read by resolved full path, but evidence records normalised <code>iac</code>-relative
+        paths in ordinal order so identical source trees reproduce the same output from different
+        checkout locations. Canonical compact JSON is written as UTF-8 without BOM or a
+        platform-specific trailing newline.</p>
+        <p>ARM <code>validate</code>, feature/provider/quota preflight and <code>what-if</code> are
+        separate from local checks. Each requires Azure authentication and the exact tenant,
+        management-group or subscription target permission. What-if remains separately authorised
+        and is not mandatory without Azure access.</p>
+      </section>
+
+      <section id="p4-deployment">
+        <h2>Manual deployment and operations</h2>
+        <pre><code>az login --use-device-code
+az account set --subscription $TargetSubscriptionId
+az deployment sub create --name $DeploymentName --location $DeploymentRecordLocation `
+  --subscription $TargetSubscriptionId --template-file $EntryPoint `
+  --parameters $ParameterFile</code></pre>
+        <p>Only a human with interactive sign-in, or separately invoked AFF-7 using the exact managed
+        identity in its attempt authorisation, may execute. Values come from the approved hash-bound
+        release/attempt manifest. GitHub OIDC and stored credentials are prohibited.</p>
+        <p>Every production stage captures before/after inventory, command output, deployment IDs,
+        policy results and approvals. Failure stops downstream stages. Operations receives RB-001–
+        RB-012, alert/rota ownership, telemetry/retention, identity, recovery, AI-change, first-three-
+        deal and 20-deal controls. FinOps establishes a Pricing Calculator baseline only after exact
+        region/capacity/commercial inputs; cost cannot weaken controls.</p>
+      </section>
+
+      <section id="p4-handoff">
+        <h2>Executable AFF-5 handoff</h2>
+        <ol>
+          <li>Create exactly the shared package structure and no environment fork.</li>
+          <li>Implement the 17 units and application work package without changing Phase 3 intent.</li>
+          <li>Preserve all 32 unknown parameters, 22 assertions, release constraints and seven controls.</li>
+          <li>Restore/cache, inspect and separately capture digest evidence for each AVM candidate; return incompatibility to AFF-3.</li>
+          <li>Make every documented local validation command executable and retain results.</li>
+          <li>Create the hash-bound release manifest; stop on unknowns or any public/credential fallback.</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <p>Authoritative source: <a href="stratton-implementation-plan.md">stratton-implementation-plan.md</a>.
+      Structured detail: <a href="stratton-implementation-catalogue.json">stratton-implementation-catalogue.json</a>.
+      Safe diagram: <a href="diagrams/stratton-dependency-dag.svg">stratton-dependency-dag.svg</a>.
+      Source corrections: <a href="evidence/stratton-official-source-corrections.json">official-source evidence</a>.</p>
+      <p>Source hashes: Markdown <code>2d6308656348e2cd99e5af2b3e374a3b1405aa4ec19777829f87fa43b722099d</code>;
+      catalogue <code>a089c45957834d2e24b7fc244ae4373a1d6d3227160e12fa270a757a0c40396a</code>;
+      source evidence <code>cadc5f6893d02bf832c09912718730a8cad71d9da5a5644650c7e6f91a633312</code>.</p>
+      <p>Approved Phase 3 manifest:
+      <code>78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945</code>.</p>
+    </footer>
+  </div>
+</body>
+</html>

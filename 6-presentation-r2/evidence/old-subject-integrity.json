@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_PRESERVED_SUBJECT_INTEGRITY",
+  "generatedAt": "2026-08-03T10:51:48.858765+02:00",
+  "preservedCandidate": {
+    "manifestPath": "6-presentation/stratton-phase-6-hashes.json",
+    "expectedSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "actualSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+    "artifactCount": 83,
+    "matchedArtifactCount": 83,
+    "mismatches": []
+  },
+  "affARound1": {
+    "reviewPath": "reviews/aff-a/6/round-1/stratton-aff-a-review.json",
+    "expectedSha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9",
+    "actualSha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9"
+  },
+  "overallStatus": "PASS"
+}

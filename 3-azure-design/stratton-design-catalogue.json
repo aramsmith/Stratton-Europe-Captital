@@ -1,0 +1,390 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_3_AZURE_SOLUTION_DESIGN_CATALOGUE",
+  "revisedAt": "2026-08-01T22:51:30.617+02:00",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": {
+    "phaseId": "3",
+    "phaseName": "Phase 3 — Azure Design",
+    "owner": "AFF-3"
+  },
+  "status": "REVISED_COMPLETE_CANDIDATE_WITH_CONFIRMED_CITADEL_PATTERNS_AND_FAIL_CLOSED_EXACT_PARAMETERS",
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-4.json",
+    "revision": "4",
+    "authorActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "upstreamBindings": {
+    "phase2ApprovalPath": "approvals/2/stratton-phase-2-approval-1.json",
+    "phase2ApprovalSha256": "61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3",
+    "phase2ManifestPath": "2-togaf-architecture/stratton-phase-2-hashes.json",
+    "phase2ManifestSha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+    "approvedRequirementCount": 31,
+    "approvedAbbCount": 19,
+    "approvedArchitectureDecisionCount": 10,
+    "modifiedUpstreamArtifacts": false
+  },
+  "designPosition": {
+    "summary": "A private, case-centred Azure application landing zone uses internal Container Apps, API Management, Service Bus, Azure SQL Database, Blob Storage, Azure AI Search, Azure OpenAI and Azure AI Document Intelligence. Managed identities, policy enforcement, immutable audit evidence and isolated Internal Audit storage preserve approved authority boundaries.",
+    "authoringCanProceed": true,
+    "reason": "The Citadel landing-zone composition, separated subscriptions, two-region pattern, hub-spoke topology and evidence-led sizing method are confirmed. Exact tenant parent, subscription IDs, region names, CIDRs/DNS targets and measured capacity caps remain required fail-closed parameters.",
+    "databasePublicAccess": "DISABLED_IN_DEV_TEST_PROD",
+    "productionDeploymentStatus": "BLOCKED_PENDING_EXACT_HD_PARAMETERS_AND_APPLICABLE_SEVEN_GOVERNED_CONTROLS",
+    "foundationModelTrainingWithStrattonData": "PROHIBITED",
+    "publicApplicationIngress": "NOT_SELECTED; PRIVATE_ENTERPRISE_INGRESS_ONLY"
+  },
+  "landingZoneDecision": {
+    "name": "Citadel",
+    "status": "CONFIRMED_DESIGN_PATTERN",
+    "composition": "A new case-specific AI-focused platform that uses the Microsoft Azure Landing Zone enterprise-scale platform/application structure as its foundation, adapts the Azure-Samples Foundry Citadel Platform layered AI-governance architecture, and overlays Azure Sovereign Landing Zone policy/control best practices.",
+    "accuracyBoundary": "Foundry Citadel is an Azure-Samples opinionated architecture, not a standalone Microsoft product and not a replacement for Azure Landing Zones.",
+    "managementGroups": [
+      {"logicalName":"mg-citadel-platform","purpose":"Citadel central platform subscriptions and inherited platform controls."},
+      {"logicalName":"mg-citadel-landingzones","purpose":"Stratton workload landing zones."},
+      {"logicalName":"mg-citadel-assurance","purpose":"Internal Audit production assurance with separate ownership and policy."}
+    ],
+    "centralPlatformSubscriptions": [
+      {"logicalName":"sub-citadel-management","purpose":"Central policy evidence, management, Defender integration and platform observability; no Stratton workload data."},
+      {"logicalName":"sub-citadel-connectivity","purpose":"Primary and recovery regional hubs, Firewall Premium, central Private DNS Resolver and private DNS zones."},
+      {"logicalName":"sub-citadel-ai-governance","purpose":"Foundry Citadel-derived model/evaluation/policy/approval governance plane; no production inference or assurance verdict."}
+    ],
+    "workloadSubscriptions": [
+      {"logicalName":"sub-citadel-stratton-nonprod","purpose":"Development and test with separate spokes, resource groups, identities and synthetic data."},
+      {"logicalName":"sub-citadel-stratton-prod","purpose":"Primary and recovery production spokes, production services and confidential data."},
+      {"logicalName":"sub-citadel-stratton-assurance-prod","purpose":"Internal Audit-controlled production evidence and verdict services."}
+    ],
+    "regionalPattern": "Two approved regions, each with a Citadel hub and production spoke. AI deployments are regional; Global and DataZone deployments are denied.",
+    "separationRules": [
+      "AI governance is not collapsed into the production workload subscription.",
+      "Internal Audit assurance is not collapsed into management, AI governance or production workload ownership.",
+      "Connectivity and central DNS remain in the Citadel connectivity subscription.",
+      "Exact region names and network addresses have no default."
+    ],
+    "sources": ["SRC-AZ-001","SRC-AZ-002","SRC-AZ-021","SRC-AZ-025","SRC-AZ-026","SRC-AZ-027"],
+    "decisionEvidence": "3-azure-design/evidence/stratton-human-decision-register.json"
+  },
+  "resourceOrganisation": {
+    "resourceGroupPattern": "rg-stratton-<env>-<locationCode>-<function>",
+    "functions": ["network", "application", "data", "ai", "operations", "security"],
+    "assurancePattern": "rg-stratton-prd-<locationCode>-assurance",
+    "citadelPlatformPatterns": [
+      "rg-citadel-management-<locationCode>",
+      "rg-citadel-connectivity-<regionRole>-<locationCode>",
+      "rg-citadel-ai-governance-<locationCode>"
+    ],
+    "environmentCodes": ["dev", "tst", "prd"],
+    "locationCode": "Required lookup derived only after General Counsel approves the Azure location.",
+    "globalUniquenessSuffix": "Deterministic non-sensitive hash of tenant, subscription, environment and location inputs; never a secret."
+  },
+  "namingAndTags": {
+    "namePatterns": [
+      {"type": "virtual network", "pattern": "vnet-stratton-<env>-<regionRole>-<locationCode>"},
+      {"type": "subnet", "pattern": "snet-<purpose>"},
+      {"type": "network security group", "pattern": "nsg-stratton-<env>-<purpose>"},
+      {"type": "private endpoint", "pattern": "pep-stratton-<env>-<service>"},
+      {"type": "Container Apps environment", "pattern": "cae-stratton-<env>-<locationCode>"},
+      {"type": "Container App", "pattern": "ca-stratton-<env>-<component>"},
+      {"type": "Container Apps job", "pattern": "caj-stratton-<env>-<component>"},
+      {"type": "API Management", "pattern": "apim-stratton-<env>-<locationCode>-<suffix>"},
+      {"type": "SQL logical server", "pattern": "sql-stratton-<env>-<regionRole>-<locationCode>-<suffix>"},
+      {"type": "SQL database", "pattern": "sqldb-stratton-<env>-case"},
+      {"type": "storage account", "pattern": "ststratton<env><purpose><suffix>"},
+      {"type": "Key Vault", "pattern": "kv-stratton-<env>-<locationCode>-<suffix>"},
+      {"type": "Azure AI Search", "pattern": "srch-stratton-<env>-<locationCode>-<suffix>"},
+      {"type": "Azure OpenAI", "pattern": "oai-stratton-<env>-<locationCode>-<suffix>"},
+      {"type": "Log Analytics workspace", "pattern": "log-stratton-<env>-<locationCode>"},
+      {"type": "Application Insights", "pattern": "appi-stratton-<env>-<locationCode>"}
+    ],
+    "requiredTags": [
+      {"key": "environment", "value": "dev|tst|prd", "source": "deployment parameter"},
+      {"key": "workload", "value": "stratton-release-1", "source": "fixed design value"},
+      {"key": "owner", "value": "<approved-owner>", "source": "required human input"},
+      {"key": "costCenter", "value": "<approved-cost-centre>", "source": "required human input"},
+      {"key": "dataClassification", "value": "synthetic|highly-confidential", "source": "environment policy"},
+      {"key": "criticality", "value": "nonproduction|business-critical", "source": "environment policy"},
+      {"key": "managedBy", "value": "bicep", "source": "fixed design value"}
+    ],
+    "denyRule": "Production deployment fails if owner, costCenter, approvedLocationEvidenceId or dataClassification is absent."
+  },
+  "solutionBuildingBlocks": [
+    {
+      "id": "SBB-01",
+      "name": "Microsoft Entra ID, Conditional Access and PIM",
+      "azureServices": ["Microsoft Entra ID", "Microsoft Entra Conditional Access", "Microsoft Entra Privileged Identity Management"],
+      "abbIds": ["ABB-11", "ABB-12"],
+      "purpose": "Stratton-controlled identities, least privilege, EU-authorised administration, time-bound elevation and audited emergency access."
+    },
+    {
+      "id": "SBB-02",
+      "name": "Private internal ingress",
+      "azureServices": ["Azure Application Gateway WAF_v2", "Azure Web Application Firewall"],
+      "abbIds": ["ABB-07", "ABB-08", "ABB-10"],
+      "purpose": "Private frontend, TLS 1.2 or later, WAF prevention and no Internet-facing application endpoint."
+    },
+    {
+      "id": "SBB-03",
+      "name": "Private API boundary",
+      "azureServices": ["Azure API Management Standard v2"],
+      "abbIds": ["ABB-02", "ABB-07", "ABB-10"],
+      "purpose": "Entra-authenticated APIs, schema and quota enforcement, correlation and private ingress; publicNetworkAccess is Disabled only after the approved private endpoint and private DNS are proven, with no public fallback."
+    },
+    {
+      "id": "SBB-04",
+      "name": "Case, workflow and policy application tier",
+      "azureServices": ["Azure Container Apps workload profiles environment", "Azure Container Apps"],
+      "abbIds": ["ABB-01", "ABB-07", "ABB-08", "ABB-10", "ABB-19"],
+      "purpose": "Internal case UI/API, explicit state machine, review gates and common fail-closed policy decisions."
+    },
+    {
+      "id": "SBB-05",
+      "name": "Controlled asynchronous analysis workers",
+      "azureServices": ["Azure Container Apps Jobs"],
+      "abbIds": ["ABB-03", "ABB-05", "ABB-06", "ABB-19"],
+      "purpose": "Isolated ingestion, extraction, analysis and citation jobs with admission controls, progress and bounded retries."
+    },
+    {
+      "id": "SBB-06",
+      "name": "Durable work admission",
+      "azureServices": ["Azure Service Bus Premium"],
+      "abbIds": ["ABB-03", "ABB-19"],
+      "purpose": "Sessions by case, duplicate detection, dead-letter handling and load levelling for document packs."
+    },
+    {
+      "id": "SBB-07",
+      "name": "Transactional case and governance store",
+      "azureServices": ["Azure SQL Database"],
+      "abbIds": ["ABB-01", "ABB-04", "ABB-07", "ABB-09", "ABB-10"],
+      "purpose": "Case state, evidence metadata, citations, policy decisions, reviews and append-only logical history; public network disabled."
+    },
+    {
+      "id": "SBB-08",
+      "name": "Evidence and quarantine object stores",
+      "azureServices": ["Azure Blob Storage"],
+      "abbIds": ["ABB-03", "ABB-04", "ABB-09", "ABB-17"],
+      "purpose": "Separate quarantine, admitted evidence and temporary-work accounts/containers with private endpoints, versioning and lifecycle rules."
+    },
+    {
+      "id": "SBB-09",
+      "name": "Derived evidence retrieval index",
+      "azureServices": ["Azure AI Search Standard S1"],
+      "abbIds": ["ABB-05", "ABB-06"],
+      "purpose": "Private vector/text retrieval over admitted derived content with evidence IDs and security filters."
+    },
+    {
+      "id": "SBB-10",
+      "name": "Bounded foundation-model inference",
+      "azureServices": ["Azure OpenAI Service regional deployment"],
+      "abbIds": ["ABB-05", "ABB-08", "ABB-10"],
+      "purpose": "Private assistive inference only; no fine-tuning, no autonomous tools, no Global/DataZone deployment without approval, and no Stratton-data training."
+    },
+    {
+      "id": "SBB-11",
+      "name": "Document extraction",
+      "azureServices": ["Azure AI Document Intelligence S0"],
+      "abbIds": ["ABB-03", "ABB-05"],
+      "purpose": "Private prebuilt-layout extraction; custom model training is excluded from Release 1."
+    },
+    {
+      "id": "SBB-12",
+      "name": "Secrets and certificate boundary",
+      "azureServices": ["Azure Key Vault Standard"],
+      "abbIds": ["ABB-10", "ABB-11"],
+      "purpose": "Private certificate and secret storage; managed identities preferred; purge protection and soft delete enabled."
+    },
+    {
+      "id": "SBB-13",
+      "name": "Versioned configuration and policy",
+      "azureServices": ["Azure App Configuration Standard", "Azure SQL Database"],
+      "abbIds": ["ABB-10", "ABB-18"],
+      "purpose": "Versioned non-secret policy pointers and owner-approved policy/evidence records; missing evidence returns deny."
+    },
+    {
+      "id": "SBB-14",
+      "name": "Protected audit and verdict evidence",
+      "azureServices": ["Azure Blob Storage with version-level immutability", "Azure Monitor diagnostic settings"],
+      "abbIds": ["ABB-12", "ABB-16", "ABB-18"],
+      "purpose": "Append-only evidence export and Internal Audit-controlled verdict store with no delivery modification rights."
+    },
+    {
+      "id": "SBB-15",
+      "name": "Correlated observability",
+      "azureServices": ["Azure Monitor", "Log Analytics workspace", "Application Insights", "Action Groups"],
+      "abbIds": ["ABB-12", "ABB-13"],
+      "purpose": "Redacted metrics, logs and OpenTelemetry traces correlated by case, work item, evidence and policy-decision identifiers."
+    },
+    {
+      "id": "SBB-16",
+      "name": "Recovery controls",
+      "azureServices": ["Azure SQL automated PITR and LTR backups with Local or Zone redundancy", "Azure SQL failover groups", "Blob versioning, soft delete and immutable retention"],
+      "abbIds": ["ABB-14"],
+      "purpose": "Recover case, evidence, policy and audit state consistently to RTO 4h/RPO 1h across the confirmed primary/recovery pattern. SQL requestedBackupStorageRedundancy has no production default, permits only Local or Zone after regional evidence, and denies implicit paired-region Geo or GeoZone storage."
+    },
+    {
+      "id": "SBB-17",
+      "name": "Private network and controlled egress",
+      "azureServices": ["Azure Virtual Network", "Network Security Groups", "Azure Firewall Premium", "Azure Private DNS Resolver"],
+      "abbIds": ["ABB-02", "ABB-10", "ABB-15"],
+      "purpose": "Citadel primary/recovery regional hubs connect enterprise IPAM-assigned workload spokes; central DNS, FQDN-filtered egress and denied lateral movement are mandatory."
+    },
+    {
+      "id": "SBB-18",
+      "name": "Private software supply store",
+      "azureServices": ["Azure Container Registry Premium"],
+      "abbIds": ["ABB-15"],
+      "purpose": "Private image registry with vulnerability assessment integration, immutable release tags and no public access."
+    },
+    {
+      "id": "SBB-19",
+      "name": "Azure guardrails and cloud security posture",
+      "azureServices": ["Azure Policy", "Microsoft Defender for Cloud"],
+      "abbIds": ["ABB-10", "ABB-18"],
+      "purpose": "ALZ-aligned Citadel policies plus Sovereign Landing Zone overlays deny unapproved locations, public data services and Global/DataZone AI; audit private DNS/diagnostics and produce evidence without claiming certification."
+    },
+    {
+      "id": "SBB-20",
+      "name": "Independent assurance boundary",
+      "azureServices": ["Dedicated Azure subscription", "Azure Blob Storage with immutability", "Microsoft Entra groups and PIM"],
+      "abbIds": ["ABB-16"],
+      "purpose": "The dedicated sub-citadel-stratton-assurance-prod subscription is Internal Audit-controlled; delivery can submit evidence but cannot issue or alter verdicts."
+    },
+    {
+      "id": "SBB-21",
+      "name": "Private Link service plane",
+      "azureServices": ["Azure Private Link", "Azure Private DNS zones"],
+      "abbIds": ["ABB-10", "ABB-15"],
+      "purpose": "Private data, AI, registry, monitoring and management-plane-adjacent service access with public endpoints disabled where supported."
+    },
+    {
+      "id": "SBB-22",
+      "name": "Workload identity and authorisation",
+      "azureServices": ["User-assigned managed identities", "Azure RBAC", "Microsoft Entra authentication for Azure SQL"],
+      "abbIds": ["ABB-11", "ABB-12"],
+      "purpose": "Separate identities per component and environment; no shared credentials or SQL authentication."
+    },
+    {
+      "id": "SBB-23",
+      "name": "Quality evaluation service",
+      "azureServices": ["Azure Container Apps Jobs", "Azure Machine Learning registry optional only for benchmark artefacts"],
+      "abbIds": ["ABB-16"],
+      "purpose": "Reproducible benchmark and negative-test execution with signed input/output manifests; Internal Audit remains verdict owner."
+    }
+  ],
+  "resourceInventory": [
+    {"pattern":"mg-citadel-platform","type":"Microsoft.Management/managementGroups","sku":"n/a","environments":["platform"],"avm":"HAND_WRITTEN_TENANT_SCOPE_PENDING_AVM_VERIFICATION"},
+    {"pattern":"mg-citadel-landingzones","type":"Microsoft.Management/managementGroups","sku":"n/a","environments":["platform"],"avm":"HAND_WRITTEN_TENANT_SCOPE_PENDING_AVM_VERIFICATION"},
+    {"pattern":"mg-citadel-assurance","type":"Microsoft.Management/managementGroups","sku":"n/a","environments":["assurance"],"avm":"HAND_WRITTEN_TENANT_SCOPE_PENDING_AVM_VERIFICATION"},
+    {"pattern":"sub-citadel-management","type":"Microsoft.Subscription/aliases or pre-provisioned subscription placement","sku":"n/a","environments":["platform"],"avm":"SUBSCRIPTION_VENDING_PATTERN_TO_BE_VERIFIED_BY_AFF4"},
+    {"pattern":"sub-citadel-connectivity","type":"Microsoft.Subscription/aliases or pre-provisioned subscription placement","sku":"n/a","environments":["platform"],"avm":"SUBSCRIPTION_VENDING_PATTERN_TO_BE_VERIFIED_BY_AFF4"},
+    {"pattern":"sub-citadel-ai-governance","type":"Microsoft.Subscription/aliases or pre-provisioned subscription placement","sku":"n/a","environments":["platform"],"avm":"SUBSCRIPTION_VENDING_PATTERN_TO_BE_VERIFIED_BY_AFF4"},
+    {"pattern":"sub-citadel-stratton-nonprod","type":"Microsoft.Subscription/aliases or pre-provisioned subscription placement","sku":"n/a","environments":["dev","tst"],"avm":"SUBSCRIPTION_VENDING_PATTERN_TO_BE_VERIFIED_BY_AFF4"},
+    {"pattern":"sub-citadel-stratton-prod","type":"Microsoft.Subscription/aliases or pre-provisioned subscription placement","sku":"n/a","environments":["prd-primary","prd-recovery"],"avm":"SUBSCRIPTION_VENDING_PATTERN_TO_BE_VERIFIED_BY_AFF4"},
+    {"pattern":"sub-citadel-stratton-assurance-prod","type":"Microsoft.Subscription/aliases or pre-provisioned subscription placement","sku":"n/a","environments":["assurance-primary","assurance-recovery"],"avm":"SUBSCRIPTION_VENDING_PATTERN_TO_BE_VERIFIED_BY_AFF4"},
+    {"pattern":"policy-citadel-alz-sovereignty-ai-*","type":"Microsoft.Authorization/policyDefinitions, policySetDefinitions and policyAssignments","sku":"ALZ baseline plus Citadel AI-governance and Sovereign Landing Zone overlays","environments":["platform","all-inherited"],"avm":"HAND_WRITTEN_TENANT_SCOPE_PENDING_AVM_VERIFICATION"},
+    {"pattern":"log-citadel-management-<loc>","type":"Microsoft.OperationalInsights/workspaces","sku":"PerGB2018; central platform telemetry only","environments":["platform"],"avm":"br/public:avm/res/operational-insights/workspace:0.12.0"},
+    {"pattern":"stcitadelgovernance<suffix>","type":"Microsoft.Storage/storageAccounts","sku":"Standard_ZRS; private governance artefacts; no Stratton source documents","environments":["platform-primary","platform-recovery"],"avm":"br/public:avm/res/storage/storage-account:0.25.0"},
+    {"pattern":"appcs-citadel-ai-governance-<loc>-<suffix>","type":"Microsoft.AppConfiguration/configurationStores","sku":"Standard; private; versioned model/policy approval references","environments":["platform"],"avm":"br/public:avm/res/app-configuration/configuration-store:0.7.1"},
+    {"pattern":"rg-stratton-<env>-<loc>-<function>","type":"Microsoft.Resources/resourceGroups","sku":"n/a","environments":["dev","tst","prd"],"avm":"br/public:avm/res/resources/resource-group:0.4.1"},
+    {"pattern":"vnet-citadel-hub-<regionRole>-<loc>","type":"Microsoft.Network/virtualNetworks","sku":"Regional hub; enterprise IPAM input","environments":["platform-primary","platform-recovery"],"avm":"br/public:avm/res/network/virtual-network:0.7.0"},
+    {"pattern":"vnet-stratton-<env>-<regionRole>-<loc>","type":"Microsoft.Network/virtualNetworks","sku":"Hub-connected spoke; enterprise IPAM input","environments":["dev","tst","prd-primary","prd-recovery"],"avm":"br/public:avm/res/network/virtual-network:0.7.0"},
+    {"pattern":"nsg-stratton-<env>-<purpose>","type":"Microsoft.Network/networkSecurityGroups","sku":"n/a","environments":["dev","tst","prd"],"avm":"br/public:avm/res/network/network-security-group:0.5.1"},
+    {"pattern":"rt-stratton-<env>-<purpose>","type":"Microsoft.Network/routeTables","sku":"n/a","environments":["dev","tst","prd"],"avm":"br/public:avm/res/network/route-table:0.4.1"},
+    {"pattern":"afw-citadel-<regionRole>-<loc>","type":"Microsoft.Network/azureFirewalls","sku":"Premium in each Citadel regional hub","environments":["platform-primary","platform-recovery"],"avm":"br/public:avm/res/network/azure-firewall:0.5.0"},
+    {"pattern":"agw-stratton-<env>-<loc>","type":"Microsoft.Network/applicationGateways","sku":"WAF_v2; private frontend; production autoscale min 2; Microsoft.Network/EnableApplicationGatewayNetworkIsolation registration evidence required","environments":["tst","prd"],"avm":"br/public:avm/res/network/application-gateway:0.6.0"},
+    {"pattern":"pdns-<service>","type":"Microsoft.Network/privateDnsZones","sku":"n/a","environments":["shared-or-per-environment"],"avm":"br/public:avm/res/network/private-dns-zone:0.7.1"},
+    {"pattern":"pep-stratton-<env>-<service>","type":"Microsoft.Network/privateEndpoints","sku":"n/a","environments":["dev","tst","prd"],"avm":"br/public:avm/res/network/private-endpoint:0.11.0"},
+    {"pattern":"apim-stratton-<env>-<loc>-<suffix>","type":"Microsoft.ApiManagement/service","sku":"Standard v2; 1 unit nonprod, 2-unit production hypothesis; approved private endpoint and DNS required before publicNetworkAccess=Disabled; no public gateway fallback","environments":["dev","tst","prd"],"avm":"br/public:avm/res/api-management/service:0.11.0"},
+    {"pattern":"cae-stratton-<env>-<loc>","type":"Microsoft.App/managedEnvironments","sku":"Workload profiles; internal; zone redundant in production where supported","environments":["dev","tst","prd"],"avm":"br/public:avm/res/app/managed-environment:0.8.1"},
+    {"pattern":"ca-stratton-<env>-<component>","type":"Microsoft.App/containerApps","sku":"Consumption/D4 profile hypothesis; API/UI min replicas 0/1 nonprod and 2 prod","environments":["dev","tst","prd"],"avm":"br/public:avm/res/app/container-app:0.11.0"},
+    {"pattern":"caj-stratton-<env>-<component>","type":"Microsoft.App/jobs","sku":"Event-driven; concurrency and max replicas required benchmark parameters","environments":["dev","tst","prd"],"avm":"HAND_WRITTEN_CHILD_RESOURCE_PENDING_AVM_VERIFICATION"},
+    {"pattern":"acrstratton<env><suffix>","type":"Microsoft.ContainerRegistry/registries","sku":"Premium","environments":["dev","tst","prd"],"avm":"br/public:avm/res/container-registry/registry:0.8.0"},
+    {"pattern":"sbns-stratton-<env>-<loc>-<suffix>","type":"Microsoft.ServiceBus/namespaces","sku":"Standard nonprod; Premium 1 MU production hypothesis","environments":["dev","tst","prd"],"avm":"br/public:avm/res/service-bus/namespace:0.11.0"},
+    {"pattern":"sql-stratton-<env>-<regionRole>-<loc>-<suffix>","type":"Microsoft.Sql/servers","sku":"Logical server; Microsoft Entra-only; publicNetworkAccess Disabled; failover group for production","environments":["dev","tst","prd-primary","prd-recovery"],"avm":"br/public:avm/res/sql/server:0.17.0"},
+    {"pattern":"sqldb-stratton-<env>-case","type":"Microsoft.Sql/servers/databases","sku":"GP_S_Gen5_1 serverless nonprod; BC_Gen5_2 zone-redundant production hypothesis; requestedBackupStorageRedundancy required and restricted to Local or Zone","environments":["dev","tst","prd"],"avm":"br/public:avm/res/sql/server:0.17.0"},
+    {"pattern":"ststratton<env>evidence<suffix>","type":"Microsoft.Storage/storageAccounts","sku":"Standard_ZRS production; Standard_LRS nonprod; public access Disabled","environments":["dev","tst","prd"],"avm":"br/public:avm/res/storage/storage-account:0.25.0"},
+    {"pattern":"ststratton<env>work<suffix>","type":"Microsoft.Storage/storageAccounts","sku":"Standard_ZRS production; lifecycle-deleted temporary copies; public access Disabled","environments":["dev","tst","prd"],"avm":"br/public:avm/res/storage/storage-account:0.25.0"},
+    {"pattern":"ststrattonprd<regionRole>audit<suffix>","type":"Microsoft.Storage/storageAccounts","sku":"Standard_ZRS per approved region; version-level immutability; controlled replication; retention has no default","environments":["prd-primary","prd-recovery"],"avm":"br/public:avm/res/storage/storage-account:0.25.0"},
+    {"pattern":"ststrattonprd<regionRole>verdict<suffix>","type":"Microsoft.Storage/storageAccounts","sku":"Standard_ZRS per approved region; assurance subscription; Internal Audit-controlled immutability","environments":["assurance-primary","assurance-recovery"],"avm":"br/public:avm/res/storage/storage-account:0.25.0"},
+    {"pattern":"srch-stratton-<env>-<loc>-<suffix>","type":"Microsoft.Search/searchServices","sku":"S1; 1 replica nonprod, 3 replicas/1 partition production hypothesis","environments":["dev","tst","prd"],"avm":"br/public:avm/res/search/search-service:0.11.0"},
+    {"pattern":"oai-stratton-<env>-<loc>-<suffix>","type":"Microsoft.CognitiveServices/accounts","sku":"S0 regional deployment; model/version/quota unresolved","environments":["dev","tst","prd"],"avm":"br/public:avm/res/cognitive-services/account:0.12.0"},
+    {"pattern":"docai-stratton-<env>-<loc>-<suffix>","type":"Microsoft.CognitiveServices/accounts","sku":"Document Intelligence S0; prebuilt layout only","environments":["dev","tst","prd"],"avm":"br/public:avm/res/cognitive-services/account:0.12.0"},
+    {"pattern":"kv-stratton-<env>-<loc>-<suffix>","type":"Microsoft.KeyVault/vaults","sku":"Standard; RBAC, purge protection, private endpoint","environments":["dev","tst","prd"],"avm":"br/public:avm/res/key-vault/vault:0.13.3"},
+    {"pattern":"appcs-stratton-<env>-<loc>-<suffix>","type":"Microsoft.AppConfiguration/configurationStores","sku":"Standard; private endpoint; public network access Disabled","environments":["dev","tst","prd"],"avm":"br/public:avm/res/app-configuration/configuration-store:0.7.1"},
+    {"pattern":"log-stratton-<env>-<loc>","type":"Microsoft.OperationalInsights/workspaces","sku":"PerGB2018; retention required owner parameter","environments":["dev","tst","prd"],"avm":"br/public:avm/res/operational-insights/workspace:0.12.0"},
+    {"pattern":"appi-stratton-<env>-<loc>","type":"Microsoft.Insights/components","sku":"Workspace-based","environments":["dev","tst","prd"],"avm":"br/public:avm/res/insights/component:0.6.0"},
+    {"pattern":"ag-stratton-<env>-operations","type":"Microsoft.Insights/actionGroups","sku":"n/a","environments":["dev","tst","prd"],"avm":"br/public:avm/res/insights/action-group:0.5.1"},
+    {"pattern":"id-stratton-<env>-<component>","type":"Microsoft.ManagedIdentity/userAssignedIdentities","sku":"n/a","environments":["dev","tst","prd"],"avm":"br/public:avm/res/managed-identity/user-assigned-identity:0.4.1"},
+    {"pattern":"diag-stratton-<resource>","type":"Microsoft.Insights/diagnosticSettings","sku":"AllLogs/metrics subject to minimisation contract","environments":["dev","tst","prd"],"avm":"br/public:avm/res/insights/diagnostic-setting:0.7.2"}
+  ],
+  "environmentMatrix": [
+    {
+      "environment": "dev",
+      "subscription": "sub-citadel-stratton-nonprod (exact subscription ID pending)",
+      "data": "Synthetic only",
+      "availability": "No SLA claim; minimum elastic capacity",
+      "sql": "GP_S_Gen5_1 serverless hypothesis, public access disabled, requestedBackupStorageRedundancy=Local",
+      "search": "S1, 1 replica/1 partition",
+      "messaging": "Standard",
+      "application": "Scale to zero where safe; private network",
+      "assurance": "Developer evidence only; never an Internal Audit verdict"
+    },
+    {
+      "environment": "tst",
+      "subscription": "sub-citadel-stratton-nonprod (exact subscription ID pending)",
+      "data": "Synthetic benchmark only",
+      "availability": "Production-like controls during acceptance windows",
+      "sql": "GP_S_Gen5_1 serverless hypothesis, public access disabled, requestedBackupStorageRedundancy=Local",
+      "search": "S1, 1 replica/1 partition initially",
+      "messaging": "Standard initially; Premium required for production parity tests",
+      "application": "Minimum one interactive replica; private network",
+      "assurance": "Signed test manifests submitted read-only to Internal Audit"
+    },
+    {
+      "environment": "prd",
+      "subscription": "sub-citadel-stratton-prod (exact subscription ID pending)",
+      "regions": "Confirmed primary/recovery pattern; both exact General Counsel/DPO/CISO-approved region names pending",
+      "data": "Highly confidential; approved sources only",
+      "availability": "99.9% in approved business hours; RTO 4h; RPO 1h",
+      "sql": "BC_Gen5_2 zone-redundant starting hypothesis, public access disabled, requestedBackupStorageRedundancy required with no default and restricted to Local or Zone after region evidence",
+      "search": "S1, 3 replicas/1 partition starting hypothesis",
+      "messaging": "Premium, 1 messaging unit starting hypothesis",
+      "application": "Zone-redundant primary plus warm recovery deployment; at least two primary interactive replicas",
+      "assurance": "Verdict held and replicated only within sub-citadel-stratton-assurance-prod under Internal Audit control"
+    }
+  ],
+  "avmCandidates": [
+    "br/public:avm/res/resources/resource-group:0.4.1",
+    "br/public:avm/res/network/virtual-network:0.7.0",
+    "br/public:avm/res/network/network-security-group:0.5.1",
+    "br/public:avm/res/network/private-dns-zone:0.7.1",
+    "br/public:avm/res/network/private-endpoint:0.11.0",
+    "br/public:avm/res/network/application-gateway:0.6.0",
+    "br/public:avm/res/app/managed-environment:0.8.1",
+    "br/public:avm/res/app/container-app:0.11.0",
+    "br/public:avm/res/api-management/service:0.11.0",
+    "br/public:avm/res/sql/server:0.17.0",
+    "br/public:avm/res/storage/storage-account:0.25.0",
+    "br/public:avm/res/service-bus/namespace:0.11.0",
+    "br/public:avm/res/search/search-service:0.11.0",
+    "br/public:avm/res/cognitive-services/account:0.12.0",
+    "br/public:avm/res/key-vault/vault:0.13.3",
+    "br/public:avm/res/container-registry/registry:0.8.0",
+    "br/public:avm/res/operational-insights/workspace:0.12.0",
+    "br/public:avm/res/insights/component:0.6.0",
+    "br/public:avm/res/managed-identity/user-assigned-identity:0.4.1"
+  ],
+  "avmControl": "AFF-4 must resolve each candidate against the public Bicep registry, capture module digest/lock evidence and replace a candidate only through a recorded design variance. No latest tag is permitted.",
+  "evidencePaths": [
+    "3-azure-design/evidence/stratton-citadel-landing-zone-contract.json",
+    "3-azure-design/evidence/stratton-source-register.json",
+    "3-azure-design/evidence/stratton-human-decision-register.json",
+    "3-azure-design/evidence/stratton-traceability-matrix.json",
+    "3-azure-design/evidence/stratton-network-security-contract.json",
+    "3-azure-design/evidence/stratton-identity-rbac-contract.json",
+    "3-azure-design/evidence/stratton-data-api-contracts.json",
+    "3-azure-design/evidence/stratton-operations-reliability-contract.json",
+    "3-azure-design/evidence/stratton-waf-cost-environment-matrix.json",
+    "3-azure-design/evidence/stratton-aff4-handoff.json",
+    "3-azure-design/evidence/stratton-candidate-validation.json"
+  ]
+}

@@ -1,0 +1,675 @@
+.myApproach {
+  background: var(--background);
+  padding: 0 0 44px 0;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 480px;
+  height: 480px;
+  top: -190px;
+  right: -90px;
+  background: radial-gradient(
+    circle at 42% 42%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 25%, transparent) 52%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 380px;
+  height: 380px;
+  bottom: -120px;
+  left: 190px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 18%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  padding-top: 20px;
+  padding-bottom: 22px;
+}
+
+.header {
+  display: grid;
+  gap: 7px;
+  max-width: 1120px;
+  padding-right: 140px;
+}
+
+.title {
+  color: var(--foreground);
+  font-size: clamp(40px, 4vw, 52px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.06;
+}
+
+.subtitle {
+  max-width: 980px;
+  color: var(--muted-foreground);
+  font-size: 16px;
+  line-height: 1.42;
+}
+
+.composition {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 2.18fr);
+  gap: 16px;
+  min-height: 608px;
+}
+
+.approachPanel,
+.frameworkPanel {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--secondary) 72%, transparent);
+  box-shadow: var(--shadow-elevated);
+}
+
+.approachPanel {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  padding: 15px 14px 15px 8px;
+}
+
+.approachPanel::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 47px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--cyan) 60%, transparent) 16%,
+    color-mix(in srgb, var(--purple) 55%, transparent) 84%,
+    transparent
+  );
+}
+
+.verticalTitle {
+  align-self: center;
+  justify-self: center;
+  color: var(--cyan);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.approachSteps {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  padding-left: 15px;
+}
+
+.approachStepShell {
+  min-width: 0;
+}
+
+.approachStep {
+  position: relative;
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px 5px 9px 0;
+}
+
+.approachStepShell + .approachStepShell .approachStep {
+  border-top: 1px solid color-mix(in srgb, var(--cyan) 18%, var(--border));
+}
+
+.stepMarker {
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border: 2px solid color-mix(in srgb, var(--cyan) 74%, white);
+  border-radius: 50%;
+  background: var(--background);
+  box-shadow: 0 0 12px var(--glow-cyan);
+}
+
+.approachStep h4 {
+  color: var(--foreground);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.approachStep p {
+  margin-top: 4px;
+  color: color-mix(in srgb, var(--foreground) 76%, var(--muted-foreground));
+  font-size: 14.5px;
+  line-height: 1.34;
+}
+
+.frameworkPanel {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 8px;
+  padding: 14px;
+}
+
+.frameworkPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+  opacity: 0.9;
+}
+
+.frameworkHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+  align-items: end;
+  gap: 24px;
+  padding-top: 2px;
+}
+
+.frameworkHeader h3 {
+  color: var(--foreground);
+  font-size: 24px;
+  line-height: 1.18;
+}
+
+.frameworkHeader p {
+  color: var(--muted-foreground);
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+
+.frameworkGallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.frameworkItemShell {
+  min-width: 0;
+}
+
+.frameworkItemShell + .frameworkItemShell {
+  border-left: 1px solid var(--border);
+}
+
+.frameworkItem {
+  position: relative;
+  display: grid;
+  grid-template-rows: 116px auto;
+  gap: 8px;
+  height: 100%;
+  padding: 9px 10px 10px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.frameworkItem:hover,
+.frameworkItem:focus-visible {
+  background: color-mix(in srgb, var(--cyan) 8%, transparent);
+  transform: translateY(-2px);
+}
+
+.frameworkItem:focus-visible,
+.referenceItem:focus-visible,
+.calloutAction:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: -2px;
+}
+
+.imageFrame {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  min-width: 0;
+  border-radius: 12px;
+  background: #f7f8fb;
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.28);
+}
+
+.imageFrame img {
+  position: absolute;
+  inset: 8px;
+  display: block;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.frameworkItem:first-child .imageFrame img {
+  inset: 5px 62px;
+  width: calc(100% - 124px);
+  height: calc(100% - 10px);
+}
+
+.frameworkCopy {
+  display: grid;
+  gap: 3px;
+  padding-right: 24px;
+}
+
+.frameworkCopy strong {
+  color: var(--foreground);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.frameworkCopy > span {
+  color: var(--muted-foreground);
+  font-size: 13.5px;
+  line-height: 1.3;
+}
+
+.externalIcon {
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  display: grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  color: var(--cyan);
+}
+
+.externalIcon svg,
+.calloutAction svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.referenceList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.referenceItemShell {
+  min-width: 0;
+}
+
+.referenceItem {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  min-height: 84px;
+  padding: 9px 30px 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--purple) 24%, var(--border));
+  border-radius: 12px;
+  color: inherit;
+  background: color-mix(in srgb, var(--secondary) 76%, transparent);
+  text-decoration: none;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.referenceItem:hover,
+.referenceItem:focus-visible {
+  border-color: color-mix(in srgb, var(--cyan) 58%, var(--border));
+  background: color-mix(in srgb, var(--cyan) 8%, var(--secondary));
+  transform: translateY(-2px);
+}
+
+.referenceItem strong {
+  color: var(--secondary-foreground);
+  font-size: 14.5px;
+  line-height: 1.2;
+}
+
+.referenceItem > span:not(.externalIcon) {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.28;
+}
+
+.referenceItem .externalIcon {
+  right: 9px;
+  bottom: 50%;
+  transform: translateY(50%);
+}
+
+.solutionRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 8px;
+  min-width: 0;
+}
+
+.acceleratorBlock,
+.agenticCallout {
+  position: relative;
+  min-width: 0;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.acceleratorBlock {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-height: 84px;
+  padding: 9px 30px 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--purple) 24%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--secondary) 76%, transparent);
+}
+
+.acceleratorBlock > strong {
+  color: var(--secondary-foreground);
+  font-size: 14.5px;
+  line-height: 1.2;
+}
+
+.acceleratorLinks {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+}
+
+.acceleratorItemShell {
+  min-width: 0;
+}
+
+.acceleratorLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.28;
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    text-decoration-color 180ms ease;
+}
+
+.acceleratorLink:hover,
+.acceleratorLink:focus-visible {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.acceleratorLink:focus-visible,
+.calloutAction:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.acceleratorBlock:focus-within {
+  border-color: color-mix(in srgb, var(--cyan) 58%, var(--border));
+  background: color-mix(in srgb, var(--cyan) 8%, var(--secondary));
+}
+
+.agenticCallout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'lead actions'
+    'title actions';
+  align-items: center;
+  gap: 3px 12px;
+  min-height: 84px;
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 45%, var(--border));
+  border-radius: 14px;
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--cyan) 13%, var(--secondary)), color-mix(in srgb, var(--purple) 12%, var(--secondary))),
+    var(--secondary);
+  box-shadow: 0 9px 24px rgba(0, 0, 0, 0.24);
+}
+
+.agenticCallout:focus-within {
+  border-color: color-mix(in srgb, var(--cyan) 76%, white);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 0 22px var(--glow-cyan);
+}
+
+.calloutLead {
+  grid-area: lead;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.agenticCallout > strong {
+  grid-area: title;
+  color: var(--foreground);
+  font-size: 16.5px;
+  line-height: 1.2;
+}
+
+.calloutActions {
+  grid-area: actions;
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+}
+
+.calloutAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.calloutAction:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.calloutAction svg {
+  width: 17px;
+  height: 17px;
+}
+
+.acceleratorLink svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--cyan);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.myApproach:global(.active) .header,
+.myApproach:global(.active) .approachPanel,
+.myApproach:global(.active) .frameworkPanel,
+.myApproach:global(.active) .approachStepShell,
+.myApproach:global(.active) .frameworkItemShell,
+.myApproach:global(.active) .referenceItemShell,
+.myApproach:global(.active) .acceleratorBlock,
+.myApproach:global(.active) .agenticCallout {
+  opacity: 0;
+}
+
+.myApproach:global(.active) .header {
+  animation: approachHeaderIn 650ms cubic-bezier(.16, 1, .3, 1) 80ms both;
+}
+
+.myApproach:global(.active) .approachPanel {
+  animation: approachPanelIn 850ms cubic-bezier(.16, 1, .3, 1) 320ms both;
+}
+
+.myApproach:global(.active) .frameworkPanel {
+  animation: frameworkPanelIn 850ms cubic-bezier(.16, 1, .3, 1) 440ms both;
+}
+
+.myApproach:global(.active) .approachStepShell {
+  animation: itemReveal 560ms cubic-bezier(.16, 1, .3, 1) 760ms both;
+}
+
+.myApproach:global(.active) .approachStepShell:nth-child(2) {
+  animation-delay: 900ms;
+}
+
+.myApproach:global(.active) .approachStepShell:nth-child(3) {
+  animation-delay: 1040ms;
+}
+
+.myApproach:global(.active) .frameworkItemShell {
+  animation: imageReveal 680ms cubic-bezier(.16, 1, .3, 1) 860ms both;
+}
+
+.myApproach:global(.active) .frameworkItemShell:nth-child(2) {
+  animation-delay: 1000ms;
+}
+
+.myApproach:global(.active) .frameworkItemShell:nth-child(3) {
+  animation-delay: 1140ms;
+}
+
+.myApproach:global(.active) .referenceItemShell {
+  animation: itemReveal 520ms cubic-bezier(.16, 1, .3, 1) 1260ms both;
+}
+
+.myApproach:global(.active) .referenceItemShell:nth-child(2) {
+  animation-delay: 1360ms;
+}
+
+.myApproach:global(.active) .referenceItemShell:nth-child(3) {
+  animation-delay: 1460ms;
+}
+
+.myApproach:global(.active) .acceleratorBlock {
+  animation: itemReveal 560ms cubic-bezier(.16, 1, .3, 1) 1580ms both;
+}
+
+.myApproach:global(.active) .agenticCallout {
+  animation: calloutReveal 700ms cubic-bezier(.16, 1, .3, 1) 1680ms both;
+}
+
+@keyframes approachHeaderIn {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translate3d(0, -12px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes approachPanelIn {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0 round var(--radius-lg));
+    transform: translate3d(-24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round var(--radius-lg));
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes frameworkPanelIn {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 0 100% round var(--radius-lg));
+    transform: translate3d(24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round var(--radius-lg));
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes itemReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(24% 0 76% 0 round 12px);
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 12px);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes calloutReveal {
+  from {
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    transform: translate3d(0, 16px, 0) scale(.98);
+  }
+  to {
+    opacity: 1;
+    box-shadow: 0 9px 24px rgba(0, 0, 0, 0.24);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .myApproach:global(.active) .header,
+  .myApproach:global(.active) .approachPanel,
+  .myApproach:global(.active) .frameworkPanel,
+  .myApproach:global(.active) .approachStepShell,
+  .myApproach:global(.active) .frameworkItemShell,
+  .myApproach:global(.active) .referenceItemShell,
+  .myApproach:global(.active) .acceleratorBlock,
+  .myApproach:global(.active) .agenticCallout {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    clip-path: none;
+    transform: none;
+  }
+}

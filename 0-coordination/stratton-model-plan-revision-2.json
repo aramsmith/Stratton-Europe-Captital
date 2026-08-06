@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "2",
+  "supersedesRevision": "1",
+  "supersededRecord": "0-coordination/stratton-model-plan.json",
+  "generatedAt": "2026-08-01T21:07:24.031+02:00",
+  "changeReason": "Append-only Phase 1 authoring reassessment; approved Phase 0 model-plan evidence remains immutable.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-1",
+    "phaseId": "1",
+    "approvedDefault": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved default remains best suited to evidence-bound interviewing, regulated cross-domain requirements synthesis, acceptance design and assurance remediation for this case.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "COMPLETE_FOR_PHASE_1_AUTHORING"
+  },
+  "reviewAssignments": {
+    "affA": {
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationRequiredOnEveryRound": true
+    },
+    "affB": {
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol"
+    }
+  },
+  "constraints": [
+    "AFF-A must use an exact actual runtime model ID different from gpt-5.6-sol on every Phase 1 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "This revision does not modify or invalidate the approved Phase 0 model-plan artifact.",
+    "Phase 2 is not invoked by this revision."
+  ]
+}

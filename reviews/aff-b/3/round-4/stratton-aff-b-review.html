@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-text-soft:#6f6f6f;--cp-accent:#b11f4b;--cp-accent-hover:#9a1a41;--cp-accent-soft:rgba(177,31,75,.08);--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-link:#0078d4;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-overlay:rgba(255,255,255,.8);--cp-panel:rgba(255,255,255,.86);--cp-panel-strong:rgba(255,255,255,.96);--cp-sheen:rgba(255,255,255,.55);--cp-highlight:rgba(177,31,75,.12)}
+html[data-theme="dark"]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#919191;--cp-text-soft:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-hover:#fb7b91;--cp-accent-soft:rgba(253,142,161,.14);--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-link:#4da6ff;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-overlay:rgba(41,41,41,.88);--cp-panel:rgba(41,41,41,.72);--cp-panel-strong:rgba(41,41,41,.96);--cp-sheen:rgba(255,255,255,.04);--cp-highlight:rgba(253,142,161,.12)}
+*{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}main{max-width:1180px;margin:0 auto;padding:32px 20px}header,.card,.table-card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border)}h1,h2,h3,h4{line-height:1.25}h1{margin-top:0}h2{border-bottom:1px solid var(--cp-border);padding-bottom:8px}code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:2px 5px;overflow-wrap:anywhere}.badge{display:inline-block;border:1px solid var(--cp-warning);color:var(--cp-warning);background:var(--cp-surface);border-radius:.625rem;padding:4px 10px;font-weight:700}.meta{color:var(--cp-text-muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.metric{background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:12px}.finding{border-left:6px solid var(--cp-warning)}.success{border-left:6px solid var(--cp-success)}.warning{border-left:6px solid var(--cp-warning)}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{border:1px solid var(--cp-border);padding:9px;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}a{color:var(--cp-link)}footer{color:var(--cp-text-muted);padding:8px}@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}}
+</style><title>AFF-B review · Phase 3 — Azure Design</title></head><body><main>
+<header><span class="badge">CONFORMS-WITH-GAPS</span><h1>AFF-B security and compliance review — Phase 3 — Azure Design</h1>
+<p>Phase 3 — Azure Design · round 4 · STRATTON-CC-001</p>
+<p class="meta">Invoked by AFF-3 · model <code>gpt-5.6-sol</code> ·
+model plan 10 <code>63750f1ea18a89fa3a7500fff05a6f98135bc6a5e98ad6301fdfbc246e94b894</code> · coverage 007
+<code>e769a9326a6bf362a566a42934ef6093d2dca8e37bc955a53474e17f664147d8</code> · findings
+0/0/1</p></header>
+<section class="card"><h2>Assurance boundary</h2><p>Independent architecture security/compliance assurance only.
+Not legal advice, certification, attestation, waiver, approval, deployment authorisation, Azure validation,
+runtime evidence or operating-effectiveness evidence.</p></section>
+<section class="card"><h2>Immutable subject and final AFF-A binding</h2>
+<p><strong>Manifest:</strong> <code>cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json</code><br>
+<strong>Pre-review SHA-256:</strong> <code>e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54</code><br>
+<strong>Post-review SHA-256:</strong> <code>e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54</code> — UNCHANGED<br>
+<strong>Bound artifacts:</strong> 17; all independently matched.<br>
+<strong>Snapshot:</strong> <code>cases/Stratton-Europe-Captital/reviews/aff-b/3/round-4/reviewed-subject/stratton-phase-3-hashes-cc-001-r2-proposed.json</code> — byte-identical.<br>
+<strong>Final AFF-A:</strong> <code>cases/Stratton-Europe-Captital/reviews/aff-a/3/round-5/stratton-aff-a-review.json</code><br>
+<strong>AFF-A SHA-256:</strong> <code>1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539</code> — MATCH<br>
+<strong>AFF-A verdict:</strong> CONFORMS-WITH-GAPS (0/0/2).</p></section>
+<section class="card success"><h2>Executive conclusion</h2><p>Both former AFF-B MAJOR findings are resolved
+after substantive re-test. Internal Audit source/build/sign/publish/deploy/operate authority remains separated,
+and complete purpose-specific signing-time TrustVerificationSnapshots are canonically bound and co-retained in WORM.
+Four positive vectors and ten negative mutations pass.</p></section>
+<section class="table-card"><h2>Former MAJOR finding dispositions</h2>
+<div class="table-wrap"><table><thead><tr><th>Finding</th><th>Prior severity</th><th>Formal disposition</th></tr></thead><tbody><tr><td>AFFB-CC001-MAJ-001</td><td>MAJOR</td><td>RESOLVED_IN_REMEDIATION_ROUND_2</td></tr><tr><td>AFFB-CC001-MAJ-002</td><td>MAJOR</td><td>RESOLVED_IN_REMEDIATION_ROUND_2</td></tr></tbody></table></div></section>
+<section class="card"><h2>Canonical vector re-test</h2><ul>
+<li>Snapshot hash and derived snapshot ID: PASS.</li><li>Four purpose-specific positive vectors: PASS.</li>
+<li>Audit eventHash, eventId and messageBodyHash: PASS.</li><li>Ten negative mutations: PASS.</li></ul></section>
+
+<section><h2>Findings</h2><section class="card finding"><h3>AFFB-CC001-R2-MIN-001 — MINOR</h3>
+<p><strong>Purpose metadata retains two stale signing-time field labels</strong></p>
+<p>Normative audit/verdict schemas, canonical hash contracts and vectors require signedAt, so historical trust binding remains enforceable. The helper purpose list still names producerSignatureCreatedAt for WORKLOAD_AUDIT_EVENT and issuedAt without signedAt for INTERNAL_AUDIT_VERDICT; generated clients must not treat that helper list as normative.</p>
+<p><strong>Evidence:</strong></p><ul><li><code>3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json signatureAndProducerTrust.purposes WORKLOAD_AUDIT_EVENT fields</code></li><li><code>3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json signatureAndProducerTrust.purposes INTERNAL_AUDIT_VERDICT fields</code></li><li><code>3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json canonicalCryptographicContract and normative event/verdict schemas</code></li></ul>
+<p><strong>Required action:</strong> Before signature-client implementation, align both helper lists to signedAt while retaining issuedAt as the separate verdict decision timestamp.</p>
+<p><strong>Acceptance criteria:</strong></p><ul><li>WORKLOAD_AUDIT_EVENT helper fields name signedAt.</li><li>INTERNAL_AUDIT_VERDICT helper fields include signedAt and retain issuedAt only as decision time.</li><li>Normative schemas, canonical preimages, vectors and WORM snapshot binding remain unchanged.</li></ul></section></section>
+<section class="table-card"><h2>Final AFF-A residual alignment</h2>
+<div class="table-wrap"><table><thead><tr><th>Finding</th><th>Status</th><th>Required action</th></tr></thead><tbody><tr><td>AFFA-P3-R5-MIN-001</td><td>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</td><td>244 amendment parameters remain owner-bound fail-closed values; named owners must provide evidence before activation.</td></tr><tr><td>AFFA-P3-R5-MIN-002</td><td>PROCESS_GATE_RESIDUAL_NOT_A_SUBJECT_DEFECT</td><td>AFF-B convergence and explicit human approval remain pending; AFF-A does not approve or certify.</td></tr></tbody></table></div></section>
+<section class="card warning"><h2>Convergence and human gate</h2>
+<p>AFF-A and AFF-B cover the same exact unchanged subject and both return CONFORMS-WITH-GAPS.
+Review convergence is established; human approval remains pending. Owner-bound parameters, provider evidence,
+data residency, AI Act classification, DORA applicability, retention/legal-hold values and activation evidence
+remain unwaived and fail closed.</p></section>
+<footer>This record does not approve STRATTON-CC-001, Phase 5 authority finalisation, deployment or Azure operations.</footer>
+</main></body></html>

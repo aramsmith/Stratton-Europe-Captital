@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "109",
+  "createdAt": "2026-08-05T13:09:46.990+02:00",
+  "revisionReason": "Append the approved Slides 17-19 executive closing sequence and register the nineteen-slide working candidate.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-108.json",
+    "sha256": "0ad2ef0936dbd68b978319e3e8b306eb690404b6fcf171bacca0dcaa6ba48057",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slides": [
+      17,
+      18,
+      19
+    ],
+    "request": "Add Risks and Mitigations, Next Steps and Thank You slides with a dedicated integration review."
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false,
+    "achievedBenefitsClaimed": false,
+    "productionReadinessClaimed": false,
+    "approvalClaimed": false,
+    "freezeClaimed": false
+  },
+  "quality": {
+    "closingSlidesContract": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 19,
+    "renderedSlides": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "consoleClean": "pass",
+    "noTextClipping": true,
+    "mockupDataDisclosure": true,
+    "pocOutcomeClaimed": false,
+    "minimumMeaningfulBodyPx": 13,
+    "minimumCompactLabelPx": 10
+  },
+  "artifacts": {
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "1d930b632a2a2c681cccd6a2a01d148b68fcc809ae5c141d643708c1587c273c"
+    },
+    "slide17Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/RisksMitigationsSlide.jsx",
+      "sha256": "9237937acd9afcbb2c0443631f2c5a64ca71a179ef9cdd48a323c9dde8db5de9"
+    },
+    "slide17Css": {
+      "path": "6-presentation-r4/deck/src/slides/RisksMitigationsSlide.module.css",
+      "sha256": "014072c544e730d21f2da0acda72b30c9214c74cf5a4fc053ba5d164a5caa179"
+    },
+    "slide18Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/NextStepsSlide.jsx",
+      "sha256": "59ac8f6655d8371fdc92bb6767e4dfec16518b62f51f161d8128559bf5a81d8f"
+    },
+    "slide18Css": {
+      "path": "6-presentation-r4/deck/src/slides/NextStepsSlide.module.css",
+      "sha256": "50bfdf562d47d5322d93170344034000bdf6c281892c1dcf0c41c6a0d12f7a54"
+    },
+    "slide19Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/ThankYouSlide.jsx",
+      "sha256": "a3d306f7a61e0ae310caf5ecc697af03a2511bf9279d8d5b1165a87f8ffe5858"
+    },
+    "slide19Css": {
+      "path": "6-presentation-r4/deck/src/slides/ThankYouSlide.module.css",
+      "sha256": "5917c556376a12b438bcd64913baba50a5d92b32d9cc072ed2e4fe6176856f99"
+    }
+  },
+  "verificationArtifacts": {
+    "contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\closing-slides-contract.mjs",
+      "sha256": "f3d5239496514580524a77234f857c79de924e68d19cfdc16f355bb15c682b08"
+    },
+    "task1Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\task-1-report.md",
+      "sha256": "d0d2b91dca39a2be13cce448b6bc7b9e3ded3f4dd397943a956392e4df2da6af"
+    },
+    "task2Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\task-2-slide-17-report.md",
+      "sha256": "cb643b0f577dd1d73aadb494378938485fd14ed4215f0dbf60eaf33d798a0fa1"
+    },
+    "task3Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\task-3-slide-18-report.md",
+      "sha256": "d9833b78a7b475df2c4e4376b93ef9bd3617808258eb62c581b415d0420216d2"
+    },
+    "task4Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\task-4-slide-19-report.md",
+      "sha256": "58329db7e22284fb54e33645be2d8fb9b36519c5bb126e6673402b2a4611c40f"
+    },
+    "task5Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\task-5-integration-report.md",
+      "sha256": "97e31426e401ebbe811a72fcd307faeb6a501c2e33900a682c6dfd1e6df46772"
+    },
+    "finalReviewFixReport": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\final-review-fix-report.md",
+      "sha256": "70525081ce47363eb44ac79af58313325a474b2d51c1160a2960a79d30fdf68f"
+    },
+    "finalDiff": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-17-19-executive-close\\final-closing-slides.diff",
+      "sha256": "276c0fcb0027a5329e6ca84912c789bca556945b69bacc6e2bf94cc995cec792"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 19,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  },
+  "updatedAt": "2026-08-05T13:36:08.916+02:00"
+}

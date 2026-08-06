@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "formalReviewRound": 7,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R3",
+  "recordedAt": "2026-08-06T13:08:05.100+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "selectionRationale": "Luna is the explicitly selected independent AFF-B runtime for this Phase 4 R3 review and is different from the gpt-5.6-terra author runtime."
+  },
+  "author": {
+    "agent": "AFF-4",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "matched": true
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r3-proposed.json",
+    "sha256": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "matched": true
+  },
+  "result": "MODEL_AND_MANIFEST_BINDINGS_VERIFIED",
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, attest, deploy, promote, authorise Phase 7 or provide operating-effectiveness evidence."
+}

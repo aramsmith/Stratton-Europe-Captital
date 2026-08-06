@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stratton AFF-A review Phase 4 — Implementation Plan</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;line-height:1.55;}
+main{max-width:1180px;margin:0 auto;padding:2rem;}
+article,section{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:1.5rem;margin:1rem 0;}
+h1,h2,h3{color:var(--cp-text);line-height:1.25;}
+h1{margin-top:0;}
+h2{border-bottom:1px solid var(--cp-border);padding-bottom:.5rem;}
+.badge{display:inline-block;border:1px solid var(--cp-border);background:var(--cp-accent-soft);border-radius:.625rem;padding:.25rem .5rem;margin:.125rem;color:var(--cp-text);}
+code{font-family:Consolas, "Courier New", Courier, monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.1rem .3rem;}
+table{border-collapse:collapse;width:100%;margin:.75rem 0;}
+th,td{border:1px solid var(--cp-border);padding:.55rem;text-align:left;vertical-align:top;}
+th{background:var(--cp-accent-soft);color:var(--cp-text);}
+.meta{color:var(--cp-text-muted);}
+.status{color:var(--cp-accent);font-weight:700;}
+a{color:var(--cp-link);}
+a:hover{color:var(--cp-accent-hover);}
+@media print{body{background:var(--cp-surface);}main{max-width:none;padding:0;}}
+</style>
+</head>
+<body>
+<main>
+<article>
+<h1>Stratton AFF-A review — Phase 4 — Implementation Plan round 4</h1>
+<p><span class="badge">Change control: STRATTON-CC-001</span> <span class="badge">Verdict: CONFORMS-WITH-GAPS</span> <span class="badge">Final for manifest: true</span></p>
+<p class="meta">Review time: <code>2026-08-02T14:43:24.681+02:00</code>. Reviewer runtime <code>gpt-5.5</code>; author runtime <code>gpt-5.6-sol</code>. Subject modification performed: <code>false</code>.</p>
+<p>Phase 4 proposed revision 8 reconciles the implementation plan to the proposed Phase 3 upstream hash, the 17-node/46-edge acyclic DAG, 5 work packages, 170 parameters, 60 assertions, 12 controls, 10 identities and 19 validations.</p>
+</article>
+<section>
+<h2>Independent verification</h2>
+<ul>
+<li>Manifest: <code>cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json</code></li>
+<li>Manifest SHA-256: <code>4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8</code> (MATCH)</li>
+<li>Model plan revision/hash: <code>8</code> / <code>19754c9d3b4273d91b8af61cc0e38523768967ecf50a79f9c3caee4694a41be9</code></li>
+<li>Artifact count: <code>14</code>; hashes: <code>ALL_MANIFEST_ENTRIES_RECOMPUTED_AND_MATCHED</code></li>
+<li>Schema validation: <code>PASS</code>; Clawpilot HTML and SVG sanitisation checks passed.</li>
+</ul>
+</section>
+<section>
+<h2>Findings</h2>
+<table><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Required remediation</th></tr></thead><tbody><tr><td>AFFA-P4-R4-MIN-001</td><td>MINOR</td><td>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</td><td>Each named owner must provide required evidence before its boundary activates; no default value or waiver may be inferred.</td></tr><tr><td>AFFA-P4-R4-MIN-002</td><td>MINOR</td><td>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</td><td>Internal Audit must accept, independently review, build/sign/release and operate the WP-05 package before DU-16 activation; no Phase 5 package or deployment evidence is claimed here.</td></tr><tr><td>AFFA-P4-R4-MIN-003</td><td>MINOR</td><td>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</td><td>Accountable owners must resolve or explicitly accept the controls at the relevant gate; implementation must remain fail-closed meanwhile.</td></tr></tbody></table>
+</section>
+<section>
+<h2>Review area results</h2>
+<table><thead><tr><th>Area</th><th>Status</th><th>Evidence</th></tr></thead><tbody><tr><td>Non-circular canonical preimages</td><td>CONFORMS</td><td>Domain-separated RFC8785 rules define exact exclusions; manifests do not self-list; hash-generation evidence records self-reference exclusion.</td></tr><tr><td>Signature/trust/key-purpose policy</td><td>CONFORMS</td><td>Four signer purposes, trust registries, key versions, validity/revocation/compromise and wrong-purpose denial are present.</td></tr><tr><td>Exact submission uniqueness/replay/correction/verdict read</td><td>CONFORMS</td><td>submissionId derives from trusted producer identity plus validationRunId; replay/conflict/correction and exact verdict endpoint are specified.</td></tr><tr><td>Private exact Blob-version pull/copy</td><td>CONFORMS</td><td>Approved account/container/blob/version/ETag/hash/type/size/role plus private RBAC/DNS and WORM copy are required; SAS/URL/public/redirect are denied.</td></tr><tr><td>Evaluation inputs</td><td>CONFORMS</td><td>Internal Audit-owned policy, registries, test suite, release/image digests, schemas and limits bind verdicts.</td></tr><tr><td>Internal Audit-owned assurance software/release package and authority</td><td>CONFORMS-WITH-GAPS</td><td>WP-05 and DU-16 define ownership and signed release gates; package creation remains future owner-bound work.</td></tr><tr><td>Untrusted artifact sandbox</td><td>CONFORMS</td><td>Static default and separately authorised ephemeral no-management/no-secret/no-public-egress sandbox are specified fail-closed.</td></tr><tr><td>Governed analysis/input/configuration hashes</td><td>CONFORMS</td><td>configurationBindingHash and inputManifestHash bind adapter, prompt, model, embedding, safety, chunking, filters and revocation evidence.</td></tr><tr><td>Vector provenance and tenant/case isolation</td><td>CONFORMS</td><td>Vector records and keys include tenant/case, manifest hashes, chunk/evidence provenance, dimensions and schema.</td></tr><tr><td>Prompt-injection/poison/revocation recovery</td><td>CONFORMS</td><td>Hostile-content, cross-boundary, citation, index poison and revocation tests plus known-good alias recovery are specified.</td></tr><tr><td>Producer-signed audit events</td><td>CONFORMS</td><td>Audit events require producer token/signature/trust verification and final signed body hashing.</td></tr><tr><td>Unique stream position/continuity</td><td>CONFORMS</td><td>Unique tenant/case/sequence, SessionId tenantId:caseId, predecessor validation and no continuity advance for gaps/conflicts/poison are specified.</td></tr><tr><td>Signed receipt binding/material guard</td><td>CONFORMS</td><td>Receipt binds identity/key/event/body/stream/signer and role-separated reconciler verifies before VERIFIED_CONTIGUOUS/material transition.</td></tr><tr><td>Queue size/TTL/duplicate/order assertions</td><td>CONFORMS</td><td>Message size, duplicate window, max delivery, dead-letter-on-expiry, TTL/retry relationship and one-dispatcher ordering are assertions/parameters.</td></tr><tr><td>Phase 4 DU/work package/parameter/assertion/control/identity/validation reconciliation</td><td>CONFORMS-WITH-GAPS</td><td>17 DUs, five WPs, 170 parameters, 60 assertions, 12 controls, 10 identities and 19 validation entries reconcile; owner inputs remain fail-closed.</td></tr><tr><td>Dependency rationale/activation sequence</td><td>CONFORMS</td><td>17-node/46-edge graph is acyclic; DU-09→DU-16 rationale and six-step activation are stated.</td></tr><tr><td>Authority overlay</td><td>CONFORMS</td><td>Accessible draw.io/SVG authority overlay is bound and sanitised with title/description and no script/foreignObject/external references.</td></tr><tr><td>HTML</td><td>CONFORMS</td><td>Phase amendment HTML files are self-contained, parseable, Clawpilot-themed with theme detector first and no external runtime dependencies.</td></tr><tr><td>Change-control evidence</td><td>CONFORMS</td><td>Change evidence enumerates all 19 preliminary findings, dispositions, baselines, superseded preliminary copies and review/approval boundaries.</td></tr></tbody></table>
+</section>
+<section>
+<h2>Residual controls</h2>
+<table><thead><tr><th>ID</th><th>Owner</th><th>Status</th><th>Description</th></tr></thead><tbody><tr><td>P4-RC-001</td><td>Named parameter owners</td><td>OPEN_OWNER_BOUND_FAIL_CLOSED</td><td>170 fail-closed implementation parameters need named owner evidence before activation.</td></tr><tr><td>P4-RC-002</td><td>Internal Audit</td><td>OPEN_OWNER_BOUND_FAIL_CLOSED</td><td>WP-05 assurance software/release package is planned but not created; Internal Audit acceptance and signed release are preconditions for DU-16.</td></tr><tr><td>P4-RC-003</td><td>Named control owners</td><td>OPEN_OWNER_BOUND_FAIL_CLOSED</td><td>Twelve controls remain open, gate-bound and unwaived.</td></tr></tbody></table>
+</section>
+<section>
+<h2>Verdict rationale</h2>
+<p>No blocker or unresolved major finding was identified. The remaining gaps are explicit owner-bound fail-closed controls and planned pre-activation work; no approval, convergence, deployment, Azure validation or runtime evidence is claimed.</p>
+<p><strong>Non-approval statement:</strong> AFF-A does not approve, waive, certify, attest, deploy, test, fix or modify the reviewed subject.</p>
+</section>
+</main>
+</body>
+</html>

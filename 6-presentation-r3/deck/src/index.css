@@ -1,0 +1,17 @@
+@import '@deckio/deck-engine/styles/global.css';
+@import '@deckio/deck-engine/themes/shadcn.css';
+
+:root {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-family: var(--font-sans);
+  --default-font-family: var(--font-sans);
+}
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-sans) !important;
+}

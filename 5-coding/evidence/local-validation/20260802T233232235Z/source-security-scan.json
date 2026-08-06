@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "source-security-scan",
+  "scope": "Security",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File validation/Scan-SourceSecurity.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T23:47:17.9360541Z",
+  "endedAt": "2026-08-02T23:47:20.6979346Z",
+  "durationMilliseconds": 2762.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T233232235Z/source-security-scan.log"
+}

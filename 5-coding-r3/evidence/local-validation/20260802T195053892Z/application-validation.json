@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "application-validation",
+  "scope": "Application",
+  "status": "PASS",
+  "command": "npm run validate",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T20:04:35.5050779Z",
+  "endedAt": "2026-08-02T20:04:51.3847842Z",
+  "durationMilliseconds": 15880.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T195053892Z/application-validation.log"
+}

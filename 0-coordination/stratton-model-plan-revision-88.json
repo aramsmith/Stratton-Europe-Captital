@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "88",
+  "createdAt": "2026-08-04T03:16:58+02:00",
+  "revisionReason": "Add a seventh section-divider title slide introducing the Stratton Europe Capital Frontier Company Solution.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-87.json",
+    "sha256": "60ebf6a6316eee1e7bc332e02443566b0a9d5ff130dfdd84da8e939e689184c3",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 7,
+    "change": "Create a new title slide named 'The Stratton Europe Capital Frontier Company Solution' with a subtitle explaining the deeper meaning of the solution."
+  },
+  "implementation": {
+    "title": "The Stratton Europe Capital Frontier Company Solution",
+    "subtitle": "A sovereign Azure AI operating platform where trusted data, specialist agents and human judgement work as one governed investment capability—accelerating decisions, scaling portfolio value creation and enabling Stratton's next generation of services.",
+    "supportingDefinition": "Trusted data · Specialist agents · Retained human authority",
+    "visual": {
+      "concept": "centered frontier system",
+      "rotatingOrbitCount": 3,
+      "core": "governed investment capability",
+      "continuousMotion": true,
+      "orbitCentersStable": true,
+      "prefersReducedMotion": "continuous motion disabled"
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "titleLines": 2,
+      "textOverflow": false,
+      "visualOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "consoleErrors": 0,
+      "visualInspection": "pass",
+      "cssWhitespaceAndTokenCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/FrontierSolutionTitleSlide.jsx",
+      "sha256": "00ae113b05c19d4b35884602e9202967ed654d7ed4c315215d42302022305b9d"
+    },
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/FrontierSolutionTitleSlide.module.css",
+      "sha256": "9b0f373604ab0d74aa7494400e233a22f8c80bbc9b546d2ca546a01595f291ba"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "1784ada111427c2e95564398dbc3fcf1de28653cb26cd0dcf567a0d1487c6eda"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 7,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

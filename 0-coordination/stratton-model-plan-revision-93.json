@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "93",
+  "createdAt": "2026-08-04T11:14:23.6618196+02:00",
+  "revisionReason": "Shorten the Slide 8 phase-boundary statement by removing the clause 'is required before Phase 2.'",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-92.json",
+    "sha256": "d15c927f33577bdd0390241097f82ac0eed25b367ca4ea704c1980f5ed882bda",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 8,
+    "request": "Remove the last part of the phase-boundary sentence: 'is required before Phase 2.'"
+  },
+  "contentChange": {
+    "before": "Rubber Duck and Security & Compliance assurance over the same unchanged evidence, followed by explicit human approval, is required before Phase 2.",
+    "after": "Rubber Duck and Security & Compliance assurance over the same unchanged evidence, followed by explicit human approval."
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentOrRuntimeClaimed": false
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "registeredSlides": 15,
+    "renderedSlide": 8,
+    "removedClausePresent": false,
+    "visualFit": "pass"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.jsx",
+      "sha256": "dd8dbb610808deb7a73ddbcd69e1353597f6176ab56730672035b2d41be00cf4"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 15,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

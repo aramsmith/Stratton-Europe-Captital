@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "application-dependencies",
+  "scope": "Application",
+  "status": "PASS",
+  "command": "npm ci --offline --ignore-scripts",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T20:22:12.7519519Z",
+  "endedAt": "2026-08-02T20:22:17.0953020Z",
+  "durationMilliseconds": 4343.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T200846030Z/application-dependencies.log"
+}

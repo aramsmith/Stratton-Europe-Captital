@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_AFF_B_REMEDIATION_DISPOSITIONS",
+  "generatedAt": "2026-08-03T11:41:52.924495+02:00",
+  "modelPlanRevision": "18",
+  "sourceReview": {
+    "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.json",
+    "sha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+    "verdict": "DIVERGES"
+  },
+  "coverage": {
+    "path": "reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+    "sha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382"
+  },
+  "dispositions": [
+    {
+      "findingId": "AFFB-P6-R1-MAJ-001",
+      "severity": "MAJOR",
+      "disposition": "RESOLVED_IN_REVISION_3_CANDIDATE_PENDING_REVIEW",
+      "evidence": [
+        "deck/src/index.css explicitly selects a system font stack.",
+        "deck/tooling/build-portable-hardened.mjs reproducibly builds with relative base, removes complete generated remote CSS imports and fails on any remaining external CSS dependency.",
+        "evidence/recursive-static-asset-scan.json recursively inventories the production package and records zero external dependencies.",
+        "evidence/runtime-network-receipt.json records every observed HTTP(S) request while traversing all ten slides: eight successful local requests, zero failures and zero external requests.",
+        "Static JavaScript URL strings are distinguished from observed runtime calls; no licensing conclusion is made."
+      ]
+    },
+    {
+      "findingId": "AFFB-P6-R1-MIN-001",
+      "severity": "MINOR",
+      "disposition": "RESOLVED_IN_REVISION_3_CANDIDATE_PENDING_REVIEW",
+      "evidence": [
+        "evidence/pdf-export.log contains case-relative paths only and binds the final canonical PDF.",
+        "evidence/pdf-metadata-sanitisation.json records pre/post metadata, removal of information and XMP metadata, raw-byte scans, final hash/bytes/pages and intermediate deletion.",
+        "Final raw PDF bytes and case-relative export evidence contain zero dynamic local-identity, user-profile, workspace, browser/platform-fingerprint or pre-metadata value matches.",
+        "evidence/evidence-disclosure-scan.json scans the complete revision-3 candidate using runtime-derived local identity/path checks and ephemeral pre-metadata values; every category has zero findings and no sensitive literal is retained in the scan evidence."
+      ]
+    }
+  ],
+  "reviewBoundary": "Candidate remediation only; AFF-6 does not waive, approve or make a licensing conclusion. Fresh AFF-A and AFF-B review is required.",
+  "overallStatus": "ALL_AFF_B_ROUND_1_FINDINGS_REMEDIATED_PENDING_INDEPENDENT_REVIEW"
+}

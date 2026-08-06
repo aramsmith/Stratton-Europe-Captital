@@ -1,0 +1,29 @@
+{
+  "hashAlgorithm": "SHA-256",
+  "artifacts": [
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-cc-002-candidate-validation.json",
+      "sha256": "72b9ee537edc2c7e69723e31cea7ef203755895583ecd3d36eebebe26ed5e975"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-cc-002-change-control-evidence.json",
+      "sha256": "6b8f8071261ae68c6ea67134550ee81fffefcaf6329ae37eba12585a9c5a35e8"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-cc-002-hash-generation-evidence.json",
+      "sha256": "1009c67e82cb358381063616f0250b80980269cbec8fa38f83cebc19b81267a5"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-cc-002-phase-4-amendment.html",
+      "sha256": "f49da133c20f584c68277fa5f7fd344d86a46cd37a1ce4e4547b19b75719a13a"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-cc-002-phase-4-amendment.md",
+      "sha256": "a627cd330631d68b6c7a9d3bb91032e2ec93963818556c1f9c499428ddddae0b"
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-implementation-catalogue-cc-002-proposed.json",
+      "sha256": "f6f0cf219a154b229b2eeb2e2df75eee6709930e59c141dd27edec9566aa8699"
+    }
+  ]
+}

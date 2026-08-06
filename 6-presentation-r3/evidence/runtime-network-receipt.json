@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_RUNTIME_NETWORK_RECEIPT",
+  "modelPlanRevision": "18",
+  "inspectedArtifact": "deck/dist/index.html",
+  "nestedPath": "/deck/dist/index.html",
+  "initialHttpStatus": 200,
+  "slideCount": 10,
+  "requestCount": 8,
+  "successfulRequestCount": 8,
+  "failedRequestCount": 0,
+  "externalRequestCount": 0,
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/index.html",
+      "resourceType": "document",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 2,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/index-DNtO7an0.js",
+      "resourceType": "script",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 3,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "resourceType": "script",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 4,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/index-DPds-IG7.css",
+      "resourceType": "stylesheet",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 5,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/target-application-architecture-5pITgYky.svg",
+      "resourceType": "image",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 6,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/azure-landing-zone-topology-Bx_9uG7a.svg",
+      "resourceType": "image",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 7,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/delivery-dependency-dag-ZaHOHQFh.svg",
+      "resourceType": "image",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 8,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/deckio.png",
+      "resourceType": "other",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    }
+  ],
+  "successfulRequests": [
+    {
+      "sequence": 1,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/index.html",
+      "resourceType": "document",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 2,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/index-DNtO7an0.js",
+      "resourceType": "script",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 3,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "resourceType": "script",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 4,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/index-DPds-IG7.css",
+      "resourceType": "stylesheet",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 5,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/target-application-architecture-5pITgYky.svg",
+      "resourceType": "image",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 6,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/azure-landing-zone-topology-Bx_9uG7a.svg",
+      "resourceType": "image",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 7,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/assets/delivery-dependency-dag-ZaHOHQFh.svg",
+      "resourceType": "image",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    },
+    {
+      "sequence": 8,
+      "method": "GET",
+      "url": "http://127.0.0.1:50402/deck/dist/deckio.png",
+      "resourceType": "other",
+      "scope": "LOCAL",
+      "responseStatus": 200,
+      "failure": null
+    }
+  ],
+  "failedRequests": [],
+  "externalRequests": [],
+  "consoleErrors": [],
+  "interpretation": "This receipt records observed HTTP(S) calls while loading and traversing all ten slides. Static URL strings that were not requested are production-inert for this execution. No licensing conclusion is made.",
+  "overallStatus": "PASS"
+}

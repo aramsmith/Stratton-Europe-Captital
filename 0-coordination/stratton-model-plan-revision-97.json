@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "97",
+  "createdAt": "2026-08-04T18:25:54.6341638+02:00",
+  "revisionReason": "Increase Slide 9 luminance and typography while preserving the approved TOGAF architecture and disclosure sequence.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-96.json",
+    "sha256": "d0e17b8b053d16ebacac81f6a9dc17c64d2307ce95155ca098217cb07c0f7837",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 9,
+    "request": "Make Slide 9 brighter and increase the architecture lettering."
+  },
+  "contentChange": {
+    "summary": [
+      "Slide 9 uses brighter architecture surfaces, stronger borders and clearer connectors without changing its approved composition.",
+      "Unrevealed content remains readable at 0.82 opacity and saturate(0.92), with no positional translation.",
+      "Architecture, authority and metric typography is enlarged to the approved presentation-distance scale."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentOrRuntimeClaimed": false
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "registeredSlides": 15,
+    "renderedSlide": 9,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotion": "pass",
+    "mutedStateOpacity": 0.82,
+    "mutedStateFilter": "saturate(0.92)"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.jsx",
+      "sha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.module.css",
+      "sha256": "eb4e11a47b98bf395f3ff0a98e242a1dd109f1b33b3281911dddc33cf6cc51ff"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 15,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

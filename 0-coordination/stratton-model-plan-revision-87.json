@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "87",
+  "createdAt": "2026-08-04T03:07:12+02:00",
+  "revisionReason": "Set the sequential assurance highlight interval to exactly two seconds per step.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-86.json",
+    "sha256": "ca1a50205156c0a256af0896b2d3885bf0978d94c4b1d45ee157585b5c899c92",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 6,
+    "change": "Set the assurance sequence to two seconds per step."
+  },
+  "implementation": {
+    "assuranceSequence": {
+      "stepIntervalMs": 2000,
+      "stepCount": 7,
+      "loopDurationMs": 14000,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "simultaneousHighlightsObserved": 1,
+      "returnsToStep1": true,
+      "strictSequenceObserved": true
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "runtimeTimingCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "sha256": "641c565f969b58a2ccf7715bd4f99a136081dd3c7253195bb844b8f3a9906239"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

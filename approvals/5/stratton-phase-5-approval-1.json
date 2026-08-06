@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-5-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-03T09:52:17.1047245+02:00",
+  "modelPlanRevision": "15",
+  "subjectHashManifest": {
+    "path": "5-coding-r4/stratton-phase-5-hashes.json",
+    "sha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+    "sha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+    "sha256": "b5f45d920b7d6a75cc47aabe1b1b6057d364f0c682875d93473e2bb4497b361b"
+  },
+  "residualGaps": [
+    "Assurance verdict issuance is not deployable in DU-12",
+    "Analysis execution interface remains authority-blocked",
+    "Audit evidence export interface remains authority-blocked",
+    "VAL-001",
+    "VAL-002",
+    "VAL-003",
+    "VAL-004",
+    "VAL-005",
+    "AFFB-RES-001",
+    "AFFB-RES-002",
+    "CC1-OWN-001",
+    "CC1-OWN-002",
+    "CC1-OWN-003",
+    "CC1-OWN-004",
+    "CC1-OWN-005",
+    "CC1-OWN-006",
+    "CC1-OWN-007",
+    "AFFB-CC001-R2-MIN-001",
+    "AFFB-CC001-R3-MIN-002"
+  ],
+  "constraints": [
+    "Approval accepts only the frozen Phase 5 revision-4 manifest and its 155 hash-bound artifacts as the approved coding baseline.",
+    "Approval accepts no waiver, closure, certification or solved status for any residual gap.",
+    "All three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps remain open, unwaived and fail closed.",
+    "Phase 6 may use only evidence approved through Phase 5 and must distinguish implemented and statically validated code from untested runtime behaviour.",
+    "Approval makes Phase 6 eligible but does not itself approve the Phase 6 presentation.",
+    "No Azure sign-in, target validation, what-if, deployment, retention finalisation, cloud validation, runtime testing or operating-effectiveness claim is authorised.",
+    "Phases 7 and 8 remain optional and require separate explicit human invocation and scoped authorisation.",
+    "Any material change to the approved Phase 5 package requires a new sibling candidate, new converged AFF-A and AFF-B reviews, and a new human decision."
+  ]
+}

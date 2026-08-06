@@ -1,0 +1,825 @@
+.agenticArchitectureRing {
+  background: var(--background);
+  padding: 0 0 44px 0;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 520px;
+  height: 520px;
+  top: -210px;
+  right: -120px;
+  background: radial-gradient(
+    circle at 42% 42%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 25%, transparent) 52%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 430px;
+  height: 430px;
+  bottom: -170px;
+  left: 360px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 20%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  padding-top: 14px;
+  padding-bottom: 18px;
+}
+
+.header {
+  display: grid;
+  gap: 7px;
+  max-width: 1240px;
+}
+
+.title {
+  padding-bottom: 5px;
+  color: var(--foreground);
+  font-size: clamp(36px, 3.2vw, 41px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.subtitle {
+  max-width: 1120px;
+  color: var(--muted-foreground);
+  font-size: 15.5px;
+  line-height: 1.42;
+}
+
+.composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.62fr) minmax(390px, 0.98fr);
+  gap: 16px;
+  min-height: 720px;
+}
+
+.ringPanel,
+.principlesPanel {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--secondary) 72%, transparent);
+  box-shadow: var(--shadow-elevated);
+}
+
+.ringPanel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow: visible;
+  place-items: center;
+  padding: 10px 12px 9px;
+}
+
+.ringPanel::before,
+.principlesPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+  opacity: 0.88;
+}
+
+.ringCanvas {
+  position: relative;
+  width: min(100%, 574px);
+  aspect-ratio: 1;
+  isolation: isolate;
+}
+
+.ringCanvas::before {
+  content: '';
+  position: absolute;
+  inset: 14%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--purple) 16%, transparent),
+    color-mix(in srgb, var(--cyan) 8%, transparent) 48%,
+    transparent 72%
+  );
+  filter: blur(18px);
+}
+
+.ringCanvas::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--review-orbit-radius, 326px) * 2);
+  height: calc(var(--review-orbit-radius, 326px) * 2);
+  border: 1px dashed color-mix(in srgb, var(--pink) 38%, var(--cyan));
+  border-radius: 50%;
+  opacity: 0.52;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.ringField {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.outerField {
+  fill: color-mix(in srgb, var(--secondary) 46%, transparent);
+  stroke: color-mix(in srgb, var(--cyan) 24%, var(--border));
+  stroke-width: 2;
+}
+
+.orbitLine {
+  fill: color-mix(in srgb, var(--background) 74%, transparent);
+  stroke: color-mix(in srgb, var(--cyan) 74%, white);
+  stroke-width: 3;
+  stroke-dasharray: 10 10;
+  filter: drop-shadow(0 0 8px var(--glow-cyan));
+}
+
+.assuranceField {
+  fill: color-mix(in srgb, var(--purple) 10%, var(--background));
+  stroke: color-mix(in srgb, var(--purple) 72%, white);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 9px color-mix(in srgb, var(--purple) 42%, transparent));
+}
+
+.humanRing {
+  fill: color-mix(in srgb, var(--background) 86%, transparent);
+  stroke: color-mix(in srgb, var(--foreground) 34%, var(--border));
+  stroke-width: 2;
+}
+
+.architectCore {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 202px;
+  height: 202px;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 56%, var(--border));
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--cyan) 9%, var(--secondary)), var(--background) 72%);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.38),
+    inset 0 0 0 6px rgba(255, 255, 255, 0.018),
+    0 0 24px color-mix(in srgb, var(--cyan) 14%, transparent);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.personIcon {
+  width: 58px;
+  height: 66px;
+  fill: color-mix(in srgb, var(--cyan) 32%, var(--foreground));
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--cyan) 30%, transparent));
+}
+
+.architectCore strong {
+  color: var(--foreground);
+  font-size: 17px;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.architectCore span {
+  max-width: 160px;
+  color: var(--muted-foreground);
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+.phaseNodeLayer,
+.reviewerLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.phaseNodeShell,
+.reviewerNodeShell {
+  min-width: 0;
+}
+
+.phaseNode {
+  --sphere-accent: var(--cyan);
+  --sphere-deep: var(--purple-deep);
+  --sphere-duration: 13s;
+  --meridian-duration: 8s;
+
+  position: absolute;
+  z-index: 5;
+  top: var(--node-y);
+  left: var(--node-x);
+  display: grid;
+  width: 84px;
+  height: 84px;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 4px;
+  border: 1.5px solid color-mix(in srgb, var(--cyan) 38%, var(--border));
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 27% 22%,
+      rgba(255, 255, 255, 0.48) 0 4%,
+      rgba(255, 255, 255, 0.12) 10%,
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 36% 30%,
+      color-mix(in srgb, var(--sphere-accent) 42%, var(--secondary)) 0 16%,
+      color-mix(in srgb, var(--sphere-accent) 18%, var(--secondary)) 38%,
+      color-mix(in srgb, var(--sphere-deep) 54%, var(--background)) 72%,
+      #05070b 100%
+    );
+  box-shadow:
+    0 11px 20px rgba(0, 0, 0, 0.38),
+    inset 9px 8px 14px rgba(255, 255, 255, 0.05),
+    inset -13px -15px 20px rgba(0, 0, 0, 0.48),
+    0 0 14px color-mix(in srgb, var(--sphere-accent) 16%, transparent);
+  perspective: 220px;
+  transform-style: preserve-3d;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.phaseNode::before,
+.reviewerNode::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: -18%;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 12deg,
+      transparent 0 10%,
+      color-mix(in srgb, var(--sphere-accent) 32%, transparent) 18%,
+      transparent 28% 48%,
+      color-mix(in srgb, white 14%, transparent) 57%,
+      transparent 67% 84%,
+      color-mix(in srgb, var(--sphere-accent) 24%, transparent) 92%,
+      transparent 100%
+    );
+  opacity: 0.72;
+  pointer-events: none;
+  transform: rotate(0deg) scale(1.14);
+  transform-origin: center;
+}
+
+.phaseNode::after,
+.reviewerNode::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 8px 25px;
+  border: 1px solid color-mix(in srgb, var(--sphere-accent) 46%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    inset 2px 0 5px color-mix(in srgb, white 12%, transparent),
+    0 0 7px color-mix(in srgb, var(--sphere-accent) 16%, transparent);
+  opacity: 0.7;
+  pointer-events: none;
+  transform: rotateZ(12deg) rotateY(0deg);
+  transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+.phaseNode span {
+  position: relative;
+  z-index: 3;
+  color: var(--cyan);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.92);
+  text-transform: uppercase;
+}
+
+.phaseNode strong {
+  position: relative;
+  z-index: 3;
+  max-width: 74px;
+  color: var(--secondary-foreground);
+  font-size: 10.5px;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.94);
+}
+
+.compactPhaseNode strong {
+  font-size: 9px;
+}
+
+:global(:root[data-font-mode='jetbrains']) .phaseNode strong {
+  font-size: 9.5px;
+}
+
+:global(:root[data-font-mode='jetbrains']) .compactPhaseNode strong {
+  font-size: 8.5px;
+}
+
+.optionalNode {
+  --sphere-accent: #fbbf24;
+  --sphere-deep: #6b3d00;
+
+  border-color: color-mix(in srgb, #fbbf24 68%, var(--border));
+  border-style: dashed;
+}
+
+.optionalNode span {
+  color: #fbbf24;
+}
+
+.reviewerOrbit {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  --review-orbit-radius: 326px;
+  transform: translate(-50%, -50%) rotate(var(--review-angle)) translateX(var(--review-orbit-radius));
+  transform-origin: center;
+}
+
+.reviewerNode {
+  --sphere-accent: var(--pink);
+  --sphere-deep: var(--purple-deep);
+  --sphere-duration: 11s;
+  --meridian-duration: 7s;
+
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 80px;
+  height: 80px;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 7px;
+  border: 1px solid color-mix(in srgb, var(--pink) 64%, var(--border));
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 27% 22%,
+      rgba(255, 255, 255, 0.5) 0 4%,
+      rgba(255, 255, 255, 0.12) 10%,
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 36% 30%,
+      color-mix(in srgb, var(--sphere-accent) 42%, var(--secondary)) 0 16%,
+      color-mix(in srgb, var(--sphere-accent) 18%, var(--secondary)) 38%,
+      color-mix(in srgb, var(--sphere-deep) 54%, var(--background)) 72%,
+      #08050b 100%
+    );
+  box-shadow:
+    0 11px 20px rgba(0, 0, 0, 0.4),
+    inset 8px 7px 13px rgba(255, 255, 255, 0.05),
+    inset -12px -14px 19px rgba(0, 0, 0, 0.5),
+    0 0 16px color-mix(in srgb, var(--sphere-accent) 18%, transparent);
+  perspective: 210px;
+  transform-style: preserve-3d;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.reviewerNode strong {
+  position: relative;
+  z-index: 3;
+  max-width: 66px;
+  color: color-mix(in srgb, var(--pink) 74%, white);
+  font-size: 9px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.94);
+  text-transform: uppercase;
+}
+
+.reviewerNode span {
+  position: relative;
+  z-index: 3;
+  color: var(--muted-foreground);
+  font-size: 8.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.94);
+  text-transform: uppercase;
+}
+
+.figureCaption {
+  position: absolute;
+  right: 1px;
+  bottom: -9px;
+  max-width: 198px;
+  padding: 4px 6px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 24%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background) 70%, transparent);
+  color: var(--muted-foreground);
+  font-family: var(--font-family-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.principlesPanel {
+  padding: 12px;
+}
+
+.principles {
+  display: grid;
+  align-content: stretch;
+  gap: 8px;
+  height: 100%;
+}
+
+.principleShell {
+  min-width: 0;
+}
+
+.principle {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  height: 100%;
+  min-height: 98px;
+  padding: 8px 12px 8px 16px;
+  border: 1px solid color-mix(in srgb, var(--purple) 26%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--secondary) 74%, transparent);
+}
+
+.principle::before {
+  content: '';
+  position: absolute;
+  inset: 12px auto 12px 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--cyan), var(--purple), var(--pink));
+}
+
+.principle h3 {
+  color: var(--secondary-foreground);
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.principle p {
+  color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground));
+  font-size: 16px;
+  line-height: 1.28;
+}
+
+.agenticArchitectureRing:global(.active) .title,
+.agenticArchitectureRing:global(.active) .subtitle,
+.agenticArchitectureRing:global(.active) .outerField,
+.agenticArchitectureRing:global(.active) .orbitLine,
+.agenticArchitectureRing:global(.active) .assuranceField,
+.agenticArchitectureRing:global(.active) .humanRing,
+.agenticArchitectureRing:global(.active) .architectCore,
+.agenticArchitectureRing:global(.active) .phaseNode,
+.agenticArchitectureRing:global(.active) .reviewerNode,
+.agenticArchitectureRing:global(.active) .principleShell,
+.agenticArchitectureRing:global(.active) .figureCaption {
+  opacity: 0;
+}
+
+.agenticArchitectureRing:global(.active) .title {
+  animation: ringTitleIn 620ms cubic-bezier(.16, 1, .3, 1) 70ms both;
+}
+
+.agenticArchitectureRing:global(.active) .subtitle {
+  animation: ringTextIn 720ms cubic-bezier(.16, 1, .3, 1) 230ms both;
+}
+
+.agenticArchitectureRing:global(.active) .outerField {
+  animation: fieldEmerge 950ms cubic-bezier(.16, 1, .3, 1) 360ms both;
+  transform-origin: center;
+}
+
+.agenticArchitectureRing:global(.active) .orbitLine {
+  animation:
+    ringResolve 1050ms cubic-bezier(.16, 1, .3, 1) 520ms both,
+    orbitTravel 22s linear 3000ms infinite;
+}
+
+.agenticArchitectureRing:global(.active) .assuranceField,
+.agenticArchitectureRing:global(.active) .humanRing {
+  animation: ringResolve 1050ms cubic-bezier(.16, 1, .3, 1) 620ms both;
+}
+
+.agenticArchitectureRing:global(.active) .architectCore {
+  animation: architectEmerge 1050ms cubic-bezier(.16, 1, .3, 1) 700ms both;
+}
+
+.agenticArchitectureRing:global(.active) .reviewerOrbit {
+  animation: reviewerOrbit 26s linear 3000ms infinite;
+}
+
+.agenticArchitectureRing:global(.active) .reviewerOrbit .reviewerNode {
+  animation:
+    reviewerConverge 850ms cubic-bezier(.16, 1, .3, 1) var(--review-delay) both,
+    reviewerCounterOrbit 26s linear 3000ms infinite;
+}
+
+.agenticArchitectureRing:global(.active) .phaseNode::before {
+  animation: sphereSurfaceSpin var(--sphere-duration) linear calc(var(--phase-delay) + 900ms) infinite;
+}
+
+.agenticArchitectureRing:global(.active) .phaseNode::after {
+  animation: sphereMeridianSpin var(--meridian-duration) ease-in-out calc(var(--phase-delay) + 980ms) infinite;
+}
+
+.agenticArchitectureRing:global(.active) .reviewerNode::before {
+  animation: sphereSurfaceSpin var(--sphere-duration) linear calc(var(--review-delay) + 720ms) infinite;
+}
+
+.agenticArchitectureRing:global(.active) .reviewerNode::after {
+  animation: sphereMeridianSpin var(--meridian-duration) ease-in-out calc(var(--review-delay) + 800ms) infinite;
+}
+
+.agenticArchitectureRing:global(.active) .phaseNodeShell:nth-child(even) .phaseNode::before,
+.agenticArchitectureRing:global(.active) .reviewerNodeShell:nth-child(2) .reviewerNode::before {
+  animation-direction: reverse;
+}
+
+.agenticArchitectureRing:global(.active) .phaseNodeShell:nth-child(3n) .phaseNode {
+  --sphere-duration: 15s;
+  --meridian-duration: 9s;
+}
+
+.agenticArchitectureRing:global(.active) .phaseNode {
+  animation: phaseArrive 1050ms cubic-bezier(.16, 1, .3, 1) var(--phase-delay) both;
+}
+
+.agenticArchitectureRing:global(.active) .principleShell {
+  animation: principleReveal 560ms cubic-bezier(.16, 1, .3, 1) 760ms both;
+}
+
+.agenticArchitectureRing:global(.active) .principleShell:nth-child(2) {
+  animation-delay: 900ms;
+}
+
+.agenticArchitectureRing:global(.active) .principleShell:nth-child(3) {
+  animation-delay: 1040ms;
+}
+
+.agenticArchitectureRing:global(.active) .principleShell:nth-child(4) {
+  animation-delay: 1180ms;
+}
+
+.agenticArchitectureRing:global(.active) .principleShell:nth-child(5) {
+  animation-delay: 1320ms;
+}
+
+.agenticArchitectureRing:global(.active) .figureCaption {
+  animation: ringTextIn 500ms ease 2400ms both;
+}
+
+@keyframes ringTitleIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(0, -14px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes ringTextIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fieldEmerge {
+  from {
+    opacity: 0.18;
+    transform: scale(.72);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ringResolve {
+  from {
+    opacity: 0;
+    stroke-dashoffset: 180;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    filter: blur(0);
+  }
+}
+
+@keyframes architectEmerge {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate(-50%, -50%) scale(.62);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes reviewerConverge {
+  from {
+    opacity: 0;
+    filter: blur(7px);
+    transform: translate(calc(-50% + var(--review-entry-x)), -50%) rotate(calc(var(--review-angle) * -1));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) rotate(calc(var(--review-angle) * -1));
+  }
+}
+
+@keyframes reviewerOrbit {
+  from {
+    transform: translate(-50%, -50%) rotate(var(--review-angle)) translateX(var(--review-orbit-radius));
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(calc(var(--review-angle) + 360deg)) translateX(var(--review-orbit-radius));
+  }
+}
+
+@keyframes reviewerCounterOrbit {
+  from {
+    transform: translate(-50%, -50%) rotate(calc(var(--review-angle) * -1));
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(calc((var(--review-angle) + 360deg) * -1));
+  }
+}
+
+@keyframes phaseArrive {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform:
+      translate(
+        calc(-50% + var(--entry-x)),
+        calc(-50% + var(--entry-y))
+      )
+      rotate(var(--entry-rotate))
+      scale(.76);
+  }
+  72% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) rotate(0) scale(1);
+  }
+}
+
+@keyframes principleReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0 round 12px);
+    transform: translate3d(14px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 12px);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes orbitTravel {
+  to {
+    stroke-dashoffset: -120;
+  }
+}
+
+@keyframes sphereSurfaceSpin {
+  from {
+    transform: rotate(0deg) scale(1.14);
+  }
+  to {
+    transform: rotate(360deg) scale(1.14);
+  }
+}
+
+@keyframes sphereMeridianSpin {
+  0% {
+    opacity: 0.46;
+    transform: rotateZ(12deg) rotateY(0deg);
+  }
+  25% {
+    opacity: 0.78;
+    transform: rotateZ(12deg) rotateY(82deg);
+  }
+  50% {
+    opacity: 0.38;
+    transform: rotateZ(12deg) rotateY(180deg);
+  }
+  75% {
+    opacity: 0.78;
+    transform: rotateZ(12deg) rotateY(278deg);
+  }
+  100% {
+    opacity: 0.46;
+    transform: rotateZ(12deg) rotateY(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agenticArchitectureRing:global(.active) .title,
+  .agenticArchitectureRing:global(.active) .subtitle,
+  .agenticArchitectureRing:global(.active) .outerField,
+  .agenticArchitectureRing:global(.active) .orbitLine,
+  .agenticArchitectureRing:global(.active) .assuranceField,
+  .agenticArchitectureRing:global(.active) .humanRing,
+  .agenticArchitectureRing:global(.active) .architectCore,
+  .agenticArchitectureRing:global(.active) .phaseNode,
+  .agenticArchitectureRing:global(.active) .reviewerNode,
+  .agenticArchitectureRing:global(.active) .principleShell,
+  .agenticArchitectureRing:global(.active) .figureCaption {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    clip-path: none;
+  }
+
+  .agenticArchitectureRing:global(.active) .phaseNode::before,
+  .agenticArchitectureRing:global(.active) .phaseNode::after,
+  .agenticArchitectureRing:global(.active) .reviewerNode::before,
+  .agenticArchitectureRing:global(.active) .reviewerNode::after {
+    animation: none;
+  }
+
+  .agenticArchitectureRing:global(.active) .reviewerOrbit,
+  .agenticArchitectureRing:global(.active) .reviewerOrbit .reviewerNode {
+    animation: none;
+  }
+
+  .reviewerOrbit {
+    transform: translate(-50%, -50%) rotate(var(--review-angle)) translateX(var(--review-orbit-radius));
+  }
+
+  .reviewerOrbit .reviewerNode {
+    transform: translate(-50%, -50%) rotate(calc(var(--review-angle) * -1));
+  }
+}

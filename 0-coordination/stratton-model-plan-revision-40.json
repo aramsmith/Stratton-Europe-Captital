@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "40",
+  "createdAt": "2026-08-03T18:19:43.5625372+02:00",
+  "revisionReason": "Remove the named-institutional-clients disclaimer sentence from slide 2 at the human architect's direction.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-39.json",
+    "sha256": "f9a1d1af4b69b70b0395dcf2f20845749c6f75d799efc66deb4b2156ac8f9bd5",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "removedText": "The case does not identify named institutional clients; none are invented here."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

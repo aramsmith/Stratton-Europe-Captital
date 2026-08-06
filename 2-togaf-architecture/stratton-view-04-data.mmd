@@ -1,0 +1,17 @@
+flowchart LR
+  S1[Internal authoritative records] --> G1[Source and owner gate]
+  S2[External records] --> G2[Licence and purpose gate]
+  G1 --> Q[Quarantine and content controls]
+  G2 --> Q
+  Q --> M[Classified evidence envelope]
+  M --> P[Provenance and quality metadata]
+  P --> W[Controlled working evidence]
+  W --> A[Assistive processing]
+  A --> O[Cited draft outputs]
+  O --> R[Human review records]
+  M --> E[Audit and regulatory evidence]
+  O --> E
+  R --> E
+  W --> D[Disposition by source schedule, legal hold and necessity]
+  A -. no foundation-model training .-> N[Training prohibited]
+  O -. no source-system write-back .-> S1

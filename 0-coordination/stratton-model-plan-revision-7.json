@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "7",
+  "supersedesRevision": "6",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-6.json",
+  "generatedAt": "2026-08-02T14:08:46.058+02:00",
+  "changeReason": "Append-only STRATTON-CC-001 reassessment recording the human-selected Phase 3 and Phase 4 amendment directions, retained default author/reviewer models, preliminary review start, and the continuing active Phase 5 fail-closed gate.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefault": "gpt-5.3-codex",
+    "selectedExactGptModelId": "gpt-5.3-codex",
+    "actualRuntimeModelId": "gpt-5.3-codex",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved coding default remains best suited to the active Phase 5 implementation and local validation work.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "ACTIVE_PHASE_5_PRESERVED_AUTHORITY_INTERFACE_FINALISATION_GATED"
+  },
+  "changeControl": {
+    "changeControlId": "STRATTON-CC-001",
+    "status": "PROPOSED_PENDING_REVIEW_AND_HUMAN_APPROVAL",
+    "affectedPhaseIds": [
+      "3",
+      "4"
+    ],
+    "approvedBaselinesPreserved": true,
+    "phase5State": "ACTIVE",
+    "phase5Gate": "Authority-interface finalisation remains fail-closed pending converged AFF-A/AFF-B review and explicit human approval of the proposed Phase 3 and Phase 4 amendments.",
+    "humanDirectionDecision": {
+      "source": "Active AI interaction",
+      "decider": "@aramsmith",
+      "recordedAt": "2026-08-02T14:08:46.058+02:00",
+      "selections": [
+        {
+          "id": "HS-001",
+          "direction": "Amend Phase 3 and Phase 4 to define an Internal Audit-owned verdict API and compute boundary."
+        },
+        {
+          "id": "HS-002",
+          "direction": "Amend Phase 3 and Phase 4 to define a governed production analysis and vectorization contract."
+        },
+        {
+          "id": "HS-003",
+          "direction": "Amend Phase 3 and Phase 4 to define an Internal Audit-owned immutable audit export push endpoint and queue."
+        }
+      ],
+      "proposalApprovalGranted": false,
+      "runScopedModelOverrideApproved": false,
+      "additionalHumanModelApprovalRequired": false,
+      "modelDecisionRationale": "All approved default model assignments were retained; the human selections concern amendment direction, not a model override."
+    },
+    "proposalBindings": {
+      "phase3ManifestPath": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+      "phase3ManifestSha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61",
+      "phase4ManifestPath": "4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json",
+      "phase4ManifestSha256": "07e7ed846de55a4dc9f3a0685d87989ed0f9d36852aea78f2720749c3b7d7b7d",
+      "proposalGeneratedAt": "2026-08-02T13:52:31.709+02:00",
+      "reviewSubjectHashesMustRemainUnchanged": true
+    }
+  },
+  "reopenedAuthoringAssignments": [
+    {
+      "agent": "AFF-3",
+      "phaseId": "3",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The approved architecture default remains best suited to defining the Azure authority, API, compute, data, identity, private-network and fail-closed contract boundaries required by STRATTON-CC-001.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "assignmentStatus": "PROPOSAL_AUTHORED_REVIEW_IN_PROGRESS"
+    },
+    {
+      "agent": "AFF-4",
+      "phaseId": "4",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The approved implementation-planning default remains best suited to translating the selected authority contracts into dependency ordering, parameters, assertions, validation and rollback gates.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "assignmentStatus": "PROPOSAL_AUTHORED_REVIEW_IN_PROGRESS"
+    }
+  ],
+  "reviewAssignments": {
+    "reviewState": "PRELIMINARY_REVIEWS_STARTED_NO_VERDICT_OR_APPROVAL_RECORDED",
+    "affA": {
+      "agent": "AFF-A",
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "actualRuntimeModelId": "gpt-5.5",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The dedicated independent reasoning default is retained for correctness, internal consistency, traceability and fail-closed challenge across both proposed amendment manifests.",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained."
+    },
+    "affB": {
+      "agent": "AFF-B",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The approved assurance default is retained for evidence-based security, privacy, sovereignty and compliance review of the proposed authority boundaries and contracts.",
+      "mustDifferFromPhaseAuthor": false,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationStatus": "INDEPENDENT_AGENT_ROLE_MODEL_DIFFERENCE_NOT_REQUIRED",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained."
+    },
+    "subjectSeparation": {
+      "phase3ReviewInvoker": "AFF-3",
+      "phase4ReviewInvoker": "AFF-4",
+      "coordinatorRole": "AFF-0 records lifecycle and shared-state bookkeeping only.",
+      "reviewersMayApprove": false,
+      "humanApprovalPending": true
+    }
+  },
+  "constraints": [
+    "The approved Phase 3 and Phase 4 baselines, approvals and historical hashes remain unchanged.",
+    "STRATTON-CC-001 remains a proposal and must not be marked approved.",
+    "AFF-A and AFF-B must review the unchanged proposed hash manifests; any material proposal change invalidates the bound reviews.",
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every STRATTON-CC-001 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every STRATTON-CC-001 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "Phase 5 remains active, but authority-interface finalisation is fail-closed until the proposed Phase 3 and Phase 4 amendments achieve review convergence and explicit human approval.",
+    "No Azure operation, deployment, what-if or runtime test is authorised by this change-control record."
+  ]
+}

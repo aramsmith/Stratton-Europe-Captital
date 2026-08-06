@@ -1,0 +1,18 @@
+{
+  "changeControlId": "STRATTON-CC-002",
+  "artifactType": "PHASE_4_HASH_GENERATION_EVIDENCE",
+  "authorModel": "gpt-5.6-terra",
+  "actualRuntimeModel": "gpt-5.6-terra",
+  "status": "COMPLETE_RAW_BYTE_MANIFEST_GENERATED",
+  "algorithm": "SHA-256",
+  "method": "Generate raw-byte SHA-256 values only after the six non-manifest candidate artifacts are final; exclude the manifest itself and sort the six repository-relative paths lexically.",
+  "generatedAt": "2026-08-06T10:47:25.3155333+02:00",
+  "manifestPath": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+  "artifactCount": 6,
+  "subjectBindings": {
+    "approvedPhase3ApprovalSha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5",
+    "subjectManifestSha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+  },
+  "contractCommand": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-contract.mjs'",
+  "nonDeploymentBoundary": "Hash generation is local file integrity work only and does not deploy Azure resources, sign in, invoke what-if, enable inference, claim quota or promote a route."
+}

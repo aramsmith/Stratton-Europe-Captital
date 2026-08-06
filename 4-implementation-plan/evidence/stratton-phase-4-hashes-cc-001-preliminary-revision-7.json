@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PROPOSED_AMENDED_BASELINE_HASH_MANIFEST",
+  "changeControlId": "STRATTON-CC-001",
+  "status": "PROPOSED_PENDING_HUMAN_APPROVAL",
+  "proposalOnly": true,
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "generatedAt": "2026-08-02T13:52:31.709+02:00",
+  "hashAlgorithm": "SHA-256",
+  "approvedBaseline": {
+    "manifestPath": "4-implementation-plan/stratton-phase-4-hashes.json",
+    "manifestSha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+    "approvalPath": "approvals/4/stratton-phase-4-approval-1.json",
+    "approvalSha256": "305e897a63291bb592d24ced46cc372e6ab2034d46eaca100d7af8db6490c0b5",
+    "preservedUnchanged": true
+  },
+  "effect": "Does not replace canonical approved manifest and records no approval. Proposed files are an overlay/replacement candidate only.",
+  "artifacts": [
+    {
+      "path": "4-implementation-plan/stratton-cc-001-phase-4-amendment.md",
+      "role": "authoritative-amendment-markdown",
+      "sha256": "34bc5f58e2616f34bf32e3db73f97134e8ceebc43b341108cb8b0948567f4ee6"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-001-phase-4-amendment.html",
+      "role": "rendered-amendment-html",
+      "sha256": "51fc654e80566b50894e6b2af3eae5938ba4f2f908c430245416249538a1fe06"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue-cc-001-proposed.json",
+      "role": "proposed-catalogue-replacement",
+      "sha256": "3c88d3328d6ac5e6fe17db1297e660bbde85ee7ee800d2d5410752642d2a1f08",
+      "proposesReplacementFor": "4-implementation-plan/stratton-implementation-catalogue.json"
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag-cc-001-proposed.svg",
+      "role": "proposed-dag-replacement",
+      "sha256": "3baf4b13ed92b69e23bd3436eb93a47fcc78e554272d04640b8f158951ceb737",
+      "proposesReplacementFor": "4-implementation-plan/diagrams/stratton-dependency-dag.svg"
+    }
+  ],
+  "proposedUpstreamBinding": {
+    "path": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+    "sha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61",
+    "status": "PROPOSED_PENDING_HUMAN_APPROVAL"
+  }
+}

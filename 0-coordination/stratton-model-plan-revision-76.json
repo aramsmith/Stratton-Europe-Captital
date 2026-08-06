@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "76",
+  "createdAt": "2026-08-04T01:59:15+02:00",
+  "revisionReason": "Correct slide 4's bottom-row proportions so Microsoft Solution Accelerators occupies one reference-card column and Solution 1 spans two columns.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-75.json",
+    "sha256": "ed748edc73b97902592deab66a32605010762f02f7cb2a86a88753eb4be73ed5",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 4,
+    "change": "Place Microsoft Solution Accelerators in a single card matching Azure Architecture Center, and make the Solution 1 block as wide as the Foundry Citadel and Sovereign Landing Zone cards combined."
+  },
+  "implementation": {
+    "layout": {
+      "bottomRowRatio": "1:2",
+      "acceleratorWidth": "one reference-card column",
+      "agenticFrameworkWidth": "two reference-card columns"
+    },
+    "acceleratorBlock": {
+      "referenceCardStylingPreserved": true,
+      "linksStackedWithinSingleCard": true
+    },
+    "agenticCallout": {
+      "wideTwoColumnCard": true,
+      "leadAndTitleAtLeft": true,
+      "actionsAtRight": true
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "bottomRowOverflow": false,
+      "acceleratorLinkOverflow": false,
+      "agenticCalloutOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableLayoutFindings": 0,
+      "gitDiffCheck": "pass"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 4,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

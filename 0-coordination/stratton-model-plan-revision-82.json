@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "82",
+  "createdAt": "2026-08-04T02:55:42+02:00",
+  "revisionReason": "Improve slide 6 readability, panel separation, assurance-step emphasis, and route differentiation.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-81.json",
+    "sha256": "24e4820b43366c0c65668d9973e8ef805377d344c349974384cf80bbf3915a34",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 6,
+    "change": "Enlarge text across all blocks, add more space between the assurance and roster panels, brighten assurance-step borders with the title-slide block animation, and use different fills for Standard route and Optional route."
+  },
+  "implementation": {
+    "typography": {
+      "sectionHeadingsPx": 20,
+      "gateTitlesPx": 14,
+      "gateBodyPx": 12.5,
+      "routeTitlesPx": 16,
+      "agentTitleMaximumPx": 15.25,
+      "agentBodyMaximumPx": 12.25,
+      "allBlockTextEnlarged": true
+    },
+    "layout": {
+      "assuranceRosterGapPx": 20,
+      "gateCount": 7,
+      "agentTileCount": 11
+    },
+    "assuranceSteps": {
+      "borderWidthPx": 1.5,
+      "brighterPurpleWhiteBorder": true,
+      "staggeredTitleSlideEntrance": true,
+      "animatedGradientBorderSweep": true,
+      "prefersReducedMotion": "border and entrance animations disabled"
+    },
+    "routeFills": {
+      "standardRoute": "cyan-blue",
+      "optionalRoute": "amber-brown",
+      "fillsDistinct": true
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "gateTextOverflow": false,
+      "agentTextOverflow": false,
+      "panelOverflow": false,
+      "slideOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "visualInspection": "pass",
+      "borderMotionObserved": true,
+      "cssWhitespaceCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "sha256": "c7bbe9d5470d01976a58db6cc2820a3b36f2b3310f97990dc01a76d7c53e9c84"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

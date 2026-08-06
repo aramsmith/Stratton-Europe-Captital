@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "72",
+  "createdAt": "2026-08-04T01:36:52+02:00",
+  "revisionReason": "Increase slide 4 typography and add a web-version link for the Agentic Architecture Framework.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-71.json",
+    "sha256": "27f5eeb9f1509865f8a178057fdff31ae551722f69f8a2f7cc7032b013f6a1cf",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 4,
+    "changes": [
+      "Make the text larger and closer to slide 2's typography.",
+      "Add Web version beneath View on GitHub in the Agentic Architecture Framework callout."
+    ]
+  },
+  "implementation": {
+    "typesetting": {
+      "approachTitlesPx": 18,
+      "approachBodyPx": 14.5,
+      "frameworkHeadingPx": 24,
+      "frameworkLeadPx": 14.5,
+      "frameworkTitlesPx": 16,
+      "frameworkBodyPx": 13.5,
+      "referenceTitlesPx": 14.5,
+      "referenceBodyPx": 12.5,
+      "calloutTitlePx": 18,
+      "calloutLinksPx": 13
+    },
+    "copy": "Tightened without changing meaning to preserve the larger reading size in both font modes.",
+    "links": {
+      "github": "https://github.com/aramsmith/agentic-architecture-v2",
+      "webVersion": "https://aramsmith.github.io/agentic-architecture-v2/agentic-architecture-v2.html"
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "minimumFooterClearancePx": 62.71,
+      "panelOverflow": false,
+      "linkOverflow": false
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 4,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

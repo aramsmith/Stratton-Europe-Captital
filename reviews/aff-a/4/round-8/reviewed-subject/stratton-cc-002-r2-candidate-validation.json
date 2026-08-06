@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_R2_CANDIDATE_VALIDATION_EVIDENCE",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseId": "4",
+  "status": "LOCAL_EVIDENCE_ONLY_REVIEW_PENDING",
+  "remediationBindings": [
+    {
+      "role": "ORIGINAL_REVIEWED_MANIFEST",
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+      "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154"
+    },
+    {
+      "role": "AFF_A_ROUND_7_REVIEW",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-7/stratton-aff-a-review.json",
+      "sha256": "72ff8d84db4f5b70f517cd78b757a2a494590c94f0db8ff57987b932164edd6c"
+    },
+    {
+      "role": "AFF_B_ROUND_5_REVIEW",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-5/stratton-aff-b-review.json",
+      "sha256": "44a5acd7b2aa005dd0d46fb8e89d76ac4d10b664f7508b9767468a3230960691"
+    },
+    {
+      "role": "AFF_B_COVERAGE_014",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-014.json",
+      "sha256": "59a1905965689026937a87856332aa5a83324f1aba5f8dd10bce711d1629541a"
+    }
+  ],
+  "authorModel": "gpt-5.6-terra",
+  "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r2-contract.mjs' --self-test",
+  "workingDirectory": "REPOSITORY_ROOT",
+  "executionResult": {
+    "exitCode": 0,
+    "resultState": "PASS",
+    "resultText": "STRATTON_CC_002_R2_CANDIDATE_VALIDATION_EVIDENCE local validation completed with exit 0"
+  },
+  "subjectPath": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+  "subjectSha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+  "inputHashes": [
+    {
+      "role": "ORIGINAL_REVIEWED_MANIFEST",
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+      "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154"
+    },
+    {
+      "role": "AFF_A_ROUND_7_REVIEW",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-7/stratton-aff-a-review.json",
+      "sha256": "72ff8d84db4f5b70f517cd78b757a2a494590c94f0db8ff57987b932164edd6c"
+    },
+    {
+      "role": "AFF_B_ROUND_5_REVIEW",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-5/stratton-aff-b-review.json",
+      "sha256": "44a5acd7b2aa005dd0d46fb8e89d76ac4d10b664f7508b9767468a3230960691"
+    },
+    {
+      "role": "AFF_B_COVERAGE_014",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-014.json",
+      "sha256": "59a1905965689026937a87856332aa5a83324f1aba5f8dd10bce711d1629541a"
+    }
+  ],
+  "outputHashes": [
+    {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-implementation-catalogue-cc-002-r2-proposed.json",
+      "sha256": "5aea76eca2a96e6060bfbbae38b5571970446d40aea3b511e52a6cb428bd0766"
+    }
+  ],
+  "signer": {
+    "model": "gpt-5.6-terra",
+    "authorRole": "PHASE_4_CC_002_R2_REMEDIATION_AUTHOR"
+  },
+  "independentVerifierAttestation": {
+    "state": "PENDING_INDEPENDENT_REVIEW",
+    "verifierRole": "AFF_A_OR_AFF_B_REVIEWER_INDEPENDENT_OF_AUTHOR",
+    "verifierIdentity": null,
+    "result": null,
+    "verifiedAt": null
+  },
+  "generatedAt": "2026-08-06T11:30:00.000+02:00",
+  "retentionReference": "AFF-RETENTION-STRATTON-CC-002-R2",
+  "legalHoldReference": "AFF-LEGAL-HOLD-STRATTON-CC-002-R2",
+  "custodyAttestation": {
+    "state": "AUTHOR_ATTESTED_REVIEW_PENDING",
+    "custody": "IMMUTABLE_APPEND_ONLY_HASH_BOUND",
+    "appendOnly": true,
+    "hashBound": true,
+    "signerAuthorRole": "PHASE_4_CC_002_R2_REMEDIATION_AUTHOR",
+    "independentVerifierState": "PENDING_INDEPENDENT_REVIEW",
+    "writerAndVerifierMustDiffer": true,
+    "retentionReference": "AFF-RETENTION-STRATTON-CC-002-R2",
+    "legalHoldReference": "AFF-LEGAL-HOLD-STRATTON-CC-002-R2"
+  },
+  "evidenceEnvelopeContract": {
+    "custody": "IMMUTABLE_APPEND_ONLY_HASH_BOUND",
+    "appendOnly": true,
+    "hashBound": true,
+    "requiredFields": [
+      "subjectPath",
+      "subjectSha256",
+      "command",
+      "workingDirectory",
+      "toolRuntimeVersions",
+      "inputHashes",
+      "outputHashes",
+      "signer",
+      "timestamp",
+      "accountableOwner",
+      "disposition",
+      "retentionReference",
+      "legalHoldReference"
+    ],
+    "writerAuthority": "WORK_PACKAGE_ACCOUNTABLE_OWNER_DELEGATE",
+    "independentVerifierAuthority": "INTERNAL_AUDIT_OR_SECURITY_ASSURANCE_INDEPENDENT_OF_WRITER",
+    "writerAndVerifierMustDiffer": true,
+    "retentionReference": "REQUIRED_OWNER_APPROVED_RETENTION_SCHEDULE_REFERENCE",
+    "legalHoldReference": "REQUIRED_LEGAL_HOLD_REFERENCE_OR_DOCUMENTED_NOT_APPLICABLE_DISPOSITION"
+  },
+  "nonDeploymentBoundary": "Phase 5 may encode and locally validate the target model portfolio. It may not deploy Azure resources, enable production inference, claim quota availability or mark any route promoted without owner evidence and explicit Phase 7 authority."
+}

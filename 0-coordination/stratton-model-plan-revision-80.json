@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "80",
+  "createdAt": "2026-08-04T02:44:22+02:00",
+  "revisionReason": "Replace the technical fail-closed wording on slide 5 with a direct explanation of the assurance gate.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-79.json",
+    "sha256": "9e30f5acd6f65c284d84aa70904dc23db100d83150685d719179d32c275303c7",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 5,
+    "change": "Apply the approved rewrite explaining that a phase cannot advance when required assurance is incomplete."
+  },
+  "implementation": {
+    "principle": {
+      "id": "fail-closed",
+      "previousTitle": "Fail closed",
+      "newTitle": "Stop when assurance is incomplete",
+      "newText": "If evidence, scope, independent review, human approval, or output safety cannot be confirmed, the phase does not advance."
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "titleOverflow": false,
+      "bodyOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "visualInspection": "pass"
+    }
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticArchitectureRingSlide.jsx",
+      "sha256": "0ef6f574475b2f1c11b9b9edc6ee60fa21142ec3432013f189014f029969926e"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

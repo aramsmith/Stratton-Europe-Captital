@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "31",
+  "createdAt": "2026-08-03T17:44:30.1823295+02:00",
+  "revisionReason": "Ground slides 2 and 3 in the authoritative Case Study 18 PDF, divide slide 3 into the requested three areas and make the case-defined AI infusion points a visual centrepiece.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-30.json",
+    "sha256": "0bff5b63fe49a3bba82094765a137435028c7dfd13cd5425e96a46ff842df040",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "authoritativeSource": "file:///C:/Users/arsmith/OneDrive/AMA-Equity-2/docs/Case-Study-18.pdf",
+    "changes": [
+      "Correct slide 2 using only company facts stated in the case.",
+      "Divide slide 3 into Business challenges, Transformation objectives and Expected outcomes.",
+      "Add the GenAI due-diligence engine, ESG extraction AI and deal-intelligence copilot as the AI centrepiece."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "64",
+  "createdAt": "2026-08-04T00:08:17+02:00",
+  "revisionReason": "Make slide 3 read more clearly as a mechanical gear system through material, colour, ring detail and triangular layout.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-63.json",
+    "sha256": "d9c1b5c1ff1bd743743dcd11c16f559afde18493731445708b4a4eafd40c565d",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Make the gears more recognisable as gears through their colours and layout."
+    ]
+  },
+  "implementation": {
+    "layout": {
+      "form": "triangular mechanical mesh",
+      "aiDriveGear": "elevated centre",
+      "supportGears": "lower left and lower right",
+      "leftMeshGapPx": 0.06,
+      "rightMeshGapPx": 0.06
+    },
+    "materials": {
+      "supportGears": "layered steel-grey gradients with dark outer shoulders and silver bevel rings",
+      "aiDriveGear": "warm copper-coral to burgundy gradient with matching mechanical rings",
+      "contentCores": "dark machined hubs with double inset rings and restrained depth shadows"
+    },
+    "geometry": {
+      "teeth": 20,
+      "outerRadius": 258,
+      "rootRadius": 216,
+      "rings": 3
+    },
+    "motion": {
+      "sideGears": "42-second clockwise revolution",
+      "centreGear": "46-second counter-clockwise revolution",
+      "reducedMotion": "disabled"
+    },
+    "contentFit": "All three content hubs remain free of horizontal and vertical overflow."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

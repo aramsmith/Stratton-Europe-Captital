@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_001_PHASE_4_CANDIDATE_VALIDATION",
+  "phaseId": "4",
+  "modelPlanRevision": "8",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "generatedAt": "2026-08-02T14:19:15.948+02:00",
+  "method": "Local Python JSON/XML/HTML/graph/reference/hash checks only",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "CC1-P4-VAL-001",
+      "check": "Proposed upstream exact path/hash and all JSON parse",
+      "observed": {
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+        "sha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+        "phaseId": "3",
+        "modelPlanRevision": "8",
+        "status": "PROPOSED_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL"
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-002",
+      "check": "DAG references, count, stage ordering and acyclic traversal",
+      "observed": {
+        "nodes": 17,
+        "edges": 46,
+        "acyclic": true
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-003",
+      "check": "Every fail-closed parameter has owner/evidence/status and includes Phase 3 contract parameters",
+      "observed": {
+        "parameters": 170,
+        "evidenceRows": 170
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-004",
+      "check": "Work packages, identities, assertions, controls, validation and coverage counts",
+      "observed": {
+        "deployableUnits": 17,
+        "dagEdges": 46,
+        "workPackages": 5,
+        "failClosedParameters": 170,
+        "assertions": 60,
+        "openControls": 12,
+        "identityMappings": 10,
+        "validationEntries": 19
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-005",
+      "check": "Nineteen findings and preliminary manifest preservation",
+      "observed": {
+        "findings": 19,
+        "preliminarySha256": "07e7ed846de55a4dc9f3a0685d87989ed0f9d36852aea78f2720749c3b7d7b7d"
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-006",
+      "check": "Markdown/Clawpilot HTML parity and accessible DAG",
+      "observed": "Token parity, theme detector first, exact variables/font, SVG title/description and sanitisation",
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-007",
+      "check": "Execution boundary",
+      "observed": "No Phase 5/IaC edit and no Azure operation; WP-05 is plan only",
+      "result": "PASS"
+    },
+    {
+      "id": "CC1-P4-VAL-008",
+      "check": "Canonical proposed manifest schema and artifact hash verification",
+      "observed": {
+        "schema": ".github/schemas/aff-phase-hashes.schema.json",
+        "modelPlanRevision": "8",
+        "allowedTopLevelAndArtifactFieldsOnly": true,
+        "artifactCount": 14
+      },
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "No reviewer convergence or human approval is claimed.",
+    "No Azure validation or runtime testing."
+  ],
+  "errors": []
+}

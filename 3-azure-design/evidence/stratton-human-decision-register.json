@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE_3_FOCUSED_HUMAN_DECISIONS",
+  "humanDecisionTimestamp": "2026-08-01T22:36:23.383+02:00 onward",
+  "authoringDisposition": "ALL_FIVE_DESIGN_PATTERNS_CONFIRMED; IDENTIFIED_EXACT_PARAMETERS_REMAIN_FAIL_CLOSED",
+  "decisions": [
+    {
+      "id": "HD-001",
+      "question": "Which evidenced enterprise Azure landing-zone management-group, connectivity, identity, policy and management anchors must Stratton join?",
+      "owner": "Human architect with Enterprise Platform",
+      "decision": "Create a new AI-focused Azure landing zone named Citadel. Compose the Azure Landing Zone enterprise-scale platform/application structure, the Azure-Samples Foundry Citadel Platform layered AI-governance architecture and Azure Sovereign Landing Zone policy/control best practices.",
+      "decisionStatus": "CONFIRMED_DESIGN_PATTERN",
+      "accuracyBoundary": "Foundry Citadel is an Azure-Samples opinionated layered AI-governance architecture. It is not a standalone Microsoft product and does not replace Azure Landing Zones. Citadel is the case-specific platform name for the composition.",
+      "supersededCandidatePosition": "Reuse an existing enterprise landing zone.",
+      "remainingParameters": [
+        "Tenant-root parent management-group identifier",
+        "Subscription identifiers and billing ownership",
+        "Control-owner group object identifiers",
+        "Final policy initiative versions after AFF-4 source resolution"
+      ],
+      "requiredBefore": "Citadel platform implementation"
+    },
+    {
+      "id": "HD-002",
+      "question": "Which subscription separation model is approved for non-production, production and independent assurance?",
+      "owner": "Human architect with Enterprise Platform, Internal Audit and CISO",
+      "decision": "Use three Stratton workload subscriptions: non-production, production and Internal Audit-controlled production assurance. Keep Citadel central governance/platform subscriptions separate.",
+      "decisionStatus": "CONFIRMED_DESIGN_PATTERN",
+      "citadelPlatformSubscriptions": [
+        {"logicalName":"sub-citadel-management","purpose":"Central management, security posture, policy evidence and platform observability; no Stratton workload data."},
+        {"logicalName":"sub-citadel-connectivity","purpose":"Primary/recovery regional hubs, Azure Firewall Premium, Private DNS Resolver and central private DNS."},
+        {"logicalName":"sub-citadel-ai-governance","purpose":"Foundry Citadel-derived model, evaluation, policy and approval governance plane; no production inference endpoint or Internal Audit verdict."}
+      ],
+      "workloadSubscriptions": [
+        "sub-citadel-stratton-nonprod",
+        "sub-citadel-stratton-prod",
+        "sub-citadel-stratton-assurance-prod"
+      ],
+      "separationRule": "Do not merge AI governance, production workload or Internal Audit assurance ownership.",
+      "remainingParameters": ["Azure subscription identifiers","Billing scopes","Owner group object identifiers"],
+      "requiredBefore": "Subscription placement and role assignment"
+    },
+    {
+      "id": "HD-003",
+      "question": "Which Azure locations are approved for production, backups, logs, model inference and a possible regional recovery copy?",
+      "owner": "Human architect for pattern; General Counsel with DPO and CISO for exact locations",
+      "decision": "Use a two-approved-region primary/recovery pattern and regional Azure AI deployments. Global and DataZone AI deployment types are prohibited.",
+      "decisionStatus": "CONFIRMED_PATTERN_EXACT_PARAMETERS_PENDING",
+      "remainingFailClosedParameters": ["approvedPrimaryAzureRegion","approvedRecoveryAzureRegion","approvedLocationEvidenceId"],
+      "failClosedRule": "Neither region has a default. Deployment, replication, backups, logs and AI inference remain blocked until both exact region names are present in signed General Counsel/DPO/CISO evidence.",
+      "requiredBefore": "Production location acceptance and any quota request",
+      "linkedControl": "VAL-005"
+    },
+    {
+      "id": "HD-004",
+      "question": "Which non-overlapping enterprise IPAM allocations and DNS forwarding path are approved for each environment?",
+      "owner": "Human architect for topology; Network Lead for exact allocations",
+      "decision": "Use enterprise hub-connected spokes with central DNS and enterprise IPAM. Citadel owns primary and recovery regional hubs in its connectivity subscription and connects them to the enterprise network.",
+      "decisionStatus": "CONFIRMED_PATTERN_EXACT_PARAMETERS_PENDING",
+      "remainingFailClosedParameters": ["hubAddressSpaces","environmentSpokeAddressSpaces","subnetPrefixes","enterpriseWanConnectionIds","DNS forwarding targets"],
+      "failClosedRule": "No network deployment proceeds without non-overlapping Network Lead-approved IPAM allocations and DNS forwarding records.",
+      "requiredBefore": "Network module parameter finalisation"
+    },
+    {
+      "id": "HD-005",
+      "question": "What approved concurrency, user count, document count/size/type mix, ingestion rate and AI token profile define the production sizing benchmark?",
+      "owner": "Human architect for method; Chief Investment Officer and Service Operations with source owners for caps",
+      "decision": "Use evidence-led elastic sizing: minimum engineering hypotheses, representative benchmarking during the first three deals, then owner-approved production caps and quotas.",
+      "decisionStatus": "CONFIRMED_METHOD_CAPS_PENDING",
+      "remainingFailClosedParameters": ["concurrentUsers","concurrentDeals","documentCountSizeAndTypeMix","ingestionRate","AI token profile","replica and partition caps","model quota"],
+      "failClosedRule": "Initial values remain engineering hypotheses and cannot support a performance or cost acceptance claim.",
+      "requiredBefore": "Performance acceptance and cost baseline",
+      "linkedControls": ["VAL-002", "VAL-004"]
+    }
+  ]
+}

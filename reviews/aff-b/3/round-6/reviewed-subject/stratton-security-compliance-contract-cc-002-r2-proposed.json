@@ -1,0 +1,531 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_SECURITY_PRIVACY_AND_COMPLIANCE_CONTRACT",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "securityPosition": "PRIVATE_FAIL_CLOSED_ASSISTIVE_AI_WITH_ACCOUNTABLE_HUMAN_AUTHORITY",
+  "sourceBindingRecord": {
+    "path": "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json",
+    "requiredBeforePromotion": true
+  },
+  "sovereignty": {
+    "deploymentType": "EU Data Zone Standard",
+    "deploymentSkuName": "DataZoneStandard",
+    "promptAndOutputBoundary": "Prompts and outputs remain within the EU Data Zone.",
+    "dataAtRestBoundary": "Data at rest remains in the designated EU geography.",
+    "processingRegionSelection": "Microsoft selects the processing region within that zone.",
+    "specificProcessingRegionClaim": false,
+    "policyStatement": "Global Standard prohibited",
+    "versionUpgradeOption": "NoAutoUpgrade",
+    "primaryAndRecoveryRequirement": "Every GPT and embedding route requires independently approved primary and recovery Azure resources, deployment IDs, EU geography evidence, resource allow-list evidence and DataZoneStandard evidence.",
+    "providerSelectedRegionLimitation": "Application failover selects an approved Azure resource and deployment; it cannot select or promise the provider processing region within the EU Data Zone.",
+    "missingRecoveryEvidenceAction": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE"
+  },
+  "privateNetworking": [
+    "Primary and recovery Azure OpenAI accounts use approved private endpoints and central private DNS.",
+    "Azure AI Document Intelligence uses approved private endpoints and central private DNS.",
+    "Azure AI Search, SQL, Storage, Service Bus, Key Vault and App Configuration retain private paths.",
+    "Public network access is disabled where the selected Azure resource provider supports denial.",
+    "Every database has public access disabled in development, test and production.",
+    "Default-deny Azure Firewall and NSG policy permits only owner-approved dependencies.",
+    "No public endpoint is introduced as an availability or emergency fallback.",
+    "Recovery activation requires equivalent private path, DNS, identity and negative public-path evidence."
+  ],
+  "identityAndAccess": {
+    "workloadAuthentication": "SEPARATE_USER_ASSIGNED_MANAGED_IDENTITY_PER_COMPONENT_AND_ENVIRONMENT",
+    "humanAuthentication": "MICROSOFT_ENTRA_CONDITIONAL_ACCESS_AND_PIM",
+    "authorisation": "LEAST_PRIVILEGE_RBAC_PLUS_CASE_PURPOSE_POLICY",
+    "sharedKeys": "PROHIBITED",
+    "storedCredentials": "PROHIBITED",
+    "sqlAuthentication": "MICROSOFT_ENTRA_ONLY",
+    "primaryAndRecoveryDeploymentReference": "OWNER_SUPPLIED_AZURE_DEPLOYMENT_IDS",
+    "directModelAlias": "PROHIBITED"
+  },
+  "providerDataUse": {
+    "statement": "No model training on Stratton content.",
+    "fineTuningWithStrattonData": "OUT_OF_SCOPE",
+    "foundationModelTrainingDatasetCreation": "PROHIBITED",
+    "officialSourceClaimIds": [
+      "CC002-R2-CLM-007",
+      "CC002-R2-CLM-013",
+      "CC002-R2-CLM-014"
+    ],
+    "providerTermsEvidence": "REQUIRED_OWNER_INPUT_BEFORE_ENABLEMENT",
+    "providerConfigurationEvidence": "REQUIRED_OWNER_INPUT_BEFORE_ENABLEMENT",
+    "changeResponse": "SUSPEND_INFERENCE_AND_REVIEW"
+  },
+  "evidenceAdmission": {
+    "requiredBeforeAnalysis": [
+      "authoritative source registration",
+      "read-only permission evidence",
+      "purpose",
+      "classification",
+      "source licence and AI-use permission",
+      "retention schedule",
+      "malware and active-content scan",
+      "content hash",
+      "admission decision"
+    ],
+    "missingOrExpiredEvidence": "DENY",
+    "sourceWriteBack": "PROHIBITED"
+  },
+  "securityPromotionGates": [
+    {
+      "id": "CC002-R2-SEC-GATE-001",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-001",
+      "scenario": "DIRECT_PROMPT_INJECTION",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "All direct prompt-injection cases preserve system and policy authority, expose no prohibited data or action and return the expected safe disposition.",
+      "evidenceIds": [
+        "SEC-EVID-DIRECT-INJECTION-RESULTS",
+        "SEC-EVID-DIRECT-INJECTION-INPUT-MANIFEST"
+      ],
+      "owner": "Security Owner and AI Governance",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_DENY_AFFECTED_OUTPUT"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-002",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-002",
+      "scenario": "INDIRECT_PROMPT_INJECTION",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "All hostile instructions embedded in admitted evidence are treated as data, cannot alter authority and are quarantined or safely excluded.",
+      "evidenceIds": [
+        "SEC-EVID-INDIRECT-INJECTION-RESULTS",
+        "SEC-EVID-EVIDENCE-BOUNDARY-TRACE"
+      ],
+      "owner": "Security Owner, Data Owner and AI Governance",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_QUARANTINE_AFFECTED_EVIDENCE"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-003",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-003",
+      "scenario": "INSTRUCTION_EVIDENCE_BOUNDARY_ESCAPE",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Every mutation attempting to move evidence content into system or policy authority is rejected and recorded without material output.",
+      "evidenceIds": [
+        "SEC-EVID-BOUNDARY-ESCAPE-RESULTS",
+        "SEC-EVID-PROMPT-TEMPLATE-HASH"
+      ],
+      "owner": "Application Security and AI Governance",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_STOP_OUTPUT"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-004",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-004",
+      "scenario": "CITATION_SPOOFING",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Every material citation resolves to admitted immutable source evidence and all forged, inaccessible or mismatched citations block the draft.",
+      "evidenceIds": [
+        "SEC-EVID-CITATION-SPOOF-RESULTS",
+        "SEC-EVID-CITATION-RESOLUTION-MANIFEST"
+      ],
+      "owner": "AI Governance and Evidence Owner",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_BLOCK_MATERIAL_NARRATIVE"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-005",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-005",
+      "scenario": "POISONED_RETRIEVAL_INDEX",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Poisoned, unauthorised or provenance-mismatched index entries are detected, excluded and trigger validated rebuild or restore without advancing material work.",
+      "evidenceIds": [
+        "SEC-EVID-POISONED-INDEX-RESULTS",
+        "SEC-EVID-INDEX-REBUILD-RECOVERY-RESULTS"
+      ],
+      "owner": "Search Owner, Security Owner and Data Owner",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_QUARANTINE_INDEX_AND_STOP_RETRIEVAL"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-006",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-006",
+      "scenario": "CROSS_CASE_RETRIEVAL",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "All cross-case retrieval mutations return no foreign evidence and generate an immutable security event.",
+      "evidenceIds": [
+        "SEC-EVID-CROSS-CASE-NEGATIVE-RESULTS",
+        "SEC-EVID-CASE-FILTER-POLICY-HASH"
+      ],
+      "owner": "Data Owner and Security Owner",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_DENY_QUERY_AND_ALERT"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-007",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-007",
+      "scenario": "CALLER_DEFINED_FILTER_OVERRIDE",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Caller attempts to weaken case, classification, admission or licence filters are rejected before Search execution.",
+      "evidenceIds": [
+        "SEC-EVID-FILTER-OVERRIDE-RESULTS",
+        "SEC-EVID-SERVER-FILTER-POLICY-HASH"
+      ],
+      "owner": "Application Security and Search Owner",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_DENY_QUERY"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-008",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-008",
+      "scenario": "REVOKED_OR_EXPIRED_EVIDENCE",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Revoked, expired, licence-invalid or retention-invalid evidence is excluded and cannot support material output.",
+      "evidenceIds": [
+        "SEC-EVID-REVOCATION-EXPIRY-RESULTS",
+        "SEC-EVID-ADMISSION-REGISTRY-SNAPSHOT"
+      ],
+      "owner": "Evidence Owner, Records Owner and General Counsel",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_DENY_EVIDENCE_ADMISSION"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-009",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-009",
+      "scenario": "UNAVAILABLE_DEPLOYMENT",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "An unavailable primary never triggers an unapproved deployment; recovery activates only with complete evidence, otherwise eligible work queues or returns a controlled failure.",
+      "evidenceIds": [
+        "SEC-EVID-UNAVAILABLE-DEPLOYMENT-RESULTS",
+        "SEC-EVID-RECOVERY-ACTIVATION-RESULTS"
+      ],
+      "owner": "Service Operations, Azure Platform and AI Governance",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_AND_QUEUE_OR_CONTROLLED_FAILURE"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-010",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-010",
+      "scenario": "DEPLOYMENT_MODEL_VERSION_MISMATCH",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Every deployment, resource, model, version, SKU, interface or API mismatch is rejected before inference.",
+      "evidenceIds": [
+        "SEC-EVID-DEPLOYMENT-MISMATCH-RESULTS",
+        "SEC-EVID-DEPLOYMENT-ALLOW-LIST-SNAPSHOT"
+      ],
+      "owner": "Azure Platform and AI Governance",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_DENY_REQUEST_AND_ALERT"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-011",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-011",
+      "scenario": "ATTEMPTED_SILENT_FALLBACK",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "All attempts to substitute a lower tier, direct model alias, Global Standard deployment or unrecorded endpoint are denied and alerted.",
+      "evidenceIds": [
+        "SEC-EVID-SILENT-FALLBACK-RESULTS",
+        "SEC-EVID-ROUTE-ALLOW-LIST-SNAPSHOT"
+      ],
+      "owner": "AI Governance, Application Security and Service Operations",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_DENY_SUBSTITUTION_AND_ALERT"
+    },
+    {
+      "id": "CC002-R2-SEC-GATE-012",
+      "scenarioId": "CC002-R2-SEC-SCENARIO-012",
+      "scenario": "ATTEMPTED_AUTONOMOUS_AUTHORITY",
+      "blocking": true,
+      "immutableEvidenceRequired": true,
+      "passCriteria": "Model and workload identities cannot approve, promote, execute transactions or issue authoritative investment decisions in every tested route and failure mode.",
+      "evidenceIds": [
+        "SEC-EVID-AUTHORITY-ABUSE-RESULTS",
+        "SEC-EVID-RBAC-STATE-TRANSITION-RESULTS"
+      ],
+      "owner": "Business Control Owner, Security Owner and AI Governance",
+      "failClosedOutcome": "BLOCK_ROUTE_PROMOTION_DENY_STATE_TRANSITION_AND_STOP_FOR_HUMAN"
+    }
+  ],
+  "securityGateContract": {
+    "evaluationAuthority": "stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+    "routingEnforcement": "stratton-model-routing-contract-cc-002-r2-proposed.json",
+    "requiredResult": "ALL_TWELVE_PASS_WITH_IMMUTABLE_EVIDENCE",
+    "missingExpiredOrMismatchedEvidence": "BLOCK_PROMOTION",
+    "runtimeControlFailure": "DENY_AFFECTED_OPERATION_AND_INVALIDATE_RELEVANT_EVIDENCE"
+  },
+  "outputIntegrity": {
+    "requiredSequence": [
+      "structured output validation",
+      "schema validation",
+      "citation validation",
+      "factual consistency validation",
+      "human validation"
+    ],
+    "materialCitationCoverageGate": "100%",
+    "citationAccessibilityRequired": true,
+    "unsupportedOrInaccessibleMaterialClaim": "BLOCK_REVIEWABLE_DRAFT",
+    "detectorAuthority": "AN_LLM_EXPLANATION_CANNOT_OVERRIDE_A_DETERMINISTIC_OR_CLASSICAL_ANOMALY_RESULT"
+  },
+  "fallbackAndFailure": {
+    "silentFallbackAllowed": false,
+    "unrecordedModelSubstitutionAllowed": false,
+    "tierDowngradeAllowed": false,
+    "globalStandardAllowed": false,
+    "deploymentUnavailable": "EVIDENCE_GATED_RECOVERY_OR_QUEUE_OR_CONTROLLED_FAILURE",
+    "recoveryEvidenceUnavailable": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+    "providerEvidenceUnavailable": "DENY",
+    "citationUnavailable": "BLOCK_MATERIAL_NARRATIVE",
+    "unsupportedSolOutput": "STOP_FOR_HUMAN_RESOLUTION",
+    "modelRouterProductionState": "PROHIBITED"
+  },
+  "humanAuthority": {
+    "modelCanApproveSpecialistConclusion": false,
+    "modelCanIssueAuthoritativeInvestmentRecommendation": false,
+    "modelCanExecuteTransaction": false,
+    "modelCanPromoteItself": false,
+    "modelCanAuthoriseFailover": false,
+    "materialOutputRequiresHumanReview": true,
+    "investmentAndApprovalAuthority": "ACCOUNTABLE_AUTHORISED_HUMANS_ONLY"
+  },
+  "privacyLifecycle": [
+    {
+      "dataClass": "PROMPT_AND_OUTPUT",
+      "minimisation": "Send only admitted evidence fragments and task context necessary for the route; prohibit unnecessary identifiers and full-document payloads.",
+      "classification": "REQUIRED_OWNER_INPUT_DATA_CLASSIFICATION_WITH_HIGHLY_CONFIDENTIAL_DEFAULT",
+      "ownerBoundRetention": "REQUIRED_OWNER_INPUT_SEPARATE_RETENTION_FOR_TRANSIENT_PROMPTS_STATEFUL_FEATURE_DATA_AND_ACCEPTED_OUTPUT",
+      "deletion": "Delete transient application copies after completion; stateful feature data remains disabled until verified deletion procedures and evidence exist.",
+      "legalHold": "Suspend deletion only on an authenticated owner-issued legal-hold record with scope, start, review and release evidence.",
+      "dsrSupport": "Maintain case/source linkage sufficient for accountable owners to locate, export, correct, restrict or delete personal data where applicable.",
+      "redaction": "Redact or tokenise unnecessary personal, secret and regulated fields before inference and before any retained output.",
+      "immutableIntegrityStorage": "Retained accepted outputs and lifecycle events use append-only hashes and owner-approved immutable storage; prompt/output bodies are excluded from operational logs.",
+      "recoveryHandling": "Recovery restores only approved EU copies with classification, retention, deletion and legal-hold parity; otherwise deny access.",
+      "operationalOwners": [
+        "DPO",
+        "Records Owner",
+        "Application Owner",
+        "Data Owner"
+      ],
+      "legalComplianceClassification": "PENDING_ACCOUNTABLE_HUMAN_EVIDENCE_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "VECTOR_AND_INDEX",
+      "minimisation": "Embed only admitted minimised chunks; do not embed secrets or fields not required for retrieval.",
+      "classification": "INHERIT_HIGHEST_SOURCE_CLASSIFICATION_PENDING_OWNER_CONFIRMATION",
+      "ownerBoundRetention": "REQUIRED_OWNER_INPUT_ALIGNED_TO_SOURCE_RETENTION_AND_REBUILD_WINDOW",
+      "deletion": "Source deletion, consent/licence revocation or DSR disposition triggers vector/chunk deletion and index rebuild or verified tombstone propagation.",
+      "legalHold": "Hold scope must bind source, chunk, vector, index version and restore copies without silently overriding access restrictions.",
+      "dsrSupport": "Provenance maps each chunk and vector to source/version/case so owner-approved DSR actions propagate deterministically.",
+      "redaction": "Apply admission-time redaction before chunking and embedding; vector values and chunk bodies are excluded from routine telemetry.",
+      "immutableIntegrityStorage": "Bind source hash, chunking policy, embedding model/version/dimensions, index schema, filters and alias to immutable manifests.",
+      "recoveryHandling": "Use validated rebuild or approved EU backup restore; verify source, vector, schema, filters, alias, deletion and hold parity before activation.",
+      "operationalOwners": [
+        "Data Owner",
+        "Search Owner",
+        "Records Owner",
+        "Security Operations"
+      ],
+      "legalComplianceClassification": "PENDING_ACCOUNTABLE_HUMAN_EVIDENCE_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "BENCHMARK_CORPUS",
+      "minimisation": "Use synthetic or governed representative cases and remove direct identifiers unless specifically approved and necessary.",
+      "classification": "REQUIRED_OWNER_INPUT_PER_DATASET_WITH_HIGHLY_CONFIDENTIAL_DEFAULT",
+      "ownerBoundRetention": "REQUIRED_OWNER_INPUT_FOR_INPUTS_OUTPUTS_LABELS_REVIEW_NOTES_AND_DERIVED_METRICS",
+      "deletion": "Delete expired or withdrawn cases and invalidate affected metrics; retain only immutable proof required by approved assurance schedules.",
+      "legalHold": "Legal hold requires dataset/version scope and preserves access restrictions, provenance and reviewer evidence.",
+      "dsrSupport": "Dataset manifests retain source/provenance links so owner-approved DSR actions can identify and remove affected cases and derived artefacts.",
+      "redaction": "Redact personal and confidential values before evaluator access unless an approved necessity record permits them.",
+      "immutableIntegrityStorage": "Hash inputs, labels, outputs, validator results, calculations and reviewer decisions in append-only evidence storage.",
+      "recoveryHandling": "Restore corpus and metrics together from approved EU copies; hash mismatch or missing deletion/hold state blocks reuse.",
+      "operationalOwners": [
+        "AI Governance",
+        "Evaluation Owner",
+        "Data Owner",
+        "Records Owner"
+      ],
+      "legalComplianceClassification": "PENDING_ACCOUNTABLE_HUMAN_EVIDENCE_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "ROUTE_LOG",
+      "minimisation": "Record route, deployment, policy, validator, failover and human-event metadata only; exclude prompt, output, evidence and vector bodies.",
+      "classification": "CONFIDENTIAL_OPERATIONAL_METADATA_PENDING_OWNER_CONFIRMATION",
+      "ownerBoundRetention": "REQUIRED_OWNER_INPUT_ALIGNED_TO_AUDIT_INCIDENT_AND_MODEL_GOVERNANCE_NEEDS",
+      "deletion": "Delete or anonymise expired route events unless legal hold or approved immutable audit retention applies.",
+      "legalHold": "Legal hold preserves scoped events and hashes without expanding access to excluded content bodies.",
+      "dsrSupport": "Use case/work-item pseudonymous linkage and owner-controlled lookup to support applicable DSR without exposing broad logs.",
+      "redaction": "Redact identifiers not needed for route assurance and prohibit secrets, access tokens and full personal identifiers.",
+      "immutableIntegrityStorage": "Append-only event chain or immutable store binds route, escalation, failover and security-gate evidence hashes.",
+      "recoveryHandling": "Restore only complete ordered events with integrity, retention and legal-hold parity; gaps trigger recovery-incomplete alert.",
+      "operationalOwners": [
+        "Service Operations",
+        "Security Operations",
+        "AI Governance",
+        "Records Owner"
+      ],
+      "legalComplianceClassification": "PENDING_ACCOUNTABLE_HUMAN_EVIDENCE_FAIL_CLOSED"
+    },
+    {
+      "dataClass": "TELEMETRY",
+      "minimisation": "Collect aggregate latency, token, cost, availability, validation and alert metrics without prompt, output, document, chunk or vector bodies.",
+      "classification": "CONFIDENTIAL_OPERATIONAL_METADATA_PENDING_OWNER_CONFIRMATION",
+      "ownerBoundRetention": "REQUIRED_OWNER_INPUT_SEPARATE_FOR_METRICS_TRACES_ALERTS_AND_SECURITY_EVENTS",
+      "deletion": "Apply owner-approved expiry and aggregation; delete raw high-cardinality identifiers when no longer necessary.",
+      "legalHold": "Preserve only scoped telemetry required by a valid hold and retain collection/version context.",
+      "dsrSupport": "Avoid direct personal identifiers; where unavoidable, maintain owner-controlled lookup and deletion/restriction procedure.",
+      "redaction": "Enforce ingestion-time secret and personal-data redaction with negative tests and alert on prohibited field detection.",
+      "immutableIntegrityStorage": "Security and promotion evidence uses immutable snapshots/hashes; routine metrics use controlled storage with tamper-evident export.",
+      "recoveryHandling": "Restore approved EU telemetry with integrity, retention, access and alert-rule parity; do not replay alerts as new evidence.",
+      "operationalOwners": [
+        "Observability Owner",
+        "Security Operations",
+        "Service Operations",
+        "Records Owner"
+      ],
+      "legalComplianceClassification": "PENDING_ACCOUNTABLE_HUMAN_EVIDENCE_FAIL_CLOSED"
+    }
+  ],
+  "privacyLifecycleGlobalRules": {
+    "legalAndComplianceClassification": "PENDING_ACCOUNTABLE_HUMAN_EVIDENCE",
+    "gdprApplicability": "CONFIRMED_PENDING_DETAILED_OWNER_EVIDENCE",
+    "euAiActClassification": "NO_CLASSIFICATION_INFERRED",
+    "doraApplicability": "PENDING_GENERAL_COUNSEL_CONFIRMATION",
+    "missingLifecycleEvidence": "BLOCK_SOURCE_ADMISSION_ROUTE_PROMOTION_OR_STATEFUL_FEATURE_ENABLEMENT_AS_APPLICABLE",
+    "recoveryMustPreserveLifecycleState": true
+  },
+  "loggingAndMonitoring": {
+    "allowedOperationalFields": [
+      "caseId or approved pseudonym",
+      "workItemId or approved pseudonym",
+      "taskClass",
+      "routePolicyVersion",
+      "routingReason",
+      "tier",
+      "primaryOrRecovery",
+      "azureResourceId hash or approved identifier",
+      "deploymentId hash or approved identifier",
+      "modelId",
+      "modelVersion",
+      "apiVersion",
+      "reasoningEffort",
+      "promptTemplateVersion",
+      "evidenceManifestHash",
+      "validator results",
+      "security-gate evidence hash",
+      "escalation and failover event",
+      "human review event",
+      "token counts",
+      "latency",
+      "cost reference"
+    ],
+    "prohibitedBodies": [
+      "document body",
+      "prompt body",
+      "completion body",
+      "chunk body",
+      "vector value",
+      "access token",
+      "secret",
+      "full personal identifier unless separately justified"
+    ],
+    "retention": "REQUIRED_OWNER_INPUT",
+    "immutableSecurityEvidence": true
+  },
+  "complianceEvidenceGates": [
+    {
+      "id": "CC002-R2-COMP-001",
+      "subject": "EU Data Zone primary and recovery resources",
+      "owners": [
+        "General Counsel",
+        "DPO",
+        "CISO",
+        "Azure Platform"
+      ],
+      "requiredEvidence": [
+        "approved EU geography",
+        "primary and recovery resource allow-lists",
+        "DataZoneStandard deployment evidence for every route",
+        "provider processing and support terms",
+        "data, log, index and backup recovery evidence"
+      ],
+      "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+    },
+    {
+      "id": "CC002-R2-COMP-002",
+      "subject": "GDPR purpose, minimisation, lifecycle and data-subject controls",
+      "owners": [
+        "DPO",
+        "Data Owners",
+        "Records Owner"
+      ],
+      "requiredEvidence": [
+        "lawful-purpose mapping",
+        "DPIA or owner disposition",
+        "classification and minimisation rules",
+        "retention, deletion and legal hold",
+        "data-subject request procedure",
+        "recovery lifecycle parity"
+      ],
+      "state": "OPEN_NO_COMPLIANCE_CONCLUSION"
+    },
+    {
+      "id": "CC002-R2-COMP-003",
+      "subject": "EU AI Act role and use-case classification",
+      "owners": [
+        "General Counsel",
+        "Head of AI Governance"
+      ],
+      "requiredEvidence": [
+        "provider and deployer role mapping",
+        "use-case classification",
+        "applicable obligation mapping",
+        "human-oversight design acceptance"
+      ],
+      "state": "REQUIRED_OWNER_INPUT_NO_CLASSIFICATION_CLAIM"
+    },
+    {
+      "id": "CC002-R2-COMP-004",
+      "subject": "DORA applicability",
+      "owners": [
+        "General Counsel",
+        "Compliance"
+      ],
+      "requiredEvidence": [
+        "entity-specific applicability or exemption",
+        "resulting ICT and provider obligations"
+      ],
+      "state": "OPEN_NO_COMPLIANCE_CONCLUSION"
+    },
+    {
+      "id": "CC002-R2-COMP-005",
+      "subject": "Source licences and provider use",
+      "owners": [
+        "General Counsel",
+        "Source Owners",
+        "AI Governance"
+      ],
+      "requiredEvidence": [
+        "claim-bound official source",
+        "source licence",
+        "AI-assisted retrieval and analysis permissions",
+        "purpose and expiry",
+        "provider no-training-use evidence"
+      ],
+      "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+    }
+  ],
+  "assuranceBoundary": {
+    "affBRole": "ARCHITECTURE_SECURITY_AND_COMPLIANCE_ASSURANCE_ONLY",
+    "legalAdvice": false,
+    "certification": false,
+    "formalAttestation": false,
+    "waiver": false,
+    "humanDecisionSubstitute": false
+  },
+  "nonClaims": {
+    "azureDeployment": false,
+    "runtimeControlEffectiveness": false,
+    "quotaAvailability": false,
+    "specificProcessingRegion": false,
+    "specificResourceRegionsSelected": false,
+    "certification": false,
+    "regulatoryClassification": false,
+    "reviewerAcceptance": false,
+    "phaseApproval": false,
+    "productionPromotion": false
+  }
+}

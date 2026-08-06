@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "39",
+  "createdAt": "2026-08-03T18:18:23.7663335+02:00",
+  "revisionReason": "Further smooth slide 2's primary-panel fly-ins with shorter GPU-friendly travel, balanced acceleration and longer timing.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-38.json",
+    "sha256": "bf2c63ff1ec6581ec67186ce6499ea2f9a1646d608f2083e197a1ba053e81c5b",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "motion": {
+      "durationMs": 1350,
+      "easing": "cubic-bezier(0.37, 0, 0.63, 1)",
+      "travelPx": 45,
+      "secondPanelDelayMs": 260
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "changeControlId": "STRATTON-CC-001",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "round": 3,
+  "invokedBy": "AFF-4",
+  "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER",
+  "formalisedAt": "2026-08-02T16:29:24.713+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-sol",
+  "actualRuntimeModelId": "gpt-5.6-sol",
+  "actualRuntimeEvidence": "Task runtime explicitly selected and bound as gpt-5.6-sol.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-10.json",
+    "revision": "10",
+    "sha256": "63750f1ea18a89fa3a7500fff05a6f98135bc6a5e98ad6301fdfbc246e94b894",
+    "subjectManifestModelPlanRevision": "10",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+    "sha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626"
+  },
+  "activeCoverage": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-007.json",
+    "sha256": "e769a9326a6bf362a566a42934ef6093d2dca8e37bc955a53474e17f664147d8",
+    "sequence": "007"
+  },
+  "separation": {
+    "authorModelDifferenceRequired": false,
+    "relationshipStatus": "ALLOWED_SAME_EXACT_MODEL",
+    "independenceBasis": [
+      "separate AFF-B reviewer role",
+      "separate invocation and agent context from phase authoring",
+      "write scope restricted to final AFF-B coverage and review outputs",
+      "subject and AFF-A artifacts remained immutable"
+    ],
+    "status": "ESTABLISHED_SEPARATE_ROLE_CONTEXT_AND_WRITE_BOUNDARY"
+  },
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, deploy or provide runtime evidence.",
+  "finalAffARecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-6/stratton-aff-a-review.json",
+    "sha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8"
+  }
+}

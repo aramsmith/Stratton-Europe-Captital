@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "iac-validation",
+  "scope": "Bicep",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File tests/iac/Invoke-IaCTests.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-03T03:15:44.3656058Z",
+  "endedAt": "2026-08-03T03:28:34.0604943Z",
+  "durationMilliseconds": 769695.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260803T031539999Z/iac-validation.log"
+}

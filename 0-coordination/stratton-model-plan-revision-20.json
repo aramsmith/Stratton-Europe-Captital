@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "20",
+  "createdAt": "2026-08-03T15:48:20.2112096+02:00",
+  "revisionReason": "Replace the unfrozen Fabric prototype in working candidate 6-presentation-r4 with the human-selected DECKIO Dark theme and glowing accent treatment.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-19.json",
+    "sha256": "5d413e5a4081dbe4c153639c58d97d20a744562d0441317e1d2b1ca53ddf25e3",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingMethod": "STEP_BY_STEP",
+    "currentStep": {
+      "id": "R4-STEP-01",
+      "name": "Apply DECKIO Dark theme with glowing accents",
+      "status": "AUTHORISED"
+    },
+    "supersededPrototype": {
+      "theme": "fabric",
+      "state": "WORKING_DRAFT_NOT_FROZEN",
+      "buildStatus": "PASS",
+      "formalReviewPerformed": false,
+      "humanApprovalRecorded": false,
+      "preservationRequired": false
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "GPT-5.6 Sol remains the best available GPT model for a complete Deckio theme migration with cross-slide visual consistency, descriptor compliance and preservation of governed claims.",
+    "modelSelectionChanged": false
+  },
+  "preservedBaseline": {
+    "phaseFolder": "6-presentation-r3",
+    "canonicalManifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "canonicalManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "affAReviewSha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+    "affBReviewSha256": "b7e0123dde62a271572164063499c8258e694c5991b01cc2db83ba9f39125341",
+    "coverageSha256": "8936b09ba1bbb0277479ee7f1b3127c7372227a98fa6856697a461e77b83e264",
+    "state": "IMMUTABLE_ASSURANCE_CONVERGED_NOT_HUMAN_APPROVED"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "deckSourcePath": "6-presentation-r4/deck",
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "approvalEligible": false
+  },
+  "themeMigration": {
+    "engine": "DECKIO",
+    "fromPrototype": {
+      "theme": "fabric",
+      "designSystem": "default",
+      "appearance": "light"
+    },
+    "to": {
+      "theme": "dark",
+      "designSystem": "default",
+      "appearance": "dark",
+      "treatment": "DEEP_SPACE_WITH_GLOWING_BLUE_PURPLE_AND_CYAN_ACCENTS",
+      "humanSelected": true
+    },
+    "requiredOutcomes": [
+      "Use the Dark descriptor structure on all ten slides.",
+      "Keep accent-bar first, add two to four ambient orb elements, retain content-frame content-gutter and keep BottomBar last.",
+      "Use system fonts while preserving the hardened removal of generated remote font imports.",
+      "Use semantic dark-theme tokens, restrained card glows and gradient top rules without compromising readability.",
+      "Preserve slide order, wording, claim IDs, diagrams and evidence classifications during this theme-only step.",
+      "Retain the relative portable build and zero-external-runtime dependency controls inherited from revision 3."
+    ]
+  },
+  "constraints": [
+    "Preserve every file beneath 6-presentation, 6-presentation-r2 and 6-presentation-r3 byte-identically.",
+    "Modify only the unfrozen working candidate beneath 6-presentation-r4.",
+    "Do not change presentation claims, evidence classifications or source references during the theme-only step.",
+    "Do not create a canonical manifest or request formal reviews until all human-directed revision steps are complete.",
+    "No Azure sign-in, target validation, what-if, deployment, cloud validation or runtime testing is authorised.",
+    "Phases 7 and 8 remain separately human-invocable and unauthorised."
+  ]
+}

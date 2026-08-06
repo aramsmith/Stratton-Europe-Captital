@@ -1,0 +1,560 @@
+.companyProfile {
+  background: var(--background);
+  padding: 0 0 44px 0;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 470px;
+  height: 470px;
+  top: -150px;
+  right: -80px;
+  background: radial-gradient(circle at 40% 40%, var(--blue-glow), color-mix(in srgb, var(--cyan) 28%, transparent) 54%, transparent 74%);
+}
+
+.orb2 {
+  width: 350px;
+  height: 350px;
+  bottom: -90px;
+  left: 150px;
+  background: radial-gradient(circle at 50% 50%, var(--purple-deep), color-mix(in srgb, var(--pink) 22%, transparent) 58%, transparent 76%);
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  padding-top: 6px;
+}
+
+.header {
+  display: grid;
+  gap: 8px;
+  max-width: 1200px;
+  padding-right: 158px;
+}
+
+.eyebrow,
+.sectionLabel,
+.clientLabel {
+  width: max-content;
+  color: var(--cyan);
+  font-size: 13.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  padding: 6px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--surface-overlay);
+  box-shadow: 0 0 18px var(--glow-cyan);
+}
+
+.title {
+  color: var(--foreground);
+  font-size: clamp(36px, 3.7vw, 46px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.08;
+}
+
+.subtitle {
+  max-width: 1020px;
+  color: var(--muted-foreground);
+  font-size: 16.5px;
+  line-height: 1.48;
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.storyPanel,
+.positionPanel,
+.challengesPanel {
+  min-width: 0;
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-overlay);
+  box-shadow: var(--shadow-elevated), 0 0 26px var(--glow-primary);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.storyPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.24fr);
+  column-gap: 18px;
+  row-gap: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-top: 3px solid var(--cyan);
+}
+
+.positionPanel {
+  border-top: 3px solid var(--purple);
+}
+
+.positionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.positionHeader > .sectionLabel {
+  flex: none;
+  font-size: 16.5px;
+}
+
+.ecosystemInline {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.challengesPanel {
+  padding: 8px 14px;
+  border-top: 3px solid var(--pink);
+}
+
+.challengeLabel {
+  color: var(--pink);
+  font-size: 16.5px;
+}
+
+.storyPanel .sectionLabel {
+  grid-column: 1 / -1;
+}
+
+.story {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+  margin-top: 0;
+  color: var(--secondary-foreground);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.metrics {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 0;
+}
+
+.metric {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 38%, var(--border));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--secondary) 72%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--cyan) 8%, transparent),
+    0 0 14px color-mix(in srgb, var(--cyan) 8%, transparent);
+  backface-visibility: hidden;
+  will-change: transform, opacity, box-shadow;
+}
+
+.metric strong {
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.metric span {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.28;
+}
+
+.fictionNote {
+  margin-top: 7px;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-style: italic;
+}
+
+.storyPanel > .fictionNote {
+  grid-column: 2;
+  grid-row: 3;
+  margin-top: 0;
+}
+
+.positionList {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.positionItem {
+  min-width: 0;
+  padding: 11px 4px;
+  border-left: 2px solid var(--purple);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: color-mix(in srgb, var(--secondary) 66%, transparent);
+}
+
+.positionItem h3 {
+  color: var(--foreground);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.positionItem p {
+  margin-top: 4px;
+  color: var(--muted-foreground);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.clientLabel {
+  display: block;
+  margin-top: 10px;
+}
+
+.positionPanel .clientLabel {
+  flex: none;
+  margin-top: 0;
+  font-size: 15px;
+}
+
+.clients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ecosystemInline .clients {
+  flex-wrap: nowrap;
+  margin-top: 0;
+}
+
+.clients span {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 48%, var(--border));
+  border-radius: var(--radius-md);
+  color: var(--secondary-foreground);
+  background: color-mix(in srgb, var(--secondary) 70%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 12%, transparent);
+  font-size: 13.5px;
+}
+
+.clients span::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  border-radius: calc(var(--radius-md) + 2px);
+  background: linear-gradient(
+    105deg,
+    transparent 8%,
+    color-mix(in srgb, var(--cyan) 40%, transparent) 30%,
+    color-mix(in srgb, var(--cyan) 86%, white) 44%,
+    white 51%,
+    color-mix(in srgb, var(--purple) 84%, white) 61%,
+    color-mix(in srgb, var(--purple) 38%, transparent) 76%,
+    transparent 92%
+  );
+  background-position: 120% 0;
+  background-size: 220% 100%;
+  opacity: 0;
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb, var(--cyan) 82%, transparent))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--purple) 58%, transparent));
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.challengeList {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.challengeItem {
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--pink) 30%, var(--border));
+  border-left: 2px solid var(--pink);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--secondary) 68%, transparent);
+}
+
+.challengeItem h3 {
+  color: var(--foreground);
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.challengeItem p {
+  margin-top: 3px;
+  color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground));
+  font-size: 16px;
+  line-height: 1.28;
+}
+
+.companyProfile:global(.active) .header .eyebrow,
+.companyProfile:global(.active) .header .title,
+.companyProfile:global(.active) .header .subtitle,
+.companyProfile:global(.active) .storyPanel > .sectionLabel,
+.companyProfile:global(.active) .story,
+.companyProfile:global(.active) .storyPanel > .fictionNote,
+.companyProfile:global(.active) .positionHeader > .sectionLabel,
+.companyProfile:global(.active) .ecosystemInline,
+.companyProfile:global(.active) .positionItem,
+.companyProfile:global(.active) .challengeLabel,
+.companyProfile:global(.active) .challengeItem {
+  opacity: 0;
+}
+
+.companyProfile:global(.active) .header .eyebrow {
+  animation: contentFadeIn 450ms ease 50ms both;
+}
+
+.companyProfile:global(.active) .header .title {
+  animation: contentFadeDown 550ms ease 120ms both;
+}
+
+.companyProfile:global(.active) .header .subtitle {
+  animation: contentTextReveal 650ms cubic-bezier(.22, 1, .36, 1) 360ms both;
+}
+
+.companyProfile:global(.active) .storyPanel {
+  animation: flyInLeft 1350ms cubic-bezier(.37, 0, .63, 1) 620ms both;
+}
+
+.companyProfile:global(.active) .storyPanel > .sectionLabel {
+  animation: contentFadeIn 500ms ease 900ms both;
+}
+
+.companyProfile:global(.active) .story {
+  animation: contentFadeUp 600ms cubic-bezier(.22, 1, .36, 1) 1000ms both;
+}
+
+.companyProfile:global(.active) .storyPanel > .fictionNote {
+  animation: contentFadeIn 500ms ease 1120ms both;
+}
+
+.companyProfile:global(.active) .metric {
+  animation: metricReveal 900ms cubic-bezier(.22, 1, .36, 1) 920ms both;
+}
+
+.companyProfile:global(.active) .metric:nth-child(2) {
+  animation-delay: 1040ms;
+}
+
+.companyProfile:global(.active) .metric:nth-child(3) {
+  animation-delay: 1160ms;
+}
+
+.companyProfile:global(.active) .metric:nth-child(4) {
+  animation-delay: 1280ms;
+}
+
+.companyProfile:global(.active) .positionPanel {
+  animation: flyInRight 1350ms cubic-bezier(.37, 0, .63, 1) 820ms both;
+}
+
+.companyProfile:global(.active) .positionHeader > .sectionLabel {
+  animation: contentFadeIn 500ms ease 1100ms both;
+}
+
+.companyProfile:global(.active) .ecosystemInline {
+  animation: contentFadeIn 550ms ease 1220ms both;
+}
+
+.companyProfile:global(.active) .clients span::after {
+  animation: ecosystemBorderGlow 3800ms cubic-bezier(.37, 0, .63, 1) 1620ms infinite both;
+  will-change: background-position, opacity;
+}
+
+.companyProfile:global(.active) .clients span:nth-child(2)::after {
+  animation-delay: 1940ms;
+}
+
+.companyProfile:global(.active) .clients span:nth-child(3)::after {
+  animation-delay: 2260ms;
+}
+
+.companyProfile:global(.active) .clients span:nth-child(4)::after {
+  animation-delay: 2580ms;
+}
+
+.companyProfile:global(.active) .positionItem {
+  animation: contentFadeUp 600ms cubic-bezier(.22, 1, .36, 1) 1200ms both;
+}
+
+.companyProfile:global(.active) .positionItem:nth-child(2) {
+  animation-delay: 1320ms;
+}
+
+.companyProfile:global(.active) .positionItem:nth-child(3) {
+  animation-delay: 1440ms;
+}
+
+.companyProfile:global(.active) .positionItem:nth-child(4) {
+  animation-delay: 1560ms;
+}
+
+.companyProfile:global(.active) .challengesPanel {
+  animation: flyInUp 1350ms cubic-bezier(.37, 0, .63, 1) 1020ms both;
+}
+
+.companyProfile:global(.active) .challengeLabel {
+  animation: contentFadeIn 500ms ease 1300ms both;
+}
+
+.companyProfile:global(.active) .challengeItem {
+  animation: contentFadeUp 600ms cubic-bezier(.22, 1, .36, 1) 1400ms both;
+}
+
+.companyProfile:global(.active) .challengeItem:nth-child(2) {
+  animation-delay: 1510ms;
+}
+
+.companyProfile:global(.active) .challengeItem:nth-child(3) {
+  animation-delay: 1620ms;
+}
+
+.companyProfile:global(.active) .challengeItem:nth-child(4) {
+  animation-delay: 1730ms;
+}
+
+.companyProfile:global(.active) .challengeItem:nth-child(5) {
+  animation-delay: 1840ms;
+}
+
+@keyframes flyInLeft {
+  from { opacity: 0; transform: translate3d(-45px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes flyInRight {
+  from { opacity: 0; transform: translate3d(45px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes flyInUp {
+  from { opacity: 0; transform: translate3d(0, 45px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes contentFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes contentFadeDown {
+  from { opacity: 0; transform: translate3d(0, -12px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes contentTextReveal {
+  from { opacity: 0; filter: blur(4px); transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; filter: blur(0); transform: translate3d(0, 0, 0); }
+}
+
+@keyframes contentFadeUp {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes metricReveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(.96);
+    box-shadow: 0 0 0 transparent;
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(0, -2px, 0) scale(1.01);
+    box-shadow: 0 0 18px var(--glow-cyan);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    box-shadow: 0 0 12px var(--glow-primary);
+  }
+}
+
+@keyframes ecosystemBorderGlow {
+  0% {
+    opacity: 0;
+    background-position: 120% 0;
+  }
+  14% {
+    opacity: 0.55;
+  }
+  38% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 0.92;
+  }
+  100% {
+    opacity: 0;
+    background-position: -120% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companyProfile:global(.active) .storyPanel,
+  .companyProfile:global(.active) .positionPanel,
+  .companyProfile:global(.active) .challengesPanel,
+  .companyProfile:global(.active) .metric,
+  .companyProfile:global(.active) .header .eyebrow,
+  .companyProfile:global(.active) .header .title,
+  .companyProfile:global(.active) .header .subtitle,
+  .companyProfile:global(.active) .storyPanel > .sectionLabel,
+  .companyProfile:global(.active) .story,
+  .companyProfile:global(.active) .storyPanel > .fictionNote,
+  .companyProfile:global(.active) .positionHeader > .sectionLabel,
+  .companyProfile:global(.active) .ecosystemInline,
+  .companyProfile:global(.active) .positionItem,
+  .companyProfile:global(.active) .challengeLabel,
+  .companyProfile:global(.active) .challengeItem {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+
+  .companyProfile:global(.active) .clients span::after {
+    opacity: 0;
+    animation: none;
+  }
+}

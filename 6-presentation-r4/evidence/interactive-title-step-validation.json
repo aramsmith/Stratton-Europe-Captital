@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE6_WORKING_DRAFT_STEP_VALIDATION",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "6",
+  "revision": "4",
+  "stepIds": [
+    "R4-STEP-02",
+    "R4-STEP-03"
+  ],
+  "generatedAt": "2026-08-03T16:27:45.4905151+02:00",
+  "status": "PASS_WORKING_DRAFT_NOT_FROZEN",
+  "modelPlan": {
+    "revision": "22",
+    "path": "0-coordination/stratton-model-plan-revision-22.json",
+    "sha256": "34ecab375d5872ddd2ee26e4c4655ef238574fda1d3418034ef0c74799ca1114"
+  },
+  "preservedBaseline": {
+    "manifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "state": "IMMUTABLE_ASSURANCE_CONVERGED_NOT_HUMAN_APPROVED"
+  },
+  "workingSubject": {
+    "phaseFolder": "6-presentation-r4",
+    "srcTreeFileCount": 52,
+    "srcTreeSha256": "cce08014fd8aa384d03fae6fdb89b25dc431953152f3577245051d802bc9b509",
+    "deckConfigSha256": "a150264c0fa1a2bee01bd528a4ad7a3e2546a8ae627ab0f6ba158ff427b61bf6",
+    "indexCssSha256": "64d0069a07d18ea282e2b56aa1ce59620a3861fe24d0cc0d3de9b439e050995b",
+    "canonicalManifestCreated": false,
+    "pdfCreated": false
+  },
+  "interactiveStatus": {
+    "componentPath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.jsx",
+    "componentSha256": "cce6c3fbb243a6082cb067d05a5fa51bd343bc2f10b10a83c41edd3d9d82378d",
+    "stylePath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+    "styleSha256": "e2d80f85a012a337f6f1896ef99b412eb3d23993287ce52c948cb235039717fe",
+    "slideCount": 11,
+    "slideNumbersObserved": [
+      "01 / 11",
+      "02 / 11",
+      "03 / 11",
+      "04 / 11",
+      "05 / 11",
+      "06 / 11",
+      "07 / 11",
+      "08 / 11",
+      "09 / 11",
+      "10 / 11",
+      "11 / 11"
+    ],
+    "numberingPosition": "BOTTOM_CENTRE",
+    "timerPosition": "BOTTOM_RIGHT",
+    "timerDurationSeconds": 2700,
+    "timerLifecycle": {
+      "initialBeforeFullscreen": "45:00",
+      "observedRunningInFullscreen": "44:50",
+      "observedAtFullscreenExit": "44:45",
+      "observedAfterTwoSecondsPaused": "44:45",
+      "observedAfterFullscreenReentry": "44:33",
+      "startOnFullscreen": true,
+      "pauseOnExit": true,
+      "resumeOnReentryWithoutReset": true,
+      "allMountedSlideInstancesSharedOneValue": true,
+      "status": "PASS"
+    }
+  },
+  "titleSlide": {
+    "logicalSlideId": "S00",
+    "physicalPosition": 1,
+    "componentPath": "6-presentation-r4/deck/src/slides/TitleSlide.jsx",
+    "componentSha256": "92557f3b311c18506a54f5b39e838ce819578b2cc84d42bdd4a2bbc72a6f27ce",
+    "stylePath": "6-presentation-r4/deck/src/slides/TitleSlide.module.css",
+    "styleSha256": "1c04a2ce42cdd2ca358a999048a41d2c3b776d8b33272c0b3c4844d73d917083",
+    "organisation": "Stratton Europe Capital",
+    "caseReference": "AMA Case 18",
+    "subtitle": "Investment Decision Intelligence",
+    "aspirationalFraming": "Stratton's journey to an Azure AI-driven sovereign solution — guiding Stratton into the future.",
+    "aspirationalFramingSource": "HUMAN_AUTHORISED_ACTIVE_AI_INTERACTION",
+    "aspirationalFramingBoundary": "FUTURE_STATE_DIRECTION_NOT_DEPLOYED_OR_REALISED_CLAIM",
+    "logoPath": "6-presentation-r4/deck/src/data/stratton-europe-capital-logo.png",
+    "logoSha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901",
+    "logoSourceAndDeckCopyHashesMatch": true,
+    "logoNaturalDimensions": {
+      "width": 1254,
+      "height": 1254
+    },
+    "logoLoadedInBrowser": true,
+    "introducesNewMaterialArchitectureClaims": false
+  },
+  "identityAndPrivacyBoundary": {
+    "previousRevision4Boundary": "AUDIENCE_ANONYMOUS_BROWSER_OUTPUT",
+    "currentRevision4Boundary": "EXPLICIT_CUSTOMER_AND_CASE_IDENTITY",
+    "changeAuthorisedByHumanArchitect": true,
+    "revision3AnonymityEvidenceUnaffected": true,
+    "freshAffBSecurityComplianceReviewRequired": true
+  },
+  "build": {
+    "command": "node deck/tooling/build-portable-hardened.mjs",
+    "viteVersion": "8.1.5",
+    "transformedModuleCount": 358,
+    "status": "PASS",
+    "distIndexPath": "6-presentation-r4/deck/dist/index.html",
+    "distIndexSha256": "f725570666027d57b6f4b982b82d9f6c9113dadd3d0f41c071338dc16eeac3a8",
+    "mainBundlePath": "6-presentation-r4/deck/dist/assets/index-DjVa6Qqq.js",
+    "mainBundleSha256": "aeacdf9ec49b43d7473070ec3fd653a6229f14607509617e33973c79eecdacb1",
+    "hardenedCssPath": "6-presentation-r4/deck/dist/assets/index-CY9BONdp.css",
+    "hardenedCssSha256": "9c48d24f8b99fe85bd3f58c0b49fbfcd123c0874121d9a0b3bce181255a1aae3",
+    "removedRemoteCssImportCount": 1,
+    "remainingExternalCssDependencyCount": 0
+  },
+  "runtimeInspection": {
+    "url": "http://127.0.0.1:4174/",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "slideCount": 11,
+    "successfulLocalRequestCount": 8,
+    "failedRequestCount": 0,
+    "externalRequestCount": 0,
+    "consoleErrorCount": 0,
+    "slidesWithinContentBoundary": 11,
+    "slidesOutsideContentBoundary": 0,
+    "documentHorizontalOverflow": false,
+    "documentVerticalOverflow": false
+  },
+  "descriptorCompliance": {
+    "descriptor": "dark",
+    "slidesChecked": 11,
+    "slidesWithAccentBarFirst": 11,
+    "ambientOrbCountPerSlide": 2,
+    "slidesWithContentFrameAndGutter": 11,
+    "slidesWithPresentationStatusImmediatelyBeforeBottomBar": 11,
+    "slidesWithBottomBarLast": 11,
+    "shadcnSlideImportCount": 0,
+    "forbiddenLegacyTokenCount": 0,
+    "bodyFlexGrowthViolationCount": 0
+  },
+  "contentAndTraceability": {
+    "preExistingEditableFieldTemplateCount": 96,
+    "newTitleSlideEditableFieldCount": 9,
+    "workingEditableFieldTemplateCount": 105,
+    "preExistingEditableFieldsChanged": false,
+    "claimRecordCount": 32,
+    "claimRecordsChanged": false,
+    "claimCatalogueModelPlanRevision": "22",
+    "presentationMarkdownSha256": "26a1811fe5290bf6de8bd61aa65cecedaaa8142215b4c34767e039130812db16",
+    "presentationHtmlSha256": "8caefc9db4694a5f514b01822d62b3ba295631a6a4a76d098856ac02f406fac1",
+    "claimCatalogueSha256": "2a29cc248c2b1bd7adb12426ed7c1104e9c13ef88a0bd9bb89897bda3a6f5448"
+  },
+  "visualInspection": {
+    "titleSlideReviewedAt1280x720": true,
+    "logoAndCopyOverlap": false,
+    "contentAndFooterOverlap": false,
+    "transientScreenshotsIncludedInCandidate": false,
+    "status": "PASS"
+  },
+  "gateBoundary": {
+    "workingDraft": true,
+    "formalAffAReviewInvoked": false,
+    "formalAffBReviewInvoked": false,
+    "humanApprovalRecorded": false,
+    "azureExecutionAuthorised": false,
+    "phase7Invoked": false,
+    "phase8Invoked": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "release-evidence",
+  "scope": "Release",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File validation/New-ReleaseManifest.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-03T00:51:09.5748092Z",
+  "endedAt": "2026-08-03T00:51:11.5492994Z",
+  "durationMilliseconds": 1974.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260803T003434092Z/release-evidence.log"
+}

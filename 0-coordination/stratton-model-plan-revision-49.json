@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "49",
+  "createdAt": "2026-08-03T21:40:57.7058377+02:00",
+  "revisionReason": "Shrink only slide 2's top-right brand mark so it clears the first content panel without changing slide 3 branding.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-48.json",
+    "sha256": "f2982ea98eb756709fff48a828a3400cd4f7012800329efabbeb257ef9860af3",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "brandMarkSizePx": 112,
+    "preserveSlide3SizePx": 136
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "48",
+  "createdAt": "2026-08-03T19:14:55.1354820+02:00",
+  "revisionReason": "Equalize the typographic hierarchy between slide 2's current-position and business-challenges panels.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-47.json",
+    "sha256": "f0043e843b9ce39f962350b1dd9aa83d027c1ab3dc25bd7c348be4162b8e9076",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "matchedTypography": {
+      "sectionHeadingPx": 16.5,
+      "cardTitlePx": 18,
+      "cardDescriptionPx": 15
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

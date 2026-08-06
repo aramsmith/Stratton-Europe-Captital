@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "103",
+  "createdAt": "2026-08-05T00:01:30.7947106+02:00",
+  "revisionReason": "Complete independent Slide 10 review remediation by validating rendered bindings and computed content-frame geometry.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-102.json",
+    "sha256": "9f8c32745e6ad4802e848848d93c880efd08727bf778fdcc8bc2a48904f8bf67",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 10,
+    "request": "Make Slide 10 text comparable to Slide 2 and add Microsoft AI logos to the respective AI blocks."
+  },
+  "contentChange": {
+    "summary": [
+      "The Slide 10 presentation source remains unchanged from revision 102.",
+      "The regression contract now proves that AI cards render item.title and item.text rather than accessible product names.",
+      "Relay fit is calculated from the deck canvas, content-frame maximum width, content gutters, pixel gap and five grid columns.",
+      "Seven negative mutation probes reject incorrect mappings, captions, rendering bindings, typography and geometry assumptions."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "quality": {
+    "logoTypographyContract": "pass",
+    "mutationProbes": 7,
+    "renderedBindingChecks": "pass",
+    "computedContentGeometry": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 10,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotionRunningTimer": "pass",
+    "microsoftLogoCount": 4,
+    "independentReviewCriticalFindings": 0,
+    "independentReviewImportantFindingsRemediated": 4
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "5473815b3ba842b45d2f050ea920921baed1025baf9ebf95ea376179dc0aea01"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "c1bbd67e2147c6c33829642aea25ee94612ce8e315e88c3ac4acda5b9ddf198e"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "6e03e5b1adfaffc865e22ad23e5afcbd34f447de370f9144e43329b37b4a3b14"
+    },
+    "presentationStatusStyles": {
+      "path": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+      "sha256": "66d3ee87dbaf19af3325d3cfc9450d4d771bc5052f46e2816cb7e1acbda651ed"
+    }
+  },
+  "verificationArtifacts": {
+    "contract": {
+      "repositoryPath": ".superpowers/sdd/2026-08-04-slide-10-microsoft-ai-logos-and-typography/slide-10-logo-contract.mjs",
+      "sha256": "4f67e4075479ea4b62337a8d86f599a197d6016ad8d39cfb94cd434da9ea4023"
+    },
+    "report": {
+      "repositoryPath": ".superpowers/sdd/2026-08-04-slide-10-microsoft-ai-logos-and-typography/task-3-report.md",
+      "sha256": "6809a7863ff17af4eac65fe49df2f56eb28327f6336f93f763c33c9a9d9f917d"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

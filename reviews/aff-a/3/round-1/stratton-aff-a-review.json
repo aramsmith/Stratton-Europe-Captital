@@ -1,0 +1,384 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "availableModelReassessment": {
+      "approvedDefault": "gpt-5.5",
+      "selectedModelRationale": "The approved AFF-A default remains the best available GPT model for independent Phase 3 Azure design challenge, traceability review and unsupported-claim detection while differing from the phase author actual runtime model.",
+      "alternativesConsidered": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "disposition": "NOT_SELECTED",
+          "reason": "It is the recorded Phase 3 author actual runtime model and cannot satisfy AFF-A independence."
+        },
+        {
+          "modelId": "gpt-5.3-codex",
+          "disposition": "NOT_SELECTED",
+          "reason": "Better suited to code creation/testing than independent architecture design review."
+        }
+      ],
+      "runScopedChangeRequired": false,
+      "runScopedChangeApproval": "NOT_REQUIRED"
+    }
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "3",
+    "phaseName": "Phase 3 — Azure Design",
+    "owner": "AFF-3"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-02T02:22:20.372+02:00",
+  "modelPlan": {
+    "activeRevisionPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-4.json",
+    "revision": "4",
+    "phaseAuthorApprovedDefaultModelId": "gpt-5.6-sol",
+    "phaseAuthorSelectedExactModelId": "gpt-5.6-sol",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.5",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "evidence": [
+      "0-coordination/stratton-model-plan-revision-4.json records activePhaseAssignment.actualRuntimeModelId gpt-5.6-sol.",
+      "0-coordination/stratton-model-plan-revision-4.json requires AFF-A actual runtime model gpt-5.5.",
+      "The active invocation states AFF-A actual runtime model gpt-5.5."
+    ]
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes.json",
+    "sha256": "c31014ff7bdc7b6caac8dbc9b20029c7464c0b4d8579a788a191a4ca025ce848",
+    "expectedSha256FromInvocation": "c31014ff7bdc7b6caac8dbc9b20029c7464c0b4d8579a788a191a4ca025ce848",
+    "modelPlanRevision": "4",
+    "hashAlgorithm": "SHA-256",
+    "artifactCount": 24,
+    "hashVerificationStatus": "VERIFIED_BY_RECEIPT_PARENT_RECEIPT_AND_LOCAL_RECOMPUTE",
+    "localRecomputeStatus": "ALL_MANIFEST_AND_ARTIFACT_HASHES_MATCH",
+    "evidence": [
+      "3-azure-design/evidence/stratton-phase-3-hash-verification-receipt.json records allManifestEntriesMatch=true and the same manifest SHA-256.",
+      "3-azure-design/evidence/stratton-parent-validation-receipt.json records PASS for parent static checks.",
+      "AFF-A locally recomputed the manifest and all 24 artifact SHA-256 values; every value matched."
+    ]
+  },
+  "artifactsReviewed": [
+    {
+      "path": "3-azure-design/stratton-azure-design.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "225badc77f252566c1dbd474ae14d4aa880b351b89b741464885f27c752a8a4a",
+      "localRecomputedSha256": "225badc77f252566c1dbd474ae14d4aa880b351b89b741464885f27c752a8a4a",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/stratton-azure-design.html",
+      "role": "rendered-html",
+      "manifestSha256": "e0077c4529539e0e223baa40c50d979ea4d4d3e120999be7d33a3f5943c8d612",
+      "localRecomputedSha256": "e0077c4529539e0e223baa40c50d979ea4d4d3e120999be7d33a3f5943c8d612",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/stratton-design-catalogue.json",
+      "role": "catalogue",
+      "manifestSha256": "0f08d997d44ee428b83d1937d8bee94323c8ce653d47f2174451444ea3b18626",
+      "localRecomputedSha256": "0f08d997d44ee428b83d1937d8bee94323c8ce653d47f2174451444ea3b18626",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-solution-lz-topology.drawio",
+      "role": "diagram",
+      "manifestSha256": "a573bb54064ae0af8f69ccad262e659ca4be1855768bab17e4710d8473c09dac",
+      "localRecomputedSha256": "a573bb54064ae0af8f69ccad262e659ca4be1855768bab17e4710d8473c09dac",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-solution-lz-topology.svg",
+      "role": "diagram",
+      "manifestSha256": "82d7ffcb0e08d20978d8e28cd4116f699702b6da7fef402b044867ea3ec10982",
+      "localRecomputedSha256": "82d7ffcb0e08d20978d8e28cd4116f699702b6da7fef402b044867ea3ec10982",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-network-security-boundaries.drawio",
+      "role": "diagram",
+      "manifestSha256": "a9d50c26393fa1e6228b1a97b74e0b45f949b0ee5096b040761d63e5eebae920",
+      "localRecomputedSha256": "a9d50c26393fa1e6228b1a97b74e0b45f949b0ee5096b040761d63e5eebae920",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-network-security-boundaries.svg",
+      "role": "diagram",
+      "manifestSha256": "5283129bba2a47ebf17f0e383b457e6055abd3d42bb49fee459e331b5c74b986",
+      "localRecomputedSha256": "5283129bba2a47ebf17f0e383b457e6055abd3d42bb49fee459e331b5c74b986",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-end-to-end-data-flow.drawio",
+      "role": "diagram",
+      "manifestSha256": "45516c0867bea48c8415ed3ed9fec485843c3412329a2e76017261a364eb9d1e",
+      "localRecomputedSha256": "45516c0867bea48c8415ed3ed9fec485843c3412329a2e76017261a364eb9d1e",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-end-to-end-data-flow.svg",
+      "role": "diagram",
+      "manifestSha256": "5427ebe55477d3f922a739b0637fdbd89ee475584314ea228f7fcf9f0ad03358",
+      "localRecomputedSha256": "5427ebe55477d3f922a739b0637fdbd89ee475584314ea228f7fcf9f0ad03358",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-aff4-handoff.json",
+      "role": "evidence",
+      "manifestSha256": "f16c5b014eebc5484f68119aca878b56370e5782697e5f0262f095f2178d4ab8",
+      "localRecomputedSha256": "f16c5b014eebc5484f68119aca878b56370e5782697e5f0262f095f2178d4ab8",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-candidate-validation.json",
+      "role": "evidence",
+      "manifestSha256": "6f7021d1ca8b129db873d9b9c05d41e6c1daf5175569d51b51a365ce831ce3be",
+      "localRecomputedSha256": "6f7021d1ca8b129db873d9b9c05d41e6c1daf5175569d51b51a365ce831ce3be",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-citadel-landing-zone-contract.json",
+      "role": "evidence",
+      "manifestSha256": "64f7992ab54f9e8dd6ace2751468206ed6a0200f452fe30fc2a93660bdb7854e",
+      "localRecomputedSha256": "64f7992ab54f9e8dd6ace2751468206ed6a0200f452fe30fc2a93660bdb7854e",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-data-api-contracts.json",
+      "role": "evidence",
+      "manifestSha256": "16fbff5164cb574c815e8171edc5091fb308d8f7d016e68fcabc0f33c29441fe",
+      "localRecomputedSha256": "16fbff5164cb574c815e8171edc5091fb308d8f7d016e68fcabc0f33c29441fe",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-human-decision-register.json",
+      "role": "evidence",
+      "manifestSha256": "a5c9d614981f237054c464e3390adeb88b7484b9bf2c51e4694d94f51168da6f",
+      "localRecomputedSha256": "a5c9d614981f237054c464e3390adeb88b7484b9bf2c51e4694d94f51168da6f",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-identity-rbac-contract.json",
+      "role": "evidence",
+      "manifestSha256": "06dc4700a33f78bf8e378264dd2c232516125d9f5a0b77f9cc832f50242dd443",
+      "localRecomputedSha256": "06dc4700a33f78bf8e378264dd2c232516125d9f5a0b77f9cc832f50242dd443",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-network-security-contract.json",
+      "role": "evidence",
+      "manifestSha256": "e1f72bc58a5f94b07e8b5279bc4048adc051499ce9c2fb5a68ebc460ba9be5e9",
+      "localRecomputedSha256": "e1f72bc58a5f94b07e8b5279bc4048adc051499ce9c2fb5a68ebc460ba9be5e9",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-operations-reliability-contract.json",
+      "role": "evidence",
+      "manifestSha256": "67e90602e4ce613c9eaeb66b8b279badf47b401c29506696adac1f034797ca87",
+      "localRecomputedSha256": "67e90602e4ce613c9eaeb66b8b279badf47b401c29506696adac1f034797ca87",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-source-register.json",
+      "role": "evidence",
+      "manifestSha256": "0befc8c5a2811fc44af81e69c67b881368b0ba914ef6c6e774fb0b0adff45861",
+      "localRecomputedSha256": "0befc8c5a2811fc44af81e69c67b881368b0ba914ef6c6e774fb0b0adff45861",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-traceability-matrix.json",
+      "role": "evidence",
+      "manifestSha256": "f68afb36774c5d490e6f6d9b805ca680bd72c5c97817a31323fa10e2a7e542c8",
+      "localRecomputedSha256": "f68afb36774c5d490e6f6d9b805ca680bd72c5c97817a31323fa10e2a7e542c8",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-waf-cost-environment-matrix.json",
+      "role": "evidence",
+      "manifestSha256": "cfd26b75c6dd064c3f77098546a2a36ceb459e64bb3d498c84af9be92e16ae97",
+      "localRecomputedSha256": "cfd26b75c6dd064c3f77098546a2a36ceb459e64bb3d498c84af9be92e16ae97",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-parent-validation-receipt.json",
+      "role": "evidence",
+      "manifestSha256": "32b447032d2eef76238c3f156f530821372baa88c8734ddcf1ae93a5d91a71c8",
+      "localRecomputedSha256": "32b447032d2eef76238c3f156f530821372baa88c8734ddcf1ae93a5d91a71c8",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-4.json",
+      "role": "catalogue",
+      "manifestSha256": "51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f",
+      "localRecomputedSha256": "51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "iac/docs/architecture.md",
+      "role": "other",
+      "manifestSha256": "ef656d1b2a8b827457d24e5eca91699e72dfabb4f032c4f4dff679c88a2ec939",
+      "localRecomputedSha256": "ef656d1b2a8b827457d24e5eca91699e72dfabb4f032c4f4dff679c88a2ec939",
+      "hashVerificationStatus": "MATCH"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-phase-3-hash-generation-evidence.json",
+      "role": "evidence",
+      "manifestSha256": "edac11f2ad10fd21070d1decbdb613963c7bf2e5e7c0aa6a18939e07d1c6951c",
+      "localRecomputedSha256": "edac11f2ad10fd21070d1decbdb613963c7bf2e5e7c0aa6a18939e07d1c6951c",
+      "hashVerificationStatus": "MATCH"
+    }
+  ],
+  "upstreamApprovalBinding": {
+    "phase1Approval": "approvals/1/stratton-phase-1-approval-1.json APPROVED; seven residual controls unwaived.",
+    "phase2Approval": "approvals/2/stratton-phase-2-approval-1.json APPROVED for manifest 8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9.",
+    "phase2FinalReviews": "Final AFF-A and AFF-B Phase 2 reviews both bind the same Phase 2 manifest and carry seven residual controls."
+  },
+  "confirmedItems": [
+    "Exact-model independence is verified: AFF-A actual runtime gpt-5.5 differs from the Phase 3 author actual runtime gpt-5.6-sol in model-plan revision 4.",
+    "The canonical Phase 3 manifest SHA-256 matches the invocation value, contains 24 artifacts, and every listed artifact hash locally recomputes to the manifest value.",
+    "Traceability matrix maps 31/31 approved Must requirements, 19/19 approved ABBs and AD-001 through AD-010 to valid SBB IDs.",
+    "HD-001 through HD-005 are recorded as confirmed patterns with tenant/subscription, region, IPAM/DNS and measured-capacity inputs retained fail-closed.",
+    "Citadel is presented as an ALZ foundation plus Azure-Samples Foundry Citadel guidance plus Sovereign Landing Zone overlays, not as a standalone Microsoft product or ALZ replacement.",
+    "Database public access is disabled in every environment and public supported data/AI service exposure plus Global/DataZone AI deployments are denied by design and handoff controls.",
+    "Production, non-production, AI governance, connectivity and Internal Audit assurance boundaries are separated by management group/subscription, identity and policy ownership.",
+    "Data/API contracts, fail-closed errors, idempotency, observability, resilience targets, cost drivers, WAF trade-offs and environment strategy are materially coherent at Phase 3 depth.",
+    "AVM references are exact-versioned candidates and expressly deferred to AFF-4 registry/digest verification rather than claimed as validated.",
+    "The three draw.io/SVG pairs materially match the narrative, include accessible titles/descriptions and contain no script, foreignObject or external references observed.",
+    "The seven governed controls remain formally carried with controlsDisplayedOnDashboard=false; phase-status-dashboard.html does not display those control IDs.",
+    "The subject stays within Phase 3: no deployment, Azure what-if, code execution, runtime result, price or achieved SLA claim is made."
+  ],
+  "findings": [
+    {
+      "id": "AFFA-P3-R1-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Backup vault is selected without a supported protected workload or policy boundary.",
+      "finding": "The design adds a Microsoft.DataProtection/backupVaults resource and lists Azure Backup vault as part of SBB-16, but the reviewed contracts do not bind that vault to a Microsoft-supported protected workload, backup policy, restore path or owner. Azure SQL Database is already covered by service automated PITR/LTR/failover patterns; treating a Data Protection Backup vault as a generic regional backup control is not implementation-ready and can lead AFF-4 to deploy an unsupported or unused recovery component.",
+      "evidence": [
+        "3-azure-design/stratton-azure-design.md:243 lists bv-stratton-prd-<regionRole>-<loc> as a Regional backup vault.",
+        "3-azure-design/stratton-design-catalogue.json:219 lists Azure SQL automated backups, Azure Backup vault and Blob versioning/soft delete in SBB-16.",
+        "3-azure-design/stratton-design-catalogue.json:316 selects Microsoft.DataProtection/backupVaults without naming protected data sources or backup policies.",
+        "3-azure-design/evidence/stratton-operations-reliability-contract.json:19 correctly uses Azure SQL automated PITR backups for SQL state but does not explain what the Backup vault protects.",
+        "Microsoft Learn, Backup vaults overview, states Backup vaults hold backup data for supported newer workloads such as Azure Blob and Azure Database for PostgreSQL servers.",
+        "Microsoft Learn, Azure SQL Database automated backups overview, states Azure SQL Database automatically creates full, differential and transaction log backups and supports PITR/LTR."
+      ],
+      "microsoftSources": [
+        {
+          "title": "Backup vaults overview",
+          "url": "https://learn.microsoft.com/en-us/azure/backup/backup-vault-overview",
+          "supportingText": "Backup vaults house backup data for certain newer workloads such as Azure Blob and Azure Database for PostgreSQL servers."
+        },
+        {
+          "title": "Automatic, Geo-Redundant Backups - Azure SQL Database",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/automated-backups-overview?view=azuresql",
+          "supportingText": "Azure SQL Database automatically creates full, differential and transaction log backups and supports point-in-time restore and long-term retention."
+        }
+      ],
+      "owner": "AFF-3 with AFF-4 handoff owner and Business Continuity",
+      "boundedRemediation": "Either remove the Backup vault from SBB-16/resource inventory, or explicitly bind it to supported workloads such as Blob backup with policy, retention, restore, region and ownership details. Keep Azure SQL recovery on automated backups/LTR/failover groups unless a supported Azure Backup workload is introduced.",
+      "manifestMustBeRegenerated": true
+    },
+    {
+      "id": "AFFA-P3-R1-MIN-001",
+      "severity": "MINOR",
+      "title": "Private-only Application Gateway opt-in is not carried as an AFF-4 fail-closed input.",
+      "finding": "The design correctly chooses a private-only Application Gateway WAF_v2 ingress, but the handoff does not carry the required subscription feature opt-in/registration check as a fail-closed implementation input. Microsoft Learn says private IP-only Application Gateway v2 controls are generally available and production-supported, but use requires opting in to the experience; missing this gate could block deployment late.",
+      "evidence": [
+        "3-azure-design/stratton-azure-design.md:27 selects Private Application Gateway WAF_v2 to private API Management.",
+        "3-azure-design/evidence/stratton-network-security-contract.json:20 states no public frontend IP is deployed.",
+        "3-azure-design/evidence/stratton-aff4-handoff.json:36-68 lists fail-closed parameters and compile-time assertions but does not include Application Gateway private deployment opt-in/feature registration evidence.",
+        "Microsoft Learn, Private Application Gateway deployment, states the private IP-only controls are GA/production-supported and require opting in to the experience."
+      ],
+      "microsoftSources": [
+        {
+          "title": "Private Application Gateway deployment",
+          "url": "https://learn.microsoft.com/en-us/azure/application-gateway/application-gateway-private-deployment",
+          "supportingText": "Private IP-only frontend configuration is supported for Application Gateway v2, and use of the new network controls requires opt-in to the experience."
+        }
+      ],
+      "owner": "AFF-3 / AFF-4 ingress module owner",
+      "boundedRemediation": "Add the Application Gateway private deployment feature opt-in/registration state and subscription evidence to required AFF-4 inputs or preflight checks before private ingress deployment.",
+      "manifestMustBeRegenerated": true
+    }
+  ],
+  "residualGaps": [
+    {
+      "id": "VAL-001",
+      "owner": "General Counsel",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "DORA applicability/exemption and obligations before any formal claim or scope change."
+    },
+    {
+      "id": "VAL-002",
+      "owner": "CIO and Service Operations",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "Business hours, typical pack and critical-alert criteria before service/performance acceptance."
+    },
+    {
+      "id": "VAL-003",
+      "owner": "Deal Operations, AI Governance, Legal, Compliance and CIO",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "Eligibility, benchmark, critical-field, severity and exception definitions before Internal Audit validation."
+    },
+    {
+      "id": "VAL-004",
+      "owner": "Source and records owners",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "Exact sources, schedules, volumes and remediation before production ingestion."
+    },
+    {
+      "id": "VAL-005",
+      "owner": "General Counsel",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "Approved locations and transfer-exception process before production acceptance."
+    },
+    {
+      "id": "AFFB-RES-001",
+      "owner": "General Counsel and Head of AI Governance",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "AI Act role/use-case classification evidence before production or any classification claim."
+    },
+    {
+      "id": "AFFB-RES-002",
+      "owner": "Legal and compliance owners",
+      "status": "OPEN_NOT_WAIVED",
+      "description": "Official citations, dates and article mappings before formal representation."
+    }
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "One unresolved MAJOR feasibility/implementation-readiness finding remains: the selected Backup vault resource is not bound to a supported protected workload or recovery policy. Under the AFF-A severity rules, an unresolved major finding yields DIVERGES. The additional minor Application Gateway opt-in gap is bounded but still requires subject remediation if the design is revised.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_FOR_MANIFEST_C31014FF7BDC7B6CAAC8DBC9B20029C7464C0B4D8579A788A191A4CA025CE848_AND_MODEL_PLAN_REVISION_4",
+  "requiredActions": [
+    {
+      "action": "Remediate AFFA-P3-R1-MAJ-001 by removing the unbound Backup vault or binding it to supported workload-specific backup and restore policies; do not use Backup vault as a generic SQL backup mechanism.",
+      "owner": "AFF-3",
+      "manifestRegenerationRequired": true
+    },
+    {
+      "action": "Remediate AFFA-P3-R1-MIN-001 by carrying private-only Application Gateway opt-in/registration evidence into AFF-4 inputs or preflight checks.",
+      "owner": "AFF-3/AFF-4 handoff owner",
+      "manifestRegenerationRequired": true
+    },
+    {
+      "action": "Regenerate affected Phase 3 artifacts and the canonical manifest after remediation, then re-run AFF-A and AFF-B over the same unchanged regenerated manifest.",
+      "owner": "AFF-3",
+      "manifestRegenerationRequired": true
+    },
+    {
+      "action": "Do not open the human Phase 3 approval gate for this manifest; DIVERGES blocks it.",
+      "owner": "AFF-3",
+      "manifestRegenerationRequired": false
+    }
+  ],
+  "subjectModificationPerformed": false,
+  "nonApprovalStatement": "AFF-A does not approve, waive, certify, fix, deploy, test or modify the Phase 3 subject. This review only records independent findings for the exact hash-bound manifest."
+}

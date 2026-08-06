@@ -1,0 +1,433 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "runtimeIdentityEvidence": "The active human invocation explicitly specifies exact actual runtime model gpt-5.6-sol, matching the approved AFF-B assignment in model-plan revision 3.",
+    "complexityReassessment": {
+      "regulatoryComplexity": "HIGH",
+      "securityComplexity": "HIGH",
+      "evidenceComplexity": "HIGH",
+      "contextComplexity": "HIGH_BUT_TRACTABLE",
+      "rationale": "The Phase 2 subject combines highly confidential investment data, EU/EEA sovereignty, foreign-jurisdiction governance, privacy, privileged access, AI governance, independent audit, conditional DORA, resilience and 31 requirements across ten hash-bound artifacts plus approved upstream assurance. The approved AFF-B default remains the best suited available GPT model.",
+      "selectedDefaultRemainsSuitable": true,
+      "runScopedOverrideRequired": false,
+      "humanOverrideApprovalRequired": false,
+      "humanSpecifiedRuntimeMatchesApprovedDefault": true
+    }
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "2",
+    "phaseName": "Phase 2 — TOGAF Architecture",
+    "owner": "AFF-2"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-01T22:03:38.123+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-3.json",
+    "revision": "3",
+    "manifestEntrySha256": "38ad370fc2418cffb3be2821d062a1b91884fc5b132f14de0ab44beabcf849fe",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "changedForThisReview": false
+  },
+  "scope": [
+    "Complete ten-artifact Phase 2 vendor-neutral architecture subject and independent hash receipt",
+    "Approved Phase 1 requirements catalogue, approval, final AFF-A and AFF-B assurance",
+    "Regulatory register, risk log and seven unwaived residual controls",
+    "Logical security controls, identities, privileged access, trust boundaries, audit and operations",
+    "Privacy, minimisation, purpose, retention, transfer and EU/EEA sovereignty boundaries",
+    "Human authority, AI governance, no-training data use, production isolation and independent Internal Audit validation",
+    "Conditional DORA and EU AI Act applicability and classification boundaries",
+    "Legal-jurisdiction exposure, incident evidence, resilience and compliance traceability",
+    "Material consistency across Markdown, HTML, catalogue and five architecture views",
+    "Phase boundary: no Azure service selection, deployment or runtime evidence claim"
+  ],
+  "context": {
+    "applicabilityStartingPosition": "No regulation was assumed at case start. Current applicability boundaries derive from human-confirmed Phase 1 decisions and regulatory-register revision 002.",
+    "humanConfirmationUse": "Human-confirmed applicability and constraints are requirements evidence, not an AFF-B legal determination, certification or attestation.",
+    "dataContext": "Release 1 uses governed investment, financial, legal, portfolio, ESG and personal data. Deal, financial, legal and portfolio data is highly confidential.",
+    "solutionBoundary": "Controlled production rollout for the first 20 eligible new private-equity opportunities, with assistive AI and every investment decision retained by the Investment Committee.",
+    "architectureBoundary": "Phase 2 defines vendor-neutral logical ABBs, trust boundaries, controls, views, decisions, risks and handoff constraints only.",
+    "assuranceLimit": "Architecture assurance only; not legal advice, legal or regulatory certification, formal compliance attestation, waiver or approval."
+  },
+  "canonicalReviewedEvidenceSet": {
+    "canonicalSubjectManifest": {
+      "path": "cases/Stratton-Europe-Captital/2-togaf-architecture/stratton-phase-2-hashes.json",
+      "sha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+      "modelPlanRevision": "3",
+      "hashAlgorithm": "SHA-256",
+      "artifactCount": 10,
+      "manifestEntriesRead": true,
+      "hashVerificationStatus": "VERIFIED_BY_RETAINED_RECEIPT_AND_REVIEWER_LOCAL_RECOMPUTE",
+      "hashVerificationEvidence": [
+        "2-togaf-architecture/evidence/stratton-phase-2-hash-verification-receipt.json records manifest SHA-256 8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9 and allManifestEntriesMatch=true.",
+        "The retained receipt records match=true for all ten manifest entries.",
+        "AFF-B locally recomputed the manifest and all ten artifact SHA-256 values; every value matched."
+      ],
+      "localRecomputeStatus": "ALL_MANIFEST_AND_ARTIFACT_HASHES_MATCH"
+    },
+    "activeCoverageRevision": {
+      "sequence": "004",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-004.json",
+      "sha256": "aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe",
+      "status": "ACTIVE_FOR_BOUND_MANIFEST",
+      "appendOnly": true,
+      "insideCanonicalSubjectManifest": false,
+      "role": "AFF-B_REVIEW_OUTPUT_AND_COVERAGE_CONTEXT"
+    },
+    "affAFinalReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/2/round-1/stratton-aff-a-review.json",
+      "sha256": "37f180026d35af2e6fdb18688337842c008bf6fe636434eb8ac530757703abef",
+      "round": 1,
+      "verdict": "CONFORMS-WITH-GAPS",
+      "findings": 0,
+      "finalRoundForManifest": true,
+      "canonicalManifestSha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+      "modelPlanRevision": "3"
+    },
+    "independentHashReceipt": {
+      "path": "cases/Stratton-Europe-Captital/2-togaf-architecture/evidence/stratton-phase-2-hash-verification-receipt.json",
+      "manifestSha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+      "allManifestEntriesMatch": true,
+      "outsideManifestToAvoidSelfReference": true
+    }
+  },
+  "artifactsReviewed": [
+    {
+      "path": "2-togaf-architecture/stratton-architecture.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "f18698f74694e5f4ce8fac1b0056502977497a6a10be0846361e15806cc7f0ac",
+      "localRecomputedSha256": "f18698f74694e5f4ce8fac1b0056502977497a6a10be0846361e15806cc7f0ac",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "COMPLETE_SECURITY_PRIVACY_SOVEREIGNTY_AI_AUDIT_RESILIENCE_COMPLIANCE_AND_PHASE_BOUNDARY_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-architecture.html",
+      "role": "rendered-html",
+      "manifestSha256": "bf204d7b0ebc71b7b8671b582b11ef1ce19ffe5f03c414b525218793701cc4e3",
+      "localRecomputedSha256": "bf204d7b0ebc71b7b8671b582b11ef1ce19ffe5f03c414b525218793701cc4e3",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "SELF_CONTAINED_RENDERING_HTML_SAFETY_AND_MATERIAL_FIDELITY_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-architecture-catalogue.json",
+      "role": "catalogue",
+      "manifestSha256": "3b84d0aabe70870a4dd324a5b4e91f6c93c8883cdcf4e8a1869fbdd87975440f",
+      "localRecomputedSha256": "3b84d0aabe70870a4dd324a5b4e91f6c93c8883cdcf4e8a1869fbdd87975440f",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "ALL_19_ABBS_10_DECISIONS_8_GAPS_12_RISKS_7_RESIDUAL_CONTROLS_AND_31_REQUIREMENT_MAPPINGS_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-01-context.mmd",
+      "role": "diagram",
+      "manifestSha256": "556aea9e73eeb3397f3b233800f6b2cff1d48003b024baa31787ff5c8bf26bff",
+      "localRecomputedSha256": "556aea9e73eeb3397f3b233800f6b2cff1d48003b024baa31787ff5c8bf26bff",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "CONTEXT_HUMAN_AUTHORITY_SOURCE_AND_GOVERNANCE_BOUNDARIES_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-02-business.mmd",
+      "role": "diagram",
+      "manifestSha256": "425f9fa91d426bc4dff5af47403cba3e82593a00b2d5d595a88404d40d914d65",
+      "localRecomputedSha256": "425f9fa91d426bc4dff5af47403cba3e82593a00b2d5d595a88404d40d914d65",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "ELIGIBILITY_REVIEW_SPECIALIST_APPROVAL_INDEPENDENT_EVIDENCE_AND_INVESTMENT_AUTHORITY_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-03-application.mmd",
+      "role": "diagram",
+      "manifestSha256": "f67096fc449dd6d64d55bae5f330e457c3ce3da8fff761dd2b2139fe9afa351a",
+      "localRecomputedSha256": "f67096fc449dd6d64d55bae5f330e457c3ce3da8fff761dd2b2139fe9afa351a",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "POLICY_SOURCE_INGESTION_ANALYSIS_CITATION_REVIEW_DRAFT_AND_AUDIT_BOUNDARIES_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-04-data.mmd",
+      "role": "diagram",
+      "manifestSha256": "713b558033deac34785fa172a7f450d3d894e4b3e51b68da8c3fc38ba4b589cf",
+      "localRecomputedSha256": "713b558033deac34785fa172a7f450d3d894e4b3e51b68da8c3fc38ba4b589cf",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "LICENCE_PURPOSE_CLASSIFICATION_PROVENANCE_RETENTION_NO_TRAINING_AND_NO_WRITE_BACK_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-05-technology.mmd",
+      "role": "diagram",
+      "manifestSha256": "178da18ae584bd7efec16337d6ddc91e76c95d8942fd45ee8d40d7fa28108f2d",
+      "localRecomputedSha256": "178da18ae584bd7efec16337d6ddc91e76c95d8942fd45ee8d40d7fa28108f2d",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "IDENTITY_TRUST_ZONES_PRIVATE_LOGICAL_INTEGRATION_AUDIT_INCIDENT_AND_RECOVERY_REVIEWED"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-3.json",
+      "role": "catalogue",
+      "manifestSha256": "38ad370fc2418cffb3be2821d062a1b91884fc5b132f14de0ab44beabcf849fe",
+      "localRecomputedSha256": "38ad370fc2418cffb3be2821d062a1b91884fc5b132f14de0ab44beabcf849fe",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "ACTIVE_MODEL_PLAN_REVISION_AND_AFF_B_RUNTIME_ASSIGNMENT_REVIEWED"
+    },
+    {
+      "path": "2-togaf-architecture/evidence/stratton-phase-2-hash-generation-evidence.json",
+      "role": "evidence",
+      "manifestSha256": "08c7014d3542443e50c6536cf5817f1a60d6cc884dede7e1c6391f8c1fb5ed5d",
+      "localRecomputedSha256": "08c7014d3542443e50c6536cf5817f1a60d6cc884dede7e1c6391f8c1fb5ed5d",
+      "hashVerificationStatus": "MATCHES_MANIFEST_RECEIPT_AND_LOCAL_RECOMPUTE",
+      "inspection": "HASH_GENERATION_SCOPE_VALUES_AND_TOOL_RECORD_REVIEWED"
+    }
+  ],
+  "additionalRecordsRead": [
+    ".github/agents/AFF-B-security-compliance.agent.md",
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json",
+    ".github/copilot-instructions.md",
+    ".github/schemas/aff-phase-hashes.schema.json",
+    "1-requirements/stratton-requirements.md",
+    "1-requirements/stratton-requirements-catalogue.json",
+    "1-requirements/stratton-interview-decisions.json",
+    "1-requirements/stratton-phase-1-hashes.json",
+    "approvals/1/stratton-phase-1-approval-1.json",
+    "stratton-decisions.md",
+    "stratton-risk-log.md",
+    "stratton-regulatory-register.md",
+    "reviews/aff-a/1/round-3/stratton-aff-a-review.json",
+    "reviews/aff-b/1/round-2/stratton-aff-b-review.json",
+    "reviews/aff-b/coverage/stratton-compliance-coverage-003.json",
+    "reviews/aff-a/2/round-1/stratton-aff-a-review.json",
+    "2-togaf-architecture/evidence/stratton-phase-2-hash-verification-receipt.json"
+  ],
+  "upstreamAssuranceBinding": {
+    "phase1ApprovalDecision": "APPROVED",
+    "phase1ApprovalId": "STRATTON-PHASE-1-APPROVAL-001",
+    "phase1ApprovalSha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a",
+    "phase1ManifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "phase1FinalAffAVerdict": "CONFORMS-WITH-GAPS",
+    "phase1FinalAffBVerdict": "CONFORMS-WITH-GAPS",
+    "sevenResidualControlsUnwaived": true,
+    "bindingStatus": "EXACT_APPROVED_BASELINE_PRESERVED"
+  },
+  "confirmedControls": [
+    {
+      "controlOutcome": "Personal-data minimisation, purpose limitation, exclusion of unapproved special-category data and fail-closed privacy evidence",
+      "requirementIds": ["DR-003", "SR-003"],
+      "architectureElements": ["ABB-03", "ABB-09", "ABB-10", "ABB-18", "AD-003", "AD-005"]
+    },
+    {
+      "controlOutcome": "EU/EEA production-data and routine-processing boundary with approved extra-EEA transfer and foreign-jurisdiction exception governance",
+      "requirementIds": ["SR-001", "SR-002", "SR-010"],
+      "architectureElements": ["ABB-10", "ABB-15", "ABB-18", "AD-005", "AD-006"]
+    },
+    {
+      "controlOutcome": "Stratton-controlled identities, authorised EU-based privileged operation, least privilege, time-bound elevation, complete audit and governed emergency access",
+      "requirementIds": ["SR-007"],
+      "architectureElements": ["ABB-11", "ABB-12", "AD-005"]
+    },
+    {
+      "controlOutcome": "External-data AI-use licensing, purpose gate and prohibition of foundation-model training with Stratton data",
+      "requirementIds": ["DR-002", "DR-006"],
+      "architectureElements": ["ABB-05", "ABB-10", "ABB-17", "AD-004", "AD-005", "AD-010"]
+    },
+    {
+      "controlOutcome": "Read-only authoritative sources and no AI-generated write-back",
+      "requirementIds": ["DR-001", "IR-001"],
+      "architectureElements": ["ABB-02", "ABB-03", "AD-002"]
+    },
+    {
+      "controlOutcome": "Assistive-only AI, mandatory human and specialist review, draft-only output and retained Investment Committee authority",
+      "requirementIds": ["FR-002", "AR-001", "AR-002", "NR-002"],
+      "architectureElements": ["ABB-05", "ABB-07", "ABB-08", "ABB-12", "AD-004"]
+    },
+    {
+      "controlOutcome": "Independent Internal Audit validation with delivery and operations unable to issue or alter the verdict",
+      "requirementIds": ["SR-008"],
+      "architectureElements": ["ABB-12", "ABB-16", "AD-009"]
+    },
+    {
+      "controlOutcome": "Production isolation, synthetic non-production data and environment-specific access evidence",
+      "requirementIds": ["DR-007", "SR-001", "TR-001"],
+      "architectureElements": ["ABB-15", "AD-006"]
+    },
+    {
+      "controlOutcome": "Correlated security, privacy, AI, review and incident evidence with named incident ownership",
+      "requirementIds": ["SR-004", "SR-006", "SR-009", "TR-004", "NR-002"],
+      "architectureElements": ["ABB-12", "ABB-13", "ABB-18"]
+    },
+    {
+      "controlOutcome": "Recovery of consistent case, evidence, policy and audit state against approved RTO and RPO objectives",
+      "requirementIds": ["SR-009", "TR-003"],
+      "architectureElements": ["ABB-14", "AD-008"]
+    },
+    {
+      "controlOutcome": "Conditional DORA-aligned evidence with no formal compliance claim and no EU AI Act high-risk or non-high-risk classification claim",
+      "requirementIds": ["SR-006", "SR-009"],
+      "architectureElements": ["ABB-10", "ABB-12", "ABB-13", "ABB-14", "ABB-18"]
+    }
+  ],
+  "assessment": [
+    {
+      "focus": "LOGICAL_CONTROLS_AND_TRUST_BOUNDARIES",
+      "status": "CONFORMS",
+      "evidence": "Nineteen ABBs, five views and ten decisions implement fail-closed admission, purpose, identity, access, analysis, review and transfer boundaries. The controls are stated as target logical outcomes, not certified or operating controls."
+    },
+    {
+      "focus": "GDPR_DATA_MINIMISATION_PURPOSE_RETENTION_AND_TRANSFER",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "ABB-03, ABB-09, ABB-10 and ABB-18 cover minimisation, purpose, lawful-use evidence, legal holds, authoritative schedules, working-copy deletion and transfer gates. Exact schedules and approved locations remain open under VAL-004 and VAL-005."
+    },
+    {
+      "focus": "SOVEREIGNTY_AND_LEGAL_JURISDICTION",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "SR-001, SR-002, SR-007 and SR-010 are preserved through ABB-10, ABB-11, ABB-12, ABB-15 and ABB-18. Phase 2 infers no Azure region and keeps foreign-jurisdiction exposure subject to General Counsel assessment and acceptance."
+    },
+    {
+      "focus": "IDENTITY_PRIVILEGED_ACCESS_AND_PRODUCTION_ISOLATION",
+      "status": "CONFORMS",
+      "evidence": "ABB-11 and AD-005 preserve controlled identities, authorised EU-based operation, least privilege, time-bound elevation, complete audit and emergency access. ABB-15 and AD-006 preserve separate environments and synthetic non-production data."
+    },
+    {
+      "focus": "AI_GOVERNANCE_DATA_USE_AND_HUMAN_AUTHORITY",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "ABB-05 through ABB-08, ABB-10, ABB-12, ABB-16 and ABB-18 preserve assistive-only use, citations, prohibited actions, mandatory review, retained Investment Committee authority, no foundation-model training and independent validation. AI Act role and use-case classification remains open under AFFB-RES-001."
+    },
+    {
+      "focus": "DORA_AND_EU_AI_ACT_CONDITIONALITY",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "DORA remains an interim conditional evidence boundary under SR-009 and VAL-001 with no formal compliance claim. Neither high-risk nor non-high-risk EU AI Act status is asserted; classification is blocked pending accountable evidence."
+    },
+    {
+      "focus": "AUDIT_INCIDENT_RESILIENCE_AND_OPERATIONS",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "ABB-12 through ABB-14 protect correlated evidence, alerting, incident ownership and consistent recoverable state. Availability, business-hour, pack and critical-alert definitions remain owner-bound under VAL-002."
+    },
+    {
+      "focus": "REGULATORY_AND_COMPLIANCE_TRACEABILITY",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "Coverage revision 004 maps all 21 confirmed and four conditional obligation clusters to requirements, ABBs, decisions and views. Official citations, dates and article-level mappings remain open under AFFB-RES-002."
+    },
+    {
+      "focus": "RESIDUAL_CONTROL_OWNERSHIP",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "VAL-001 through VAL-005 and AFFB-RES-001/002 remain explicit, owner-bound, unwaived and linked to required-before points in the Markdown, catalogue, approval and coverage record."
+    },
+    {
+      "focus": "VENDOR_NEUTRALITY_AND_UNSUPPORTED_EVIDENCE_CLAIMS",
+      "status": "CONFORMS",
+      "evidence": "The subject selects no SBB, Azure service, region, SKU, CIDR, module or implementation sequence and claims no deployment, runtime, certification, attestation or control operating-effectiveness evidence."
+    },
+    {
+      "focus": "MARKDOWN_HTML_CATALOGUE_AND_VIEW_CONSISTENCY",
+      "status": "CONFORMS",
+      "evidence": "All 31 requirement IDs, 19 ABB IDs, five view IDs, ten decision IDs and seven residual-control IDs are represented consistently. The HTML is self-contained, has no external references or unsafe embedded objects, and materially reflects the authoritative Markdown and catalogue."
+    }
+  ],
+  "confirmedObligationCoverage": {
+    "activeCoverageSequence": "004",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-004.json",
+    "sha256": "aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe",
+    "confirmedApplicabilityBoundaries": ["GDPR", "SFDR conditional", "AIFMD conditional", "EU AI Act governance framework"],
+    "conditionalOpenBoundary": "DORA entity-specific applicability or exemption",
+    "confirmedObligationClustersMapped": 21,
+    "conditionalObligationClustersMapped": 4,
+    "coveredClusters": 25,
+    "activeRequirementsMapped": 31,
+    "formalComplianceClaimsFound": 0
+  },
+  "findings": [],
+  "residualGaps": [
+    {
+      "id": "VAL-001",
+      "gap": "Entity-specific DORA applicability or exemption and resulting obligations remain unrecorded; formal DORA compliance must not be claimed.",
+      "owner": "General Counsel",
+      "architectureTreatment": "ABB-18 retains the conditional evidence boundary and prevents a formal claim.",
+      "requiredBefore": "Any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "gap": "Business hours, typical document-pack characteristics and critical-alert criteria require approval.",
+      "owner": "Chief Investment Officer and Service Operations",
+      "architectureTreatment": "ABB-13 and ABB-19 consume approved operational definitions.",
+      "requiredBefore": "Service and performance acceptance",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "gap": "Eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions require approval.",
+      "owner": "Head of Deal Operations, Head of AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "architectureTreatment": "ABB-01 and ABB-16 consume the approved definitions without inventing them.",
+      "requiredBefore": "Internal Audit validation",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "gap": "Exact source instances, retention schedules, volumes and production quality-remediation procedures remain to be mapped.",
+      "owner": "Respective source owners and records owners",
+      "architectureTreatment": "ABB-02, ABB-03 and ABB-09 require source and lifecycle mappings.",
+      "requiredBefore": "Production ingestion",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "gap": "Approved EU/EEA locations and the sovereignty exception evidence process require final confirmation.",
+      "owner": "General Counsel",
+      "architectureTreatment": "ABB-10 and ABB-18 consume an approved list and evidence process without inferring regions.",
+      "requiredBefore": "Production location and transfer acceptance",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "gap": "EU AI Act role and use-case classification evidence remains required; neither high-risk nor non-high-risk classification is asserted.",
+      "owner": "General Counsel and Head of AI Governance",
+      "architectureTreatment": "ABB-10 blocks unsupported classification and ABB-18 retains the assessment evidence boundary.",
+      "requiredBefore": "Production or any classification claim",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "gap": "Official-source citations, publication/effective dates and detailed article-level obligation mappings remain absent.",
+      "owner": "Legal and compliance owners; AFF-0 as regulatory-register custodian",
+      "architectureTreatment": "ABB-18 preserves the detailed evidence slot without inventing legal content.",
+      "requiredBefore": "Any formal legal or compliance representation relying on the regulatory register",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    }
+  ],
+  "inferredApplicability": [
+    {
+      "instrument": "DORA",
+      "jurisdiction": "European Union",
+      "exactScopeTrigger": "Stratton or the relevant managing entity is an in-scope AIFM or other financial entity.",
+      "confidence": "INFERRED",
+      "humanConfirmation": "The conditional boundary is confirmed; General Counsel's entity-specific applicability or exemption record remains required.",
+      "requirementIds": ["SR-009", "TR-003", "TR-004"],
+      "architectureElements": ["ABB-12", "ABB-13", "ABB-14", "ABB-18", "AD-008"],
+      "claimStatus": "NO_FORMAL_COMPLIANCE_CLAIM"
+    },
+    {
+      "instrument": "Sector-specific EU Directives",
+      "jurisdiction": "Unspecified",
+      "exactScopeTrigger": "No active trigger; Legal must identify an exact instrument and trigger before reconsideration.",
+      "confidence": "INFERRED",
+      "humanConfirmation": "General Counsel removed the generic lead pending new evidence.",
+      "requirementIds": [],
+      "architectureElements": [],
+      "claimStatus": "NOT_ACTIVE"
+    }
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "No BLOCKER, MAJOR or MINOR finding was identified against the complete frozen ten-artifact Phase 2 subject. The architecture substantively implements the approved requirements as vendor-neutral logical controls and trust boundaries; preserves privacy, sovereignty, privileged access, human authority, independent Internal Audit validation, no foundation-model training, production isolation, incident evidence and resilience; keeps DORA and EU AI Act classification conditional; and carries all seven residual controls as owner-bound and unwaived. The retained legal-source, classification, location, source-detail and operational-definition gaps require a gap-qualified rather than unqualified conforming verdict.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_FOR_MANIFEST_8E4126FB1827E9747E0739E8401858ED53F0C3B630713C51D730EE0C611ED5A9_AND_MODEL_PLAN_REVISION_3",
+  "sameManifestAsFinalAffA": true,
+  "nextAction": "No AFF-B subject remediation is required for this manifest. Present the unchanged Phase 2 subject, final AFF-A round 1, this final AFF-B round 1 and all seven residual controls to the human architect for the explicit Phase 2 approve-or-reject decision. Any material subject change invalidates both reviews and requires new hashes and complete AFF-A/AFF-B re-review.",
+  "nonApprovalStatement": "AFF-B provides architecture assurance only. This record is not legal advice, legal or regulatory certification, formal compliance attestation, a waiver, Phase 2 approval, or a substitute for accountable human legal, compliance, security, risk, audit or architecture decisions."
+}

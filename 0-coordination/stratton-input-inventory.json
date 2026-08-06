@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "generatedAt": "2026-08-01T20:01:46.9103357+02:00",
+  "classification": {
+    "level": "BUSINESS-CONFIDENTIAL",
+    "basis": "The source names an organisation and includes investment-management scale, operational performance, regulatory context, transformation goals, and intended technology.",
+    "handling": [
+      "Keep all source and generated case content beneath the case workspace.",
+      "Do not commit or push this real-case workspace.",
+      "Do not reproduce source content outside governed artifacts unless necessary.",
+      "No secrets, credentials, direct personal data, or regulated records were observed in the supplied document; this is not evidence that later inputs are free of them."
+    ]
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "originalPath": "Case-Study-18.pdf",
+      "governedPath": "0-coordination/input/Case-Study-18.pdf",
+      "normalisedPath": "0-coordination/input/Case-Study-18.normalised.md",
+      "mediaType": "application/pdf",
+      "sizeBytes": 132859,
+      "sha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "governedCopySha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "normalisedSizeBytes": 3275,
+      "normalisedSha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "pageCount": 2,
+      "pdfMetadata": {
+        "author": "Un-named",
+        "creator": "Microsoft® Word for Microsoft 365",
+        "producer": "Microsoft® Word for Microsoft 365",
+        "creationDate": "2026-07-25T15:53:36+02:00",
+        "modifiedDate": "2026-07-25T15:53:36+02:00"
+      },
+      "normalisation": {
+        "method": "Selectable text and tables extracted programmatically, then checked against rendered page images.",
+        "validationEvidencePath": "0-coordination/evidence/stratton-normalisation-validation.json",
+        "status": "READABLE",
+        "ocrRequired": false,
+        "retained": [
+          "Headings",
+          "Prose",
+          "Lists",
+          "Case-profile tables",
+          "Azure Services table",
+          "Page boundary",
+          "Source wording and apparent typographical errors"
+        ],
+        "losses": [
+          "Decorative colours",
+          "Rules",
+          "Exact spacing",
+          "Original pagination layout"
+        ],
+        "unreadableContent": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "71",
+  "createdAt": "2026-08-04T01:32:28+02:00",
+  "revisionReason": "Add slide 4, My approach, to explain the research method, architecture frameworks and Agentic Architecture Framework.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-70.json",
+    "sha256": "9abf402449066989e59a30cb57c10c57babb60aa9845f63e79b089606a926650",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 4,
+    "title": "My approach",
+    "requirements": [
+      "Create a vertical Approach block covering case complexity, research and expert interviews.",
+      "Show TOGAF, Cloud Adoption Framework and Well-Architected Framework with linked visuals.",
+      "Link the Azure Architecture Center, Foundry Citadel Platform and Sovereign Landing Zone policy controls.",
+      "Close with Solution 1: The Agentic Architecture Framework and link to the presenter's GitHub repository."
+    ]
+  },
+  "implementation": {
+    "files": [
+      "6-presentation-r4/deck/src/slides/MyApproachSlide.jsx",
+      "6-presentation-r4/deck/src/slides/MyApproachSlide.module.css",
+      "6-presentation-r4/deck/src/data/approach/togaf-adm.png",
+      "6-presentation-r4/deck/src/data/approach/cloud-adoption-framework.png",
+      "6-presentation-r4/deck/src/data/approach/well-architected-framework.png",
+      "6-presentation-r4/deck/deck.config.js"
+    ],
+    "approach": [
+      "Frame the complexity across private equity, financial services, AI, sovereignty, regulation and cloud architecture.",
+      "Research before prescription without claiming expertise in every regulatory domain.",
+      "Interview domain architects and SMEs across financial services, sovereignty, security and compliance."
+    ],
+    "linkedFrameworks": {
+      "togaf": "https://www.opengroup.org/togaf",
+      "cloudAdoptionFramework": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/overview",
+      "wellArchitectedFramework": "https://learn.microsoft.com/en-us/azure/well-architected/",
+      "azureArchitectureCenter": "https://learn.microsoft.com/en-us/azure/architecture/",
+      "foundryCitadelPlatform": "https://github.com/Azure-Samples/foundry-citadel-platform",
+      "sovereignLandingZonePolicyControls": "https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/design-sovereign-policies#azure-sovereign-landing-zone",
+      "agenticArchitectureFramework": "https://github.com/aramsmith/agentic-architecture-v2"
+    },
+    "assetProvenance": {
+      "togafAdm": "Human-supplied image; copyright notice retained in the visual.",
+      "cloudAdoptionFramework": "Microsoft Learn image supplied by the human.",
+      "wellArchitectedFramework": "Microsoft Learn image supplied by the human."
+    },
+    "interaction": {
+      "allReferenceItemsLinked": true,
+      "keyboardFocusVisible": true,
+      "reducedMotionSupported": true
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "minimumFooterClearancePx": 62.71,
+      "panelOverflow": false,
+      "imageOverflow": false
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 4,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

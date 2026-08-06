@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_AFF_A_REMEDIATION_DISPOSITIONS",
+  "generatedAt": "2026-08-03T10:52:04.349261+02:00",
+  "modelPlanRevision": "17",
+  "sourceReview": {
+    "path": "reviews/aff-a/6/round-1/stratton-aff-a-review.json",
+    "sha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9",
+    "verdict": "DIVERGES"
+  },
+  "dispositions": [
+    {
+      "findingId": "AFFA-P6-R1-MAJ-001",
+      "severity": "MAJOR",
+      "disposition": "RESOLVED_IN_REVISION_2_CANDIDATE",
+      "evidence": [
+        "evidence/deck-build.log records npm run build -- --base=./.",
+        "evidence/browser-portability.json records zero root-absolute references, all four local references existing, and a nested /deck/dist/index.html HTTP render with 10 slides and no failed requests.",
+        "deck/dist/index.html uses ./deckio.png and ./assets/* references."
+      ]
+    },
+    {
+      "findingId": "AFFA-P6-R1-MIN-001",
+      "severity": "MINOR",
+      "disposition": "RESOLVED_IN_REVISION_2_CANDIDATE",
+      "evidence": [
+        "deck/src/slides/DecisionSummarySlide.jsx uses Endorse in the S01 subtitle and states not deployment approval.",
+        "The S01 title and decision alert retain the endorsement and no-Azure-authorisation boundaries."
+      ]
+    },
+    {
+      "findingId": "AFFA-P6-R1-MIN-002",
+      "severity": "MINOR",
+      "disposition": "RESOLVED_IN_REVISION_2_CANDIDATE",
+      "evidence": [
+        "evidence/pdf-export.log records the exporter intermediate output, the Move-Item canonicalisation to deck/deck.pdf, the final canonical path and SHA-256, and intermediate absence.",
+        "evidence/pdf-export-receipt.json binds deck/deck.pdf to its final SHA-256, bytes and 10-page structure."
+      ]
+    }
+  ],
+  "reviewBoundary": "Candidate remediation only; no reviewer invoked and no finding is waived or self-approved.",
+  "overallStatus": "ALL_THREE_FINDINGS_REMEDIATED_PENDING_INDEPENDENT_REVIEW"
+}

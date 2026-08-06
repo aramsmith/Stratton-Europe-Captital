@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import '@deckio/deck-engine/styles/global.css';
+@import '@deckio/deck-engine/themes/dark.css';
+
+:root {
+  --font-reference: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  --font-system: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-sans: var(--font-reference);
+  --font-family: var(--font-sans);
+  --default-font-family: var(--font-sans);
+  --font-family-mono: var(--font-sans);
+  --deck-canvas-width: 1440px;
+  --deck-canvas-height: 900px;
+  --deck-canvas-scale: min(
+    calc(100vw / 1440px),
+    calc(100vh / 900px)
+  );
+  --content-max-width: 1440px;
+  --content-gutter: 80px;
+}
+
+:root[data-font-mode='system'] {
+  --font-sans: var(--font-system);
+}
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-sans) !important;
+}
+
+#root {
+  position: relative;
+}
+
+.deck {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--deck-canvas-width);
+  height: var(--deck-canvas-height);
+  transform: translate(-50%, -50%) scale(var(--deck-canvas-scale));
+  transform-origin: center;
+}
+
+html[data-export-mode="capture"] .deck {
+  top: 0;
+  left: 0;
+  transform: none;
+}

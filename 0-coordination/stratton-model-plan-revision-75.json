@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "75",
+  "createdAt": "2026-08-04T01:56:27+02:00",
+  "revisionReason": "Align slide 4's Microsoft Solution Accelerators block with the reference-card styling used directly above and size it to the width of two reference cards.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-74.json",
+    "sha256": "3bb7d1fe262fcfd4f2d8521cc14412d3e2d67222fb870c23dcb761f08b836ede",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 4,
+    "change": "Make the Microsoft Solution Accelerators block visually match the reference blocks above and allow it to span the width of two of those blocks."
+  },
+  "implementation": {
+    "layout": {
+      "bottomRowRatio": "2:1",
+      "acceleratorWidth": "two reference-card columns",
+      "agenticFrameworkWidth": "one reference-card column"
+    },
+    "acceleratorBlock": {
+      "referenceCardBorder": true,
+      "referenceCardRadius": true,
+      "referenceCardBackground": true,
+      "referenceCardPadding": true,
+      "nestedCardBordersRemoved": true,
+      "linkPresentation": "two inline reference-style links"
+    },
+    "agenticCallout": {
+      "narrowColumnLayout": true,
+      "actionsRemainVisible": true
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "bottomRowOverflow": false,
+      "acceleratorLinkOverflow": false,
+      "agenticCalloutOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableLayoutFindings": 0,
+      "gitDiffCheck": "pass"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 4,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

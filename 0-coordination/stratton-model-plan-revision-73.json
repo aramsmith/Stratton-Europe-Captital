@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "73",
+  "createdAt": "2026-08-04T01:41:41+02:00",
+  "revisionReason": "Add a miniature architecture-crew diagram to slide 4's Agentic Architecture Framework callout.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-72.json",
+    "sha256": "b97b95a101b6d103565f37613f19454915d486508cb70f0f4b179f5f56bd2f91",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 4,
+    "change": "Use the empty space between the callout text and links for a miniature visual resembling the human-centred Agentic Architecture Framework ring."
+  },
+  "implementation": {
+    "medium": "Original runtime SVG geometry",
+    "visual": {
+      "centralHumanArchitect": true,
+      "architecturePhaseNodes": 9,
+      "optionalPhaseNodes": 2,
+      "independentReviewerBlocks": 2,
+      "concentricGovernanceRings": 3
+    },
+    "accessibility": {
+      "role": "img",
+      "label": "Human architect surrounded by architecture phases and independent reviewers"
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "calloutOverflow": false,
+      "linkOverflow": false
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 4,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

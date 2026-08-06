@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "105",
+  "createdAt": "2026-08-05T00:22:22.0643179+02:00",
+  "revisionReason": "Close final Slide 10 contract assurance by detecting compound higher-specificity selector overrides.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-104.json",
+    "sha256": "f9891a8202f24cbf76cbf2609ddef93626904d5657a6678736717ad46a3ee5dd",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 10,
+    "request": "Make Slide 10 text comparable to Slide 2 and add Microsoft AI logos to the respective AI blocks."
+  },
+  "contentChange": {
+    "summary": [
+      "The Slide 10 presentation source remains unchanged from revision 104.",
+      "CSS target matching now recognizes repeated-class compound selectors such as .aiCard.aiCard strong and .relayStage.relayStage.",
+      "Twelve mutation probes cover mapping, caption, rendering, typography cascade and content-frame geometry regressions.",
+      "The corrected report records 3,152 parsed JSON files and the revision 103 to 104 evidence chain before this append-only record."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "quality": {
+    "logoTypographyContract": "pass",
+    "mutationProbes": 12,
+    "additiveCaptionProtection": "pass",
+    "descendantSelectorProtection": "pass",
+    "compoundSelectorProtection": "pass",
+    "renderedBindingChecks": "pass",
+    "computedContentGeometry": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 10,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotionRunningTimer": "pass",
+    "microsoftLogoCount": 4,
+    "independentReviewCriticalFindings": 0,
+    "independentReviewImportantFindingsRemediated": 7
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "5473815b3ba842b45d2f050ea920921baed1025baf9ebf95ea376179dc0aea01"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "c1bbd67e2147c6c33829642aea25ee94612ce8e315e88c3ac4acda5b9ddf198e"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "6e03e5b1adfaffc865e22ad23e5afcbd34f447de370f9144e43329b37b4a3b14"
+    },
+    "presentationStatusStyles": {
+      "path": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+      "sha256": "66d3ee87dbaf19af3325d3cfc9450d4d771bc5052f46e2816cb7e1acbda651ed"
+    }
+  },
+  "verificationArtifacts": {
+    "contract": {
+      "repositoryPath": ".superpowers/sdd/2026-08-04-slide-10-microsoft-ai-logos-and-typography/slide-10-logo-contract.mjs",
+      "sha256": "0201cab0acb754d9ac8df14f80676c55f85c4a85ce0f5984d892a419c694fd13"
+    },
+    "report": {
+      "repositoryPath": ".superpowers/sdd/2026-08-04-slide-10-microsoft-ai-logos-and-typography/task-3-report.md",
+      "sha256": "8f0e8c2d0b29d772c006e447ef09f5364d76b781ef81cf627b24d03934e39a9d"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

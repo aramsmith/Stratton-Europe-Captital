@@ -1,0 +1,464 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_RECURSIVE_STATIC_ASSET_EVIDENCE",
+  "modelPlanRevision": "18",
+  "root": "deck/dist",
+  "fileCount": 18,
+  "inventory": [
+    {
+      "path": "deck/dist/assets/azure-landing-zone-topology-Bx_9uG7a.svg",
+      "bytes": 6118,
+      "sha256": "db3ecf23cd39038179f77c70b7a1beb598ce0ddd05445971516dcfc59a6c8868"
+    },
+    {
+      "path": "deck/dist/assets/delivery-dependency-dag-ZaHOHQFh.svg",
+      "bytes": 6436,
+      "sha256": "db93b9743f69691a84870e5dae9ea0ec912124918afedb091c74946a0919d7d3"
+    },
+    {
+      "path": "deck/dist/assets/dist-VplG6Yi_.js",
+      "bytes": 25832,
+      "sha256": "3b122dca94d848d15782f501570cafffa0218b077c77b65228a5277617044cad"
+    },
+    {
+      "path": "deck/dist/assets/EditableListSortable-m_1oyjgy.js",
+      "bytes": 46834,
+      "sha256": "03a30fcfecc10f7e7e53d0f099ebaa808d9a428b7f86a364f711c40f266ab810"
+    },
+    {
+      "path": "deck/dist/assets/GitHubStarPrompt-BXxIut56.js",
+      "bytes": 4286,
+      "sha256": "3e574fc5fccf6ae2a862d7e2582254499d9219939551d755ce8e8a56208ec5bb"
+    },
+    {
+      "path": "deck/dist/assets/GitHubStarPrompt-CwKkav8W.css",
+      "bytes": 2924,
+      "sha256": "87b4d896b1ce2406f9e3c1fdf349362dd2b224e38bf409eb48adb5244827ae1a"
+    },
+    {
+      "path": "deck/dist/assets/html2canvas-DAwLCE-C.js",
+      "bytes": 199565,
+      "sha256": "a806d78688821df1debeb86c63ef748dbae31b599144dba341f48842ede1a917"
+    },
+    {
+      "path": "deck/dist/assets/index-DNtO7an0.js",
+      "bytes": 351654,
+      "sha256": "391499e72db844fdd57e39d521eb505eda50d28c232662726f3ab72aee6fd6ea"
+    },
+    {
+      "path": "deck/dist/assets/index-DPds-IG7.css",
+      "bytes": 123342,
+      "sha256": "81b9da5317164a7d4fff9ede7e43b02e80f653a9ddb803c29d9251706a2b33af"
+    },
+    {
+      "path": "deck/dist/assets/index.es-8BvSYumO.js",
+      "bytes": 151365,
+      "sha256": "3a6d08a16e14338814d99f69cb7a17b2b4ff37357a0b42caa6d67367b2f8562e"
+    },
+    {
+      "path": "deck/dist/assets/jspdf.es.min-CRuPAotm.js",
+      "bytes": 399719,
+      "sha256": "442077fce8e5eeb52657e60a1e0ae80ece8d67c16a1e3f34117371b038b4c3d7"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "bytes": 374905,
+      "sha256": "5face17e4a8aace4f3f78fb6eefdf38a2993b8d38b405bb1b91514b8b14f1b6f"
+    },
+    {
+      "path": "deck/dist/assets/purify.es-DuRL7t6i.js",
+      "bytes": 26879,
+      "sha256": "72d32af2adb678c3647e3e6f88bbcae99d67df529bf9d8e0a5fdc25094dd6582"
+    },
+    {
+      "path": "deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "bytes": 957,
+      "sha256": "e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149"
+    },
+    {
+      "path": "deck/dist/assets/target-application-architecture-5pITgYky.svg",
+      "bytes": 4463,
+      "sha256": "ed9d132132d2195d77fc5aba6461617ed6511330ae14b9608fb21cf40dabfc65"
+    },
+    {
+      "path": "deck/dist/assets/typeof-B5XbjTb1.js",
+      "bytes": 271,
+      "sha256": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6"
+    },
+    {
+      "path": "deck/dist/deckio.png",
+      "bytes": 24253,
+      "sha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479"
+    },
+    {
+      "path": "deck/dist/index.html",
+      "bytes": 699,
+      "sha256": "fcb8d6fd98baf241c3857c8d2007e9646adb7155c487f0198d65090d9a167999"
+    }
+  ],
+  "sourceMapCount": 0,
+  "externalDependencyCount": 0,
+  "externalDependencies": [],
+  "localDependencies": [],
+  "allLocalDependenciesExist": true,
+  "productionInertUrlStrings": [
+    {
+      "path": "deck/dist/assets/dist-VplG6Yi_.js",
+      "value": "http://www.w3.org/2000/svg",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/GitHubStarPrompt-BXxIut56.js",
+      "value": "https://github.com/deckio-art/deck-engine",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/html2canvas-DAwLCE-C.js",
+      "value": "http://www.w3.org/2000/svg",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index-DNtO7an0.js",
+      "value": "https://react.dev/errors/",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index-DNtO7an0.js",
+      "value": "http://www.w3.org/2000/svg",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index-DNtO7an0.js",
+      "value": "http://www.w3.org/1998/Math/MathML",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index-DNtO7an0.js",
+      "value": "http://www.w3.org/1999/xlink",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index-DNtO7an0.js",
+      "value": "http://www.w3.org/XML/1998/namespace",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index.es-8BvSYumO.js",
+      "value": "https://github.com/zloirock/core-js/blob/v3.49.0/LICENSE",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/index.es-8BvSYumO.js",
+      "value": "https://github.com/zloirock/core-js",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/jspdf.es.min-CRuPAotm.js",
+      "value": "https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/jspdf.es.min-CRuPAotm.js",
+      "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/jspdf.es.min-CRuPAotm.js",
+      "value": "http://jspdf.default.namespaceuri/",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "https://stuk.github.io/jszip/documentation/howto/read_zip.html",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "https://gitbrent.github.io/PptxGenJS/docs/api-tables.html",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "https://github.com",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/package/2006/content-types",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/package/2006/relationships",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://purl.org/dc/elements/1.1/",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://purl.org/dc/terms/",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://purl.org/dc/dcmitype/",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://www.w3.org/2001/XMLSchema-instance",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/drawingml/2006/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/thememl/2012/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/markup-compatibility/2006",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/table",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/package",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/drawingml/2006/chart",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/drawing/2012/chart",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/drawing/2014/chart",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/powerpoint/2010/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/drawingml/2006/table",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/drawing/2016/SVG/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/mac/drawingml/2011/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/2007/relationships/media",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/audio",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/video",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/2007/relationships/image",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/presentationml/2006/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "http://schemas.microsoft.com/office/powerpoint/2012/main",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "value": "https://gitbrent.github.io/PptxGenJS/docs/masters.html",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/purify.es-DuRL7t6i.js",
+      "value": "http://www.w3.org/1998/Math/MathML",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/purify.es-DuRL7t6i.js",
+      "value": "http://www.w3.org/2000/svg",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/purify.es-DuRL7t6i.js",
+      "value": "http://www.w3.org/1999/xhtml",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    },
+    {
+      "path": "deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "value": "https://rolldown.rs/in-depth/bundling-cjs#require-external-modules",
+      "classification": "STATIC_ENGINE_OR_LIBRARY_STRING_NOT_AN_OBSERVED_RUNTIME_CALL"
+    }
+  ],
+  "productionInertUrlStringCount": 71,
+  "interpretation": "JavaScript URL strings are static engine/library mechanics unless observed as requests. The runtime network receipt is authoritative for actual calls. No licensing conclusion is made.",
+  "overallStatus": "PASS"
+}

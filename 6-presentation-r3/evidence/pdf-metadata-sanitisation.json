@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_PDF_METADATA_SANITISATION",
+  "generatedAt": "2026-08-03T11:40:45.587847+02:00",
+  "modelPlanRevision": "18",
+  "tool": "PyMuPDF 1.28.0 available in the local authoring environment; not added to deck dependencies",
+  "intermediatePath": "deck/architecture-decision-executive-brief-slides.pdf",
+  "canonicalPath": "deck/deck.pdf",
+  "canonicalisationAndSanitisation": [
+    "Read the DECKIO engine export produced after the project system-font source change and hardened browser build.",
+    "Rewrote all ten pages into a cleaned PDF while preserving page image resources.",
+    "Removed document information metadata.",
+    "Removed XMP metadata.",
+    "Wrote deck/deck.pdf and deleted the intermediate PDF."
+  ],
+  "intermediatePresentAfterSanitisation": false,
+  "licensingConclusion": "NONE",
+  "overallStatus": "PASS",
+  "pre": {
+    "fieldsPresent": [
+      "creationDate",
+      "creator",
+      "modDate",
+      "producer",
+      "title"
+    ],
+    "fieldCount": 5,
+    "fieldCategoryCounts": {
+      "browser_or_platform_fingerprint": 2,
+      "document_title": 1,
+      "timestamp": 2
+    },
+    "valuesDeliberatelyNotRetained": true,
+    "documentFormat": "PDF 1.4",
+    "xmpPresent": false,
+    "pageCount": 10
+  },
+  "post": {
+    "metadata": null,
+    "xmpPresent": false,
+    "metadataMarkers": {
+      "Title": false,
+      "Creator": false,
+      "Producer": false,
+      "CreationDate": false,
+      "ModDate": false,
+      "XmpXml": false
+    },
+    "dynamicLocalLiteralMatchCount": 0,
+    "dynamicLocalLiteralMatchCategories": [],
+    "preMetadataValueMatchCount": 0,
+    "workspacePathMatchCount": 0,
+    "pageCount": 10,
+    "imageCountByPage": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "bytes": 1326778,
+    "sha256": "7871128d05df9e5d78a8552d44f9bad475cd467f40759cbd2d79eaaf1ef0faf0",
+    "startsWithPdfHeader": true,
+    "endsWithEof": true
+  },
+  "dynamicChecks": {
+    "localUsernameDerivedAtRuntime": true,
+    "userProfilePathDerivedAtRuntime": true,
+    "workspacePathDerivedAtRuntime": true,
+    "preMetadataValuesComparedInMemory": 5,
+    "sensitiveLiteralValuesRetained": false
+  }
+}

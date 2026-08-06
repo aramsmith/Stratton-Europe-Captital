@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "108",
+  "createdAt": "2026-08-05T12:31:01.7385314+02:00",
+  "revisionReason": "Redesign Slides 11-16 for executive readability while preserving Citadel/ALZ architecture, evidence-safe deployment and testing boundaries, SKU reconciliation and projected-benefit wording.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-107.json",
+    "sha256": "0fb4438afa00a4501ed6dba486f2e646dcf7b0bcd414ab7e9021992d5cfa4ec7",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slides": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "request": "Increase readability and revise Slides 11-16 using the approved Citadel, owner-evidence, SKU, package-stream, planned-test and projected-benefit designs."
+  },
+  "contentChange": {
+    "summary": [
+      "Slide 11 centers the Citadel AI core inside Azure Landing Zone guardrails.",
+      "Slide 12 enlarges implementation-plan text, removes the rendered fail-closed block and replaces Owner values with Owner evidence.",
+      "Slide 13 promotes the Bicep-to-OCI-to-Azure route and reconciles current APIM PremiumV2 evidence against the Phase 3 Standard v2 hypothesis.",
+      "Slide 14 presents a deployable package stream without claiming Azure deployment.",
+      "Slide 15 presents six planned acceptance gates without mock pass or runtime-result claims.",
+      "Slide 16 maps business challenges to projected or enabled benefits without claiming achieved outcomes."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false,
+    "achievedBenefitsClaimed": false
+  },
+  "quality": {
+    "coordinatedContract": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlides": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "sharedCssRegression": "pass",
+    "evidenceBoundary": "pass",
+    "fixRound1": "pass",
+    "minimumMeaningfulBodyPx": 13,
+    "minimumCompactLabelPx": 10
+  },
+  "artifacts": {
+    "slide11": {
+      "path": "6-presentation-r4/deck/src/slides/AzureDesignSlide.jsx",
+      "sha256": "f825b2cb0ba52ba11049df60d233f2e690029717214f13e36a03771663e56a87"
+    },
+    "slide12": {
+      "path": "6-presentation-r4/deck/src/slides/ImplementationPlanSlide.jsx",
+      "sha256": "ae45d4cec851aeb76efb82107dc99dbc829b203bae039235bf3ec367fa0976ee"
+    },
+    "slide13": {
+      "path": "6-presentation-r4/deck/src/slides/CodingSlide.jsx",
+      "sha256": "8361bebe28c291af64137523ed8f0cb2c95c3bafc3c8de10745fc249317fc86e"
+    },
+    "slide14": {
+      "path": "6-presentation-r4/deck/src/slides/DeploymentSlide.jsx",
+      "sha256": "4e9edeb995e68408122e2381490518ce81324ed47bfb03e758159f960be9a5b4"
+    },
+    "slide15": {
+      "path": "6-presentation-r4/deck/src/slides/RunTestsSlide.jsx",
+      "sha256": "a54cca24fdb130e8a70df1e5bbff7e42b6c7da3099054138ec4b702c358c265e"
+    },
+    "slide16": {
+      "path": "6-presentation-r4/deck/src/slides/CostsBenefitsSlide.jsx",
+      "sha256": "2ba9c25b70b72019cfd7a0b6a2ea1cde0af8917ffd5b1569a3f307684cb6aeb8"
+    },
+    "sharedStyles": {
+      "path": "6-presentation-r4/deck/src/styles/PhaseSummarySlides.module.css",
+      "sha256": "e16fd3d85bebf0f04e5f5f3cf870725cdbdc486df7262cdb600b27809e685cb3"
+    }
+  },
+  "verificationArtifacts": {
+    "contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-11-16-phase-summary-redesigns/slides-11-16-redesign-contract.mjs",
+      "sha256": "e3abe77e229bc94e7c870c58727d5619ae2d0ae8367aae9145cfa584be79d24d"
+    },
+    "report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slides-11-16-phase-summary-redesigns/task-8-final-verification-report.md",
+      "sha256": "43644ee73f7407086cbbe9727b4b22a22b8b49bdef377c557a07aca3dfce2d2a"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  },
+  "updatedAt": "2026-08-05T12:47:26.7774679+02:00"
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "78",
+  "createdAt": "2026-08-04T02:33:59+02:00",
+  "revisionReason": "Refine slide 5 with circular reviewer nodes and larger Slide 2-scale principle typography.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-77.json",
+    "sha256": "dc8859f8104f833cd51a6c7b1e83c0878105b7a1d37b51bf9791b2cc99bb0abe",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 5,
+    "change": "Make both reviewer elements round bubbles, tighten them around their text so they no longer overlap the Human Architect or phases 7 and 2, and enlarge the five right-hand principle blocks to typography comparable with slide 2."
+  },
+  "implementation": {
+    "reviewers": {
+      "shape": "circular",
+      "diameterPx": 80,
+      "horizontalPositionsPercent": [
+        24.5,
+        75.5
+      ],
+      "humanArchitectOverlap": false,
+      "phase2Overlap": false,
+      "phase7Overlap": false
+    },
+    "principles": {
+      "titleFontPx": 19,
+      "bodyFontPx": 16,
+      "copyTightenedForFit": true,
+      "principleCount": 5
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "reviewerTextOverflow": false,
+      "principleOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "gitDiffCheck": "pass"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "91",
+  "createdAt": "2026-08-04T03:56:50+02:00",
+  "revisionReason": "Add Slide 8 summarising Phase 1 requirements and the customer interview from the governed Phase 1 artifacts.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-90.json",
+    "sha256": "59d5b2b1c54905a919ae1e77181c6cd56cafbb67724cae090459ec8633c7404a",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 8,
+    "title": "Phase 1 - Requirements and customer interview",
+    "request": "Create one creative slide with the most important Phase 1 highlights, grounded especially in 1-requirements/stratton-requirements.html, while retaining the established deck text scale."
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase1ApprovalClaimed": false,
+    "architectureOrAzureSelectionClaimed": false,
+    "deploymentOrRuntimeClaimed": false,
+    "authoritativeSources": [
+      "1-requirements/stratton-requirements.html",
+      "1-requirements/stratton-requirements.md",
+      "1-requirements/stratton-requirements-catalogue.json",
+      "1-requirements/stratton-interview-decisions.json"
+    ]
+  },
+  "content": {
+    "interview": {
+      "overallSharedUnderstandingPercent": 96,
+      "domains": {
+        "Business": 96,
+        "Data": 94,
+        "Application": 97,
+        "Technology": 95,
+        "Security": 96
+      },
+      "materialDecisionUnanswered": false,
+      "boundary": "Interview confirmation authorised candidate authoring only; it did not approve Phase 1."
+    },
+    "businessOutcome": {
+      "baselineMedianWeeks": 12,
+      "targetMedianWeeksMaximum": 3,
+      "targetPeriodMonths": 12,
+      "population": "First 20 eligible new private-equity opportunities",
+      "accountableOwner": "Chief Investment Officer",
+      "journey": "Formal case opening to an investment-committee-ready draft recommendation"
+    },
+    "humanAuthority": "AI assists; deal professionals validate; Legal and Compliance approve applicable specialist conclusions; the Investment Committee retains every investment decision.",
+    "controlBoundary": "No autonomous decisions, transactions, external communications, source-system write-back, or unrestricted rollout.",
+    "testableBaseline": {
+      "activeRequirements": 31,
+      "stableAcceptanceTests": 31,
+      "regulatoryPosition": "EU/EEA sovereignty and GDPR are mandatory; other obligations remain evidence-bound without unsupported compliance claims."
+    },
+    "phaseGate": "Rubber Duck and Security and Compliance assurance over unchanged evidence, followed by explicit human approval, is required before Phase 2."
+  },
+  "design": {
+    "composition": "A 96% interview-confidence dial and five-domain meters anchor the left side; a business-outcome banner, three executive highlight cards and a human approval gate form the right side.",
+    "titleScale": "46-50px, aligned with the established executive slide scale",
+    "bodyScale": "15.5-21px with larger outcome metrics",
+    "motion": "Sequential panel reveals and domain-meter growth",
+    "prefersReducedMotion": "All entrance and meter animations disabled while content remains fully visible"
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "deckStructuralValidation": "pass",
+    "registeredSlides": 8,
+    "impeccableDetectorFindings": 0,
+    "jetBrainsMonoFit": "pass",
+    "systemFontFit": "pass",
+    "canvasOverflow": false,
+    "titleBrandOverlap": false,
+    "semanticContentOutsideCanvas": 0,
+    "browserConsoleErrors": 0,
+    "visualInspection": "pass"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.jsx",
+      "sha256": "19bf2f8ad0308181f697f22f7f1f667b00481724282947ce9c2e3b4333fb1390"
+    },
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/RequirementsInterviewSlide.module.css",
+      "sha256": "67ffa491cfcc5011af250f324c162d767071cc4869ba2ee0a401086430b576de"
+    },
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "759ce3a683ae0d86c556bf673ae6924d07208d1968b67912adcadb802055f660"
+    },
+    "sourceHtml": {
+      "path": "1-requirements/stratton-requirements.html",
+      "sha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83"
+    },
+    "sourceMarkdown": {
+      "path": "1-requirements/stratton-requirements.md",
+      "sha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917"
+    },
+    "sourceCatalogue": {
+      "path": "1-requirements/stratton-requirements-catalogue.json",
+      "sha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd"
+    },
+    "sourceInterviewRecord": {
+      "path": "1-requirements/stratton-interview-decisions.json",
+      "sha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 8,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "100",
+  "createdAt": "2026-08-04T19:43:54.7528814+02:00",
+  "revisionReason": "Align the authorised deal-team initiation wording on Slide 10 exactly with the approved design.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-99.json",
+    "sha256": "98557b642f3d8dfa299c70aab512ec36a0fa519c83b0761d996df413a00664b7",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 10,
+    "request": "Show the approved human and AI work allocation without inventing or extending the architecture wording."
+  },
+  "contentChange": {
+    "summary": [
+      "The first human-initiation card now states that the authorised deal team opens the case, matching the approved Slide 10 design exactly.",
+      "The separate Deal Operations and General Counsel eligibility authorities introduced in revision 99 remain unchanged.",
+      "The shorter approved wording increases available vertical clearance without changing the slide composition or typography."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "quality": {
+    "authorityAllocationContract": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 10,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "initialDisclosureReadable": true,
+    "fullyRevealedReadable": true,
+    "reducedMotion": "pass",
+    "approvedInitiationWording": true,
+    "distinctInitiationAuthorities": 3
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "e6a550e44c00f34171cca3cbe54eca18776bd866431cec0ca05f898cac62158e"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "3fb605135ac046a17830a4fb8a833330e747b602c965627f2af0c01c355bcccf"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

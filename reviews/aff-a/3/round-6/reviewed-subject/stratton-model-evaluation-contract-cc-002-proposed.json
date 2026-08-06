@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_MODEL_EVALUATION_AND_PROMOTION_CONTRACT",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "benchmarkMinimum": "100 representative generative cases per promoted route",
+  "benchmarkPopulation": {
+    "minimumGenerativeCasesPerPromotedRoute": 100,
+    "unit": "distinct representative cases",
+    "dimensions": [
+      "approved languages",
+      "document types",
+      "task classes",
+      "risk levels",
+      "expected failure modes",
+      "owner-approved deployment locations"
+    ],
+    "deduplicationRequired": true,
+    "syntheticOrGovernedSourceEvidenceRequired": true,
+    "rawInputsRetained": true,
+    "derivedMetricsRetained": true
+  },
+  "routes": [
+    {
+      "taskClass": "EVIDENCE_TRIAGE",
+      "candidateTier": "LUNA",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "QUERY_REWRITE",
+      "candidateTier": "LUNA",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "FIRST_PASS_SUMMARY",
+      "candidateTier": "LUNA",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "GROUNDED_ANALYSIS",
+      "candidateTier": "TERRA",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "CROSS_DOCUMENT_COMPARISON",
+      "candidateTier": "TERRA",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "ESG_NORMALISATION",
+      "candidateTier": "TERRA",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "COMPLEX_RISK_SYNTHESIS",
+      "candidateTier": "SOL",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    },
+    {
+      "taskClass": "INVESTMENT_THESIS_CHALLENGE",
+      "candidateTier": "SOL",
+      "minimumRepresentativeGenerativeCases": 100,
+      "promotionState": "BLOCKED_PENDING_EVIDENCE"
+    }
+  ],
+  "separateDatasets": [
+    {
+      "capability": "DOCUMENT_EXTRACTION",
+      "dataset": "REPRESENTATIVE_DOCUMENT_EXTRACTION_DATASET",
+      "state": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "capability": "NUMERICAL_ANOMALY_DETECTION",
+      "dataset": "REPRESENTATIVE_ANOMALY_AND_CONTROL_DATASET",
+      "state": "REQUIRED_OWNER_INPUT"
+    }
+  ],
+  "validationGates": [
+    "structured output validation",
+    "schema validation",
+    "citation validation",
+    "factual consistency validation",
+    "human validation"
+  ],
+  "promotionGates": [
+    {
+      "id": "EVAL-001",
+      "metric": "representativeGenerativeCasesPerPromotedRoute",
+      "comparator": "GREATER_THAN_OR_EQUAL",
+      "threshold": 100,
+      "unit": "cases",
+      "requiredText": "100 representative generative cases per promoted route",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-002",
+      "metric": "materialCitationCoverage",
+      "comparator": "EQUAL",
+      "threshold": 1,
+      "unit": "ratio",
+      "requiredText": "100% material citation",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-003",
+      "metric": "extractionAccuracy",
+      "comparator": "GREATER_THAN_OR_EQUAL",
+      "threshold": 0.95,
+      "unit": "ratio",
+      "requiredText": "at least 95% extraction accuracy",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-004",
+      "metric": "criticalFieldAccuracy",
+      "comparator": "GREATER_THAN_OR_EQUAL",
+      "threshold": 0.99,
+      "unit": "ratio",
+      "requiredText": "at least 99% critical-field accuracy",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-005",
+      "metric": "criticalUnsupportedClaims",
+      "comparator": "EQUAL",
+      "threshold": 0,
+      "unit": "count",
+      "requiredText": "zero critical unsupported claims",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-006",
+      "metric": "missedCriticalRisks",
+      "comparator": "EQUAL",
+      "threshold": 0,
+      "unit": "count",
+      "requiredText": "zero missed critical risks",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-007",
+      "metric": "otherUnsupportedClaimRate",
+      "comparator": "LESS_THAN_OR_EQUAL",
+      "threshold": 0.02,
+      "unit": "ratio",
+      "requiredText": "no more than 2% other unsupported claims",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-008",
+      "metric": "highRiskRecall",
+      "comparator": "GREATER_THAN_OR_EQUAL",
+      "threshold": 0.9,
+      "unit": "ratio",
+      "requiredText": "at least 90% high-risk recall",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-009",
+      "metric": "interactiveLatencyP95",
+      "comparator": "LESS_THAN",
+      "threshold": 5000,
+      "unit": "milliseconds",
+      "requiredText": "p95 interactive response below 5 seconds",
+      "blocking": true
+    },
+    {
+      "id": "EVAL-010",
+      "metric": "typicalDocumentPackCompletion",
+      "comparator": "LESS_THAN_OR_EQUAL",
+      "threshold": 30,
+      "unit": "minutes",
+      "requiredText": "typical document pack completed within 30 minutes",
+      "blocking": true
+    }
+  ],
+  "perOutputBlockingChecks": [
+    {
+      "check": "structured output validation",
+      "requiredResult": "PASS_WHERE_SUPPORTED"
+    },
+    {
+      "check": "schema validation",
+      "requiredResult": "PASS"
+    },
+    {
+      "check": "citation validation",
+      "requiredResult": "PASS_FOR_MATERIAL_NARRATIVE"
+    },
+    {
+      "check": "factual consistency validation",
+      "requiredResult": "PASS"
+    },
+    {
+      "check": "human validation",
+      "requiredResult": "RECORDED_BEFORE_MATERIAL_USE"
+    }
+  ],
+  "measuredEvidence": [
+    "accuracy",
+    "groundedness",
+    "citation accessibility",
+    "critical-field accuracy",
+    "unsupported claims",
+    "missed material and critical risk",
+    "high-risk recall",
+    "structured-output validity",
+    "prompt-injection resistance",
+    "poisoned-evidence resistance",
+    "interactive p95 latency",
+    "document-pack completion time",
+    "input and output tokens",
+    "cost per accepted work item",
+    "escalation rate",
+    "human correction effort",
+    "parity across owner-approved deployment locations"
+  ],
+  "securityEvaluationScenarios": [
+    "direct prompt injection",
+    "indirect prompt injection in admitted evidence",
+    "instruction and evidence boundary escape",
+    "citation spoofing",
+    "poisoned retrieval index",
+    "cross-case retrieval",
+    "caller-defined filter override",
+    "revoked or expired evidence",
+    "unavailable deployment",
+    "deployment/model/version mismatch",
+    "attempted silent fallback",
+    "attempted autonomous authority"
+  ],
+  "promotionProcess": {
+    "method": "CHAMPION_CHALLENGER",
+    "routeIndependentPromotion": true,
+    "requiredEvidence": [
+      "immutable benchmark input manifest",
+      "model, deployment, version and API binding",
+      "prompt and policy versions",
+      "raw outputs and validator results",
+      "derived metrics with reproducible calculation",
+      "security negative-test results",
+      "latency, token and cost observations",
+      "owner capability and quota evidence",
+      "AFF-A and AFF-B review records",
+      "accountable human decision"
+    ],
+    "modelRoleAssignmentIsEvaluationSubstitute": false,
+    "promotionState": "BLOCKED"
+  },
+  "invalidationTriggers": [
+    "model ID",
+    "model version",
+    "deployment ID",
+    "deployment SKU",
+    "API interface",
+    "API version",
+    "reasoning effort",
+    "prompt template",
+    "content filter",
+    "embedding model",
+    "embedding dimensions",
+    "chunking policy",
+    "Search schema or alias",
+    "routing policy or route map",
+    "validation policy"
+  ],
+  "evidenceRetention": {
+    "rawBenchmarkInputs": "RETAIN_UNDER_OWNER_APPROVED_SCHEDULE",
+    "rawOutputs": "RETAIN_UNDER_OWNER_APPROVED_SCHEDULE_WITH_DATA_MINIMISATION",
+    "derivedMetrics": "RETAIN_WITH_CALCULATION_VERSION_AND_HASH",
+    "legalHold": "REQUIRED_OWNER_INPUT",
+    "sensitiveBodiesInOperationalTelemetry": false
+  },
+  "observedResults": {
+    "benchmarkExecuted": false,
+    "routePromoted": false,
+    "quotaVerified": false,
+    "runtimePerformanceClaimed": false
+  }
+}

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AFF-A Phase 4 Round 1 Review</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font: 16px/1.55 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: var(--cp-link); }
+    code { font-family: Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; }
+    .shell { width: min(1050px, calc(100% - 32px)); margin: 28px auto; }
+    header, section {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    h1, h2 { margin-top: 0; }
+    .eyebrow { color: var(--cp-accent); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .verdict { color: var(--cp-danger); font-size: 1.6rem; font-weight: 900; }
+    .meta { color: var(--cp-text-muted); }
+    .finding { border-left: 5px solid var(--cp-danger); }
+    .pill { display: inline-block; border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 5px 9px; margin: 4px; }
+    footer { color: var(--cp-text-muted); padding: 8px 2px; }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="eyebrow">Rubber Duck Reviewer · AFF-A</div>
+      <h1>Phase 4 Round 1</h1>
+      <div class="verdict">DIVERGES</div>
+      <p class="meta">Manifest <code>4ba4fd61ba2c7f38407ed696726cb3272b53a6c641ad0024082d951f4a129690</code></p>
+      <span class="pill">Reviewer gpt-5.5</span>
+      <span class="pill">Author gpt-5.6-sol</span>
+      <span class="pill">2 MAJOR findings</span>
+    </header>
+    <section>
+      <h2>Confirmed</h2>
+      <p>All eight manifest hashes and the independent receipt matched. Exact-model independence is
+      verified, the 17-node/44-edge DAG is acyclic, the seven controls remain open, and no coding,
+      deployment, what-if or runtime result is claimed.</p>
+    </section>
+    <section class="finding">
+      <h2>AFFA-P4-R1-MAJ-001</h2>
+      <p><strong>Release content-hash command is self-referential on rerun.</strong></p>
+      <p>The command can hash the previous <code>iac/release/content-hashes.json</code> before
+      overwriting it. Exclude that file explicitly or generate it outside the hashed tree.</p>
+    </section>
+    <section class="finding">
+      <h2>AFFA-P4-R1-MAJ-002</h2>
+      <p><strong>ABB-17 is absent from explicit Phase 4 coverage.</strong></p>
+      <p>Bind the approved quarantine Architecture Building Block to the relevant Phase 5 work and
+      regenerate the catalogue, validation evidence, rendered views and hashes.</p>
+    </section>
+    <section>
+      <h2>Required action</h2>
+      <p>AFF-4 must resolve both findings and re-invoke AFF-A over the complete regenerated subject
+      before AFF-B or the human gate.</p>
+    </section>
+    <footer>
+      This independent review is not approval, waiver, certification, deployment authorisation or
+      runtime validation. Review content was serialized by orchestration because the reviewer task
+      runtime prohibited direct file output.
+    </footer>
+  </main>
+</body>
+</html>

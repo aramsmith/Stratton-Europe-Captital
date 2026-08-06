@@ -1,0 +1,29 @@
+{
+  "changeControlId": "STRATTON-CC-002",
+  "artifactType": "PHASE_4_CHANGE_CONTROL_EVIDENCE",
+  "authorModel": "gpt-5.6-terra",
+  "actualRuntimeModel": "gpt-5.6-terra",
+  "status": "AUTHOR_CANDIDATE_GREEN_REVIEW_PENDING",
+  "phase3Bindings": {
+    "approvedPhase3ApprovalSha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5",
+    "subjectManifestSha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "affARound7Sha256": "f2ba7e03dbeaa4c6800bd27cd91ab3cec0029fe781d5e32932bc9ddbb859a0ed",
+    "affBRound6Sha256": "343a3dc7dd4f27db01f3dcb75d6732a46dadfaa4f4417e0d443df8a54b83b2d8",
+    "coverage013Sha256": "c81ae6f0f73265b2d2295a2fbecefb8b03b563279a95ab78e545d0e9c17c64cd"
+  },
+  "controls": {
+    "modelPolicy": "EU_DATA_ZONE DataZoneStandard NoAutoUpgrade; fixed gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol version 2026-07-09; deterministic routing; Global Standard and production Model Router prohibited.",
+    "availabilityStop": "SELECTED_MODEL_VERSION_OR_SKU_UNAVAILABLE_IN_APPROVED_EU_DATA_ZONE",
+    "mp07": "Promotion remains blocked without at least 100 representative generative cases per promoted route and retained raw inputs and derived metrics.",
+    "mp08": "APPROVED_PHASE_5_EVIDENCE is required and PENDING_BLOCKED."
+  },
+  "unresolvedOwnerInputs": [
+    "AZURE_REGION_PAIR",
+    "QUOTA_AND_CAPACITY",
+    "DEPLOYMENT_IDS",
+    "EMBEDDING_DIMENSIONS_AND_CHUNKING",
+    "PROVIDER_DATA_USE_EVIDENCE",
+    "EU_AI_ACT_CLASSIFICATION_EVIDENCE"
+  ],
+  "nonDeploymentBoundary": "This evidence authorises neither deployment nor promotion and records no Azure sign-in, resource change, runtime test, quota availability, benchmark result, certification or production readiness."
+}

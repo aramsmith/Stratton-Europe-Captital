@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "58",
+  "createdAt": "2026-08-03T22:54:46+02:00",
+  "revisionReason": "Increase the vertical separation between slide 2 content panels slightly beyond revision 57.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-57.json",
+    "sha256": "472250d69f6ddea964acba252a48f671336e313b7cca9253882ea413e2c705e8",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Increase the space between the horizontal blocks on slide 2 a little further."
+    ]
+  },
+  "implementation": {
+    "target": "slide-2-profile-grid",
+    "previousPanelGapPx": 10,
+    "panelGapPx": 14,
+    "footerClearancePx": 47,
+    "preserved": [
+      "panel dimensions",
+      "content and typography",
+      "existing animations"
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

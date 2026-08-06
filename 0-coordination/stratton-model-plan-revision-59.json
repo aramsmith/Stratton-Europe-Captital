@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "59",
+  "createdAt": "2026-08-03T23:10:32+02:00",
+  "revisionReason": "Fully redesign slide 3 around a central sun-shaped AI Infusion focal point, with transformation objectives on the left and expected outcomes on the right.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-58.json",
+    "sha256": "7de27106e759b58508a30046f53f622df454b053e76cbc0ef8a5109656d700cc",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Place Transformation objectives in a block on the left.",
+      "Place AI Infusion in the middle as a round sun-shaped focal block.",
+      "Place Expected outcomes in a block on the right.",
+      "Keep slide 3 text sizes consistent with slide 2."
+    ]
+  },
+  "implementation": {
+    "composition": "three-column objectives-to-AI-to-outcomes decision landscape",
+    "objectiveBlock": {
+      "position": "left",
+      "widthPx": 370,
+      "heightPx": 540
+    },
+    "aiInfusion": {
+      "position": "centre",
+      "shape": "500px circular core with 548px twelve-ray sunburst",
+      "sectionLabelPx": 16.5,
+      "titlePx": 18,
+      "descriptionPx": 15
+    },
+    "outcomeBlock": {
+      "position": "right",
+      "widthPx": 370,
+      "heightPx": 540
+    },
+    "motion": [
+      "Objectives enter from the left.",
+      "Outcomes enter from the right.",
+      "The AI sun scales into place while its rays reveal once."
+    ],
+    "accessibility": [
+      "Reduced-motion mode disables decorative movement.",
+      "Logical and visual reading order is objectives, AI infusion, outcomes."
+    ],
+    "inlineEditing": "Objective, AI and outcome lists use EditableList with stable item identifiers.",
+    "footerClearancePx": 38
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

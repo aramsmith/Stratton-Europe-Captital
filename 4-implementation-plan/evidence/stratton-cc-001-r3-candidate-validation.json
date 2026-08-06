@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC001_R3_PHASE_4_CANDIDATE_VALIDATION",
+  "phaseId": "4",
+  "modelPlanRevision": "10",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "generatedAt": "2026-08-02T16:16:53.397+02:00",
+  "status": "PASS",
+  "method": "Independent local JSON/hash/XML/HTML/graph/reference checks only",
+  "counts": {
+    "deployableUnits": 17,
+    "nonDeployableWorkPackages": 5,
+    "resourceClassMappingEntries": 35,
+    "resourceInventoryEntriesMapped": 44,
+    "openControlsCarried": 14,
+    "failClosedParametersCarried": 276,
+    "compileAndPolicyAssertionsCarried": 82,
+    "dagNodes": 17,
+    "dagEdges": 46,
+    "identityMappings": 20,
+    "phase5ValidationMatrixEntries": 27,
+    "packageStructureEntries": 20
+  },
+  "checks": [
+    {
+      "id": "R3-P4-VAL-001",
+      "check": "Unchanged Phase 3 r2/model-plan revision-9 upstream is bound by the revision-10 Phase 4 r3 candidate; current and historical paths are distinguished.",
+      "result": "PASS",
+      "observed": {
+        "changeControlProposedPhase3Binding": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "phase3ManifestSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "revision8ProposedUpstreamPath": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+        "phase4R2ManifestSha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+        "affARound5ReviewSha256": "471575d814195868a9d751ee12d36be1514e12d77dfff13c427156c0ce849892"
+      }
+    },
+    {
+      "id": "R3-P4-VAL-002",
+      "check": "276 unique parameters each have owner/evidence/fail-closed status and carry all 244 Phase 3 parameters",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-003",
+      "check": "17 DUs, 46 acyclic ordered edges, five WPs and recomputed coverage counts",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-004",
+      "check": "Dedicated repository, WP-05/software acceptance, 20 split identity mappings and 10-stage activation sequence",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-005",
+      "check": "82 assertions, 14 controls, 27 local validation areas and 35 class mappings",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-006",
+      "check": "Both formal findings/reviews/coverage bound and revision-8 manifests/all artifacts immutable",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-007",
+      "check": "Markdown/Clawpilot HTML parity and accessible sanitised r3 DAG",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-008",
+      "check": "R3 manifest uses revision 10 schema-allowed fields/roles and expected bounded subject artifacts; independently verified after generation",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-009",
+      "check": "Local plan boundary; no Phase 5/IaC, review/coverage/approval or Azure action",
+      "result": "PASS"
+    },
+    {
+      "id": "R3-P4-VAL-010",
+      "check": "Corrected purpose-specific positive vectors and Phase 4 upstream binding",
+      "observed": {
+        "phase3ManifestSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "positiveVectors": 4,
+        "purposeRecordTimeSignerKeySnapshotAndEnvelopeChecks": "ALL_PASS",
+        "TN003": "NEGATIVE_PURPOSE_MUTATION_ONLY"
+      },
+      "result": "PASS"
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "Formal re-review and human approval remain pending.",
+    "No Azure validation or runtime testing."
+  ],
+  "candidateRevision": "R3_PRE_REVIEW_METADATA_CLEANUP"
+}

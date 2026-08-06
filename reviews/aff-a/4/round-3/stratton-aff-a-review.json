@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "selectedModelRationale": "The approved default remains the best independent implementation-plan correctness reviewer and differs from the Phase 4 author runtime.",
+    "runScopedOverrideRequired": false
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "4",
+    "phaseName": "Phase 4 — Implementation Plan",
+    "owner": "AFF-4"
+  },
+  "round": 3,
+  "reviewTime": "2026-08-02T10:29:33.048+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-5.json",
+    "revision": "5",
+    "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.5",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS"
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes.json",
+    "sha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+    "modelPlanRevision": "5",
+    "artifactCount": 8,
+    "hashVerificationStatus": "ALL_EIGHT_MANIFEST_ENTRIES_RECOMPUTED_AND_MATCHED",
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-phase-4-hash-verification-receipt.json",
+    "verificationReceiptSha256": "131fa2681752c8e82ddeb73be3ddc0d68e4fc38dbfd57a3a5681ee13cdd30607"
+  },
+  "scope": [
+    "Complete regenerated eight-artifact Phase 4 subject and independent hash receipt",
+    "Approved Phase 3 design, AFF-4 handoff, traceability and approval binding",
+    "Deployment DAG, implementation units, Bicep and AVM planning",
+    "Phase 5 validation, release hashing, rollback and evidence reproducibility",
+    "Requirement, ABB, decision, SBB and resource-inventory traceability",
+    "All prior AFF-A finding dispositions, HTML rendering, links and hashes"
+  ],
+  "confirmedItems": [
+    "Exact model independence is satisfied: reviewer gpt-5.5 differs from author runtime gpt-5.6-sol.",
+    "The manifest hash, all eight artifact hashes and the independent receipt hash match.",
+    "The approved Phase 3 approval and manifest bindings match independently recomputed hashes.",
+    "Requirements 31/31, ABBs 19/19, SBBs 23/23, architecture decisions 10/10 and resource inventory entries 44/44 are mapped.",
+    "The 17-node, 44-edge deployment graph is acyclic and its SVG edge set matches the catalogue.",
+    "The HTML source hashes, local links and anchors resolve.",
+    "The canonical release hash pattern is self-excluding, checkout-path-independent, ordinal-sorted and UTF-8 without BOM or trailing newline.",
+    "The Phase 4 boundary is preserved and the seven owner-bound controls remain open without waiver."
+  ],
+  "priorFindingDispositions": [
+    {
+      "id": "AFFA-P4-R1-MAJ-001",
+      "disposition": "RESOLVED",
+      "rationale": "The normalised relative input set excludes release/content-hashes.json and out."
+    },
+    {
+      "id": "AFFA-P4-R1-MAJ-002",
+      "disposition": "RESOLVED",
+      "rationale": "WP-01 explicitly maps ABB-17 to external-data quarantine state/index and permission-gated promotion tests."
+    },
+    {
+      "id": "AFFA-P4-R2-MAJ-001",
+      "disposition": "RESOLVED",
+      "rationale": "The pattern hashes resolved full paths but ordinal-sorts and serializes only normalised iac-relative paths as canonical UTF-8 JSON."
+    }
+  ],
+  "findings": [],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "unresolvedMajor": 0
+  },
+  "residualGaps": [
+    "VAL-001",
+    "VAL-002",
+    "VAL-003",
+    "VAL-004",
+    "VAL-005",
+    "AFFB-RES-001",
+    "AFFB-RES-002"
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "No correctness findings remain on the exact unchanged manifest; the seven approved owner-bound residual controls remain explicitly carried and unwaived.",
+  "finalRoundForManifest": true,
+  "requiredActions": [
+    "AFF-B must perform the independent security and compliance review on this exact unchanged manifest.",
+    "Do not treat AFF-A conformance as human approval, waiver, certification, deployment authorisation or runtime validation."
+  ],
+  "subjectModificationPerformed": false,
+  "recordSerialization": "The independent gpt-5.5 reviewer returned the complete verdict and findings. AFF-4 orchestration serialized the returned review without changing its verdict or findings.",
+  "nonApprovalStatement": "AFF-A does not approve, waive, certify, fix, deploy, test or modify the reviewed Phase 4 subject."
+}

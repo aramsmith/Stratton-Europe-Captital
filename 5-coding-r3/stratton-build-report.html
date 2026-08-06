@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stratton Phase 5 Build Report</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 48px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; }
+    h2 { margin-bottom: 12px; font-size: 1.15rem; }
+    a { color: var(--cp-link); }
+    code { font-family: Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; }
+    .muted { color: var(--cp-text-muted); }
+    .eyebrow { color: var(--cp-accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+    .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: var(--cp-shadow);
+      padding: 20px;
+    }
+    .wide { grid-column: 1 / -1; }
+    .metric { color: var(--cp-accent); font-size: 1.5rem; font-weight: 750; }
+    .success { color: var(--cp-success); font-weight: 700; }
+    .warning { color: var(--cp-warning); font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid var(--cp-border); text-align: left; vertical-align: top; }
+    th { color: var(--cp-text-muted); font-size: 0.78rem; text-transform: uppercase; }
+    ul { margin: 0; padding-left: 20px; }
+    li + li { margin-top: 6px; }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .table-wrap { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Agentic Architecture Factory &middot; Phase 5</div>
+    <h1>Stratton build report</h1>
+    <p class="muted">Generated 2026-08-03T01:35:34.5563675Z. Local implementation and assurance evidence only.</p>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Outcome</h2>
+        <div class="metric">READY_FOR_ASSURANCE</div>
+        <p>Full local validation: <span class="success">PASS</span></p>
+        <p>Deployment ready: <strong>False</strong></p>
+        <p><a href="stratton-release-manifest.json">Release manifest</a> &middot; <a href="evidence/local-validation/20260803T011756396Z/index.json">Validation index</a></p>
+      </article>
+      <article class="card">
+        <h2>Release boundary</h2>
+        <p>No Azure login, target validation, what-if, deployment, production signing, or cloud runtime test was executed.</p>
+        <p>The full validation release step covers the release manifest only. Build-report generation, canonical hashing and Test-ReleaseEvidence are the subsequent freeze sequence.</p>
+        <p class="warning">Owner values and human approvals remain fail-closed.</p>
+      </article>
+
+      <article class="card">
+        <h2>Inventory</h2>
+        <table><thead><tr><th>Area</th><th>Files</th></tr></thead><tbody><tr><td><code>app/</code></td><td>41</td></tr>
+<tr><td><code>deploy/</code></td><td>1</td></tr>
+<tr><td><code>infra/</code></td><td>39</td></tr>
+<tr><td><code>README.md/</code></td><td>1</td></tr>
+<tr><td><code>release/</code></td><td>1</td></tr>
+<tr><td><code>tests/</code></td><td>23</td></tr>
+<tr><td><code>tooling/</code></td><td>1</td></tr>
+<tr><td><code>validation/</code></td><td>8</td></tr></tbody></table>
+        <p class="muted">115 deployable source files; 17 implementation units.</p>
+      </article>
+      <article class="card">
+        <h2>Traceability</h2>
+        <p>Phase 4 manifest: <code>87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4</code></p>
+        <p>Approval: <code>STRATTON-PHASE-4-APPROVAL-001</code></p>
+        <p>Model plan: revision <code>14</code></p>
+        <p>Phase 5 model plan: <code>a4af30ebc44cb985c1881d2508eb2bdb8680e480c0262682fe34de2ebb40638b</code></p>
+        <p>Authority change control: <code>STRATTON-CC-001</code></p>
+        <p>Authority approval: <code>ec2ddad8bc9c38993d5266985db5c9e9f12358034ba3aad9c61cd93465d8b21d</code></p>
+        <p>Authority model plan: <code>b9fe50b7de6ba21e452d09fde4c827d03d763163dfb60c8bad9d9bd273fa900a</code></p>
+        <p>Source commit: <code>8d4f42b19226729bd1e3fb68e5a353b554b4b3a1</code></p>
+        <p>Commit scope: <code>FRAMEWORK_REPOSITORY_ANCHOR_ONLY_CASE_PACKAGE_HASHED_SEPARATELY</code></p>
+      </article>
+
+      <article class="card wide">
+        <h2>Validation</h2>
+        <div class="table-wrap"><table><thead><tr><th>Step</th><th>Status</th><th>Evidence</th></tr></thead><tbody><tr><td><code>prerequisites</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/prerequisites.log">redacted evidence</a></td></tr>
+<tr><td><code>iac-validation</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/iac-validation.log">redacted evidence</a></td></tr>
+<tr><td><code>module-digest-evidence</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/module-digest-evidence.log">redacted evidence</a></td></tr>
+<tr><td><code>package-integrity</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/package-integrity.log">redacted evidence</a></td></tr>
+<tr><td><code>source-security-scan</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/source-security-scan.log">redacted evidence</a></td></tr>
+<tr><td><code>database-validation</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/database-validation.log">redacted evidence</a></td></tr>
+<tr><td><code>application-dependencies</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/application-dependencies.log">redacted evidence</a></td></tr>
+<tr><td><code>application-validation</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/application-validation.log">redacted evidence</a></td></tr>
+<tr><td><code>container-validation</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/container-validation.log">redacted evidence</a></td></tr>
+<tr><td><code>release-evidence</code></td><td class="success">PASS</td><td><a href="evidence/local-validation/20260803T011756396Z/release-evidence.log">redacted evidence</a></td></tr></tbody></table></div>
+        <p>Final hash generation and independent release-evidence recomputation occur after this retained full validation run.</p>
+      </article>
+
+      <article class="card wide">
+        <h2>Container security and supply chain</h2>
+        <div class="table-wrap"><table><thead><tr><th>Image</th><th>Digest</th><th>Platform</th><th>HIGH / CRITICAL / secrets</th><th>Evidence</th></tr></thead><tbody><tr><td>api</td><td><code>sha256:3d1bc500907cb6ad3c8384f775dd7dffcb7d1f53b6f6675b704ead6ccd936c55</code></td><td><code>linux/amd64</code></td><td>0 / 0 / 0</td><td><a href="evidence/containers/20260803T013247008Z/api.sbom.cdx.json">SBOM</a> &middot; <a href="evidence/containers/20260803T013247008Z/api.trivy.json">scan</a></td></tr>
+<tr><td>worker</td><td><code>sha256:f23a660f3e578577924fa3799a12351ecf30d5d61485a40db13702d3349b0512</code></td><td><code>linux/amd64</code></td><td>0 / 0 / 0</td><td><a href="evidence/containers/20260803T013247008Z/worker.sbom.cdx.json">SBOM</a> &middot; <a href="evidence/containers/20260803T013247008Z/worker.trivy.json">scan</a></td></tr></tbody></table></div>
+        <p>Local signing: Local integrity evidence only; an approved release identity must sign any deployable registry artifact.</p>
+      </article>
+
+      <article class="card">
+        <h2>Source security</h2>
+        <p class="success">PASS</p>
+        <p>HIGH vulnerabilities 0; CRITICAL vulnerabilities 0; HIGH misconfigurations 0; CRITICAL misconfigurations 0; secrets 0.</p>
+        <p><a href="evidence/source-security/20260803T013222504Z/summary.json">Source-security summary</a></p>
+      </article>
+      <article class="card">
+        <h2>Source state</h2>
+        <p>Tracked by Git: <strong>False</strong></p>
+        <p>Dirty or locally generated: <strong>True</strong></p>
+        <ul><li><code>!! ../</code></li></ul>
+      </article>
+
+      <article class="card">
+        <h2>Authority gates</h2>
+        <ul><li>None recorded.</li></ul>
+      </article>
+      <article class="card">
+        <h2>Residual owner controls</h2>
+        <ul><li><code>VAL-001</code></li>
+<li><code>VAL-002</code></li>
+<li><code>VAL-003</code></li>
+<li><code>VAL-004</code></li>
+<li><code>VAL-005</code></li>
+<li><code>AFFB-RES-001</code></li>
+<li><code>AFFB-RES-002</code></li>
+<li><code>AFFB-CC001-R2-MIN-001</code></li>
+<li><code>AFFB-CC001-R3-MIN-002</code></li></ul>
+      </article>
+
+      <article class="card wide">
+        <h2>Limitations</h2>
+        <ul>
+          <li>No Azure operation or cloud runtime test is evidenced.</li>
+          <li>Local Cosign evidence is non-production; registry signing requires an authorised release identity.</li>
+          <li>Production configuration and legal or regulatory claims require accountable-owner evidence.</li>
+          <li>The final self-excluding Phase 5 hash manifest is generated after this report and binds it.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

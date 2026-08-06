@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "85",
+  "createdAt": "2026-08-04T03:02:15+02:00",
+  "revisionReason": "Apply Slide 2's ongoing Operating ecosystem border sweep to the seven Slide 6 assurance steps as a strict sequential loop.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-84.json",
+    "sha256": "7327f7e959444b526cc93b8388900dce9dc2d41f1ef59d00e9a00f5973123cd4",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 6,
+    "change": "Use the Slide 2 Operating ecosystem animation on the Phase assurance and approval sequence, running sequentially from step 1 through step 7."
+  },
+  "implementation": {
+    "sourceAnimation": "slide 2 Operating ecosystem gradient-border sweep",
+    "assuranceSequence": {
+      "stepCount": 7,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "simultaneousHighlights": 1,
+      "stepIntervalMs": 1400,
+      "loopDurationMs": 9800,
+      "continuous": true,
+      "returnsToStep1": true,
+      "prefersReducedMotion": "animation disabled"
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "strictSequenceObserved": true,
+      "visualInspection": "pass",
+      "cssWhitespaceCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "sha256": "e9557f31d06d82b84805f971950fa3f21e5419ece95e2dc10105b2b2577f3ce5"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

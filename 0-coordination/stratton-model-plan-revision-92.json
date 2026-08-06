@@ -1,0 +1,312 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "92",
+  "createdAt": "2026-08-04T04:56:44.5160062+02:00",
+  "revisionReason": "Add Slides 9 through 15 to the unfrozen Phase 6 revision-4 deck, covering the approved TOGAF architecture, Azure design, implementation plan and coding evidence; planned optional deployment; explicitly mock runtime test results; and an illustrative Azure cost and benefit comparison.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-91.json",
+    "sha256": "2ac27d8026b9cb6ec7283efaed343241e186eda3e9fa47c3d84a1e63b5863a27",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slides": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "request": "Create one creative executive slide for each remaining architecture phase, use source artifacts and Azure or Microsoft icons where possible, show planned optional deployment and mock testing honestly, and calculate an illustrative Azure-versus-on-premises cost and benefit view."
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false,
+    "optionalExecutionBoundary": "Slide 13 is labelled PLANNED_NOT_EXECUTED and Slide 14 is labelled DEMO_MOCK_RESULTS_NOT_EXECUTED.",
+    "pricingBoundary": "Azure values use public PAYG retail rates and disclosed workload assumptions. The on-premises comparator is an explicit demo mock, not a customer quote, negotiated price or assured business case."
+  },
+  "content": {
+    "slide9": {
+      "title": "Phase 2 - The TOGAF Architecture",
+      "highlights": [
+        "Approved vendor-neutral evidence-to-decision control spine",
+        "19 architecture building blocks and five views",
+        "AD-001 through AD-010",
+        "31/31 Must requirements traced",
+        "Seven owner-bound gates retained fail-closed"
+      ]
+    },
+    "slide10": {
+      "title": "Phase 3 - The Azure Design",
+      "highlights": [
+        "Citadel platform, non-production, production/recovery and independent-assurance subscriptions",
+        "Private Application Gateway to API Management to Container Apps path",
+        "Regional SQL, Storage, Service Bus, AI Search, Azure OpenAI and Document Intelligence",
+        "99.9 percent, RTO no more than four hours, RPO no more than one hour, p95 under five seconds and pack generation no more than thirty minutes"
+      ]
+    },
+    "slide11": {
+      "title": "Phase 4 - Implementation plan",
+      "highlights": [
+        "17 deployable units and 46 acyclic dependency edges",
+        "Five visual delivery bands from foundation through lockdown and assurance",
+        "Four work packages and 31/31 Must requirements bound",
+        "32 unknown owner parameters, 22 assertions and seven retained owner controls"
+      ]
+    },
+    "slide12": {
+      "title": "Phase 5 - Coding",
+      "highlights": [
+        "116 deployable source files and all 17 implementation units",
+        "Tenant-scope Bicep plus TypeScript API and worker containers",
+        "55/55 Pester, 47/47 PSRule, 47/47 application unit and 30/30 application integration tests",
+        "CycloneDX SBOM, digest and scan evidence",
+        "No Azure validation, what-if, deployment or runtime proof"
+      ]
+    },
+    "slide13": {
+      "title": "Phase 7 - Deployment",
+      "status": "PLANNED_NOT_EXECUTED",
+      "highlights": [
+        "Human invocation and exact-scope authorisation",
+        "Owner-value binding, package validation and reviewed what-if",
+        "DU-01 through DU-17 stage-ordered execution",
+        "Stop, rollback and immutable evidence rules"
+      ]
+    },
+    "slide14": {
+      "title": "Phase 8 - Run tests",
+      "status": "DEMO_MOCK_RESULTS_NOT_EXECUTED",
+      "actualEvidence": "Phase 5 local checks only",
+      "mockScenarios": [
+        "Private network path",
+        "Citation and extraction quality",
+        "Critical-field accuracy and high-risk recall",
+        "Interactive and pack-generation performance",
+        "RTO and RPO",
+        "Human approval bypass prevention"
+      ]
+    },
+    "slide15": {
+      "title": "Costs and Benefits",
+      "azureMonthlyUsd": 5885.54,
+      "azureAnnualUsd": 70626.48,
+      "onPremMockAnnualUsd": 112984.37,
+      "onPremMockOpexUsd": 66660.78,
+      "onPremMockCapexRenewalUsd": 46323.59,
+      "onPremPremiumPercentRounded": 60,
+      "illustrativeAnnualGapUsd": 42357.89,
+      "benefitBoundary": "The 12-week to no-more-than-3-week cycle-time statement is an approved target, not a realised result."
+    }
+  },
+  "pricing": {
+    "api": "Microsoft Azure Retail Prices API",
+    "apiVersion": "2023-01-01-preview",
+    "queriedAt": "2026-08-04",
+    "region": "westeurope",
+    "currency": "USD",
+    "priceType": "Consumption",
+    "hoursPerMonth": 730,
+    "selectedRates": [
+      {
+        "service": "Azure Firewall Premium",
+        "meters": "Deployment + one capacity unit + 500 GB processing",
+        "rates": [
+          1.75,
+          0.11,
+          0.016
+        ]
+      },
+      {
+        "service": "Application Gateway WAF v2",
+        "meters": "Fixed gateway + two capacity units",
+        "rates": [
+          0.468,
+          0.0144
+        ]
+      },
+      {
+        "service": "API Management Standard v2",
+        "unitPricePerHour": 0.9589
+      },
+      {
+        "service": "Service Bus Premium",
+        "unitPricePerMessagingUnitHour": 0.9275
+      },
+      {
+        "service": "Azure AI Search S1 primary meter",
+        "unitPricePerHour": 0.3696,
+        "units": 3
+      },
+      {
+        "service": "SQL Database Business Critical Gen5",
+        "computeUnitPricePerTwoVCoreHour": 0.669758,
+        "storageUnitPricePerGbMonth": 0.2975
+      },
+      {
+        "service": "Container Apps active consumption",
+        "vCpuSecond": 0.000034,
+        "gibSecond": 0.000004,
+        "requestsPerMillion": 0.56
+      },
+      {
+        "service": "Blob Storage Hot LRS",
+        "unitPricePerGbMonth": 0.0196
+      },
+      {
+        "service": "Log Analytics",
+        "unitPricePerGb": 2.99
+      },
+      {
+        "service": "Azure OpenAI GPT-4o mini global",
+        "inputPerOneThousandTokens": 0.00015,
+        "outputPerOneThousandTokens": 0.0006
+      },
+      {
+        "service": "Azure Document Intelligence S0 pre-built pages",
+        "unitPricePerOneThousandPages": 10
+      },
+      {
+        "service": "Key Vault standard operations",
+        "unitPricePerTenThousandOperations": 0.03
+      }
+    ],
+    "transparentReserveMonthlyUsd": 480,
+    "reserveScope": "Private endpoints, private DNS, container registry, backup and transaction variability.",
+    "exclusions": [
+      "Taxes",
+      "Azure support plan",
+      "Enterprise discounts",
+      "Reserved capacity",
+      "Licensing not exposed through the selected retail meters",
+      "Customer-specific commercial terms"
+    ]
+  },
+  "design": {
+    "canvas": "1440x900-16:10",
+    "titleScale": "45-50px",
+    "fontModes": [
+      "JetBrains Mono",
+      "System UI"
+    ],
+    "visualLanguage": "Native dark-theme diagrams, executive metric cards, explicit planned/mock banners and official Microsoft Azure Architecture Icons V24.",
+    "azureIconCount": 22,
+    "azureIconCombinedSha256": "d3993a899619553244db34ef4aebb3740775c9bd61ba23cdfd35adc02ee91392",
+    "motion": "Short entrance motion only; reduced-motion removes the animation."
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "deckStructuralValidation": "pass",
+    "registeredSlides": 15,
+    "newSlidesValidated": 7,
+    "impeccableDetectorFindings": 0,
+    "jetBrainsMonoFit": "pass",
+    "systemFontFit": "pass",
+    "reducedMotion": "pass",
+    "semanticContentOutsideCanvas": 0,
+    "clippedTextFindings": 0,
+    "browserConsoleErrors": 0,
+    "browserPageErrors": 0,
+    "visualInspection": "pass"
+  },
+  "authoritativeSources": [
+    {
+      "path": "2-togaf-architecture/stratton-architecture.html",
+      "sha256": "bf204d7b0ebc71b7b8671b582b11ef1ce19ffe5f03c414b525218793701cc4e3"
+    },
+    {
+      "path": "3-azure-design/stratton-azure-design.html",
+      "sha256": "23e90b259539f3fc297614537428831ebdb94f9a9c257004e0a533745a7c9b75"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.html",
+      "sha256": "f69a472e1f19f07b9aa7bb7045421e85caa09105db3e927c50ba0c6bb664941a"
+    },
+    {
+      "path": "5-coding-r4/stratton-build-report.md",
+      "sha256": "a11b4900b7faf2a1ca7d9f0d2e46b723ed74b2cd5ec11304af1625c19b3b08b4"
+    },
+    {
+      "path": "5-coding-r4/deploy/README.md",
+      "sha256": "ebb4a79f661c6fd2fe6745bef8753f997c9681c8cabaebdd9bce4d2d790afcf2"
+    },
+    {
+      "path": "5-coding-r4/app/src/benchmark-runner.ts",
+      "sha256": "fbd0c338c54a7751924db3d6817aef469d26025d3f5f853087f6203dd6017e92"
+    }
+  ],
+  "artifacts": {
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "ada6b8a22204c14fb7d2c4d9475ba7e3a50e3659eee3c64544f4b0dbcf9270f4"
+    },
+    "pricingData": {
+      "path": "6-presentation-r4/deck/src/data/azurePricing.js",
+      "sha256": "211b37d1055d9f72e4ee10a278ad7f2fd3c5fbf8490aae11591da16c8a005f3e"
+    },
+    "sharedStyles": {
+      "path": "6-presentation-r4/deck/src/styles/PhaseSummarySlides.module.css",
+      "sha256": "8b375a6102100c9ac4a49a45a2b0695362e9cfa23694caa760be442f03716cad"
+    },
+    "slides": [
+      {
+        "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.jsx",
+        "sha256": "758e7c8699b242ada78dda8979cefd5624cf273b380592f004e4808e90e4f561",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.module.css",
+        "stylesheetSha256": "653edd16a64568a001673f883124e4e2bf6309fb01f5b1dcc472006cf67c6be5"
+      },
+      {
+        "path": "6-presentation-r4/deck/src/slides/AzureDesignSlide.jsx",
+        "sha256": "e68ea8a34280af9af2af5f9cd360cffd1e41c8cbe3fd1d1f0de86172f04ee4f4",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/AzureDesignSlide.module.css",
+        "stylesheetSha256": "8af61ccf9cbf3e116cbcba911e8f239e40e4be387e6ad04cf2b759e0c2bbd962"
+      },
+      {
+        "path": "6-presentation-r4/deck/src/slides/ImplementationPlanSlide.jsx",
+        "sha256": "7f11aa9fdd2cdbe14cece6fce440467f3ccf36cbee46484dc90f9d52251e5791",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/ImplementationPlanSlide.module.css",
+        "stylesheetSha256": "a4800aac06acecd2f084bbe9a0b8d41e3b2d1a82e96ace836d05daaa5ac8a48b"
+      },
+      {
+        "path": "6-presentation-r4/deck/src/slides/CodingSlide.jsx",
+        "sha256": "18c8e97fd14d9078a20d96288bfd5a25986026ab0cd31f830e1f6d75fa090341",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/CodingSlide.module.css",
+        "stylesheetSha256": "4ade3ac0d30cbc404f8bd567ebdae63e90e8e48c645b5cb02965a88be342c6ef"
+      },
+      {
+        "path": "6-presentation-r4/deck/src/slides/DeploymentSlide.jsx",
+        "sha256": "67f7ec4d50ce3f6bbc789e5510c2af6ecc65ad3460ffa5ffe93bd0279329afa7",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/DeploymentSlide.module.css",
+        "stylesheetSha256": "e34db7e1fb0054b747644e4b152bbaae32b8c33f7dd157a3c8810581630126d0"
+      },
+      {
+        "path": "6-presentation-r4/deck/src/slides/RunTestsSlide.jsx",
+        "sha256": "13e3a1417217cea533236f837455f323bbc91bb821c7453a0ce0b27598730806",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/RunTestsSlide.module.css",
+        "stylesheetSha256": "9ec6d0785a75e64505e7cab13105380e3b753a8e7c68dedc931a63f5f45ae0ba"
+      },
+      {
+        "path": "6-presentation-r4/deck/src/slides/CostsBenefitsSlide.jsx",
+        "sha256": "47d4c3ec79033e8c612fbe0a63b137605ee718529f208c173af583189958f9ab",
+        "stylesheetPath": "6-presentation-r4/deck/src/slides/CostsBenefitsSlide.module.css",
+        "stylesheetSha256": "478ccca305885bd69b2fe2865a3ccd0c6cbbfa05013b8e3a55cb7e3ead69ba2e"
+      }
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 15,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "nextGovernanceStep": "Run AFF-A and AFF-B assurance over one unchanged candidate and obtain explicit human approval before freezing or claiming Phase 6 completion."
+  }
+}

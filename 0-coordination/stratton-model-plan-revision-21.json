@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "21",
+  "createdAt": "2026-08-03T16:10:17.3338465+02:00",
+  "revisionReason": "Govern Phase 6 revision-4 step 2: add centred slide numbering and a shared 45-minute countdown timer that follows fullscreen presentation state.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-20.json",
+    "sha256": "4b5a1bb84d2904a7f793a76e50ef70bdbc42cc7d6b8f1cf083c0a6af1fb72d5c",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingMethod": "STEP_BY_STEP",
+    "workingCandidate": "6-presentation-r4",
+    "currentStep": {
+      "id": "R4-STEP-02",
+      "name": "Add slide numbering and presentation countdown",
+      "status": "AUTHORISED",
+      "durationMinutes": 45,
+      "startTrigger": "ENTER_FULLSCREEN_PRESENTATION_MODE",
+      "exitBehaviour": "PAUSE",
+      "reentryBehaviour": "RESUME",
+      "expiryBehaviour": "STOP_AT_ZERO"
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for shared React state, fullscreen lifecycle handling, export-safe per-slide numbering and consistent cross-slide UI integration."
+  },
+  "preservedBaseline": {
+    "revision3ManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "revision4Step1ValidationPath": "6-presentation-r4/evidence/dark-theme-step-validation.json",
+    "revision4Step1ValidationSha256": "e4014d67f686c3a967a904fecc04fd0081db91a44aab893c359326bf5454a363",
+    "state": "R4_STEP1_COMPLETE_WORKING_DRAFT_NOT_FROZEN"
+  },
+  "implementationContract": {
+    "componentPath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.jsx",
+    "stylePath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+    "requirements": [
+      "Show each slide's one-based position and total count at the bottom centre.",
+      "Show a compact MM:SS countdown at the bottom right.",
+      "Start the countdown when Deckio enters browser fullscreen presentation mode.",
+      "Pause on fullscreen exit and resume without resetting on re-entry.",
+      "Use one shared drift-resistant timer store across all simultaneously mounted slides.",
+      "Keep per-slide numbering correct during normal rendering and export.",
+      "Do not modify the Deckio engine, App.jsx, main.jsx, vite.config.js or package.json.",
+      "Preserve all presentation wording, claims, diagrams and evidence classifications."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "formalReviewEligible": false
+  },
+  "constraints": [
+    "Preserve revisions 1, 2 and 3 byte-identically.",
+    "Do not authorise Azure activity, Phase 7 or Phase 8.",
+    "Do not freeze revision 4 until the remaining human-directed revisions are complete."
+  ]
+}

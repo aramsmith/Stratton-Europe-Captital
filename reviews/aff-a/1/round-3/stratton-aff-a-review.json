@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "availableModelReassessment": {
+      "approvedDefault": "gpt-5.5",
+      "alternativesConsidered": [
+        {
+          "modelId": "gpt-5.6-sol",
+          "disposition": "NOT_SELECTED",
+          "reason": "It is the recorded Phase 1 author actual runtime model and therefore cannot satisfy AFF-A independence."
+        },
+        {
+          "modelId": "gpt-5.3-codex",
+          "disposition": "NOT_SELECTED",
+          "reason": "It is better suited to code creation and executable technical testing than independent requirements, traceability, logic and omission review."
+        }
+      ],
+      "selectedModelRationale": "The approved AFF-A default remains the best available fit for independent requirements, internal-logic, traceability, omission and concise-communication review, while differing from the Phase 1 author actual runtime model.",
+      "runScopedChangeRequired": false,
+      "runScopedChangeApproval": "NOT_REQUIRED"
+    },
+    "runtimeIdentityEvidence": [
+      "The active invocation states AFF-A exact runtime model as gpt-5.5.",
+      "0-coordination/stratton-model-plan-revision-2.json records the Phase 1 author actual runtime model as gpt-5.6-sol."
+    ]
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "1",
+    "phaseName": "Phase 1 \u2014 Requirements",
+    "owner": "AFF-1"
+  },
+  "round": 3,
+  "reviewTime": "2026-08-01T21:29:32.017+02:00",
+  "modelPlan": {
+    "activeRevisionPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-2.json",
+    "revision": "2",
+    "phaseAuthorApprovedDefaultModelId": "gpt-5.6-sol",
+    "phaseAuthorSelectedExactModelId": "gpt-5.6-sol",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "phaseAuthorActualRuntimeEvidence": [
+      "0-coordination/stratton-model-plan-revision-2.json:14-24 records AFF-1 active Phase 1 assignment with actualRuntimeModelId gpt-5.6-sol and reassessment status COMPLETE_FOR_PHASE_1_AUTHORING.",
+      "1-requirements/stratton-interview-decisions.json:41-48 records the current model-plan binding to revision 2 with actualRuntimeModelId gpt-5.6-sol.",
+      "The active invocation independently states the Phase 1 author exact runtime as gpt-5.6-sol."
+    ],
+    "reviewerActualRuntimeModelId": "gpt-5.5",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "gateEffect": "AFF-A independence requirement is satisfied for this round."
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+    "sha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "modelPlanRevision": "2",
+    "hashAlgorithm": "SHA-256",
+    "artifactCount": 8,
+    "manifestEntriesRead": true,
+    "hashVerificationStatus": "VERIFIED_BY_RETAINED_DUAL_TOOL_EVIDENCE",
+    "hashVerificationEvidence": [
+      "1-requirements/stratton-phase-1-hashes.json:1-50 lists eight reviewed artifacts, modelPlanRevision 2 and SHA-256 values.",
+      "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json:7-10 records PowerShell Get-FileHash generation evidence.",
+      "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json:6-11 records manifestSha256 b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a, Python hashlib verification and allManifestEntriesMatch=true.",
+      "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json:12-60 records a matching Python SHA-256 for every manifest entry."
+    ],
+    "localRecomputeStatus": "NOT_RECOMPUTED_NO_EXECUTION_USED_BY_AFF_A"
+  },
+  "artifactsReviewed": [
+    {
+      "path": "1-requirements/stratton-requirements.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917",
+      "independentReceiptSha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "CONTENT_REVIEWED"
+    },
+    {
+      "path": "1-requirements/stratton-requirements.html",
+      "role": "rendered-html",
+      "manifestSha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83",
+      "independentReceiptSha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "SELF_CONTAINED_RENDERING_AND_MATERIAL_MARKDOWN_FIDELITY_REVIEWED"
+    },
+    {
+      "path": "1-requirements/stratton-requirements-catalogue.json",
+      "role": "catalogue",
+      "manifestSha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd",
+      "independentReceiptSha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "REQUIREMENTS_TRACEABILITY_ACCEPTANCE_FIELDS_AND_COVERAGE_REVIEWED"
+    },
+    {
+      "path": "1-requirements/stratton-interview-decisions.json",
+      "role": "evidence",
+      "manifestSha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed",
+      "independentReceiptSha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "MODEL_BINDING_INTERVIEW_DECISIONS_AND_CURRENT_DISPOSITIONS_REVIEWED"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-2.json",
+      "role": "catalogue",
+      "manifestSha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f",
+      "independentReceiptSha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "ACTIVE_MODEL_PLAN_REVISION_REVIEWED"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "manifestSha256": "37f3830a3186ac893ee90d6544ee7f03e9d1a477724a59ba77c2f64ee6658dfa",
+      "independentReceiptSha256": "37f3830a3186ac893ee90d6544ee7f03e9d1a477724a59ba77c2f64ee6658dfa",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "APPEND_ONLY_PHASE_1_RISK_DISPOSITIONS_REVIEWED"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "manifestSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+      "independentReceiptSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "APPEND_ONLY_REGULATORY_DISPOSITIONS_REVIEWED"
+    },
+    {
+      "path": "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json",
+      "role": "evidence",
+      "manifestSha256": "edbb016099a25ea5997abf7fd7201d8bf96c677bd51fced5b4c319ad327b4ef5",
+      "independentReceiptSha256": "edbb016099a25ea5997abf7fd7201d8bf96c677bd51fced5b4c319ad327b4ef5",
+      "hashVerificationStatus": "MATCHES_RETAINED_DUAL_TOOL_EVIDENCE",
+      "inspectionStatus": "HASH_GENERATION_EVIDENCE_REVIEWED"
+    }
+  ],
+  "additionalRecordsRead": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json",
+    ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvals/0/stratton-phase-0-approval-1.json",
+    "0-coordination/stratton-coordination.md",
+    "stratton-decisions.md",
+    "stratton-run-journal.jsonl",
+    "reviews/aff-a/1/round-1/stratton-aff-a-review.json",
+    "reviews/aff-a/1/round-2/stratton-aff-a-review.json",
+    "reviews/aff-b/1/round-1/stratton-aff-b-review.json",
+    "reviews/aff-b/coverage/stratton-compliance-coverage-001.json",
+    "reviews/aff-b/coverage/stratton-compliance-coverage-002.json",
+    "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json"
+  ],
+  "confirmedItems": [
+    "Phase 0 was explicitly approved for Phase 1 eligibility: approvals/0/stratton-phase-0-approval-1.json:8-15 records APPROVED over Phase 0 manifest 6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec.",
+    "The Phase 1 candidate remains inside the requirements boundary: it records no architecture, Azure service selection, deployment action, runtime observation, test result or Phase 1 approval.",
+    "The current canonical manifest and independent receipt cover eight artifacts and match manifest SHA-256 b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a.",
+    "The catalogue contains 31 active sourced requirements and 31 stable acceptance tests; category counts sum to 31 (BR 2, FR 2, DR 7, AR 2, TR 4, SR 10, NR 3, IR 1).",
+    "New DR-007 directly translates INT-D-003 highly-confidential classification and, through INT-D-002/003/006, binds handling to access, production-isolation, residency, transfer, audit and retention boundaries.",
+    "New SR-010 directly translates INT-D-002 by requiring EU/member-state legal governance for contracts, data processing, incident handling and disputes, with General Counsel assessment and acceptance of foreign-jurisdiction exposure before use.",
+    "DORA remains deliberately bounded: SR-009 and the Markdown require DORA-aligned evidence pending General Counsel's entity-specific applicability or exemption record and prohibit a formal DORA compliance claim before that record exists.",
+    "The append-only risk log and regulatory register retain Phase 0 history and add Phase 1 current dispositions aligned with the candidate without claiming certification or formal compliance.",
+    "The HTML is self-contained, carries current Markdown, catalogue and interview-record hashes, contains no observed external script or CDN reference, and materially matches the Markdown's executive position, interview outcome, scope, requirements register, regulatory boundary, residual validation plan, coverage and gate.",
+    "AFF-B round 1 is not final for the current b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a manifest; it was bound to a superseded manifest and its open major finding requires AFF-B re-review after remediation."
+  ],
+  "priorFindingDispositions": [
+    {
+      "id": "STRATTON-P1-AFFA-R1-BLOCKER-001",
+      "priorSeverity": "BLOCKER",
+      "title": "Canonical manifest and listed subject SHA-256 values were not independently recomputable in the prior review runtime",
+      "currentDisposition": "RESOLVED_FOR_CURRENT_MANIFEST_BY_RETAINED_DUAL_TOOL_EVIDENCE",
+      "evidence": [
+        "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json records PowerShell Get-FileHash generation evidence.",
+        "1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json records Python hashlib verification, allManifestEntriesMatch=true and manifestSha256 b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a."
+      ]
+    },
+    {
+      "id": "STRATTON-P1-AFFA-R1-MAJOR-001",
+      "priorSeverity": "MAJOR",
+      "title": "Interview decision record retained contradictory OPEN openItems after declaring the interview closed",
+      "currentDisposition": "RESOLVED",
+      "evidence": [
+        "1-requirements/stratton-interview-decisions.json:1477-1514 appends current dispositions for OPEN-001 through OPEN-006 with resolved or owned-validation statuses.",
+        "The original open-item history remains append-only rather than silently overwritten."
+      ]
+    },
+    {
+      "id": "STRATTON-P1-AFFA-R1-MAJOR-002",
+      "priorSeverity": "MAJOR",
+      "title": "Active model plan did not clearly record Phase 1 authoring reassessment in the required model-plan record",
+      "currentDisposition": "RESOLVED",
+      "evidence": [
+        "0-coordination/stratton-model-plan-revision-2.json records revision 2, AFF-1 selected and actual runtime model gpt-5.6-sol, availability, rationale and COMPLETE_FOR_PHASE_1_AUTHORING status."
+      ]
+    },
+    {
+      "id": "STRATTON-P1-AFFA-R1-MAJOR-003",
+      "priorSeverity": "MAJOR",
+      "title": "Shared regulatory and risk records remained stale after Phase 1 confirmed decisions",
+      "currentDisposition": "RESOLVED",
+      "evidence": [
+        "stratton-risk-log.md:12-25 appends Phase 1 dispositions for RISK-0001 through RISK-0006.",
+        "stratton-regulatory-register.md:15-30 appends revision 002 with current Phase 1 applicability boundaries for GDPR, EU AI Act, SFDR, AIFMD, sector-specific directives and DORA."
+      ]
+    },
+    {
+      "id": "STRATTON-P1-AFFB-R1-MAJOR-001",
+      "priorSeverity": "MAJOR",
+      "title": "Confirmed confidentiality and legal-jurisdiction sovereignty outcomes were not fully translated into active requirements",
+      "currentDisposition": "RESOLVED_FOR_AFFA_TRACEABILITY_REVIEW_PENDING_AFFB_REVIEW",
+      "evidence": [
+        "1-requirements/stratton-requirements.md:86 adds DR-007 for highly-confidential handling; 1-requirements/stratton-requirements.md:96 adds SR-010 for EU/member-state legal governance and foreign-jurisdiction exposure acceptance.",
+        "1-requirements/stratton-requirements-catalogue.json:299-319 records DR-007 with sources INT-D-002, INT-D-003 and INT-D-006.",
+        "1-requirements/stratton-requirements-catalogue.json:529-549 records SR-010 with source INT-D-002.",
+        "Because AFF-B round 1 is bound to a superseded manifest, AFF-B must re-review the complete current b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a manifest before the human gate can open."
+      ]
+    },
+    {
+      "id": "AFF-A-ROUND-2",
+      "priorSeverity": "NONE",
+      "title": "AFF-A round 2 had no findings and was final only for superseded manifest 0377d8076eee7372850918e32ae696717d95a7562dd78fa1d6f8ffa515909f54",
+      "currentDisposition": "SUPERSEDED_BY_MATERIAL_REMEDIATION_AND_NEW_MANIFEST",
+      "evidence": [
+        "reviews/aff-a/1/round-2/stratton-aff-a-review.json:57-60 binds round 2 to manifest 0377d8076eee7372850918e32ae696717d95a7562dd78fa1d6f8ffa515909f54.",
+        "Current manifest binding for round 3 is b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a."
+      ]
+    }
+  ],
+  "findings": [],
+  "residualGaps": [
+    {
+      "id": "VAL-001",
+      "description": "General Counsel must record entity-specific DORA applicability or exemption and resulting obligations before any formal DORA claim or scope-changing obligation is asserted.",
+      "status": "BOUNDED_OWNER_ASSIGNED",
+      "source": "1-requirements/stratton-requirements.md:128 and 1-requirements/stratton-requirements-catalogue.json:748-754"
+    },
+    {
+      "id": "VAL-002",
+      "description": "CIO and Service Operations must define business hours, typical document-pack characteristics and critical-alert criteria before service and performance acceptance tests.",
+      "status": "BOUNDED_OWNER_ASSIGNED",
+      "source": "1-requirements/stratton-requirements.md:129 and 1-requirements/stratton-requirements-catalogue.json:756-762"
+    },
+    {
+      "id": "VAL-003",
+      "description": "Deal Operations, AI Governance, Legal, Compliance and CIO must define eligibility, benchmark, critical-field, unsupported-claim severity and control-exception details before Internal Audit validation.",
+      "status": "BOUNDED_OWNER_ASSIGNED",
+      "source": "1-requirements/stratton-requirements.md:130 and 1-requirements/stratton-requirements-catalogue.json:764-770"
+    },
+    {
+      "id": "VAL-004",
+      "description": "Source and records owners must identify exact system instances, schedules, volumes and production quality-remediation procedures before production ingestion.",
+      "status": "BOUNDED_OWNER_ASSIGNED",
+      "source": "1-requirements/stratton-requirements.md:131 and 1-requirements/stratton-requirements-catalogue.json:772-778"
+    },
+    {
+      "id": "VAL-005",
+      "description": "General Counsel must confirm the approved EU/EEA location list and sovereignty exception evidence process before production location and transfer acceptance.",
+      "status": "BOUNDED_OWNER_ASSIGNED",
+      "source": "1-requirements/stratton-requirements.md:132 and 1-requirements/stratton-requirements-catalogue.json:780-786"
+    }
+  ],
+  "gateConditions": [
+    {
+      "condition": "AFF-B final assurance must cover the identical unchanged b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a manifest and model-plan revision 2 before the human Phase 1 gate may open.",
+      "status": "PENDING_NOT_AFFA_APPROVAL"
+    },
+    {
+      "condition": "The human architect must explicitly approve or reject Phase 1 in the active AI interaction after converged final reviews.",
+      "status": "PENDING_HUMAN_ONLY"
+    }
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "No AFF-A blocker, major or minor finding remains against the complete current eight-artifact Phase 1 subject. The AFF-B round 1 major traceability issue is resolved in the subject from an AFF-A requirements-traceability perspective by DR-007 and SR-010, but AFF-B must still re-review the same unchanged b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a manifest. The remaining gaps are explicit, bounded validation items with named owners and downstream timing, suitable for human consideration rather than AFF-A gate-blocking defects.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_FOR_MANIFEST_B0DD49069DF5370EE4E37BB4500773EFCDB04543016BB9B0A79ACD423D49100A",
+  "requiredAction": "Do not treat this review as approval. Re-invoke AFF-B over the complete unchanged current manifest. Human Phase 1 approval may be considered only after AFF-A and AFF-B final verdicts cover identical unchanged hashes and the human architect explicitly approves or rejects the phase.",
+  "supersededRound": "cases/Stratton-Europe-Captital/reviews/aff-a/1/round-2/stratton-aff-a-review.json",
+  "supersededRoundNote": "Round 2 remains a retained record but was bound to superseded manifest 0377d8076eee7372850918e32ae696717d95a7562dd78fa1d6f8ffa515909f54. Round 3 is final only for the b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a manifest.",
+  "nonApprovalStatement": "AFF-A does not approve, waive, certify, attest, deploy or test Phase 1. Only the human architect may approve or reject Phase 1 after converged final AFF-A and AFF-B reviews over identical unchanged hashes."
+}

@@ -1,0 +1,1 @@
+{"schemaVersion":"1.0.0","generatedAt":"2026-08-02T19:48:55.6384760Z","images":[{"name":"api","digest":"sha256:04e9cec850a169b1f38f8cc202523ae1404599fd0a1112c7abece91a9b8505fd","platform":"linux/amd64"},{"name":"worker","digest":"sha256:53a65aa058888a30c23db294bbef59e3cdc847cc15768ad0956750d43dce79a7","platform":"linux/amd64"}]}

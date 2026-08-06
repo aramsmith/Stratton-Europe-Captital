@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_VALIDATION_EVIDENCE",
+  "phaseId": "6",
+  "modelPlanRevision": "16",
+  "overallStatus": "PASS",
+  "checks": [
+    {
+      "name": "phase-json-parse",
+      "status": "PASS",
+      "detail": "13 JSON files parsed"
+    },
+    {
+      "name": "claim-catalogue-structure",
+      "status": "PASS",
+      "detail": "32 stable claims; valid classes and source sections"
+    },
+    {
+      "name": "claim-source-existence",
+      "status": "PASS",
+      "detail": "All 66 source references exist"
+    },
+    {
+      "name": "minimal-browser-claim-data",
+      "status": "PASS",
+      "detail": "claims.js contains only ten static slide-to-claim-ID mappings"
+    },
+    {
+      "name": "anonymous-bundle-forbidden-scan",
+      "status": "PASS",
+      "detail": "deck/src: 47 files, 0 matches; deck/dist JS: 11 files, 0 matches"
+    },
+    {
+      "name": "registered-slide-count",
+      "status": "PASS",
+      "detail": "10 slides registered in stable order"
+    },
+    {
+      "name": "deckio-project-validation",
+      "status": "PASS",
+      "detail": "All imports, skeletons, companions and shadcn checks pass"
+    },
+    {
+      "name": "shadcn-scaffold-integrity",
+      "status": "PASS",
+      "detail": "All preinstalled shadcn and ReactBits components exist"
+    },
+    {
+      "name": "diagram-sanitisation",
+      "status": "PASS",
+      "detail": "Three diagram assets remain sanitised"
+    },
+    {
+      "name": "visual-overflow-inspection",
+      "status": "PASS",
+      "detail": "10/10 slides measured at 1280x720 with no overflow"
+    },
+    {
+      "name": "pdf-export",
+      "status": "PASS",
+      "detail": "1457166 bytes; 10 pages"
+    },
+    {
+      "name": "production-build",
+      "status": "PASS",
+      "detail": "dist/index.html exists and final Vite build succeeded"
+    },
+    {
+      "name": "self-contained-html",
+      "status": "PASS",
+      "detail": "HTML parsed; self-contained; anonymous-bundle evidence linked"
+    }
+  ]
+}

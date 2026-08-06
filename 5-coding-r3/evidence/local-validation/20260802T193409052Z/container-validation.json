@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "container-validation",
+  "scope": "Containers",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File validation/Build-ContainerEvidence.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-02T19:47:53.6952827Z",
+  "endedAt": "2026-08-02T19:48:57.4152430Z",
+  "durationMilliseconds": 63720.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260802T193409052Z/container-validation.log"
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "1",
+  "generatedAt": "2026-08-01T20:06:00+02:00",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "selectionPolicy": "Approved defaults retained after case-specific owner reassessment; no run-scoped override is proposed.",
+  "runtimeEvidencePolicy": "The exact model parameter supplied to each task invocation is enforced by the agent runtime and recorded as the actual consultation runtime. Each phase owner must reassess and record the actual authoring runtime again when its phase is invoked.",
+  "assignments": [
+    {
+      "agent": "AFF-0",
+      "phaseId": "0",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "Architecture coordination, evidence synthesis, input governance, and lifecycle control require the approved architecture and orchestration model.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE"
+    },
+    {
+      "agent": "AFF-1",
+      "phaseId": "1",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "CONSULTATION_EXECUTED",
+      "taskFitRationale": "Fit for evidence-bound interviews and synthesis of complex regulated, cross-domain AI-platform requirements.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-2",
+      "phaseId": "2",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "CONSULTATION_EXECUTED",
+      "taskFitRationale": "Fit for regulated, vendor-neutral architecture synthesis and traceability across all architecture domains.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-3",
+      "phaseId": "3",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "CONSULTATION_EXECUTED",
+      "taskFitRationale": "Fit for complex Azure design synthesis across sovereignty, AI, data, security, and financial-services concerns.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-4",
+      "phaseId": "4",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "CONSULTATION_EXECUTED",
+      "taskFitRationale": "Fit for dependency planning, assurance traceability, and implementation sequencing for a sovereign AI platform.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-5",
+      "phaseId": "5",
+      "approvedDefault": "gpt-5.3-codex",
+      "selectedExactGptModelId": "gpt-5.3-codex",
+      "actualRuntimeModelId": "gpt-5.3-codex",
+      "availability": "CONSULTATION_EXECUTED",
+      "taskFitRationale": "Fit for implementation-focused code, package creation, and executable local validation evidence.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-6",
+      "phaseId": "6",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "CONSULTATION_EXECUTED",
+      "taskFitRationale": "Fit for evidence-heavy C-level synthesis, claim discipline, and presentation assurance.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-7",
+      "phaseId": "7",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "CONSULTATION_EXECUTED_WITHOUT_AZURE_ACCESS",
+      "taskFitRationale": "Fit for complex Azure deployment orchestration if this optional phase is later invoked and separately authorised.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained. This does not invoke or authorise Phase 7.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-8",
+      "phaseId": "8",
+      "approvedDefault": "gpt-5.3-codex",
+      "selectedExactGptModelId": "gpt-5.3-codex",
+      "actualRuntimeModelId": "gpt-5.3-codex",
+      "availability": "CONSULTATION_EXECUTED_WITHOUT_RUNTIME_TESTING",
+      "taskFitRationale": "Fit for executable technical testing if this optional phase is later invoked and separately authorised.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained. This does not invoke or authorise Phase 8.",
+      "reassessmentStatus": "COMPLETE_FOR_PHASE_0_PLANNING"
+    },
+    {
+      "agent": "AFF-A",
+      "phaseId": null,
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "actualRuntimeModelId": "gpt-5.5",
+      "availability": "PREFLIGHT_INVOCATION_EXECUTED",
+      "taskFitRationale": "Approved independent reasoning challenger for correctness, traceability, unsupported claims, and material omissions.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE",
+      "phase0AuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationStatus": "VERIFIED_BY_EXACT_TASK_MODEL_BINDING"
+    },
+    {
+      "agent": "AFF-B",
+      "phaseId": null,
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "PREFLIGHT_INVOCATION_EXECUTED",
+      "taskFitRationale": "Fit for evidence-based security, privacy, sovereignty, and regulatory-readiness assurance in a cross-border financial-services AI case.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "reassessmentStatus": "COMPLETE"
+    }
+  ],
+  "constraints": [
+    "AFF-A must use an exact actual runtime model ID different from the Phase 0 author on every review round.",
+    "A phase owner must reassess task fit and record its authoring runtime again when that phase starts.",
+    "Any future run-scoped override requires an explicit human decision in the active AI interaction and an append-only plan revision.",
+    "Phase 7 and Phase 8 remain human-invocable only and require separate scoped authorisation before any execution."
+  ]
+}

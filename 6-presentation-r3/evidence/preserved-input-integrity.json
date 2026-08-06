@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_REVISION_3_PRESERVED_INPUT_INTEGRITY",
+  "generatedAt": "2026-08-03T11:41:34.649861+02:00",
+  "checks": [
+    {
+      "id": "r1Manifest",
+      "path": "6-presentation/stratton-phase-6-hashes.json",
+      "expectedSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "actualSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "match": true
+    },
+    {
+      "id": "r2Manifest",
+      "path": "6-presentation-r2/stratton-phase-6-hashes.json",
+      "expectedSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "actualSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "match": true
+    },
+    {
+      "id": "affARound2",
+      "path": "reviews/aff-a/6/round-2/stratton-aff-a-review.json",
+      "expectedSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+      "actualSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+      "match": true
+    },
+    {
+      "id": "affBRound1",
+      "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.json",
+      "expectedSha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "actualSha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "match": true
+    },
+    {
+      "id": "coverage010",
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+      "expectedSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "actualSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "match": true
+    }
+  ],
+  "protectedReviewInventories": [
+    {
+      "path": "reviews/aff-a/6/round-1",
+      "fileCount": 6,
+      "files": [
+        {
+          "path": "reviews/aff-a/6/round-1/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+          "sha256": "5cdce6cc515ee35b74a6dcad0b106223bdaf47081dadfe2dfe1ba9d25ee77118"
+        },
+        {
+          "path": "reviews/aff-a/6/round-1/reviewed-subject/stratton-phase-6-hashes.json",
+          "sha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951"
+        },
+        {
+          "path": "reviews/aff-a/6/round-1/stratton-aff-a-model-receipt.json",
+          "sha256": "2b34070231a5df9152e8d5e9a445da54352691976e0674a07d04509a7149c5eb"
+        },
+        {
+          "path": "reviews/aff-a/6/round-1/stratton-aff-a-review.html",
+          "sha256": "b0fc451f5a25c170da182a34936e8f87e9f700f9a4e6170c84d06fdc0abef065"
+        },
+        {
+          "path": "reviews/aff-a/6/round-1/stratton-aff-a-review.json",
+          "sha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9"
+        },
+        {
+          "path": "reviews/aff-a/6/round-1/stratton-aff-a-review.md",
+          "sha256": "e76e788504ac08d71d84ad9e5fc3ead8fa2ed87c5611b79b9b2f4072848fd77a"
+        }
+      ]
+    },
+    {
+      "path": "reviews/aff-a/6/round-2",
+      "fileCount": 6,
+      "files": [
+        {
+          "path": "reviews/aff-a/6/round-2/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+          "sha256": "d012dbe436fe409cd2be0cc9e7a15f31e0279dd66508055252b3e6123c026cd3"
+        },
+        {
+          "path": "reviews/aff-a/6/round-2/reviewed-subject/stratton-phase-6-hashes.json",
+          "sha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f"
+        },
+        {
+          "path": "reviews/aff-a/6/round-2/stratton-aff-a-model-receipt.json",
+          "sha256": "352d3284b1313e2393a1d52e420605c005dde4d5724314041f844c1999c23d9d"
+        },
+        {
+          "path": "reviews/aff-a/6/round-2/stratton-aff-a-review.html",
+          "sha256": "2874e0c24a285d28bc342135adb14504d689c5a13634f02ec2e6021057a3f5f7"
+        },
+        {
+          "path": "reviews/aff-a/6/round-2/stratton-aff-a-review.json",
+          "sha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4"
+        },
+        {
+          "path": "reviews/aff-a/6/round-2/stratton-aff-a-review.md",
+          "sha256": "e6d12b6298f2534737e253e5b3b78ef980d8e6128f8226ec7b486f822a4f40ff"
+        }
+      ]
+    },
+    {
+      "path": "reviews/aff-b/6/round-1",
+      "fileCount": 6,
+      "files": [
+        {
+          "path": "reviews/aff-b/6/round-1/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+          "sha256": "48096024039588ca408ed34e3afc144bda5ec72bc7a80d41c461fb428855dbdc"
+        },
+        {
+          "path": "reviews/aff-b/6/round-1/reviewed-subject/stratton-phase-6-hashes.json",
+          "sha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f"
+        },
+        {
+          "path": "reviews/aff-b/6/round-1/stratton-aff-b-model-receipt.json",
+          "sha256": "098fe54cafba8f1f5aeb693ebef8440cf2a31f98fc30aed7ad6071cede4c956c"
+        },
+        {
+          "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.html",
+          "sha256": "8eab6476ae6c1065b718b1bed6daa8661329f5c819334b54da9f958bcb57fb0e"
+        },
+        {
+          "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.json",
+          "sha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d"
+        },
+        {
+          "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.md",
+          "sha256": "1c3f3573a0b4ccfc5d4258d23f74a82e7e487c0f0d469f9aa2c3e9c1a660ca71"
+        }
+      ]
+    }
+  ],
+  "overallStatus": "PASS"
+}

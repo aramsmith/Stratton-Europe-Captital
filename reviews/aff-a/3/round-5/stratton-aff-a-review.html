@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script><title>Stratton AFF-A review Phase 3 — Azure Design round 5</title><style>
+:root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#ffffff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-text-soft:#6f6f6f;--cp-accent:#b11f4b;--cp-accent-hover:#9a1a41;--cp-accent-soft:rgba(177,31,75,.08);--cp-accent-fg:#ffffff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-link:#0078d4;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-overlay:rgba(255,255,255,.8);--cp-panel:rgba(255,255,255,.86);--cp-panel-strong:rgba(255,255,255,.96);--cp-sheen:rgba(255,255,255,.55);--cp-highlight:rgba(177,31,75,.12)}
+html[data-theme="dark"]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#919191;--cp-text-soft:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-hover:#fb7b91;--cp-accent-soft:rgba(253,142,161,.14);--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-link:#4da6ff;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-overlay:rgba(41,41,41,.88);--cp-panel:rgba(41,41,41,.72);--cp-panel-strong:rgba(41,41,41,.96);--cp-sheen:rgba(255,255,255,.04);--cp-highlight:rgba(253,142,161,.12)}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}main{max-width:1180px;margin:0 auto;padding:2rem}article,section{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:1.5rem;margin:1rem 0}h1,h2,h3{color:var(--cp-text);line-height:1.25}h1{margin-top:0}h2{border-bottom:1px solid var(--cp-border);padding-bottom:.5rem}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:.75rem 0}th,td{border:1px solid var(--cp-border);padding:.55rem;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.1rem .3rem}@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}}
+</style></head><body><main><article><h1>Stratton AFF-A review — Phase 3 — Azure Design round 5</h1>
+<p>**Change control:** <code>STRATTON-CC-001</code>  </p>
+<p>**Verdict:** <code>CONFORMS-WITH-GAPS</code>  </p>
+<p>**Review time:** <code>2026-08-02T16:06:01.656+02:00</code>  </p>
+<p>**Reviewer runtime:** <code>gpt-5.5</code>; author runtime <code>gpt-5.6-sol</code>  </p>
+<p>**Independence:** <code>VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS</code>  </p>
+<p>**Invoked by:** <code>AFF-3</code>  </p>
+<p>**Subject modification performed:** <code>false</code></p>
+<h2>Summary</h2>
+<p>Phase 3 round-2 amendment separates assurance repository, build, signing, publication, deployment, operations and rollback authority, and binds signing-time trust snapshots at design-contract level.</p>
+<h2>Independent verification</h2>
+<p>• Manifest: <code>cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json</code></p>
+<p>• Manifest SHA-256: <code>e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54</code> (<code>MATCH</code>).</p>
+<p>• Model plan: revision <code>9</code> / <code>f89c71fd12821781c5ddf3c266b2351003563c9a2b1794e579feeb556f04ddf9</code>.</p>
+<p>• Artifact count: <code>17</code>; artifact hashes <code>ALL_MANIFEST_ENTRIES_RECOMPUTED_AND_MATCHED</code>.</p>
+<p>• Reviewed-subject snapshot: <code>reviews/aff-a/3/round-5/reviewed-subject/stratton-phase-3-hashes-cc-001-r2-proposed.json</code>.</p>
+<p>• Hash receipt: <code>reviews/aff-a/3/round-5/reviewed-subject/stratton-phase-3-hash-verification-receipt.json</code> / <code>ebd578d73b2b5f1f9b2d5290a144dba9836be4d78f19b3a5d6dc23247f403573</code>.</p>
+<p>• Model receipt: <code>reviews/aff-a/3/round-5/stratton-aff-a-model-receipt.json</code> / <code>914294079d3a28d83783f64e6d10bbfc5e786bc388d920cb84cbf5494a0e6f5f</code>.</p>
+<p>• Frozen subject pre/post: <code>e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54</code> / <code>e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54</code>.</p>
+<p>• Trust-vector proof: <code>PASS</code> with <code>4</code> positive and <code>10</code> negative vectors.</p>
+<p>• TOGAF traceability: <code>31</code> requirements, <code>19</code> ABBs and <code>10</code> decisions preserved.</p>
+<h2>Findings</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Required action</th></tr></thead><tbody>
+<tr><td><code>AFFA-P3-R5-MIN-001</code></td><td><code>MINOR</code></td><td><code>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</code></td><td>244 amendment parameters remain owner-bound fail-closed values; named owners must provide evidence before activation.</td></tr>
+<tr><td><code>AFFA-P3-R5-MIN-002</code></td><td><code>MINOR</code></td><td><code>PROCESS_GATE_RESIDUAL_NOT_A_SUBJECT_DEFECT</code></td><td>AFF-B convergence and explicit human approval remain pending; AFF-A does not approve or certify.</td></tr>
+</tbody></table></div>
+<h2>Review area results</h2>
+<div class="table-wrap"><table><thead><tr><th>Area</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
+<tr><td>Frozen subject and artifact hashes</td><td><code>CONFORMS</code></td><td>Subject manifests and every manifest-bound artifact were recomputed and matched before and after review.</td></tr>
+<tr><td>Model independence</td><td><code>CONFORMS</code></td><td>AFF-A actual runtime gpt-5.5 differs from author actual runtime gpt-5.6-sol; recorded as VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS.</td></tr>
+<tr><td>Historical boundary</td><td><code>CONFORMS</code></td><td>Revision-8 manifests are byte-identical; superseded interim r2 hashes are historical non-subject evidence only.</td></tr>
+<tr><td>Authority separation</td><td><code>CONFORMS</code></td><td>Repository administration, review, merge, build, release signing, ACR publication, DU-16 deployment, operations, rollback and role assignment are separately owned and mutually denied.</td></tr>
+<tr><td>Trust-vector semantics</td><td><code>CONFORMS</code></td><td>Four positive vectors recompute purpose, signedRecordId, signedAt, signer tenant/object, key, policy/registry/mapping hashes, validity/revocation evidence, retention class, snapshot ID/hash and envelope hash; ten negatives deny/block/review/recover/no-rewrite.</td></tr>
+<tr><td>Signed record immutability</td><td><code>CONFORMS</code></td><td>Submission, audit event, receipt and verdict include signedAt and TrustVerificationSnapshot/hash inside canonical preimages and co-retain records/snapshots in Internal Audit WORM.</td></tr>
+<tr><td>Prior AFF-B MAJOR remediation</td><td><code>CONFORMS-WITH-GAPS</code></td><td>Both prior AFF-B MAJOR findings are substantively remediated for AFF-A correctness; AFF-B still owns compliance judgement.</td></tr>
+<tr><td>Owner values</td><td><code>CONFORMS-WITH-GAPS</code></td><td>Repository IDs, tenants, groups, keys, algorithms, endpoints, regions, retention and thresholds remain owner-supplied fail-closed values.</td></tr>
+<tr><td>Markdown/HTML/diagram consistency</td><td><code>CONFORMS</code></td><td>Candidate Markdown/HTML headings are in parity; HTML is self-contained with Clawpilot variables; diagrams parse without active script/foreignObject/external runtime reference.</td></tr>
+<tr><td>No unauthorised execution</td><td><code>CONFORMS</code></td><td>The subjects claim no approval, deployment, what-if, Azure operation, Phase 5 output or runtime validation.</td></tr>
+<tr><td>TOGAF traceability</td><td><code>CONFORMS</code></td><td>Phase 3 preserves 31 approved requirements, 19 ABBs and 10 architecture decisions from Phase 2 without upstream modification.</td></tr>
+<tr><td>Architecture authority model</td><td><code>CONFORMS</code></td><td>Phase 3 separates source repository, build, signing, publication, deployment and operation authority and binds negative cross-role tests.</td></tr>
+<tr><td>Contract consistency</td><td><code>CONFORMS</code></td><td>Data, security/compliance and operations contracts share source-boundary, trust-snapshot, WORM, private-path and fail-closed semantics.</td></tr>
+</tbody></table></div>
+<h2>Prior AFF-B major finding disposition</h2>
+<div class="table-wrap"><table><thead><tr><th>Finding</th><th>AFF-A correctness disposition</th><th>Evidence</th></tr></thead><tbody>
+<tr><td><code>AFFB-CC001-MAJ-001</code></td><td><code>SUBSTANTIVELY_REMEDIATED_FOR_CORRECTNESS_PENDING_AFF_B_REVIEW</code></td><td>Dedicated Internal Audit source boundary, separate stage identities, two-person gates, immutable chain-of-custody and cross-role negatives.</td></tr>
+<tr><td><code>AFFB-CC001-MAJ-002</code></td><td><code>SUBSTANTIVELY_REMEDIATED_FOR_CORRECTNESS_PENDING_AFF_B_REVIEW</code></td><td>All four signed records include signedAt, purpose-specific TrustVerificationSnapshot/hash, policy/registry/mapping hashes, key validity, revocation/compromise evidence, retention class and WORM co-retention.</td></tr>
+</tbody></table></div>
+<h2>Residual gaps</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Owner</th><th>Status</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>P3-RC-001</code></td><td>Named parameter owners</td><td><code>OPEN_OWNER_BOUND_FAIL_CLOSED</code></td><td>244 amendment parameters remain unresolved owner inputs.</td></tr>
+<tr><td><code>P3-RC-002</code></td><td>Human architect / AFF-B</td><td><code>OPEN_GATE</code></td><td>AFF-B round-2 convergence and explicit human approval remain pending.</td></tr>
+</tbody></table></div>
+<h2>Non-approval statement</h2>
+<p>AFF-A does not approve STRATTON-CC-001, Phase 5, deployment, Azure operations, runtime testing, legal certification, waiver or human gate passage. Human approval remains pending.</p>
+<h2>Verdict rationale</h2>
+<p>No blocker or unresolved major correctness finding was identified. Round 2 is internally coherent enough for AFF-A with explicit minor/owner-bound gaps, unchanged frozen hashes, and no approval/deployment/runtime claim. AFF-B must still perform its own compliance re-review on the same unchanged manifest before any human gate decision.</p></article></main></body></html>

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_BROWSER_PORTABILITY_EVIDENCE",
+  "modelPlanRevision": "18",
+  "buildCommand": "node deck/tooling/build-portable-hardened.mjs",
+  "indexPath": "deck/dist/index.html",
+  "indexSha256": "fcb8d6fd98baf241c3857c8d2007e9646adb7155c487f0198d65090d9a167999",
+  "localReferences": [
+    "./deckio.png",
+    "./assets/index-DNtO7an0.js",
+    "./assets/rolldown-runtime-BHe-jwch.js",
+    "./assets/index-DPds-IG7.css"
+  ],
+  "rootAbsoluteReferenceCount": 0,
+  "rootAbsoluteReferences": [],
+  "resolvedReferences": [
+    {
+      "reference": "./deckio.png",
+      "resolvedPath": "deck/dist/deckio.png",
+      "exists": true,
+      "sha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479"
+    },
+    {
+      "reference": "./assets/index-DNtO7an0.js",
+      "resolvedPath": "deck/dist/assets/index-DNtO7an0.js",
+      "exists": true,
+      "sha256": "391499e72db844fdd57e39d521eb505eda50d28c232662726f3ab72aee6fd6ea"
+    },
+    {
+      "reference": "./assets/rolldown-runtime-BHe-jwch.js",
+      "resolvedPath": "deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "exists": true,
+      "sha256": "e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149"
+    },
+    {
+      "reference": "./assets/index-DPds-IG7.css",
+      "resolvedPath": "deck/dist/assets/index-DPds-IG7.css",
+      "exists": true,
+      "sha256": "81b9da5317164a7d4fff9ede7e43b02e80f653a9ddb803c29d9251706a2b33af"
+    }
+  ],
+  "allReferencedLocalFilesExist": true,
+  "nestedHttpTest": {
+    "path": "/deck/dist/index.html",
+    "httpStatus": 200,
+    "slideCount": 10,
+    "failedRequests": []
+  },
+  "overallStatus": "PASS"
+}

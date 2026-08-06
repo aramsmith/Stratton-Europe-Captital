@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "90",
+  "createdAt": "2026-08-04T03:44:11+02:00",
+  "revisionReason": "Orbit all four AI platform visuals around the Slide 7 frontier rings, replace the generic center symbol with the supplied Stratton medallion, and remove the decorative orbit dots.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-89.json",
+    "sha256": "54813e3b00200e003a187327a88808169df3aa0919d08d463af4d68aa580caae",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 7,
+    "changes": [
+      "Fly the Copilot and Foundry visuals around the existing circles.",
+      "Replace the generic center orbit icon with the supplied round Stratton lion-and-cathedral logo.",
+      "Add a 3D Microsoft Azure logo to the orbital mix.",
+      "Remove the three decorative orbit dots.",
+      "Run all four objects at exactly the same orbit speed."
+    ]
+  },
+  "implementation": {
+    "center": {
+      "previous": "generic orbit/network symbol",
+      "current": "human-supplied Stratton lion-and-cathedral medallion",
+      "treatment": "round transparent crop retained within the dimensional governed core"
+    },
+    "orbit": {
+      "objects": [
+        "GitHub Copilot pilot",
+        "Microsoft Copilot",
+        "Azure AI Foundry",
+        "Microsoft Azure"
+      ],
+      "durationSeconds": 18,
+      "timingFunction": "linear",
+      "angularSpacingDegrees": 90,
+      "measuredAngularSpeedDegreesPerSecond": 20.346,
+      "carrierStructure": "four sibling orbit carriers",
+      "objectOrientation": "counter-rotated to remain upright",
+      "depthTreatment": "subtle scale and opacity changes around the orbit"
+    },
+    "removed": [
+      "cyan orbit dot",
+      "purple orbit dot",
+      "pink orbit dot"
+    ],
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "allFourInsideCanvas": true,
+      "allFourShareExactDuration": true,
+      "allFourShareLinearTiming": true,
+      "measuredSpeedVariance": 0,
+      "orbitDotCount": 0,
+      "prefersReducedMotion": "all four orbit animations disabled",
+      "visualInspection": "pass"
+    }
+  },
+  "sources": {
+    "strattonRoundLogo": "human-provided image",
+    "azureLogo": "Microsoft Azure Architecture Icons V24 · 10018-icon-service-Azure-A.svg"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/FrontierSolutionTitleSlide.jsx",
+      "sha256": "2d72bbd2a82857d5e1c613cf000b1423c32536608a240b9d21cd13756d3eb36a"
+    },
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/FrontierSolutionTitleSlide.module.css",
+      "sha256": "ed0511713a9c89d682e2f92783cea5b1947f4a7af7fa58f99d054ca8d1d91a93"
+    },
+    "strattonRoundLogo": {
+      "path": "6-presentation-r4/deck/src/data/stratton-round-logo.png",
+      "sha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb"
+    },
+    "azureLogo": {
+      "path": "6-presentation-r4/deck/src/data/azure-logo.svg",
+      "sha256": "2102890d12043ce3b1c05d8b9891920368bd7f768568b07b8de7c27216d743a5"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 7,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

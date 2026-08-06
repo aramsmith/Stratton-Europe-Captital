@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "phaseOwnerInvoker": "AFF-6",
+  "round": 3,
+  "reviewedAt": "2026-08-03T12:00:32.171379+02:00",
+  "verdict": "CONFORMS",
+  "verdictRationale": "The revision-3 subject is hash-integrity valid, model-separated, evidence-bounded and complete. Both AFF-B round-1 findings are resolved from AFF-A correctness and evidence review perspective, prior subjects remain immutable, and no additional BLOCKER, MAJOR or MINOR issue was found across the 95-artifact subject.",
+  "finalRoundForManifest": true,
+  "subjectModificationPerformed": false,
+  "reviewedSubject": {
+    "canonicalManifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+    "expectedManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "preReviewManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "postReviewManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "expectedHashMatched": true,
+    "artifactCount": 95,
+    "expectedArtifactCount": 95,
+    "artifactCountMatched": true,
+    "recomputedFileCount": 95,
+    "matchedFileCount": 95,
+    "allListedHashesMatched": true,
+    "problemCount": 0,
+    "problems": [],
+    "duplicatePathCount": 0,
+    "ordinalSorted": true,
+    "safeRelativePaths": true,
+    "roleCounts": {
+      "presentation-source": 53,
+      "presentation-export": 19,
+      "diagram": 3,
+      "evidence": 17,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "hashAlgorithm": "SHA-256",
+    "modelPlanRevision": "18",
+    "generatedAt": "2026-08-03T11:50:31.918554+02:00",
+    "reviewedSubjectSnapshotPath": "reviews/aff-a/6/round-3/reviewed-subject/stratton-phase-6-hashes.json",
+    "reviewedSubjectSnapshotSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "reviewedSubjectSnapshotByteIdentical": true,
+    "modelPlanPath": "0-coordination/stratton-model-plan-revision-18.json",
+    "modelPlanSha256": "33ea20c25a88079a7d99cfa118d9882cd0142deef4b892a81daf5372360b07ca"
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "modelReceiptPath": "reviews/aff-a/6/round-3/stratton-aff-a-model-receipt.json",
+    "modelReceiptSha256": "de7d57cae0535678476be81787573baeff25028328d7c4b30ca12ac6b98bc111"
+  },
+  "subjectCountsAndHashes": {
+    "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "artifactCount": 95,
+    "expectedArtifactCount": 95,
+    "matchedArtifactHashes": 95,
+    "roleCounts": {
+      "presentation-source": 53,
+      "presentation-export": 19,
+      "diagram": 3,
+      "evidence": 17,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "claimCount": 32,
+    "sourceReferenceCount": 66,
+    "claimClassCounts": {
+      "APPROVED_DESIGN_INTENT": 13,
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED": 7,
+      "UNTESTED_RUNTIME_BEHAVIOUR": 3,
+      "SOURCE_FACT": 6,
+      "HUMAN_OWNED_HYPOTHESIS": 3
+    },
+    "slideClaimCounts": {
+      "S01": 3,
+      "S02": 3,
+      "S03": 3,
+      "S04": 3,
+      "S05": 3,
+      "S06": 3,
+      "S07": 4,
+      "S08": 3,
+      "S09": 4,
+      "S10": 3
+    },
+    "pdf": {
+      "path": "deck/deck.pdf",
+      "sha256": "7871128d05df9e5d78a8552d44f9bad475cd467f40759cbd2d79eaaf1ef0faf0",
+      "sizeBytes": 1326778,
+      "startsWithPdfHeader": true,
+      "endsWithEof": true,
+      "pageTypeCount": 10,
+      "infoMarkerPresent": false,
+      "metadataMarkerPresent": false,
+      "prohibitedMarkerPresent": false
+    },
+    "browserRuntimeReceipt": {
+      "initialHttpStatus": 200,
+      "slideCount": 10,
+      "requestCount": 8,
+      "successfulRequestCount": 8,
+      "failedRequestCount": 0,
+      "externalRequestCount": 0,
+      "overallStatus": "PASS"
+    },
+    "recursiveStaticScan": {
+      "fileCount": 18,
+      "sourceMapCount": 0,
+      "externalDependencyCount": 0,
+      "allLocalDependenciesExist": true,
+      "productionInertUrlStringCount": 71,
+      "overallStatus": "PASS"
+    },
+    "candidateWideDisclosureScan": {
+      "filesScanned": 121,
+      "findingCount": 0,
+      "overallStatus": "PASS"
+    }
+  },
+  "priorRoundSupersession": {
+    "round1": {
+      "supersededReviewPath": "reviews/aff-a/6/round-1/stratton-aff-a-review.json",
+      "supersededReviewSha256": "a715ab9b9bb74b72b888b71b247c09d8a983b1e73637a2fa4b299d91620906d9",
+      "supersededManifestPath": "6-presentation/stratton-phase-6-hashes.json",
+      "supersededManifestSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "status": "SUPERSEDED_BY_REVISION_2_FOR_AFF_A_FINDING_REMEDIATION; SUBJECT_REMAINS_IMMUTABLE"
+    },
+    "round2": {
+      "supersededForActiveGateReviewPath": "reviews/aff-a/6/round-2/stratton-aff-a-review.json",
+      "supersededForActiveGateReviewSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+      "reviewedManifestPath": "6-presentation-r2/stratton-phase-6-hashes.json",
+      "reviewedManifestSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "status": "RETAINED_FINAL_FOR_REVISION_2_ONLY; SUPERSEDED_FOR_PHASE_6_GATE_BY_REVISION_3_AFTER_AFF_B_ROUND_1_DIVERGED"
+    }
+  },
+  "priorBindings": {
+    "revision1Manifest": {
+      "path": "6-presentation/stratton-phase-6-hashes.json",
+      "expectedSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "actualSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "unchanged": true
+    },
+    "revision2Manifest": {
+      "path": "6-presentation-r2/stratton-phase-6-hashes.json",
+      "expectedSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "actualSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "unchanged": true
+    },
+    "affARound2": {
+      "path": "reviews/aff-a/6/round-2/stratton-aff-a-review.json",
+      "expectedSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+      "actualSha256": "a05394a1edd0362ba4d4523c4ecf2e04830a93c908629be95ca183cb730c1dc4",
+      "unchanged": true
+    },
+    "affBRound1": {
+      "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.json",
+      "expectedSha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "actualSha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "unchanged": true
+    },
+    "coverage010": {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+      "expectedSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "actualSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "unchanged": true
+    }
+  },
+  "affBRound1FindingDispositions": [
+    {
+      "findingId": "AFFB-P6-R1-MAJ-001",
+      "priorSeverity": "MAJOR",
+      "disposition": "RESOLVED_IN_REVISION_3_FROM_AFF_A_CORRECTNESS_AND_EVIDENCE_PERSPECTIVE",
+      "evidence": [
+        "deck/src/index.css selects a system font stack without weakening the Shadcn Ocean presentation boundary.",
+        "deck/tooling/build-portable-hardened.mjs reproducibly runs npm run build -- --base=./, removes complete generated remote CSS imports and exits non-zero on any remaining external CSS @import or url() dependency.",
+        "evidence/deck-build-hardening.log records one removed generated remote import and zero remaining external CSS dependencies.",
+        "evidence/recursive-static-asset-scan.json inventories 18 production files, reports zero external dependencies, no source maps, all local dependencies present, and separately classifies 71 static JavaScript URL strings as engine/library strings rather than observed calls.",
+        "evidence/runtime-network-receipt.json records the nested /deck/dist/index.html traversal across all ten slides with HTTP 200, eight successful local requests, zero failed requests and zero external requests.",
+        "The narrative explicitly distinguishes static URL strings from actual runtime requests and makes no licensing equivalence or conclusion."
+      ],
+      "residualRisk": "None for this finding if the revision-3 manifest remains unchanged and AFF-B independently concurs.",
+      "waiverStatus": "NOT_WAIVED"
+    },
+    {
+      "findingId": "AFFB-P6-R1-MIN-001",
+      "priorSeverity": "MINOR",
+      "disposition": "RESOLVED_IN_REVISION_3_FROM_AFF_A_CORRECTNESS_AND_EVIDENCE_PERSPECTIVE",
+      "evidence": [
+        "evidence/pdf-export.log contains case-relative paths only and binds deck/deck.pdf to SHA-256 7871128d05df9e5d78a8552d44f9bad475cd467f40759cbd2d79eaaf1ef0faf0, 1,326,778 bytes and ten pages.",
+        "evidence/pdf-metadata-sanitisation.json records a truthful PyMuPDF workflow: pre fields are categorised without values, document information and XMP metadata are removed, the intermediate is absent, and post metadata/XMP/prohibited-marker checks are zero.",
+        "Read-only byte inspection confirmed deck/deck.pdf starts with %PDF-, ends with %%EOF, has ten /Page objects, and contains no /Info, /Metadata, creator/producer/timestamp, local-user/path or prohibited platform strings.",
+        "evidence/evidence-disclosure-scan.json scans 121 files with runtime-derived local identity/path checks plus ephemeral pre-metadata value checks, records zero findings, and does not retain sensitive literals."
+      ],
+      "residualRisk": "None for this finding if the revision-3 manifest remains unchanged and AFF-B independently concurs.",
+      "waiverStatus": "NOT_WAIVED"
+    }
+  ],
+  "receipts": {
+    "modelReceipt": {
+      "path": "reviews/aff-a/6/round-3/stratton-aff-a-model-receipt.json",
+      "sha256": "de7d57cae0535678476be81787573baeff25028328d7c4b30ca12ac6b98bc111"
+    },
+    "hashVerificationReceipt": {
+      "path": "reviews/aff-a/6/round-3/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+      "sha256": "e98fe7eb2cbe7d801847a086898e444e1e49a4a2649bd3a39f96fd73715a8486"
+    },
+    "reviewedSubjectSnapshot": {
+      "path": "reviews/aff-a/6/round-3/reviewed-subject/stratton-phase-6-hashes.json",
+      "sha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606"
+    }
+  },
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "findings": [],
+  "confirmedItems": [
+    "Canonical revision-3 manifest SHA-256 matched expected c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606 before and after review.",
+    "All 95 manifest-listed artifacts existed and recomputed SHA-256 values matched; AFF-A modified no subject or upstream file.",
+    "Manifest paths are safe relative paths, duplicate-free and ordinal sorted; role counts are 53 presentation-source, 19 presentation-export, 17 evidence, 3 diagram, 1 catalogue, 1 rendered HTML and 1 authoritative Markdown.",
+    "Model separation is verified: AFF-A actual gpt-5.5 differs from Phase 6 author actual gpt-5.6-sol in model-plan revision 18.",
+    "Prior bindings remain byte-identical at their expected hashes: r1 manifest, r2 manifest, AFF-A round 2, AFF-B round 1 and coverage 010.",
+    "Revision-1 and revision-2 manifests still enumerate 83 and 88 artifacts respectively, and all listed hashes independently matched.",
+    "Claim catalogue contains 32 claims and 66 case-local source references; zero source path was missing and the expected claim-class and S01-S10 distributions matched.",
+    "Markdown, HTML, deck config, speaker notes and source data align on ten slides and preserve the endorsement-not-deployment decision boundary.",
+    "No invented ROI, Azure price, realised benefit, deployment, target-validation, runtime-testing or operating-effectiveness claim was found.",
+    "Three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps are disclosed as open, unwaived and fail closed.",
+    "Final PDF is a 10-page PDF at the manifest hash with no /Info, /Metadata, creator, producer, timestamp, local-user, workspace, Windows NT or HeadlessChrome marker found by read-only byte inspection.",
+    "Contact-sheet/visual evidence and DOM measurement evidence show all ten slides at 1280x720 with no measured overflow.",
+    "No Azure activity, deployment, rebuild, export, repair, evidence-script execution, AFF-B invocation or subject execution occurred in this review."
+  ],
+  "reviewAreas": [
+    {
+      "area": "Canonical subject integrity",
+      "status": "CONFORMS",
+      "evidence": "Expected manifest hash matched pre/post; 95/95 artifact hashes matched; paths are safe, duplicate-free and ordinal sorted; snapshot is byte-identical."
+    },
+    {
+      "area": "Model independence",
+      "status": "CONFORMS",
+      "evidence": "AFF-A approved/selected/actual gpt-5.5 differs from Phase 6 author actual gpt-5.6-sol recorded in model-plan revision 18."
+    },
+    {
+      "area": "Old-subject and prior-review immutability",
+      "status": "CONFORMS",
+      "evidence": "r1 manifest, r2 manifest, AFF-A round 2, AFF-B round 1 and coverage 010 hashes all matched expected values; r1/r2 artifacts still match their manifests."
+    },
+    {
+      "area": "AFF-B MAJOR remediation evidence",
+      "status": "CONFORMS",
+      "evidence": "System-font override, hardened relative build, generated CSS with zero external dependencies, recursive scan and nested runtime receipt support closure without equating static URL strings to actual requests."
+    },
+    {
+      "area": "AFF-B MINOR remediation evidence",
+      "status": "CONFORMS",
+      "evidence": "Export log is case-relative; PDF has ten pages and no info/XMP or prohibited local/platform markers; sanitisation/disclosure evidence avoids retaining sensitive pre-values."
+    },
+    {
+      "area": "Claims and sources",
+      "status": "CONFORMS",
+      "evidence": "32 claims, 66 source references, zero missing sources, expected class counts and S01-S10 distribution matched."
+    },
+    {
+      "area": "Executive narrative and phase boundary",
+      "status": "CONFORMS",
+      "evidence": "Narrative asks endorsement of the approved baseline and roadmap, not deployment; Phase 5 is only local/static; Phases 7 and 8 remain separately human-invocable."
+    },
+    {
+      "area": "High-risk metrics and residual disclosures",
+      "status": "CONFORMS",
+      "evidence": "Counts and labels for the three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps match Phase 5 approval/build evidence and are shown as open, unwaived and fail closed."
+    },
+    {
+      "area": "Anonymity, branding and source/IaC boundary",
+      "status": "CONFORMS",
+      "evidence": "Forbidden-string scan covers deck source and production JS with zero matches; source/IaC is not embedded in the browser bundle; no customer logo or external imagery is introduced."
+    },
+    {
+      "area": "Visual/readability",
+      "status": "CONFORMS",
+      "evidence": "Contact-sheet review and visual measurements show all ten slides readable at 1280x720 with no measured overflow."
+    },
+    {
+      "area": "Reviewer boundary",
+      "status": "CONFORMS",
+      "evidence": "AFF-A wrote only under reviews/aff-a/6/round-3 and did not execute, rebuild, export, repair or deploy the subject."
+    }
+  ],
+  "residualGaps": [
+    "Approved upstream residuals remain open and unwaived: three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps.",
+    "AFF-B round 2 has not yet reviewed this revision-3 manifest; AFF-A does not substitute for AFF-B specialist assurance.",
+    "Human Phase 6 approval has not been provided; AFF-A does not approve, waive or open deployment/runtime authorisation."
+  ],
+  "finalRoundStatusForThisManifest": "FINAL_RETAINED_ROUND_FOR_REVISION_3_MANIFEST_AFF_B_ROUND_2_MAY_PROCEED_IF_UNCHANGED",
+  "requiredAction": "AFF-B round 2 may proceed only against canonical manifest 6-presentation-r3/stratton-phase-6-hashes.json at SHA-256 c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606 with 95 artifacts. Any material change requires a new sibling candidate, new manifest, and full AFF-A/AFF-B re-review before any human Phase 6 decision.",
+  "nonApprovalStatement": "AFF-A does not approve Phase 6, waive residual gaps, certify compliance, provide legal advice or formal attestation, authorise Azure activity, authorise deployment or runtime testing, invoke AFF-B, or provide human approval."
+}

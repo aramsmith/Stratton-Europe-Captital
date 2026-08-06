@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "30",
+  "createdAt": "2026-08-03T17:42:57.5871994+02:00",
+  "revisionReason": "Correct the company-profile slide against the authoritative Case Study 18 PDF and remove unsupported company history, metrics and named clients.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-29.json",
+    "sha256": "91291ad089e71afb325e12fe20fd9a751b6c3fd5fa91ba392d8528ba535f3732",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "authoritativeSource": "file:///C:/Users/arsmith/OneDrive/AMA-Equity-2/docs/Case-Study-18.pdf",
+    "constraints": [
+      "Use the company facts stated in Case Study 18.",
+      "Do not retain invented history, metrics or named customers.",
+      "Keep business challenges on slide 3 rather than slide 2."
+    ]
+  },
+  "sourceFacts": {
+    "industry": "Financial Services (Investment Management)",
+    "headquarters": "Vienna, Austria",
+    "assetsUnderManagement": "EUR 18 billion",
+    "portfolioCompanies": 34,
+    "operatingMarkets": [
+      "Austria",
+      "Germany",
+      "Switzerland",
+      "Czech Republic",
+      "Hungary"
+    ],
+    "fundVehicleContext": "Luxembourg-based fund vehicles with AIFMD reporting obligations",
+    "currentTechnologyEstate": "Legacy on-premises",
+    "namedInstitutionalClientsProvided": false
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

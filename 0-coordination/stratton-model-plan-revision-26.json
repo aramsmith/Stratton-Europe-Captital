@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "26",
+  "createdAt": "2026-08-03T17:31:12.3890007+02:00",
+  "revisionReason": "Govern Phase 6 revision-4 steps 7 and 8: add a fictitious Stratton Europe Capital company introduction as slide 2 and a case-grounded business challenges and transformation objectives slide as slide 3, with the Stratton logo at top right on every slide after slide 1.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-25.json",
+    "sha256": "0dfb4c27e638bf095597f9cf113a98f8cce76119a35c782aebce445454347030",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "authorisedSlides": [
+      {
+        "physicalSlide": 2,
+        "logicalSlideId": "R4-S01",
+        "purpose": "Fictitious company introduction, current position and illustrative major clients",
+        "businessChallengesAllowed": false,
+        "fictionalNarrativeAuthorised": true
+      },
+      {
+        "physicalSlide": 3,
+        "logicalSlideId": "R4-S02",
+        "purpose": "Case-grounded business challenges and transformation objectives",
+        "fictionalNarrativeAuthorised": false
+      }
+    ],
+    "brandRule": "EVERY_SLIDE_AFTER_PHYSICAL_SLIDE_1_MUST_SHOW_THE_STRATTON_LOGO_AT_TOP_RIGHT"
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for executive storytelling, visual hierarchy, clearly bounded fictional content and evidence-grounded transformation framing."
+  },
+  "implementationContract": {
+    "registeredSlideOrder": [
+      "TitleSlide",
+      "CompanyProfileSlide",
+      "TransformationAgendaSlide"
+    ],
+    "sharedBrandComponent": "6-presentation-r4/deck/src/components/presentation/StrattonBrandMark.jsx",
+    "requirements": [
+      "Label all invented company figures, history and client names as fictitious or illustrative.",
+      "Do not mention business challenges on slide 2.",
+      "Use only case-grounded challenges and objectives on slide 3.",
+      "Place the official Stratton logo at the top right of slides 2 and 3.",
+      "Follow the DECKIO Dark descriptor and retain numbering and timer status.",
+      "Do not freeze R4 or invoke formal reviews."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "formalReviewEligible": false
+  }
+}

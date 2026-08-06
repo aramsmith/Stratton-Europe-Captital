@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "28",
+  "createdAt": "2026-08-03T17:39:04.6197776+02:00",
+  "revisionReason": "Restyle the information boxes on slides 2 and 3 as larger-text vertical stacks with directional fly-in motion.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-27.json",
+    "sha256": "77eca2922ee3191a323eb175d4ff27fae80af4cf1520cfa2cf32d969d78d071f",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "scope": [
+      "PHYSICAL_SLIDE_2",
+      "PHYSICAL_SLIDE_3"
+    ],
+    "layout": "VERTICAL_CARD_STACKS",
+    "typography": "LARGER_CARD_TEXT",
+    "motion": {
+      "upperItems": "FLY_IN_FROM_LEFT",
+      "lowerItems": "FLY_IN_FROM_RIGHT",
+      "trigger": "SLIDE_BECOMES_ACTIVE",
+      "reducedMotionFallback": true
+    }
+  },
+  "implementationContract": {
+    "requirements": [
+      "Use vertical card stacks on both slides.",
+      "Increase heading and body text inside cards.",
+      "Animate upper cards from the left and lower cards from the right.",
+      "Do not hide content in non-active or exported slides.",
+      "Respect prefers-reduced-motion.",
+      "Preserve the 136×136 top-right logo and 1280×720 fit."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

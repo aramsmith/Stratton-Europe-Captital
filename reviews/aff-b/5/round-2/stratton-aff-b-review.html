@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<script>
+(() => {
+  const param = new URLSearchParams(window.location.search).get("scoutTheme");
+  const theme =
+    param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stratton AFF-B review Phase 5 round 2</title>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,sans-serif;line-height:1.55}
+main{max-width:1180px;margin:0 auto;padding:2rem}
+.card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:var(--cp-shadow);padding:1.5rem;margin:1rem 0}
+h1,h2,h3{line-height:1.25}.good{color:var(--cp-success);font-weight:800}.gap{color:var(--cp-warning);font-weight:700}.muted{color:var(--cp-text-muted)}
+code{font-family:Consolas,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.08rem .25rem;overflow-wrap:anywhere}
+.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:.75rem 0}th,td{border:1px solid var(--cp-border);padding:.55rem;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}
+a{color:var(--cp-link)}ul{padding-left:1.25rem}@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}.card{box-shadow:none}}
+</style>
+</head>
+<body><main>
+<section class="card"><p class="muted">Agentic Architecture Factory · AFF-B Security and Compliance Reviewer</p><h1>Stratton AFF-B review — Phase 5 — Coding round 2</h1><p><strong>Verdict:</strong> <span class="gap">CONFORMS-WITH-GAPS</span></p><p><strong>Review time:</strong> <code>2026-08-03T05:57:03.9454885+02:00</code></p><p><strong>Reviewer runtime:</strong> <code>gpt-5.6-sol</code></p><p><strong>Subject:</strong> <code>bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626</code></p><p><strong>Final round for manifest:</strong> <code>true</code></p></section>
+<section class="card"><h2>Summary</h2><p>All six AFF-B round-1 MAJOR findings are resolved in the frozen revision-4 package or converted into explicit fail-closed owner gates. No BLOCKER, MAJOR or new MINOR finding remains. Three blocked authority interfaces, fourteen owner-bound residual controls and two retained AFF-B minor gaps remain disclosed, open and unwaived; no Azure or runtime effectiveness claim is made.</p></section>
+<section class="card"><h2>Independent binding</h2><ul><li>Manifest pre/post SHA-256: <code>bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626</code> — <span class="good">UNCHANGED</span>.</li><li>Manifest entries: <code>155/155</code>; revisions 1–3: <code>153/153</code>, <code>154/154</code>, <code>154/154</code>.</li><li>Upstream approvals: <code>6/6 APPROVED</code> and hash-valid, including STRATTON-CC-001.</li><li>Final AFF-A: <code>a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e</code>; same exact subject.</li><li>Coverage 009: <code>5c25df3283233120e814629dafd742c302ed5d44424bb75e7193c4ef0456e0ad</code> — <code>ACTIVE_CONVERGED_PHASE5_REVISION4_AFF_B_ROUND2</code>.</li><li>Hash receipt: <code>da00dda6384e1f99ade623233234497f4855b041cabfddf589bc104da0f76d6f</code>; model receipt: <code>fdeb09e67db09f30a3531d0e91626af8aacb5636a651e78343e1d43b14144034</code>.</li><li>No reviewed package code, tests, Azure activity or procedure was executed by AFF-B.</li></ul></section>
+<section class="card"><h2>Finding summary</h2><div class="table-wrap"><table><thead><tr><th>BLOCKER</th><th>MAJOR</th><th>MINOR</th><th>Prior MAJOR resolved</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td class="good">6</td></tr></tbody></table></div></section>
+<section class="card"><h2>Prior finding dispositions</h2><div class="table-wrap"><table><thead><tr><th>ID</th><th>Disposition</th><th>Owner</th><th>Residual boundary</th></tr></thead><tbody><tr><td><code>AFFB-P5-R1-MAJ-001</code></td><td><strong>RESOLVED_WITH_CC1_OWN_002_RETAINED</strong></td><td>AFF-5, Internal Audit, Identity Lead</td><td>Exact source-container read and evidence pull/copy acceptance remain owner-bound under CC1-OWN-002; no production evidence admission is authorised.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-002</code></td><td><strong>RESOLVED_BY_FAIL_CLOSED_SEPARATELY_AUTHORISED_FINALISATION</strong></td><td>AFF-5, Internal Audit Records Owner, Business Continuity</td><td>The irreversible procedure was not executed and no lock, legal hold or operating effectiveness is claimed; admission remains blocked until observed evidence is independently accepted.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-003</code></td><td><strong>RESOLVED</strong></td><td>Network Lead, CISO, AFF-5</td><td>Owner-supplied network values remain fail-closed sentinels and require authorised target validation in Phase 7.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-004</code></td><td><strong>RESOLVED</strong></td><td>AFF-5, Integration Lead, Identity Lead</td><td>Analysis and audit-export interfaces remain authority-blocked and have no active worker or Service Bus data-plane RBAC.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-005</code></td><td><strong>RESOLVED</strong></td><td>AFF-5, Identity Lead, API Owner</td><td>Tenant, client and audience values remain owner-bound. Cloud and target behaviour require separately authorised Phase 7 validation; no runtime authentication claim is made.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-006</code></td><td><strong>RESOLVED_WITH_DISCLOSED_GAPS_RETAINED</strong></td><td>AFF-5</td><td>All disclosed authority conflicts, fourteen owner controls and two retained AFF-B minor gaps remain open, fail closed and unwaived.</td></tr></tbody></table></div></section>
+<section class="card"><h2>Security and compliance assessment</h2><div class="table-wrap"><table><thead><tr><th>Area</th><th>Status</th><th>Evidence conclusion</th></tr></thead><tbody><tr><td>Canonical Integrity And Immutability</td><td><strong>CONFORMS</strong></td><td>Manifest pre/post SHA-256 remained bcdf3755…1626; 155/155 listed hashes matched; ordinal ordering, roles, path shape, UTF-8/no-BOM and no trailing newline were verified; revisions 1-3 remain byte-identical with 153/153, 154/154 and 154/154 matches.</td></tr><tr><td>Upstream Approvals Change Control Model And Aff A</td><td><strong>CONFORMS</strong></td><td>All six approval/change-control records are APPROVED and hash-valid; every embedded approval reference matched. STRATTON-CC-001, model-plan 15 and final AFF-A round 4 are hash-valid and bind this exact subject.</td></tr><tr><td>Private Platform Rbac Exposure And Data Flows</td><td><strong>CONFORMS_WITH_OWNER_BOUND_VALUES</strong></td><td>Private access, Entra/local-auth controls, scoped RBAC, managed identities, private endpoints and governed data flows are represented. Production identifiers and target observations remain fail-closed owner inputs.</td></tr><tr><td>Assurance Pull Copy And Worm</td><td><strong>CONFORMS_WITH_POST_DEPLOYMENT_OWNER_GATES</strong></td><td>Direct delivery writes are removed. Internal Audit controls the exact evidence-container copier; source pull/copy acceptance remains CC1-OWN-002. Lock/legal hold are not claimed complete and admission remains blocked.</td></tr><tr><td>Network Fail Closed Controls</td><td><strong>CONFORMS_WITH_OWNER_BOUND_VALUES</strong></td><td>Workload NSGs, explicit denies, regional firewall UDRs, reserved-subnet handling and private-endpoint policies are present and statically validated by retained evidence.</td></tr><tr><td>Service Bus Queue Authority</td><td><strong>CONFORMS</strong></td><td>The exact seven queue-scoped role paths match active producers/consumers. Analysis and audit-export workers are disabled and receive no Service Bus data role.</td></tr><tr><td>Apim Container Apps And Application Identity</td><td><strong>CONFORMS_WITH_OWNER_BOUND_VALUES</strong></td><td>Cloud-aware Entra issuer construction, tenant/client/audience matching, HTTPS, Return401, no excluded paths, spoofed-header deletion, bearer-token preservation, Container Apps revalidation and human claim checks are represented.</td></tr><tr><td>Tenant Rls Source Licence Privacy And Special Category</td><td><strong>CONFORMS</strong></td><td>Role and case access, SQL tenant/case RLS context, current source/licence recheck, purpose/privacy/admission gates and special-category denial fail closed.</td></tr><tr><td>Queue Idempotency Outbox And Audit</td><td><strong>CONFORMS</strong></td><td>Claim-fenced idempotency, serialised transaction scopes, durable outbox, scoped relay, retry/dead-letter paths and audit event sequencing/hash chaining are represented and retained validation reports PASS.</td></tr><tr><td>Dependencies Sbom Scans And Signing</td><td><strong>CONFORMS_WITH_OWNER_GATES</strong></td><td>Exact dependency/tool versions, AVM digest, SBOMs, retained Trivy evidence and image digests are bound. Local signing is non-production; release identity and licence acceptance remain owner gates.</td></tr><tr><td>Logging Retention Rollback Deployment And Approvals</td><td><strong>CONFORMS_WITH_OWNER_GATES</strong></td><td>Sensitive log keys are redacted; diagnostics and alerts are represented; rollback preserves evidence and prohibits boundary weakening; deployment and irreversible retention steps require separate Phase 7 authorisations.</td></tr><tr><td>Release Disclosure Validation And No Azure Execution</td><td><strong>CONFORMS_WITH_GAPS</strong></td><td>Retained run 20260803T031539999Z reports ten PASS steps, Pester 55/55 and application 77/77. Freeze artifacts were inspected statically. Three authority conflicts, fourteen owner controls and two retained minor gaps remain explicit; no reviewed procedure was executed.</td></tr></tbody></table></div></section>
+<section class="card"><h2>Residual and applicability boundary</h2><ul><li>No new law, obligation, owner value or applicability conclusion was introduced.</li><li>Three authority interfaces, fourteen owner-bound controls and two retained AFF-B minor gaps remain open, disclosed and unwaived.</li><li>Observed retention lock/legal hold, production signing, Azure target validation, deployment and runtime effectiveness remain future separately authorised evidence.</li><li>Licence inventories are disclosure evidence only; no legal compatibility conclusion is made.</li></ul></section>
+<section class="card"><h2>Official Microsoft Learn sources</h2><ul><li><a href="https://learn.microsoft.com/en-us/azure/container-apps/authentication">Authentication and authorization in Azure Container Apps</a> — Built-in authentication and HTTPS-only considerations.</li><li><a href="https://learn.microsoft.com/en-us/azure/container-apps/authentication-entra">Enable Authentication and Authorization in Container Apps with Microsoft Entra ID</a> — Tenant, client and application ID URI inputs for an existing Microsoft Entra registration.</li><li><a href="https://learn.microsoft.com/en-us/azure/api-management/validate-jwt-policy">Azure API Management validate-jwt policy</a> — Bearer JWT signature, expiry, issuer and audience validation.</li><li><a href="https://learn.microsoft.com/en-us/azure/api-management/set-header-policy">Azure API Management set-header policy</a> — Inbound header deletion semantics used to remove spoofable platform headers.</li><li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-policy-configure-container-scope">Configure immutability policies for containers</a> — Container-level time-based retention and policy-lock behaviour.</li><li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview">Overview of immutable storage for blob data</a> — WORM and legal-hold behaviour and limitations.</li><li><a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-managed-service-identity">Use Managed Identities to access Azure Service Bus</a> — Data Sender/Receiver roles and narrow queue/entity RBAC scope.</li><li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview">Azure network security groups overview</a> — NSG allow/deny processing and Azure default rule behaviour.</li><li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview">Azure virtual network traffic routing</a> — Default 0.0.0.0/0 Internet route and custom route override behaviour.</li><li><a href="https://learn.microsoft.com/en-us/azure/private-link/disable-private-endpoint-network-policy">Manage network policies for private endpoints</a> — Enabling NSG and UDR policy support on private-endpoint subnets.</li></ul></section>
+<section class="card"><h2>Required action</h2><p>AFF-5 may present the exact unchanged Phase 5 revision-4 package, final AFF-A round 4, final AFF-B round 2, coverage 009 and residual gaps to the human for an explicit Phase 5 decision. Any material change requires a new sibling candidate and new final reviews. Phase 7 remains separately human-invocable and unauthorised.</p><p>AFF-B does not approve Phase 5, waive residual controls, certify compliance, provide legal advice or attestation, authorise Azure activity, authorise retention finalisation, deployment or runtime testing, or attest operating effectiveness.</p></section>
+</main></body></html>

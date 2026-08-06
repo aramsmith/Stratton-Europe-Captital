@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "round": 5,
+  "invokedBy": "AFF-4",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "authorActualRuntimeModelId": "gpt-5.6-terra",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "authorModelBinding": "NOT_EXPLICITLY_PRESENT_IN_REVISION_111"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+    "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "candidateFileCount": 7
+  },
+  "separation": {
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "basis": [
+      "reviewer actual runtime gpt-5.6-luna differs from author actual runtime gpt-5.6-terra",
+      "separate AFF-B reviewer role and write boundary"
+    ]
+  },
+  "executionBoundary": {
+    "subjectModificationPerformed": false,
+    "azureSignIn": false,
+    "whatIf": false,
+    "deployment": false,
+    "runtimeCloudTesting": false,
+    "independentContractExecution": false,
+    "independentRawByteHashExecution": false
+  },
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, attest, deploy, promote, authorise Phase 7 or provide operating-effectiveness evidence."
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_VALIDATION_EVIDENCE",
+  "phaseId": "6",
+  "modelPlanRevision": "17",
+  "overallStatus": "PASS",
+  "checks": [
+    {
+      "name": "phase-json-parse",
+      "status": "PASS",
+      "detail": "17 JSON files parsed"
+    },
+    {
+      "name": "claim-catalogue-and-sources",
+      "status": "PASS",
+      "detail": "32 claims, 66 existing sources, revision 17"
+    },
+    {
+      "name": "registered-slide-count",
+      "status": "PASS",
+      "detail": "10 slides registered in stable order"
+    },
+    {
+      "name": "AFFA-P6-R1-MIN-001",
+      "status": "PASS",
+      "detail": "Governed endorsement wording retained"
+    },
+    {
+      "name": "final-portable-build",
+      "status": "PASS",
+      "detail": "Final build log records relative-base command, success and no-further-build freeze marker"
+    },
+    {
+      "name": "AFFA-P6-R1-MAJ-001",
+      "status": "PASS",
+      "detail": "Final index: c963801ed425f210c96ad0004f9055c15873488940e1e24a5f006fd4943da472; refs: ./deckio.png=1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479, ./assets/index-Ddyj0Z-G.js=40a3eee63922beeeda9cfa1512a4c5d2cd9eb28dbbe9827761d1584af00f8542, ./assets/rolldown-runtime-BHe-jwch.js=e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149, ./assets/index-CKTjebYj.css=d8bc9e1e7f01c8bf43a2331816d857a9927315a7870a313d5b14ea2d14bc1483"
+    },
+    {
+      "name": "AFFA-P6-R1-MIN-002",
+      "status": "PASS",
+      "detail": "deck/deck.pdf 1dfabc56c9c0062fb597735076b853e848665094cc314a613a8acd9df7ea283b, 1460183 bytes, 10 pages"
+    },
+    {
+      "name": "anonymous-source-and-bundle",
+      "status": "PASS",
+      "detail": "deck/src 47 files/0 matches; deck/dist JS 11 files/0 matches"
+    },
+    {
+      "name": "final-build-visual-no-overflow",
+      "status": "PASS",
+      "detail": "Final static deck/dist/index.html: 10/10 slides, no overflow"
+    },
+    {
+      "name": "self-contained-html",
+      "status": "PASS",
+      "detail": "HTML parses, revision 17, self-contained"
+    },
+    {
+      "name": "old-subject-integrity",
+      "status": "PASS",
+      "detail": "Old manifest and 83/83 artifacts plus AFF-A JSON retained"
+    },
+    {
+      "name": "finding-dispositions",
+      "status": "PASS",
+      "detail": "All three findings remediated pending review"
+    }
+  ]
+}

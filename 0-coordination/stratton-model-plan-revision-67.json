@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "67",
+  "createdAt": "2026-08-04T00:37:55+02:00",
+  "revisionReason": "Keep the slide 2 operating-ecosystem border glow running continuously.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-66.json",
+    "sha256": "4283e3e9aa90573070a6478c6580041b0ff35b622ccdb77153951ed04b7d4d2d",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "change": "Keep the slide 2 ecosystem border animation ongoing."
+  },
+  "implementation": {
+    "target": "CompanyProfileSlide operating-ecosystem tags",
+    "animation": "ecosystemBorderGlow",
+    "durationMs": 3800,
+    "iterationCount": "infinite",
+    "staggerMs": 320,
+    "activeSlideOnly": true,
+    "reducedMotion": "disabled"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

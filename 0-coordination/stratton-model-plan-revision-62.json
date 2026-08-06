@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "62",
+  "createdAt": "2026-08-03T23:53:51+02:00",
+  "revisionReason": "Separate the slide 3 gears, improve Expected outcomes text fit, and centre the side-gear content without bullets.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-61.json",
+    "sha256": "90ea69d640e79b9b04707d5f34ce9d19c762ed9b3c927ecb85dc8a5dc5787ad0",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Move the gears farther apart so they do not overlap.",
+      "Make the Expected outcomes text fit.",
+      "Remove bullets from Transformation objectives and Expected outcomes.",
+      "Centre the side-gear text like the AI infusion gear."
+    ]
+  },
+  "implementation": {
+    "gearSpacing": {
+      "sideGearDiameterPx": 420,
+      "centreGearDiameterPx": 460,
+      "leftOffsetPx": -8,
+      "rightOffsetPx": -8,
+      "minimumRadialGapPx": 7.15
+    },
+    "expectedOutcomes": {
+      "horizontalPaddingPx": 12,
+      "verticalPaddingPx": 28,
+      "descriptionLineHeight": 1.18,
+      "paragraphLines": [1, 1, 1, 1, 2],
+      "overflow": false
+    },
+    "sideGearText": {
+      "bullets": false,
+      "titleAlignment": "centre",
+      "descriptionAlignment": "centre",
+      "fontSizesPreserved": true
+    },
+    "motionPreserved": "Side gears rotate clockwise every 42 seconds; centre gear rotates counter-clockwise every 46 seconds."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}
