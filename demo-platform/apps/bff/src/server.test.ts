@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { AnalysisService } from "./analysis/analysis-service.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
+import { GovernanceService } from "./governance/governance-service.js";
 import type { Phase5Client } from "./phase5/phase5-client.js";
 import { ReviewService } from "./reviews/review-service.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
@@ -17,7 +18,8 @@ function testDependencies() {
     scenarioService: new ScenarioService(repository),
     evidenceService: new EvidenceService({ repository, phase5Client }),
     analysisService: new AnalysisService({ repository, phase5Client }),
-    reviewService: new ReviewService({ repository, phase5Client })
+    reviewService: new ReviewService({ repository, phase5Client }),
+    governanceService: new GovernanceService({ repository })
   };
 }
 
@@ -202,12 +204,197 @@ function createDecisionRoomState(includeLegalApproval = false) {
   return state;
 }
 
+function createGovernanceRouteState() {
+  const recommendationSubjectVersion =
+    "48beb87818dc2e8d44de2100bd83d4250399861f9c83c11bf9d563e3f23ab50a";
+  const state = createDecisionRoomState(true);
+  state.stage = "COMMITTEE_PREPARATION";
+  state.findings = state.findings.map((finding) =>
+    finding.findingId === "finding-ebitda-quality"
+      ? {
+          ...finding,
+          citations: [
+            {
+              citationId: "citation-board-pack-42",
+              evidenceId: "evidence-board-pack",
+              locator: "page 42",
+              accessible: true
+            },
+            {
+              citationId: "citation-erp-812-886",
+              evidenceId: "evidence-erp-rebates",
+              locator: "rows 812-886",
+              accessible: true
+            },
+            {
+              citationId: "citation-qoe-18",
+              evidenceId: "evidence-qoe-report",
+              locator: "page 18",
+              accessible: true
+            }
+          ]
+        }
+      : finding
+  );
+  state.governanceEvents.push(
+    {
+      eventId: "event-route-selected",
+      type: "MODEL_ROUTE_SELECTED",
+      outcome: "ALLOW",
+      occurredAtIso: "2026-08-06T10:05:00.000Z",
+      correlationId: "corr-analysis-1",
+      detail: "TERRA",
+      metadata: {
+        analysisRequestFingerprint:
+          "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+        questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+        evidenceSetHash: "7a0cbdb7f6cff1ce34618a74be93fd6928840fa2712f822e7ef76a08b85c4f99",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        route: "TERRA",
+        phase5RunId: "run-terra-1",
+        authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+        findingIds: [
+          "finding-ebitda-quality",
+          "finding-customer-concentration",
+          "finding-permit-transfer"
+        ]
+      }
+    },
+    {
+      eventId: "event-analysis-governed",
+      type: "ANALYSIS_REQUEST_GOVERNED",
+      outcome: "SUCCESS",
+      occurredAtIso: "2026-08-06T10:05:02.000Z",
+      correlationId: "corr-analysis-1",
+      detail: "CROSS_DOCUMENT_COMPARISON:run-terra-1",
+      metadata: {
+        analysisRequestFingerprint:
+          "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+        questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+        evidenceSetHash: "7a0cbdb7f6cff1ce34618a74be93fd6928840fa2712f822e7ef76a08b85c4f99",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        route: "TERRA",
+        phase5RunId: "run-terra-1",
+        authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+        findingIds: [
+          "finding-ebitda-quality",
+          "finding-customer-concentration",
+          "finding-permit-transfer"
+        ]
+      }
+    },
+    {
+      eventId: "review-deal",
+      type: "SPECIALIST_REVIEW_RECORDED",
+      outcome: "SUCCESS",
+      occurredAtIso: "2026-08-06T10:20:00.000Z",
+      correlationId: "corr-review-deal",
+      detail: "DEAL:APPROVED:finding-ebitda-quality",
+      metadata: {
+        phase5RunId: "run-terra-1",
+        analysisRequestFingerprint:
+          "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+        findingIds: ["finding-ebitda-quality"],
+        operationId: "review:DEAL:finding-ebitda-quality:finding-ebitda-quality-v2",
+        payloadHash: "78dd91f93e4f745f725556085c8477c0a46fae2c7f136c8f47642c10f7e34d01",
+        subjectVersion: "finding-ebitda-quality-v2"
+      }
+    },
+    {
+      eventId: "review-compliance",
+      type: "SPECIALIST_REVIEW_RECORDED",
+      outcome: "SUCCESS",
+      occurredAtIso: "2026-08-06T10:21:00.000Z",
+      correlationId: "corr-review-compliance",
+      detail: "COMPLIANCE:APPROVED:finding-customer-concentration",
+      metadata: {
+        phase5RunId: "run-terra-1",
+        analysisRequestFingerprint:
+          "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+        findingIds: ["finding-customer-concentration"],
+        operationId:
+          "review:COMPLIANCE:finding-customer-concentration:finding-customer-concentration-v1",
+        payloadHash: "94bdfbbeb922da545c1338c4fe1fc2b1153684f13147dd0f4c91f4fb1e27dcaa",
+        subjectVersion: "finding-customer-concentration-v1"
+      }
+    },
+    {
+      eventId: "review-legal",
+      type: "SPECIALIST_REVIEW_RECORDED",
+      outcome: "SUCCESS",
+      occurredAtIso: "2026-08-06T10:22:00.000Z",
+      correlationId: "corr-review-legal",
+      detail: "LEGAL:APPROVED:finding-permit-transfer",
+      metadata: {
+        phase5RunId: "run-terra-1",
+        analysisRequestFingerprint:
+          "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+        findingIds: ["finding-permit-transfer"],
+        operationId: "review:LEGAL:finding-permit-transfer:finding-permit-transfer-v2",
+        payloadHash: "d391e86d1b7530cd9254d66b41e9ac37f416138238179c7a28c4e4c57441a7ef",
+        subjectVersion: "finding-permit-transfer-v2"
+      }
+    },
+    {
+      eventId: "event-committee-pack",
+      type: "COMMITTEE_PACK_DRAFT_PREPARED",
+      outcome: "SUCCESS",
+      occurredAtIso: "2026-08-06T10:25:00.000Z",
+      correlationId: "corr-committee-pack",
+      detail: "run-terra-1",
+      metadata: {
+        phase5RunId: "run-terra-1",
+        analysisRequestFingerprint:
+          "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+        findingIds: [
+          "finding-ebitda-quality",
+          "finding-customer-concentration",
+          "finding-permit-transfer"
+        ],
+        operationId:
+          `draft:run-terra-1:${recommendationSubjectVersion}`,
+        payloadHash: "c6f8dba0a805bd7c05cb1f25ee0dfdc87ef2fa6b2b9e90b043c28052dc0ef45d",
+        subjectVersion: recommendationSubjectVersion
+      }
+    }
+  );
+
+  return state;
+}
+
 describe("createDemoServer", () => {
   it("returns the current Project Danube state", async () => {
     const response = await request(createDemoServer(testDependencies())).get("/api/scenario");
 
     expect(response.status).toBe(200);
     expect(response.body.caseId).toBe("project-danube");
+    expect(response.headers["x-correlation-id"]).toBeTruthy();
+  });
+
+  it("returns the governance console projection for the current Project Danube state", async () => {
+    const repository = new InMemoryScenarioRepository(createGovernanceRouteState());
+    const phase5Client = createPhase5ClientDouble();
+    const response = await request(
+      createDemoServer({
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({ repository, phase5Client }),
+        analysisService: new AnalysisService({ repository, phase5Client }),
+        reviewService: new ReviewService({ repository, phase5Client }),
+        governanceService: new GovernanceService({ repository })
+      })
+    ).get("/api/governance");
+
+    expect(response.status).toBe(200);
+    expect(response.body.lineage).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "finding-ebitda-quality",
+          evidenceIds: ["evidence-board-pack", "evidence-erp-rebates", "evidence-qoe-report"],
+          modelRoute: "TERRA"
+        })
+      ])
+    );
+    expect(response.body.securityGates).toHaveLength(12);
     expect(response.headers["x-correlation-id"]).toBeTruthy();
   });
 

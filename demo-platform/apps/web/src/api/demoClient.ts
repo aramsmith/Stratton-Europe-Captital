@@ -3,6 +3,7 @@ import {
   analysisRunResponseSchema,
   evidenceAdmissionRequestSchema,
   findingDispositionRequestSchema,
+  governanceViewSchema,
   recommendationPreparationRequestSchema,
   reviewSubmissionRequestSchema,
   scenarioMutationResponseSchema,
@@ -12,6 +13,7 @@ import {
   type DemoApiError,
   type EvidenceAdmissionRequest,
   type FindingDispositionRequest,
+  type GovernanceView,
   type RecommendationPreparationRequest,
   type ReviewSubmissionRequest,
   type ScenarioState
@@ -45,6 +47,15 @@ export class DemoClient {
     }
 
     return scenarioStateSchema.parse(await response.json());
+  }
+
+  public async getGovernanceView(signal?: AbortSignal): Promise<GovernanceView> {
+    const response = await fetch(`${this.baseUrl}/governance`, signal ? { signal } : undefined);
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return governanceViewSchema.parse(await response.json());
   }
 
   public async resetScenario(): Promise<ScenarioState> {

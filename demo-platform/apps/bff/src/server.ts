@@ -6,6 +6,7 @@ import { AnalysisService } from "./analysis/analysis-service.js";
 import { parseDemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
+import { GovernanceService } from "./governance/governance-service.js";
 import type { Phase5Client } from "./phase5/phase5-client.js";
 import {
   createAnalysisRouter,
@@ -15,6 +16,10 @@ import {
   createEvidenceRouter,
   type EvidenceRouteDependencies
 } from "./routes/evidence-routes.js";
+import {
+  createGovernanceRouter,
+  type GovernanceRouteDependencies
+} from "./routes/governance-routes.js";
 import {
   createReviewRouter,
   type ReviewRouteDependencies
@@ -30,7 +35,8 @@ import { ScenarioService } from "./scenario/scenario-service.js";
 export type DemoServerDependencies = ScenarioRouteDependencies &
   EvidenceRouteDependencies &
   AnalysisRouteDependencies &
-  ReviewRouteDependencies;
+  ReviewRouteDependencies &
+  GovernanceRouteDependencies;
 
 export function createDemoServer(dependencies: DemoServerDependencies): Express {
   const app = express();
@@ -49,6 +55,7 @@ export function createDemoServer(dependencies: DemoServerDependencies): Express 
   app.use(createEvidenceRouter(dependencies));
   app.use(createAnalysisRouter(dependencies));
   app.use(createReviewRouter(dependencies));
+  app.use(createGovernanceRouter(dependencies));
 
   app.use((_request, _response, next) => {
     next(new DemoHttpError(404, "INVALID_CONTRACT", "Requested path does not match an approved route."));
@@ -78,7 +85,8 @@ if (isDirectRun) {
     scenarioService: new ScenarioService(repository),
     evidenceService: new EvidenceService({ repository, phase5Client }),
     analysisService: new AnalysisService({ repository, phase5Client }),
-    reviewService: new ReviewService({ repository, phase5Client })
+    reviewService: new ReviewService({ repository, phase5Client }),
+    governanceService: new GovernanceService({ repository })
   }).listen(config.PORT, () => {
     console.log(`Stratton demo BFF listening on ${config.PORT}`);
   });

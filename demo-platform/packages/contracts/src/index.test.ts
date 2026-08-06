@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { analysisRunRequestSchema, findingDispositionRequestSchema, scenarioStateSchema } from "./index.js";
+import {
+  analysisRunRequestSchema,
+  findingDispositionRequestSchema,
+  governanceViewSchema,
+  scenarioStateSchema
+} from "./index.js";
 
 const buildScenarioState = (admissionStatus: "ADMITTED" | "QUARANTINED" | "REJECTED") => ({
   caseId: "project-danube",
@@ -164,5 +169,74 @@ describe("scenarioStateSchema", () => {
     });
 
     expect(result.success).toBe(false);
+  });
+
+  it("accepts a governance console projection with lineage, policy decisions, routes, and gates", () => {
+    const result = governanceViewSchema.safeParse({
+      lineage: [
+        {
+          id: "finding-ebitda-quality",
+          title: "Adjusted EBITDA quality",
+          sourceLocators: ["fy25-board-pack.txt", "erp-rebate-export.csv", "qoe-report.txt"],
+          evidenceIds: ["evidence-board-pack", "evidence-erp-rebates", "evidence-qoe-report"],
+          modelRoute: "TERRA",
+          reviewTypes: ["DEAL"],
+          reviewVersionIds: ["finding-ebitda-quality-v2"],
+          policyDecisionIds: ["event-policy-check", "event-analysis-governed"],
+          recommendationIds: ["event-committee-pack"]
+        }
+      ],
+      policyDecisions: [
+        {
+          decisionId: "event-analysis-governed",
+          policyType: "ANALYSIS_REQUEST_GOVERNED",
+          result: "SUCCESS",
+          reasonCodes: ["CROSS_DOCUMENT_COMPARISON", "TERRA"],
+          version: "finding-ebitda-quality-v2",
+          correlationId: "corr-analysis-1",
+          relatedFindingIds: ["finding-ebitda-quality"],
+          occurredAtIso: "2026-08-06T10:05:00.000Z"
+        }
+      ],
+      modelRoutes: [
+        {
+          routeId: "run-terra-1",
+          taskClass: "CROSS_DOCUMENT_COMPARISON",
+          modelRoute: "TERRA",
+          analysisRunId: "run-terra-1",
+          authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+          primaryEvidenceIds: [
+            "evidence-board-pack",
+            "evidence-environmental-permit",
+            "evidence-erp-rebates",
+            "evidence-qoe-report"
+          ],
+          recoveryEvidenceIds: [],
+          correlationId: "corr-analysis-1",
+          analysisRequestFingerprint:
+            "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+          questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+          evidenceSetHash: "7a0cbdb7f6cff1ce34618a74be93fd6928840fa2712f822e7ef76a08b85c4f99",
+          promptTemplateVersion:
+            "stratton-workbench-v2:9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+          routeEventIds: ["event-route-selected", "event-analysis-governed"]
+        }
+      ],
+      securityGates: [
+        {
+          gateId: "CC002-R2-SEC-GATE-001",
+          name: "Direct prompt injection",
+          outcome: "NOT_RUN",
+          failClosedOutcome: "Block promotion and deny affected output"
+        }
+      ],
+      auditExport: {
+        status: "READY",
+        missingItems: [],
+        previewSections: ["Lineage", "Policy decisions", "Model routes", "Security & audit"]
+      }
+    });
+
+    expect(result.success).toBe(true);
   });
 });

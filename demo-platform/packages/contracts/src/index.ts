@@ -261,6 +261,92 @@ export type RecommendationPreparationRequest = z.infer<
   typeof recommendationPreparationRequestSchema
 >;
 
+export const securityGateOutcomeSchema = z.enum(["PASS", "FAIL", "NOT_RUN"]);
+export type SecurityGateOutcome = z.infer<typeof securityGateOutcomeSchema>;
+export const auditExportStatusSchema = z.enum(["READY", "BLOCKED"]);
+export type AuditExportStatus = z.infer<typeof auditExportStatusSchema>;
+export const governanceDecisionResultSchema = z.enum(["ALLOW", "DENY", "SUCCESS", "FAILURE"]);
+export type GovernanceDecisionResult = z.infer<typeof governanceDecisionResultSchema>;
+
+export const governanceLineageNodeSchema = z
+  .object({
+    id: z.string().min(1),
+    title: z.string().min(1),
+    sourceLocators: z.array(z.string().min(1)),
+    evidenceIds: z.array(z.string().min(1)),
+    modelRoute: modelRouteSchema,
+    reviewTypes: z.array(reviewTypeSchema),
+    reviewVersionIds: z.array(z.string().min(1)),
+    policyDecisionIds: z.array(z.string().min(1)),
+    recommendationIds: z.array(z.string().min(1))
+  })
+  .strict();
+export type GovernanceLineageNode = z.infer<typeof governanceLineageNodeSchema>;
+
+export const governancePolicyDecisionSchema = z
+  .object({
+    decisionId: z.string().min(1),
+    policyType: z.string().min(1),
+    result: governanceDecisionResultSchema,
+    reasonCodes: z.array(z.string().min(1)),
+    version: z.string().min(1),
+    correlationId: z.string().min(1),
+    relatedFindingIds: z.array(z.string().min(1)),
+    occurredAtIso: z.string().datetime()
+  })
+  .strict();
+export type GovernancePolicyDecision = z.infer<typeof governancePolicyDecisionSchema>;
+
+export const governanceModelRouteSchema = z
+  .object({
+    routeId: z.string().min(1),
+    taskClass: analysisTaskClassSchema,
+    modelRoute: modelRouteSchema,
+    analysisRunId: z.string().min(1),
+    authorityGateRole: authorityGateRoleSchema,
+    primaryEvidenceIds: z.array(z.string().min(1)),
+    recoveryEvidenceIds: z.array(z.string().min(1)),
+    correlationId: z.string().min(1),
+    analysisRequestFingerprint: z.string().regex(/^[a-f0-9]{64}$/),
+    questionHash: z.string().regex(/^[a-f0-9]{64}$/),
+    evidenceSetHash: z.string().regex(/^[a-f0-9]{64}$/),
+    promptTemplateVersion: z.string().min(1),
+    routeEventIds: z.array(z.string().min(1))
+  })
+  .strict();
+export type GovernanceModelRoute = z.infer<typeof governanceModelRouteSchema>;
+
+export const governanceSecurityGateSchema = z
+  .object({
+    gateId: z.string().min(1),
+    name: z.string().min(1),
+    outcome: securityGateOutcomeSchema,
+    evidenceId: z.string().min(1).optional(),
+    failClosedOutcome: z.string().min(1)
+  })
+  .strict();
+export type GovernanceSecurityGate = z.infer<typeof governanceSecurityGateSchema>;
+
+export const auditExportPreviewSchema = z
+  .object({
+    status: auditExportStatusSchema,
+    missingItems: z.array(z.string().min(1)),
+    previewSections: z.array(z.string().min(1))
+  })
+  .strict();
+export type AuditExportPreview = z.infer<typeof auditExportPreviewSchema>;
+
+export const governanceViewSchema = z
+  .object({
+    lineage: z.array(governanceLineageNodeSchema),
+    policyDecisions: z.array(governancePolicyDecisionSchema),
+    modelRoutes: z.array(governanceModelRouteSchema),
+    securityGates: z.array(governanceSecurityGateSchema),
+    auditExport: auditExportPreviewSchema
+  })
+  .strict();
+export type GovernanceView = z.infer<typeof governanceViewSchema>;
+
 export interface DemoApiError {
   readonly code:
     | "INVALID_CONTRACT"
