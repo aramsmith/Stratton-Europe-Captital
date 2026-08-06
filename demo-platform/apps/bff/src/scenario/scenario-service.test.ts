@@ -6,11 +6,11 @@ import { ScenarioService } from "./scenario-service.js";
 describe("ScenarioService", () => {
   it("replaces changed state with a clean scenario", async () => {
     const repository = new InMemoryScenarioRepository(createProjectDanubeState());
-    await repository.save({ ...createProjectDanubeState(), stage: "REVIEW" });
+    await repository.save({ state: { ...createProjectDanubeState(), stage: "REVIEW" } });
 
     const reset = await new ScenarioService(repository).reset();
 
     expect(reset.stage).toBe("INTAKE");
-    expect((await repository.load()).findings).toHaveLength(0);
+    expect((await repository.load()).state.findings).toHaveLength(0);
   });
 });

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { AnalysisFinding } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
+import { DemoHttpError } from "../errors.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
 import { AnalysisService } from "./analysis-service.js";
@@ -113,10 +114,13 @@ describe("AnalysisService", () => {
         "evidence-qoe-report"
       ],
       analystQuestion: "Challenge management EBITDA quality",
+      route: "TERRA",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
       modelDeploymentId: "terra-grounded-analysis",
       promptTemplateVersion: `stratton-workbench-v2:${result.analysisMetadata.analysisRequestFingerprint}`,
       analysisRequestFingerprint: result.analysisMetadata.analysisRequestFingerprint,
-      idempotencyKey: `analysis:${result.analysisMetadata.analysisRequestFingerprint}`
+      idempotencyKey: `analysis:${result.analysisMetadata.analysisRequestFingerprint}`,
+      correlationId: "corr-terra-1"
     });
 
     const ebitdaFinding = getFinding(result.findings, "finding-ebitda-quality");
@@ -161,7 +165,7 @@ describe("AnalysisService", () => {
       })
     ]);
 
-    const savedState = await repository.load();
+    const savedState = (await repository.load()).state;
     expect(savedState.stage).toBe("ANALYSIS");
     expect(savedState.findings.map((finding) => finding.findingId)).toEqual([
       "finding-ebitda-quality",
@@ -329,6 +333,42 @@ describe("AnalysisService", () => {
     expect(firstResult.analysisMetadata.evidenceSetHash).not.toBe(
       thirdResult.analysisMetadata.evidenceSetHash
     );
+  });
+
+  it("retries a stale save without repeating the governed analysis request", async () => {
+    const initialState = createAdmittedState();
+    let loadCount = 0;
+    let savedState = createAdmittedState();
+    const repository = {
+      load: vi.fn(async () => {
+        loadCount += 1;
+        return {
+          state: structuredClone(loadCount === 1 ? initialState : savedState),
+          concurrencyToken: { kind: "ROW_VERSION" as const, value: loadCount - 1 }
+        };
+      }),
+      save: vi
+        .fn()
+        .mockRejectedValueOnce(new DemoHttpError(409, "STATE_CONFLICT", "SCENARIO_PROJECTION_VERSION_STALE"))
+        .mockImplementationOnce(async (snapshot) => {
+          savedState = structuredClone(snapshot.state);
+        }),
+      reset: vi.fn(async () => undefined)
+    };
+    const phase5Client = createPhase5ClientDouble();
+    const service = new AnalysisService({ repository, phase5Client });
+
+    const result = await service.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-terra-retry"
+    });
+
+    expect(phase5Client.requestAnalysis).toHaveBeenCalledTimes(1);
+    expect(repository.save).toHaveBeenCalledTimes(2);
+    expect(result.analysisRunId).toBe("run-terra-1");
+    expect(result.scenario.stage).toBe("ANALYSIS");
   });
 
   it("requires a human disposition and preserves immutable AI text when the finding is edited", async () => {

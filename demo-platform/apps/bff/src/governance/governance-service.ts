@@ -95,7 +95,8 @@ export class GovernanceService {
   public constructor(private readonly dependencies: GovernanceServiceDependencies) {}
 
   public async getView(caseId: string): Promise<GovernanceView> {
-    const state = await this.dependencies.repository.load();
+    const snapshot = await this.dependencies.repository.load();
+    const state = snapshot.state;
     assertCaseId(state, caseId);
 
     const latestRecommendationSubjectVersion = buildRecommendationSubjectVersion(state);

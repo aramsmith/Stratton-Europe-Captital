@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
-import type { DemoApiError } from "@stratton/contracts";
+import type { AnalysisTaskClass, DemoApiError, ModelRoute } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
 
 const phase5ErrorSchema = z
@@ -33,15 +33,19 @@ export interface Phase5Client {
     caseId: string;
     evidenceId: string;
     idempotencyKey: string;
+    correlationId?: string;
   }): Promise<void>;
   requestAnalysis(input: {
     caseId: string;
     evidenceIds: string[];
     analystQuestion: string;
+    route?: ModelRoute;
+    taskClass?: AnalysisTaskClass;
     modelDeploymentId: string;
     promptTemplateVersion: string;
     analysisRequestFingerprint: string;
     idempotencyKey: string;
+    correlationId?: string;
   }): Promise<{ analysisRunId: string; status: "QUEUED" }>;
   submitReview(input: {
     caseId: string;
@@ -51,12 +55,14 @@ export interface Phase5Client {
     rationale: string;
     subjectVersion: string;
     idempotencyKey: string;
+    correlationId?: string;
   }): Promise<void>;
   prepareDraft(input: {
     caseId: string;
     analysisRunId: string;
     subjectVersion: string;
     idempotencyKey: string;
+    correlationId?: string;
   }): Promise<void>;
 }
 

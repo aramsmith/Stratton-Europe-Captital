@@ -27,42 +27,77 @@ export class EvidenceService {
   }
 
   public async admit(input: AdmitEvidenceInput): Promise<ScenarioState> {
-    const state = await this.dependencies.repository.load();
-    assertCaseId(state, input.caseId);
+    const operationId = buildEvidenceAdmissionOperationId(input.caseId, input.evidenceId);
+    let workflowSubmitted = false;
 
-    const evidence = state.evidence.find((candidate) => candidate.evidenceId === input.evidenceId);
-    if (!evidence) {
-      throw new DemoHttpError(404, "INVALID_CONTRACT", "Evidence item does not exist in Project Danube.");
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const snapshot = await this.dependencies.repository.load();
+      const state = snapshot.state;
+      assertCaseId(state, input.caseId);
+
+      const evidence = state.evidence.find((candidate) => candidate.evidenceId === input.evidenceId);
+      if (!evidence) {
+        throw new DemoHttpError(
+          404,
+          "INVALID_CONTRACT",
+          "Evidence item does not exist in Project Danube."
+        );
+      }
+
+      if (
+        workflowSubmitted &&
+        evidence.admissionStatus === "ADMITTED" &&
+        evidence.provenanceStatus === "VERIFIED"
+      ) {
+        return state;
+      }
+
+      if (!workflowSubmitted) {
+        await this.dependencies.phase5Client.admitEvidence({
+          caseId: input.caseId,
+          evidenceId: input.evidenceId,
+          idempotencyKey: operationId,
+          correlationId: input.correlationId
+        });
+        workflowSubmitted = true;
+      }
+
+      const nextState: ScenarioState = {
+        ...state,
+        evidence: state.evidence.map((candidate) =>
+          candidate.evidenceId === input.evidenceId
+            ? { ...candidate, admissionStatus: "ADMITTED", provenanceStatus: "VERIFIED" }
+            : candidate
+        ),
+        governanceEvents: [
+          ...state.governanceEvents,
+          {
+            eventId: this.createId(),
+            type: "EVIDENCE_ADMITTED",
+            outcome: "SUCCESS",
+            occurredAtIso: this.now(),
+            correlationId: input.correlationId,
+            detail: input.evidenceId
+          }
+        ]
+      };
+
+      try {
+        await this.dependencies.repository.save({
+          ...snapshot,
+          state: nextState
+        });
+        return nextState;
+      } catch (error) {
+        if (attempt === 0 && isStateConflict(error)) {
+          continue;
+        }
+
+        throw error;
+      }
     }
 
-    await this.dependencies.phase5Client.admitEvidence({
-      caseId: input.caseId,
-      evidenceId: input.evidenceId,
-      idempotencyKey: this.createId()
-    });
-
-    const nextState: ScenarioState = {
-      ...state,
-      evidence: state.evidence.map((candidate) =>
-        candidate.evidenceId === input.evidenceId
-          ? { ...candidate, admissionStatus: "ADMITTED", provenanceStatus: "VERIFIED" }
-          : candidate
-      ),
-      governanceEvents: [
-        ...state.governanceEvents,
-        {
-          eventId: this.createId(),
-          type: "EVIDENCE_ADMITTED",
-          outcome: "SUCCESS",
-          occurredAtIso: this.now(),
-          correlationId: input.correlationId,
-          detail: input.evidenceId
-        }
-      ]
-    };
-
-    await this.dependencies.repository.save(nextState);
-    return nextState;
+    throw new DemoHttpError(409, "STATE_CONFLICT", "EVIDENCE_ADMISSION_RETRY_EXHAUSTED");
   }
 }
 
@@ -70,4 +105,12 @@ function assertCaseId(state: ScenarioState, caseId: string): void {
   if (state.caseId !== caseId) {
     throw new DemoHttpError(400, "INVALID_CONTRACT", "Requested case does not match Project Danube.");
   }
+}
+
+function buildEvidenceAdmissionOperationId(caseId: string, evidenceId: string): string {
+  return `admit:${caseId}:${evidenceId}`;
+}
+
+function isStateConflict(error: unknown): error is DemoHttpError {
+  return error instanceof DemoHttpError && error.code === "STATE_CONFLICT";
 }

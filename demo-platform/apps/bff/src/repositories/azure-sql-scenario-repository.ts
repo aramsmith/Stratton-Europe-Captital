@@ -4,7 +4,11 @@ import {
 } from "@stratton/contracts";
 import * as mssql from "mssql";
 import { DemoHttpError } from "../errors.js";
-import type { ScenarioRepository } from "../scenario/scenario-repository.js";
+import type {
+  ScenarioConcurrencyToken,
+  ScenarioRepository,
+  ScenarioSnapshot
+} from "../scenario/scenario-repository.js";
 import { createManagedIdentityCredential } from "../azure/managed-identity.js";
 
 export interface SqlParameter {
@@ -111,14 +115,10 @@ interface ProjectionRecord extends Record<string, unknown> {
 }
 
 export class AzureSqlScenarioRepository implements ScenarioRepository {
-  #rowVersion: number | undefined;
-
   public constructor(private readonly options: AzureSqlScenarioRepositoryOptions) {}
 
-  public async load(): Promise<ScenarioState> {
-    await this.setSessionContext();
-
-    const result = await this.options.executor.query<ProjectionRecord>(
+  public async load(): Promise<ScenarioSnapshot> {
+    const result = await this.queryWithSessionContext<ProjectionRecord>(
       [
         "SELECT state_json, row_version",
         "FROM dbo.demo_scenario_projection",
@@ -134,21 +134,22 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
 
     const state = scenarioStateSchema.parse(JSON.parse(row.state_json) as unknown);
     this.assertCaseContext(state.caseId);
-    this.#rowVersion = Number(row.row_version);
 
-    return structuredClone(state);
+    return {
+      state: structuredClone(state),
+      concurrencyToken: createRowVersionToken(Number(row.row_version))
+    };
   }
 
-  public async save(state: ScenarioState): Promise<void> {
-    if (this.#rowVersion === undefined) {
+  public async save(snapshot: ScenarioSnapshot): Promise<void> {
+    if (!snapshot.concurrencyToken || snapshot.concurrencyToken.kind !== "ROW_VERSION") {
       throw new DemoHttpError(409, "STATE_CONFLICT", "SCENARIO_PROJECTION_LOAD_REQUIRED");
     }
 
-    const parsedState = scenarioStateSchema.parse(structuredClone(state));
+    const parsedState = scenarioStateSchema.parse(structuredClone(snapshot.state));
     this.assertCaseContext(parsedState.caseId);
-    await this.setSessionContext();
 
-    const result = await this.options.executor.query(
+    const result = await this.queryWithSessionContext(
       [
         "UPDATE dbo.demo_scenario_projection",
         "SET state_json = @stateJson,",
@@ -168,7 +169,7 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
         {
           name: "expectedVersion",
           type: "bigint",
-          value: this.#rowVersion
+          value: snapshot.concurrencyToken.value
         }
       ]
     );
@@ -176,16 +177,13 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
     if (result.rowsAffected[0] !== 1) {
       throw new DemoHttpError(409, "STATE_CONFLICT", "SCENARIO_PROJECTION_VERSION_STALE");
     }
-
-    this.#rowVersion += 1;
   }
 
   public async reset(state: ScenarioState): Promise<void> {
     const parsedState = scenarioStateSchema.parse(structuredClone(state));
     this.assertCaseContext(parsedState.caseId);
-    await this.setSessionContext();
 
-    const result = await this.options.executor.query<ProjectionRecord>(
+    const result = await this.queryWithSessionContext<ProjectionRecord>(
       [
         "MERGE dbo.demo_scenario_projection WITH (HOLDLOCK) AS target",
         "USING (SELECT @tenantId AS tenant_id, @caseId AS case_id) AS source",
@@ -210,16 +208,20 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
     );
 
     const row = result.recordset[0];
-    this.#rowVersion = row ? Number(row.row_version) : 0;
+    void row;
   }
 
-  private async setSessionContext(): Promise<void> {
-    await this.options.executor.query(
+  private queryWithSessionContext<TRecord extends Record<string, unknown>>(
+    statement: string,
+    parameters: readonly SqlParameter[]
+  ): Promise<SqlQueryResult<TRecord>> {
+    return this.options.executor.query(
       [
         "EXEC sys.sp_set_session_context @key = N'tenant_id', @value = @tenantId;",
-        "EXEC sys.sp_set_session_context @key = N'case_id', @value = @caseId;"
+        "EXEC sys.sp_set_session_context @key = N'case_id', @value = @caseId;",
+        statement
       ].join("\n"),
-      this.createTenantCaseParameters()
+      parameters
     );
   }
 
@@ -243,4 +245,11 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
       throw new DemoHttpError(400, "INVALID_CONTRACT", "SCENARIO_CASE_CONTEXT_MISMATCH");
     }
   }
+}
+
+function createRowVersionToken(value: number): ScenarioConcurrencyToken {
+  return {
+    kind: "ROW_VERSION",
+    value
+  };
 }

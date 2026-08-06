@@ -7,7 +7,7 @@ import type {
 } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
-import type { ScenarioRepository } from "../scenario/scenario-repository.js";
+import type { ScenarioRepository, ScenarioSnapshot } from "../scenario/scenario-repository.js";
 
 const requiredReviewTypes = ["DEAL", "LEGAL", "COMPLIANCE"] as const satisfies readonly ReviewType[];
 
@@ -31,6 +31,7 @@ interface PrepareRecommendationInput {
 }
 
 interface RejectWithAuditInput {
+  readonly snapshot: ScenarioSnapshot;
   readonly state: ScenarioState;
   readonly correlationId: string;
   readonly type: string;
@@ -55,11 +56,13 @@ export class ReviewService {
 
   public async submitReview(input: SubmitReviewInput): Promise<ScenarioState> {
     return this.withMutationLock(async () => {
-      const state = await this.dependencies.repository.load();
+      const snapshot = await this.dependencies.repository.load();
+      const state = snapshot.state;
       assertCaseId(state, input.caseId);
 
       if (input.principalType !== "HUMAN") {
         return this.rejectWithAudit({
+          snapshot,
           state,
           correlationId: input.correlationId,
           type: "SPECIALIST_REVIEW_DENIED",
@@ -79,6 +82,7 @@ export class ReviewService {
 
       if (finding.status !== "ACCEPTED") {
         return this.rejectWithAudit({
+          snapshot,
           state,
           correlationId: input.correlationId,
           type: "SPECIALIST_REVIEW_DENIED",
@@ -90,6 +94,7 @@ export class ReviewService {
       const analysisRunId = finding.analysisRunId ?? state.latestAnalysisRun?.analysisRunId;
       if (!analysisRunId) {
         return this.rejectWithAudit({
+          snapshot,
           state,
           correlationId: input.correlationId,
           type: "SPECIALIST_REVIEW_DENIED",
@@ -177,7 +182,10 @@ export class ReviewService {
         ]
       };
 
-      await this.dependencies.repository.save(nextState);
+      await this.dependencies.repository.save({
+        ...snapshot,
+        state: nextState
+      });
       return nextState;
     });
   }
@@ -186,11 +194,13 @@ export class ReviewService {
     input: PrepareRecommendationInput
   ): Promise<ScenarioState> {
     return this.withMutationLock(async () => {
-      const state = await this.dependencies.repository.load();
+      const snapshot = await this.dependencies.repository.load();
+      const state = snapshot.state;
       assertCaseId(state, input.caseId);
 
       if (input.principalType !== "HUMAN") {
         return this.rejectWithAudit({
+          snapshot,
           state,
           correlationId: input.correlationId,
           type: "COMMITTEE_PACK_PREPARATION_DENIED",
@@ -206,6 +216,7 @@ export class ReviewService {
       const analysisRunId = state.latestAnalysisRun?.analysisRunId;
       if (!analysisRunId) {
         return this.rejectWithAudit({
+          snapshot,
           state,
           correlationId: input.correlationId,
           type: "COMMITTEE_PACK_PREPARATION_DENIED",
@@ -218,6 +229,7 @@ export class ReviewService {
       const recommendationBlocker = getRecommendationBlocker(state);
       if (recommendationBlocker) {
         return this.rejectWithAudit({
+          snapshot,
           state,
           correlationId: input.correlationId,
           type: "COMMITTEE_PACK_PREPARATION_DENIED",
@@ -281,7 +293,10 @@ export class ReviewService {
         ]
       };
 
-      await this.dependencies.repository.save(nextState);
+      await this.dependencies.repository.save({
+        ...snapshot,
+        state: nextState
+      });
       return nextState;
     });
   }
@@ -309,7 +324,10 @@ export class ReviewService {
       ]
     };
 
-    await this.dependencies.repository.save(nextState);
+    await this.dependencies.repository.save({
+      ...input.snapshot,
+      state: nextState
+    });
     throw input.error;
   }
 

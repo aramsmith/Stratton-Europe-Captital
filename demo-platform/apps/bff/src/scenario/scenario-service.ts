@@ -6,7 +6,7 @@ export class ScenarioService {
   public constructor(private readonly repository: ScenarioRepository) {}
 
   public async get(): Promise<ScenarioState> {
-    return this.repository.load();
+    return (await this.repository.load()).state;
   }
 
   public async reset(): Promise<ScenarioState> {

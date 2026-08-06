@@ -445,25 +445,27 @@ describe("createDemoServer", () => {
         : evidence
     );
     await repository.save({
-      ...mutatedState,
-      stage: "REVIEW",
-      findings: [
-        {
-          findingId: "finding-1",
-          title: "Material issue",
-          summary: "Needs review",
-          materiality: "HIGH",
-          status: "DRAFT",
-          citations: [
-            {
-              citationId: "citation-1",
-              evidenceId: "evidence-qoe-report",
-              locator: "page-1",
-              accessible: true
-            }
-          ]
-        }
-      ]
+      state: {
+        ...mutatedState,
+        stage: "REVIEW",
+        findings: [
+          {
+            findingId: "finding-1",
+            title: "Material issue",
+            summary: "Needs review",
+            materiality: "HIGH",
+            status: "DRAFT",
+            citations: [
+              {
+                citationId: "citation-1",
+                evidenceId: "evidence-qoe-report",
+                locator: "page-1",
+                accessible: true
+              }
+            ]
+          }
+        ]
+      }
     });
 
     const response = await request(
@@ -742,6 +744,181 @@ describe("parseAzureDemoConfig", () => {
         AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview"
       })
     ).toThrowError(/AZURE_OPENAI_SOL_EVIDENCE_ID/);
+  });
+
+  it("ignores unrelated process environment keys while validating approved Azure bindings", async () => {
+    const { parseAzureDemoConfig } = await import("./azure/azure-config.js");
+
+    expect(
+      parseAzureDemoConfig({
+        DEMO_TENANT_ID: "tenant-stratton-demo",
+        AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.example.test",
+        AZURE_SEARCH_ENDPOINT: "https://search.example.test",
+        AZURE_SEARCH_INDEX_NAME: "governed-evidence",
+        AZURE_BLOB_ACCOUNT_URL: "https://storage.example.test",
+        AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
+        AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
+        AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
+        AZURE_OPENAI_LUNA_ENDPOINT: "https://luna.example.test",
+        AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
+        AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
+        AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE",
+        AZURE_OPENAI_TERRA_ENDPOINT: "https://terra.example.test",
+        AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
+        AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
+        AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE",
+        AZURE_OPENAI_SOL_ENDPOINT: "https://sol.example.test",
+        AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
+        AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
+        AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE",
+        PATH: "C:\\Windows\\System32",
+        npm_lifecycle_event: "test",
+        GITHUB_ACTIONS: "false"
+      })
+    ).toMatchObject({
+      DEMO_TENANT_ID: "tenant-stratton-demo",
+      AZURE_SEARCH_INDEX_NAME: "governed-evidence",
+      AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE"
+    });
+  });
+});
+
+describe("createWorkflowClient", () => {
+  it("keeps LOCAL mode on the local workflow stub", async () => {
+    const { createWorkflowClient } = await import("./server.js");
+    const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
+    const localClient = createPhase5ClientDouble();
+    const azureClientFactory = vi.fn();
+
+    const client = createWorkflowClient(
+      {
+        PORT: 3001,
+        DEMO_MODE: "LOCAL",
+        PHASE5_API_BASE_URL: "https://phase5.example.test"
+      },
+      createRedactedLogger({ sink: () => undefined }),
+      {
+        createLocalPhase5Client: () => localClient,
+        createAzureWorkflowClient: azureClientFactory
+      }
+    );
+
+    expect(client).toBe(localClient);
+    expect(azureClientFactory).not.toHaveBeenCalled();
+  });
+
+  it("wires AZURE mode through approved Azure adapters instead of the local stub", async () => {
+    const { createWorkflowClient } = await import("./server.js");
+    const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
+    const localPhase5ClientFactory = vi.fn(() => createPhase5ClientDouble());
+    const azureWorkflowClient = createPhase5ClientDouble();
+    const adapters = {
+      documentIntelligence: { analyseLayout: vi.fn() },
+      search: { retrieve: vi.fn() },
+      openAi: { analyse: vi.fn() },
+      blob: { readEvidence: vi.fn(), writeSyntheticEvidence: vi.fn() },
+      serviceBus: { publish: vi.fn() }
+    };
+    const createAzureWorkflowClient = vi.fn(() => azureWorkflowClient);
+
+    const client = createWorkflowClient(
+      {
+        PORT: 3001,
+        DEMO_MODE: "AZURE",
+        PHASE5_API_BASE_URL: "https://phase5.example.test",
+        AZURE_SQL_SERVER_FQDN: "sql.example.test",
+        AZURE_SQL_DATABASE_NAME: "stratton"
+      },
+      createRedactedLogger({ sink: () => undefined }),
+      {
+        createLocalPhase5Client: localPhase5ClientFactory,
+        parseAzureConfig: () => ({
+          DEMO_TENANT_ID: "tenant-stratton-demo",
+          AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.example.test",
+          AZURE_SEARCH_ENDPOINT: "https://search.example.test",
+          AZURE_SEARCH_INDEX_NAME: "governed-evidence",
+          AZURE_BLOB_ACCOUNT_URL: "https://storage.example.test",
+          AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
+          AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
+          AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
+          AZURE_OPENAI_LUNA_ENDPOINT: "https://luna.example.test",
+          AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
+          AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
+          AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE",
+          AZURE_OPENAI_TERRA_ENDPOINT: "https://terra.example.test",
+          AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
+          AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
+          AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE",
+          AZURE_OPENAI_SOL_ENDPOINT: "https://sol.example.test",
+          AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
+          AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
+          AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE"
+        }),
+        createAzureAdapters: () => adapters,
+        createAzureWorkflowClient
+      }
+    );
+
+    expect(client).toBe(azureWorkflowClient);
+    expect(localPhase5ClientFactory).not.toHaveBeenCalled();
+    expect(createAzureWorkflowClient).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tenantId: "tenant-stratton-demo",
+        caseId: "project-danube",
+        ...adapters
+      })
+    );
+  });
+});
+
+describe("initializeScenarioRepository", () => {
+  it("seeds an empty durable repository once and preserves persisted state across restart", async () => {
+    const { initializeScenarioRepository } = await import("./server.js");
+    const { DemoHttpError } = await import("./errors.js");
+    const persistedState = createProjectDanubeState();
+    persistedState.stage = "REVIEW";
+    let storedState: ReturnType<typeof createProjectDanubeState> | undefined;
+
+    const repository = {
+      load: vi.fn(async () => {
+        if (!storedState) {
+          throw new DemoHttpError(
+            503,
+            "DEPENDENCY_UNAVAILABLE",
+            "SCENARIO_PROJECTION_NOT_FOUND"
+          );
+        }
+
+        return { state: structuredClone(storedState) };
+      }),
+      save: vi.fn(async () => undefined),
+      reset: vi.fn(async (state: ReturnType<typeof createProjectDanubeState>) => {
+        storedState = structuredClone(state);
+      })
+    };
+
+    await initializeScenarioRepository(repository);
+    storedState = structuredClone(persistedState);
+    await initializeScenarioRepository(repository);
+
+    expect(repository.reset).toHaveBeenCalledTimes(1);
+    expect((await repository.load()).state).toEqual(persistedState);
+  });
+
+  it("does not reset when durable state already exists", async () => {
+    const { initializeScenarioRepository } = await import("./server.js");
+    const persistedState = createProjectDanubeState();
+    persistedState.stage = "ANALYSIS";
+    const repository = {
+      load: vi.fn(async () => ({ state: structuredClone(persistedState) })),
+      save: vi.fn(async () => undefined),
+      reset: vi.fn(async () => undefined)
+    };
+
+    await initializeScenarioRepository(repository);
+
+    expect(repository.reset).not.toHaveBeenCalled();
+    expect((await repository.load()).state).toEqual(persistedState);
   });
 });
 

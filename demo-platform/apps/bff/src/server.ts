@@ -9,6 +9,7 @@ import { createDocumentIntelligenceAdapter } from "./azure/document-intelligence
 import { createOpenAiAdapter } from "./azure/openai-analysis-adapter.js";
 import { createSearchAdapter } from "./azure/search-adapter.js";
 import { createServiceBusAdapter } from "./azure/service-bus-adapter.js";
+import { createAzureWorkflowClient } from "./azure/azure-workflow-client.js";
 import { parseDemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
@@ -96,8 +97,8 @@ async function startServer(): Promise<void> {
   try {
     const config = parseDemoConfig();
     const logger = createRedactedLogger();
-    const repository = await createScenarioRepository(config, logger);
-    const phase5Client = createLocalPhase5Client();
+    const repository = await createScenarioRepository(config);
+    const phase5Client = createWorkflowClient(config, logger);
 
     createDemoServer({
       scenarioService: new ScenarioService(repository),
@@ -130,7 +131,7 @@ function getCorrelationId(response: express.Response): string {
   return setCorrelationId(response);
 }
 
-function createLocalPhase5Client(): Phase5Client {
+export function createLocalPhase5Client(): Phase5Client {
   return {
     admitEvidence: async () => undefined,
     requestAnalysis: async (input) => ({
@@ -142,9 +143,38 @@ function createLocalPhase5Client(): Phase5Client {
   };
 }
 
-async function createScenarioRepository(
+type AzureDemoConfig = ReturnType<typeof parseAzureDemoConfig>;
+
+interface WorkflowClientFactoryOverrides {
+  readonly createLocalPhase5Client?: typeof createLocalPhase5Client;
+  readonly parseAzureConfig?: typeof parseAzureDemoConfig;
+  readonly createAzureAdapters?: typeof createAzureAdapters;
+  readonly createAzureWorkflowClient?: typeof createAzureWorkflowClient;
+}
+
+export function createWorkflowClient(
   config: ReturnType<typeof parseDemoConfig>,
-  logger: RedactedLogger
+  logger: RedactedLogger,
+  overrides: WorkflowClientFactoryOverrides = {}
+): Phase5Client {
+  if (config.DEMO_MODE === "LOCAL") {
+    return (overrides.createLocalPhase5Client ?? createLocalPhase5Client)();
+  }
+
+  const azureConfig = (overrides.parseAzureConfig ?? parseAzureDemoConfig)();
+  const adapters = (overrides.createAzureAdapters ?? createAzureAdapters)(azureConfig, logger);
+
+  return (overrides.createAzureWorkflowClient ?? createAzureWorkflowClient)({
+    tenantId: azureConfig.DEMO_TENANT_ID,
+    caseId: "project-danube",
+    evidenceCatalog: buildEvidenceCatalog(createProjectDanubeState()),
+    ...adapters,
+    logger: logger.child({ dependency: "workflow" })
+  });
+}
+
+async function createScenarioRepository(
+  config: ReturnType<typeof parseDemoConfig>
 ): Promise<ScenarioRepository> {
   if (config.DEMO_MODE === "LOCAL") {
     return new InMemoryScenarioRepository(createProjectDanubeState());
@@ -163,7 +193,31 @@ async function createScenarioRepository(
     caseId: "project-danube"
   });
 
-  const azureAdapters = {
+  return initializeScenarioRepository(repository);
+}
+
+export async function initializeScenarioRepository(
+  repository: ScenarioRepository
+): Promise<ScenarioRepository> {
+  try {
+    await repository.load();
+    return repository;
+  } catch (error) {
+    if (
+      error instanceof DemoHttpError &&
+      error.code === "DEPENDENCY_UNAVAILABLE" &&
+      error.message === "SCENARIO_PROJECTION_NOT_FOUND"
+    ) {
+      await repository.reset(createProjectDanubeState());
+      return repository;
+    }
+
+    throw error;
+  }
+}
+
+function createAzureAdapters(azureConfig: AzureDemoConfig, logger: RedactedLogger) {
+  return {
     documentIntelligence: createDocumentIntelligenceAdapter({
       endpoint: azureConfig.AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
       ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
@@ -203,8 +257,15 @@ async function createScenarioRepository(
       logger: logger.child({ dependency: "service-bus" })
     })
   };
-  void azureAdapters;
+}
 
-  await repository.reset(createProjectDanubeState());
-  return repository;
+function buildEvidenceCatalog(state: ReturnType<typeof createProjectDanubeState>) {
+  return Object.fromEntries(
+    state.evidence.map((evidence) => [
+      evidence.evidenceId,
+      {
+        blobName: evidence.sourceLocator
+      }
+    ])
+  );
 }

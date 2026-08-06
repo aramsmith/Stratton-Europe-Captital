@@ -218,7 +218,7 @@ describe("ReviewService", () => {
       })
     ).rejects.toMatchObject({ code: "POLICY_DENIED", message: "LEGAL_REVIEW_REQUIRED" });
 
-    const nextState = await repository.load();
+    const nextState = (await repository.load()).state;
     expect(nextState.governanceEvents).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -254,7 +254,7 @@ describe("ReviewService", () => {
       })
     ).rejects.toMatchObject({ code: "POLICY_DENIED" });
 
-    expect((await repository.load()).governanceEvents).toEqual(
+    expect((await repository.load()).state.governanceEvents).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           type: "SPECIALIST_REVIEW_DENIED",
@@ -476,7 +476,7 @@ describe("ReviewService", () => {
     ).rejects.toMatchObject({ code: "STATE_CONFLICT", message: "REVIEW_RETRY_CONFLICT" });
 
     expect(phase5Client.submitReview).toHaveBeenCalledTimes(1);
-    expect((await repository.load()).reviews).toHaveLength(1);
+    expect((await repository.load()).state.reviews).toHaveLength(1);
   });
 
   it("returns the existing committee-pack success on an identical retry without duplicating audit history", async () => {
@@ -551,7 +551,7 @@ describe("ReviewService", () => {
       })
     ]);
 
-    const nextState = await repository.load();
+    const nextState = (await repository.load()).state;
     expect(nextState.reviews).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ reviewType: "DEAL", decision: "APPROVED" }),

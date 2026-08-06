@@ -60,98 +60,144 @@ export class AnalysisService {
   }
 
   public async run(input: RunAnalysisInput): Promise<AnalysisRunResponse> {
-    const state = await this.dependencies.repository.load();
-    assertCaseId(state, input.caseId);
-    assertAnalysisRerunAllowed(state);
-    assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
-
     const route = routeTask(input.taskClass);
-    const admittedEvidenceIds = listAdmittedEvidenceIds(state);
-    const analysisMetadataWithoutRunId = createAnalysisRunMetadata({
-      caseId: input.caseId,
-      taskClass: input.taskClass,
-      route,
-      analystQuestion: input.question,
-      admittedEvidenceIds
-    });
-    const phase5Result = await this.dependencies.phase5Client.requestAnalysis({
-      caseId: input.caseId,
-      evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
-      analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
-      modelDeploymentId: modelDeploymentByRoute[route],
-      promptTemplateVersion: analysisMetadataWithoutRunId.promptTemplateVersion,
-      analysisRequestFingerprint: analysisMetadataWithoutRunId.analysisRequestFingerprint,
-      idempotencyKey: buildAnalysisIdempotencyKey(
-        analysisMetadataWithoutRunId.analysisRequestFingerprint
-      )
-    });
-    const analysisMetadata: AnalysisRunMetadata = {
-      ...analysisMetadataWithoutRunId,
-      analysisRunId: phase5Result.analysisRunId
-    };
+    let analysisArtifacts:
+      | {
+          readonly metadata: AnalysisRunMetadata;
+          readonly findings: readonly AnalysisFinding[];
+          readonly response: { analysisRunId: string; status: "QUEUED" };
+        }
+      | undefined;
 
-    const findings = runLocalGovernedScenarioAnalysisAdapter({
-      analysisMetadata,
-      includePermitTransferFinding: analysisMetadata.admittedEvidenceIds.includes(
-        "evidence-environmental-permit"
-      ),
-      occurredAtIso: this.now(),
-      createId: this.createId
-    });
-    assertFindingCitationsAdmitted(state, findings);
-    const governedAnalysisEventMetadata = createGovernedAnalysisEventMetadata(
-      analysisMetadata,
-      findings
-    );
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const snapshot = await this.dependencies.repository.load();
+      const state = snapshot.state;
+      assertCaseId(state, input.caseId);
 
-    const nextState: ScenarioState = {
-      ...state,
-      stage: "ANALYSIS",
-      findings,
-      latestAnalysisRun: analysisMetadata,
-      governanceEvents: [
-        ...state.governanceEvents,
-        createGovernanceEvent(this.createId, this.now, {
-          type: "MODEL_ROUTE_SELECTED",
-          outcome: "ALLOW",
-          correlationId: input.correlationId,
-          detail: route,
-          metadata: governedAnalysisEventMetadata
-        }),
-        createGovernanceEvent(this.createId, this.now, {
-          type: "ANALYSIS_POLICY_CHECK",
-          outcome: "ALLOW",
-          correlationId: input.correlationId,
-          detail: "admitted-citations-only",
-          metadata: governedAnalysisEventMetadata
-        }),
-        createGovernanceEvent(this.createId, this.now, {
-          type: "ANALYSIS_CORRELATED",
-          outcome: "SUCCESS",
-          correlationId: input.correlationId,
-          detail: phase5Result.analysisRunId,
-          metadata: governedAnalysisEventMetadata
-        }),
-        createGovernanceEvent(this.createId, this.now, {
-          type: "ANALYSIS_REQUEST_GOVERNED",
-          outcome: "SUCCESS",
-          correlationId: input.correlationId,
-          detail: `${input.taskClass}:${phase5Result.analysisRunId}`,
-          metadata: governedAnalysisEventMetadata
-        })
-      ]
-    };
+      if (!analysisArtifacts) {
+        assertAnalysisRerunAllowed(state);
+        assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
 
-    await this.dependencies.repository.save(nextState);
+        const admittedEvidenceIds = listAdmittedEvidenceIds(state);
+        const analysisMetadataWithoutRunId = createAnalysisRunMetadata({
+          caseId: input.caseId,
+          taskClass: input.taskClass,
+          route,
+          analystQuestion: input.question,
+          admittedEvidenceIds
+        });
+        const response = await this.dependencies.phase5Client.requestAnalysis({
+          caseId: input.caseId,
+          evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
+          analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
+          route,
+          taskClass: input.taskClass,
+          modelDeploymentId: modelDeploymentByRoute[route],
+          promptTemplateVersion: analysisMetadataWithoutRunId.promptTemplateVersion,
+          analysisRequestFingerprint: analysisMetadataWithoutRunId.analysisRequestFingerprint,
+          idempotencyKey: buildAnalysisIdempotencyKey(
+            analysisMetadataWithoutRunId.analysisRequestFingerprint
+          ),
+          correlationId: input.correlationId
+        });
+        const metadata: AnalysisRunMetadata = {
+          ...analysisMetadataWithoutRunId,
+          analysisRunId: response.analysisRunId
+        };
+        const findings = runLocalGovernedScenarioAnalysisAdapter({
+          analysisMetadata: metadata,
+          includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
+            "evidence-environmental-permit"
+          ),
+          occurredAtIso: this.now(),
+          createId: this.createId
+        });
 
-    return {
-      analysisRunId: phase5Result.analysisRunId,
-      route,
-      scenario: nextState,
-      findings: nextState.findings,
-      correlationId: input.correlationId,
-      analysisMetadata
-    };
+        analysisArtifacts = {
+          metadata,
+          findings,
+          response
+        };
+      } else if (state.latestAnalysisRun?.analysisRequestFingerprint === analysisArtifacts.metadata.analysisRequestFingerprint) {
+        return {
+          analysisRunId: analysisArtifacts.response.analysisRunId,
+          route,
+          scenario: state,
+          findings: state.findings,
+          correlationId: input.correlationId,
+          analysisMetadata: analysisArtifacts.metadata
+        };
+      }
+
+      assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
+      assertFindingCitationsAdmitted(state, analysisArtifacts.findings);
+      const governedAnalysisEventMetadata = createGovernedAnalysisEventMetadata(
+        analysisArtifacts.metadata,
+        analysisArtifacts.findings
+      );
+
+      const nextState: ScenarioState = {
+        ...state,
+        stage: "ANALYSIS",
+        findings: [...analysisArtifacts.findings],
+        latestAnalysisRun: analysisArtifacts.metadata,
+        governanceEvents: [
+          ...state.governanceEvents,
+          createGovernanceEvent(this.createId, this.now, {
+            type: "MODEL_ROUTE_SELECTED",
+            outcome: "ALLOW",
+            correlationId: input.correlationId,
+            detail: route,
+            metadata: governedAnalysisEventMetadata
+          }),
+          createGovernanceEvent(this.createId, this.now, {
+            type: "ANALYSIS_POLICY_CHECK",
+            outcome: "ALLOW",
+            correlationId: input.correlationId,
+            detail: "admitted-citations-only",
+            metadata: governedAnalysisEventMetadata
+          }),
+          createGovernanceEvent(this.createId, this.now, {
+            type: "ANALYSIS_CORRELATED",
+            outcome: "SUCCESS",
+            correlationId: input.correlationId,
+            detail: analysisArtifacts.response.analysisRunId,
+            metadata: governedAnalysisEventMetadata
+          }),
+          createGovernanceEvent(this.createId, this.now, {
+            type: "ANALYSIS_REQUEST_GOVERNED",
+            outcome: "SUCCESS",
+            correlationId: input.correlationId,
+            detail: `${input.taskClass}:${analysisArtifacts.response.analysisRunId}`,
+            metadata: governedAnalysisEventMetadata
+          })
+        ]
+      };
+
+      try {
+        await this.dependencies.repository.save({
+          ...snapshot,
+          state: nextState
+        });
+
+        return {
+          analysisRunId: analysisArtifacts.response.analysisRunId,
+          route,
+          scenario: nextState,
+          findings: nextState.findings,
+          correlationId: input.correlationId,
+          analysisMetadata: analysisArtifacts.metadata
+        };
+      } catch (error) {
+        if (attempt === 0 && isStateConflict(error)) {
+          continue;
+        }
+
+        throw error;
+      }
+    }
+
+    throw new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_RETRY_EXHAUSTED");
   }
 
   public async recordDisposition(input: RecordDispositionInput): Promise<ScenarioState> {
@@ -163,7 +209,8 @@ export class AnalysisService {
       );
     }
 
-    const state = await this.dependencies.repository.load();
+    const snapshot = await this.dependencies.repository.load();
+    const state = snapshot.state;
     assertCaseId(state, input.caseId);
 
     const finding = state.findings.find((candidate) => candidate.findingId === input.findingId);
@@ -196,9 +243,16 @@ export class AnalysisService {
       ]
     };
 
-    await this.dependencies.repository.save(nextState);
+    await this.dependencies.repository.save({
+      ...snapshot,
+      state: nextState
+    });
     return nextState;
   }
+}
+
+function isStateConflict(error: unknown): error is DemoHttpError {
+  return error instanceof DemoHttpError && error.code === "STATE_CONFLICT";
 }
 
 function runLocalGovernedScenarioAnalysisAdapter(input: {
