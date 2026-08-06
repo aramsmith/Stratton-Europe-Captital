@@ -7,7 +7,7 @@ import {
   shorthands,
   tokens
 } from "@fluentui/react-components";
-import type { AnalysisTaskClass } from "@stratton/contracts";
+import type { AnalysisRunMetadata, AnalysisTaskClass } from "@stratton/contracts";
 import { StatusBadge } from "../shared/StatusBadge.js";
 
 const taskClassOptions: ReadonlyArray<{ value: AnalysisTaskClass; label: string }> = [
@@ -45,6 +45,8 @@ const useStyles = makeStyles({
 interface AnalysisTaskPanelProps {
   readonly taskClass: AnalysisTaskClass;
   readonly question: string;
+  readonly latestAnalysisRun?: AnalysisRunMetadata | undefined;
+  readonly rerunBlockedReason?: string | null | undefined;
   readonly route?: string | undefined;
   readonly statusMessage?: string | null | undefined;
   readonly error?: string | null | undefined;
@@ -57,6 +59,8 @@ interface AnalysisTaskPanelProps {
 export function AnalysisTaskPanel({
   taskClass,
   question,
+  latestAnalysisRun,
+  rerunBlockedReason,
   route,
   statusMessage,
   error,
@@ -102,16 +106,31 @@ export function AnalysisTaskPanel({
 
         <Button
           appearance="primary"
-          disabled={isBusy || question.trim().length === 0 || !onRunAnalysis}
+          disabled={isBusy || question.trim().length === 0 || !onRunAnalysis || Boolean(rerunBlockedReason)}
           onClick={() => void onRunAnalysis?.()}
         >
           {isBusy ? "Running..." : "Run analysis"}
         </Button>
 
+        {rerunBlockedReason ? <Caption1>{rerunBlockedReason}</Caption1> : null}
+
         {statusMessage ? (
           <div className={styles.statusRow}>
             <strong>{statusMessage}</strong>
             {route ? <StatusBadge label={route} status={route} /> : null}
+          </div>
+        ) : null}
+
+        {latestAnalysisRun ? (
+          <div>
+            <strong>Latest governed Phase 5 request</strong>
+            <Caption1>Authority gate: {formatAuthorityGateRole(latestAnalysisRun.authorityGateRole)}</Caption1>
+            <Caption1>Phase 5 run: {latestAnalysisRun.analysisRunId}</Caption1>
+            <Caption1>Task class: {latestAnalysisRun.taskClass}</Caption1>
+            <Caption1>Analyst question: {latestAnalysisRun.analystQuestion}</Caption1>
+            <Caption1>
+              Admitted evidence set: {latestAnalysisRun.admittedEvidenceIds.join(", ")}
+            </Caption1>
           </div>
         ) : null}
 
@@ -123,4 +142,8 @@ export function AnalysisTaskPanel({
       </div>
     </section>
   );
+}
+
+function formatAuthorityGateRole(role: AnalysisRunMetadata["authorityGateRole"]): string {
+  return role === "HUMAN_ANALYST_REVIEW_GATE" ? "Human analyst review gate" : role;
 }

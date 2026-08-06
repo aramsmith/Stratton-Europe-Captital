@@ -35,7 +35,7 @@ describe("StrattonShell", () => {
     expect(screen.getByRole("heading", { name: "Project Danube" })).toBeVisible();
     expect(screen.getByRole("link", { name: "AI Deal Workbench" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Investment Decision Room" })).toBeVisible();
-    expect(screen.getByRole("link", { name: "Governance & Assurance" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Governance & Authority Gate" })).toBeVisible();
   });
 
   it("marks the selected workspace as the current page", () => {

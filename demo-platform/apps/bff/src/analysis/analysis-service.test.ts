@@ -12,6 +12,16 @@ function createAdmittedState() {
   return state;
 }
 
+function createCoreAdmittedState() {
+  const state = createProjectDanubeState();
+  state.evidence = state.evidence.map((evidence) =>
+    evidence.evidenceId === "evidence-environmental-permit"
+      ? evidence
+      : { ...evidence, admissionStatus: "ADMITTED" }
+  );
+  return state;
+}
+
 function createPhase5ClientDouble() {
   return {
     requestAnalysis: vi.fn<Phase5Client["requestAnalysis"]>().mockResolvedValue({
@@ -78,12 +88,35 @@ describe("AnalysisService", () => {
 
     expect(result.route).toBe("TERRA");
     expect(result.analysisRunId).toBe("run-terra-1");
+    expect(result.analysisMetadata).toMatchObject({
+      analysisRunId: "run-terra-1",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      route: "TERRA",
+      analystQuestion: "Challenge management EBITDA quality",
+      admittedEvidenceIds: [
+        "evidence-board-pack",
+        "evidence-environmental-permit",
+        "evidence-erp-rebates",
+        "evidence-qoe-report"
+      ],
+      authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+    });
+    expect(result.analysisMetadata.analysisRequestFingerprint).toMatch(/^[a-f0-9]{64}$/);
+    expect(result.analysisMetadata.questionHash).toMatch(/^[a-f0-9]{64}$/);
+    expect(result.analysisMetadata.evidenceSetHash).toMatch(/^[a-f0-9]{64}$/);
     expect(phase5Client.requestAnalysis).toHaveBeenCalledWith({
       caseId: "project-danube",
-      evidenceId: "evidence-board-pack",
+      evidenceIds: [
+        "evidence-board-pack",
+        "evidence-environmental-permit",
+        "evidence-erp-rebates",
+        "evidence-qoe-report"
+      ],
+      analystQuestion: "Challenge management EBITDA quality",
       modelDeploymentId: "terra-grounded-analysis",
-      promptTemplateVersion: "stratton-workbench-v1",
-      idempotencyKey: expect.any(String)
+      promptTemplateVersion: `stratton-workbench-v2:${result.analysisMetadata.analysisRequestFingerprint}`,
+      analysisRequestFingerprint: result.analysisMetadata.analysisRequestFingerprint,
+      idempotencyKey: `analysis:${result.analysisMetadata.analysisRequestFingerprint}`
     });
 
     const ebitdaFinding = getFinding(result.findings, "finding-ebitda-quality");
@@ -112,7 +145,10 @@ describe("AnalysisService", () => {
           locator: "page 18",
           accessible: true
         }
-      ]
+      ],
+      analysisRunId: "run-terra-1",
+      analysisRequestFingerprint: result.analysisMetadata.analysisRequestFingerprint,
+      authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
     });
     expect(ebitdaFinding.originalAiSummary).toBe(
       "Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million."
@@ -150,8 +186,120 @@ describe("AnalysisService", () => {
           outcome: "SUCCESS",
           correlationId: "corr-terra-1",
           detail: "run-terra-1"
+        }),
+        expect.objectContaining({
+          type: "ANALYSIS_REQUEST_GOVERNED",
+          outcome: "SUCCESS",
+          correlationId: "corr-terra-1",
+          metadata: {
+            analysisRequestFingerprint: result.analysisMetadata.analysisRequestFingerprint,
+            questionHash: result.analysisMetadata.questionHash,
+            evidenceSetHash: result.analysisMetadata.evidenceSetHash,
+            taskClass: "CROSS_DOCUMENT_COMPARISON",
+            route: "TERRA",
+            phase5RunId: "run-terra-1",
+            authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+            findingIds: [
+              "finding-ebitda-quality",
+              "finding-customer-concentration",
+              "finding-permit-transfer"
+            ]
+          }
         })
       ])
+    );
+  });
+
+  it("does not require permit evidence for the EBITDA flow and suppresses the permit finding until admitted", async () => {
+    const repository = new InMemoryScenarioRepository(createCoreAdmittedState());
+    const phase5Client = createPhase5ClientDouble();
+    const service = new AnalysisService({ repository, phase5Client });
+
+    const result = await service.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-core-only"
+    });
+
+    expect(result.findings.map((finding) => finding.findingId)).toEqual([
+      "finding-ebitda-quality",
+      "finding-customer-concentration"
+    ]);
+    expect(result.analysisMetadata.admittedEvidenceIds).toEqual([
+      "evidence-board-pack",
+      "evidence-erp-rebates",
+      "evidence-qoe-report"
+    ]);
+  });
+
+  it("rejects reruns when governed findings already carry text history and no versioned cycle exists", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const service = new AnalysisService({
+      repository,
+      phase5Client: createPhase5ClientDouble()
+    });
+
+    await service.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-first-run"
+    });
+
+    await expect(
+      service.run({
+        caseId: "project-danube",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        question: "Challenge management EBITDA quality",
+        correlationId: "corr-rerun"
+      })
+    ).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: expect.stringContaining("versioned cycle")
+    });
+  });
+
+  it("changes the governed analysis fingerprint when the question or admitted evidence set changes", async () => {
+    const firstResult = await new AnalysisService({
+      repository: new InMemoryScenarioRepository(createCoreAdmittedState()),
+      phase5Client: createPhase5ClientDouble()
+    }).run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-fingerprint-1"
+    });
+
+    const secondResult = await new AnalysisService({
+      repository: new InMemoryScenarioRepository(createCoreAdmittedState()),
+      phase5Client: createPhase5ClientDouble()
+    }).run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Pressure-test the EBITDA normalization bridge",
+      correlationId: "corr-fingerprint-2"
+    });
+
+    const thirdResult = await new AnalysisService({
+      repository: new InMemoryScenarioRepository(createAdmittedState()),
+      phase5Client: createPhase5ClientDouble()
+    }).run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-fingerprint-3"
+    });
+
+    expect(firstResult.analysisMetadata.analysisRequestFingerprint).not.toBe(
+      secondResult.analysisMetadata.analysisRequestFingerprint
+    );
+    expect(firstResult.analysisMetadata.analysisRequestFingerprint).not.toBe(
+      thirdResult.analysisMetadata.analysisRequestFingerprint
+    );
+    expect(firstResult.analysisMetadata.questionHash).not.toBe(secondResult.analysisMetadata.questionHash);
+    expect(firstResult.analysisMetadata.evidenceSetHash).not.toBe(
+      thirdResult.analysisMetadata.evidenceSetHash
     );
   });
 

@@ -82,6 +82,20 @@ export function FindingCard({
 
       <p>{finding.summary}</p>
 
+      {finding.analysisRunId ? (
+        <div>
+          <Caption1>Linked Phase 5 run: {finding.analysisRunId}</Caption1>
+          {finding.authorityGateRole ? (
+            <Caption1>
+              Authority gate:{" "}
+              {finding.authorityGateRole === "HUMAN_ANALYST_REVIEW_GATE"
+                ? "Human analyst review gate"
+                : finding.authorityGateRole}
+            </Caption1>
+          ) : null}
+        </div>
+      ) : null}
+
       {finding.originalAiSummary && finding.originalAiSummary !== finding.summary ? (
         <div className={styles.original}>
           <strong>Original AI text</strong>

@@ -321,9 +321,16 @@ describe("createPhase5Client", () => {
     await expect(
       client.requestAnalysis({
         caseId: "project-danube",
-        evidenceId: "evidence-board-pack",
+        evidenceIds: [
+          "evidence-board-pack",
+          "evidence-erp-rebates",
+          "evidence-qoe-report"
+        ],
+        analystQuestion: "Challenge management EBITDA quality",
         modelDeploymentId: "terra",
         promptTemplateVersion: "v1",
+        analysisRequestFingerprint:
+          "dfec8894ed091695f8830d2894f588a468add85a89a6d7ad2ed0dd2fa6db0b7d",
         idempotencyKey: "idem-3"
       })
     ).rejects.toMatchObject({

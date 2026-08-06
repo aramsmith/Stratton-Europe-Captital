@@ -36,9 +36,11 @@ export interface Phase5Client {
   }): Promise<void>;
   requestAnalysis(input: {
     caseId: string;
-    evidenceId: string;
+    evidenceIds: string[];
+    analystQuestion: string;
     modelDeploymentId: string;
     promptTemplateVersion: string;
+    analysisRequestFingerprint: string;
     idempotencyKey: string;
   }): Promise<{ analysisRunId: string; status: "QUEUED" }>;
   submitReview(input: {
@@ -82,9 +84,11 @@ export function createPhase5Client(dependencies: Phase5ClientDependencies): Phas
         path: `/v1/cases/${encodeURIComponent(input.caseId)}/analysis-runs`,
         body: {
           caseId: input.caseId,
-          evidenceId: input.evidenceId,
+          evidenceIds: input.evidenceIds,
+          analystQuestion: input.analystQuestion,
           modelDeploymentId: input.modelDeploymentId,
-          promptTemplateVersion: input.promptTemplateVersion
+          promptTemplateVersion: input.promptTemplateVersion,
+          analysisRequestFingerprint: input.analysisRequestFingerprint
         },
         idempotencyKey: input.idempotencyKey,
         responseSchema: analysisAcceptedSchema
@@ -119,7 +123,7 @@ export function createPhase5Client(dependencies: Phase5ClientDependencies): Phas
 
 interface BaseSendRequest {
   readonly path: string;
-  readonly body: Record<string, string>;
+  readonly body: Record<string, unknown>;
   readonly idempotencyKey: string;
 }
 

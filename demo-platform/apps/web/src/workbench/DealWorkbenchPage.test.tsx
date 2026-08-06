@@ -89,6 +89,31 @@ function createCompletedScenario(): ScenarioState {
       "Permit transfer requires controlled completion steps before close."
     )
   ];
+  scenario.latestAnalysisRun = {
+    analysisRunId: "run-terra-1",
+    route: "TERRA",
+    taskClass: "CROSS_DOCUMENT_COMPARISON",
+    analystQuestion: "Challenge management EBITDA quality",
+    questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+    admittedEvidenceIds: [
+      "evidence-board-pack",
+      "evidence-environmental-permit",
+      "evidence-erp-rebates",
+      "evidence-qoe-report"
+    ],
+    evidenceSetHash: "7a0cbdb7f6cff1ce34618a74be93fd6928840fa2712f822e7ef76a08b85c4f99",
+    analysisRequestFingerprint:
+      "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+    promptTemplateVersion:
+      "stratton-workbench-v2:9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
+    authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+  };
+  scenario.findings = scenario.findings.map((finding) => ({
+    ...finding,
+    analysisRunId: "run-terra-1",
+    analysisRequestFingerprint: scenario.latestAnalysisRun!.analysisRequestFingerprint,
+    authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+  }));
   return scenario;
 }
 
@@ -111,7 +136,8 @@ function renderWorkbench() {
       route: "TERRA",
       scenario: nextScenario,
       findings: nextScenario.findings,
-      correlationId: "corr-ui-1"
+      correlationId: "corr-ui-1",
+      analysisMetadata: nextScenario.latestAnalysisRun!
     };
   });
   const recordDisposition = vi.fn(async (input: FindingDispositionRequest & { findingId: string }) => {
@@ -204,11 +230,15 @@ describe("DealWorkbenchPage", () => {
       question: "Challenge management EBITDA quality"
     });
     expect(await screen.findByText("Completed via TERRA")).toBeVisible();
+    expect(screen.getByText(/Latest governed Phase 5 request/i)).toBeVisible();
+    expect(screen.getAllByText(/Human analyst review gate/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/run-terra-1/i).length).toBeGreaterThan(0);
     expect(screen.getByRole("heading", { name: "Adjusted EBITDA quality" })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Customer concentration" })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Permit transfer readiness" })).toBeVisible();
 
     const ebitdaCard = screen.getByRole("article", { name: "Adjusted EBITDA quality" });
+    expect(within(ebitdaCard).getByText(/Linked Phase 5 run: run-terra-1/i)).toBeVisible();
     fireEvent.click(within(ebitdaCard).getByRole("button", { name: "Open citation citation-board-pack-42" }));
 
     const citationPanel = screen.getByRole("region", { name: "Citation detail" });
@@ -263,6 +293,19 @@ describe("DealWorkbenchPage", () => {
     expect(screen.getByText("Original AI text")).toBeVisible();
     expect(
       screen.getByText("Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million.")
+    ).toBeVisible();
+  });
+
+  it("disables reruns once governed findings already exist and explains the versioned-cycle requirement", () => {
+    render(
+      <FluentProvider theme={webLightTheme}>
+        <DealWorkbenchPage scenario={createCompletedScenario()} onRunAnalysis={vi.fn()} />
+      </FluentProvider>
+    );
+
+    expect(screen.getByRole("button", { name: "Run analysis" })).toBeDisabled();
+    expect(
+      screen.getByText(/create a versioned cycle before rerunning this governed analysis/i)
     ).toBeVisible();
   });
 

@@ -4,6 +4,20 @@ export const modelRouteSchema = z.enum(["LUNA", "TERRA", "SOL"]);
 export type ModelRoute = z.infer<typeof modelRouteSchema>;
 export const provenanceStatusSchema = z.enum(["PENDING", "VERIFIED"]);
 export type ProvenanceStatus = z.infer<typeof provenanceStatusSchema>;
+export const authorityGateRoleSchema = z.enum(["HUMAN_ANALYST_REVIEW_GATE"]);
+export type AuthorityGateRole = z.infer<typeof authorityGateRoleSchema>;
+
+export const analysisTaskClassSchema = z.enum([
+  "EVIDENCE_TRIAGE",
+  "QUERY_REWRITE",
+  "FIRST_PASS_SUMMARY",
+  "GROUNDED_ANALYSIS",
+  "CROSS_DOCUMENT_COMPARISON",
+  "ESG_NORMALISATION",
+  "COMPLEX_RISK_SYNTHESIS",
+  "INVESTMENT_THESIS_CHALLENGE"
+]);
+export type AnalysisTaskClass = z.infer<typeof analysisTaskClassSchema>;
 
 export const citationSchema = z
   .object({
@@ -34,7 +48,10 @@ export const findingSchema = z
     route: modelRouteSchema.optional(),
     citations: z.array(citationSchema),
     originalAiSummary: z.string().min(1).optional(),
-    textHistory: z.array(findingTextVersionSchema).default([])
+    textHistory: z.array(findingTextVersionSchema).default([]),
+    analysisRunId: z.string().min(1).optional(),
+    analysisRequestFingerprint: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    authorityGateRole: authorityGateRoleSchema.optional()
   })
   .strict()
   .superRefine((finding, context) => {
@@ -48,6 +65,35 @@ export const findingSchema = z
       });
     }
   });
+
+export const analysisRunMetadataSchema = z
+  .object({
+    analysisRunId: z.string().min(1),
+    route: modelRouteSchema,
+    taskClass: analysisTaskClassSchema,
+    analystQuestion: z.string().min(1),
+    questionHash: z.string().regex(/^[a-f0-9]{64}$/),
+    admittedEvidenceIds: z.array(z.string().min(1)).min(1),
+    evidenceSetHash: z.string().regex(/^[a-f0-9]{64}$/),
+    analysisRequestFingerprint: z.string().regex(/^[a-f0-9]{64}$/),
+    promptTemplateVersion: z.string().min(1),
+    authorityGateRole: authorityGateRoleSchema
+  })
+  .strict();
+export type AnalysisRunMetadata = z.infer<typeof analysisRunMetadataSchema>;
+
+export const governanceEventMetadataSchema = z
+  .object({
+    analysisRequestFingerprint: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    questionHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    evidenceSetHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    taskClass: analysisTaskClassSchema.optional(),
+    route: modelRouteSchema.optional(),
+    phase5RunId: z.string().min(1).optional(),
+    authorityGateRole: authorityGateRoleSchema.optional(),
+    findingIds: z.array(z.string().min(1)).optional()
+  })
+  .strict();
 
 export const scenarioStateSchema = z
   .object({
@@ -81,6 +127,7 @@ export const scenarioStateSchema = z
           })
           .strict()
       ),
+    latestAnalysisRun: analysisRunMetadataSchema.optional(),
     governanceEvents: z
       .array(
         z
@@ -90,7 +137,8 @@ export const scenarioStateSchema = z
             outcome: z.enum(["ALLOW", "DENY", "SUCCESS", "FAILURE"]),
             occurredAtIso: z.string().datetime(),
             correlationId: z.string().min(1),
-            detail: z.string().min(1).optional()
+            detail: z.string().min(1).optional(),
+            metadata: governanceEventMetadataSchema.optional()
           })
           .strict()
       )
@@ -127,18 +175,6 @@ export type ReviewRequirement = ScenarioState["reviews"][number];
 export type GovernanceEvent = ScenarioState["governanceEvents"][number];
 export type FindingTextVersion = z.infer<typeof findingTextVersionSchema>;
 
-export const analysisTaskClassSchema = z.enum([
-  "EVIDENCE_TRIAGE",
-  "QUERY_REWRITE",
-  "FIRST_PASS_SUMMARY",
-  "GROUNDED_ANALYSIS",
-  "CROSS_DOCUMENT_COMPARISON",
-  "ESG_NORMALISATION",
-  "COMPLEX_RISK_SYNTHESIS",
-  "INVESTMENT_THESIS_CHALLENGE"
-]);
-export type AnalysisTaskClass = z.infer<typeof analysisTaskClassSchema>;
-
 export const evidenceAdmissionRequestSchema = z
   .object({
     caseId: z.literal("project-danube")
@@ -168,7 +204,8 @@ export const analysisRunResponseSchema = z
     route: modelRouteSchema,
     scenario: scenarioStateSchema,
     findings: z.array(findingSchema),
-    correlationId: z.string().min(1).default("unknown")
+    correlationId: z.string().min(1).default("unknown"),
+    analysisMetadata: analysisRunMetadataSchema
   })
   .strict();
 export type AnalysisRunResponse = z.infer<typeof analysisRunResponseSchema>;

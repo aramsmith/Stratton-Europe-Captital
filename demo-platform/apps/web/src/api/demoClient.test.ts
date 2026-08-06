@@ -69,7 +69,26 @@ describe("DemoClient", () => {
           analysisRunId: "run-terra-1",
           route: "TERRA",
           scenario,
-          findings: []
+          findings: [],
+          analysisMetadata: {
+            analysisRunId: "run-terra-1",
+            route: "TERRA",
+            taskClass: "CROSS_DOCUMENT_COMPARISON",
+            analystQuestion: "Challenge management EBITDA quality",
+            questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+            admittedEvidenceIds: [
+              "evidence-board-pack",
+              "evidence-erp-rebates",
+              "evidence-qoe-report"
+            ],
+            evidenceSetHash:
+              "f37e6f335867fbe2428d1dac7f33e32d480c1e4b9ed6761b6ddb51a0fbfb8df8",
+            analysisRequestFingerprint:
+              "dfec8894ed091695f8830d2894f588a468add85a89a6d7ad2ed0dd2fa6db0b7d",
+            promptTemplateVersion:
+              "stratton-workbench-v2:dfec8894ed091695f8830d2894f588a468add85a89a6d7ad2ed0dd2fa6db0b7d",
+            authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+          }
         }),
         { status: 200 }
       )
@@ -87,7 +106,26 @@ describe("DemoClient", () => {
       route: "TERRA",
       scenario,
       findings: [],
-      correlationId: "unknown"
+      correlationId: "unknown",
+      analysisMetadata: {
+        analysisRunId: "run-terra-1",
+        route: "TERRA",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        analystQuestion: "Challenge management EBITDA quality",
+        questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
+        admittedEvidenceIds: [
+          "evidence-board-pack",
+          "evidence-erp-rebates",
+          "evidence-qoe-report"
+        ],
+        evidenceSetHash:
+          "f37e6f335867fbe2428d1dac7f33e32d480c1e4b9ed6761b6ddb51a0fbfb8df8",
+        analysisRequestFingerprint:
+          "dfec8894ed091695f8830d2894f588a468add85a89a6d7ad2ed0dd2fa6db0b7d",
+        promptTemplateVersion:
+          "stratton-workbench-v2:dfec8894ed091695f8830d2894f588a468add85a89a6d7ad2ed0dd2fa6db0b7d",
+        authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+      }
     });
     expect(fetchMock).toHaveBeenCalledWith("/api/analysis-runs", {
       method: "POST",

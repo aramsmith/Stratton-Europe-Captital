@@ -93,12 +93,10 @@ function getCorrelationId(response: express.Response): string {
 }
 
 function createLocalPhase5Client(): Phase5Client {
-  let analysisRunSequence = 0;
-
   return {
     admitEvidence: async () => undefined,
-    requestAnalysis: async () => ({
-      analysisRunId: `local-analysis-${++analysisRunSequence}`,
+    requestAnalysis: async (input) => ({
+      analysisRunId: `local-analysis-${input.analysisRequestFingerprint.slice(0, 12)}`,
       status: "QUEUED"
     }),
     submitReview: async () => undefined,

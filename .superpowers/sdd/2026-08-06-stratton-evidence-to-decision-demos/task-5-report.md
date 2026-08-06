@@ -86,3 +86,21 @@
 
 ## Files intentionally not included in this task
 - Existing unrelated working tree change: `.superpowers/sdd/2026-08-06-stratton-evidence-to-decision-demos/task-4-report.md` was left untouched and will not be staged with the Task 5 commit.
+
+## Fix round 1
+- Report path confirmed present: `.superpowers/sdd/2026-08-06-stratton-evidence-to-decision-demos/task-5-report.md`
+- Red phase:
+  - `npm --workspace @stratton/demo-bff test -- analysis-service.test.ts; npm --workspace @stratton/demo-web test -- DealWorkbenchPage.test.tsx` → FAIL (missing rerun guard, permit suppression, governed request metadata, and matching UI metadata/disablement).
+- Shared package rebuild:
+  - `npm run build --workspace @stratton/contracts; npm run build --workspace @stratton/scenario-data` → PASS.
+- Targeted validation:
+  - `npm --workspace @stratton/demo-bff test -- analysis-service.test.ts` → PASS.
+  - `npm --workspace @stratton/demo-web test -- DealWorkbenchPage.test.tsx` → PASS.
+  - `npm --workspace @stratton/contracts test -- index.test.ts` → PASS.
+  - `npm --workspace @stratton/demo-bff test -- analysis-service.test.ts server.test.ts` → PASS.
+  - `npm --workspace @stratton/demo-web test -- demoClient.test.ts DealWorkbenchPage.test.tsx StrattonShell.test.tsx` → PASS.
+- Root validation:
+  - `npm run validate` → PASS.
+- Validation notes:
+  - ESLint still emits the pre-existing non-fatal `MODULE_TYPELESS_PACKAGE_JSON` warning for `demo-platform\eslint.config.js`.
+  - Vite still emits the pre-existing non-fatal 500 kB chunk-size warning during `@stratton/demo-web` production build.

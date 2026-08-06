@@ -54,6 +54,8 @@ const useStyles = makeStyles({
     ...shorthands.borderRadius(tokens.borderRadiusLarge)
   }
 });
+const rerunBlockedReason =
+  "Create a versioned cycle before rerunning this governed analysis because the current findings already preserve governed text history or human dispositions.";
 
 interface DealWorkbenchPageProps {
   readonly scenario: ScenarioState;
@@ -106,6 +108,7 @@ export function DealWorkbenchPage({
     (citation) => citation.citationId === selectedCitationId
   );
   const selectedEvidence = selectedCitation ? evidenceById.get(selectedCitation.evidenceId) : undefined;
+  const analysisRerunBlockedReason = getAnalysisRerunBlockedReason(scenario);
 
   const handleRunAnalysis = async () => {
     if (!onRunAnalysis) {
@@ -201,10 +204,12 @@ export function DealWorkbenchPage({
           <AnalysisTaskPanel
             error={error}
             isBusy={isBusy}
+            latestAnalysisRun={scenario.latestAnalysisRun}
             onQuestionChange={setQuestion}
             onRunAnalysis={handleRunAnalysis}
             onTaskClassChange={setTaskClass}
             question={question}
+            rerunBlockedReason={analysisRerunBlockedReason}
             route={route}
             statusMessage={statusMessage}
             taskClass={taskClass}
@@ -269,4 +274,12 @@ function toErrorMessage(error: unknown): string {
   return typeof error === "object" && error !== null && "message" in error && typeof error.message === "string"
     ? error.message
     : "The workbench operation could not be completed.";
+}
+
+function getAnalysisRerunBlockedReason(scenario: ScenarioState): string | null {
+  return scenario.findings.some(
+    (finding) => finding.status !== "DRAFT" || finding.textHistory.length > 0
+  )
+    ? rerunBlockedReason
+    : null;
 }

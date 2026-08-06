@@ -1,8 +1,11 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import type {
   AnalysisFinding,
+  AnalysisRunMetadata,
   AnalysisRunRequest,
   AnalysisRunResponse,
+  AnalysisTaskClass,
+  AuthorityGateRole,
   FindingDispositionAction,
   FindingDispositionRequest,
   FindingTextVersion,
@@ -25,6 +28,10 @@ const modelDeploymentByRoute: Readonly<Record<ModelRoute, string>> = {
   TERRA: "terra-grounded-analysis",
   SOL: "sol-thesis-challenge"
 };
+const promptTemplateVersionPrefix = "stratton-workbench-v2";
+const humanAnalystAuthorityGateRole: AuthorityGateRole = "HUMAN_ANALYST_REVIEW_GATE";
+const rerunConflictMessage =
+  "Analysis rerun is blocked because governed findings already contain text history or human dispositions. Create a versioned cycle before rerunning.";
 
 interface AnalysisServiceDependencies {
   readonly repository: ScenarioRepository;
@@ -55,24 +62,49 @@ export class AnalysisService {
   public async run(input: RunAnalysisInput): Promise<AnalysisRunResponse> {
     const state = await this.dependencies.repository.load();
     assertCaseId(state, input.caseId);
+    assertAnalysisRerunAllowed(state);
     assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
 
     const route = routeTask(input.taskClass);
+    const admittedEvidenceIds = listAdmittedEvidenceIds(state);
+    const analysisMetadataWithoutRunId = createAnalysisRunMetadata({
+      caseId: input.caseId,
+      taskClass: input.taskClass,
+      route,
+      analystQuestion: input.question,
+      admittedEvidenceIds
+    });
     const phase5Result = await this.dependencies.phase5Client.requestAnalysis({
       caseId: input.caseId,
-      evidenceId: "evidence-board-pack",
+      evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
+      analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
       modelDeploymentId: modelDeploymentByRoute[route],
-      promptTemplateVersion: "stratton-workbench-v1",
-      idempotencyKey: this.createId()
+      promptTemplateVersion: analysisMetadataWithoutRunId.promptTemplateVersion,
+      analysisRequestFingerprint: analysisMetadataWithoutRunId.analysisRequestFingerprint,
+      idempotencyKey: buildAnalysisIdempotencyKey(
+        analysisMetadataWithoutRunId.analysisRequestFingerprint
+      )
     });
+    const analysisMetadata: AnalysisRunMetadata = {
+      ...analysisMetadataWithoutRunId,
+      analysisRunId: phase5Result.analysisRunId
+    };
 
-    const findings = createScenarioFindings(route, this.now(), this.createId);
+    const findings = runLocalGovernedScenarioAnalysisAdapter({
+      analysisMetadata,
+      includePermitTransferFinding: analysisMetadata.admittedEvidenceIds.includes(
+        "evidence-environmental-permit"
+      ),
+      occurredAtIso: this.now(),
+      createId: this.createId
+    });
     assertFindingCitationsAdmitted(state, findings);
 
     const nextState: ScenarioState = {
       ...state,
       stage: "ANALYSIS",
       findings,
+      latestAnalysisRun: analysisMetadata,
       governanceEvents: [
         ...state.governanceEvents,
         createGovernanceEvent(this.createId, this.now, {
@@ -92,6 +124,22 @@ export class AnalysisService {
           outcome: "SUCCESS",
           correlationId: input.correlationId,
           detail: phase5Result.analysisRunId
+        }),
+        createGovernanceEvent(this.createId, this.now, {
+          type: "ANALYSIS_REQUEST_GOVERNED",
+          outcome: "SUCCESS",
+          correlationId: input.correlationId,
+          detail: `${input.taskClass}:${phase5Result.analysisRunId}`,
+          metadata: {
+            analysisRequestFingerprint: analysisMetadata.analysisRequestFingerprint,
+            questionHash: analysisMetadata.questionHash,
+            evidenceSetHash: analysisMetadata.evidenceSetHash,
+            taskClass: analysisMetadata.taskClass,
+            route: analysisMetadata.route,
+            phase5RunId: analysisMetadata.analysisRunId,
+            authorityGateRole: analysisMetadata.authorityGateRole,
+            findingIds: findings.map((finding) => finding.findingId)
+          }
         })
       ]
     };
@@ -103,7 +151,8 @@ export class AnalysisService {
       route,
       scenario: nextState,
       findings: nextState.findings,
-      correlationId: input.correlationId
+      correlationId: input.correlationId,
+      analysisMetadata
     };
   }
 
@@ -154,11 +203,14 @@ export class AnalysisService {
   }
 }
 
-function createScenarioFindings(
-  route: ModelRoute,
-  occurredAtIso: string,
-  createId: () => string
-): AnalysisFinding[] {
+function runLocalGovernedScenarioAnalysisAdapter(input: {
+  analysisMetadata: AnalysisRunMetadata;
+  includePermitTransferFinding: boolean;
+  occurredAtIso: string;
+  createId: () => string;
+}): AnalysisFinding[] {
+  const { analysisMetadata, includePermitTransferFinding, occurredAtIso, createId } = input;
+
   const buildHistory = (summary: string): FindingTextVersion[] => [
     {
       versionId: createId(),
@@ -174,15 +226,22 @@ function createScenarioFindings(
     "Customer rebate concentration remains above the approved downside threshold.";
   const permitSummary = "Permit transfer requires controlled completion steps before close.";
 
-  return [
-    {
+  const buildFinding = (finding: Omit<AnalysisFinding, "analysisRunId" | "analysisRequestFingerprint" | "authorityGateRole">): AnalysisFinding => ({
+    ...finding,
+    analysisRunId: analysisMetadata.analysisRunId,
+    analysisRequestFingerprint: analysisMetadata.analysisRequestFingerprint,
+    authorityGateRole: analysisMetadata.authorityGateRole
+  });
+
+  const findings: AnalysisFinding[] = [
+    buildFinding({
       findingId: "finding-ebitda-quality",
       title: "Adjusted EBITDA quality",
       summary: ebitdaSummary,
       originalAiSummary: ebitdaSummary,
       materiality: "HIGH",
       status: "DRAFT",
-      route,
+      route: analysisMetadata.route,
       textHistory: buildHistory(ebitdaSummary),
       citations: [
         {
@@ -204,15 +263,15 @@ function createScenarioFindings(
           accessible: true
         }
       ]
-    },
-    {
+    }),
+    buildFinding({
       findingId: "finding-customer-concentration",
       title: "Customer concentration",
       summary: customerSummary,
       originalAiSummary: customerSummary,
       materiality: "MEDIUM",
       status: "DRAFT",
-      route,
+      route: analysisMetadata.route,
       textHistory: buildHistory(customerSummary),
       citations: [
         {
@@ -228,26 +287,33 @@ function createScenarioFindings(
           accessible: true
         }
       ]
-    },
-    {
-      findingId: "finding-permit-transfer",
-      title: "Permit transfer readiness",
-      summary: permitSummary,
-      originalAiSummary: permitSummary,
-      materiality: "HIGH",
-      status: "DRAFT",
-      route,
-      textHistory: buildHistory(permitSummary),
-      citations: [
-        {
-          citationId: "citation-permit-2049",
-          evidenceId: "evidence-environmental-permit",
-          locator: "Permit reference: CZ-EP-2049",
-          accessible: true
-        }
-      ]
-    }
+    })
   ];
+
+  if (includePermitTransferFinding) {
+    findings.push(
+      buildFinding({
+        findingId: "finding-permit-transfer",
+        title: "Permit transfer readiness",
+        summary: permitSummary,
+        originalAiSummary: permitSummary,
+        materiality: "HIGH",
+        status: "DRAFT",
+        route: analysisMetadata.route,
+        textHistory: buildHistory(permitSummary),
+        citations: [
+          {
+            citationId: "citation-permit-2049",
+            evidenceId: "evidence-environmental-permit",
+            locator: "Permit reference: CZ-EP-2049",
+            accessible: true
+          }
+        ]
+      })
+    );
+  }
+
+  return findings;
 }
 
 function applyDispositionToFinding(
@@ -322,6 +388,12 @@ function assertEvidenceAdmitted(
   }
 }
 
+function assertAnalysisRerunAllowed(state: ScenarioState): void {
+  if (hasGovernedFindingHistory(state) && !hasVersionedAnalysisCycle()) {
+    throw new DemoHttpError(409, "STATE_CONFLICT", rerunConflictMessage);
+  }
+}
+
 function assertFindingCitationsAdmitted(state: ScenarioState, findings: readonly AnalysisFinding[]): void {
   const evidenceById = new Map(state.evidence.map((evidence) => [evidence.evidenceId, evidence] as const));
 
@@ -339,6 +411,62 @@ function assertFindingCitationsAdmitted(state: ScenarioState, findings: readonly
       "Every finding citation must resolve to admitted evidence before it can be shown in the workbench."
     );
   }
+}
+
+function hasGovernedFindingHistory(state: ScenarioState): boolean {
+  return state.findings.some((finding) => finding.status !== "DRAFT" || finding.textHistory.length > 0);
+}
+
+function hasVersionedAnalysisCycle(): boolean {
+  return false;
+}
+
+function listAdmittedEvidenceIds(state: ScenarioState): string[] {
+  return state.evidence
+    .filter((evidence) => evidence.admissionStatus === "ADMITTED")
+    .map((evidence) => evidence.evidenceId)
+    .sort((left, right) => left.localeCompare(right));
+}
+
+function createAnalysisRunMetadata(input: {
+  caseId: string;
+  taskClass: AnalysisTaskClass;
+  route: ModelRoute;
+  analystQuestion: string;
+  admittedEvidenceIds: readonly string[];
+}): Omit<AnalysisRunMetadata, "analysisRunId"> {
+  const analystQuestion = input.analystQuestion.trim();
+  const questionHash = hashValue(analystQuestion);
+  const evidenceSetHash = hashValue(JSON.stringify([...input.admittedEvidenceIds]));
+  const analysisRequestFingerprint = hashValue(
+    JSON.stringify({
+      caseId: input.caseId,
+      taskClass: input.taskClass,
+      route: input.route,
+      analystQuestion,
+      admittedEvidenceIds: [...input.admittedEvidenceIds]
+    })
+  );
+
+  return {
+    route: input.route,
+    taskClass: input.taskClass,
+    analystQuestion,
+    questionHash,
+    admittedEvidenceIds: [...input.admittedEvidenceIds],
+    evidenceSetHash,
+    analysisRequestFingerprint,
+    promptTemplateVersion: `${promptTemplateVersionPrefix}:${analysisRequestFingerprint}`,
+    authorityGateRole: humanAnalystAuthorityGateRole
+  };
+}
+
+function buildAnalysisIdempotencyKey(analysisRequestFingerprint: string): string {
+  return `analysis:${analysisRequestFingerprint}`;
+}
+
+function hashValue(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }
 
 function createGovernanceEvent(

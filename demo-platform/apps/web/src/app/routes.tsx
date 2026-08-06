@@ -38,8 +38,8 @@ export const workspaceDefinitions = [
   },
   {
     path: "/governance",
-    label: "Governance & Assurance",
-    summary: "Lineage, policy, model-route, and audit evidence for the approved demo journey."
+    label: "Governance & Authority Gate",
+    summary: "Lineage, policy, authority-gate, and audit evidence for the approved demo journey."
   }
 ] as const satisfies readonly WorkspaceDefinition[];
 
@@ -235,11 +235,12 @@ function GovernanceRoute({ scenario }: AppRoutesProps) {
     <div className={styles.routeLayout}>
       <section aria-labelledby="governance-heading">
         <Title3 as="h2" id="governance-heading">
-          Governance & Assurance
+          Governance & Authority Gate
         </Title3>
         <Body1>
           Show case lineage, audit events, and governed model-route evidence without implying an
-          Internal Audit verdict.
+          Internal Audit verdict. The authority gate records how human analysts constrain every
+          routed Phase 5 request.
         </Body1>
       </section>
 
@@ -262,10 +263,10 @@ function GovernanceRoute({ scenario }: AppRoutesProps) {
         </Card>
 
         <Card className={styles.workspaceCard}>
-          <Title3 as="h3">Assurance view</Title3>
+          <Title3 as="h3">Authority gate view</Title3>
           <Caption1 className={styles.muted}>
-            Route evidence, policy decisions, and recovery posture become visible here as the demo
-            advances beyond intake.
+            Route evidence, policy decisions, authority-gate role, and recovery posture become
+            visible here as the demo advances beyond intake.
           </Caption1>
           <ul className={styles.list}>
             <li className={styles.listItem}>
