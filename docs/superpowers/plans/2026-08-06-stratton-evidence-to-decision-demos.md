@@ -254,7 +254,7 @@ Use this root script set:
     "lint": "eslint src --max-warnings 0"
   },
   "dependencies": {
-    "@azure/ai-document-intelligence": "1.0.0",
+    "@azure-rest/ai-document-intelligence": "1.0.0",
     "@azure/identity": "4.13.1",
     "@azure/search-documents": "12.2.0",
     "@azure/service-bus": "7.9.5",

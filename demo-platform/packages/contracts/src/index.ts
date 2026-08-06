@@ -78,7 +78,30 @@ export const scenarioStateSchema = z
           .strict()
       )
   })
-  .strict();
+  .strict()
+  .superRefine((scenario, context) => {
+    const evidenceById = new Map(
+      scenario.evidence.map((evidence) => [evidence.evidenceId, evidence] as const)
+    );
+
+    scenario.findings.forEach((finding, findingIndex) => {
+      if (finding.materiality !== "HIGH" && finding.materiality !== "CRITICAL") {
+        return;
+      }
+
+      finding.citations.forEach((citation, citationIndex) => {
+        const evidence = evidenceById.get(citation.evidenceId);
+
+        if (evidence?.admissionStatus !== "ADMITTED") {
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "MATERIAL_FINDING_CITATION_MUST_REFERENCE_ADMITTED_EVIDENCE",
+            path: ["findings", findingIndex, "citations", citationIndex, "evidenceId"]
+          });
+        }
+      });
+    });
+  });
 
 export type ScenarioState = z.infer<typeof scenarioStateSchema>;
 export type EvidenceItem = ScenarioState["evidence"][number];
