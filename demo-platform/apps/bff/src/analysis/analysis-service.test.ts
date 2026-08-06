@@ -371,6 +371,63 @@ describe("AnalysisService", () => {
     expect(result.scenario.stage).toBe("ANALYSIS");
   });
 
+  it("fails closed on stale-save retry when a different governed analysis has already won", async () => {
+    const concurrentPhase5Client = createPhase5ClientDouble();
+    concurrentPhase5Client.requestAnalysis.mockResolvedValueOnce({
+      analysisRunId: "run-terra-2",
+      status: "QUEUED"
+    });
+    const concurrentResult = await new AnalysisService({
+      repository: new InMemoryScenarioRepository(createAdmittedState()),
+      phase5Client: concurrentPhase5Client
+    }).run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Pressure-test the EBITDA normalization bridge",
+      correlationId: "corr-concurrent-winner"
+    });
+
+    const initialState = createAdmittedState();
+    let loadCount = 0;
+    let savedState = structuredClone(concurrentResult.scenario);
+    const repository = {
+      load: vi.fn(async () => {
+        loadCount += 1;
+        return {
+          state: structuredClone(loadCount === 1 ? initialState : savedState),
+          concurrencyToken: { kind: "ROW_VERSION" as const, value: loadCount - 1 }
+        };
+      }),
+      save: vi
+        .fn()
+        .mockImplementationOnce(async () => {
+          throw new DemoHttpError(409, "STATE_CONFLICT", "SCENARIO_PROJECTION_VERSION_STALE");
+        })
+        .mockImplementationOnce(async (snapshot) => {
+          savedState = structuredClone(snapshot.state);
+        }),
+      reset: vi.fn(async () => undefined)
+    };
+    const phase5Client = createPhase5ClientDouble();
+    const service = new AnalysisService({ repository, phase5Client });
+
+    await expect(
+      service.run({
+        caseId: "project-danube",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        question: "Challenge management EBITDA quality",
+        correlationId: "corr-terra-stale-other"
+      })
+    ).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: expect.stringContaining("versioned cycle")
+    });
+
+    expect(phase5Client.requestAnalysis).toHaveBeenCalledTimes(1);
+    expect(repository.save).toHaveBeenCalledTimes(1);
+    expect(savedState).toEqual(concurrentResult.scenario);
+  });
+
   it("requires a human disposition and preserves immutable AI text when the finding is edited", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const service = new AnalysisService({

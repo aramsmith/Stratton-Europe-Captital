@@ -129,6 +129,7 @@ export class AnalysisService {
         };
       }
 
+      assertAnalysisRerunAllowed(state);
       assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
       assertFindingCitationsAdmitted(state, analysisArtifacts.findings);
       const governedAnalysisEventMetadata = createGovernedAnalysisEventMetadata(
