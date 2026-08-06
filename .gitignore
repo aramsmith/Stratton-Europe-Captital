@@ -21,3 +21,6 @@ obj/
 *.key
 id_rsa
 id_ed25519
+
+# Isolated implementation workspaces
+.worktrees/
