@@ -1,8 +1,8 @@
 import {
-  Button,
   Caption1,
   Field,
   Textarea,
+  Button,
   makeStyles,
   shorthands,
   tokens
@@ -79,9 +79,9 @@ export function AnalysisTaskPanel({
       </div>
 
       <div className={styles.controls}>
-        <Field label="Task class">
+        <Field label="Analysis task">
           <select
-            aria-label="Task class"
+            aria-label="Analysis task"
             className={styles.select}
             disabled={isBusy}
             onChange={(event) => onTaskClassChange(event.currentTarget.value as AnalysisTaskClass)}
@@ -95,8 +95,9 @@ export function AnalysisTaskPanel({
           </select>
         </Field>
 
-        <Field label="Analyst question">
+        <Field label="Question">
           <Textarea
+            aria-label="Question"
             disabled={isBusy}
             onChange={(_event, data) => onQuestionChange(data.value)}
             resize="vertical"
@@ -109,7 +110,7 @@ export function AnalysisTaskPanel({
           disabled={isBusy || question.trim().length === 0 || !onRunAnalysis || Boolean(rerunBlockedReason)}
           onClick={() => void onRunAnalysis?.()}
         >
-          {isBusy ? "Running..." : "Run analysis"}
+          {isBusy ? "Running..." : "Run grounded analysis"}
         </Button>
 
         {rerunBlockedReason ? <Caption1>{rerunBlockedReason}</Caption1> : null}

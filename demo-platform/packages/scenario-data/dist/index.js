@@ -1,2 +1,2 @@
 export const scenarioDataVersion = 1;
-export { createProjectDanubeState } from "./project-danube.js";
+export { createProjectDanubePromptInjectionState, createProjectDanubeState, createScenarioFixtureState, hostilePromptInjectionText } from "./project-danube.js";

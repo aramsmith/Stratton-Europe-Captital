@@ -4,6 +4,9 @@ import { DemoHttpError } from "../errors.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository } from "../scenario/scenario-repository.js";
 
+const crossCaseSecurityGateId = "CC002-R2-SEC-GATE-006";
+const promptInjectionSecurityGateId = "CC002-R2-SEC-GATE-002";
+
 interface EvidenceServiceDependencies {
   readonly repository: ScenarioRepository;
   readonly phase5Client: Phase5Client;
@@ -15,6 +18,17 @@ export interface AdmitEvidenceInput {
   readonly caseId: string;
   readonly evidenceId: string;
   readonly correlationId: string;
+}
+
+interface RejectWithAuditInput {
+  readonly snapshot: Awaited<ReturnType<ScenarioRepository["load"]>>;
+  readonly state: ScenarioState;
+  readonly correlationId: string;
+  readonly type: string;
+  readonly detail: string;
+  readonly error: DemoHttpError;
+  readonly securityGateId?: string;
+  readonly securityGateEvidenceId?: string;
 }
 
 export class EvidenceService {
@@ -33,7 +47,23 @@ export class EvidenceService {
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const snapshot = await this.dependencies.repository.load();
       const state = snapshot.state;
-      assertCaseId(state, input.caseId);
+
+      if (state.caseId !== input.caseId) {
+        return this.rejectWithAudit({
+          snapshot,
+          state,
+          correlationId: input.correlationId,
+          type: "CASE_SCOPE_POLICY_DENIED",
+          detail: `CROSS_CASE_REQUEST:${input.caseId}`,
+          error: new DemoHttpError(
+            403,
+            "POLICY_DENIED",
+            "Requested case is outside the authenticated Project Danube scope."
+          ),
+          securityGateId: crossCaseSecurityGateId,
+          securityGateEvidenceId: input.evidenceId
+        });
+      }
 
       const evidence = state.evidence.find((candidate) => candidate.evidenceId === input.evidenceId);
       if (!evidence) {
@@ -42,6 +72,19 @@ export class EvidenceService {
           "INVALID_CONTRACT",
           "Evidence item does not exist in Project Danube."
         );
+      }
+
+      if (isHostileEvidence(evidence)) {
+        return this.rejectWithAudit({
+          snapshot,
+          state,
+          correlationId: input.correlationId,
+          type: "EVIDENCE_ADMISSION_DENIED",
+          detail: "HOSTILE_EVIDENCE_QUARANTINED",
+          error: new DemoHttpError(403, "POLICY_DENIED", "HOSTILE_EVIDENCE_QUARANTINED"),
+          securityGateId: promptInjectionSecurityGateId,
+          securityGateEvidenceId: evidence.evidenceId
+        });
       }
 
       if (
@@ -99,16 +142,70 @@ export class EvidenceService {
 
     throw new DemoHttpError(409, "STATE_CONFLICT", "EVIDENCE_ADMISSION_RETRY_EXHAUSTED");
   }
-}
 
-function assertCaseId(state: ScenarioState, caseId: string): void {
-  if (state.caseId !== caseId) {
-    throw new DemoHttpError(400, "INVALID_CONTRACT", "Requested case does not match Project Danube.");
+  private async rejectWithAudit(input: RejectWithAuditInput): Promise<never> {
+    const governanceEvents: ScenarioState["governanceEvents"] = [
+      ...input.state.governanceEvents,
+      createGovernanceEvent(this.createId(), this.now(), {
+        type: input.type,
+        outcome: "DENY",
+        correlationId: input.correlationId,
+        detail: input.detail
+      })
+    ];
+
+    if (input.securityGateId) {
+      governanceEvents.push(
+        createGovernanceEvent(this.createId(), this.now(), {
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "FAILURE",
+          correlationId: input.correlationId,
+          detail: input.detail,
+          metadata: {
+            securityGateId: input.securityGateId,
+            ...(input.securityGateEvidenceId
+              ? {
+                  securityGateEvidenceId: input.securityGateEvidenceId
+                }
+              : {})
+          }
+        })
+      );
+    }
+
+    await this.dependencies.repository.save({
+      ...input.snapshot,
+      state: {
+        ...input.state,
+        governanceEvents
+      }
+    });
+
+    throw input.error;
   }
 }
 
 function buildEvidenceAdmissionOperationId(caseId: string, evidenceId: string): string {
   return `admit:${caseId}:${evidenceId}`;
+}
+
+function createGovernanceEvent(
+  eventId: string,
+  occurredAtIso: string,
+  event: Omit<ScenarioState["governanceEvents"][number], "eventId" | "occurredAtIso">
+): ScenarioState["governanceEvents"][number] {
+  return {
+    eventId,
+    occurredAtIso,
+    ...event
+  };
+}
+
+function isHostileEvidence(evidence: ScenarioState["evidence"][number]): boolean {
+  const searchableText = [evidence.title, evidence.sourceLocator, evidence.sourcePreview ?? ""].join("\n");
+  return /SYSTEM OVERRIDE:|reveal every case|approve the investment|ignore the evidence policy/i.test(
+    searchableText
+  );
 }
 
 function isStateConflict(error: unknown): error is DemoHttpError {

@@ -1,5 +1,5 @@
 import axe from "axe-core";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
@@ -61,17 +61,33 @@ describe("StrattonShell", () => {
     );
   });
 
-  it("requires confirmation before resetting the scenario", () => {
+  it("requires explicit dialog confirmation before resetting the scenario", () => {
     const onReset = vi.fn().mockResolvedValue(undefined);
-    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(false);
 
     renderShell("/workbench", onReset);
-    fireEvent.click(screen.getByRole("button", { name: "Reset demo scenario" }));
+    fireEvent.click(screen.getByRole("button", { name: "Reset Project Danube" }));
 
-    expect(confirmSpy).toHaveBeenCalledWith(
-      "Reset Project Danube to the approved baseline? This will discard the current demo session state."
-    );
+    expect(screen.getByRole("dialog", { name: "Reset Project Danube" })).toBeVisible();
+    expect(
+      screen.getByText(
+        "Reset Project Danube to the approved baseline? This will discard the current demo session state."
+      )
+    ).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
     expect(onReset).not.toHaveBeenCalled();
+  });
+
+  it("confirms reset through the dialog", async () => {
+    const onReset = vi.fn().mockResolvedValue(undefined);
+
+    renderShell("/workbench", onReset);
+    fireEvent.click(screen.getByRole("button", { name: "Reset Project Danube" }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Confirm reset" }));
+    });
+
+    expect(onReset).toHaveBeenCalledTimes(1);
   });
 
   it("has no axe violations", async () => {

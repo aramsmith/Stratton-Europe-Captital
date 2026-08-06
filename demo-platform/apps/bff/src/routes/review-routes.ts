@@ -1,10 +1,23 @@
-import {
-  recommendationPreparationRequestSchema,
-  reviewSubmissionRequestSchema
-} from "@stratton/contracts";
 import { Router, type Request, type Response } from "express";
+import { z } from "zod";
 import { DemoHttpError } from "../errors.js";
 import type { ReviewService } from "../reviews/review-service.js";
+
+const reviewSubmissionPayloadSchema = z
+  .object({
+    caseId: z.string().trim().min(1),
+    reviewType: z.enum(["DEAL", "LEGAL", "COMPLIANCE"]),
+    decision: z.enum(["APPROVED", "REJECTED"]),
+    rationale: z.string().trim().min(1),
+    subjectVersion: z.string().min(1)
+  })
+  .strict();
+
+const recommendationPreparationPayloadSchema = z
+  .object({
+    caseId: z.string().trim().min(1)
+  })
+  .strict();
 
 export interface ReviewRouteDependencies {
   readonly reviewService: Pick<ReviewService, "submitReview" | "prepareRecommendation">;
@@ -14,7 +27,7 @@ export function createReviewRouter(dependencies: ReviewRouteDependencies): Route
   const router = Router();
 
   router.post("/api/findings/:findingId/reviews", async (request, response) => {
-    const payload = reviewSubmissionRequestSchema.safeParse(request.body);
+    const payload = reviewSubmissionPayloadSchema.safeParse(request.body);
     if (!payload.success) {
       throw new DemoHttpError(400, "INVALID_CONTRACT");
     }
@@ -30,7 +43,7 @@ export function createReviewRouter(dependencies: ReviewRouteDependencies): Route
   });
 
   router.post("/api/recommendation/prepare", async (request, response) => {
-    const payload = recommendationPreparationRequestSchema.safeParse(request.body);
+    const payload = recommendationPreparationPayloadSchema.safeParse(request.body);
     if (!payload.success) {
       throw new DemoHttpError(400, "INVALID_CONTRACT");
     }

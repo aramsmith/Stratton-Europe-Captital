@@ -40,11 +40,13 @@ interface AnalysisServiceDependencies {
   readonly now?: () => string;
 }
 
-interface RunAnalysisInput extends AnalysisRunRequest {
+interface RunAnalysisInput extends Omit<AnalysisRunRequest, "caseId"> {
+  readonly caseId: string;
   readonly correlationId: string;
 }
 
-interface RecordDispositionInput extends FindingDispositionRequest {
+interface RecordDispositionInput extends Omit<FindingDispositionRequest, "caseId"> {
+  readonly caseId: string;
   readonly findingId: string;
   readonly principalType: "HUMAN" | "SERVICE";
   readonly correlationId: string;
@@ -419,7 +421,7 @@ function toHistoryAction(action: FindingDispositionAction): FindingTextVersion["
 
 function assertCaseId(state: ScenarioState, caseId: string): void {
   if (state.caseId !== caseId) {
-    throw new DemoHttpError(400, "INVALID_CONTRACT", "Requested case does not match Project Danube.");
+    throw new DemoHttpError(403, "POLICY_DENIED", "Requested case is outside the Project Danube scope.");
   }
 }
 

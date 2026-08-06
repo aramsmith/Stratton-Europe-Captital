@@ -76,6 +76,7 @@ export function FindingCard({
         <div className={styles.badgeRow}>
           <StatusBadge label={finding.materiality} status={finding.materiality} />
           <StatusBadge label={finding.status} status={finding.status} />
+          <Caption1>{formatCitationCount(finding.citations.length)}</Caption1>
           {finding.route ? <StatusBadge label={finding.route} status={finding.route} /> : null}
         </div>
       </div>
@@ -108,11 +109,12 @@ export function FindingCard({
           <li key={citation.citationId}>
             <Button
               appearance="subtle"
+              aria-label={`Open citation ${citation.locator}`}
               onClick={() =>
                 onOpenCitation({ findingId: finding.findingId, citationId: citation.citationId })
               }
             >
-              Open citation {citation.citationId}
+              Open citation
             </Button>
             <Caption1>{citation.locator}</Caption1>
           </li>
@@ -155,10 +157,10 @@ export function FindingCard({
               void onRecordDisposition?.({ findingId: finding.findingId, action: "ACCEPT" })
             }
           >
-            Accept {finding.title}
+            Accept finding
           </Button>
           <Button appearance="secondary" disabled={!onRecordDisposition} onClick={() => setIsEditing(true)}>
-            Edit {finding.title}
+            Edit finding
           </Button>
           <Button
             appearance="secondary"
@@ -167,7 +169,7 @@ export function FindingCard({
               void onRecordDisposition?.({ findingId: finding.findingId, action: "CHALLENGE" })
             }
           >
-            Challenge {finding.title}
+            Challenge finding
           </Button>
           <Button
             appearance="secondary"
@@ -176,10 +178,14 @@ export function FindingCard({
               void onRecordDisposition?.({ findingId: finding.findingId, action: "REJECT" })
             }
           >
-            Reject {finding.title}
+            Reject finding
           </Button>
         </div>
       )}
     </article>
   );
+}
+
+function formatCitationCount(count: number): string {
+  return count === 1 ? "1 citation" : `${count} citations`;
 }

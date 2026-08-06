@@ -5,7 +5,14 @@ import {
   BreadcrumbButton,
   BreadcrumbDivider,
   BreadcrumbItem,
+  Button,
   Caption1,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
   NavDrawer,
   NavDrawerBody,
   NavDrawerFooter,
@@ -22,7 +29,7 @@ import {
 } from "@fluentui/react-components";
 import type { ScenarioState } from "@stratton/contracts";
 import type { ReactNode } from "react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { workspaceDefinitions } from "../app/routes.js";
 
@@ -144,6 +151,10 @@ const useStyles = makeStyles({
   },
   resetError: {
     color: tokens.colorPaletteRedForeground1
+  },
+  dialogBody: {
+    display: "grid",
+    gap: tokens.spacingVerticalM
   }
 });
 
@@ -157,26 +168,36 @@ export function StrattonShell({
   const styles = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const selectedPath = workspaceDefinitions.some((workspace) => workspace.path === location.pathname)
     ? location.pathname
     : "/workbench";
   const currentWorkspace =
     workspaceDefinitions.find((workspace) => workspace.path === selectedPath) ?? workspaceDefinitions[0];
 
-  const handleReset = useCallback(async () => {
+  const openResetDialog = useCallback(() => {
     if (!onReset) {
       return;
     }
 
-    const confirmed = window.confirm(
-      "Reset Project Danube to the approved baseline? This will discard the current demo session state."
-    );
+    setIsResetDialogOpen(true);
+  }, [onReset]);
 
-    if (!confirmed) {
+  const closeResetDialog = useCallback(() => {
+    if (isResetPending) {
+      return;
+    }
+
+    setIsResetDialogOpen(false);
+  }, [isResetPending]);
+
+  const handleConfirmReset = useCallback(async () => {
+    if (!onReset) {
       return;
     }
 
     await onReset();
+    setIsResetDialogOpen(false);
   }, [onReset]);
 
   return (
@@ -194,8 +215,8 @@ export function StrattonShell({
 
           <div className={styles.topBarMeta}>
             <Toolbar aria-label="Scenario actions">
-              <ToolbarButton disabled={isResetPending} onClick={() => void handleReset()}>
-                {isResetPending ? "Resetting..." : "Reset demo scenario"}
+              <ToolbarButton disabled={isResetPending || !onReset} onClick={openResetDialog}>
+                Reset Project Danube
               </ToolbarButton>
             </Toolbar>
 
@@ -222,6 +243,26 @@ export function StrattonShell({
           </BreadcrumbItem>
         </Breadcrumb>
       </header>
+
+      <Dialog modalType="modal" open={isResetDialogOpen}>
+        <DialogSurface aria-describedby="reset-project-danube-description">
+          <DialogBody className={styles.dialogBody}>
+            <DialogTitle>Reset Project Danube</DialogTitle>
+            <DialogContent id="reset-project-danube-description">
+              Reset Project Danube to the approved baseline? This will discard the current demo
+              session state.
+            </DialogContent>
+            <DialogActions>
+              <Button appearance="primary" disabled={isResetPending} onClick={() => void handleConfirmReset()}>
+                {isResetPending ? "Resetting..." : "Confirm reset"}
+              </Button>
+              <Button appearance="secondary" disabled={isResetPending} onClick={closeResetDialog}>
+                Cancel
+              </Button>
+            </DialogActions>
+          </DialogBody>
+        </DialogSurface>
+      </Dialog>
 
       <div className={styles.shellBody}>
         <NavDrawer aria-label="Stratton demo workspaces" className={styles.drawer} open type="inline" selectedValue={selectedPath}>

@@ -1,7 +1,13 @@
-import { evidenceAdmissionRequestSchema } from "@stratton/contracts";
 import { Router, type Response } from "express";
+import { z } from "zod";
 import { DemoHttpError } from "../errors.js";
 import type { EvidenceService } from "../evidence/evidence-service.js";
+
+const evidenceAdmissionPayloadSchema = z
+  .object({
+    caseId: z.string().trim().min(1)
+  })
+  .strict();
 
 export interface EvidenceRouteDependencies {
   readonly evidenceService: Pick<EvidenceService, "admit">;
@@ -11,7 +17,7 @@ export function createEvidenceRouter(dependencies: EvidenceRouteDependencies): R
   const router = Router();
 
   router.post("/api/evidence/:evidenceId/admit", async (request, response) => {
-    const payload = evidenceAdmissionRequestSchema.safeParse(request.body);
+    const payload = evidenceAdmissionPayloadSchema.safeParse(request.body);
     if (!payload.success) {
       throw new DemoHttpError(400, "INVALID_CONTRACT");
     }

@@ -18,7 +18,8 @@ interface ReviewServiceDependencies {
   readonly now?: () => string;
 }
 
-interface SubmitReviewInput extends ReviewSubmissionRequest {
+interface SubmitReviewInput extends Omit<ReviewSubmissionRequest, "caseId"> {
+  readonly caseId: string;
   readonly findingId: string;
   readonly principalType: "HUMAN" | "SERVICE";
   readonly correlationId: string;
@@ -38,6 +39,7 @@ interface RejectWithAuditInput {
   readonly detail: string;
   readonly error: DemoHttpError;
   readonly outcome?: "DENY" | "FAILURE";
+  readonly securityGateId?: string;
 }
 
 interface SuccessfulOperation {
@@ -71,7 +73,8 @@ export class ReviewService {
             403,
             "POLICY_DENIED",
             "A human reviewer must approve or reject the specialist review."
-          )
+          ),
+          securityGateId: "CC002-R2-SEC-GATE-012"
         });
       }
 
@@ -209,7 +212,8 @@ export class ReviewService {
             403,
             "POLICY_DENIED",
             "A human reviewer must request committee-pack preparation."
-          )
+          ),
+          securityGateId: "CC002-R2-SEC-GATE-012"
         });
       }
 
@@ -302,31 +306,52 @@ export class ReviewService {
   }
 
   private async rejectWithAudit(input: RejectWithAuditInput): Promise<never> {
-    const nextState: ScenarioState = {
-      ...input.state,
-      governanceEvents: [
-        ...input.state.governanceEvents,
+    const governanceEvents: ScenarioState["governanceEvents"] = [
+      ...input.state.governanceEvents,
+      createGovernanceEvent(this.createId(), this.now(), {
+        type: input.type,
+        outcome: input.outcome ?? "DENY",
+        correlationId: input.correlationId,
+        detail: input.detail,
+        ...(input.state.latestAnalysisRun
+          ? {
+              metadata: {
+                phase5RunId: input.state.latestAnalysisRun.analysisRunId,
+                analysisRequestFingerprint: input.state.latestAnalysisRun.analysisRequestFingerprint,
+                findingIds: input.state.findings.map((finding) => finding.findingId)
+              }
+            }
+          : {})
+      })
+    ];
+
+    if (input.securityGateId) {
+      governanceEvents.push(
         createGovernanceEvent(this.createId(), this.now(), {
-          type: input.type,
-          outcome: input.outcome ?? "DENY",
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "FAILURE",
           correlationId: input.correlationId,
           detail: input.detail,
-          ...(input.state.latestAnalysisRun
-            ? {
-                metadata: {
+          metadata: {
+            securityGateId: input.securityGateId,
+            ...(input.state.latestAnalysisRun
+              ? {
                   phase5RunId: input.state.latestAnalysisRun.analysisRunId,
                   analysisRequestFingerprint: input.state.latestAnalysisRun.analysisRequestFingerprint,
                   findingIds: input.state.findings.map((finding) => finding.findingId)
                 }
-              }
-            : {})
+              : {})
+          }
         })
-      ]
-    };
+      );
+    }
 
     await this.dependencies.repository.save({
       ...input.snapshot,
-      state: nextState
+      state: {
+        ...input.state,
+        governanceEvents
+      }
     });
     throw input.error;
   }
@@ -460,7 +485,7 @@ function buildRecommendationSubjectVersion(state: ScenarioState): string {
 
 function assertCaseId(state: ScenarioState, caseId: string): void {
   if (state.caseId !== caseId) {
-    throw new DemoHttpError(400, "INVALID_CONTRACT", "Requested case does not match Project Danube.");
+    throw new DemoHttpError(403, "POLICY_DENIED", "Requested case is outside the Project Danube scope.");
   }
 }
 

@@ -89,7 +89,7 @@ export function EvidenceTable({
                   disabled={isBusy || item.admissionStatus === "ADMITTED" || !onAdmitEvidence}
                   onClick={() => void onAdmitEvidence?.({ evidenceId: item.evidenceId })}
                 >
-                  Admit {item.title}
+                  Admit evidence
                 </Button>
               </div>
             </td>

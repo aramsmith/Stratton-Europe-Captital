@@ -205,23 +205,23 @@ describe("DealWorkbenchPage", () => {
     expect(screen.getByRole("columnheader", { name: "Provenance" })).toBeVisible();
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit FY25 Board Pack" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /FY25 Board Pack/i })).getByRole("button", { name: "Admit evidence" }));
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit ERP Customer Rebate Export" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /ERP Customer Rebate Export/i })).getByRole("button", { name: "Admit evidence" }));
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit Quality of Earnings Report" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /Quality of Earnings Report/i })).getByRole("button", { name: "Admit evidence" }));
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit Czech Environmental Permit" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /Czech Environmental Permit/i })).getByRole("button", { name: "Admit evidence" }));
     });
 
-    fireEvent.change(screen.getByLabelText("Analyst question"), {
+    fireEvent.change(screen.getByLabelText("Question"), {
       target: { value: "Challenge management EBITDA quality" }
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Run analysis" }));
+      fireEvent.click(screen.getByRole("button", { name: "Run grounded analysis" }));
     });
 
     expect(runAnalysis).toHaveBeenCalledWith({
@@ -239,7 +239,7 @@ describe("DealWorkbenchPage", () => {
 
     const ebitdaCard = screen.getByRole("article", { name: "Adjusted EBITDA quality" });
     expect(within(ebitdaCard).getByText(/Linked Phase 5 run: run-terra-1/i)).toBeVisible();
-    fireEvent.click(within(ebitdaCard).getByRole("button", { name: "Open citation citation-board-pack-42" }));
+    fireEvent.click(within(ebitdaCard).getByRole("button", { name: "Open citation page 42" }));
 
     const citationPanel = screen.getByRole("region", { name: "Citation detail" });
     expect(within(citationPanel).getByText("page 42")).toBeVisible();
@@ -250,32 +250,32 @@ describe("DealWorkbenchPage", () => {
     const { recordDisposition } = renderWorkbench();
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit FY25 Board Pack" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /FY25 Board Pack/i })).getByRole("button", { name: "Admit evidence" }));
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit ERP Customer Rebate Export" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /ERP Customer Rebate Export/i })).getByRole("button", { name: "Admit evidence" }));
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit Quality of Earnings Report" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /Quality of Earnings Report/i })).getByRole("button", { name: "Admit evidence" }));
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Admit Czech Environmental Permit" }));
+      fireEvent.click(within(screen.getByRole("row", { name: /Czech Environmental Permit/i })).getByRole("button", { name: "Admit evidence" }));
     });
-    fireEvent.change(screen.getByLabelText("Analyst question"), {
+    fireEvent.change(screen.getByLabelText("Question"), {
       target: { value: "Challenge management EBITDA quality" }
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Run analysis" }));
+      fireEvent.click(screen.getByRole("button", { name: "Run grounded analysis" }));
     });
     await screen.findByRole("heading", { name: "Adjusted EBITDA quality" });
 
     const ebitdaCard = screen.getByRole("article", { name: "Adjusted EBITDA quality" });
-    expect(within(ebitdaCard).getByRole("button", { name: "Accept Adjusted EBITDA quality" })).toBeVisible();
-    expect(within(ebitdaCard).getByRole("button", { name: "Edit Adjusted EBITDA quality" })).toBeVisible();
-    expect(within(ebitdaCard).getByRole("button", { name: "Challenge Adjusted EBITDA quality" })).toBeVisible();
-    expect(within(ebitdaCard).getByRole("button", { name: "Reject Adjusted EBITDA quality" })).toBeVisible();
+    expect(within(ebitdaCard).getByRole("button", { name: "Accept finding" })).toBeVisible();
+    expect(within(ebitdaCard).getByRole("button", { name: "Edit finding" })).toBeVisible();
+    expect(within(ebitdaCard).getByRole("button", { name: "Challenge finding" })).toBeVisible();
+    expect(within(ebitdaCard).getByRole("button", { name: "Reject finding" })).toBeVisible();
 
-    fireEvent.click(within(ebitdaCard).getByRole("button", { name: "Edit Adjusted EBITDA quality" }));
+    fireEvent.click(within(ebitdaCard).getByRole("button", { name: "Edit finding" }));
     fireEvent.change(screen.getByLabelText("Edited finding summary"), {
       target: { value: "Human adjusted EBITDA challenge kept for committee review." }
     });
@@ -303,7 +303,7 @@ describe("DealWorkbenchPage", () => {
       </FluentProvider>
     );
 
-    expect(screen.getByRole("button", { name: "Run analysis" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Run grounded analysis" })).toBeDisabled();
     expect(
       screen.getByText(/create a versioned cycle before rerunning this governed analysis/i)
     ).toBeVisible();
