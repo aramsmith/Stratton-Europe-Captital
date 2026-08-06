@@ -1,6 +1,17 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const repoRoot = process.cwd();
+const localBffEnv = {
+  ...process.env,
+  DEMO_MODE: "LOCAL",
+  PORT: "3001",
+  PHASE5_API_BASE_URL: "http://127.0.0.1:3001"
+};
+const localWebEnv = {
+  ...process.env,
+  DEMO_MODE: "LOCAL",
+  PHASE5_API_BASE_URL: "http://127.0.0.1:3001"
+};
 
 export default defineConfig({
   testDir: "./tests",
@@ -24,13 +35,8 @@ export default defineConfig({
       command: "npx tsx apps/bff/src/server.ts",
       url: "http://127.0.0.1:3001/healthz",
       cwd: repoRoot,
-      env: {
-        ...process.env,
-        DEMO_MODE: "LOCAL",
-        PORT: "3001",
-        PHASE5_API_BASE_URL: "http://127.0.0.1:3001"
-      },
-      reuseExistingServer: !process.env.CI,
+      env: localBffEnv,
+      reuseExistingServer: false,
       stdout: "pipe",
       stderr: "pipe",
       timeout: 120_000
@@ -39,10 +45,8 @@ export default defineConfig({
       command: "npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173",
       url: "http://127.0.0.1:4173/workbench",
       cwd: repoRoot,
-      env: {
-        ...process.env
-      },
-      reuseExistingServer: !process.env.CI,
+      env: localWebEnv,
+      reuseExistingServer: false,
       stdout: "pipe",
       stderr: "pipe",
       timeout: 120_000

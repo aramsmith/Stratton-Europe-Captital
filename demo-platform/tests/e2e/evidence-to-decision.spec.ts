@@ -59,7 +59,7 @@ async function driveScenarioToCommitteePreparation(page: Page): Promise<void> {
   await prepareCommitteePack(page);
 }
 
-async function driveScenarioToReviewReadyViaApi(request: APIRequestContext): Promise<void> {
+async function admitBaselineEvidenceViaApi(request: APIRequestContext): Promise<void> {
   const resetResponse = await request.post("/api/scenario/reset");
   expect(resetResponse.ok()).toBeTruthy();
 
@@ -74,6 +74,10 @@ async function driveScenarioToReviewReadyViaApi(request: APIRequestContext): Pro
     });
     expect(response.ok()).toBeTruthy();
   }
+}
+
+async function driveScenarioToAnalysisDraftViaApi(request: APIRequestContext): Promise<void> {
+  await admitBaselineEvidenceViaApi(request);
 
   const analysisResponse = await request.post("/api/analysis-runs", {
     data: {
@@ -83,6 +87,10 @@ async function driveScenarioToReviewReadyViaApi(request: APIRequestContext): Pro
     }
   });
   expect(analysisResponse.ok()).toBeTruthy();
+}
+
+async function driveScenarioToReviewReadyViaApi(request: APIRequestContext): Promise<void> {
+  await driveScenarioToAnalysisDraftViaApi(request);
 
   for (const findingId of ["finding-ebitda-quality", "finding-permit-transfer"]) {
     const response = await request.post(`/api/findings/${findingId}/disposition`, {
@@ -139,6 +147,12 @@ async function driveScenarioToCommitteePreparationViaApi(request: APIRequestCont
   expect(prepareResponse.ok()).toBeTruthy();
 }
 
+async function pressKeyTimes(page: Page, key: string, count: number): Promise<void> {
+  for (let index = 0; index < count; index += 1) {
+    await page.keyboard.press(key);
+  }
+}
+
 test.describe("Stratton evidence-to-decision demo", () => {
   test("Project Danube moves from evidence to committee preparation", async ({ page }) => {
     await driveScenarioToCommitteePreparation(page);
@@ -162,42 +176,55 @@ test.describe("Stratton evidence-to-decision demo", () => {
   });
 
   test("keyboard-only flows reach navigation, citations, findings, reviews, tabs, and reset confirmation", async ({ page, request }) => {
-    await driveScenarioToReviewReadyViaApi(request);
+    await driveScenarioToAnalysisDraftViaApi(request);
 
     await page.goto("/workbench");
-    await page.getByRole("link", { name: "Skip to main content" }).focus();
+    await expect(page.getByRole("heading", { name: "AI Deal Workbench" })).toBeVisible();
+    await pressKeyTimes(page, "Tab", 1);
     await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
-    await page.keyboard.press("Tab");
+    await pressKeyTimes(page, "Tab", 1);
     await expect(page.getByRole("button", { name: "Reset Project Danube" })).toBeFocused();
-
-    const workbenchLink = page.getByRole("link", { name: "AI Deal Workbench" });
-    const decisionRoomLink = page.getByRole("link", { name: "Investment Decision Room" });
-    const governanceLink = page.getByRole("link", { name: "Governance & Assurance Console" });
-    await workbenchLink.focus();
-    await expect(workbenchLink).toBeFocused();
+    await pressKeyTimes(page, "Tab", 1);
+    await expect(page.getByRole("button", { name: /^Stratton demos$/ })).toBeFocused();
+    await pressKeyTimes(page, "Tab", 1);
+    await expect(page.getByRole("button", { name: /^Project Danube$/ })).toBeFocused();
+    await pressKeyTimes(page, "Tab", 1);
+    await expect(page.getByRole("button", { name: /^AI Deal Workbench$/ })).toBeFocused();
+    await pressKeyTimes(page, "Tab", 1);
+    await expect(page.getByRole("link", { name: "AI Deal Workbench" })).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(decisionRoomLink).toBeFocused();
+    await expect(page.getByRole("link", { name: "Investment Decision Room" })).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(governanceLink).toBeFocused();
+    await expect(page.getByRole("link", { name: "Governance & Assurance Console" })).toBeFocused();
 
     await page.goto("/workbench");
     const ebitdaFinding = page.getByRole("article", { name: "Adjusted EBITDA quality" });
-    const citationButtons = ebitdaFinding.getByRole("button", { name: /Open citation/i });
-    await citationButtons.last().focus();
-    await expect(citationButtons.last()).toBeFocused();
-    await page.keyboard.press("Tab");
+    await expect(ebitdaFinding).toBeVisible();
+    await pressKeyTimes(page, "Tab", 9);
+    await expect(ebitdaFinding.getByRole("button", { name: "Open citation page 42" })).toBeFocused();
+    await page.keyboard.press("Enter");
+    const citationPanel = page.getByRole("region", { name: "Citation detail" });
+    await expect(citationPanel.getByText("page 42")).toBeVisible();
+    await expect(citationPanel.getByText("FY25 Board Pack")).toBeVisible();
+    await pressKeyTimes(page, "Tab", 3);
     await expect(ebitdaFinding.getByRole("button", { name: "Accept finding" })).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(ebitdaFinding.getByText("ACCEPTED")).toBeVisible();
 
+    await driveScenarioToReviewReadyViaApi(request);
     await page.goto("/decision-room");
-    await page.getByRole("textbox", { name: "Deal review rationale" }).focus();
+    await expect(page.getByRole("heading", { name: "Investment Decision Room" })).toBeVisible();
+    await pressKeyTimes(page, "Tab", 7);
     await expect(page.getByRole("textbox", { name: "Deal review rationale" })).toBeFocused();
-    await page.keyboard.press("Tab");
+    await pressKeyTimes(page, "Tab", 1);
     await expect(page.getByRole("button", { name: "Approve Deal review" })).toBeFocused();
-    await page.keyboard.press("Tab");
+    await pressKeyTimes(page, "Tab", 1);
     await expect(page.getByRole("textbox", { name: "Legal review rationale" })).toBeFocused();
 
+    await driveScenarioToCommitteePreparationViaApi(request);
     await page.goto("/governance");
-    await page.getByRole("tab", { name: "Lineage" }).focus();
+    await expect(page.getByRole("heading", { name: "Governance & Assurance Console" })).toBeVisible();
+    await pressKeyTimes(page, "Tab", 7);
     await expect(page.getByRole("tab", { name: "Lineage" })).toBeFocused();
     await page.keyboard.press("ArrowRight");
     await expect(page.getByRole("tab", { name: "Policy decisions" })).toBeFocused();
@@ -207,7 +234,9 @@ test.describe("Stratton evidence-to-decision demo", () => {
     await expect(page.getByRole("tab", { name: "Security & audit" })).toBeFocused();
 
     await page.goto("/workbench");
-    await page.getByRole("button", { name: "Reset Project Danube" }).focus();
+    await expect(page.getByRole("heading", { name: "AI Deal Workbench" })).toBeVisible();
+    await pressKeyTimes(page, "Tab", 2);
+    await expect(page.getByRole("button", { name: "Reset Project Danube" })).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("dialog", { name: "Reset Project Danube" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Confirm reset" })).toBeFocused();

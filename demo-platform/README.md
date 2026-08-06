@@ -42,6 +42,8 @@ Routes:
 - `http://127.0.0.1:4173/decision-room`
 - `http://127.0.0.1:4173/governance`
 
+Playwright acceptance runs do **not** reuse existing listeners on ports `3001` or `4173`. If either port is already occupied, Playwright fails closed instead of attaching to a stale or Azure-backed server.
+
 ## Reset the scenario
 
 Reset the standard Project Danube baseline:
@@ -93,6 +95,8 @@ Whole local verification:
 Set-Location .\demo-platform
 node .\scripts\verify-demo.mjs
 ```
+
+`verify-demo.mjs` fails closed if `infra\main.json` already exists before verification, and it removes the generated Bicep output when the verification run created it, on both success and failure.
 
 Individual commands:
 
@@ -172,9 +176,11 @@ Do **not** run any of the following from this README or `verify-demo.mjs`:
 - Confirm the BFF is listening on `http://127.0.0.1:3001/healthz`.
 - Confirm the web app is listening on `http://127.0.0.1:4173/workbench`.
 - If Playwright is starting servers, let `playwright.config.ts` manage them.
+- If port `3001` or `4173` is already occupied, stop the other listener first; the acceptance config intentionally refuses to reuse it.
 
 ### Stale scenario state
 
 - Run `node .\scripts\reset-scenario.mjs`.
 - Or use `Reset Project Danube` in the shell and confirm the reset dialog.
 - If a previous run already created governed findings, reset before re-running analysis.
+- If `infra\main.json` exists from an interrupted verification, inspect it before deletion; `verify-demo.mjs` will not overwrite a pre-existing file.
