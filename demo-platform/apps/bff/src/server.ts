@@ -3,11 +3,21 @@ import { pathToFileURL } from "node:url";
 import express, { type Express } from "express";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { AnalysisService } from "./analysis/analysis-service.js";
+import { buildApprovedDeployments, parseAzureDemoConfig } from "./azure/azure-config.js";
+import { createBlobEvidenceAdapter } from "./azure/blob-evidence-adapter.js";
+import { createDocumentIntelligenceAdapter } from "./azure/document-intelligence-adapter.js";
+import { createOpenAiAdapter } from "./azure/openai-analysis-adapter.js";
+import { createSearchAdapter } from "./azure/search-adapter.js";
+import { createServiceBusAdapter } from "./azure/service-bus-adapter.js";
 import { parseDemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
 import { GovernanceService } from "./governance/governance-service.js";
 import type { Phase5Client } from "./phase5/phase5-client.js";
+import {
+  AzureSqlScenarioRepository,
+  createManagedIdentitySqlExecutor
+} from "./repositories/azure-sql-scenario-repository.js";
 import {
   createAnalysisRouter,
   type AnalysisRouteDependencies
@@ -30,7 +40,9 @@ import {
 } from "./routes/scenario-routes.js";
 import { ReviewService } from "./reviews/review-service.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
+import type { ScenarioRepository } from "./scenario/scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
+import { createRedactedLogger, type RedactedLogger } from "./telemetry/redacted-logger.js";
 
 export type DemoServerDependencies = ScenarioRouteDependencies &
   EvidenceRouteDependencies &
@@ -77,19 +89,29 @@ export function createDemoServer(dependencies: DemoServerDependencies): Express 
 const isDirectRun = process.argv[1] ? import.meta.url === pathToFileURL(process.argv[1]).href : false;
 
 if (isDirectRun) {
-  const config = parseDemoConfig();
-  const repository = new InMemoryScenarioRepository(createProjectDanubeState());
-  const phase5Client = createLocalPhase5Client();
+  void startServer();
+}
 
-  createDemoServer({
-    scenarioService: new ScenarioService(repository),
-    evidenceService: new EvidenceService({ repository, phase5Client }),
-    analysisService: new AnalysisService({ repository, phase5Client }),
-    reviewService: new ReviewService({ repository, phase5Client }),
-    governanceService: new GovernanceService({ repository })
-  }).listen(config.PORT, () => {
-    console.log(`Stratton demo BFF listening on ${config.PORT}`);
-  });
+async function startServer(): Promise<void> {
+  try {
+    const config = parseDemoConfig();
+    const logger = createRedactedLogger();
+    const repository = await createScenarioRepository(config, logger);
+    const phase5Client = createLocalPhase5Client();
+
+    createDemoServer({
+      scenarioService: new ScenarioService(repository),
+      evidenceService: new EvidenceService({ repository, phase5Client }),
+      analysisService: new AnalysisService({ repository, phase5Client }),
+      reviewService: new ReviewService({ repository, phase5Client }),
+      governanceService: new GovernanceService({ repository })
+    }).listen(config.PORT, () => {
+      console.log(`Stratton demo BFF listening on ${config.PORT}`);
+    });
+  } catch (error) {
+    console.error(error);
+    process.exitCode = 1;
+  }
 }
 
 function setCorrelationId(response: express.Response, suppliedCorrelationId?: string): string {
@@ -118,4 +140,71 @@ function createLocalPhase5Client(): Phase5Client {
     submitReview: async () => undefined,
     prepareDraft: async () => undefined
   };
+}
+
+async function createScenarioRepository(
+  config: ReturnType<typeof parseDemoConfig>,
+  logger: RedactedLogger
+): Promise<ScenarioRepository> {
+  if (config.DEMO_MODE === "LOCAL") {
+    return new InMemoryScenarioRepository(createProjectDanubeState());
+  }
+
+  const azureConfig = parseAzureDemoConfig();
+  const repository = new AzureSqlScenarioRepository({
+    executor: createManagedIdentitySqlExecutor({
+      server: config.AZURE_SQL_SERVER_FQDN!,
+      database: config.AZURE_SQL_DATABASE_NAME!,
+      ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+        ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
+        : {})
+    }),
+    tenantId: azureConfig.DEMO_TENANT_ID,
+    caseId: "project-danube"
+  });
+
+  const azureAdapters = {
+    documentIntelligence: createDocumentIntelligenceAdapter({
+      endpoint: azureConfig.AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
+      ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+        ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
+        : {}),
+      logger: logger.child({ dependency: "document-intelligence" })
+    }),
+    search: createSearchAdapter({
+      endpoint: azureConfig.AZURE_SEARCH_ENDPOINT,
+      indexName: azureConfig.AZURE_SEARCH_INDEX_NAME,
+      ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+        ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
+        : {}),
+      logger: logger.child({ dependency: "search" })
+    }),
+    openAi: createOpenAiAdapter({
+      deployments: buildApprovedDeployments(azureConfig),
+      ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+        ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
+        : {}),
+      logger: logger.child({ dependency: "openai" })
+    }),
+    blob: createBlobEvidenceAdapter({
+      accountUrl: azureConfig.AZURE_BLOB_ACCOUNT_URL,
+      containerName: azureConfig.AZURE_BLOB_CONTAINER_NAME,
+      ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+        ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
+        : {}),
+      logger: logger.child({ dependency: "blob" })
+    }),
+    serviceBus: createServiceBusAdapter({
+      namespace: azureConfig.AZURE_SERVICE_BUS_NAMESPACE,
+      queueName: azureConfig.AZURE_SERVICE_BUS_QUEUE_NAME,
+      ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+        ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
+        : {}),
+      logger: logger.child({ dependency: "service-bus" })
+    })
+  };
+  void azureAdapters;
+
+  await repository.reset(createProjectDanubeState());
+  return repository;
 }

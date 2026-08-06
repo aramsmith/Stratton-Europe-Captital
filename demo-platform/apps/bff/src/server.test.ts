@@ -715,6 +715,36 @@ describe("parseDemoConfig", () => {
   });
 });
 
+describe("parseAzureDemoConfig", () => {
+  it("requires exact Azure adapter bindings in AZURE mode", async () => {
+    const { parseAzureDemoConfig } = await import("./azure/azure-config.js");
+
+    expect(() =>
+      parseAzureDemoConfig({
+        DEMO_TENANT_ID: "tenant-stratton-demo",
+        AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.example.test",
+        AZURE_SEARCH_ENDPOINT: "https://search.example.test",
+        AZURE_SEARCH_INDEX_NAME: "governed-evidence",
+        AZURE_BLOB_ACCOUNT_URL: "https://storage.example.test",
+        AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
+        AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
+        AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
+        AZURE_OPENAI_LUNA_ENDPOINT: "https://luna.example.test",
+        AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
+        AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
+        AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE",
+        AZURE_OPENAI_TERRA_ENDPOINT: "https://terra.example.test",
+        AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
+        AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
+        AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE",
+        AZURE_OPENAI_SOL_ENDPOINT: "https://sol.example.test",
+        AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
+        AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview"
+      })
+    ).toThrowError(/AZURE_OPENAI_SOL_EVIDENCE_ID/);
+  });
+});
+
 describe("createPhase5Client", () => {
   it("forwards the human bearer token, traceparent, and idempotency key", async () => {
     const { createPhase5Client } = await import("./phase5/phase5-client.js");
