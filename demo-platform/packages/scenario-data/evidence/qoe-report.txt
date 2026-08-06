@@ -1,6 +1,6 @@
 Quality of Earnings Report
 
 Page 18: Revenue recognition review
-- The run-rate appears stable, but non-recurring items need separate treatment.
-- Rebate accruals should be reconciled to the ERP export before committee review.
-- This report supports draft-only analysis until the underlying evidence is admitted.
+- The run-rate appears stable, but the rebate bridge does not reconcile to the ERP export control total.
+- EUR 4.2 million of recurring operating costs were booked as one-off EBITDA adjustments.
+- Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million until the bridge is normalized.

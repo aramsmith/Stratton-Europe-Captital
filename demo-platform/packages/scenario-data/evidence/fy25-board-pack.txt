@@ -1,6 +1,6 @@
 Project Danube FY25 Board Pack
 
 Page 42: Strategic options summary
-- Base case assumes continued margin pressure through FY26.
-- Management requests diligence on working capital normalization.
+- Management normalization assumes customer rebates of EUR 4.2 million, while the ERP control total is EUR 5.1 million for the same customer set.
+- EUR 4.2 million of recurring operating costs are also presented as one-off EBITDA adjustments.
 - Committee note: do not treat this pack as an investment decision.

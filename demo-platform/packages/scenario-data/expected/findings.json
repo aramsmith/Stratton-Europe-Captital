@@ -3,11 +3,12 @@
   "generatedAtIso": "2026-08-06T10:00:00.000Z",
   "findings": [
     {
-      "findingId": "finding-valuation-support",
-      "title": "Valuation support is not yet complete",
-      "summary": "Board pack, rebate export, and QoE report align on the need for further diligence before any committee paper is drafted.",
-      "materiality": "MEDIUM",
+      "findingId": "finding-ebitda-quality",
+      "title": "Adjusted EBITDA quality",
+      "summary": "Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million.",
+      "materiality": "HIGH",
       "status": "DRAFT",
+      "route": "TERRA",
       "citations": [
         {
           "citationId": "citation-board-pack-42",
