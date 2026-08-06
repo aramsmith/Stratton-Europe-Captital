@@ -44,6 +44,15 @@ export function mapDemoError(error: unknown, correlationId: string): MappedDemoE
     };
   }
 
+  if (isBodyParserParseError(error)) {
+    return {
+      status: 400,
+      code: "INVALID_CONTRACT",
+      message: defaultMessages.INVALID_CONTRACT,
+      correlationId
+    };
+  }
+
   if (isDemoApiError(error)) {
     return {
       status: statusByCode[error.code],
@@ -91,6 +100,16 @@ function isKnownCodeError(error: unknown): error is { code: DemoErrorCode; messa
     typeof error.code === "string" &&
     isDemoErrorCode(error.code) &&
     (!("message" in error) || typeof error.message === "string")
+  );
+}
+
+function isBodyParserParseError(error: unknown): error is { status?: number; statusCode?: number; type?: string } {
+  const candidate = error as { status?: number; statusCode?: number; type?: string } | null;
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    candidate?.type === "entity.parse.failed" &&
+    (candidate.status === 400 || candidate.statusCode === 400)
   );
 }
 

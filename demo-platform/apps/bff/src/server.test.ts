@@ -31,6 +31,35 @@ describe("createDemoServer", () => {
     expect(response.headers["x-correlation-id"]).toBe("corr-123");
   });
 
+  it("returns invalid contract for malformed json with a generated correlation id", async () => {
+    const response = await request(createDemoServer(testDependencies()))
+      .post("/api/scenario/reset")
+      .set("content-type", "application/json")
+      .send('{"broken"');
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      code: "INVALID_CONTRACT",
+      message: "Request does not satisfy the approved contract.",
+      correlationId: response.headers["x-correlation-id"]
+    });
+    expect(response.headers["x-correlation-id"]).toBeTruthy();
+  });
+
+  it("returns an invalid contract envelope for unmatched routes", async () => {
+    const response = await request(createDemoServer(testDependencies()))
+      .get("/api/not-a-real-route")
+      .set("x-correlation-id", "corr-404");
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({
+      code: "INVALID_CONTRACT",
+      message: "Requested path does not match an approved route.",
+      correlationId: "corr-404"
+    });
+    expect(response.headers["x-correlation-id"]).toBe("corr-404");
+  });
+
   it("resets the scenario to the deterministic intake state", async () => {
     const repository = new InMemoryScenarioRepository(createProjectDanubeState());
     const mutatedState = createProjectDanubeState();

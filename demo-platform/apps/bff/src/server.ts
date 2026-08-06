@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url";
 import express, { type Express } from "express";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { parseDemoConfig } from "./config.js";
-import { mapDemoError } from "./errors.js";
+import { DemoHttpError, mapDemoError } from "./errors.js";
 import {
   createScenarioRouter,
   type ScenarioRouteDependencies
@@ -16,13 +16,11 @@ export type DemoServerDependencies = ScenarioRouteDependencies;
 export function createDemoServer(dependencies: DemoServerDependencies): Express {
   const app = express();
 
-  app.use(express.json());
   app.use((request, response, next) => {
-    const correlationId = request.header("x-correlation-id") ?? randomUUID();
-    response.setHeader("x-correlation-id", correlationId);
-    response.locals.correlationId = correlationId;
+    setCorrelationId(response, request.header("x-correlation-id"));
     next();
   });
+  app.use(express.json());
 
   app.get("/healthz", (_request, response) => {
     response.status(200).json({ status: "ok" });
@@ -30,9 +28,13 @@ export function createDemoServer(dependencies: DemoServerDependencies): Express 
 
   app.use(createScenarioRouter(dependencies));
 
+  app.use((_request, _response, next) => {
+    next(new DemoHttpError(404, "INVALID_CONTRACT", "Requested path does not match an approved route."));
+  });
+
   app.use((error: unknown, _request: express.Request, response: express.Response, next: express.NextFunction) => {
     void next;
-    const mapped = mapDemoError(error, response.locals.correlationId as string);
+    const mapped = mapDemoError(error, getCorrelationId(response));
     response.status(mapped.status).json({
       code: mapped.code,
       message: mapped.message,
@@ -55,4 +57,20 @@ if (isDirectRun) {
   }).listen(config.PORT, () => {
     console.log(`Stratton demo BFF listening on ${config.PORT}`);
   });
+}
+
+function setCorrelationId(response: express.Response, suppliedCorrelationId?: string): string {
+  const correlationId = suppliedCorrelationId ?? randomUUID();
+  response.setHeader("x-correlation-id", correlationId);
+  response.locals.correlationId = correlationId;
+  return correlationId;
+}
+
+function getCorrelationId(response: express.Response): string {
+  const existingCorrelationId = response.locals.correlationId;
+  if (typeof existingCorrelationId === "string" && existingCorrelationId.length > 0) {
+    return existingCorrelationId;
+  }
+
+  return setCorrelationId(response);
 }
