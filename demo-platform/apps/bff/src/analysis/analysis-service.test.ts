@@ -174,12 +174,40 @@ describe("AnalysisService", () => {
           type: "MODEL_ROUTE_SELECTED",
           outcome: "ALLOW",
           correlationId: "corr-terra-1",
-          detail: "TERRA"
+          detail: "TERRA",
+          metadata: {
+            analysisRequestFingerprint: result.analysisMetadata.analysisRequestFingerprint,
+            questionHash: result.analysisMetadata.questionHash,
+            evidenceSetHash: result.analysisMetadata.evidenceSetHash,
+            taskClass: "CROSS_DOCUMENT_COMPARISON",
+            route: "TERRA",
+            phase5RunId: "run-terra-1",
+            authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+            findingIds: [
+              "finding-ebitda-quality",
+              "finding-customer-concentration",
+              "finding-permit-transfer"
+            ]
+          }
         }),
         expect.objectContaining({
           type: "ANALYSIS_POLICY_CHECK",
           outcome: "ALLOW",
-          correlationId: "corr-terra-1"
+          correlationId: "corr-terra-1",
+          metadata: {
+            analysisRequestFingerprint: result.analysisMetadata.analysisRequestFingerprint,
+            questionHash: result.analysisMetadata.questionHash,
+            evidenceSetHash: result.analysisMetadata.evidenceSetHash,
+            taskClass: "CROSS_DOCUMENT_COMPARISON",
+            route: "TERRA",
+            phase5RunId: "run-terra-1",
+            authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+            findingIds: [
+              "finding-ebitda-quality",
+              "finding-customer-concentration",
+              "finding-permit-transfer"
+            ]
+          }
         }),
         expect.objectContaining({
           type: "ANALYSIS_CORRELATED",

@@ -52,19 +52,66 @@ export function LineageGraph({ lineage }: LineageGraphProps) {
             <Caption1>
               Reviews: {node.reviewTypes.length > 0 ? node.reviewTypes.join(", ") : "Awaiting current review"}
             </Caption1>
+            {node.historicalReviewTypes.length > 0 ? (
+              <Caption1>
+                Historical reviews: {formatHistoricalReviews(node)}
+              </Caption1>
+            ) : null}
+            <Caption1>
+              Current policy evidence:{" "}
+              {node.policyDecisionIds.length > 0
+                ? node.policyDecisionIds.join(", ")
+                : "Awaiting current policy evidence"}
+            </Caption1>
+            {node.historicalPolicyDecisionIds.length > 0 ? (
+              <Caption1>
+                Historical policy evidence: {node.historicalPolicyDecisionIds.join(", ")}
+              </Caption1>
+            ) : null}
             <Caption1>
               Recommendation: {node.recommendationIds.length > 0 ? node.recommendationIds.join(", ") : "Not prepared"}
             </Caption1>
+            {node.historicalRecommendationIds.length > 0 ? (
+              <Caption1>
+                Historical recommendations: {node.historicalRecommendationIds.join(", ")}
+              </Caption1>
+            ) : null}
           </div>
           <div className={styles.badgeRow}>
+            <StatusBadge
+              label={formatAssuranceLabel(node.assuranceStatus)}
+              status={node.assuranceStatus}
+            />
             <StatusBadge label={node.modelRoute} status={node.modelRoute} />
             <StatusBadge
-              label={`${node.policyDecisionIds.length} policy decision${node.policyDecisionIds.length === 1 ? "" : "s"}`}
-              status={node.policyDecisionIds.length === 0 ? "PENDING" : "SUCCESS"}
+              label={`${node.policyDecisionIds.length} current policy decision${node.policyDecisionIds.length === 1 ? "" : "s"}`}
+              status={node.policyDecisionIds.length === 0 ? "PENDING" : "ANALYSIS"}
             />
           </div>
         </Card>
       ))}
     </div>
   );
+}
+
+function formatAssuranceLabel(
+  assuranceStatus: GovernanceView["lineage"][number]["assuranceStatus"]
+): string {
+  switch (assuranceStatus) {
+    case "CURRENT":
+      return "Current assurance";
+    case "STALE":
+      return "Historical only";
+    case "PENDING":
+      return "Awaiting current assurance";
+  }
+}
+
+function formatHistoricalReviews(node: GovernanceView["lineage"][number]): string {
+  return node.historicalReviewTypes
+    .map((reviewType, index) => {
+      const reviewVersionId = node.historicalReviewVersionIds[index];
+      return reviewVersionId ? `${reviewType} (${reviewVersionId})` : reviewType;
+    })
+    .join(", ");
 }

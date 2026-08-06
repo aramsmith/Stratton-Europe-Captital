@@ -31,8 +31,18 @@ function createGovernanceView(): GovernanceView {
         modelRoute: "TERRA",
         reviewTypes: ["DEAL"],
         reviewVersionIds: ["finding-ebitda-quality-v2"],
-        policyDecisionIds: ["event-policy-check", "event-analysis-governed", "review-deal"],
-        recommendationIds: ["event-committee-pack"]
+        policyDecisionIds: [
+          "event-route-selected",
+          "event-policy-check",
+          "event-analysis-governed",
+          "review-deal"
+        ],
+        recommendationIds: ["event-committee-pack"],
+        assuranceStatus: "CURRENT",
+        historicalReviewTypes: [],
+        historicalReviewVersionIds: [],
+        historicalPolicyDecisionIds: [],
+        historicalRecommendationIds: []
       },
       {
         id: "finding-permit-transfer",
@@ -40,10 +50,19 @@ function createGovernanceView(): GovernanceView {
         sourceLocators: ["environmental-permit.txt"],
         evidenceIds: ["evidence-environmental-permit"],
         modelRoute: "TERRA",
-        reviewTypes: ["LEGAL"],
-        reviewVersionIds: ["finding-permit-transfer-v2"],
-        policyDecisionIds: ["event-analysis-governed", "review-legal"],
-        recommendationIds: ["event-committee-pack"]
+        reviewTypes: [],
+        reviewVersionIds: [],
+        policyDecisionIds: [
+          "event-route-selected",
+          "event-policy-check",
+          "event-analysis-governed"
+        ],
+        recommendationIds: [],
+        assuranceStatus: "STALE",
+        historicalReviewTypes: ["LEGAL"],
+        historicalReviewVersionIds: ["finding-permit-transfer-v2"],
+        historicalPolicyDecisionIds: ["review-legal"],
+        historicalRecommendationIds: ["event-committee-pack"]
       }
     ],
     policyDecisions: [
@@ -114,7 +133,7 @@ function createGovernanceView(): GovernanceView {
       {
         gateId: "CC002-R2-SEC-GATE-004",
         name: "Citation spoofing",
-        outcome: "PASS",
+        outcome: "NOT_RUN",
         failClosedOutcome: "Block promotion and material narrative"
       },
       {
@@ -138,7 +157,7 @@ function createGovernanceView(): GovernanceView {
       {
         gateId: "CC002-R2-SEC-GATE-008",
         name: "Revoked/expired evidence",
-        outcome: "PASS",
+        outcome: "NOT_RUN",
         failClosedOutcome: "Deny admission and block promotion"
       },
       {
@@ -162,7 +181,7 @@ function createGovernanceView(): GovernanceView {
       {
         gateId: "CC002-R2-SEC-GATE-012",
         name: "Attempted autonomous authority",
-        outcome: "PASS",
+        outcome: "NOT_RUN",
         failClosedOutcome: "Deny state transition, stop for human and block promotion"
       }
     ],
@@ -171,7 +190,7 @@ function createGovernanceView(): GovernanceView {
       missingItems: [],
       previewSections: ["Lineage", "Policy decisions", "Model routes", "Security & audit"]
     }
-  };
+  } as unknown as GovernanceView;
 }
 
 function renderPage(
@@ -219,6 +238,19 @@ describe("GovernanceConsolePage", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("Governance API unavailable");
     expect(screen.queryByRole("tab", { name: "Policy decisions" })).not.toBeInTheDocument();
     expect(screen.getByText("Internal Audit verdict: Not issued")).toBeVisible();
+  });
+
+  it("distinguishes current assurance from historical-only lineage", async () => {
+    renderPage();
+
+    expect(await screen.findByText("Adjusted EBITDA quality")).toBeVisible();
+    expect(screen.getByText("Permit transfer readiness")).toBeVisible();
+    expect(screen.getByText("Current assurance")).toBeVisible();
+    expect(screen.getByText("Historical only")).toBeVisible();
+    expect(
+      screen.getByText("Historical reviews: LEGAL (finding-permit-transfer-v2)")
+    ).toBeVisible();
+    expect(screen.getByText("Historical recommendations: event-committee-pack")).toBeVisible();
   });
 
   it("has no axe violations", async () => {

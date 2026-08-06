@@ -98,11 +98,11 @@ export class GovernanceService {
     const state = await this.dependencies.repository.load();
     assertCaseId(state, caseId);
 
-    const policyDecisions = buildPolicyDecisions(state);
     const latestRecommendationSubjectVersion = buildRecommendationSubjectVersion(state);
+    const policyDecisions = buildPolicyDecisions(state);
 
     return {
-      lineage: buildLineage(state, policyDecisions, latestRecommendationSubjectVersion),
+      lineage: buildLineage(state, latestRecommendationSubjectVersion),
       policyDecisions,
       modelRoutes: buildModelRoutes(state),
       securityGates: buildSecurityGates(state),
@@ -113,29 +113,14 @@ export class GovernanceService {
 
 function buildLineage(
   state: ScenarioState,
-  policyDecisions: readonly GovernanceView["policyDecisions"][number][],
   recommendationSubjectVersion: string
 ): GovernanceView["lineage"] {
   const evidenceById = new Map(state.evidence.map((evidence) => [evidence.evidenceId, evidence] as const));
-  const policyDecisionIdsByFindingId = new Map<string, string[]>();
-
-  for (const decision of policyDecisions) {
-    for (const findingId of decision.relatedFindingIds) {
-      const existingIds = policyDecisionIdsByFindingId.get(findingId) ?? [];
-      if (!existingIds.includes(decision.decisionId)) {
-        existingIds.push(decision.decisionId);
-      }
-      policyDecisionIdsByFindingId.set(findingId, existingIds);
-    }
-  }
-
-  const currentRecommendationIds = state.governanceEvents
-    .filter((event) => isCurrentRecommendationEvent(event, recommendationSubjectVersion))
-    .map((event) => event.eventId);
 
   return state.findings
     .filter(isMaterialFinding)
     .flatMap((finding) => {
+      const latestFindingVersion = getLatestFindingVersion(finding);
       const sourceLocators = getLineageSourceLocators(finding, evidenceById);
       const evidenceIds = getLineageEvidenceIds(finding);
       const modelRoute = finding.route ?? state.latestAnalysisRun?.route;
@@ -145,13 +130,36 @@ function buildLineage(
 
       const currentReviews = state.reviews.filter(
         (review) =>
-          review.findingId === finding.findingId &&
-          review.subjectVersion === getLatestFindingVersion(finding)
+          review.findingId === finding.findingId && review.subjectVersion === latestFindingVersion
       );
-      const recommendationIds =
-        currentReviews.length > 0 && currentRecommendationIds.length > 0
-          ? currentRecommendationIds
-          : [];
+      const historicalReviews = state.reviews.filter(
+        (review) =>
+          review.findingId === finding.findingId && review.subjectVersion !== latestFindingVersion
+      );
+      const policyDecisionIds = uniqueValues(
+        state.governanceEvents
+          .filter((event) => isCurrentPolicyDecisionLink(event, finding, state))
+          .map((event) => event.eventId)
+      );
+      const historicalPolicyDecisionIds = uniqueValues(
+        state.governanceEvents
+          .filter((event) => isHistoricalPolicyDecisionLink(event, finding, state))
+          .map((event) => event.eventId)
+      );
+      const recommendationIds = uniqueValues(
+        state.governanceEvents
+          .filter((event) =>
+            isCurrentRecommendationLink(event, finding.findingId, recommendationSubjectVersion)
+          )
+          .map((event) => event.eventId)
+      );
+      const historicalRecommendationIds = uniqueValues(
+        state.governanceEvents
+          .filter((event) =>
+            isHistoricalRecommendationLink(event, finding.findingId, recommendationSubjectVersion)
+          )
+          .map((event) => event.eventId)
+      );
 
       return [
         {
@@ -162,8 +170,20 @@ function buildLineage(
           modelRoute,
           reviewTypes: uniqueValues(currentReviews.map((review) => review.reviewType)),
           reviewVersionIds: uniqueValues(currentReviews.map((review) => review.subjectVersion)),
-          policyDecisionIds: policyDecisionIdsByFindingId.get(finding.findingId) ?? [],
-          recommendationIds
+          policyDecisionIds,
+          recommendationIds,
+          assuranceStatus: buildAssuranceStatus(
+            currentReviews.length,
+            recommendationIds.length,
+            historicalReviews.length,
+            historicalRecommendationIds.length
+          ),
+          historicalReviewTypes: uniqueValues(historicalReviews.map((review) => review.reviewType)),
+          historicalReviewVersionIds: uniqueValues(
+            historicalReviews.map((review) => review.subjectVersion)
+          ),
+          historicalPolicyDecisionIds,
+          historicalRecommendationIds
         }
       ];
     });
@@ -236,61 +256,31 @@ function buildModelRoutes(
 function buildSecurityGates(
   state: ScenarioState
 ): GovernanceView["securityGates"] {
-  const materialFindings = state.findings.filter(isMaterialFinding);
-  const admittedEvidence = state.evidence.filter((evidence) => evidence.admissionStatus === "ADMITTED");
+  const latestGateEvents = new Map<string, GovernanceEvent>();
+
+  for (const event of state.governanceEvents) {
+    if (event.type === "SECURITY_GATE_EVIDENCE_RECORDED" && event.metadata?.securityGateId) {
+      latestGateEvents.set(event.metadata.securityGateId, event);
+    }
+  }
 
   return securityGateDefinitions.map((definition) => {
-    if (definition.gateId === "CC002-R2-SEC-GATE-004" && materialFindings.length > 0) {
-      const firstCitation = materialFindings.flatMap((finding) => finding.citations)[0];
-      const hasCitationGap = materialFindings.some((finding) =>
-        finding.citations.some((citation) => {
-          const evidence = state.evidence.find((candidate) => candidate.evidenceId === citation.evidenceId);
-          return citation.accessible !== true || evidence?.admissionStatus !== "ADMITTED";
-        })
-      );
-
+    const gateEvent = latestGateEvents.get(definition.gateId);
+    if (!gateEvent) {
       return {
         ...definition,
-        outcome: hasCitationGap ? "FAIL" : "PASS",
-        ...(firstCitation ? { evidenceId: firstCitation.evidenceId } : {})
-      };
-    }
-
-    if (definition.gateId === "CC002-R2-SEC-GATE-008" && admittedEvidence.length > 0) {
-      const invalidEvidence = admittedEvidence.find(
-        (evidence) =>
-          (evidence.licenceStatus !== "APPROVED" && evidence.licenceStatus !== "NOT_REQUIRED") ||
-          evidence.provenanceStatus !== "VERIFIED"
-      );
-
-      return {
-        ...definition,
-        outcome: invalidEvidence ? "FAIL" : "PASS",
-        evidenceId: (invalidEvidence ?? admittedEvidence[0])?.evidenceId
-      };
-    }
-
-    if (definition.gateId === "CC002-R2-SEC-GATE-012" && state.latestAnalysisRun) {
-      const hasAutonomousAuthoritySignal = state.governanceEvents.some(
-        (event) =>
-          event.type.includes("VERDICT") ||
-          event.type.includes("INVESTMENT_DECISION") ||
-          event.detail?.toUpperCase().includes("APPROVE_INVESTMENT") === true
-      );
-
-      return {
-        ...definition,
-        outcome:
-          state.latestAnalysisRun.authorityGateRole === "HUMAN_ANALYST_REVIEW_GATE" &&
-          !hasAutonomousAuthoritySignal
-            ? "PASS"
-            : "FAIL"
+        outcome: "NOT_RUN"
       };
     }
 
     return {
       ...definition,
-      outcome: "NOT_RUN"
+      outcome: mapGateOutcome(gateEvent),
+      ...(gateEvent.metadata?.securityGateEvidenceId
+        ? {
+            evidenceId: gateEvent.metadata.securityGateEvidenceId
+          }
+        : {})
     };
   });
 }
@@ -353,6 +343,31 @@ function isCurrentRecommendationEvent(
   );
 }
 
+function isCurrentRecommendationLink(
+  event: GovernanceEvent,
+  findingId: string,
+  recommendationSubjectVersion: string
+): boolean {
+  return (
+    isCurrentRecommendationEvent(event, recommendationSubjectVersion) &&
+    resolveRelatedFindingIds(event).includes(findingId)
+  );
+}
+
+function isHistoricalRecommendationLink(
+  event: GovernanceEvent,
+  findingId: string,
+  recommendationSubjectVersion: string
+): boolean {
+  return (
+    event.type === "COMMITTEE_PACK_DRAFT_PREPARED" &&
+    event.outcome === "SUCCESS" &&
+    event.metadata?.subjectVersion !== undefined &&
+    event.metadata.subjectVersion !== recommendationSubjectVersion &&
+    resolveRelatedFindingIds(event).includes(findingId)
+  );
+}
+
 function buildReasonCodes(event: GovernanceEvent): string[] {
   const rawCodes = [
     ...(event.detail ? event.detail.split(":").map((segment) => segment.trim()) : []),
@@ -391,6 +406,46 @@ function resolveRelatedFindingIds(event: GovernanceEvent): string[] {
   return detailSegments.filter((segment) => segment.startsWith("finding-"));
 }
 
+function isCurrentPolicyDecisionLink(
+  event: GovernanceEvent,
+  finding: AnalysisFinding,
+  state: ScenarioState
+): boolean {
+  if (event.type === "SCENARIO_RESET" || event.type === "COMMITTEE_PACK_DRAFT_PREPARED") {
+    return false;
+  }
+
+  if (!resolveRelatedFindingIds(event).includes(finding.findingId)) {
+    return false;
+  }
+
+  if (event.metadata?.subjectVersion) {
+    return event.metadata.subjectVersion === getLatestFindingVersion(finding);
+  }
+
+  return isBoundToLatestAnalysis(event, state.latestAnalysisRun);
+}
+
+function isHistoricalPolicyDecisionLink(
+  event: GovernanceEvent,
+  finding: AnalysisFinding,
+  state: ScenarioState
+): boolean {
+  if (event.type === "SCENARIO_RESET" || event.type === "COMMITTEE_PACK_DRAFT_PREPARED") {
+    return false;
+  }
+
+  if (!resolveRelatedFindingIds(event).includes(finding.findingId)) {
+    return false;
+  }
+
+  if (event.metadata?.subjectVersion) {
+    return event.metadata.subjectVersion !== getLatestFindingVersion(finding);
+  }
+
+  return hasAnalysisBinding(event) && !isBoundToLatestAnalysis(event, state.latestAnalysisRun);
+}
+
 function getLineageSourceLocators(
   finding: AnalysisFinding,
   evidenceById: ReadonlyMap<string, ScenarioState["evidence"][number]>
@@ -415,6 +470,47 @@ function isMatchingAnalysisEvent(
     event.metadata?.analysisRequestFingerprint === analysisRequestFingerprint ||
     event.metadata?.phase5RunId === analysisRunId
   );
+}
+
+function hasAnalysisBinding(event: GovernanceEvent): boolean {
+  return (
+    typeof event.metadata?.analysisRequestFingerprint === "string" ||
+    typeof event.metadata?.phase5RunId === "string"
+  );
+}
+
+function isBoundToLatestAnalysis(
+  event: GovernanceEvent,
+  latestAnalysisRun: ScenarioState["latestAnalysisRun"] | undefined
+): boolean {
+  return latestAnalysisRun
+    ? isMatchingAnalysisEvent(
+        event,
+        latestAnalysisRun.analysisRequestFingerprint,
+        latestAnalysisRun.analysisRunId
+      )
+    : false;
+}
+
+function buildAssuranceStatus(
+  currentReviewCount: number,
+  currentRecommendationCount: number,
+  historicalReviewCount: number,
+  historicalRecommendationCount: number
+): GovernanceView["lineage"][number]["assuranceStatus"] {
+  if (currentReviewCount > 0 && currentRecommendationCount > 0) {
+    return "CURRENT";
+  }
+
+  if (historicalReviewCount > 0 || historicalRecommendationCount > 0) {
+    return "STALE";
+  }
+
+  return "PENDING";
+}
+
+function mapGateOutcome(event: GovernanceEvent): GovernanceView["securityGates"][number]["outcome"] {
+  return event.outcome === "ALLOW" || event.outcome === "SUCCESS" ? "PASS" : "FAIL";
 }
 
 function buildRecommendationSubjectVersion(state: ScenarioState): string {

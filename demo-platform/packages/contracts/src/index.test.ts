@@ -183,7 +183,12 @@ describe("scenarioStateSchema", () => {
           reviewTypes: ["DEAL"],
           reviewVersionIds: ["finding-ebitda-quality-v2"],
           policyDecisionIds: ["event-policy-check", "event-analysis-governed"],
-          recommendationIds: ["event-committee-pack"]
+          recommendationIds: ["event-committee-pack"],
+          assuranceStatus: "CURRENT",
+          historicalReviewTypes: [],
+          historicalReviewVersionIds: [],
+          historicalPolicyDecisionIds: [],
+          historicalRecommendationIds: []
         }
       ],
       policyDecisions: [

@@ -100,7 +100,9 @@ export const governanceEventMetadataSchema = z
     findingIds: z.array(z.string().min(1)).optional(),
     operationId: z.string().min(1).optional(),
     payloadHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
-    subjectVersion: z.string().min(1).optional()
+    subjectVersion: z.string().min(1).optional(),
+    securityGateId: z.string().min(1).optional(),
+    securityGateEvidenceId: z.string().min(1).optional()
   })
   .strict();
 
@@ -267,6 +269,8 @@ export const auditExportStatusSchema = z.enum(["READY", "BLOCKED"]);
 export type AuditExportStatus = z.infer<typeof auditExportStatusSchema>;
 export const governanceDecisionResultSchema = z.enum(["ALLOW", "DENY", "SUCCESS", "FAILURE"]);
 export type GovernanceDecisionResult = z.infer<typeof governanceDecisionResultSchema>;
+export const governanceAssuranceStatusSchema = z.enum(["CURRENT", "STALE", "PENDING"]);
+export type GovernanceAssuranceStatus = z.infer<typeof governanceAssuranceStatusSchema>;
 
 export const governanceLineageNodeSchema = z
   .object({
@@ -278,7 +282,12 @@ export const governanceLineageNodeSchema = z
     reviewTypes: z.array(reviewTypeSchema),
     reviewVersionIds: z.array(z.string().min(1)),
     policyDecisionIds: z.array(z.string().min(1)),
-    recommendationIds: z.array(z.string().min(1))
+    recommendationIds: z.array(z.string().min(1)),
+    assuranceStatus: governanceAssuranceStatusSchema,
+    historicalReviewTypes: z.array(reviewTypeSchema),
+    historicalReviewVersionIds: z.array(z.string().min(1)),
+    historicalPolicyDecisionIds: z.array(z.string().min(1)),
+    historicalRecommendationIds: z.array(z.string().min(1))
   })
   .strict();
 export type GovernanceLineageNode = z.infer<typeof governanceLineageNodeSchema>;

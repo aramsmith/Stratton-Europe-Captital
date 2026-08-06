@@ -99,6 +99,10 @@ export class AnalysisService {
       createId: this.createId
     });
     assertFindingCitationsAdmitted(state, findings);
+    const governedAnalysisEventMetadata = createGovernedAnalysisEventMetadata(
+      analysisMetadata,
+      findings
+    );
 
     const nextState: ScenarioState = {
       ...state,
@@ -111,35 +115,29 @@ export class AnalysisService {
           type: "MODEL_ROUTE_SELECTED",
           outcome: "ALLOW",
           correlationId: input.correlationId,
-          detail: route
+          detail: route,
+          metadata: governedAnalysisEventMetadata
         }),
         createGovernanceEvent(this.createId, this.now, {
           type: "ANALYSIS_POLICY_CHECK",
           outcome: "ALLOW",
           correlationId: input.correlationId,
-          detail: "admitted-citations-only"
+          detail: "admitted-citations-only",
+          metadata: governedAnalysisEventMetadata
         }),
         createGovernanceEvent(this.createId, this.now, {
           type: "ANALYSIS_CORRELATED",
           outcome: "SUCCESS",
           correlationId: input.correlationId,
-          detail: phase5Result.analysisRunId
+          detail: phase5Result.analysisRunId,
+          metadata: governedAnalysisEventMetadata
         }),
         createGovernanceEvent(this.createId, this.now, {
           type: "ANALYSIS_REQUEST_GOVERNED",
           outcome: "SUCCESS",
           correlationId: input.correlationId,
           detail: `${input.taskClass}:${phase5Result.analysisRunId}`,
-          metadata: {
-            analysisRequestFingerprint: analysisMetadata.analysisRequestFingerprint,
-            questionHash: analysisMetadata.questionHash,
-            evidenceSetHash: analysisMetadata.evidenceSetHash,
-            taskClass: analysisMetadata.taskClass,
-            route: analysisMetadata.route,
-            phase5RunId: analysisMetadata.analysisRunId,
-            authorityGateRole: analysisMetadata.authorityGateRole,
-            findingIds: findings.map((finding) => finding.findingId)
-          }
+          metadata: governedAnalysisEventMetadata
         })
       ]
     };
@@ -463,6 +461,22 @@ function createAnalysisRunMetadata(input: {
 
 function buildAnalysisIdempotencyKey(analysisRequestFingerprint: string): string {
   return `analysis:${analysisRequestFingerprint}`;
+}
+
+function createGovernedAnalysisEventMetadata(
+  analysisMetadata: AnalysisRunMetadata,
+  findings: readonly AnalysisFinding[]
+): NonNullable<ScenarioState["governanceEvents"][number]["metadata"]> {
+  return {
+    analysisRequestFingerprint: analysisMetadata.analysisRequestFingerprint,
+    questionHash: analysisMetadata.questionHash,
+    evidenceSetHash: analysisMetadata.evidenceSetHash,
+    taskClass: analysisMetadata.taskClass,
+    route: analysisMetadata.route,
+    phase5RunId: analysisMetadata.analysisRunId,
+    authorityGateRole: analysisMetadata.authorityGateRole,
+    findingIds: findings.map((finding) => finding.findingId)
+  };
 }
 
 function hashValue(value: string): string {

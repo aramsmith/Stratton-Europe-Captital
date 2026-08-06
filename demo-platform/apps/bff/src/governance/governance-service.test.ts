@@ -1,7 +1,9 @@
 import type { ScenarioState } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { describe, expect, it } from "vitest";
+import type { Phase5Client } from "../phase5/phase5-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
+import { AnalysisService } from "../analysis/analysis-service.js";
 import { GovernanceService } from "./governance-service.js";
 
 function createGovernanceReadyState(): ScenarioState {
@@ -191,7 +193,12 @@ function createGovernanceReadyState(): ScenarioState {
         taskClass: "CROSS_DOCUMENT_COMPARISON",
         route: "TERRA",
         phase5RunId: "run-terra-1",
-        authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE"
+        authorityGateRole: "HUMAN_ANALYST_REVIEW_GATE",
+        findingIds: [
+          "finding-ebitda-quality",
+          "finding-customer-concentration",
+          "finding-permit-transfer"
+        ]
       }
     },
     {
@@ -319,6 +326,28 @@ function createGovernanceReadyState(): ScenarioState {
   return state;
 }
 
+function createAdmittedState(): ScenarioState {
+  const state = createProjectDanubeState();
+  state.evidence = state.evidence.map((evidence) => ({
+    ...evidence,
+    admissionStatus: "ADMITTED",
+    provenanceStatus: "VERIFIED"
+  }));
+  return state;
+}
+
+function createPhase5ClientDouble(): Phase5Client {
+  return {
+    requestAnalysis: async () => ({
+      analysisRunId: "run-terra-1",
+      status: "QUEUED"
+    }),
+    admitEvidence: async () => undefined,
+    submitReview: async () => undefined,
+    prepareDraft: async () => undefined
+  };
+}
+
 describe("GovernanceService", () => {
   it("links each material finding to evidence, route, review, policy events, and the recommendation preview", async () => {
     const service = new GovernanceService({
@@ -381,13 +410,13 @@ describe("GovernanceService", () => {
     ]);
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-004")
-    ).toMatchObject({ outcome: "PASS" });
+    ).toMatchObject({ outcome: "NOT_RUN" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-008")
-    ).toMatchObject({ outcome: "PASS" });
+    ).toMatchObject({ outcome: "NOT_RUN" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-012")
-    ).toMatchObject({ outcome: "PASS" });
+    ).toMatchObject({ outcome: "NOT_RUN" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-001")
     ).toMatchObject({ outcome: "NOT_RUN" });
@@ -396,6 +425,37 @@ describe("GovernanceService", () => {
       missingItems: [],
       previewSections: ["Lineage", "Policy decisions", "Model routes", "Security & audit"]
     });
+  });
+
+  it("binds route and policy events emitted by AnalysisService to the latest analysis route", async () => {
+    let sequence = 0;
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const analysisService = new AnalysisService({
+      repository,
+      phase5Client: createPhase5ClientDouble(),
+      createId: () => `generated-${++sequence}`,
+      now: () => "2026-08-06T10:05:00.000Z"
+    });
+
+    await analysisService.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-analysis-1"
+    });
+
+    const view = await new GovernanceService({ repository }).getView("project-danube");
+
+    expect(view.modelRoutes).toEqual([
+      expect.objectContaining({
+        routeId: "run-terra-1",
+        routeEventIds: [
+          "generated-4",
+          "generated-5",
+          "generated-7"
+        ]
+      })
+    ]);
   });
 
   it("keeps review lineage version-bound when a finding has moved past an earlier approval", async () => {
@@ -427,7 +487,112 @@ describe("GovernanceService", () => {
     const permit = view.lineage.find((node) => node.id === "finding-permit-transfer");
 
     expect(permit?.reviewTypes).toEqual([]);
+    expect(permit?.policyDecisionIds).toEqual([
+      "event-analysis-governed",
+      "event-policy-check",
+      "event-route-selected"
+    ]);
+    expect(
+      (permit as
+        | {
+            assuranceStatus?: string;
+            historicalPolicyDecisionIds?: readonly string[];
+            historicalReviewTypes?: readonly string[];
+            historicalReviewVersionIds?: readonly string[];
+            historicalRecommendationIds?: readonly string[];
+          }
+        | undefined)?.assuranceStatus
+    ).toBe("STALE");
+    expect(
+      (permit as
+        | {
+            historicalPolicyDecisionIds?: readonly string[];
+          }
+        | undefined)?.historicalPolicyDecisionIds
+    ).toEqual(["review-legal"]);
+    expect(
+      (permit as
+        | {
+            historicalReviewTypes?: readonly string[];
+            historicalReviewVersionIds?: readonly string[];
+          }
+        | undefined)?.historicalReviewTypes
+    ).toEqual(["LEGAL"]);
+    expect(
+      (permit as
+        | {
+            historicalReviewVersionIds?: readonly string[];
+          }
+        | undefined)?.historicalReviewVersionIds
+    ).toEqual(["finding-permit-transfer-v2"]);
+    expect(
+      (permit as
+        | {
+            historicalRecommendationIds?: readonly string[];
+          }
+        | undefined)?.historicalRecommendationIds
+    ).toEqual(["event-committee-pack"]);
     expect(permit?.recommendationIds).toEqual([]);
+  });
+
+  it("derives gate outcomes only from dedicated gate-specific evidence events", async () => {
+    const state = createGovernanceReadyState();
+    state.governanceEvents.push(
+      {
+        eventId: "gate-004-pass",
+        type: "SECURITY_GATE_EVIDENCE_RECORDED",
+        outcome: "SUCCESS",
+        occurredAtIso: "2026-08-06T10:26:00.000Z",
+        correlationId: "corr-gate-004",
+        detail: "Citation spoofing scenario replay",
+        metadata: {
+          securityGateId: "CC002-R2-SEC-GATE-004",
+          securityGateEvidenceId: "gate-evidence-004"
+        }
+      } as ScenarioState["governanceEvents"][number],
+      {
+        eventId: "gate-008-fail",
+        type: "SECURITY_GATE_EVIDENCE_RECORDED",
+        outcome: "FAILURE",
+        occurredAtIso: "2026-08-06T10:27:00.000Z",
+        correlationId: "corr-gate-008",
+        detail: "Revoked evidence scenario replay",
+        metadata: {
+          securityGateId: "CC002-R2-SEC-GATE-008",
+          securityGateEvidenceId: "gate-evidence-008"
+        }
+      } as ScenarioState["governanceEvents"][number]
+    );
+
+    const view = await new GovernanceService({
+      repository: new InMemoryScenarioRepository(state)
+    }).getView("project-danube");
+
+    expect(
+      view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-004")
+    ).toMatchObject({ outcome: "PASS", evidenceId: "gate-evidence-004" });
+    expect(
+      view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-008")
+    ).toMatchObject({ outcome: "FAIL", evidenceId: "gate-evidence-008" });
+    expect(
+      view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-012")
+    ).toMatchObject({ outcome: "NOT_RUN" });
+    expect(
+      view.securityGates.filter((gate) => gate.outcome === "NOT_RUN").map((gate) => gate.gateId)
+    ).toEqual(
+      expect.arrayContaining([
+        "CC002-R2-SEC-GATE-001",
+        "CC002-R2-SEC-GATE-002",
+        "CC002-R2-SEC-GATE-003",
+        "CC002-R2-SEC-GATE-005",
+        "CC002-R2-SEC-GATE-006",
+        "CC002-R2-SEC-GATE-007",
+        "CC002-R2-SEC-GATE-009",
+        "CC002-R2-SEC-GATE-010",
+        "CC002-R2-SEC-GATE-011",
+        "CC002-R2-SEC-GATE-012"
+      ])
+    );
   });
 
   it("fails closed when Project Danube has not produced governed route evidence yet", async () => {
