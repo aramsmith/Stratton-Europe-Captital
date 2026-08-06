@@ -1,15 +1,15 @@
-import ReactDOM from "react-dom/client";
-import { appTitle } from "./app.js";
+import { createRoot } from "react-dom/client";
+import { App } from "./app/App.js";
 
-const root = document.getElementById("root");
+const rootElement = document.getElementById("root");
 
-if (!root) {
+if (!rootElement) {
   throw new Error("Root element not found");
 }
 
-ReactDOM.createRoot(root).render(
-  <main>
-    <h1>{appTitle}</h1>
-    <p>Evidence-to-decision demo scaffold.</p>
-  </main>
-);
+document.documentElement.style.height = "100%";
+document.body.style.height = "100%";
+document.body.style.margin = "0";
+rootElement.style.height = "100%";
+
+createRoot(rootElement).render(<App />);
