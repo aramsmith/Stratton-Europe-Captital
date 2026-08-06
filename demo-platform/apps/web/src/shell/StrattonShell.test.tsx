@@ -3,13 +3,26 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
+import { AppRoutes } from "../app/routes.js";
 import { StrattonShell } from "./StrattonShell.js";
 
-function renderShell(path = "/workbench", onReset = vi.fn()) {
+const scenario = createProjectDanubeState();
+
+function renderShell(path = "/workbench", onReset = vi.fn(), children = <div>Route body</div>) {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <StrattonShell scenario={createProjectDanubeState()} onReset={onReset}>
-        <div>Route body</div>
+      <StrattonShell scenario={scenario} onReset={onReset}>
+        {children}
+      </StrattonShell>
+    </MemoryRouter>
+  );
+}
+
+function renderRouteShell(path = "/workbench") {
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <StrattonShell scenario={scenario}>
+        <AppRoutes scenario={scenario} />
       </StrattonShell>
     </MemoryRouter>
   );
@@ -29,6 +42,20 @@ describe("StrattonShell", () => {
     renderShell("/decision-room");
 
     expect(screen.getByRole("link", { name: "Investment Decision Room" })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
+  });
+
+  it("redirects a mistyped deep link back to the workbench", async () => {
+    renderRouteShell("/workbnech");
+
+    expect(await screen.findByRole("heading", { name: "AI Deal Workbench" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "AI Deal Workbench" })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
+    expect(screen.getByRole("button", { name: "AI Deal Workbench" })).toHaveAttribute(
       "aria-current",
       "page"
     );

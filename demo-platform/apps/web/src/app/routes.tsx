@@ -91,6 +91,7 @@ export function AppRoutes({ scenario }: AppRoutesProps) {
       <Route path="/workbench" element={<WorkbenchRoute scenario={scenario} />} />
       <Route path="/decision-room" element={<DecisionRoomRoute scenario={scenario} />} />
       <Route path="/governance" element={<GovernanceRoute scenario={scenario} />} />
+      <Route path="*" element={<Navigate to="/workbench" replace />} />
     </Routes>
   );
 }
@@ -101,7 +102,9 @@ function WorkbenchRoute({ scenario }: AppRoutesProps) {
   return (
     <div className={styles.routeLayout}>
       <section aria-labelledby="workbench-heading">
-        <Title3 as="h2" id="workbench-heading">AI Deal Workbench</Title3>
+        <Title3 as="h2" id="workbench-heading">
+          AI Deal Workbench
+        </Title3>
         <Body1>
           Review admitted and quarantined evidence, inspect provenance, and prepare challenge-ready
           findings for Project Danube.
@@ -173,7 +176,9 @@ function DecisionRoomRoute({ scenario }: AppRoutesProps) {
   return (
     <div className={styles.routeLayout}>
       <section aria-labelledby="decision-room-heading">
-        <Title3 as="h2" id="decision-room-heading">Investment Decision Room</Title3>
+        <Title3 as="h2" id="decision-room-heading">
+          Investment Decision Room
+        </Title3>
         <Body1>
           Human reviewers challenge material claims, track mandatory reviews, and prepare the
           committee pack without delegating the investment decision to AI.
@@ -255,7 +260,9 @@ function GovernanceRoute({ scenario }: AppRoutesProps) {
   return (
     <div className={styles.routeLayout}>
       <section aria-labelledby="governance-heading">
-        <Title3 as="h2" id="governance-heading">Governance & Assurance</Title3>
+        <Title3 as="h2" id="governance-heading">
+          Governance & Assurance
+        </Title3>
         <Body1>
           Show case lineage, audit events, and governed model-route evidence without implying an
           Internal Audit verdict.
