@@ -2,8 +2,19 @@ import { randomUUID } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import express, { type Express } from "express";
 import { createProjectDanubeState } from "@stratton/scenario-data";
+import { AnalysisService } from "./analysis/analysis-service.js";
 import { parseDemoConfig } from "./config.js";
+import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
+import type { Phase5Client } from "./phase5/phase5-client.js";
+import {
+  createAnalysisRouter,
+  type AnalysisRouteDependencies
+} from "./routes/analysis-routes.js";
+import {
+  createEvidenceRouter,
+  type EvidenceRouteDependencies
+} from "./routes/evidence-routes.js";
 import {
   createScenarioRouter,
   type ScenarioRouteDependencies
@@ -11,7 +22,9 @@ import {
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
 
-export type DemoServerDependencies = ScenarioRouteDependencies;
+export type DemoServerDependencies = ScenarioRouteDependencies &
+  EvidenceRouteDependencies &
+  AnalysisRouteDependencies;
 
 export function createDemoServer(dependencies: DemoServerDependencies): Express {
   const app = express();
@@ -27,6 +40,8 @@ export function createDemoServer(dependencies: DemoServerDependencies): Express 
   });
 
   app.use(createScenarioRouter(dependencies));
+  app.use(createEvidenceRouter(dependencies));
+  app.use(createAnalysisRouter(dependencies));
 
   app.use((_request, _response, next) => {
     next(new DemoHttpError(404, "INVALID_CONTRACT", "Requested path does not match an approved route."));
@@ -49,11 +64,13 @@ const isDirectRun = process.argv[1] ? import.meta.url === pathToFileURL(process.
 
 if (isDirectRun) {
   const config = parseDemoConfig();
+  const repository = new InMemoryScenarioRepository(createProjectDanubeState());
+  const phase5Client = createLocalPhase5Client();
 
   createDemoServer({
-    scenarioService: new ScenarioService(
-      new InMemoryScenarioRepository(createProjectDanubeState())
-    )
+    scenarioService: new ScenarioService(repository),
+    evidenceService: new EvidenceService({ repository, phase5Client }),
+    analysisService: new AnalysisService({ repository, phase5Client })
   }).listen(config.PORT, () => {
     console.log(`Stratton demo BFF listening on ${config.PORT}`);
   });
@@ -73,4 +90,18 @@ function getCorrelationId(response: express.Response): string {
   }
 
   return setCorrelationId(response);
+}
+
+function createLocalPhase5Client(): Phase5Client {
+  let analysisRunSequence = 0;
+
+  return {
+    admitEvidence: async () => undefined,
+    requestAnalysis: async () => ({
+      analysisRunId: `local-analysis-${++analysisRunSequence}`,
+      status: "QUEUED"
+    }),
+    submitReview: async () => undefined,
+    prepareDraft: async () => undefined
+  };
 }

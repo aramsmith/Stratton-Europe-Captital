@@ -1,16 +1,44 @@
 import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import { createProjectDanubeState } from "@stratton/scenario-data";
+import { AnalysisService } from "./analysis/analysis-service.js";
+import { EvidenceService } from "./evidence/evidence-service.js";
+import type { Phase5Client } from "./phase5/phase5-client.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
 import { createDemoServer } from "./server.js";
 
 function testDependencies() {
+  const repository = new InMemoryScenarioRepository(createProjectDanubeState());
+  const phase5Client = createPhase5ClientDouble();
+
   return {
-    scenarioService: new ScenarioService(
-      new InMemoryScenarioRepository(createProjectDanubeState())
-    )
+    scenarioService: new ScenarioService(repository),
+    evidenceService: new EvidenceService({ repository, phase5Client }),
+    analysisService: new AnalysisService({ repository, phase5Client })
   };
+}
+
+function createPhase5ClientDouble() {
+  return {
+    requestAnalysis: vi.fn<Phase5Client["requestAnalysis"]>().mockResolvedValue({
+      analysisRunId: "run-terra-1",
+      status: "QUEUED"
+    }),
+    admitEvidence: vi.fn<Phase5Client["admitEvidence"]>().mockResolvedValue(undefined),
+    submitReview: vi.fn<Phase5Client["submitReview"]>().mockResolvedValue(undefined),
+    prepareDraft: vi.fn<Phase5Client["prepareDraft"]>().mockResolvedValue(undefined)
+  } satisfies Phase5Client;
+}
+
+function createAdmittedState() {
+  const state = createProjectDanubeState();
+  state.evidence = state.evidence.map((evidence) => ({
+    ...evidence,
+    admissionStatus: "ADMITTED",
+    provenanceStatus: "VERIFIED"
+  }));
+  return state;
 }
 
 describe("createDemoServer", () => {
@@ -92,13 +120,72 @@ describe("createDemoServer", () => {
 
     const response = await request(
       createDemoServer({
-        scenarioService: new ScenarioService(repository)
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({
+          repository,
+          phase5Client: createPhase5ClientDouble()
+        }),
+        analysisService: new AnalysisService({
+          repository,
+          phase5Client: createPhase5ClientDouble()
+        })
       })
     ).post("/api/scenario/reset");
 
     expect(response.status).toBe(200);
     expect(response.body.stage).toBe("INTAKE");
     expect(response.body.findings).toEqual([]);
+  });
+
+  it("admits evidence through the workbench endpoint", async () => {
+    const response = await request(createDemoServer(testDependencies()))
+      .post("/api/evidence/evidence-board-pack/admit")
+      .send({ caseId: "project-danube" });
+
+    expect(response.status).toBe(200);
+    expect(response.body.scenario.evidence).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          evidenceId: "evidence-board-pack",
+          admissionStatus: "ADMITTED",
+          provenanceStatus: "VERIFIED"
+        })
+      ])
+    );
+  });
+
+  it("rejects non-human finding dispositions", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const phase5Client = createPhase5ClientDouble();
+    const analysisService = new AnalysisService({ repository, phase5Client });
+    await analysisService.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-preload"
+    });
+
+    const response = await request(
+      createDemoServer({
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({ repository, phase5Client }),
+        analysisService
+      })
+    )
+      .post("/api/findings/finding-ebitda-quality/disposition")
+      .set("x-demo-principal-type", "SERVICE")
+      .send({
+        caseId: "project-danube",
+        action: "EDIT",
+        editedSummary: "Human adjusted EBITDA challenge kept for committee review."
+      });
+
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual({
+      code: "POLICY_DENIED",
+      message: "A human analyst must accept, edit, challenge, or reject the finding.",
+      correlationId: response.headers["x-correlation-id"]
+    });
   });
 
   it("maps unknown failures to a stable fail-closed envelope", async () => {
@@ -109,6 +196,15 @@ describe("createDemoServer", () => {
             throw new Error("boom");
           },
           reset: async () => createProjectDanubeState()
+        },
+        evidenceService: {
+          admit: async () => createProjectDanubeState()
+        },
+        analysisService: {
+          run: async () => {
+            throw new Error("boom");
+          },
+          recordDisposition: async () => createProjectDanubeState()
         }
       })
     )

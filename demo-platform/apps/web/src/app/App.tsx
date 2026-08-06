@@ -9,7 +9,13 @@ import {
   tokens,
   webLightTheme
 } from "@fluentui/react-components";
-import type { ScenarioState } from "@stratton/contracts";
+import type {
+  AnalysisRunRequest,
+  AnalysisRunResponse,
+  EvidenceAdmissionRequest,
+  FindingDispositionRequest,
+  ScenarioState
+} from "@stratton/contracts";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { DemoClient } from "../api/demoClient.js";
@@ -96,6 +102,31 @@ export function App() {
     }
   }, [client]);
 
+  const handleAdmitEvidence = useCallback(
+    async (input: EvidenceAdmissionRequest & { evidenceId: string }) => {
+      const nextScenario = await client.admitEvidence(input);
+      setScenario(nextScenario);
+    },
+    [client]
+  );
+
+  const handleRunAnalysis = useCallback(
+    async (input: AnalysisRunRequest): Promise<AnalysisRunResponse> => {
+      const result = await client.runAnalysis(input);
+      setScenario(result.scenario);
+      return result;
+    },
+    [client]
+  );
+
+  const handleRecordDisposition = useCallback(
+    async (input: FindingDispositionRequest & { findingId: string }) => {
+      const nextScenario = await client.recordFindingDisposition(input);
+      setScenario(nextScenario);
+    },
+    [client]
+  );
+
   return (
     <FluentProvider theme={webLightTheme}>
       <title>Stratton demo platform</title>
@@ -128,7 +159,12 @@ export function App() {
             resetError={resetError}
             scenario={scenario}
           >
-            <AppRoutes scenario={scenario} />
+            <AppRoutes
+              scenario={scenario}
+              onAdmitEvidence={handleAdmitEvidence}
+              onRecordDisposition={handleRecordDisposition}
+              onRunAnalysis={handleRunAnalysis}
+            />
           </StrattonShell>
         </BrowserRouter>
       ) : null}

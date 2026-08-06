@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const modelRouteSchema = z.enum(["LUNA", "TERRA", "SOL"]);
 export type ModelRoute = z.infer<typeof modelRouteSchema>;
+export const provenanceStatusSchema = z.enum(["PENDING", "VERIFIED"]);
+export type ProvenanceStatus = z.infer<typeof provenanceStatusSchema>;
 
 export const citationSchema = z
   .object({
@@ -9,6 +11,16 @@ export const citationSchema = z
     evidenceId: z.string().min(1),
     locator: z.string().min(1),
     accessible: z.literal(true)
+  })
+  .strict();
+
+export const findingTextVersionSchema = z
+  .object({
+    versionId: z.string().min(1),
+    actorType: z.enum(["AI", "HUMAN"]),
+    action: z.enum(["GENERATED", "EDITED", "ACCEPTED", "CHALLENGED", "REJECTED"]),
+    summary: z.string().min(1),
+    occurredAtIso: z.string().datetime()
   })
   .strict();
 
@@ -20,7 +32,9 @@ export const findingSchema = z
     materiality: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
     status: z.enum(["DRAFT", "ACCEPTED", "CHALLENGED", "REJECTED"]),
     route: modelRouteSchema.optional(),
-    citations: z.array(citationSchema)
+    citations: z.array(citationSchema),
+    originalAiSummary: z.string().min(1).optional(),
+    textHistory: z.array(findingTextVersionSchema).default([])
   })
   .strict()
   .superRefine((finding, context) => {
@@ -49,7 +63,9 @@ export const scenarioStateSchema = z
             admissionStatus: z.enum(["QUARANTINED", "ADMITTED", "REJECTED"]),
             owner: z.string().min(1),
             licenceStatus: z.enum(["APPROVED", "NOT_REQUIRED", "EXPIRED", "MISSING"]),
-            sourceLocator: z.string().min(1)
+            provenanceStatus: provenanceStatusSchema.default("PENDING"),
+            sourceLocator: z.string().min(1),
+            sourcePreview: z.string().min(1).optional()
           })
           .strict()
       ),
@@ -73,7 +89,8 @@ export const scenarioStateSchema = z
             type: z.string().min(1),
             outcome: z.enum(["ALLOW", "DENY", "SUCCESS", "FAILURE"]),
             occurredAtIso: z.string().datetime(),
-            correlationId: z.string().min(1)
+            correlationId: z.string().min(1),
+            detail: z.string().min(1).optional()
           })
           .strict()
       )
@@ -108,6 +125,74 @@ export type EvidenceItem = ScenarioState["evidence"][number];
 export type AnalysisFinding = ScenarioState["findings"][number];
 export type ReviewRequirement = ScenarioState["reviews"][number];
 export type GovernanceEvent = ScenarioState["governanceEvents"][number];
+export type FindingTextVersion = z.infer<typeof findingTextVersionSchema>;
+
+export const analysisTaskClassSchema = z.enum([
+  "EVIDENCE_TRIAGE",
+  "QUERY_REWRITE",
+  "FIRST_PASS_SUMMARY",
+  "GROUNDED_ANALYSIS",
+  "CROSS_DOCUMENT_COMPARISON",
+  "ESG_NORMALISATION",
+  "COMPLEX_RISK_SYNTHESIS",
+  "INVESTMENT_THESIS_CHALLENGE"
+]);
+export type AnalysisTaskClass = z.infer<typeof analysisTaskClassSchema>;
+
+export const evidenceAdmissionRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube")
+  })
+  .strict();
+export type EvidenceAdmissionRequest = z.infer<typeof evidenceAdmissionRequestSchema>;
+
+export const scenarioMutationResponseSchema = z
+  .object({
+    scenario: scenarioStateSchema
+  })
+  .strict();
+export type ScenarioMutationResponse = z.infer<typeof scenarioMutationResponseSchema>;
+
+export const analysisRunRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube"),
+    taskClass: analysisTaskClassSchema,
+    question: z.string().trim().min(1)
+  })
+  .strict();
+export type AnalysisRunRequest = z.infer<typeof analysisRunRequestSchema>;
+
+export const analysisRunResponseSchema = z
+  .object({
+    analysisRunId: z.string().min(1),
+    route: modelRouteSchema,
+    scenario: scenarioStateSchema,
+    findings: z.array(findingSchema),
+    correlationId: z.string().min(1).default("unknown")
+  })
+  .strict();
+export type AnalysisRunResponse = z.infer<typeof analysisRunResponseSchema>;
+
+export const findingDispositionActionSchema = z.enum(["ACCEPT", "EDIT", "CHALLENGE", "REJECT"]);
+export type FindingDispositionAction = z.infer<typeof findingDispositionActionSchema>;
+
+export const findingDispositionRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube"),
+    action: findingDispositionActionSchema,
+    editedSummary: z.string().trim().min(1).optional()
+  })
+  .strict()
+  .superRefine((value, context) => {
+    if (value.action === "EDIT" && !value.editedSummary) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "EDIT_REQUIRES_EDITED_SUMMARY",
+        path: ["editedSummary"]
+      });
+    }
+  });
+export type FindingDispositionRequest = z.infer<typeof findingDispositionRequestSchema>;
 
 export interface DemoApiError {
   readonly code:

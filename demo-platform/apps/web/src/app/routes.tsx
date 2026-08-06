@@ -8,9 +8,16 @@ import {
   shorthands,
   tokens
 } from "@fluentui/react-components";
-import type { ScenarioState } from "@stratton/contracts";
+import type {
+  AnalysisRunRequest,
+  AnalysisRunResponse,
+  EvidenceAdmissionRequest,
+  FindingDispositionRequest,
+  ScenarioState
+} from "@stratton/contracts";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { StatusBadge } from "../shared/StatusBadge.js";
+import { DealWorkbenchPage } from "../workbench/DealWorkbenchPage.js";
 
 export interface WorkspaceDefinition {
   readonly path: "/workbench" | "/decision-room" | "/governance";
@@ -82,13 +89,35 @@ const useStyles = makeStyles({
 
 interface AppRoutesProps {
   readonly scenario: ScenarioState;
+  readonly onAdmitEvidence?: ((input: EvidenceAdmissionRequest & {
+    evidenceId: string;
+  }) => Promise<void> | void) | undefined;
+  readonly onRunAnalysis?: ((input: AnalysisRunRequest) => Promise<AnalysisRunResponse> | AnalysisRunResponse) | undefined;
+  readonly onRecordDisposition?: ((input: FindingDispositionRequest & {
+    findingId: string;
+  }) => Promise<void> | void) | undefined;
 }
 
-export function AppRoutes({ scenario }: AppRoutesProps) {
+export function AppRoutes({
+  scenario,
+  onAdmitEvidence,
+  onRunAnalysis,
+  onRecordDisposition
+}: AppRoutesProps) {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/workbench" replace />} />
-      <Route path="/workbench" element={<WorkbenchRoute scenario={scenario} />} />
+      <Route
+        path="/workbench"
+        element={
+          <WorkbenchRoute
+            scenario={scenario}
+            onAdmitEvidence={onAdmitEvidence}
+            onRecordDisposition={onRecordDisposition}
+            onRunAnalysis={onRunAnalysis}
+          />
+        }
+      />
       <Route path="/decision-room" element={<DecisionRoomRoute scenario={scenario} />} />
       <Route path="/governance" element={<GovernanceRoute scenario={scenario} />} />
       <Route path="*" element={<Navigate to="/workbench" replace />} />
@@ -96,74 +125,19 @@ export function AppRoutes({ scenario }: AppRoutesProps) {
   );
 }
 
-function WorkbenchRoute({ scenario }: AppRoutesProps) {
-  const styles = useStyles();
-
+function WorkbenchRoute({
+  scenario,
+  onAdmitEvidence,
+  onRunAnalysis,
+  onRecordDisposition
+}: AppRoutesProps) {
   return (
-    <div className={styles.routeLayout}>
-      <section aria-labelledby="workbench-heading">
-        <Title3 as="h2" id="workbench-heading">
-          AI Deal Workbench
-        </Title3>
-        <Body1>
-          Review admitted and quarantined evidence, inspect provenance, and prepare challenge-ready
-          findings for Project Danube.
-        </Body1>
-      </section>
-
-      <div className={styles.cardGrid}>
-        <Card className={styles.workspaceCard}>
-          <Title3 as="h3">Evidence inventory</Title3>
-          <Caption1 className={styles.muted}>
-            Fixed case context with provenance, ownership, and licence status.
-          </Caption1>
-          <ul className={styles.list}>
-            {scenario.evidence.map((evidence) => (
-              <li key={evidence.evidenceId} className={styles.listItem}>
-                <Body1Strong>{evidence.title}</Body1Strong>
-                <div className={styles.badgeRow}>
-                  <StatusBadge label={evidence.admissionStatus} status={evidence.admissionStatus} />
-                  <StatusBadge label={evidence.domain} status={evidence.domain} />
-                  <StatusBadge label={evidence.licenceStatus} status={evidence.licenceStatus} />
-                </div>
-                <Caption1>
-                  Owner: {evidence.owner} · Source: {evidence.sourceLocator}
-                </Caption1>
-              </li>
-            ))}
-          </ul>
-        </Card>
-
-        <Card className={styles.workspaceCard}>
-          <Title3 as="h3">AI finding workspace</Title3>
-          <Caption1 className={styles.muted}>
-            Findings stay source-resolvable and move to the review workspace with their evidence
-            history intact.
-          </Caption1>
-          <ul className={styles.list}>
-            {scenario.findings.length === 0 ? (
-              <li className={styles.listItem}>
-                <Body1Strong>No material findings drafted yet</Body1Strong>
-                <Caption1>
-                  The approved baseline starts at intake with quarantined evidence only.
-                </Caption1>
-              </li>
-            ) : (
-              scenario.findings.map((finding) => (
-                <li key={finding.findingId} className={styles.listItem}>
-                  <Body1Strong>{finding.title}</Body1Strong>
-                  <div className={styles.badgeRow}>
-                    <StatusBadge label={finding.materiality} status={finding.materiality} />
-                    <StatusBadge label={finding.status} status={finding.status} />
-                  </div>
-                  <Caption1>{finding.summary}</Caption1>
-                </li>
-              ))
-            )}
-          </ul>
-        </Card>
-      </div>
-    </div>
+    <DealWorkbenchPage
+      onAdmitEvidence={onAdmitEvidence}
+      onRecordDisposition={onRecordDisposition}
+      onRunAnalysis={onRunAnalysis}
+      scenario={scenario}
+    />
   );
 }
 
@@ -281,6 +255,7 @@ function GovernanceRoute({ scenario }: AppRoutesProps) {
                   <Caption1>{new Date(event.occurredAtIso).toLocaleString()}</Caption1>
                 </div>
                 <Caption1>Correlation: {event.correlationId}</Caption1>
+                {event.detail ? <Caption1>{event.detail}</Caption1> : null}
               </li>
             ))}
           </ul>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { scenarioStateSchema } from "./index.js";
+import { analysisRunRequestSchema, findingDispositionRequestSchema, scenarioStateSchema } from "./index.js";
 
 const buildScenarioState = (admissionStatus: "ADMITTED" | "QUARANTINED" | "REJECTED") => ({
   caseId: "project-danube",
@@ -81,5 +81,24 @@ describe("scenarioStateSchema", () => {
     const result = scenarioStateSchema.safeParse(buildScenarioState("ADMITTED"));
 
     expect(result.success).toBe(true);
+  });
+
+  it("accepts a routed analysis request for Project Danube", () => {
+    const result = analysisRunRequestSchema.safeParse({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality"
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it("requires an edited summary when a human edits a finding", () => {
+    const result = findingDispositionRequestSchema.safeParse({
+      caseId: "project-danube",
+      action: "EDIT"
+    });
+
+    expect(result.success).toBe(false);
   });
 });

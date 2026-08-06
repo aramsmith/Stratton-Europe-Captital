@@ -19,6 +19,7 @@ const badgeColorByStatus: Readonly<Record<string, NonNullable<BadgeProps["color"
   FAILURE: "danger",
   HIGH: "danger",
   INTAKE: "brand",
+  LUNA: "brand",
   LOW: "subtle",
   MEDIUM: "warning",
   MISSING: "danger",
@@ -27,8 +28,11 @@ const badgeColorByStatus: Readonly<Record<string, NonNullable<BadgeProps["color"
   QUARANTINED: "warning",
   REJECTED: "danger",
   REVIEW: "important",
+  SOL: "important",
   STATE_CONFLICT: "danger",
-  SUCCESS: "success"
+  SUCCESS: "success",
+  TERRA: "informative",
+  VERIFIED: "success"
 };
 
 export function StatusBadge({ label, status }: StatusBadgeProps) {

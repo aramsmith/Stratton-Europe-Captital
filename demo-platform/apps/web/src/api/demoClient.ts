@@ -1,4 +1,17 @@
-import { scenarioStateSchema, type DemoApiError, type ScenarioState } from "@stratton/contracts";
+import {
+  analysisRunRequestSchema,
+  analysisRunResponseSchema,
+  evidenceAdmissionRequestSchema,
+  findingDispositionRequestSchema,
+  scenarioMutationResponseSchema,
+  scenarioStateSchema,
+  type AnalysisRunRequest,
+  type AnalysisRunResponse,
+  type DemoApiError,
+  type EvidenceAdmissionRequest,
+  type FindingDispositionRequest,
+  type ScenarioState
+} from "@stratton/contracts";
 
 const demoErrorMessages: Readonly<Record<DemoApiError["code"], string>> = {
   INVALID_CONTRACT: "Request does not satisfy the approved contract.",
@@ -37,6 +50,66 @@ export class DemoClient {
     }
 
     return scenarioStateSchema.parse(await response.json());
+  }
+
+  public async admitEvidence(
+    input: EvidenceAdmissionRequest & { evidenceId: string }
+  ): Promise<ScenarioState> {
+    const payload = evidenceAdmissionRequestSchema.parse({ caseId: input.caseId });
+    const response = await fetch(`${this.baseUrl}/evidence/${input.evidenceId}/admit`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return scenarioMutationResponseSchema.parse(await response.json()).scenario;
+  }
+
+  public async runAnalysis(input: AnalysisRunRequest): Promise<AnalysisRunResponse> {
+    const payload = analysisRunRequestSchema.parse(input);
+    const response = await fetch(`${this.baseUrl}/analysis-runs`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return analysisRunResponseSchema.parse(await response.json());
+  }
+
+  public async recordFindingDisposition(
+    input: FindingDispositionRequest & { findingId: string }
+  ): Promise<ScenarioState> {
+    const payload = findingDispositionRequestSchema.parse({
+      caseId: input.caseId,
+      action: input.action,
+      ...(input.editedSummary ? { editedSummary: input.editedSummary } : {})
+    });
+    const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/disposition`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-demo-principal-type": "HUMAN"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return scenarioMutationResponseSchema.parse(await response.json()).scenario;
   }
 }
 
