@@ -10,6 +10,7 @@ const badgeColorByStatus: Readonly<Record<string, NonNullable<BadgeProps["color"
   ALLOW: "success",
   ANALYSIS: "informative",
   APPROVED: "success",
+  BLOCKED: "danger",
   CHALLENGED: "warning",
   COMMITTEE_PREPARATION: "severe",
   CRITICAL: "danger",

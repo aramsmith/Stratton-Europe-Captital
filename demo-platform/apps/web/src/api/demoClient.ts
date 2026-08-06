@@ -123,7 +123,8 @@ export class DemoClient {
       caseId: input.caseId,
       reviewType: input.reviewType,
       decision: input.decision,
-      rationale: input.rationale
+      rationale: input.rationale,
+      subjectVersion: input.subjectVersion
     });
     const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/reviews`, {
       method: "POST",

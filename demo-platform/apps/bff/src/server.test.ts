@@ -368,7 +368,8 @@ describe("createDemoServer", () => {
         caseId: "project-danube",
         reviewType: "LEGAL",
         decision: "APPROVED",
-        rationale: "Permit transfer completion steps are documented."
+        rationale: "Permit transfer completion steps are documented.",
+        subjectVersion: "finding-permit-transfer-v2"
       });
 
     expect(response.status).toBe(200);
@@ -386,9 +387,42 @@ describe("createDemoServer", () => {
         caseId: "project-danube",
         analysisRunId: "run-terra-1",
         reviewType: "LEGAL",
-        decision: "APPROVED"
+        decision: "APPROVED",
+        subjectVersion: "finding-permit-transfer-v2"
       })
     );
+  });
+
+  it("rejects stale review requests before forwarding them to Phase 5", async () => {
+    const repository = new InMemoryScenarioRepository(createDecisionRoomState());
+    const phase5Client = createPhase5ClientDouble();
+    const reviewService = new ReviewService({ repository, phase5Client });
+
+    const response = await request(
+      createDemoServer({
+        scenarioService: new ScenarioService(repository),
+        evidenceService: new EvidenceService({ repository, phase5Client }),
+        analysisService: new AnalysisService({ repository, phase5Client }),
+        reviewService
+      })
+    )
+      .post("/api/findings/finding-permit-transfer/reviews")
+      .set("x-demo-principal-type", "HUMAN")
+      .send({
+        caseId: "project-danube",
+        reviewType: "LEGAL",
+        decision: "APPROVED",
+        rationale: "Permit transfer completion steps are documented.",
+        subjectVersion: "finding-permit-transfer-v1"
+      });
+
+    expect(response.status).toBe(409);
+    expect(response.body).toEqual({
+      code: "STATE_CONFLICT",
+      message: "FINDING_VERSION_STALE",
+      correlationId: response.headers["x-correlation-id"]
+    });
+    expect(phase5Client.submitReview).not.toHaveBeenCalled();
   });
 
   it("blocks committee-pack preparation until every required approval is recorded", async () => {

@@ -63,7 +63,7 @@ export function MaterialClaimsTable({
     <Card className={styles.card}>
       <Title3 as="h3">Material claims</Title3>
       {findings.length === 0 ? (
-        <Body1>No material claims are available for committee preparation yet.</Body1>
+        <Body1>No accepted material claims are available for committee preparation yet.</Body1>
       ) : (
         <Table aria-label="Material claims table" className={styles.table}>
           <TableHeader>

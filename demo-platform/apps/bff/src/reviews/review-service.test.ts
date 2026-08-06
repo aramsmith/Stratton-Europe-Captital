@@ -248,6 +248,7 @@ describe("ReviewService", () => {
         reviewType: "LEGAL",
         decision: "APPROVED",
         rationale: "Permit transfer completion steps are documented.",
+        subjectVersion: "finding-permit-transfer-v2",
         principalType: "SERVICE",
         correlationId: "corr-review-service"
       })
@@ -269,6 +270,7 @@ describe("ReviewService", () => {
       reviewType: "LEGAL",
       decision: "APPROVED",
       rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "finding-permit-transfer-v2",
       principalType: "HUMAN",
       correlationId: "corr-review-human"
     });
@@ -280,7 +282,7 @@ describe("ReviewService", () => {
       decision: "APPROVED",
       rationale: "Permit transfer completion steps are documented.",
       subjectVersion: "finding-permit-transfer-v2",
-      idempotencyKey: expect.stringContaining("review:LEGAL:finding-permit-transfer")
+      idempotencyKey: "review:LEGAL:finding-permit-transfer:finding-permit-transfer-v2"
     });
     expect(nextState.reviews).toContainEqual({
       reviewId: "review-legal-1",
@@ -382,6 +384,135 @@ describe("ReviewService", () => {
     ).rejects.toMatchObject({ code: "POLICY_DENIED", message: "LEGAL_REVIEW_REQUIRED" });
   });
 
+  it("rejects a stale review subject version before mutating local state or calling Phase 5", async () => {
+    const repository = new InMemoryScenarioRepository(createReviewedScenario());
+    const phase5Client = createPhase5ClientDouble();
+    const service = new ReviewService({ repository, phase5Client });
+    const baseline = await repository.load();
+
+    await expect(
+      service.submitReview({
+        caseId: "project-danube",
+        findingId: "finding-permit-transfer",
+        reviewType: "LEGAL",
+        decision: "APPROVED",
+        rationale: "Permit transfer completion steps are documented.",
+        subjectVersion: "finding-permit-transfer-v1",
+        principalType: "HUMAN",
+        correlationId: "corr-review-stale-version"
+      })
+    ).rejects.toMatchObject({ code: "STATE_CONFLICT", message: "FINDING_VERSION_STALE" });
+
+    expect(phase5Client.submitReview).not.toHaveBeenCalled();
+    expect(await repository.load()).toEqual(baseline);
+  });
+
+  it("returns the existing specialist review success on an identical retry without duplicating history", async () => {
+    const repository = new InMemoryScenarioRepository(createReviewedScenario());
+    const phase5Client = createPhase5ClientDouble();
+    const service = new ReviewService({
+      repository,
+      phase5Client,
+      createId: () => "review-legal-1",
+      now: () => "2026-08-06T10:20:00.000Z"
+    });
+
+    const firstState = await service.submitReview({
+      caseId: "project-danube",
+      findingId: "finding-permit-transfer",
+      reviewType: "LEGAL",
+      decision: "APPROVED",
+      rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "finding-permit-transfer-v2",
+      principalType: "HUMAN",
+      correlationId: "corr-review-1"
+    });
+    const secondState = await service.submitReview({
+      caseId: "project-danube",
+      findingId: "finding-permit-transfer",
+      reviewType: "LEGAL",
+      decision: "APPROVED",
+      rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "finding-permit-transfer-v2",
+      principalType: "HUMAN",
+      correlationId: "corr-review-2"
+    });
+
+    expect(secondState).toEqual(firstState);
+    expect(phase5Client.submitReview).toHaveBeenCalledTimes(1);
+    expect(secondState.reviews.filter((review) => review.reviewType === "LEGAL")).toHaveLength(1);
+    expect(
+      secondState.governanceEvents.filter((event) => event.type === "SPECIALIST_REVIEW_RECORDED")
+    ).toHaveLength(1);
+  });
+
+  it("conflicts when a retry reuses the same review operation with a different payload", async () => {
+    const repository = new InMemoryScenarioRepository(createReviewedScenario());
+    const phase5Client = createPhase5ClientDouble();
+    const service = new ReviewService({ repository, phase5Client });
+
+    await service.submitReview({
+      caseId: "project-danube",
+      findingId: "finding-permit-transfer",
+      reviewType: "LEGAL",
+      decision: "APPROVED",
+      rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "finding-permit-transfer-v2",
+      principalType: "HUMAN",
+      correlationId: "corr-review-1"
+    });
+
+    await expect(
+      service.submitReview({
+        caseId: "project-danube",
+        findingId: "finding-permit-transfer",
+        reviewType: "LEGAL",
+        decision: "APPROVED",
+        rationale: "Updated wording should conflict with the original retry payload.",
+        subjectVersion: "finding-permit-transfer-v2",
+        principalType: "HUMAN",
+        correlationId: "corr-review-2"
+      })
+    ).rejects.toMatchObject({ code: "STATE_CONFLICT", message: "REVIEW_RETRY_CONFLICT" });
+
+    expect(phase5Client.submitReview).toHaveBeenCalledTimes(1);
+    expect((await repository.load()).reviews).toHaveLength(1);
+  });
+
+  it("returns the existing committee-pack success on an identical retry without duplicating audit history", async () => {
+    const repository = new InMemoryScenarioRepository(
+      createReviewedScenario([
+        approvedReview("DEAL", "finding-ebitda-quality"),
+        approvedReview("LEGAL", "finding-permit-transfer"),
+        approvedReview("COMPLIANCE", "finding-customer-concentration")
+      ])
+    );
+    const phase5Client = createPhase5ClientDouble();
+    const service = new ReviewService({
+      repository,
+      phase5Client,
+      createId: () => "event-committee-pack",
+      now: () => "2026-08-06T10:30:00.000Z"
+    });
+
+    const firstState = await service.prepareRecommendation({
+      caseId: "project-danube",
+      principalType: "HUMAN",
+      correlationId: "corr-committee-pack-1"
+    });
+    const secondState = await service.prepareRecommendation({
+      caseId: "project-danube",
+      principalType: "HUMAN",
+      correlationId: "corr-committee-pack-2"
+    });
+
+    expect(secondState).toEqual(firstState);
+    expect(phase5Client.prepareDraft).toHaveBeenCalledTimes(1);
+    expect(
+      secondState.governanceEvents.filter((event) => event.type === "COMMITTEE_PACK_DRAFT_PREPARED")
+    ).toHaveLength(1);
+  });
+
   it("preserves both approvals and audit events when specialist reviews arrive concurrently", async () => {
     const repository = new InMemoryScenarioRepository(createReviewedScenario());
     const phase5Client = createPhase5ClientDouble();
@@ -404,6 +535,7 @@ describe("ReviewService", () => {
         reviewType: "DEAL",
         decision: "APPROVED",
         rationale: "Deal review confirms the accepted claim set is ready.",
+        subjectVersion: "finding-ebitda-quality-v2",
         principalType: "HUMAN",
         correlationId: "corr-deal"
       }),
@@ -413,6 +545,7 @@ describe("ReviewService", () => {
         reviewType: "LEGAL",
         decision: "APPROVED",
         rationale: "Legal review confirms the accepted claim set is ready.",
+        subjectVersion: "finding-permit-transfer-v2",
         principalType: "HUMAN",
         correlationId: "corr-legal"
       })

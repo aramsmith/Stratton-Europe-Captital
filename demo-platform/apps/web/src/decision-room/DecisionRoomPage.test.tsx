@@ -192,6 +192,44 @@ function createDecisionRoomScenario(includeLegalApproval = false): ScenarioState
   return scenario;
 }
 
+function createNoEligibleLegalFindingScenario(): ScenarioState {
+  const scenario = createDecisionRoomScenario();
+  scenario.findings = scenario.findings.map((finding) =>
+    finding.findingId === "finding-permit-transfer"
+      ? {
+          ...finding,
+          status: "CHALLENGED",
+          textHistory: [
+            ...finding.textHistory,
+            {
+              versionId: "finding-permit-transfer-v3",
+              actorType: "HUMAN",
+              action: "CHALLENGED",
+              summary: finding.summary,
+              occurredAtIso: "2026-08-06T10:15:00.000Z"
+            }
+          ]
+        }
+      : finding.findingId === "finding-ebitda-quality"
+        ? {
+            ...finding,
+            status: "DRAFT",
+            textHistory: [
+              {
+                versionId: "finding-ebitda-quality-v1",
+                actorType: "AI",
+                action: "GENERATED",
+                summary: finding.originalAiSummary ?? finding.summary,
+                occurredAtIso: "2026-08-06T10:05:00.000Z"
+              }
+            ]
+          }
+        : finding
+  );
+
+  return scenario;
+}
+
 function renderDecisionRoom(initialScenario = createDecisionRoomScenario()) {
   const submitReview = vi.fn(
     async (input: ReviewSubmissionRequest & { findingId: string }) => {
@@ -298,7 +336,8 @@ describe("DecisionRoomPage", () => {
         caseId: "project-danube",
         findingId: "finding-permit-transfer",
         reviewType: "LEGAL",
-        decision: "APPROVED"
+        decision: "APPROVED",
+        subjectVersion: "finding-permit-transfer-v2"
       })
     );
     expect(screen.getByRole("button", { name: "Prepare committee pack" })).toBeEnabled();
@@ -338,6 +377,24 @@ describe("DecisionRoomPage", () => {
     expect(screen.getAllByText("Legal review required").length).toBeGreaterThan(0);
     expect(screen.getByRole("button", { name: "Approve Legal review" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "Prepare committee pack" })).toBeDisabled();
+  });
+
+  it("blocks review approval affordances when no accepted eligible finding exists", () => {
+    renderDecisionRoom(createNoEligibleLegalFindingScenario());
+
+    expect(
+      screen.getByText("Legal review blocked until an accepted eligible finding is available")
+    ).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Approve Legal review" })).not.toBeInTheDocument();
+    expect(
+      screen.getByText("Committee-pack draft blocked until at least one accepted material finding is available.")
+    ).toBeVisible();
+    expect(
+      screen.getByText("No accepted material claims are available for committee preparation yet.")
+    ).toBeVisible();
+    expect(screen.getByText("Legal review requires an accepted eligible finding")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Prepare committee pack" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Submit to committee" })).toBeDisabled();
   });
 
   it("has no axe violations", async () => {

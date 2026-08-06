@@ -69,11 +69,12 @@ export function DecisionRoomPage({
   const materialFindings = scenario.findings.filter(
     (finding) => finding.materiality === "HIGH" || finding.materiality === "CRITICAL"
   );
+  const acceptedMaterialFindings = materialFindings.filter((finding) => finding.status === "ACCEPTED");
   const evidenceById = new Map(
     scenario.evidence.map((evidence) => [evidence.evidenceId, evidence] as const)
   );
   const reviewItems = buildReviewChecklistItems(scenario, evidenceById);
-  const linkedCitationCount = materialFindings.reduce(
+  const linkedCitationCount = acceptedMaterialFindings.reduce(
     (total, finding) =>
       total +
       finding.citations.filter(
@@ -81,7 +82,7 @@ export function DecisionRoomPage({
       ).length,
     0
   );
-  const totalCitationCount = materialFindings.reduce(
+  const totalCitationCount = acceptedMaterialFindings.reduce(
     (total, finding) => total + finding.citations.length,
     0
   );
@@ -115,9 +116,9 @@ export function DecisionRoomPage({
           <Caption1>Stage the draft for human committee discussion only.</Caption1>
         </Card>
         <Card className={styles.metricCard}>
-          <Body1Strong>Material findings</Body1Strong>
-          <Body1>{materialFindings.length}</Body1>
-          <Caption1>High and critical claims tracked for the committee pack.</Caption1>
+          <Body1Strong>Accepted material findings</Body1Strong>
+          <Body1>{acceptedMaterialFindings.length}</Body1>
+          <Caption1>Accepted high and critical claims ready for the committee pack draft.</Caption1>
         </Card>
         <Card className={styles.metricCard}>
           <Body1Strong>Open challenges</Body1Strong>
@@ -135,14 +136,14 @@ export function DecisionRoomPage({
       </div>
 
       <div className={styles.workspaceGrid}>
-        <MaterialClaimsTable evidenceById={evidenceById} findings={materialFindings} />
+        <MaterialClaimsTable evidenceById={evidenceById} findings={acceptedMaterialFindings} />
         <ReviewChecklist caseId={scenario.caseId} items={reviewItems} onSubmitReview={onSubmitReview} />
         <RecommendationDraft
           caseId={scenario.caseId}
           currentStage={scenario.stage}
           evidenceById={evidenceById}
           isReady={isReady}
-          materialFindings={materialFindings}
+          materialFindings={acceptedMaterialFindings}
           onPrepareRecommendation={onPrepareRecommendation}
           openConditions={openConditions}
         />
@@ -162,19 +163,29 @@ function buildReviewChecklistItems(
       const reviewedFinding = existingReview
         ? scenario.findings.find((candidate) => candidate.findingId === existingReview.findingId)
         : undefined;
+      const hasCurrentApprovedReview =
+        !!existingReview && !!reviewedFinding && isCurrentReview(reviewedFinding, existingReview);
+      const hasCurrentRejectedReview =
+        existingReview?.decision === "REJECTED" &&
+        reviewedFinding?.status === "ACCEPTED" &&
+        existingReview.subjectVersion === getLatestFindingVersion(reviewedFinding);
       const finding =
-        reviewedFinding ?? pickFindingForReviewType(reviewType, scenario, evidenceById);
-      const status =
-        existingReview && reviewedFinding && isCurrentReview(reviewedFinding, existingReview)
-          ? existingReview.decision
-          : existingReview?.decision === "REJECTED"
-            ? "REJECTED"
-            : "PENDING";
+        hasCurrentApprovedReview || hasCurrentRejectedReview
+          ? reviewedFinding
+          : pickFindingForReviewType(reviewType, scenario, evidenceById);
+      const status = hasCurrentApprovedReview
+        ? existingReview.decision
+        : hasCurrentRejectedReview
+          ? "REJECTED"
+          : finding
+            ? "PENDING"
+            : "BLOCKED";
 
       return {
         reviewType,
         findingId: finding?.findingId ?? null,
-        findingTitle: finding?.title ?? "Awaiting accepted material claim",
+        subjectVersion: finding ? getLatestFindingVersion(finding) : null,
+        findingTitle: finding?.title ?? "No accepted eligible finding is ready for review",
         status
       };
     }
@@ -205,18 +216,14 @@ function pickFindingForReviewType(
     LEGAL: ["LEGAL"],
     COMPLIANCE: ["ESG", "LEGAL", "OPERATIONAL", "FINANCIAL", "COMMERCIAL"]
   };
-  const acceptedFindings = scenario.findings.filter((finding) => finding.status === "ACCEPTED");
-
-  return (
-    acceptedFindings.find((finding) =>
+  return scenario.findings.find(
+    (finding) =>
+      finding.status === "ACCEPTED" &&
       finding.citations.some((citation) =>
         preferredDomains[reviewType].includes(
           evidenceById.get(citation.evidenceId)?.domain ?? "FINANCIAL"
         )
       )
-    ) ??
-    acceptedFindings[0] ??
-    scenario.findings[0]
   );
 }
 
@@ -226,7 +233,11 @@ function buildOpenConditions(
 ): string[] {
   const conditions = reviewItems
     .filter((item) => item.status !== "APPROVED")
-    .map((item) => `${formatReviewType(item.reviewType)} review required`);
+    .map((item) =>
+      item.status === "BLOCKED"
+        ? `${formatReviewType(item.reviewType)} review requires an accepted eligible finding`
+        : `${formatReviewType(item.reviewType)} review required`
+    );
 
   return [
     ...conditions,
@@ -249,4 +260,8 @@ function isCurrentReview(
     finding.status === "ACCEPTED" &&
     review.subjectVersion === (finding.textHistory.at(-1)?.versionId ?? finding.findingId)
   );
+}
+
+function getLatestFindingVersion(finding: ScenarioState["findings"][number]): string {
+  return finding.textHistory.at(-1)?.versionId ?? finding.findingId;
 }

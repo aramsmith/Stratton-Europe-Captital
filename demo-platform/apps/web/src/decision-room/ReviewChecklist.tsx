@@ -54,8 +54,9 @@ const useStyles = makeStyles({
 export interface ReviewChecklistItem {
   readonly reviewType: ReviewType;
   readonly findingId: string | null;
+  readonly subjectVersion: string | null;
   readonly findingTitle: string;
-  readonly status: "PENDING" | "APPROVED" | "REJECTED";
+  readonly status: "PENDING" | "APPROVED" | "REJECTED" | "BLOCKED";
 }
 
 interface ReviewChecklistProps {
@@ -82,7 +83,7 @@ export function ReviewChecklist({
   });
 
   const handleApprove = async (item: ReviewChecklistItem) => {
-    if (!onSubmitReview || !item.findingId) {
+    if (!onSubmitReview || !item.findingId || !item.subjectVersion) {
       return;
     }
 
@@ -95,7 +96,8 @@ export function ReviewChecklist({
         findingId: item.findingId,
         reviewType: item.reviewType,
         decision: "APPROVED",
-        rationale: rationales[item.reviewType].trim()
+        rationale: rationales[item.reviewType].trim(),
+        subjectVersion: item.subjectVersion
       });
     } catch (caughtError) {
       setError(toErrorMessage(caughtError));
@@ -116,6 +118,7 @@ export function ReviewChecklist({
         {items.map((item) => {
           const label = formatReviewType(item.reviewType);
           const isApproved = item.status === "APPROVED";
+          const isBlocked = item.status === "BLOCKED";
           const isPending = pendingReviewType === item.reviewType;
 
           return (
@@ -125,10 +128,16 @@ export function ReviewChecklist({
                 <StatusBadge label={item.status} status={item.status} />
                 <Caption1>{item.findingTitle}</Caption1>
               </div>
-              <Caption1>{isApproved ? `${label} review approved` : `${label} review required`}</Caption1>
+              <Caption1>
+                {isApproved
+                  ? `${label} review approved`
+                  : isBlocked
+                    ? `${label} review blocked until an accepted eligible finding is available`
+                    : `${label} review required`}
+              </Caption1>
               <Field label={`${label} review rationale`}>
                 <Textarea
-                  disabled={isApproved || isPending}
+                  disabled={isApproved || isBlocked || isPending}
                   onChange={(_, data) =>
                     setRationales((current) => ({
                       ...current,
@@ -140,13 +149,21 @@ export function ReviewChecklist({
                 />
               </Field>
               <div className={styles.actionRow}>
-                <Button
-                  appearance="primary"
-                  disabled={isApproved || isPending || !item.findingId || !onSubmitReview}
-                  onClick={() => void handleApprove(item)}
-                >
-                  {isPending ? "Approving..." : `Approve ${label} review`}
-                </Button>
+                {!isBlocked ? (
+                  <Button
+                    appearance="primary"
+                    disabled={
+                      isApproved ||
+                      isPending ||
+                      !item.findingId ||
+                      !item.subjectVersion ||
+                      !onSubmitReview
+                    }
+                    onClick={() => void handleApprove(item)}
+                  >
+                    {isPending ? "Approving..." : `Approve ${label} review`}
+                  </Button>
+                ) : null}
               </div>
             </div>
           );

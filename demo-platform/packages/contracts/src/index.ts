@@ -97,7 +97,10 @@ export const governanceEventMetadataSchema = z
     route: modelRouteSchema.optional(),
     phase5RunId: z.string().min(1).optional(),
     authorityGateRole: authorityGateRoleSchema.optional(),
-    findingIds: z.array(z.string().min(1)).optional()
+    findingIds: z.array(z.string().min(1)).optional(),
+    operationId: z.string().min(1).optional(),
+    payloadHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    subjectVersion: z.string().min(1).optional()
   })
   .strict();
 
@@ -243,7 +246,8 @@ export const reviewSubmissionRequestSchema = z
     caseId: z.literal("project-danube"),
     reviewType: reviewTypeSchema,
     decision: reviewSubmissionDecisionSchema,
-    rationale: z.string().trim().min(1)
+    rationale: z.string().trim().min(1),
+    subjectVersion: z.string().min(1)
   })
   .strict();
 export type ReviewSubmissionRequest = z.infer<typeof reviewSubmissionRequestSchema>;

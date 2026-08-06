@@ -109,7 +109,9 @@ export function RecommendationDraft({
       ) : null}
 
       {materialFindings.length === 0 ? (
-        <Body1>No accepted material findings are ready to assemble into a committee-pack draft.</Body1>
+        <Body1>
+          Committee-pack draft blocked until at least one accepted material finding is available.
+        </Body1>
       ) : (
         <ol className={styles.claimList}>
           {materialFindings.map((finding) => (

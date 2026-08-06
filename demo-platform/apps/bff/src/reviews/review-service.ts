@@ -39,6 +39,10 @@ interface RejectWithAuditInput {
   readonly outcome?: "DENY" | "FAILURE";
 }
 
+interface SuccessfulOperation {
+  readonly payloadHash: string | null;
+}
+
 export class ReviewService {
   private readonly createId: () => string;
   private readonly now: () => string;
@@ -96,6 +100,34 @@ export class ReviewService {
       }
 
       const subjectVersion = getLatestFindingVersion(finding);
+      if (input.subjectVersion !== subjectVersion) {
+        throw new DemoHttpError(409, "STATE_CONFLICT", "FINDING_VERSION_STALE");
+      }
+
+      const operationId = buildReviewOperationId(input);
+      const payloadHash = buildReviewPayloadHash(input, analysisRunId);
+      if (
+        isSatisfiedRetry(
+        findSuccessfulOperation(state.governanceEvents, "SPECIALIST_REVIEW_RECORDED", operationId),
+        payloadHash,
+        "REVIEW_RETRY_CONFLICT"
+        )
+      ) {
+        return state;
+      }
+
+      const latestReview = getLatestReview(state.reviews, input.reviewType);
+      if (
+        latestReview?.findingId === input.findingId &&
+        latestReview.subjectVersion === subjectVersion
+      ) {
+        if (latestReview.decision === input.decision) {
+          return state;
+        }
+
+        throw new DemoHttpError(409, "STATE_CONFLICT", "REVIEW_RETRY_CONFLICT");
+      }
+
       await this.dependencies.phase5Client.submitReview({
         caseId: input.caseId,
         analysisRunId,
@@ -103,7 +135,7 @@ export class ReviewService {
         decision: input.decision,
         rationale: input.rationale.trim(),
         subjectVersion,
-        idempotencyKey: buildReviewIdempotencyKey(input, subjectVersion)
+        idempotencyKey: operationId
       });
 
       const reviewId = this.createId();
@@ -129,15 +161,18 @@ export class ReviewService {
             outcome: "SUCCESS",
             correlationId: input.correlationId,
             detail: `${input.reviewType}:${input.decision}:${input.findingId}`,
-            ...(analysisRequestFingerprint
-              ? {
-                  metadata: {
-                    phase5RunId: analysisRunId,
-                    analysisRequestFingerprint,
-                    findingIds: [input.findingId]
+            metadata: {
+              ...(analysisRequestFingerprint
+                ? {
+                    analysisRequestFingerprint
                   }
-                }
-              : {})
+                : {}),
+              phase5RunId: analysisRunId,
+              findingIds: [input.findingId],
+              operationId,
+              payloadHash,
+              subjectVersion
+            }
           })
         ]
       };
@@ -192,12 +227,32 @@ export class ReviewService {
       }
 
       const subjectVersion = buildRecommendationSubjectVersion(state);
+      const operationId = buildPrepareOperationId(analysisRunId, subjectVersion);
+      const payloadHash = buildPreparePayloadHash(input.caseId, analysisRunId, subjectVersion);
+      if (
+        isSatisfiedRetry(
+        findSuccessfulOperation(state.governanceEvents, "COMMITTEE_PACK_DRAFT_PREPARED", operationId),
+        payloadHash,
+        "PREPARE_RETRY_CONFLICT"
+        )
+      ) {
+        return state;
+      }
+
+      if (
+        state.stage === "COMMITTEE_PREPARATION" &&
+        state.governanceEvents.some(
+          (event) => event.type === "COMMITTEE_PACK_DRAFT_PREPARED" && event.outcome === "SUCCESS"
+        )
+      ) {
+        return state;
+      }
 
       await this.dependencies.phase5Client.prepareDraft({
         caseId: input.caseId,
         analysisRunId,
         subjectVersion,
-        idempotencyKey: `draft:${analysisRunId}:${subjectVersion}`
+        idempotencyKey: operationId
       });
 
       const nextState: ScenarioState = {
@@ -217,7 +272,10 @@ export class ReviewService {
                     analysisRequestFingerprint: state.latestAnalysisRun.analysisRequestFingerprint
                   }
                 : {}),
-              findingIds: state.findings.map((finding) => finding.findingId)
+              findingIds: state.findings.map((finding) => finding.findingId),
+              operationId,
+              payloadHash,
+              subjectVersion
             }
           })
         ]
@@ -325,11 +383,36 @@ function getLatestFindingVersion(finding: AnalysisFinding): string {
   return finding.textHistory.at(-1)?.versionId ?? finding.findingId;
 }
 
-function buildReviewIdempotencyKey(
-  input: SubmitReviewInput,
+function buildReviewOperationId(input: SubmitReviewInput): string {
+  return `review:${input.reviewType}:${input.findingId}:${input.subjectVersion}`;
+}
+
+function buildPrepareOperationId(analysisRunId: string, subjectVersion: string): string {
+  return `draft:${analysisRunId}:${subjectVersion}`;
+}
+
+function buildReviewPayloadHash(input: SubmitReviewInput, analysisRunId: string): string {
+  return hashPayload({
+    caseId: input.caseId,
+    analysisRunId,
+    reviewType: input.reviewType,
+    decision: input.decision,
+    rationale: input.rationale.trim(),
+    findingId: input.findingId,
+    subjectVersion: input.subjectVersion
+  });
+}
+
+function buildPreparePayloadHash(
+  caseId: string,
+  analysisRunId: string,
   subjectVersion: string
 ): string {
-  return `review:${input.reviewType}:${input.findingId}:${input.decision}:${subjectVersion}`;
+  return hashPayload({
+    caseId,
+    analysisRunId,
+    subjectVersion
+  });
 }
 
 function buildRecommendationSubjectVersion(state: ScenarioState): string {
@@ -350,21 +433,58 @@ function buildRecommendationSubjectVersion(state: ScenarioState): string {
     };
   });
 
-  return createHash("sha256")
-    .update(
-      JSON.stringify({
-        analysisRequestFingerprint: state.latestAnalysisRun?.analysisRequestFingerprint ?? "unknown",
-        materialFindings,
-        reviews
-      })
-    )
-    .digest("hex");
+  return hashPayload({
+    analysisRequestFingerprint: state.latestAnalysisRun?.analysisRequestFingerprint ?? "unknown",
+    materialFindings,
+    reviews
+  });
 }
 
 function assertCaseId(state: ScenarioState, caseId: string): void {
   if (state.caseId !== caseId) {
     throw new DemoHttpError(400, "INVALID_CONTRACT", "Requested case does not match Project Danube.");
   }
+}
+
+function findSuccessfulOperation(
+  events: readonly ScenarioState["governanceEvents"][number][],
+  type: string,
+  operationId: string
+): SuccessfulOperation | null {
+  for (let index = events.length - 1; index >= 0; index -= 1) {
+    const event = events[index];
+    if (
+      event?.type === type &&
+      event.outcome === "SUCCESS" &&
+      event.metadata?.operationId === operationId
+    ) {
+      return {
+        payloadHash: event.metadata.payloadHash ?? null
+      };
+    }
+  }
+
+  return null;
+}
+
+function isSatisfiedRetry(
+  operation: SuccessfulOperation | null,
+  payloadHash: string,
+  message: string
+): boolean {
+  if (!operation) {
+    return false;
+  }
+
+  if (operation.payloadHash !== null && operation.payloadHash !== payloadHash) {
+    throw new DemoHttpError(409, "STATE_CONFLICT", message);
+  }
+
+  return true;
+}
+
+function hashPayload(payload: unknown): string {
+  return createHash("sha256").update(JSON.stringify(payload)).digest("hex");
 }
 
 function createGovernanceEvent(

@@ -177,7 +177,8 @@ describe("DemoClient", () => {
       findingId: "finding-permit-transfer",
       reviewType: "LEGAL",
       decision: "APPROVED",
-      rationale: "Permit transfer completion steps are documented."
+      rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "finding-permit-transfer-v2"
     });
 
     expect(result).toEqual(scenario);
@@ -191,7 +192,8 @@ describe("DemoClient", () => {
         caseId: "project-danube",
         reviewType: "LEGAL",
         decision: "APPROVED",
-        rationale: "Permit transfer completion steps are documented."
+        rationale: "Permit transfer completion steps are documented.",
+        subjectVersion: "finding-permit-transfer-v2"
       })
     });
   });
