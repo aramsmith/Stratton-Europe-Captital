@@ -38,10 +38,6 @@ param webAllowedAudiences array
 param bffEntraClientId string
 param bffAllowedAudiences array
 
-var managedEnvironmentIdParts = split(containerAppsEnvironmentId, '/')
-var managedEnvironmentName = managedEnvironmentIdParts[8]
-var workspaceIdParts = split(logAnalyticsWorkspaceId, '/')
-var workspaceName = workspaceIdParts[8]
 var webIdentityName = '${namePrefix}-web-mi'
 var bffIdentityName = '${namePrefix}-bff-mi'
 var webAppName = '${namePrefix}-web'
@@ -52,14 +48,6 @@ var bffImage = '${containerRegistryServer}/${bffImageRepository}@${bffImageDiges
 var defaultScale = {
   minReplicas: 1
   maxReplicas: 1
-}
-
-resource managedEnvironment 'Microsoft.App/managedEnvironments@2024-03-01' existing = {
-  name: managedEnvironmentName
-}
-
-resource workspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
-  name: workspaceName
 }
 
 resource webIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
@@ -95,7 +83,7 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
     }
   }
   properties: {
-    managedEnvironmentId: managedEnvironment.id
+    managedEnvironmentId: containerAppsEnvironmentId
     configuration: {
       activeRevisionsMode: 'Single'
       registries: [
@@ -142,7 +130,7 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
     }
   }
   properties: {
-    managedEnvironmentId: managedEnvironment.id
+    managedEnvironmentId: containerAppsEnvironmentId
     configuration: {
       activeRevisionsMode: 'Single'
       registries: [
@@ -340,7 +328,7 @@ resource webDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
   name: '${webAppName}-diagnostics'
   scope: webApp
   properties: {
-    workspaceId: workspace.id
+    workspaceId: logAnalyticsWorkspaceId
     logs: [
       {
         categoryGroup: 'allLogs'
@@ -360,7 +348,7 @@ resource bffDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
   name: '${bffAppName}-diagnostics'
   scope: bffApp
   properties: {
-    workspaceId: workspace.id
+    workspaceId: logAnalyticsWorkspaceId
     logs: [
       {
         categoryGroup: 'allLogs'

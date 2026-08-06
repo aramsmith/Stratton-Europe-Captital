@@ -153,6 +153,7 @@ var openAiAccountResourceIds = [
   terraOpenAiAccountResourceId
   solOpenAiAccountResourceId
 ]
+var sqlDatabaseResourceIdParts = split(sqlDatabaseResourceId, '/')
 
 module demoApps './modules/demo-apps/main.bicep' = {
   name: '${namePrefix}-apps'
@@ -201,6 +202,7 @@ module demoApps './modules/demo-apps/main.bicep' = {
 
 module demoData './modules/demo-data/main.bicep' = {
   name: '${namePrefix}-data'
+  scope: resourceGroup(sqlDatabaseResourceIdParts[2], sqlDatabaseResourceIdParts[4])
   params: {
     namePrefix: namePrefix
     sqlDatabaseResourceId: sqlDatabaseResourceId
@@ -217,7 +219,6 @@ module demoRbac './modules/demo-rbac/main.bicep' = {
   name: '${namePrefix}-rbac'
   params: {
     containerRegistryId: containerRegistryId
-    sqlDatabaseResourceId: sqlDatabaseResourceId
     blobStorageAccountResourceId: blobStorageAccountResourceId
     serviceBusNamespaceResourceId: serviceBusNamespaceResourceId
     searchServiceResourceId: searchServiceResourceId
@@ -241,4 +242,5 @@ output bffIdentityClientId string = demoApps.outputs.bffIdentityClientId
 output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSql
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes
-output roleAssignmentIds array = demoRbac.outputs.roleAssignmentIds
+output roleAssignmentIds array = concat(demoRbac.outputs.roleAssignmentIds, demoRbac.outputs.openAiRoleAssignmentIds)
+

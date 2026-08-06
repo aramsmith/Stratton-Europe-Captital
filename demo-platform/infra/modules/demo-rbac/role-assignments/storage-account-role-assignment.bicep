@@ -1,0 +1,21 @@
+targetScope = 'resourceGroup'
+
+param storageAccountName string
+param principalId string
+param roleDefinitionGuid string
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
+  name: storageAccountName
+}
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccount.id, principalId, roleDefinitionGuid)
+  scope: storageAccount
+  properties: {
+    principalId: principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuid)
+  }
+}
+
+output roleAssignmentId string = roleAssignment.id

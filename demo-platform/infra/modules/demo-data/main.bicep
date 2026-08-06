@@ -1,3 +1,5 @@
+targetScope = 'resourceGroup'
+
 param namePrefix string
 param sqlDatabaseResourceId string
 param logAnalyticsWorkspaceId string
@@ -10,8 +12,6 @@ param bffIdentityName string
 var sqlDatabaseIdParts = split(sqlDatabaseResourceId, '/')
 var sqlServerName = sqlDatabaseIdParts[8]
 var sqlDatabaseResourceName = sqlDatabaseIdParts[10]
-var workspaceIdParts = split(logAnalyticsWorkspaceId, '/')
-var workspaceName = workspaceIdParts[8]
 var projectionMigrationSql = loadTextContent('../../../apps/bff/migrations/001_demo_projection.sql')
 var bootstrapSql = '''
 -- Run once in the approved ${sqlDatabaseName} database using a Microsoft Entra admin after infrastructure deployment.
@@ -32,15 +32,11 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01-preview' existi
   name: sqlDatabaseResourceName
 }
 
-resource workspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
-  name: workspaceName
-}
-
 resource sqlDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: '${namePrefix}-sql-diagnostics'
   scope: sqlDatabase
   properties: {
-    workspaceId: workspace.id
+    workspaceId: logAnalyticsWorkspaceId
     logs: [
       {
         categoryGroup: 'allLogs'

@@ -162,6 +162,37 @@ Describe 'Stratton demo infrastructure' {
     }
   }
 
+  It 'preserves supplied shared resource IDs instead of reconstructing same-resource-group bindings' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $apps = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps')
+    foreach ($app in $apps) {
+      $app.properties.managedEnvironmentId | Should -Be "[parameters('containerAppsEnvironmentId')]"
+    }
+
+    $diagnosticSettings = @($script:allResources | Where-Object type -eq 'Microsoft.Insights/diagnosticSettings')
+    foreach ($diagnosticSetting in $diagnosticSettings) {
+      $diagnosticSetting.properties.workspaceId | Should -Be "[parameters('logAnalyticsWorkspaceId')]"
+    }
+
+    $script:templateJson | Should -Match '"subscriptionId"\s*:\s*"\[variables\(''sqlDatabaseResourceIdParts''\)\[2\]\]"'
+    $script:templateJson | Should -Match '"resourceGroup"\s*:\s*"\[variables\(''sqlDatabaseResourceIdParts''\)\[4\]\]"'
+
+    foreach ($scopedResourceParameter in @(
+      'containerRegistryId'
+      'blobStorageAccountResourceId'
+      'serviceBusNamespaceResourceId'
+      'searchServiceResourceId'
+      'documentIntelligenceAccountResourceId'
+    )) {
+      $script:templateJson | Should -Match ('"subscriptionId"\s*:\s*"\[split\(parameters\(''' + $scopedResourceParameter + '''\), ''/''\)\[2\]\]"')
+      $script:templateJson | Should -Match ('"resourceGroup"\s*:\s*"\[split\(parameters\(''' + $scopedResourceParameter + '''\), ''/''\)\[4\]\]"')
+    }
+  }
+
   It 'emits least-privilege role assignments for pull and approved Azure dependencies' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
@@ -169,7 +200,7 @@ Describe 'Stratton demo infrastructure' {
     }
 
     $roleAssignments = @($script:allResources | Where-Object type -eq 'Microsoft.Authorization/roleAssignments')
-    $roleAssignments.Count | Should -BeGreaterOrEqual 8
+    $roleAssignments.Count | Should -BeGreaterOrEqual 7
 
     $templateText = $script:templateJson
     foreach ($roleGuid in @(
@@ -179,10 +210,22 @@ Describe 'Stratton demo infrastructure' {
       '1407120a-92aa-4202-b7e9-c0e197c71c8f'
       'a97b65f3-24c7-4388-baec-2e87135dc908'
       '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
-      '9b7fa17d-e63e-47b0-bb0a-15c516ac86ec'
     )) {
       $templateText | Should -Match ([Regex]::Escape($roleGuid))
     }
+  }
+
+  It 'does not emit SQL DB Contributor for runtime identities and keeps SQL bootstrap output' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $script:templateJson | Should -Not -Match ([Regex]::Escape('9b7fa17d-e63e-47b0-bb0a-15c516ac86ec'))
+    $script:template.outputs.sqlBootstrapSql | Should -Not -BeNullOrEmpty
+    $script:templateJson | Should -Match 'CREATE USER'
+    $script:templateJson | Should -Match 'ALTER ROLE db_datareader ADD MEMBER'
+    $script:templateJson | Should -Match 'ALTER ROLE db_datawriter ADD MEMBER'
   }
 
   It 'routes diagnostics to the supplied workspace' {
@@ -194,7 +237,7 @@ Describe 'Stratton demo infrastructure' {
     $diagnosticSettings = @($script:allResources | Where-Object type -eq 'Microsoft.Insights/diagnosticSettings')
     $diagnosticSettings.Count | Should -BeGreaterOrEqual 3
     foreach ($diagnosticSetting in $diagnosticSettings) {
-      ($diagnosticSetting.properties.workspaceId | Out-String) | Should -Match 'Microsoft\.OperationalInsights/workspaces'
+      ($diagnosticSetting.properties.workspaceId | Out-String) | Should -Match 'logAnalyticsWorkspaceId'
     }
   }
 
@@ -228,3 +271,5 @@ Describe 'Stratton demo infrastructure' {
     }
   }
 }
+
+

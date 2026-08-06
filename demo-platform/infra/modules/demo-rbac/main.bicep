@@ -1,5 +1,6 @@
+targetScope = 'resourceGroup'
+
 param containerRegistryId string
-param sqlDatabaseResourceId string
 param blobStorageAccountResourceId string
 param serviceBusNamespaceResourceId string
 param searchServiceResourceId string
@@ -15,138 +16,87 @@ var roleDefinitionGuids = {
   searchIndexDataReader: '1407120a-92aa-4202-b7e9-c0e197c71c8f'
   cognitiveServicesUser: 'a97b65f3-24c7-4388-baec-2e87135dc908'
   cognitiveServicesOpenAiUser: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
-  sqlDbContributor: '9b7fa17d-e63e-47b0-bb0a-15c516ac86ec'
 }
 
-var containerRegistryName = split(containerRegistryId, '/')[8]
-var sqlServerName = split(sqlDatabaseResourceId, '/')[8]
-var sqlDatabaseName = split(sqlDatabaseResourceId, '/')[10]
-var blobStorageAccountName = split(blobStorageAccountResourceId, '/')[8]
-var serviceBusNamespaceName = split(serviceBusNamespaceResourceId, '/')[8]
-var searchServiceName = split(searchServiceResourceId, '/')[8]
-var documentIntelligenceAccountName = split(documentIntelligenceAccountResourceId, '/')[8]
 var uniqueOpenAiAccountResourceIds = union(openAiAccountResourceIds, [])
-var openAiAccountNames = [for id in uniqueOpenAiAccountResourceIds: split(id, '/')[8]]
 
-resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' existing = {
-  name: containerRegistryName
-}
-
-resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
-  name: sqlServerName
-}
-
-resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01-preview' existing = {
-  parent: sqlServer
-  name: sqlDatabaseName
-}
-
-resource blobStorage 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
-  name: blobStorageAccountName
-}
-
-resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2024-01-01' existing = {
-  name: serviceBusNamespaceName
-}
-
-resource searchService 'Microsoft.Search/searchServices@2023-11-01' existing = {
-  name: searchServiceName
-}
-
-resource documentIntelligenceAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' existing = {
-  name: documentIntelligenceAccountName
-}
-
-resource openAiAccounts 'Microsoft.CognitiveServices/accounts@2024-10-01' existing = [for accountName in openAiAccountNames: {
-  name: accountName
-}]
-
-resource webAcrPull 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(containerRegistry.id, webPrincipalId, roleDefinitionGuids.acrPull)
-  scope: containerRegistry
-  properties: {
+module webAcrPull './role-assignments/acr-role-assignment.bicep' = {
+  name: 'web-acr-pull'
+  scope: resourceGroup(split(containerRegistryId, '/')[2], split(containerRegistryId, '/')[4])
+  params: {
+    registryName: split(containerRegistryId, '/')[8]
     principalId: webPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.acrPull)
+    roleDefinitionGuid: roleDefinitionGuids.acrPull
   }
 }
 
-resource bffAcrPull 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(containerRegistry.id, bffPrincipalId, roleDefinitionGuids.acrPull)
-  scope: containerRegistry
-  properties: {
+module bffAcrPull './role-assignments/acr-role-assignment.bicep' = {
+  name: 'bff-acr-pull'
+  scope: resourceGroup(split(containerRegistryId, '/')[2], split(containerRegistryId, '/')[4])
+  params: {
+    registryName: split(containerRegistryId, '/')[8]
     principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.acrPull)
+    roleDefinitionGuid: roleDefinitionGuids.acrPull
   }
 }
 
-resource bffSqlDbContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(sqlDatabase.id, bffPrincipalId, roleDefinitionGuids.sqlDbContributor)
-  scope: sqlDatabase
-  properties: {
+module bffBlobDataContributor './role-assignments/storage-account-role-assignment.bicep' = {
+  name: 'bff-blob-data-contributor'
+  scope: resourceGroup(split(blobStorageAccountResourceId, '/')[2], split(blobStorageAccountResourceId, '/')[4])
+  params: {
+    storageAccountName: split(blobStorageAccountResourceId, '/')[8]
     principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.sqlDbContributor)
+    roleDefinitionGuid: roleDefinitionGuids.storageBlobDataContributor
   }
 }
 
-resource bffBlobDataContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(blobStorage.id, bffPrincipalId, roleDefinitionGuids.storageBlobDataContributor)
-  scope: blobStorage
-  properties: {
+module bffServiceBusDataSender './role-assignments/service-bus-role-assignment.bicep' = {
+  name: 'bff-servicebus-data-sender'
+  scope: resourceGroup(split(serviceBusNamespaceResourceId, '/')[2], split(serviceBusNamespaceResourceId, '/')[4])
+  params: {
+    namespaceName: split(serviceBusNamespaceResourceId, '/')[8]
     principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.storageBlobDataContributor)
+    roleDefinitionGuid: roleDefinitionGuids.serviceBusDataSender
   }
 }
 
-resource bffServiceBusDataSender 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(serviceBusNamespace.id, bffPrincipalId, roleDefinitionGuids.serviceBusDataSender)
-  scope: serviceBusNamespace
-  properties: {
+module bffSearchIndexDataReader './role-assignments/search-role-assignment.bicep' = {
+  name: 'bff-search-index-data-reader'
+  scope: resourceGroup(split(searchServiceResourceId, '/')[2], split(searchServiceResourceId, '/')[4])
+  params: {
+    searchServiceName: split(searchServiceResourceId, '/')[8]
     principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.serviceBusDataSender)
+    roleDefinitionGuid: roleDefinitionGuids.searchIndexDataReader
   }
 }
 
-resource bffSearchIndexDataReader 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(searchService.id, bffPrincipalId, roleDefinitionGuids.searchIndexDataReader)
-  scope: searchService
-  properties: {
+module bffDocumentIntelligenceUser './role-assignments/cognitive-account-role-assignment.bicep' = {
+  name: 'bff-document-intelligence-user'
+  scope: resourceGroup(split(documentIntelligenceAccountResourceId, '/')[2], split(documentIntelligenceAccountResourceId, '/')[4])
+  params: {
+    accountName: split(documentIntelligenceAccountResourceId, '/')[8]
     principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.searchIndexDataReader)
+    roleDefinitionGuid: roleDefinitionGuids.cognitiveServicesUser
   }
 }
 
-resource bffDocumentIntelligenceUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(documentIntelligenceAccount.id, bffPrincipalId, roleDefinitionGuids.cognitiveServicesUser)
-  scope: documentIntelligenceAccount
-  properties: {
+module bffOpenAiUsers './role-assignments/cognitive-account-role-assignment.bicep' = [for (accountResourceId, index) in uniqueOpenAiAccountResourceIds: {
+  name: 'bff-openai-user-${index}'
+  scope: resourceGroup(split(accountResourceId, '/')[2], split(accountResourceId, '/')[4])
+  params: {
+    accountName: split(accountResourceId, '/')[8]
     principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.cognitiveServicesUser)
-  }
-}
-
-resource bffOpenAiUsers 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for i in range(0, length(openAiAccountNames)): {
-  name: guid(openAiAccounts[i].id, bffPrincipalId, roleDefinitionGuids.cognitiveServicesOpenAiUser)
-  scope: openAiAccounts[i]
-  properties: {
-    principalId: bffPrincipalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionGuids.cognitiveServicesOpenAiUser)
+    roleDefinitionGuid: roleDefinitionGuids.cognitiveServicesOpenAiUser
   }
 }]
 
 output roleAssignmentIds array = [
-  webAcrPull.id
-  bffAcrPull.id
-  bffSqlDbContributor.id
-  bffBlobDataContributor.id
-  bffServiceBusDataSender.id
-  bffSearchIndexDataReader.id
-  bffDocumentIntelligenceUser.id
+  webAcrPull.outputs.roleAssignmentId
+  bffAcrPull.outputs.roleAssignmentId
+  bffBlobDataContributor.outputs.roleAssignmentId
+  bffServiceBusDataSender.outputs.roleAssignmentId
+  bffSearchIndexDataReader.outputs.roleAssignmentId
+  bffDocumentIntelligenceUser.outputs.roleAssignmentId
 ]
+
+output openAiRoleAssignmentIds array = [for i in range(0, length(uniqueOpenAiAccountResourceIds)): bffOpenAiUsers[i].outputs.roleAssignmentId]
