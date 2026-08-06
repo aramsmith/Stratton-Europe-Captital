@@ -1,6 +1,7 @@
-import { Router, type Request, type Response } from "express";
+import { Router, type Response } from "express";
 import { z } from "zod";
 import { DemoHttpError } from "../errors.js";
+import type { RequestAuthorizer } from "../server-authorization.js";
 import type { AnalysisService } from "../analysis/analysis-service.js";
 
 const analysisRunPayloadSchema = z
@@ -39,6 +40,7 @@ const findingDispositionPayloadSchema = z
 
 export interface AnalysisRouteDependencies {
   readonly analysisService: Pick<AnalysisService, "run" | "recordDisposition">;
+  readonly authorization: RequestAuthorizer;
 }
 
 export function createAnalysisRouter(dependencies: AnalysisRouteDependencies): Router {
@@ -49,6 +51,11 @@ export function createAnalysisRouter(dependencies: AnalysisRouteDependencies): R
     if (!payload.success) {
       throw new DemoHttpError(400, "INVALID_CONTRACT");
     }
+    dependencies.authorization.require(
+      response,
+      payload.data.caseId,
+      "Stratton.Demo.Analyst"
+    );
 
     response.status(200).json(
       await dependencies.analysisService.run({
@@ -63,11 +70,16 @@ export function createAnalysisRouter(dependencies: AnalysisRouteDependencies): R
     if (!payload.success) {
       throw new DemoHttpError(400, "INVALID_CONTRACT");
     }
+    const identity = dependencies.authorization.require(
+      response,
+      payload.data.caseId,
+      "Stratton.Demo.Analyst"
+    );
 
     const scenario = await dependencies.analysisService.recordDisposition({
       ...payload.data,
       findingId: request.params.findingId,
-      principalType: getPrincipalType(request),
+      principalType: identity.principalType,
       correlationId: getCorrelationId(response)
     });
 
@@ -75,12 +87,6 @@ export function createAnalysisRouter(dependencies: AnalysisRouteDependencies): R
   });
 
   return router;
-}
-
-function getPrincipalType(request: Request): "HUMAN" | "SERVICE" {
-  return request.header("x-demo-principal-type")?.toUpperCase() === "HUMAN"
-    ? "HUMAN"
-    : "SERVICE";
 }
 
 function getCorrelationId(response: Response): string {

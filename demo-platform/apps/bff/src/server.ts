@@ -6,6 +6,7 @@ import { AnalysisService } from "./analysis/analysis-service.js";
 import { buildApprovedDeployments, parseAzureDemoConfig } from "./azure/azure-config.js";
 import { createBlobEvidenceAdapter } from "./azure/blob-evidence-adapter.js";
 import { createDocumentIntelligenceAdapter } from "./azure/document-intelligence-adapter.js";
+import { createManagedIdentityCredential } from "./azure/managed-identity.js";
 import { createOpenAiAdapter } from "./azure/openai-analysis-adapter.js";
 import { createSearchAdapter } from "./azure/search-adapter.js";
 import { createServiceBusAdapter } from "./azure/service-bus-adapter.js";
@@ -14,7 +15,20 @@ import { parseDemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
 import { GovernanceService } from "./governance/governance-service.js";
-import type { Phase5Client } from "./phase5/phase5-client.js";
+import {
+  createContainerAppsIdentityResolver,
+  createLocalIdentityResolver,
+  type IdentityResolver
+} from "./identity/identity-resolver.js";
+import {
+  getTrustedRequestContext,
+  runWithTrustedRequestContext
+} from "./identity/request-context.js";
+import {
+  createPhase5Client,
+  type Phase5Client
+} from "./phase5/phase5-client.js";
+import { createGovernedWorkflowClient } from "./phase5/governed-workflow-client.js";
 import {
   AzureSqlScenarioRepository,
   createManagedIdentitySqlExecutor
@@ -43,32 +57,81 @@ import { ReviewService } from "./reviews/review-service.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
 import type { ScenarioRepository } from "./scenario/scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
+import { createRequestAuthorizer } from "./server-authorization.js";
 import { createRedactedLogger, type RedactedLogger } from "./telemetry/redacted-logger.js";
 
-export type DemoServerDependencies = ScenarioRouteDependencies &
-  EvidenceRouteDependencies &
-  AnalysisRouteDependencies &
-  ReviewRouteDependencies &
-  GovernanceRouteDependencies;
+type WithoutAuthorization<T> = Omit<T, "authorization">;
 
-export function createDemoServer(dependencies: DemoServerDependencies): Express {
+export type DemoServerDependencies = WithoutAuthorization<ScenarioRouteDependencies> &
+  WithoutAuthorization<EvidenceRouteDependencies> &
+  WithoutAuthorization<AnalysisRouteDependencies> &
+  WithoutAuthorization<ReviewRouteDependencies> &
+  WithoutAuthorization<GovernanceRouteDependencies>;
+
+export interface DemoServerSecurityOptions {
+  readonly identityResolver: IdentityResolver;
+  readonly authorizationPolicy: {
+    readonly expectedTenantId: string;
+    readonly caseId: "project-danube";
+    readonly caseAccessRole: "Stratton.Demo.ProjectDanube.Access";
+    readonly purposeRole: "Stratton.Demo.EvidenceToDecision";
+  };
+}
+
+const localServerSecurityOptions: DemoServerSecurityOptions = {
+  identityResolver: createLocalIdentityResolver(),
+  authorizationPolicy: {
+    expectedTenantId: "local-stratton-demo",
+    caseId: "project-danube",
+    caseAccessRole: "Stratton.Demo.ProjectDanube.Access",
+    purposeRole: "Stratton.Demo.EvidenceToDecision"
+  }
+};
+
+export function createDemoServer(
+  dependencies: DemoServerDependencies,
+  security: DemoServerSecurityOptions
+): Express {
   const app = express();
+  const authorization = createRequestAuthorizer(security.authorizationPolicy);
+  const routeDependencies = {
+    ...dependencies,
+    authorization
+  };
 
   app.use((request, response, next) => {
     setCorrelationId(response, request.header("x-correlation-id"));
     next();
   });
-  app.use(express.json());
 
   app.get("/healthz", (_request, response) => {
     response.status(200).json({ status: "ok" });
   });
 
-  app.use(createScenarioRouter(dependencies));
-  app.use(createEvidenceRouter(dependencies));
-  app.use(createAnalysisRouter(dependencies));
-  app.use(createReviewRouter(dependencies));
-  app.use(createGovernanceRouter(dependencies));
+  app.use(express.json());
+  app.use("/api", (request, response, next) => {
+    void security.identityResolver
+      .resolve(request)
+      .then((identity) => {
+        response.locals.trustedIdentity = identity;
+        const traceparent = request.header("traceparent");
+        runWithTrustedRequestContext(
+          {
+            identity,
+            correlationId: getCorrelationId(response),
+            ...(traceparent ? { traceparent } : {})
+          },
+          next
+        );
+      })
+      .catch(next);
+  });
+
+  app.use(createScenarioRouter(routeDependencies));
+  app.use(createEvidenceRouter(routeDependencies));
+  app.use(createAnalysisRouter(routeDependencies));
+  app.use(createReviewRouter(routeDependencies));
+  app.use(createGovernanceRouter(routeDependencies));
 
   app.use((_request, _response, next) => {
     next(new DemoHttpError(404, "INVALID_CONTRACT", "Requested path does not match an approved route."));
@@ -87,6 +150,12 @@ export function createDemoServer(dependencies: DemoServerDependencies): Express 
   return app;
 }
 
+export function createLocalDemoServer(
+  dependencies: DemoServerDependencies
+): Express {
+  return createDemoServer(dependencies, localServerSecurityOptions);
+}
+
 const isDirectRun = process.argv[1] ? import.meta.url === pathToFileURL(process.argv[1]).href : false;
 
 if (isDirectRun) {
@@ -94,11 +163,15 @@ if (isDirectRun) {
 }
 
 async function startServer(): Promise<void> {
+  const logger = createRedactedLogger();
   try {
     const config = parseDemoConfig();
-    const logger = createRedactedLogger();
     const repository = await createScenarioRepository(config);
     const phase5Client = createWorkflowClient(config, logger);
+    const security: DemoServerSecurityOptions =
+      config.DEMO_MODE === "LOCAL"
+        ? localServerSecurityOptions
+        : createAzureServerSecurityOptions(config);
 
     createDemoServer({
       scenarioService: new ScenarioService(repository),
@@ -106,11 +179,18 @@ async function startServer(): Promise<void> {
       analysisService: new AnalysisService({ repository, phase5Client }),
       reviewService: new ReviewService({ repository, phase5Client }),
       governanceService: new GovernanceService({ repository })
-    }).listen(config.PORT, () => {
+    }, security).listen(config.PORT, () => {
       console.log(`Stratton demo BFF listening on ${config.PORT}`);
     });
   } catch (error) {
-    console.error(error);
+    logger.error("server.startup.failure", {
+      errorClass:
+        error instanceof DemoHttpError
+          ? error.code
+          : error instanceof Error && error.name === "ZodError"
+            ? "CONFIGURATION_INVALID"
+            : "STARTUP_FAILED"
+    });
     process.exitCode = 1;
   }
 }
@@ -149,7 +229,10 @@ interface WorkflowClientFactoryOverrides {
   readonly createLocalPhase5Client?: typeof createLocalPhase5Client;
   readonly parseAzureConfig?: typeof parseAzureDemoConfig;
   readonly createAzureAdapters?: typeof createAzureAdapters;
-  readonly createAzureWorkflowClient?: typeof createAzureWorkflowClient;
+  readonly createAzureSupportingOperations?: typeof createAzureWorkflowClient;
+  readonly createPhase5AuthorityClient?: typeof createPhase5Client;
+  readonly createGovernedWorkflowClient?: typeof createGovernedWorkflowClient;
+  readonly getPhase5AccessToken?: () => Promise<string>;
 }
 
 export function createWorkflowClient(
@@ -163,14 +246,49 @@ export function createWorkflowClient(
 
   const azureConfig = (overrides.parseAzureConfig ?? parseAzureDemoConfig)();
   const adapters = (overrides.createAzureAdapters ?? createAzureAdapters)(azureConfig, logger);
-
-  return (overrides.createAzureWorkflowClient ?? createAzureWorkflowClient)({
+  const supporting = (
+    overrides.createAzureSupportingOperations ?? createAzureWorkflowClient
+  )({
     tenantId: azureConfig.DEMO_TENANT_ID,
     caseId: "project-danube",
     evidenceCatalog: buildEvidenceCatalog(createProjectDanubeState()),
     ...adapters,
-    logger: logger.child({ dependency: "workflow" })
+    logger: logger.child({ dependency: "workflow-supporting-operations" })
   });
+  const getAccessToken =
+    overrides.getPhase5AccessToken ??
+    createPhase5AccessTokenProvider(
+      requireConfigValue(config.PHASE5_TOKEN_SCOPE, "PHASE5_TOKEN_SCOPE"),
+      azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+    );
+  const authority = (overrides.createPhase5AuthorityClient ?? createPhase5Client)({
+    baseUrl: config.PHASE5_API_BASE_URL,
+    getAccessToken,
+    getRequestContext: getTrustedRequestContext
+  });
+
+  return (overrides.createGovernedWorkflowClient ?? createGovernedWorkflowClient)({
+    authority,
+    supporting
+  });
+}
+
+function createPhase5AccessTokenProvider(
+  scope: string,
+  managedIdentityClientId?: string
+): () => Promise<string> {
+  const credential = createManagedIdentityCredential(managedIdentityClientId);
+  return async () => {
+    const token = await credential.getToken(scope);
+    if (!token?.token) {
+      throw new DemoHttpError(
+        503,
+        "DEPENDENCY_UNAVAILABLE",
+        "PHASE5_MANAGED_IDENTITY_TOKEN_UNAVAILABLE"
+      );
+    }
+    return token.token;
+  };
 }
 
 async function createScenarioRepository(
@@ -183,8 +301,14 @@ async function createScenarioRepository(
   const azureConfig = parseAzureDemoConfig();
   const repository = new AzureSqlScenarioRepository({
     executor: createManagedIdentitySqlExecutor({
-      server: config.AZURE_SQL_SERVER_FQDN!,
-      database: config.AZURE_SQL_DATABASE_NAME!,
+      server: requireConfigValue(
+        config.AZURE_SQL_SERVER_FQDN,
+        "AZURE_SQL_SERVER_FQDN"
+      ),
+      database: requireConfigValue(
+        config.AZURE_SQL_DATABASE_NAME,
+        "AZURE_SQL_DATABASE_NAME"
+      ),
       ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
         ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
         : {})
@@ -194,6 +318,45 @@ async function createScenarioRepository(
   });
 
   return initializeScenarioRepository(repository);
+}
+
+function createAzureServerSecurityOptions(
+  config: ReturnType<typeof parseDemoConfig>
+): DemoServerSecurityOptions {
+  const expectedTenantId = requireConfigValue(
+    config.DEMO_TENANT_ID,
+    "DEMO_TENANT_ID"
+  );
+  const trustedProxyPrincipalId = requireConfigValue(
+    config.TRUSTED_WEB_PROXY_PRINCIPAL_ID,
+    "TRUSTED_WEB_PROXY_PRINCIPAL_ID"
+  );
+  return {
+    identityResolver: createContainerAppsIdentityResolver({
+      expectedTenantId,
+      trustedProxyPrincipalId
+    }),
+    authorizationPolicy: {
+      expectedTenantId,
+      caseId: "project-danube",
+      caseAccessRole: "Stratton.Demo.ProjectDanube.Access",
+      purposeRole: "Stratton.Demo.EvidenceToDecision"
+    }
+  };
+}
+
+function requireConfigValue(
+  value: string | undefined,
+  name: string
+): string {
+  if (!value) {
+    throw new DemoHttpError(
+      503,
+      "DEPENDENCY_UNAVAILABLE",
+      `CONFIGURATION_REQUIRED:${name}`
+    );
+  }
+  return value;
 }
 
 export async function initializeScenarioRepository(
@@ -208,7 +371,20 @@ export async function initializeScenarioRepository(
       error.code === "DEPENDENCY_UNAVAILABLE" &&
       error.message === "SCENARIO_PROJECTION_NOT_FOUND"
     ) {
-      await repository.reset(createProjectDanubeState());
+      try {
+        await repository.initialize(createProjectDanubeState());
+      } catch (initializeError) {
+        if (
+          !(
+            initializeError instanceof DemoHttpError &&
+            initializeError.code === "STATE_CONFLICT" &&
+            initializeError.message === "SCENARIO_PROJECTION_ALREADY_INITIALIZED"
+          )
+        ) {
+          throw initializeError;
+        }
+        await repository.load();
+      }
       return repository;
     }
 

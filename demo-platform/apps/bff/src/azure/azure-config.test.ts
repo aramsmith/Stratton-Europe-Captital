@@ -1,0 +1,73 @@
+import { describe, expect, it } from "vitest";
+import { buildApprovedDeployments, parseAzureDemoConfig } from "./azure-config.js";
+
+function validEnvironment(): NodeJS.ProcessEnv {
+  return {
+    DEMO_TENANT_ID: "tenant-stratton-demo",
+    AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
+    AZURE_SEARCH_ENDPOINT: "https://search.search.windows.net",
+    AZURE_SEARCH_INDEX_NAME: "governed-evidence",
+    AZURE_BLOB_ACCOUNT_URL: "https://storage.blob.core.windows.net",
+    AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
+    AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
+    AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
+    AZURE_OPENAI_LUNA_ENDPOINT: "https://stratton-luna.openai.azure.com",
+    AZURE_OPENAI_LUNA_RESOURCE_ID:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-luna",
+    AZURE_OPENAI_LUNA_REGION: "swedencentral",
+    AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
+    AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
+    AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1",
+    AZURE_OPENAI_TERRA_ENDPOINT: "https://stratton-terra.openai.azure.com",
+    AZURE_OPENAI_TERRA_RESOURCE_ID:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra",
+    AZURE_OPENAI_TERRA_REGION: "westeurope",
+    AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
+    AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
+    AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE-v1",
+    AZURE_OPENAI_SOL_ENDPOINT: "https://stratton-sol.openai.azure.com",
+    AZURE_OPENAI_SOL_RESOURCE_ID:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-sol",
+    AZURE_OPENAI_SOL_REGION: "francecentral",
+    AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
+    AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
+    AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1"
+  };
+}
+
+describe("Azure OpenAI route bindings", () => {
+  it("accepts HTTPS Azure OpenAI endpoints bound to matching resource IDs and EU regions", () => {
+    expect(buildApprovedDeployments(parseAzureDemoConfig(validEnvironment()))).toMatchObject({
+      LUNA: {
+        endpoint: "https://stratton-luna.openai.azure.com",
+        resourceId: expect.stringContaining("/accounts/stratton-luna"),
+        region: "swedencentral",
+        evidenceId: "SEC-EVID-LUNA-ROUTE-v1"
+      }
+    });
+  });
+
+  it("rejects an endpoint and resource ID account mismatch", () => {
+    expect(() =>
+      parseAzureDemoConfig({
+        ...validEnvironment(),
+        AZURE_OPENAI_TERRA_ENDPOINT: "https://different-account.openai.azure.com"
+      })
+    ).toThrowError(/TERRA_ENDPOINT_RESOURCE_MISMATCH/);
+  });
+
+  it("rejects non-EU route regions and mismatched route evidence", () => {
+    expect(() =>
+      parseAzureDemoConfig({
+        ...validEnvironment(),
+        AZURE_OPENAI_SOL_REGION: "eastus"
+      })
+    ).toThrowError(/SOL_REGION_NOT_PERMITTED/);
+    expect(() =>
+      parseAzureDemoConfig({
+        ...validEnvironment(),
+        AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE-v1"
+      })
+    ).toThrowError(/LUNA_EVIDENCE_ROUTE_MISMATCH/);
+  });
+});

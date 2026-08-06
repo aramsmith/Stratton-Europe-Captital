@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import {
+  createProjectDanubeExpiredLicenceState,
+  createProjectDanubeMissingLicenceState,
   createProjectDanubePromptInjectionState,
   createProjectDanubeState
 } from "@stratton/scenario-data";
@@ -164,6 +166,52 @@ describe("EvidenceService", () => {
             securityGateId: "CC002-R2-SEC-GATE-002",
             securityGateEvidenceId: "evidence-hostile-instructions"
           }
+        })
+      ])
+    );
+  });
+
+  it.each([
+    ["EXPIRED", createProjectDanubeExpiredLicenceState],
+    ["MISSING", createProjectDanubeMissingLicenceState]
+  ] as const)("rejects %s evidence licences and records dedicated gate evidence", async (
+    licenceStatus,
+    createState
+  ) => {
+    const repository = new InMemoryScenarioRepository(createState());
+    const phase5Client = createPhase5ClientDouble();
+    const service = new EvidenceService({ repository, phase5Client });
+
+    await expect(
+      service.admit({
+        caseId: "project-danube",
+        evidenceId: "evidence-qoe-report",
+        correlationId: `corr-licence-${licenceStatus.toLowerCase()}`
+      })
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: `EVIDENCE_LICENCE_${licenceStatus}`
+    });
+
+    expect(phase5Client.admitEvidence).not.toHaveBeenCalled();
+    const state = (await repository.load()).state;
+    expect(
+      state.evidence.find((item) => item.evidenceId === "evidence-qoe-report")
+    ).toMatchObject({ admissionStatus: "QUARANTINED", licenceStatus });
+    expect(state.governanceEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "EVIDENCE_LICENCE_DENIED",
+          outcome: "DENY",
+          detail: `EVIDENCE_LICENCE_${licenceStatus}`
+        }),
+        expect.objectContaining({
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "FAILURE",
+          metadata: expect.objectContaining({
+            securityGateId: "CC002-R2-SEC-GATE-008",
+            securityGateEvidenceId: "evidence-qoe-report"
+          })
         })
       ])
     );

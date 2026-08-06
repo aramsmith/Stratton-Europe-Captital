@@ -9,10 +9,15 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build:packages": "npm run build --workspace @stratton/contracts && npm run build --workspace @stratton/scenario-data",
+    "build:apps": "npm run build --workspace @stratton/demo-bff && npm run build --workspace @stratton/demo-web",
+    "build": "npm run build:packages && npm run build:apps",
+    "test:workspaces": "npm run test --workspaces --if-present",
+    "test:scripts": "node --test scripts/acceptance-contract.test.mjs scripts/clean-generated.test.mjs scripts/verify-demo-lib.test.mjs",
+    "test": "npm run build:packages && npm run test:workspaces && npm run test:scripts",
+    "typecheck": "npm run build:packages && npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
+    "clean:generated": "node scripts/clean-generated.mjs",
     "validate": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "devDependencies": {

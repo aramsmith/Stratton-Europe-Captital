@@ -236,8 +236,7 @@ describe("DemoClient", () => {
     expect(fetchMock).toHaveBeenCalledWith("/api/findings/finding-ebitda-quality/disposition", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "x-demo-principal-type": "HUMAN"
+        "content-type": "application/json"
       },
       body: JSON.stringify({
         caseId: "project-danube",
@@ -265,8 +264,7 @@ describe("DemoClient", () => {
     expect(fetchMock).toHaveBeenCalledWith("/api/findings/finding-permit-transfer/reviews", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "x-demo-principal-type": "HUMAN"
+        "content-type": "application/json"
       },
       body: JSON.stringify({
         caseId: "project-danube",
@@ -291,12 +289,28 @@ describe("DemoClient", () => {
     expect(fetchMock).toHaveBeenCalledWith("/api/recommendation/prepare", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "x-demo-principal-type": "HUMAN"
+        "content-type": "application/json"
       },
       body: JSON.stringify({
         caseId: "project-danube"
       })
+    });
+  });
+
+  it("runs the dedicated security-gate evidence suite through the typed endpoint", async () => {
+    const scenario = createProjectDanubeState();
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ scenario }), { status: 200 }));
+
+    const client = new DemoClient("/api");
+    const result = await client.runSecurityGateSuite({ caseId: "project-danube" });
+
+    expect(result).toEqual(scenario);
+    expect(fetchMock).toHaveBeenCalledWith("/api/governance/security-gates/run", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ caseId: "project-danube" })
     });
   });
 

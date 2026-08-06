@@ -7,11 +7,12 @@ export interface ScenarioConcurrencyToken {
 
 export interface ScenarioSnapshot {
   readonly state: ScenarioState;
-  readonly concurrencyToken?: ScenarioConcurrencyToken;
+  readonly concurrencyToken: ScenarioConcurrencyToken;
 }
 
 export interface ScenarioRepository {
   load(): Promise<ScenarioSnapshot>;
   save(snapshot: ScenarioSnapshot): Promise<void>;
-  reset(state: ScenarioState): Promise<void>;
+  reset(snapshot: ScenarioSnapshot): Promise<void>;
+  initialize(state: ScenarioState): Promise<void>;
 }

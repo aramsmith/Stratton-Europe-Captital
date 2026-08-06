@@ -6,7 +6,11 @@ import { ScenarioService } from "./scenario-service.js";
 describe("ScenarioService", () => {
   it("replaces changed state with a clean scenario", async () => {
     const repository = new InMemoryScenarioRepository(createProjectDanubeState());
-    await repository.save({ state: { ...createProjectDanubeState(), stage: "REVIEW" } });
+    const snapshot = await repository.load();
+    await repository.save({
+      ...snapshot,
+      state: { ...createProjectDanubeState(), stage: "REVIEW" }
+    });
 
     const reset = await new ScenarioService(repository).reset();
 

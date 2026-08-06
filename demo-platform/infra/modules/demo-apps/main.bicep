@@ -12,6 +12,7 @@ param bffImageDigest string
 param webContainerPort int
 param bffContainerPort int
 param phase5ApiBaseUrl string
+param phase5TokenScope string
 param sqlServerFqdn string
 param sqlDatabaseName string
 param blobAccountUrl string
@@ -22,20 +23,28 @@ param searchEndpoint string
 param searchIndexName string
 param documentIntelligenceEndpoint string
 param lunaOpenAiEndpoint string
+param lunaOpenAiResourceId string
+param lunaOpenAiRegion string
 param lunaOpenAiDeploymentId string
 param lunaOpenAiApiVersion string
 param lunaOpenAiEvidenceId string
 param terraOpenAiEndpoint string
+param terraOpenAiResourceId string
+param terraOpenAiRegion string
 param terraOpenAiDeploymentId string
 param terraOpenAiApiVersion string
 param terraOpenAiEvidenceId string
 param solOpenAiEndpoint string
+param solOpenAiResourceId string
+param solOpenAiRegion string
 param solOpenAiDeploymentId string
 param solOpenAiApiVersion string
 param solOpenAiEvidenceId string
 param webEntraClientId string
+@minLength(1)
 param webAllowedAudiences array
 param bffEntraClientId string
+@minLength(1)
 param bffAllowedAudiences array
 
 var webIdentityName = '${namePrefix}-web-mi'
@@ -45,6 +54,8 @@ var bffAppName = '${namePrefix}-bff'
 var entraIssuer = '${environment().authentication.loginEndpoint}${tenantId}/v2.0'
 var webImage = '${containerRegistryServer}/${webImageRepository}@${webImageDigest}'
 var bffImage = '${containerRegistryServer}/${bffImageRepository}@${bffImageDigest}'
+var bffInternalBaseUrl = 'https://${bffApp.properties.configuration.ingress.fqdn}'
+var bffTokenScope = '${bffAllowedAudiences[0]}/.default'
 var defaultScale = {
   minReplicas: 1
   maxReplicas: 1
@@ -104,6 +115,28 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
         {
           name: 'web'
           image: webImage
+          env: [
+            {
+              name: 'NODE_ENV'
+              value: 'production'
+            }
+            {
+              name: 'PORT'
+              value: string(webContainerPort)
+            }
+            {
+              name: 'BFF_INTERNAL_BASE_URL'
+              value: bffInternalBaseUrl
+            }
+            {
+              name: 'BFF_TOKEN_SCOPE'
+              value: bffTokenScope
+            }
+            {
+              name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
+              value: webIdentity.properties.clientId
+            }
+          ]
           resources: {
             cpu: json('0.5')
             memory: '1Gi'
@@ -161,6 +194,10 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
               value: phase5ApiBaseUrl
             }
             {
+              name: 'PHASE5_TOKEN_SCOPE'
+              value: phase5TokenScope
+            }
+            {
               name: 'AZURE_SQL_SERVER_FQDN'
               value: sqlServerFqdn
             }
@@ -171,6 +208,10 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'DEMO_TENANT_ID'
               value: tenantId
+            }
+            {
+              name: 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
+              value: webIdentity.properties.principalId
             }
             {
               name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
@@ -209,6 +250,14 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
               value: lunaOpenAiEndpoint
             }
             {
+              name: 'AZURE_OPENAI_LUNA_RESOURCE_ID'
+              value: lunaOpenAiResourceId
+            }
+            {
+              name: 'AZURE_OPENAI_LUNA_REGION'
+              value: lunaOpenAiRegion
+            }
+            {
               name: 'AZURE_OPENAI_LUNA_DEPLOYMENT_ID'
               value: lunaOpenAiDeploymentId
             }
@@ -225,6 +274,14 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
               value: terraOpenAiEndpoint
             }
             {
+              name: 'AZURE_OPENAI_TERRA_RESOURCE_ID'
+              value: terraOpenAiResourceId
+            }
+            {
+              name: 'AZURE_OPENAI_TERRA_REGION'
+              value: terraOpenAiRegion
+            }
+            {
               name: 'AZURE_OPENAI_TERRA_DEPLOYMENT_ID'
               value: terraOpenAiDeploymentId
             }
@@ -239,6 +296,14 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'AZURE_OPENAI_SOL_ENDPOINT'
               value: solOpenAiEndpoint
+            }
+            {
+              name: 'AZURE_OPENAI_SOL_RESOURCE_ID'
+              value: solOpenAiResourceId
+            }
+            {
+              name: 'AZURE_OPENAI_SOL_REGION'
+              value: solOpenAiRegion
             }
             {
               name: 'AZURE_OPENAI_SOL_DEPLOYMENT_ID'

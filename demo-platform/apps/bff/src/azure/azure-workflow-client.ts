@@ -1,6 +1,6 @@
 import type { AnalysisTaskClass, ModelRoute, ScenarioState } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
-import type { Phase5Client } from "../phase5/phase5-client.js";
+import type { WorkflowSupportingOperations } from "../phase5/phase5-client.js";
 import {
   createRedactedLogger,
   type RedactedLogger
@@ -52,6 +52,8 @@ interface OpenAiAdapter {
     route: ModelRoute;
     deploymentId: string;
     geography: "EU_DATA_ZONE";
+    resourceId: string;
+    region: string;
     evidenceId: string;
     output: GovernedAnalysisOutput;
   }>;
@@ -78,19 +80,15 @@ interface CreateAzureWorkflowClientOptions {
   readonly openAi: OpenAiAdapter;
   readonly serviceBus: ServiceBusAdapter;
   readonly logger?: RedactedLogger;
-  readonly createAnalysisRunId?: (analysisRequestFingerprint: string) => string;
 }
 
 export function createAzureWorkflowClient(
   options: CreateAzureWorkflowClientOptions
-): Phase5Client {
+): WorkflowSupportingOperations {
   const logger = options.logger ?? createRedactedLogger().child({ workflow: "azure" });
-  const createAnalysisRunId =
-    options.createAnalysisRunId ??
-    ((analysisRequestFingerprint: string) => `run-${analysisRequestFingerprint.slice(0, 12)}`);
 
   return {
-    async admitEvidence(input) {
+    async afterEvidenceAdmitted(input) {
       assertCaseId(options.caseId, input.caseId);
       const evidence = options.evidenceCatalog[input.evidenceId];
       if (!evidence) {
@@ -124,7 +122,7 @@ export function createAzureWorkflowClient(
       });
     },
 
-    async requestAnalysis(input) {
+    async afterAnalysisAccepted(input) {
       assertCaseId(options.caseId, input.caseId);
       if (!input.route || !input.taskClass) {
         throw new DemoHttpError(400, "INVALID_CONTRACT", "ANALYSIS_ROUTE_AND_TASK_REQUIRED");
@@ -159,7 +157,7 @@ export function createAzureWorkflowClient(
         evidenceChunks,
         ...(input.correlationId ? { correlationId: input.correlationId } : {})
       });
-      const analysisRunId = createAnalysisRunId(input.analysisRequestFingerprint);
+      const analysisRunId = input.analysisRunId;
 
       await options.serviceBus.publish({
         tenantId: options.tenantId,
@@ -174,6 +172,8 @@ export function createAzureWorkflowClient(
           analysisRunId,
           deploymentId: analysis.deploymentId,
           geography: analysis.geography,
+          resourceId: analysis.resourceId,
+          region: analysis.region,
           evidenceId: analysis.evidenceId,
           output: analysis.output
         }
@@ -186,13 +186,9 @@ export function createAzureWorkflowClient(
         analysisRunId
       });
 
-      return {
-        analysisRunId,
-        status: "QUEUED"
-      };
     },
 
-    async submitReview(input) {
+    async afterReviewAccepted(input) {
       assertCaseId(options.caseId, input.caseId);
 
       await options.serviceBus.publish({
@@ -212,7 +208,7 @@ export function createAzureWorkflowClient(
       });
     },
 
-    async prepareDraft(input) {
+    async afterDraftAccepted(input) {
       assertCaseId(options.caseId, input.caseId);
 
       await options.serviceBus.publish({

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createProjectDanubeState } from "./project-danube.js";
+import {
+  createProjectDanubeExpiredLicenceState,
+  createProjectDanubeMissingLicenceState,
+  createProjectDanubeState
+} from "./project-danube.js";
 
 describe("createProjectDanubeState", () => {
   it("returns the same case and evidence identifiers on every reset", () => {
@@ -14,5 +18,18 @@ describe("createProjectDanubeState", () => {
       "evidence-qoe-report",
       "evidence-environmental-permit"
     ]);
+  });
+
+  it("provides deterministic expired and missing licence fixtures", () => {
+    expect(
+      createProjectDanubeExpiredLicenceState().evidence.find(
+        (item) => item.evidenceId === "evidence-qoe-report"
+      )
+    ).toMatchObject({ licenceStatus: "EXPIRED", admissionStatus: "QUARANTINED" });
+    expect(
+      createProjectDanubeMissingLicenceState().evidence.find(
+        (item) => item.evidenceId === "evidence-qoe-report"
+      )
+    ).toMatchObject({ licenceStatus: "MISSING", admissionStatus: "QUARANTINED" });
   });
 });

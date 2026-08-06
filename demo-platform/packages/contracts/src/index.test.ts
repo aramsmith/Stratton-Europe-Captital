@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   analysisRunRequestSchema,
   findingDispositionRequestSchema,
+  getEligibleReviewTypesForDomains,
   governanceViewSchema,
   scenarioStateSchema
 } from "./index.js";
@@ -62,6 +63,20 @@ describe("scenarioStateSchema", () => {
     });
 
     expect(result.success).toBe(false);
+  });
+
+  describe("review eligibility", () => {
+    it("binds specialist review types to the accepted finding evidence domains", () => {
+      expect(getEligibleReviewTypesForDomains(["FINANCIAL"])).toEqual(["DEAL"]);
+      expect(getEligibleReviewTypesForDomains(["LEGAL"])).toEqual([
+        "LEGAL",
+        "COMPLIANCE"
+      ]);
+      expect(getEligibleReviewTypesForDomains(["ESG", "OPERATIONAL"])).toEqual([
+        "DEAL",
+        "COMPLIANCE"
+      ]);
+    });
   });
 
   it("rejects a material finding that cites quarantined evidence", () => {

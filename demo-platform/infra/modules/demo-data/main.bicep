@@ -18,9 +18,7 @@ var bootstrapSql = '''
 ${projectionMigrationSql}
 
 CREATE USER [${bffIdentityName}] FROM EXTERNAL PROVIDER;
-ALTER ROLE db_datareader ADD MEMBER [${bffIdentityName}];
-ALTER ROLE db_datawriter ADD MEMBER [${bffIdentityName}];
-GRANT EXECUTE TO [${bffIdentityName}];
+GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO [${bffIdentityName}];
 '''
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' existing = {

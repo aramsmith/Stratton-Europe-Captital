@@ -24,6 +24,43 @@ export const reviewDecisionSchema = z.enum(["PENDING", "APPROVED", "REJECTED"]);
 export type ReviewDecision = z.infer<typeof reviewDecisionSchema>;
 export const reviewSubmissionDecisionSchema = z.enum(["APPROVED", "REJECTED"]);
 export type ReviewSubmissionDecision = z.infer<typeof reviewSubmissionDecisionSchema>;
+export const evidenceDomainSchema = z.enum([
+  "FINANCIAL",
+  "COMMERCIAL",
+  "LEGAL",
+  "ESG",
+  "OPERATIONAL"
+]);
+export type EvidenceDomain = z.infer<typeof evidenceDomainSchema>;
+const dealReviewDomains: readonly EvidenceDomain[] = [
+  "FINANCIAL",
+  "COMMERCIAL",
+  "OPERATIONAL"
+];
+const complianceReviewDomains: readonly EvidenceDomain[] = [
+  "LEGAL",
+  "ESG",
+  "OPERATIONAL"
+];
+
+export function getEligibleReviewTypesForDomains(
+  domains: readonly EvidenceDomain[]
+): ReviewType[] {
+  const domainSet = new Set(domains);
+  const reviewTypes: ReviewType[] = [];
+
+  if (dealReviewDomains.some((domain) => domainSet.has(domain))) {
+    reviewTypes.push("DEAL");
+  }
+  if (domainSet.has("LEGAL")) {
+    reviewTypes.push("LEGAL");
+  }
+  if (complianceReviewDomains.some((domain) => domainSet.has(domain))) {
+    reviewTypes.push("COMPLIANCE");
+  }
+
+  return reviewTypes;
+}
 
 export const citationSchema = z
   .object({
@@ -116,7 +153,7 @@ export const scenarioStateSchema = z
           .object({
             evidenceId: z.string().min(1),
             title: z.string().min(1),
-            domain: z.enum(["FINANCIAL", "COMMERCIAL", "LEGAL", "ESG", "OPERATIONAL"]),
+            domain: evidenceDomainSchema,
             admissionStatus: z.enum(["QUARANTINED", "ADMITTED", "REJECTED"]),
             owner: z.string().min(1),
             licenceStatus: z.enum(["APPROVED", "NOT_REQUIRED", "EXPIRED", "MISSING"]),
@@ -169,10 +206,17 @@ export const scenarioStateSchema = z
       finding.citations.forEach((citation, citationIndex) => {
         const evidence = evidenceById.get(citation.evidenceId);
 
-        if (evidence?.admissionStatus !== "ADMITTED") {
+        if (
+          evidence?.admissionStatus !== "ADMITTED" ||
+          (evidence.licenceStatus !== "APPROVED" &&
+            evidence.licenceStatus !== "NOT_REQUIRED")
+        ) {
           context.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "MATERIAL_FINDING_CITATION_MUST_REFERENCE_ADMITTED_EVIDENCE",
+            message:
+              evidence?.admissionStatus !== "ADMITTED"
+                ? "MATERIAL_FINDING_CITATION_MUST_REFERENCE_ADMITTED_EVIDENCE"
+                : "MATERIAL_FINDING_CITATION_REQUIRES_VALID_LICENCE",
             path: ["findings", findingIndex, "citations", citationIndex, "evidenceId"]
           });
         }
@@ -263,8 +307,25 @@ export type RecommendationPreparationRequest = z.infer<
   typeof recommendationPreparationRequestSchema
 >;
 
-export const securityGateOutcomeSchema = z.enum(["PASS", "FAIL", "NOT_RUN"]);
+export const securityGateRunRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube")
+  })
+  .strict();
+export type SecurityGateRunRequest = z.infer<typeof securityGateRunRequestSchema>;
+
+export const securityGateOutcomeSchema = z.enum(["PASS", "FAIL", "NOT_RUN", "STALE"]);
 export type SecurityGateOutcome = z.infer<typeof securityGateOutcomeSchema>;
+export const mandatorySecurityGateBindings: readonly Readonly<{
+  gateId: string;
+  evidenceId: string;
+}>[] = Array.from({ length: 12 }, (_, index) => {
+  const ordinal = String(index + 1).padStart(3, "0");
+  return {
+    gateId: `CC002-R2-SEC-GATE-${ordinal}`,
+    evidenceId: `STRATTON-DEMO-SEC-GATE-${ordinal}-v1`
+  };
+});
 export const auditExportStatusSchema = z.enum(["READY", "BLOCKED"]);
 export type AuditExportStatus = z.infer<typeof auditExportStatusSchema>;
 export const governanceDecisionResultSchema = z.enum(["ALLOW", "DENY", "SUCCESS", "FAILURE"]);

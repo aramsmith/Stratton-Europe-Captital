@@ -36,6 +36,10 @@ Set-Location .\demo-platform
 npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173
 ```
 
+LOCAL mode uses one fixed synthetic identity with the approved demo roles. It is selected only when
+`DEMO_MODE=LOCAL`; AZURE mode requires Container Apps authentication claims and cannot activate the
+synthetic seam. Client-supplied authority headers such as `x-demo-principal-type` are rejected.
+
 Routes:
 
 - `http://127.0.0.1:4173/workbench`
@@ -60,12 +64,24 @@ Set-Location .\demo-platform
 node .\scripts\reset-scenario.mjs --fixture prompt-injection
 ```
 
+Licence-denial fixtures:
+
+```powershell
+node .\scripts\reset-scenario.mjs --fixture expired-licence
+node .\scripts\reset-scenario.mjs --fixture missing-licence
+```
+
 ## Demo roles
 
 - `Elena Müller` — Deal Lead persona shown in the shell
-- `Deal` reviewer — specialist approval
-- `Legal` reviewer — specialist approval
-- `Compliance` reviewer — specialist approval
+- `Stratton.Demo.Analyst` — evidence, analysis, and finding disposition
+- `Stratton.Demo.DealReviewer` — financial/commercial/operational review
+- `Stratton.Demo.LegalReviewer` — Legal-domain review
+- `Stratton.Demo.ComplianceReviewer` — Legal/ESG/operational compliance review
+- `Stratton.Demo.GovernanceOperator` — deterministic security-gate evidence
+- `Stratton.Demo.CommitteePreparer` — committee-pack draft preparation
+- Every privileged role also requires `Stratton.Demo.ProjectDanube.Access` and
+  `Stratton.Demo.EvidenceToDecision` in the configured tenant.
 
 ## Scripted demo sequence
 
@@ -81,11 +97,13 @@ node .\scripts\reset-scenario.mjs --fixture prompt-injection
 6. Run `Run grounded analysis`.
 7. Confirm the `Adjusted EBITDA quality` finding shows `EUR 4.2–5.1 million` and `3 citations`.
 8. Accept `Adjusted EBITDA quality` and `Permit transfer readiness`.
-9. Open `/decision-room`.
-10. Approve `Deal`, `Legal`, and `Compliance` reviews.
-11. Run `Prepare committee pack`.
-12. Confirm `Submit to committee` stays disabled.
-13. Open `/governance` and confirm `Internal Audit verdict: Not issued`.
+9. Open `/governance`, select `Security & audit`, and run `Run security gate checks`.
+10. Confirm all twelve current, version-bound gates show `PASS`.
+11. Open `/decision-room`.
+12. Approve Deal for the EBITDA finding and Legal plus Compliance for the permit finding.
+13. Run `Prepare committee pack`.
+14. Confirm `Submit to committee` stays disabled.
+15. Return to `/governance` and confirm `Internal Audit verdict: Not issued`.
 
 ## Validation commands
 
@@ -97,6 +115,14 @@ node .\scripts\verify-demo.mjs
 ```
 
 `verify-demo.mjs` fails closed if `infra\main.json` already exists before verification, and it removes the generated Bicep output when the verification run created it, on both success and failure.
+It builds the contracts and scenario-data workspaces before any consuming typecheck or test, so no
+pre-existing `dist` directory is required.
+
+Remove only known generated workspace outputs:
+
+```powershell
+npm run clean:generated
+```
 
 Individual commands:
 
@@ -109,6 +135,8 @@ npx playwright test
 npx playwright test tests\security
 npx playwright test tests\e2e\evidence-to-decision.spec.ts --grep "axe reports zero serious or critical violations"
 az bicep build --file infra/main.bicep
+az bicep lint --file infra/main.bicep
+az bicep build-params --file infra/parameters/dev.bicepparam --outfile infra/parameters/dev.parameters.json
 pwsh -NoProfile -File tests\iac\Invoke-DemoIaCTests.ps1
 ```
 
@@ -125,6 +153,8 @@ Azure-mode configuration names are documented here for completeness only; do not
 - `DEMO_TENANT_ID`
 - `AZURE_SQL_SERVER_FQDN`
 - `AZURE_SQL_DATABASE_NAME`
+- `TRUSTED_WEB_PROXY_PRINCIPAL_ID`
+- `PHASE5_TOKEN_SCOPE`
 - `AZURE_MANAGED_IDENTITY_CLIENT_ID`
 - `AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT`
 - `AZURE_SEARCH_ENDPOINT`
@@ -134,17 +164,35 @@ Azure-mode configuration names are documented here for completeness only; do not
 - `AZURE_SERVICE_BUS_NAMESPACE`
 - `AZURE_SERVICE_BUS_QUEUE_NAME`
 - `AZURE_OPENAI_LUNA_ENDPOINT`
+- `AZURE_OPENAI_LUNA_RESOURCE_ID`
+- `AZURE_OPENAI_LUNA_REGION`
 - `AZURE_OPENAI_LUNA_DEPLOYMENT_ID`
 - `AZURE_OPENAI_LUNA_API_VERSION`
 - `AZURE_OPENAI_LUNA_EVIDENCE_ID`
 - `AZURE_OPENAI_TERRA_ENDPOINT`
+- `AZURE_OPENAI_TERRA_RESOURCE_ID`
+- `AZURE_OPENAI_TERRA_REGION`
 - `AZURE_OPENAI_TERRA_DEPLOYMENT_ID`
 - `AZURE_OPENAI_TERRA_API_VERSION`
 - `AZURE_OPENAI_TERRA_EVIDENCE_ID`
 - `AZURE_OPENAI_SOL_ENDPOINT`
+- `AZURE_OPENAI_SOL_RESOURCE_ID`
+- `AZURE_OPENAI_SOL_REGION`
 - `AZURE_OPENAI_SOL_DEPLOYMENT_ID`
 - `AZURE_OPENAI_SOL_API_VERSION`
 - `AZURE_OPENAI_SOL_EVIDENCE_ID`
+
+The production web image runs the typed server in `apps\web\server\server.ts`. Browser `/api`
+requests remain same-origin. The server accepts only the Container Apps authenticated principal,
+obtains a managed-identity token for the BFF audience, and proxies to the internal BFF FQDN supplied
+as `BFF_INTERNAL_BASE_URL`. The BFF accepts forwarded human claims only when Container Apps identifies
+the configured web managed identity as the caller.
+
+Luna, Terra, and Sol require HTTPS `*.openai.azure.com` endpoints, matching Cognitive Services
+account resource IDs, permitted EU regions, and route-specific versioned evidence IDs. Mismatches
+fail startup validation; there is no route or region fallback.
+
+See `infra\ADMIN-HANDOFF.md` for app-role assignments, SQL bootstrap, and exact RBAC scopes.
 
 ## Explicit no-deployment boundary
 
@@ -170,6 +218,15 @@ Do **not** run any of the following from this README or `verify-demo.mjs`:
 - Reset the scenario.
 - Admit all four baseline evidence items before running analysis.
 - Use `Cross-document comparison` with `Challenge management EBITDA quality`.
+- EXPIRED or MISSING evidence licences are intentionally denied and recorded against security gate
+  `CC002-R2-SEC-GATE-008`.
+
+### Committee pack remains blocked
+
+- Confirm Deal approval targets `finding-ebitda-quality`.
+- Confirm Legal and Compliance approvals target `finding-permit-transfer`.
+- Re-run the deterministic security-gate checks after a new analysis or failed hostile test; stale,
+  failed, or not-run gate evidence cannot satisfy readiness.
 
 ### Unavailable routes or failed page loads
 

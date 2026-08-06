@@ -8,6 +8,7 @@ import {
   reviewSubmissionRequestSchema,
   scenarioMutationResponseSchema,
   scenarioStateSchema,
+  securityGateRunRequestSchema,
   type AnalysisRunRequest,
   type AnalysisRunResponse,
   type DemoApiError,
@@ -16,7 +17,8 @@ import {
   type GovernanceView,
   type RecommendationPreparationRequest,
   type ReviewSubmissionRequest,
-  type ScenarioState
+  type ScenarioState,
+  type SecurityGateRunRequest
 } from "@stratton/contracts";
 
 const demoErrorMessages: Readonly<Record<DemoApiError["code"], string>> = {
@@ -114,8 +116,7 @@ export class DemoClient {
     const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/disposition`, {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "x-demo-principal-type": "HUMAN"
+        "content-type": "application/json"
       },
       body: JSON.stringify(payload)
     });
@@ -140,8 +141,7 @@ export class DemoClient {
     const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/reviews`, {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "x-demo-principal-type": "HUMAN"
+        "content-type": "application/json"
       },
       body: JSON.stringify(payload)
     });
@@ -160,8 +160,7 @@ export class DemoClient {
     const response = await fetch(`${this.baseUrl}/recommendation/prepare`, {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "x-demo-principal-type": "HUMAN"
+        "content-type": "application/json"
       },
       body: JSON.stringify(payload)
     });
@@ -170,6 +169,23 @@ export class DemoClient {
       throw await readDemoApiError(response);
     }
 
+    return scenarioMutationResponseSchema.parse(await response.json()).scenario;
+  }
+
+  public async runSecurityGateSuite(
+    input: SecurityGateRunRequest
+  ): Promise<ScenarioState> {
+    const payload = securityGateRunRequestSchema.parse(input);
+    const response = await fetch(`${this.baseUrl}/governance/security-gates/run`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
     return scenarioMutationResponseSchema.parse(await response.json()).scenario;
   }
 }

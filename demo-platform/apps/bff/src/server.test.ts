@@ -2,13 +2,15 @@ import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { AnalysisService } from "./analysis/analysis-service.js";
+import { parseAzureDemoConfig } from "./azure/azure-config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { GovernanceService } from "./governance/governance-service.js";
+import { createLocalIdentityResolver } from "./identity/identity-resolver.js";
 import type { Phase5Client } from "./phase5/phase5-client.js";
 import { ReviewService } from "./reviews/review-service.js";
 import { InMemoryScenarioRepository } from "./scenario/in-memory-scenario-repository.js";
 import { ScenarioService } from "./scenario/scenario-service.js";
-import { createDemoServer } from "./server.js";
+import { createDemoServer, createLocalDemoServer } from "./server.js";
 
 function testDependencies() {
   const repository = new InMemoryScenarioRepository(createProjectDanubeState());
@@ -33,6 +35,57 @@ function createPhase5ClientDouble() {
     submitReview: vi.fn<Phase5Client["submitReview"]>().mockResolvedValue(undefined),
     prepareDraft: vi.fn<Phase5Client["prepareDraft"]>().mockResolvedValue(undefined)
   } satisfies Phase5Client;
+}
+
+function trustedRequestContext() {
+  return {
+    identity: {
+      actorId: "human-object-id",
+      tenantId: "tenant-stratton-demo",
+      principalType: "HUMAN" as const,
+      roles: [
+        "Stratton.Demo.ProjectDanube.Access",
+        "Stratton.Demo.EvidenceToDecision",
+        "Stratton.Demo.Analyst"
+      ] as const
+    },
+    correlationId: "corr-phase5",
+    traceparent: "00-4bf92f3577b34da6a3ce929d0e0e4736-00aa0ba902b7-01"
+  };
+}
+
+function validAzureConfigEnvironment(): NodeJS.ProcessEnv {
+  return {
+    DEMO_TENANT_ID: "tenant-stratton-demo",
+    AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
+    AZURE_SEARCH_ENDPOINT: "https://search.search.windows.net",
+    AZURE_SEARCH_INDEX_NAME: "governed-evidence",
+    AZURE_BLOB_ACCOUNT_URL: "https://storage.blob.core.windows.net",
+    AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
+    AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
+    AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
+    AZURE_OPENAI_LUNA_ENDPOINT: "https://stratton-luna.openai.azure.com",
+    AZURE_OPENAI_LUNA_RESOURCE_ID:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-luna",
+    AZURE_OPENAI_LUNA_REGION: "swedencentral",
+    AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
+    AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
+    AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1",
+    AZURE_OPENAI_TERRA_ENDPOINT: "https://stratton-terra.openai.azure.com",
+    AZURE_OPENAI_TERRA_RESOURCE_ID:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra",
+    AZURE_OPENAI_TERRA_REGION: "westeurope",
+    AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
+    AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
+    AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE-v1",
+    AZURE_OPENAI_SOL_ENDPOINT: "https://stratton-sol.openai.azure.com",
+    AZURE_OPENAI_SOL_RESOURCE_ID:
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-sol",
+    AZURE_OPENAI_SOL_REGION: "francecentral",
+    AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
+    AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
+    AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1"
+  };
 }
 
 function createAdmittedState() {
@@ -186,8 +239,8 @@ function createDecisionRoomState(includeLegalApproval = false) {
       reviewId: "review-compliance",
       reviewType: "COMPLIANCE",
       decision: "APPROVED",
-      findingId: "finding-customer-concentration",
-      subjectVersion: "finding-customer-concentration-v1"
+      findingId: "finding-permit-transfer",
+      subjectVersion: "finding-permit-transfer-v2"
     }
   ];
 
@@ -199,6 +252,29 @@ function createDecisionRoomState(includeLegalApproval = false) {
       findingId: "finding-permit-transfer",
       subjectVersion: "finding-permit-transfer-v2"
     });
+    const analysisRequestFingerprint =
+      state.latestAnalysisRun?.analysisRequestFingerprint;
+    if (!analysisRequestFingerprint) {
+      throw new Error("analysis fingerprint required");
+    }
+    state.governanceEvents.push(
+      ...Array.from({ length: 12 }, (_, index) => {
+        const ordinal = String(index + 1).padStart(3, "0");
+        return {
+          eventId: `gate-pass-${ordinal}`,
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "SUCCESS" as const,
+          occurredAtIso: `2026-08-06T11:${String(index).padStart(2, "0")}:00.000Z`,
+          correlationId: "corr-gate-suite",
+          detail: `DETERMINISTIC_GATE_PASS:CC002-R2-SEC-GATE-${ordinal}`,
+          metadata: {
+            securityGateId: `CC002-R2-SEC-GATE-${ordinal}`,
+            securityGateEvidenceId: `STRATTON-DEMO-SEC-GATE-${ordinal}-v1`,
+            analysisRequestFingerprint
+          }
+        };
+      })
+    );
   }
 
   return state;
@@ -306,16 +382,16 @@ function createGovernanceRouteState() {
       outcome: "SUCCESS",
       occurredAtIso: "2026-08-06T10:21:00.000Z",
       correlationId: "corr-review-compliance",
-      detail: "COMPLIANCE:APPROVED:finding-customer-concentration",
+      detail: "COMPLIANCE:APPROVED:finding-permit-transfer",
       metadata: {
         phase5RunId: "run-terra-1",
         analysisRequestFingerprint:
           "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
-        findingIds: ["finding-customer-concentration"],
+        findingIds: ["finding-permit-transfer"],
         operationId:
-          "review:COMPLIANCE:finding-customer-concentration:finding-customer-concentration-v1",
+          "review:COMPLIANCE:finding-permit-transfer:finding-permit-transfer-v2",
         payloadHash: "94bdfbbeb922da545c1338c4fe1fc2b1153684f13147dd0f4c91f4fb1e27dcaa",
-        subjectVersion: "finding-customer-concentration-v1"
+        subjectVersion: "finding-permit-transfer-v2"
       }
     },
     {
@@ -364,7 +440,7 @@ function createGovernanceRouteState() {
 
 describe("createDemoServer", () => {
   it("returns the current Project Danube state", async () => {
-    const response = await request(createDemoServer(testDependencies())).get("/api/scenario");
+    const response = await request(createLocalDemoServer(testDependencies())).get("/api/scenario");
 
     expect(response.status).toBe(200);
     expect(response.body.caseId).toBe("project-danube");
@@ -375,7 +451,7 @@ describe("createDemoServer", () => {
     const repository = new InMemoryScenarioRepository(createGovernanceRouteState());
     const phase5Client = createPhase5ClientDouble();
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({ repository, phase5Client }),
         analysisService: new AnalysisService({ repository, phase5Client }),
@@ -399,7 +475,7 @@ describe("createDemoServer", () => {
   });
 
   it("preserves an incoming correlation id", async () => {
-    const response = await request(createDemoServer(testDependencies()))
+    const response = await request(createLocalDemoServer(testDependencies()))
       .get("/api/scenario")
       .set("x-correlation-id", "corr-123");
 
@@ -408,7 +484,7 @@ describe("createDemoServer", () => {
   });
 
   it("returns invalid contract for malformed json with a generated correlation id", async () => {
-    const response = await request(createDemoServer(testDependencies()))
+    const response = await request(createLocalDemoServer(testDependencies()))
       .post("/api/scenario/reset")
       .set("content-type", "application/json")
       .send('{"broken"');
@@ -419,11 +495,25 @@ describe("createDemoServer", () => {
       message: "Request does not satisfy the approved contract.",
       correlationId: response.headers["x-correlation-id"]
     });
+
     expect(response.headers["x-correlation-id"]).toBeTruthy();
   });
 
+  it("maps an invalid reset payload to the INVALID_CONTRACT envelope", async () => {
+    const response = await request(createLocalDemoServer(testDependencies()))
+      .post("/api/scenario/reset")
+      .send({ fixture: "UNKNOWN_FIXTURE" });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      code: "INVALID_CONTRACT",
+      message: "Request does not satisfy the approved contract.",
+      correlationId: response.headers["x-correlation-id"]
+    });
+  });
+
   it("returns an invalid contract envelope for unmatched routes", async () => {
-    const response = await request(createDemoServer(testDependencies()))
+    const response = await request(createLocalDemoServer(testDependencies()))
       .get("/api/not-a-real-route")
       .set("x-correlation-id", "corr-404");
 
@@ -444,7 +534,9 @@ describe("createDemoServer", () => {
         ? { ...evidence, admissionStatus: "ADMITTED" }
         : evidence
     );
+    const mutationSnapshot = await repository.load();
     await repository.save({
+      ...mutationSnapshot,
       state: {
         ...mutatedState,
         stage: "REVIEW",
@@ -469,7 +561,7 @@ describe("createDemoServer", () => {
     });
 
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({
           repository,
@@ -488,7 +580,7 @@ describe("createDemoServer", () => {
   });
 
   it("admits evidence through the workbench endpoint", async () => {
-    const response = await request(createDemoServer(testDependencies()))
+    const response = await request(createLocalDemoServer(testDependencies()))
       .post("/api/evidence/evidence-board-pack/admit")
       .send({ caseId: "project-danube" });
 
@@ -504,7 +596,7 @@ describe("createDemoServer", () => {
     );
   });
 
-  it("rejects non-human finding dispositions", async () => {
+  it("rejects client-controlled authority headers", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const phase5Client = createPhase5ClientDouble();
     const analysisService = new AnalysisService({ repository, phase5Client });
@@ -516,7 +608,7 @@ describe("createDemoServer", () => {
     });
 
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({ repository, phase5Client }),
         analysisService
@@ -530,11 +622,44 @@ describe("createDemoServer", () => {
         editedSummary: "Human adjusted EBITDA challenge kept for committee review."
       });
 
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      code: "POLICY_DENIED",
-      message: "A human analyst must accept, edit, challenge, or reject the finding.",
+      code: "INVALID_CONTRACT",
+      message: "CLIENT_AUTHORITY_HEADERS_NOT_ALLOWED",
       correlationId: response.headers["x-correlation-id"]
+    });
+  });
+
+  it("fails closed when the trusted identity lacks the required application role", async () => {
+    const response = await request(
+      createDemoServer(testDependencies(), {
+        identityResolver: createLocalIdentityResolver({
+          actorId: "local-limited-human",
+          tenantId: "local-stratton-demo",
+          principalType: "HUMAN",
+          roles: [
+            "Stratton.Demo.ProjectDanube.Access",
+            "Stratton.Demo.EvidenceToDecision"
+          ]
+        }),
+        authorizationPolicy: {
+          expectedTenantId: "local-stratton-demo",
+          caseId: "project-danube",
+          caseAccessRole: "Stratton.Demo.ProjectDanube.Access",
+          purposeRole: "Stratton.Demo.EvidenceToDecision"
+        }
+      })
+    )
+      .post("/api/findings/finding-ebitda-quality/disposition")
+      .send({
+        caseId: "project-danube",
+        action: "ACCEPT"
+      });
+
+    expect(response.status).toBe(403);
+    expect(response.body).toMatchObject({
+      code: "POLICY_DENIED",
+      message: "APPLICATION_ROLE_REQUIRED:Stratton.Demo.Analyst"
     });
   });
 
@@ -544,7 +669,7 @@ describe("createDemoServer", () => {
     const reviewService = new ReviewService({ repository, phase5Client });
 
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({ repository, phase5Client }),
         analysisService: new AnalysisService({ repository, phase5Client }),
@@ -552,7 +677,6 @@ describe("createDemoServer", () => {
       })
     )
       .post("/api/findings/finding-permit-transfer/reviews")
-      .set("x-demo-principal-type", "HUMAN")
       .send({
         caseId: "project-danube",
         reviewType: "LEGAL",
@@ -588,7 +712,7 @@ describe("createDemoServer", () => {
     const reviewService = new ReviewService({ repository, phase5Client });
 
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({ repository, phase5Client }),
         analysisService: new AnalysisService({ repository, phase5Client }),
@@ -596,7 +720,6 @@ describe("createDemoServer", () => {
       })
     )
       .post("/api/findings/finding-permit-transfer/reviews")
-      .set("x-demo-principal-type", "HUMAN")
       .send({
         caseId: "project-danube",
         reviewType: "LEGAL",
@@ -620,7 +743,7 @@ describe("createDemoServer", () => {
     const reviewService = new ReviewService({ repository, phase5Client });
 
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({ repository, phase5Client }),
         analysisService: new AnalysisService({ repository, phase5Client }),
@@ -628,13 +751,12 @@ describe("createDemoServer", () => {
       })
     )
       .post("/api/recommendation/prepare")
-      .set("x-demo-principal-type", "HUMAN")
       .send({ caseId: "project-danube" });
 
     expect(response.status).toBe(403);
     expect(response.body).toEqual({
       code: "POLICY_DENIED",
-      message: "LEGAL_REVIEW_REQUIRED",
+      message: "LEGAL_REVIEW_REQUIRED:finding-permit-transfer",
       correlationId: response.headers["x-correlation-id"]
     });
   });
@@ -645,7 +767,7 @@ describe("createDemoServer", () => {
     const reviewService = new ReviewService({ repository, phase5Client });
 
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({ repository, phase5Client }),
         analysisService: new AnalysisService({ repository, phase5Client }),
@@ -653,7 +775,6 @@ describe("createDemoServer", () => {
       })
     )
       .post("/api/recommendation/prepare")
-      .set("x-demo-principal-type", "HUMAN")
       .send({ caseId: "project-danube" });
 
     expect(response.status).toBe(200);
@@ -668,7 +789,7 @@ describe("createDemoServer", () => {
 
   it("maps unknown failures to a stable fail-closed envelope", async () => {
     const response = await request(
-      createDemoServer({
+      createLocalDemoServer({
         scenarioService: {
           get: async () => {
             throw new Error("boom");
@@ -720,30 +841,12 @@ describe("parseDemoConfig", () => {
 describe("parseAzureDemoConfig", () => {
   it("requires exact Azure adapter bindings in AZURE mode", async () => {
     const { parseAzureDemoConfig } = await import("./azure/azure-config.js");
+    const environment = validAzureConfigEnvironment();
+    delete environment.AZURE_OPENAI_SOL_EVIDENCE_ID;
 
-    expect(() =>
-      parseAzureDemoConfig({
-        DEMO_TENANT_ID: "tenant-stratton-demo",
-        AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.example.test",
-        AZURE_SEARCH_ENDPOINT: "https://search.example.test",
-        AZURE_SEARCH_INDEX_NAME: "governed-evidence",
-        AZURE_BLOB_ACCOUNT_URL: "https://storage.example.test",
-        AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
-        AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
-        AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
-        AZURE_OPENAI_LUNA_ENDPOINT: "https://luna.example.test",
-        AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
-        AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
-        AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE",
-        AZURE_OPENAI_TERRA_ENDPOINT: "https://terra.example.test",
-        AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
-        AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
-        AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE",
-        AZURE_OPENAI_SOL_ENDPOINT: "https://sol.example.test",
-        AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
-        AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview"
-      })
-    ).toThrowError(/AZURE_OPENAI_SOL_EVIDENCE_ID/);
+    expect(() => parseAzureDemoConfig(environment)).toThrowError(
+      /AZURE_OPENAI_SOL_EVIDENCE_ID/
+    );
   });
 
   it("ignores unrelated process environment keys while validating approved Azure bindings", async () => {
@@ -751,26 +854,7 @@ describe("parseAzureDemoConfig", () => {
 
     expect(
       parseAzureDemoConfig({
-        DEMO_TENANT_ID: "tenant-stratton-demo",
-        AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.example.test",
-        AZURE_SEARCH_ENDPOINT: "https://search.example.test",
-        AZURE_SEARCH_INDEX_NAME: "governed-evidence",
-        AZURE_BLOB_ACCOUNT_URL: "https://storage.example.test",
-        AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
-        AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
-        AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
-        AZURE_OPENAI_LUNA_ENDPOINT: "https://luna.example.test",
-        AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
-        AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
-        AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE",
-        AZURE_OPENAI_TERRA_ENDPOINT: "https://terra.example.test",
-        AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
-        AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
-        AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE",
-        AZURE_OPENAI_SOL_ENDPOINT: "https://sol.example.test",
-        AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
-        AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
-        AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE",
+        ...validAzureConfigEnvironment(),
         PATH: "C:\\Windows\\System32",
         npm_lifecycle_event: "test",
         GITHUB_ACTIONS: "false"
@@ -778,7 +862,7 @@ describe("parseAzureDemoConfig", () => {
     ).toMatchObject({
       DEMO_TENANT_ID: "tenant-stratton-demo",
       AZURE_SEARCH_INDEX_NAME: "governed-evidence",
-      AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE"
+      AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1"
     });
   });
 });
@@ -788,7 +872,7 @@ describe("createWorkflowClient", () => {
     const { createWorkflowClient } = await import("./server.js");
     const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
     const localClient = createPhase5ClientDouble();
-    const azureClientFactory = vi.fn();
+    const supportingFactory = vi.fn();
 
     const client = createWorkflowClient(
       {
@@ -799,19 +883,26 @@ describe("createWorkflowClient", () => {
       createRedactedLogger({ sink: () => undefined }),
       {
         createLocalPhase5Client: () => localClient,
-        createAzureWorkflowClient: azureClientFactory
+        createAzureSupportingOperations: supportingFactory
       }
     );
 
     expect(client).toBe(localClient);
-    expect(azureClientFactory).not.toHaveBeenCalled();
+    expect(supportingFactory).not.toHaveBeenCalled();
   });
 
-  it("wires AZURE mode through approved Azure adapters instead of the local stub", async () => {
+  it("wires AZURE mode through HTTP Phase 5 authority before Azure supporting operations", async () => {
     const { createWorkflowClient } = await import("./server.js");
     const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
     const localPhase5ClientFactory = vi.fn(() => createPhase5ClientDouble());
-    const azureWorkflowClient = createPhase5ClientDouble();
+    const authorityClient = createPhase5ClientDouble();
+    const governedClient = createPhase5ClientDouble();
+    const supportingOperations = {
+      afterEvidenceAdmitted: vi.fn(),
+      afterAnalysisAccepted: vi.fn(),
+      afterReviewAccepted: vi.fn(),
+      afterDraftAccepted: vi.fn()
+    };
     const adapters = {
       documentIntelligence: { analyseLayout: vi.fn() },
       search: { retrieve: vi.fn() },
@@ -819,55 +910,54 @@ describe("createWorkflowClient", () => {
       blob: { readEvidence: vi.fn(), writeSyntheticEvidence: vi.fn() },
       serviceBus: { publish: vi.fn() }
     };
-    const createAzureWorkflowClient = vi.fn(() => azureWorkflowClient);
+    const createAzureSupportingOperations = vi.fn(() => supportingOperations);
+    const createPhase5AuthorityClient = vi.fn(() => authorityClient);
+    const createGovernedClient = vi.fn(() => governedClient);
 
     const client = createWorkflowClient(
       {
         PORT: 3001,
         DEMO_MODE: "AZURE",
         PHASE5_API_BASE_URL: "https://phase5.example.test",
+        PHASE5_TOKEN_SCOPE: "api://phase5/.default",
+        DEMO_TENANT_ID: "tenant-stratton-demo",
+        TRUSTED_WEB_PROXY_PRINCIPAL_ID: "web-proxy-object-id",
         AZURE_SQL_SERVER_FQDN: "sql.example.test",
         AZURE_SQL_DATABASE_NAME: "stratton"
       },
       createRedactedLogger({ sink: () => undefined }),
       {
         createLocalPhase5Client: localPhase5ClientFactory,
-        parseAzureConfig: () => ({
-          DEMO_TENANT_ID: "tenant-stratton-demo",
-          AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.example.test",
-          AZURE_SEARCH_ENDPOINT: "https://search.example.test",
-          AZURE_SEARCH_INDEX_NAME: "governed-evidence",
-          AZURE_BLOB_ACCOUNT_URL: "https://storage.example.test",
-          AZURE_BLOB_CONTAINER_NAME: "admitted-evidence",
-          AZURE_SERVICE_BUS_NAMESPACE: "stratton.servicebus.windows.net",
-          AZURE_SERVICE_BUS_QUEUE_NAME: "analysis-work",
-          AZURE_OPENAI_LUNA_ENDPOINT: "https://luna.example.test",
-          AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
-          AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
-          AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE",
-          AZURE_OPENAI_TERRA_ENDPOINT: "https://terra.example.test",
-          AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
-          AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
-          AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE",
-          AZURE_OPENAI_SOL_ENDPOINT: "https://sol.example.test",
-          AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
-          AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
-          AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE"
-        }),
+        parseAzureConfig: () =>
+          parseAzureDemoConfig(validAzureConfigEnvironment()),
         createAzureAdapters: () => adapters,
-        createAzureWorkflowClient
+        createAzureSupportingOperations,
+        createPhase5AuthorityClient,
+        createGovernedWorkflowClient: createGovernedClient,
+        getPhase5AccessToken: async () => "phase5-token"
       }
     );
 
-    expect(client).toBe(azureWorkflowClient);
+    expect(client).toBe(governedClient);
     expect(localPhase5ClientFactory).not.toHaveBeenCalled();
-    expect(createAzureWorkflowClient).toHaveBeenCalledWith(
+    expect(createAzureSupportingOperations).toHaveBeenCalledWith(
       expect.objectContaining({
         tenantId: "tenant-stratton-demo",
         caseId: "project-danube",
         ...adapters
       })
     );
+    expect(createPhase5AuthorityClient).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseUrl: "https://phase5.example.test",
+        getAccessToken: expect.any(Function),
+        getRequestContext: expect.any(Function)
+      })
+    );
+    expect(createGovernedClient).toHaveBeenCalledWith({
+      authority: authorityClient,
+      supporting: supportingOperations
+    });
   });
 });
 
@@ -889,10 +979,14 @@ describe("initializeScenarioRepository", () => {
           );
         }
 
-        return { state: structuredClone(storedState) };
+        return {
+          state: structuredClone(storedState),
+          concurrencyToken: { kind: "ROW_VERSION" as const, value: 0 }
+        };
       }),
       save: vi.fn(async () => undefined),
-      reset: vi.fn(async (state: ReturnType<typeof createProjectDanubeState>) => {
+      reset: vi.fn(async () => undefined),
+      initialize: vi.fn(async (state: ReturnType<typeof createProjectDanubeState>) => {
         storedState = structuredClone(state);
       })
     };
@@ -901,7 +995,7 @@ describe("initializeScenarioRepository", () => {
     storedState = structuredClone(persistedState);
     await initializeScenarioRepository(repository);
 
-    expect(repository.reset).toHaveBeenCalledTimes(1);
+    expect(repository.initialize).toHaveBeenCalledTimes(1);
     expect((await repository.load()).state).toEqual(persistedState);
   });
 
@@ -910,14 +1004,18 @@ describe("initializeScenarioRepository", () => {
     const persistedState = createProjectDanubeState();
     persistedState.stage = "ANALYSIS";
     const repository = {
-      load: vi.fn(async () => ({ state: structuredClone(persistedState) })),
+      load: vi.fn(async () => ({
+        state: structuredClone(persistedState),
+        concurrencyToken: { kind: "ROW_VERSION" as const, value: 0 }
+      })),
       save: vi.fn(async () => undefined),
-      reset: vi.fn(async () => undefined)
+      reset: vi.fn(async () => undefined),
+      initialize: vi.fn(async () => undefined)
     };
 
     await initializeScenarioRepository(repository);
 
-    expect(repository.reset).not.toHaveBeenCalled();
+    expect(repository.initialize).not.toHaveBeenCalled();
     expect((await repository.load()).state).toEqual(persistedState);
   });
 });
@@ -929,8 +1027,8 @@ describe("createPhase5Client", () => {
 
     const client = createPhase5Client({
       baseUrl: "https://phase5.example.test",
-      accessToken: "human-token",
-      traceparent: "00-4bf92f3577b34da6a3ce929d0e0e4736-00aa0ba902b7-01",
+      getAccessToken: async () => "managed-identity-token",
+      getRequestContext: trustedRequestContext,
       fetch: fetchMock
     });
 
@@ -945,9 +1043,19 @@ describe("createPhase5Client", () => {
       expect.objectContaining({
         method: "POST",
         headers: expect.objectContaining({
-          authorization: "Bearer human-token",
+          authorization: "Bearer managed-identity-token",
           traceparent: "00-4bf92f3577b34da6a3ce929d0e0e4736-00aa0ba902b7-01",
-          "idempotency-key": "idem-1"
+          "idempotency-key": "idem-1",
+          "x-correlation-id": "corr-phase5",
+          "x-stratton-actor-id": "human-object-id",
+          "x-stratton-tenant-id": "tenant-stratton-demo",
+          "x-stratton-case-id": "project-danube",
+          "x-stratton-purpose": "EVIDENCE_TO_DECISION",
+          "x-stratton-roles": JSON.stringify([
+            "Stratton.Demo.ProjectDanube.Access",
+            "Stratton.Demo.EvidenceToDecision",
+            "Stratton.Demo.Analyst"
+          ])
         }),
         body: JSON.stringify({ caseId: "project-danube" })
       })
@@ -972,7 +1080,8 @@ describe("createPhase5Client", () => {
 
     const client = createPhase5Client({
       baseUrl: "https://phase5.example.test",
-      accessToken: "human-token",
+      getAccessToken: async () => "managed-identity-token",
+      getRequestContext: trustedRequestContext,
       fetch: fetchMock
     });
 
@@ -1001,7 +1110,8 @@ describe("createPhase5Client", () => {
 
     const client = createPhase5Client({
       baseUrl: "https://phase5.example.test",
-      accessToken: "human-token",
+      getAccessToken: async () => "managed-identity-token",
+      getRequestContext: trustedRequestContext,
       fetch: fetchMock
     });
 

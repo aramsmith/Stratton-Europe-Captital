@@ -1,14 +1,20 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { mkdtemp, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
-import os from "node:os";
+import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const tempRoot = await mkdtemp(path.join(os.tmpdir(), "verify-demo-lib-"));
-const { runVerificationSequence } = await import(new URL("./verify-demo-lib.mjs", import.meta.url));
+const tempRoot = path.resolve("scripts", ".verify-demo-test-work");
+await rm(tempRoot, { recursive: true, force: true });
+await mkdir(tempRoot, { recursive: true });
+const { runVerificationSequence, verificationCommands } = await import(
+  new URL("./verify-demo-lib.mjs", import.meta.url)
+);
+let repoSequence = 0;
 
 async function withTempRepo(run) {
-  const repoDir = await mkdtemp(path.join(tempRoot, "repo-"));
+  repoSequence += 1;
+  const repoDir = path.join(tempRoot, `repo-${repoSequence}`);
+  await mkdir(repoDir, { recursive: true });
   await mkdir(path.join(repoDir, "infra"), { recursive: true });
   try {
     await run(repoDir);
@@ -18,6 +24,13 @@ async function withTempRepo(run) {
 }
 
 const silentLogger = { log() {}, error() {} };
+
+test("verification builds shared package outputs before lint, typecheck, and tests", () => {
+  assert.deepEqual(verificationCommands[0], {
+    command: "npm",
+    args: ["run", "build:packages"]
+  });
+});
 
 test("verification removes generated infra/main.json after a successful build step", async () => {
   await withTempRepo(async (repoDir) => {
@@ -100,4 +113,8 @@ test("verification fails closed when infra/main.json already exists and leaves i
 
     assert.equal(await readFile(outputFile, "utf8"), "user-owned-content");
   });
+});
+
+test.after(async () => {
+  await rm(tempRoot, { recursive: true, force: true });
 });

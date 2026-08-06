@@ -4,3 +4,7 @@ Page 42: Strategic options summary
 - Management normalization assumes customer rebates of EUR 4.2 million, while the ERP control total is EUR 5.1 million for the same customer set.
 - EUR 4.2 million of recurring operating costs are also presented as one-off EBITDA adjustments.
 - Committee note: do not treat this pack as an investment decision.
+
+Page 43: Approved downside thresholds
+- The approved downside threshold for top-three customer rebate exposure is 12%.
+- The current top-three customer rebate exposure is 18% based on the admitted FY25 control population.

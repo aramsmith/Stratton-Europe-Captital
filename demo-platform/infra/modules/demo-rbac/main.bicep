@@ -2,7 +2,9 @@ targetScope = 'resourceGroup'
 
 param containerRegistryId string
 param blobStorageAccountResourceId string
+param blobContainerName string
 param serviceBusNamespaceResourceId string
+param serviceBusQueueName string
 param searchServiceResourceId string
 param documentIntelligenceAccountResourceId string
 param openAiAccountResourceIds array
@@ -45,6 +47,7 @@ module bffBlobDataContributor './role-assignments/storage-account-role-assignmen
   scope: resourceGroup(split(blobStorageAccountResourceId, '/')[2], split(blobStorageAccountResourceId, '/')[4])
   params: {
     storageAccountName: split(blobStorageAccountResourceId, '/')[8]
+    containerName: blobContainerName
     principalId: bffPrincipalId
     roleDefinitionGuid: roleDefinitionGuids.storageBlobDataContributor
   }
@@ -55,6 +58,7 @@ module bffServiceBusDataSender './role-assignments/service-bus-role-assignment.b
   scope: resourceGroup(split(serviceBusNamespaceResourceId, '/')[2], split(serviceBusNamespaceResourceId, '/')[4])
   params: {
     namespaceName: split(serviceBusNamespaceResourceId, '/')[8]
+    queueName: serviceBusQueueName
     principalId: bffPrincipalId
     roleDefinitionGuid: roleDefinitionGuids.serviceBusDataSender
   }

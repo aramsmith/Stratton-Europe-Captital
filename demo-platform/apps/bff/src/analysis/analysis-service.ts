@@ -278,8 +278,9 @@ function runLocalGovernedScenarioAnalysisAdapter(input: {
 
   const ebitdaSummary = "Reported adjusted EBITDA may be overstated by EUR 4.2–5.1 million.";
   const customerSummary =
-    "Customer rebate concentration remains above the approved downside threshold.";
-  const permitSummary = "Permit transfer requires controlled completion steps before close.";
+    "Top-three customer rebate exposure is 18%, above the approved 12% downside threshold.";
+  const permitSummary =
+    "Permit CZ-EP-2049 requires Form T-17 filing and regulator written acknowledgement before closing.";
 
   const buildFinding = (finding: Omit<AnalysisFinding, "analysisRunId" | "analysisRequestFingerprint" | "authorityGateRole">): AnalysisFinding => ({
     ...finding,
@@ -330,15 +331,9 @@ function runLocalGovernedScenarioAnalysisAdapter(input: {
       textHistory: buildHistory(customerSummary),
       citations: [
         {
-          citationId: "citation-erp-812-886",
-          evidenceId: "evidence-erp-rebates",
-          locator: "rows 812-886",
-          accessible: true
-        },
-        {
-          citationId: "citation-board-pack-42",
+          citationId: "citation-board-pack-43",
           evidenceId: "evidence-board-pack",
-          locator: "page 42",
+          locator: "page 43",
           accessible: true
         }
       ]
@@ -360,7 +355,7 @@ function runLocalGovernedScenarioAnalysisAdapter(input: {
           {
             citationId: "citation-permit-2049",
             evidenceId: "evidence-environmental-permit",
-            locator: "Permit reference: CZ-EP-2049",
+            locator: "Transfer condition, steps 1-2",
             accessible: true
           }
         ]
@@ -431,7 +426,14 @@ function assertEvidenceAdmitted(
 ): void {
   const evidenceById = new Map(state.evidence.map((evidence) => [evidence.evidenceId, evidence] as const));
   const hasMissingEvidence = requiredEvidenceIds.some(
-    (evidenceId) => evidenceById.get(evidenceId)?.admissionStatus !== "ADMITTED"
+    (evidenceId) => {
+      const evidence = evidenceById.get(evidenceId);
+      return (
+        evidence?.admissionStatus !== "ADMITTED" ||
+        (evidence.licenceStatus !== "APPROVED" &&
+          evidence.licenceStatus !== "NOT_REQUIRED")
+      );
+    }
   );
 
   if (hasMissingEvidence) {
@@ -455,7 +457,9 @@ function assertFindingCitationsAdmitted(state: ScenarioState, findings: readonly
   const hasMissingCitation = findings.some((finding) =>
     finding.citations.some(
       (citation) =>
-        citation.accessible !== true || evidenceById.get(citation.evidenceId)?.admissionStatus !== "ADMITTED"
+        citation.accessible !== true ||
+        evidenceById.get(citation.evidenceId)?.admissionStatus !== "ADMITTED" ||
+        !hasValidLicence(evidenceById.get(citation.evidenceId))
     )
   );
 
@@ -466,6 +470,16 @@ function assertFindingCitationsAdmitted(state: ScenarioState, findings: readonly
       "Every finding citation must resolve to admitted evidence before it can be shown in the workbench."
     );
   }
+
+}
+
+function hasValidLicence(
+  evidence: ScenarioState["evidence"][number] | undefined
+): boolean {
+  return (
+    evidence?.licenceStatus === "APPROVED" ||
+    evidence?.licenceStatus === "NOT_REQUIRED"
+  );
 }
 
 function hasGovernedFindingHistory(state: ScenarioState): boolean {

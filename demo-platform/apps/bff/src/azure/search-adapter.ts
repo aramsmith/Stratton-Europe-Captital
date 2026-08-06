@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { SearchClient } from "@azure/search-documents";
 import { z } from "zod";
 import { DemoHttpError } from "../errors.js";
@@ -57,25 +58,49 @@ export function createSearchAdapter(options: CreateSearchAdapterOptions) {
       top?: number;
       callerFilter?: string;
     }): Promise<readonly SearchEvidenceChunk[]> {
-      if (input.callerFilter && input.callerFilter.trim().length > 0) {
-        throw new DemoHttpError(400, "INVALID_CONTRACT", "CALLER_FILTER_NOT_ALLOWED");
-      }
+      assertCallerFilterAbsent(input.callerFilter);
 
       const filter = buildAdmittedEvidenceFilter(input.tenantId, input.caseId);
       const top = Math.max(1, Math.min(input.top ?? 5, 20));
+      const queryHash = createHash("sha256").update(input.query).digest("hex");
 
       logger.info("azure.search.request", {
         tenantId: input.tenantId,
         caseId: input.caseId,
-        query: input.query,
-        filter,
+        queryHash,
+        queryLength: input.query.length,
+        queryType: "TEXT",
+        filterType: "SERVER_GOVERNED_ADMITTED_EVIDENCE",
         top
       });
 
-      const results = await client.search(input.query, { filter, top });
-      return results.map((result) => searchDocumentSchema.parse(result));
+      try {
+        const results = await client.search(input.query, { filter, top });
+        return results.map((result) => searchDocumentSchema.parse(result));
+      } catch {
+        logger.error("azure.search.failure", {
+          tenantId: input.tenantId,
+          caseId: input.caseId,
+          queryHash,
+          queryLength: input.query.length,
+          queryType: "TEXT",
+          errorClass: "SEARCH_REQUEST_FAILED"
+        });
+        throw new DemoHttpError(
+          503,
+          "DEPENDENCY_UNAVAILABLE",
+          "SEARCH_REQUEST_UNAVAILABLE"
+        );
+      }
+
     }
   };
+}
+
+export function assertCallerFilterAbsent(callerFilter?: string): void {
+  if (callerFilter && callerFilter.trim().length > 0) {
+    throw new DemoHttpError(400, "INVALID_CONTRACT", "CALLER_FILTER_NOT_ALLOWED");
+  }
 }
 
 export function buildAdmittedEvidenceFilter(tenantId: string, caseId: string): string {

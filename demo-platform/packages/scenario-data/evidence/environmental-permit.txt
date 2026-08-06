@@ -4,3 +4,7 @@ Permit reference: CZ-EP-2049
 Scope: facility operations and waste handling
 Status: valid through 2027-12-31
 Schedule 3: no material non-compliance observed in the current reporting period
+
+Transfer condition, steps 1-2
+1. The transferee must file Form T-17 with the Czech environmental regulator.
+2. Written regulator acknowledgement must be received before closing.

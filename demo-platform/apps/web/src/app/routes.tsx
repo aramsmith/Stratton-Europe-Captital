@@ -5,6 +5,7 @@ import type {
   FindingDispositionRequest,
   RecommendationPreparationRequest,
   ReviewSubmissionRequest,
+  SecurityGateRunRequest,
   ScenarioState
 } from "@stratton/contracts";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -49,6 +50,7 @@ interface AppRoutesProps {
     findingId: string;
   }) => Promise<void> | void) | undefined;
   readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
+  readonly onRunSecurityGateSuite?: ((input: SecurityGateRunRequest) => Promise<void> | void) | undefined;
 }
 
 export function AppRoutes({
@@ -57,7 +59,8 @@ export function AppRoutes({
   onRunAnalysis,
   onRecordDisposition,
   onSubmitReview,
-  onPrepareRecommendation
+  onPrepareRecommendation,
+  onRunSecurityGateSuite
 }: AppRoutesProps) {
   return (
     <Routes>
@@ -83,7 +86,15 @@ export function AppRoutes({
           />
         }
       />
-      <Route path="/governance" element={<GovernanceRoute scenario={scenario} />} />
+      <Route
+        path="/governance"
+        element={
+          <GovernanceRoute
+            scenario={scenario}
+            onRunSecurityGateSuite={onRunSecurityGateSuite}
+          />
+        }
+      />
       <Route path="*" element={<Navigate to="/workbench" replace />} />
     </Routes>
   );
@@ -119,6 +130,11 @@ function DecisionRoomRoute({
   );
 }
 
-function GovernanceRoute({ scenario }: AppRoutesProps) {
-  return <GovernanceConsolePage scenario={scenario} />;
+function GovernanceRoute({ scenario, onRunSecurityGateSuite }: AppRoutesProps) {
+  return (
+    <GovernanceConsolePage
+      scenario={scenario}
+      onRunSecurityGateSuite={onRunSecurityGateSuite}
+    />
+  );
 }

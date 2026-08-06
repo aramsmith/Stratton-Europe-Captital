@@ -1,4 +1,5 @@
 import type { DemoApiError } from "@stratton/contracts";
+import { z } from "zod";
 
 export type DemoErrorCode = DemoApiError["code"];
 
@@ -45,6 +46,15 @@ export function mapDemoError(error: unknown, correlationId: string): MappedDemoE
   }
 
   if (isBodyParserParseError(error)) {
+    return {
+      status: 400,
+      code: "INVALID_CONTRACT",
+      message: defaultMessages.INVALID_CONTRACT,
+      correlationId
+    };
+  }
+
+  if (error instanceof z.ZodError) {
     return {
       status: 400,
       code: "INVALID_CONTRACT",

@@ -172,6 +172,32 @@ describe("AnalysisService", () => {
       "finding-customer-concentration",
       "finding-permit-transfer"
     ]);
+    expect(
+      savedState.findings.find(
+        (finding) => finding.findingId === "finding-customer-concentration"
+      )
+    ).toMatchObject({
+      summary:
+        "Top-three customer rebate exposure is 18%, above the approved 12% downside threshold.",
+      citations: [
+        expect.objectContaining({
+          evidenceId: "evidence-board-pack",
+          locator: "page 43"
+        })
+      ]
+    });
+    expect(
+      savedState.findings.find((finding) => finding.findingId === "finding-permit-transfer")
+    ).toMatchObject({
+      summary:
+        "Permit CZ-EP-2049 requires Form T-17 filing and regulator written acknowledgement before closing.",
+      citations: [
+        expect.objectContaining({
+          evidenceId: "evidence-environmental-permit",
+          locator: "Transfer condition, steps 1-2"
+        })
+      ]
+    });
     expect(savedState.governanceEvents).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

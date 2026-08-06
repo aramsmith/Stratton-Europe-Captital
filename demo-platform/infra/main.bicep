@@ -75,6 +75,9 @@ param lunaOpenAiEndpoint string
 @description('Existing Luna Azure OpenAI account resource ID used for RBAC.')
 param lunaOpenAiAccountResourceId string
 
+@description('Approved EU Azure region for Luna.')
+param lunaOpenAiRegion string
+
 @description('Approved Luna deployment identifier.')
 param lunaOpenAiDeploymentId string
 
@@ -89,6 +92,9 @@ param terraOpenAiEndpoint string
 
 @description('Existing Terra Azure OpenAI account resource ID used for RBAC.')
 param terraOpenAiAccountResourceId string
+
+@description('Approved EU Azure region for Terra.')
+param terraOpenAiRegion string
 
 @description('Approved Terra deployment identifier.')
 param terraOpenAiDeploymentId string
@@ -105,6 +111,9 @@ param solOpenAiEndpoint string
 @description('Existing Sol Azure OpenAI account resource ID used for RBAC.')
 param solOpenAiAccountResourceId string
 
+@description('Approved EU Azure region for Sol.')
+param solOpenAiRegion string
+
 @description('Approved Sol deployment identifier.')
 param solOpenAiDeploymentId string
 
@@ -116,6 +125,9 @@ param solOpenAiEvidenceId string
 
 @description('Explicit Phase 5 base URL required by the current BFF configuration contract.')
 param phase5ApiBaseUrl string
+
+@description('Managed-identity OAuth scope for the immutable Phase 5 API authority.')
+param phase5TokenScope string
 
 @description('Repository path within the approved container registry for the web image.')
 param webImageRepository string
@@ -172,6 +184,7 @@ module demoApps './modules/demo-apps/main.bicep' = {
     webContainerPort: webContainerPort
     bffContainerPort: bffContainerPort
     phase5ApiBaseUrl: phase5ApiBaseUrl
+    phase5TokenScope: phase5TokenScope
     sqlServerFqdn: sqlServerFqdn
     sqlDatabaseName: sqlDatabaseName
     blobAccountUrl: blobAccountUrl
@@ -182,14 +195,20 @@ module demoApps './modules/demo-apps/main.bicep' = {
     searchIndexName: searchIndexName
     documentIntelligenceEndpoint: documentIntelligenceEndpoint
     lunaOpenAiEndpoint: lunaOpenAiEndpoint
+    lunaOpenAiResourceId: lunaOpenAiAccountResourceId
+    lunaOpenAiRegion: lunaOpenAiRegion
     lunaOpenAiDeploymentId: lunaOpenAiDeploymentId
     lunaOpenAiApiVersion: lunaOpenAiApiVersion
     lunaOpenAiEvidenceId: lunaOpenAiEvidenceId
     terraOpenAiEndpoint: terraOpenAiEndpoint
+    terraOpenAiResourceId: terraOpenAiAccountResourceId
+    terraOpenAiRegion: terraOpenAiRegion
     terraOpenAiDeploymentId: terraOpenAiDeploymentId
     terraOpenAiApiVersion: terraOpenAiApiVersion
     terraOpenAiEvidenceId: terraOpenAiEvidenceId
     solOpenAiEndpoint: solOpenAiEndpoint
+    solOpenAiResourceId: solOpenAiAccountResourceId
+    solOpenAiRegion: solOpenAiRegion
     solOpenAiDeploymentId: solOpenAiDeploymentId
     solOpenAiApiVersion: solOpenAiApiVersion
     solOpenAiEvidenceId: solOpenAiEvidenceId
@@ -220,7 +239,9 @@ module demoRbac './modules/demo-rbac/main.bicep' = {
   params: {
     containerRegistryId: containerRegistryId
     blobStorageAccountResourceId: blobStorageAccountResourceId
+    blobContainerName: blobContainerName
     serviceBusNamespaceResourceId: serviceBusNamespaceResourceId
+    serviceBusQueueName: serviceBusQueueName
     searchServiceResourceId: searchServiceResourceId
     documentIntelligenceAccountResourceId: documentIntelligenceAccountResourceId
     openAiAccountResourceIds: openAiAccountResourceIds
@@ -243,4 +264,3 @@ output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSq
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes
 output roleAssignmentIds array = concat(demoRbac.outputs.roleAssignmentIds, demoRbac.outputs.openAiRoleAssignmentIds)
-

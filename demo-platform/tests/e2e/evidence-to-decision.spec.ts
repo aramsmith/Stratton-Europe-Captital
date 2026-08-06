@@ -31,6 +31,12 @@ async function runHappyPathAnalysis(page: Page): Promise<void> {
 }
 
 async function prepareCommitteePack(page: Page): Promise<void> {
+  await page.getByRole("link", { name: "Governance & Assurance Console" }).click();
+  await page.getByRole("tab", { name: "Security & audit" }).click();
+  await page.getByRole("button", { name: "Run security gate checks" }).click();
+  await expect(page.getByText("CC002-R2-SEC-GATE-012")).toBeVisible();
+  await expect(page.getByRole("cell", { name: "PASS" })).toHaveCount(12);
+
   await page.getByRole("link", { name: "Investment Decision Room" }).click();
   await expect(page.getByRole("heading", { name: "Investment Decision Room" })).toBeVisible();
 
@@ -97,9 +103,6 @@ async function driveScenarioToReviewReadyViaApi(request: APIRequestContext): Pro
       data: {
         caseId: "project-danube",
         action: "ACCEPT"
-      },
-      headers: {
-        "x-demo-principal-type": "HUMAN"
       }
     });
     expect(response.ok()).toBeTruthy();
@@ -108,6 +111,10 @@ async function driveScenarioToReviewReadyViaApi(request: APIRequestContext): Pro
 
 async function driveScenarioToCommitteePreparationViaApi(request: APIRequestContext): Promise<void> {
   await driveScenarioToReviewReadyViaApi(request);
+  const gateResponse = await request.post("/api/governance/security-gates/run", {
+    data: { caseId: "project-danube" }
+  });
+  expect(gateResponse.ok()).toBeTruthy();
 
   const scenarioResponse = await request.get("/api/scenario");
   const scenario = await scenarioResponse.json();
@@ -121,7 +128,7 @@ async function driveScenarioToCommitteePreparationViaApi(request: APIRequestCont
   for (const [reviewType, findingId] of [
     ["DEAL", "finding-ebitda-quality"],
     ["LEGAL", "finding-permit-transfer"],
-    ["COMPLIANCE", "finding-ebitda-quality"]
+    ["COMPLIANCE", "finding-permit-transfer"]
   ] as const) {
     const response = await request.post(`/api/findings/${findingId}/reviews`, {
       data: {
@@ -130,19 +137,13 @@ async function driveScenarioToCommitteePreparationViaApi(request: APIRequestCont
         decision: "APPROVED",
         rationale: `${reviewType} review confirms committee-pack readiness.`,
         subjectVersion: versionByFindingId.get(findingId)
-      },
-      headers: {
-        "x-demo-principal-type": "HUMAN"
       }
     });
     expect(response.ok()).toBeTruthy();
   }
 
   const prepareResponse = await request.post("/api/recommendation/prepare", {
-    data: { caseId: "project-danube" },
-    headers: {
-      "x-demo-principal-type": "HUMAN"
-    }
+    data: { caseId: "project-danube" }
   });
   expect(prepareResponse.ok()).toBeTruthy();
 }
@@ -204,7 +205,7 @@ test.describe("Stratton evidence-to-decision demo", () => {
     await expect(ebitdaFinding.getByRole("button", { name: "Open citation page 42" })).toBeFocused();
     await page.keyboard.press("Enter");
     const citationPanel = page.getByRole("region", { name: "Citation detail" });
-    await expect(citationPanel.getByText("page 42")).toBeVisible();
+    await expect(citationPanel.getByText("page 42", { exact: true })).toBeVisible();
     await expect(citationPanel.getByText("FY25 Board Pack")).toBeVisible();
     await pressKeyTimes(page, "Tab", 3);
     await expect(ebitdaFinding.getByRole("button", { name: "Accept finding" })).toBeFocused();

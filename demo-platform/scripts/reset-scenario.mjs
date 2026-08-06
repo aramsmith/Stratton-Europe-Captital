@@ -15,7 +15,9 @@ const { values } = parseArgs({
 
 const fixtureMap = {
   baseline: undefined,
-  "prompt-injection": "PROMPT_INJECTION"
+  "prompt-injection": "PROMPT_INJECTION",
+  "expired-licence": "EXPIRED_LICENCE",
+  "missing-licence": "MISSING_LICENCE"
 };
 
 const fixtureKey = String(values.fixture).toLowerCase();

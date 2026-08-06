@@ -1,22 +1,25 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import type {
   AnalysisFinding,
+  EvidenceDomain,
   GovernanceEvent,
   GovernanceView,
   ReviewType,
   ScenarioState
 } from "@stratton/contracts";
+import { getEligibleReviewTypesForDomains } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
 import type { ScenarioRepository } from "../scenario/scenario-repository.js";
+import {
+  buildSecurityGateStatuses,
+  getSecurityGateReadinessBlocker,
+  runDeterministicSecurityGateChecks
+} from "./security-gates.js";
 
 interface GovernanceServiceDependencies {
   readonly repository: ScenarioRepository;
-}
-
-interface SecurityGateDefinition {
-  readonly gateId: string;
-  readonly name: string;
-  readonly failClosedOutcome: string;
+  readonly createId?: () => string;
+  readonly now?: () => string;
 }
 
 const previewSections = [
@@ -26,73 +29,14 @@ const previewSections = [
   "Security & audit"
 ] as const;
 
-const requiredReviewTypes = ["DEAL", "LEGAL", "COMPLIANCE"] as const satisfies readonly ReviewType[];
-
-const securityGateDefinitions: readonly SecurityGateDefinition[] = [
-  {
-    gateId: "CC002-R2-SEC-GATE-001",
-    name: "Direct prompt injection",
-    failClosedOutcome: "Block promotion and deny affected output"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-002",
-    name: "Indirect prompt injection",
-    failClosedOutcome: "Block promotion and quarantine evidence"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-003",
-    name: "Instruction/evidence boundary escape",
-    failClosedOutcome: "Block promotion and stop output"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-004",
-    name: "Citation spoofing",
-    failClosedOutcome: "Block promotion and material narrative"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-005",
-    name: "Poisoned retrieval index",
-    failClosedOutcome: "Quarantine index, stop retrieval and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-006",
-    name: "Cross-case retrieval",
-    failClosedOutcome: "Deny query, alert and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-007",
-    name: "Caller filter override",
-    failClosedOutcome: "Deny query and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-008",
-    name: "Revoked/expired evidence",
-    failClosedOutcome: "Deny admission and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-009",
-    name: "Unavailable deployment",
-    failClosedOutcome: "Queue or controlled failure and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-010",
-    name: "Deployment/model/version mismatch",
-    failClosedOutcome: "Deny, alert and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-011",
-    name: "Attempted silent fallback",
-    failClosedOutcome: "Deny substitution, alert and block promotion"
-  },
-  {
-    gateId: "CC002-R2-SEC-GATE-012",
-    name: "Attempted autonomous authority",
-    failClosedOutcome: "Deny state transition, stop for human and block promotion"
-  }
-] as const;
-
 export class GovernanceService {
-  public constructor(private readonly dependencies: GovernanceServiceDependencies) {}
+  private readonly createId: () => string;
+  private readonly now: () => string;
+
+  public constructor(private readonly dependencies: GovernanceServiceDependencies) {
+    this.createId = dependencies.createId ?? randomUUID;
+    this.now = dependencies.now ?? (() => new Date().toISOString());
+  }
 
   public async getView(caseId: string): Promise<GovernanceView> {
     const snapshot = await this.dependencies.repository.load();
@@ -109,6 +53,47 @@ export class GovernanceService {
       securityGates: buildSecurityGates(state),
       auditExport: buildAuditExport(state, latestRecommendationSubjectVersion)
     };
+  }
+
+  public async recordSecurityGateEvidence(input: {
+    readonly caseId: string;
+    readonly correlationId: string;
+  }): Promise<ScenarioState> {
+    const snapshot = await this.dependencies.repository.load();
+    const state = snapshot.state;
+    assertCaseId(state, input.caseId);
+    const latestAnalysisRun = state.latestAnalysisRun;
+    if (!latestAnalysisRun) {
+      throw new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_RUN_REQUIRED");
+    }
+    if (!getSecurityGateReadinessBlocker(state)) {
+      return state;
+    }
+
+    const nextState: ScenarioState = {
+      ...state,
+      governanceEvents: [
+        ...state.governanceEvents,
+        ...(await runDeterministicSecurityGateChecks(state)).map((gate) => ({
+          eventId: this.createId(),
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "SUCCESS" as const,
+          occurredAtIso: this.now(),
+          correlationId: input.correlationId,
+          detail: `DETERMINISTIC_GATE_PASS:${gate.gateId}`,
+          metadata: {
+            securityGateId: gate.gateId,
+            securityGateEvidenceId: gate.evidenceId,
+            analysisRequestFingerprint: latestAnalysisRun.analysisRequestFingerprint
+          }
+        }))
+      ]
+    };
+    await this.dependencies.repository.save({
+      ...snapshot,
+      state: nextState
+    });
+    return nextState;
   }
 }
 
@@ -257,33 +242,7 @@ function buildModelRoutes(
 function buildSecurityGates(
   state: ScenarioState
 ): GovernanceView["securityGates"] {
-  const latestGateEvents = new Map<string, GovernanceEvent>();
-
-  for (const event of state.governanceEvents) {
-    if (event.type === "SECURITY_GATE_EVIDENCE_RECORDED" && event.metadata?.securityGateId) {
-      latestGateEvents.set(event.metadata.securityGateId, event);
-    }
-  }
-
-  return securityGateDefinitions.map((definition) => {
-    const gateEvent = latestGateEvents.get(definition.gateId);
-    if (!gateEvent) {
-      return {
-        ...definition,
-        outcome: "NOT_RUN"
-      };
-    }
-
-    return {
-      ...definition,
-      outcome: mapGateOutcome(gateEvent),
-      ...(gateEvent.metadata?.securityGateEvidenceId
-        ? {
-            evidenceId: gateEvent.metadata.securityGateEvidenceId
-          }
-        : {})
-    };
-  });
+  return buildSecurityGateStatuses(state);
 }
 
 function buildAuditExport(
@@ -297,24 +256,31 @@ function buildAuditExport(
   }
 
   if (state.latestAnalysisRun) {
-    const missingReviews = requiredReviewTypes.filter((reviewType) => {
-      const review = getLatestReview(state.reviews, reviewType);
-      const reviewedFinding = review
-        ? state.findings.find((finding) => finding.findingId === review.findingId)
-        : undefined;
-
-      return !(
-        review?.decision === "APPROVED" &&
-        reviewedFinding?.status === "ACCEPTED" &&
-        review.subjectVersion === getLatestFindingVersion(reviewedFinding)
+    const missingReviews = state.findings
+      .filter(
+        (finding) =>
+          finding.status === "ACCEPTED" &&
+          (finding.materiality === "HIGH" || finding.materiality === "CRITICAL")
+      )
+      .flatMap((finding) =>
+        getEligibleReviewTypesForFinding(state, finding)
+          .filter((reviewType) => {
+            const review = getLatestReview(
+              state.reviews,
+              reviewType,
+              finding.findingId
+            );
+            return !(
+              review?.decision === "APPROVED" &&
+              review.subjectVersion === getLatestFindingVersion(finding)
+            );
+          })
+          .map((reviewType) => `${formatReviewType(reviewType)}:${finding.findingId}`)
       );
-    });
 
     if (missingReviews.length > 0) {
       missingItems.push(
-        `Specialist approvals are not current for ${missingReviews
-          .map(formatReviewType)
-          .join(", ")}.`
+        `Specialist approvals are not current for ${missingReviews.join(", ")}.`
       );
     }
   }
@@ -324,6 +290,11 @@ function buildAuditExport(
   );
   if (!hasCurrentRecommendation) {
     missingItems.push("Committee-pack draft evidence has not been prepared.");
+  }
+
+  const securityGateBlocker = getSecurityGateReadinessBlocker(state);
+  if (securityGateBlocker) {
+    missingItems.push(`Mandatory security gates are not ready: ${securityGateBlocker}.`);
   }
 
   return {
@@ -510,11 +481,7 @@ function buildAssuranceStatus(
   return "PENDING";
 }
 
-function mapGateOutcome(event: GovernanceEvent): GovernanceView["securityGates"][number]["outcome"] {
-  return event.outcome === "ALLOW" || event.outcome === "SUCCESS" ? "PASS" : "FAIL";
-}
-
-function buildRecommendationSubjectVersion(state: ScenarioState): string {
+export function buildRecommendationSubjectVersion(state: ScenarioState): string {
   const materialFindings = state.findings
     .filter(isMaterialFinding)
     .map((finding) => ({
@@ -522,15 +489,27 @@ function buildRecommendationSubjectVersion(state: ScenarioState): string {
       status: finding.status,
       latestVersionId: getLatestFindingVersion(finding)
     }));
-  const reviews = requiredReviewTypes.map((reviewType) => {
-    const latestReview = getLatestReview(state.reviews, reviewType);
-    return {
-      reviewType,
-      decision: latestReview?.decision ?? "PENDING",
-      findingId: latestReview?.findingId ?? "unassigned",
-      subjectVersion: latestReview?.subjectVersion ?? "missing"
-    };
-  });
+  const reviews = state.findings
+    .filter(
+      (finding) =>
+        finding.status === "ACCEPTED" &&
+        (finding.materiality === "HIGH" || finding.materiality === "CRITICAL")
+    )
+    .flatMap((finding) =>
+      getEligibleReviewTypesForFinding(state, finding).map((reviewType) => {
+        const latestReview = getLatestReview(
+          state.reviews,
+          reviewType,
+          finding.findingId
+        );
+        return {
+          reviewType,
+          decision: latestReview?.decision ?? "PENDING",
+          findingId: finding.findingId,
+          subjectVersion: latestReview?.subjectVersion ?? "missing"
+        };
+      })
+    );
 
   return createHash("sha256")
     .update(
@@ -545,16 +524,37 @@ function buildRecommendationSubjectVersion(state: ScenarioState): string {
 
 function getLatestReview(
   reviews: readonly ScenarioState["reviews"][number][],
-  reviewType: ReviewType
+  reviewType: ReviewType,
+  findingId?: string
 ): ScenarioState["reviews"][number] | undefined {
   for (let index = reviews.length - 1; index >= 0; index -= 1) {
     const review = reviews[index];
-    if (review?.reviewType === reviewType) {
+    if (
+      review?.reviewType === reviewType &&
+      (!findingId || review.findingId === findingId)
+    ) {
       return review;
     }
   }
 
   return undefined;
+}
+
+function getEligibleReviewTypesForFinding(
+  state: ScenarioState,
+  finding: AnalysisFinding
+): ReviewType[] {
+  const evidenceById = new Map(
+    state.evidence.map((evidence) => [evidence.evidenceId, evidence] as const)
+  );
+  const domains = [
+    ...new Set(
+      finding.citations
+        .map((citation) => evidenceById.get(citation.evidenceId)?.domain)
+        .filter((domain): domain is EvidenceDomain => !!domain)
+    )
+  ];
+  return getEligibleReviewTypesForDomains(domains);
 }
 
 function getLatestFindingVersion(finding: AnalysisFinding): string {

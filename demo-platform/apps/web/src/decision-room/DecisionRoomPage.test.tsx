@@ -13,7 +13,10 @@ import { useState, type Dispatch, type SetStateAction } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { DecisionRoomPage } from "./DecisionRoomPage.js";
 
-function createDecisionRoomScenario(includeLegalApproval = false): ScenarioState {
+function createDecisionRoomScenario(
+  includeLegalApproval = false,
+  includeSecurityGatePasses = includeLegalApproval
+): ScenarioState {
   const scenario = createProjectDanubeState();
   scenario.stage = "REVIEW";
   scenario.evidence = scenario.evidence.map((evidence) => ({
@@ -165,8 +168,8 @@ function createDecisionRoomScenario(includeLegalApproval = false): ScenarioState
       reviewId: "review-compliance",
       reviewType: "COMPLIANCE",
       decision: "APPROVED",
-      findingId: "finding-customer-concentration",
-      subjectVersion: "finding-customer-concentration-v1"
+      findingId: "finding-permit-transfer",
+      subjectVersion: "finding-permit-transfer-v2"
     }
   ];
 
@@ -178,6 +181,32 @@ function createDecisionRoomScenario(includeLegalApproval = false): ScenarioState
       findingId: "finding-permit-transfer",
       subjectVersion: "finding-permit-transfer-v2"
     });
+  }
+
+  if (includeSecurityGatePasses) {
+    const analysisRequestFingerprint =
+      scenario.latestAnalysisRun?.analysisRequestFingerprint;
+    if (!analysisRequestFingerprint) {
+      throw new Error("analysis fingerprint required");
+    }
+    scenario.governanceEvents.push(
+      ...Array.from({ length: 12 }, (_, index) => {
+        const ordinal = String(index + 1).padStart(3, "0");
+        return {
+          eventId: `gate-pass-${ordinal}`,
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "SUCCESS" as const,
+          occurredAtIso: `2026-08-06T11:${String(index).padStart(2, "0")}:00.000Z`,
+          correlationId: "corr-gate-suite",
+          detail: `DETERMINISTIC_GATE_PASS:CC002-R2-SEC-GATE-${ordinal}`,
+          metadata: {
+            securityGateId: `CC002-R2-SEC-GATE-${ordinal}`,
+            securityGateEvidenceId: `STRATTON-DEMO-SEC-GATE-${ordinal}-v1`,
+            analysisRequestFingerprint
+          }
+        };
+      })
+    );
   }
 
   scenario.governanceEvents.push({
@@ -319,13 +348,17 @@ describe("DecisionRoomPage", () => {
       )
     ).toBeVisible();
     expect(screen.getAllByText("Legal review required").length).toBeGreaterThan(0);
+    expect(screen.getByText("Mandatory security gates require current PASS evidence")).toBeVisible();
+    expect(screen.getAllByText("Permit transfer readiness").length).toBeGreaterThan(0);
     expect(screen.getAllByText(/fy25-board-pack\.txt/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/environmental-permit\.txt/i).length).toBeGreaterThan(0);
     expect(screen.getByRole("button", { name: "Submit to committee" })).toBeDisabled();
   });
 
   it("enables committee-pack preparation after the missing Legal approval is recorded", async () => {
-    const { prepareRecommendation, submitReview } = renderDecisionRoom();
+    const { prepareRecommendation, submitReview } = renderDecisionRoom(
+      createDecisionRoomScenario(false, true)
+    );
 
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "Approve Legal review" }));

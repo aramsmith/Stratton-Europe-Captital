@@ -1,6 +1,7 @@
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AnalysisTaskClass, ModelRoute } from "@stratton/contracts";
 import { AzureOpenAI } from "openai";
+import type { ResponseCreateParamsNonStreaming } from "openai/resources/responses/responses.js";
 import { z } from "zod";
 import { routeTask } from "../analysis/model-router.js";
 import { DemoHttpError } from "../errors.js";
@@ -13,6 +14,8 @@ import { createManagedIdentityCredential } from "./managed-identity.js";
 const approvedDeploymentSchema = z
   .object({
     endpoint: z.string().url(),
+    resourceId: z.string().trim().min(1),
+    region: z.string().trim().min(1),
     deploymentId: z.string().trim().min(1),
     apiVersion: z.string().trim().min(1),
     evidenceId: z.string().trim().min(1),
@@ -90,9 +93,12 @@ const openAiStructuredOutputJsonSchema = {
 export type ApprovedDeployment = z.infer<typeof approvedDeploymentSchema>;
 export type OpenAiEvidenceChunk = z.infer<typeof evidenceChunkSchema>;
 export type GovernedAnalysisOutput = z.infer<typeof analysisOutputSchema>;
+type OpenAiResponseCreateParams = ResponseCreateParamsNonStreaming;
 
 export interface OpenAiResponsesClient {
-  create(request: Record<string, unknown>): Promise<{ outputText?: string | null }>;
+  create(
+    request: OpenAiResponseCreateParams
+  ): Promise<{ outputText?: string | null }>;
 }
 
 export interface OpenAiAdapter {
@@ -108,6 +114,8 @@ export interface OpenAiAdapter {
     route: ModelRoute;
     deploymentId: string;
     geography: "EU_DATA_ZONE";
+    resourceId: string;
+    region: string;
     evidenceId: string;
     output: GovernedAnalysisOutput;
   }>;
@@ -157,24 +165,27 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
         promptBody,
         deploymentId: deployment.deploymentId,
         geography: deployment.geography,
+        resourceId: deployment.resourceId,
+        region: deployment.region,
         evidenceId: deployment.evidenceId
       });
 
       try {
-        const response = openAiResponseSchema.parse(
-          await client.create({
-            model: deployment.deploymentId,
-            store: false,
-            input: promptBody,
-            text: {
-              format: {
-                type: "json_schema",
-                name: "governed_analysis_result",
-                strict: true,
-                schema: openAiStructuredOutputJsonSchema
-              }
+        const request: OpenAiResponseCreateParams = {
+          model: deployment.deploymentId,
+          store: false,
+          input: promptBody,
+          text: {
+            format: {
+              type: "json_schema",
+              name: "governed_analysis_result",
+              strict: true,
+              schema: openAiStructuredOutputJsonSchema
             }
-          })
+          }
+        };
+        const response = openAiResponseSchema.parse(
+          await client.create(request)
         );
         const parsedOutput = analysisOutputSchema.parse(JSON.parse(response.outputText) as unknown);
 
@@ -188,6 +199,8 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
           route: input.route,
           deploymentId: deployment.deploymentId,
           geography: deployment.geography,
+          resourceId: deployment.resourceId,
+          region: deployment.region,
           evidenceId: deployment.evidenceId,
           output: parsedOutput
         };
@@ -199,7 +212,10 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
         logger.error("azure.openai.failure", {
           route: input.route,
           analysisRequestFingerprint: input.analysisRequestFingerprint,
-          error: error instanceof Error ? { name: error.name, message: error.message } : error
+          errorClass:
+            error instanceof SyntaxError || error instanceof z.ZodError
+              ? "MODEL_OUTPUT_INVALID"
+              : "PROVIDER_REQUEST_FAILED"
         });
 
         throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", `${input.route}_ROUTE_UNAVAILABLE`);
@@ -228,7 +244,7 @@ function createManagedIdentityOpenAiClientFactory(
 
     return {
       async create(request) {
-        const response = await client.responses.create(request as never);
+        const response = await client.responses.create(request);
         return {
           outputText: response.output_text ?? null
         };

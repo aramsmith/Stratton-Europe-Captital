@@ -15,7 +15,7 @@ Describe 'Stratton demo infrastructure' {
 
     $script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
     $script:mainBicepPath = Join-Path $script:repoRoot 'infra\main.bicep'
-    $script:compiledTemplatePath = Join-Path ([System.IO.Path]::GetTempPath()) ("stratton-demo-infra-{0}.json" -f [System.Guid]::NewGuid().ToString('N'))
+    $script:compiledTemplatePath = Join-Path $script:repoRoot (".stratton-demo-infra-{0}.json" -f [System.Guid]::NewGuid().ToString('N'))
     $script:parameterNamesRequiringExplicitValues = @(
       'tenantId'
       'location'
@@ -39,20 +39,24 @@ Describe 'Stratton demo infrastructure' {
       'documentIntelligenceAccountResourceId'
       'lunaOpenAiEndpoint'
       'lunaOpenAiAccountResourceId'
+      'lunaOpenAiRegion'
       'lunaOpenAiDeploymentId'
       'lunaOpenAiApiVersion'
       'lunaOpenAiEvidenceId'
       'terraOpenAiEndpoint'
       'terraOpenAiAccountResourceId'
+      'terraOpenAiRegion'
       'terraOpenAiDeploymentId'
       'terraOpenAiApiVersion'
       'terraOpenAiEvidenceId'
       'solOpenAiEndpoint'
       'solOpenAiAccountResourceId'
+      'solOpenAiRegion'
       'solOpenAiDeploymentId'
       'solOpenAiApiVersion'
       'solOpenAiEvidenceId'
       'phase5ApiBaseUrl'
+      'phase5TokenScope'
       'webImageRepository'
       'webImageDigest'
       'bffImageRepository'
@@ -224,8 +228,22 @@ Describe 'Stratton demo infrastructure' {
     $script:templateJson | Should -Not -Match ([Regex]::Escape('9b7fa17d-e63e-47b0-bb0a-15c516ac86ec'))
     $script:template.outputs.sqlBootstrapSql | Should -Not -BeNullOrEmpty
     $script:templateJson | Should -Match 'CREATE USER'
-    $script:templateJson | Should -Match 'ALTER ROLE db_datareader ADD MEMBER'
-    $script:templateJson | Should -Match 'ALTER ROLE db_datawriter ADD MEMBER'
+    $script:templateJson | Should -Not -Match 'ALTER ROLE db_datareader ADD MEMBER'
+    $script:templateJson | Should -Not -Match 'ALTER ROLE db_datawriter ADD MEMBER'
+    $script:templateJson | Should -Not -Match 'GRANT EXECUTE TO'
+    $script:templateJson | Should -Match 'GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection'
+  }
+
+  It 'scopes Blob and Service Bus data-plane roles to the approved container and queue' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $script:templateJson | Should -Match 'Microsoft.Storage/storageAccounts/blobServices/containers'
+    $script:templateJson | Should -Match 'containerName'
+    $script:templateJson | Should -Match 'serviceBusQueueName'
+    $script:templateJson | Should -Match 'Microsoft.ServiceBus/namespaces/queues'
   }
 
   It 'routes diagnostics to the supplied workspace' {
@@ -270,6 +288,29 @@ Describe 'Stratton demo infrastructure' {
         Should -Match 'AllowedAudiences'
     }
   }
+
+  It 'wires the production web proxy to the private BFF and forwards trusted identity settings' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $apps = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps')
+    $webApp = $apps | Where-Object { $_.name -match "webAppName" }
+    $bffApp = $apps | Where-Object { $_.name -match "bffAppName" }
+    $webEnvText = $webApp.properties.template.containers[0].env | ConvertTo-Json -Depth 20
+    $bffEnvText = $bffApp.properties.template.containers[0].env | ConvertTo-Json -Depth 20
+
+    $webEnvText | Should -Match 'BFF_INTERNAL_BASE_URL'
+    $webEnvText | Should -Match 'BFF_TOKEN_SCOPE'
+    $webEnvText | Should -Match 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
+    $bffEnvText | Should -Match 'PHASE5_TOKEN_SCOPE'
+    $bffEnvText | Should -Match 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
+    $bffEnvText | Should -Match 'DEMO_TENANT_ID'
+    $bffEnvText | Should -Match 'AZURE_OPENAI_LUNA_RESOURCE_ID'
+    $bffEnvText | Should -Match 'AZURE_OPENAI_TERRA_REGION'
+    $bffEnvText | Should -Match 'AZURE_OPENAI_SOL_RESOURCE_ID'
+    $script:templateJson | Should -Match 'https://'
+    $script:templateJson | Should -Match 'bffApp.*ingress.*fqdn'
+  }
 }
-
-

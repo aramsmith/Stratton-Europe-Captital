@@ -73,7 +73,7 @@ export function ReviewChecklist({
   onSubmitReview
 }: ReviewChecklistProps) {
   const styles = useStyles();
-  const [pendingReviewType, setPendingReviewType] = useState<ReviewType | null>(null);
+  const [pendingReviewKey, setPendingReviewKey] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [rationales, setRationales] = useState<Record<ReviewType, string>>({
     DEAL: "Deal review confirms the accepted claim set is ready for committee discussion.",
@@ -88,7 +88,8 @@ export function ReviewChecklist({
     }
 
     setError(null);
-    setPendingReviewType(item.reviewType);
+    const reviewKey = `${item.reviewType}:${item.findingId}`;
+    setPendingReviewKey(reviewKey);
 
     try {
       await onSubmitReview({
@@ -102,7 +103,7 @@ export function ReviewChecklist({
     } catch (caughtError) {
       setError(toErrorMessage(caughtError));
     } finally {
-      setPendingReviewType(null);
+      setPendingReviewKey(null);
     }
   };
 
@@ -119,10 +120,11 @@ export function ReviewChecklist({
           const label = formatReviewType(item.reviewType);
           const isApproved = item.status === "APPROVED";
           const isBlocked = item.status === "BLOCKED";
-          const isPending = pendingReviewType === item.reviewType;
+          const reviewKey = `${item.reviewType}:${item.findingId}`;
+          const isPending = pendingReviewKey === reviewKey;
 
           return (
-            <div className={styles.reviewRow} key={item.reviewType}>
+            <div className={styles.reviewRow} key={reviewKey}>
               <Body1Strong>{label} review</Body1Strong>
               <div className={styles.badgeRow}>
                 <StatusBadge label={item.status} status={item.status} />

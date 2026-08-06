@@ -186,15 +186,19 @@ describe("AzureSqlScenarioRepository", () => {
       caseId: "project-danube"
     });
 
-    await repository.reset(state);
+    await repository.reset({
+      state,
+      concurrencyToken: { kind: "ROW_VERSION", value: 0 }
+    });
 
     expect(executorDouble.calls).toHaveLength(1);
     expect(executorDouble.calls[0]?.statement).toContain("sp_set_session_context");
-    expect(executorDouble.calls[0]?.statement).toContain("MERGE dbo.demo_scenario_projection");
+    expect(executorDouble.calls[0]?.statement).toContain("UPDATE dbo.demo_scenario_projection");
     expect(executorDouble.calls[0]?.parameters).toEqual(
       expect.arrayContaining([
         { name: "tenantId", type: "nvarchar", value: "tenant-stratton-demo" },
-        { name: "caseId", type: "nvarchar", value: "project-danube" }
+        { name: "caseId", type: "nvarchar", value: "project-danube" },
+        { name: "expectedVersion", type: "bigint", value: 0 }
       ])
     );
   });

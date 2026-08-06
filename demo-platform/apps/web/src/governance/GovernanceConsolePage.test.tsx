@@ -5,7 +5,7 @@ import {
 } from "@fluentui/react-components";
 import type { GovernanceView, ScenarioState } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { GovernanceConsolePage } from "./GovernanceConsolePage.js";
 
@@ -186,24 +186,32 @@ function createGovernanceView(): GovernanceView {
       }
     ],
     auditExport: {
-      status: "READY",
-      missingItems: [],
+      status: "BLOCKED",
+      missingItems: [
+        "Mandatory security gates are not ready: SECURITY_GATE_CC002-R2-SEC-GATE-001_NOT_RUN."
+      ],
       previewSections: ["Lineage", "Policy decisions", "Model routes", "Security & audit"]
     }
-  } as unknown as GovernanceView;
+  };
 }
 
 function renderPage(
   loadGovernanceView = vi.fn().mockResolvedValue(createGovernanceView()),
-  scenario = createScenario()
+  scenario = createScenario(),
+  runSecurityGateSuite = vi.fn().mockResolvedValue(undefined)
 ) {
   return {
     ...render(
       <FluentProvider theme={webLightTheme}>
-        <GovernanceConsolePage scenario={scenario} loadGovernanceView={loadGovernanceView} />
+        <GovernanceConsolePage
+          scenario={scenario}
+          loadGovernanceView={loadGovernanceView}
+          onRunSecurityGateSuite={runSecurityGateSuite}
+        />
       </FluentProvider>
     ),
-    loadGovernanceView
+    loadGovernanceView,
+    runSecurityGateSuite
   };
 }
 
@@ -229,6 +237,7 @@ describe("GovernanceConsolePage", () => {
     expect(screen.getAllByText("Internal Audit verdict: Not issued").length).toBeGreaterThan(0);
     expect(screen.getByText("CC002-R2-SEC-GATE-012")).toBeVisible();
     expect(screen.getAllByText("Audit export preview").length).toBeGreaterThan(0);
+    expect(screen.getByText(/Mandatory security gates are not ready/)).toBeVisible();
     expect(screen.queryByRole("button", { name: /verdict|investment/i })).not.toBeInTheDocument();
   });
 
@@ -237,7 +246,19 @@ describe("GovernanceConsolePage", () => {
 
     expect(await screen.findByRole("alert")).toHaveTextContent("Governance API unavailable");
     expect(screen.queryByRole("tab", { name: "Policy decisions" })).not.toBeInTheDocument();
-    expect(screen.getByText("Internal Audit verdict: Not issued")).toBeVisible();
+    expect(screen.getAllByText("Internal Audit verdict: Not issued").length).toBeGreaterThan(0);
+  });
+
+  it("offers a dedicated deterministic gate-evidence action without issuing an audit verdict", async () => {
+    const { runSecurityGateSuite } = renderPage();
+
+    fireEvent.click(await screen.findByRole("tab", { name: "Security & audit" }));
+    fireEvent.click(screen.getByRole("button", { name: "Run security gate checks" }));
+
+    await waitFor(() => {
+      expect(runSecurityGateSuite).toHaveBeenCalledWith({ caseId: "project-danube" });
+    });
+    expect(screen.getAllByText("Internal Audit verdict: Not issued").length).toBeGreaterThan(0);
   });
 
   it("distinguishes current assurance from historical-only lineage", async () => {

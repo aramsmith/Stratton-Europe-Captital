@@ -29,10 +29,45 @@
           "accessible": true
         }
       ]
+    },
+    {
+      "findingId": "finding-customer-concentration",
+      "title": "Customer concentration",
+      "summary": "Top-three customer rebate exposure is 18%, above the approved 12% downside threshold.",
+      "materiality": "MEDIUM",
+      "status": "DRAFT",
+      "route": "TERRA",
+      "citations": [
+        {
+          "citationId": "citation-board-pack-43",
+          "evidenceId": "evidence-board-pack",
+          "locator": "page 43",
+          "accessible": true
+        }
+      ]
+    },
+    {
+      "findingId": "finding-permit-transfer",
+      "title": "Permit transfer readiness",
+      "summary": "Permit CZ-EP-2049 requires Form T-17 filing and regulator written acknowledgement before closing.",
+      "materiality": "HIGH",
+      "status": "DRAFT",
+      "route": "TERRA",
+      "citations": [
+        {
+          "citationId": "citation-permit-2049",
+          "evidenceId": "evidence-environmental-permit",
+          "locator": "Transfer condition, steps 1-2",
+          "accessible": true
+        }
+      ]
     }
   ],
   "reviewGates": [
     "admit all cited evidence before promoting the finding",
+    "require APPROVED or NOT_REQUIRED licence state for every admitted citation",
+    "obtain current finding-specific specialist approvals",
+    "record current PASS evidence for all twelve mandatory security gates",
     "keep the finding in draft until a human decision is recorded"
   ]
 }

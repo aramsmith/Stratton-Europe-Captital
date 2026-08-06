@@ -2,6 +2,10 @@ import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import type { AnalysisTaskClass, DemoApiError, ModelRoute } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
+import {
+  getTrustedRequestContext,
+  type TrustedRequestContext
+} from "../identity/request-context.js";
 
 const phase5ErrorSchema = z
   .object({
@@ -28,49 +32,67 @@ const analysisAcceptedSchema = z
 type ReviewType = "DEAL" | "LEGAL" | "COMPLIANCE";
 type ReviewDecision = "APPROVED" | "REJECTED";
 
+export interface AdmitEvidenceWorkflowInput {
+  readonly caseId: string;
+  readonly evidenceId: string;
+  readonly idempotencyKey: string;
+  readonly correlationId?: string;
+}
+
+export interface RequestAnalysisWorkflowInput {
+  readonly caseId: string;
+  readonly evidenceIds: string[];
+  readonly analystQuestion: string;
+  readonly route?: ModelRoute;
+  readonly taskClass?: AnalysisTaskClass;
+  readonly modelDeploymentId: string;
+  readonly promptTemplateVersion: string;
+  readonly analysisRequestFingerprint: string;
+  readonly idempotencyKey: string;
+  readonly correlationId?: string;
+}
+
+export interface SubmitReviewWorkflowInput {
+  readonly caseId: string;
+  readonly analysisRunId: string;
+  readonly reviewType: ReviewType;
+  readonly decision: ReviewDecision;
+  readonly rationale: string;
+  readonly subjectVersion: string;
+  readonly idempotencyKey: string;
+  readonly correlationId?: string;
+}
+
+export interface PrepareDraftWorkflowInput {
+  readonly caseId: string;
+  readonly analysisRunId: string;
+  readonly subjectVersion: string;
+  readonly idempotencyKey: string;
+  readonly correlationId?: string;
+}
+
 export interface Phase5Client {
-  admitEvidence(input: {
-    caseId: string;
-    evidenceId: string;
-    idempotencyKey: string;
-    correlationId?: string;
-  }): Promise<void>;
-  requestAnalysis(input: {
-    caseId: string;
-    evidenceIds: string[];
-    analystQuestion: string;
-    route?: ModelRoute;
-    taskClass?: AnalysisTaskClass;
-    modelDeploymentId: string;
-    promptTemplateVersion: string;
-    analysisRequestFingerprint: string;
-    idempotencyKey: string;
-    correlationId?: string;
-  }): Promise<{ analysisRunId: string; status: "QUEUED" }>;
-  submitReview(input: {
-    caseId: string;
-    analysisRunId: string;
-    reviewType: ReviewType;
-    decision: ReviewDecision;
-    rationale: string;
-    subjectVersion: string;
-    idempotencyKey: string;
-    correlationId?: string;
-  }): Promise<void>;
-  prepareDraft(input: {
-    caseId: string;
-    analysisRunId: string;
-    subjectVersion: string;
-    idempotencyKey: string;
-    correlationId?: string;
-  }): Promise<void>;
+  admitEvidence(input: AdmitEvidenceWorkflowInput): Promise<void>;
+  requestAnalysis(
+    input: RequestAnalysisWorkflowInput
+  ): Promise<{ analysisRunId: string; status: "QUEUED" }>;
+  submitReview(input: SubmitReviewWorkflowInput): Promise<void>;
+  prepareDraft(input: PrepareDraftWorkflowInput): Promise<void>;
+}
+
+export interface WorkflowSupportingOperations {
+  afterEvidenceAdmitted(input: AdmitEvidenceWorkflowInput): Promise<void>;
+  afterAnalysisAccepted(
+    input: RequestAnalysisWorkflowInput & { readonly analysisRunId: string }
+  ): Promise<void>;
+  afterReviewAccepted(input: SubmitReviewWorkflowInput): Promise<void>;
+  afterDraftAccepted(input: PrepareDraftWorkflowInput): Promise<void>;
 }
 
 export interface Phase5ClientDependencies {
   readonly baseUrl: string;
-  readonly accessToken?: string;
-  readonly correlationId?: string;
-  readonly traceparent?: string;
+  readonly getAccessToken: () => Promise<string>;
+  readonly getRequestContext?: () => TrustedRequestContext;
   readonly fetch?: typeof fetch;
 }
 
@@ -156,14 +178,20 @@ async function send(
   dependencies: Phase5ClientDependencies,
   request: VoidSendRequest | TypedSendRequest<z.ZodTypeAny>
 ): Promise<unknown> {
-  const accessToken = dependencies.accessToken?.trim();
+  const accessToken = (await dependencies.getAccessToken()).trim();
   if (!accessToken) {
     throw new DemoHttpError(401, "UNAUTHENTICATED");
   }
+  const requestContext = (dependencies.getRequestContext ?? getTrustedRequestContext)();
 
   const response = await fetchImpl(`${dependencies.baseUrl}${request.path}`, {
     method: "POST",
-    headers: createHeaders(dependencies, accessToken, request.idempotencyKey),
+    headers: createHeaders(
+      requestContext,
+      accessToken,
+      request.idempotencyKey,
+      request.body
+    ),
     body: JSON.stringify(request.body)
   });
 
@@ -189,23 +217,27 @@ async function send(
 }
 
 function createHeaders(
-  dependencies: Phase5ClientDependencies,
+  requestContext: TrustedRequestContext,
   accessToken: string,
-  idempotencyKey: string
+  idempotencyKey: string,
+  body: Record<string, unknown>
 ): Record<string, string> {
+  const caseId = typeof body.caseId === "string" ? body.caseId : "project-danube";
   const headers: Record<string, string> = {
     authorization: `Bearer ${accessToken}`,
     "content-type": "application/json",
     accept: "application/json",
-    "idempotency-key": idempotencyKey.trim() || randomUUID()
+    "idempotency-key": idempotencyKey.trim() || randomUUID(),
+    "x-correlation-id": requestContext.correlationId,
+    "x-stratton-actor-id": requestContext.identity.actorId,
+    "x-stratton-tenant-id": requestContext.identity.tenantId,
+    "x-stratton-case-id": caseId,
+    "x-stratton-purpose": "EVIDENCE_TO_DECISION",
+    "x-stratton-roles": JSON.stringify(requestContext.identity.roles)
   };
 
-  if (dependencies.traceparent) {
-    headers.traceparent = dependencies.traceparent;
-  }
-
-  if (dependencies.correlationId) {
-    headers["x-correlation-id"] = dependencies.correlationId;
+  if (requestContext.traceparent) {
+    headers.traceparent = requestContext.traceparent;
   }
 
   return headers;

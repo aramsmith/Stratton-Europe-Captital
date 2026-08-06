@@ -16,6 +16,7 @@ import type {
   FindingDispositionRequest,
   RecommendationPreparationRequest,
   ReviewSubmissionRequest,
+  SecurityGateRunRequest,
   ScenarioState
 } from "@stratton/contracts";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -145,6 +146,14 @@ export function App() {
     [client]
   );
 
+  const handleRunSecurityGateSuite = useCallback(
+    async (input: SecurityGateRunRequest) => {
+      const nextScenario = await client.runSecurityGateSuite(input);
+      setScenario(nextScenario);
+    },
+    [client]
+  );
+
   return (
     <FluentProvider theme={webLightTheme}>
       <title>Stratton demo platform</title>
@@ -183,6 +192,7 @@ export function App() {
               onAdmitEvidence={handleAdmitEvidence}
               onRecordDisposition={handleRecordDisposition}
               onRunAnalysis={handleRunAnalysis}
+              onRunSecurityGateSuite={handleRunSecurityGateSuite}
               onSubmitReview={handleSubmitReview}
             />
           </StrattonShell>

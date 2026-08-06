@@ -1,6 +1,8 @@
 import {
   Body1,
+  Button,
   Card,
+  Caption1,
   Spinner,
   Tab,
   TabList,
@@ -9,7 +11,11 @@ import {
   shorthands,
   tokens
 } from "@fluentui/react-components";
-import type { GovernanceView, ScenarioState } from "@stratton/contracts";
+import type {
+  GovernanceView,
+  ScenarioState,
+  SecurityGateRunRequest
+} from "@stratton/contracts";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DemoClient } from "../api/demoClient.js";
 import { AuditExportPanel } from "./AuditExportPanel.js";
@@ -23,6 +29,9 @@ type GovernanceTab = "lineage" | "policy" | "routes" | "security";
 interface GovernanceConsolePageProps {
   readonly scenario: ScenarioState;
   readonly loadGovernanceView?: ((signal?: AbortSignal) => Promise<GovernanceView>) | undefined;
+  readonly onRunSecurityGateSuite?: (
+    (input: SecurityGateRunRequest) => Promise<void> | void
+  ) | undefined;
 }
 
 const useStyles = makeStyles({
@@ -48,7 +57,8 @@ const useStyles = makeStyles({
 
 export function GovernanceConsolePage({
   scenario,
-  loadGovernanceView
+  loadGovernanceView,
+  onRunSecurityGateSuite
 }: GovernanceConsolePageProps) {
   const styles = useStyles();
   const client = useMemo(() => new DemoClient(), []);
@@ -56,6 +66,8 @@ export function GovernanceConsolePage({
   const [view, setView] = useState<GovernanceView | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gateRunError, setGateRunError] = useState<string | null>(null);
+  const [isGateRunPending, setIsGateRunPending] = useState(false);
 
   const refreshKey = [
     scenario.stage,
@@ -96,6 +108,21 @@ export function GovernanceConsolePage({
       controller.abort();
     };
   }, [loadView, refreshKey]);
+
+  const runSecurityGateSuite = async () => {
+    if (!onRunSecurityGateSuite) {
+      return;
+    }
+    setGateRunError(null);
+    setIsGateRunPending(true);
+    try {
+      await onRunSecurityGateSuite({ caseId: scenario.caseId });
+    } catch (caughtError) {
+      setGateRunError(toErrorMessage(caughtError));
+    } finally {
+      setIsGateRunPending(false);
+    }
+  };
 
   return (
     <div className={styles.layout}>
@@ -188,6 +215,22 @@ export function GovernanceConsolePage({
               className={styles.panel}
               role="tabpanel"
             >
+              <Card className={styles.card}>
+                <Body1>
+                  Run the deterministic Project Danube security checks to create dedicated,
+                  version-bound evidence for all twelve mandatory gates.
+                </Body1>
+                <Button
+                  appearance="primary"
+                  disabled={!onRunSecurityGateSuite || isGateRunPending}
+                  onClick={() => void runSecurityGateSuite()}
+                >
+                  {isGateRunPending ? "Running security gate checks..." : "Run security gate checks"}
+                </Button>
+                {gateRunError ? (
+                  <Caption1 role="alert">{gateRunError}</Caption1>
+                ) : null}
+              </Card>
               <SecurityGateMatrix securityGates={view.securityGates} />
               <AuditExportPanel auditExport={view.auditExport} />
             </section>

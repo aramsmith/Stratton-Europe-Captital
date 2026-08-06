@@ -9,10 +9,15 @@ import {
   tokens
 } from "@fluentui/react-components";
 import type {
+  EvidenceDomain,
   RecommendationPreparationRequest,
   ReviewSubmissionRequest,
   ReviewType,
   ScenarioState
+} from "@stratton/contracts";
+import {
+  getEligibleReviewTypesForDomains,
+  mandatorySecurityGateBindings
 } from "@stratton/contracts";
 import { AuditTimeline } from "./AuditTimeline.js";
 import { MaterialClaimsTable } from "./MaterialClaimsTable.js";
@@ -90,7 +95,11 @@ export function DecisionRoomPage({
     totalCitationCount === 0
       ? "0%"
       : `${Math.round((linkedCitationCount / totalCitationCount) * 100)}%`;
-  const openConditions = buildOpenConditions(materialFindings, reviewItems);
+  const openConditions = buildOpenConditions(
+    scenario,
+    materialFindings,
+    reviewItems
+  );
   const openChallenges = openConditions.length;
   const isReady = openConditions.length === 0;
 
@@ -157,48 +166,62 @@ function buildReviewChecklistItems(
   scenario: ScenarioState,
   evidenceById: ReadonlyMap<string, ScenarioState["evidence"][number]>
 ): ReviewChecklistItem[] {
-  return (["DEAL", "LEGAL", "COMPLIANCE"] as const satisfies readonly ReviewType[]).map(
-    (reviewType) => {
-      const existingReview = getLatestReview(scenario, reviewType);
-      const reviewedFinding = existingReview
-        ? scenario.findings.find((candidate) => candidate.findingId === existingReview.findingId)
-        : undefined;
-      const hasCurrentApprovedReview =
-        !!existingReview && !!reviewedFinding && isCurrentReview(reviewedFinding, existingReview);
-      const hasCurrentRejectedReview =
-        existingReview?.decision === "REJECTED" &&
-        reviewedFinding?.status === "ACCEPTED" &&
-        existingReview.subjectVersion === getLatestFindingVersion(reviewedFinding);
-      const finding =
-        hasCurrentApprovedReview || hasCurrentRejectedReview
-          ? reviewedFinding
-          : pickFindingForReviewType(reviewType, scenario, evidenceById);
-      const status = hasCurrentApprovedReview
-        ? existingReview.decision
-        : hasCurrentRejectedReview
-          ? "REJECTED"
-          : finding
-            ? "PENDING"
-            : "BLOCKED";
+  return scenario.findings
+    .filter(
+      (finding) =>
+        finding.materiality === "HIGH" || finding.materiality === "CRITICAL"
+    )
+    .flatMap((finding) => {
+      const domains = [
+        ...new Set(
+          finding.citations
+            .map((citation) => evidenceById.get(citation.evidenceId)?.domain)
+            .filter((domain): domain is EvidenceDomain => !!domain)
+        )
+      ];
+      return getEligibleReviewTypesForDomains(domains).map((reviewType) => {
+        const existingReview = getLatestReview(
+          scenario,
+          reviewType,
+          finding.findingId
+        );
+        const hasCurrentApprovedReview =
+          !!existingReview && isCurrentReview(finding, existingReview);
+        const hasCurrentRejectedReview =
+          existingReview?.decision === "REJECTED" &&
+          finding.status === "ACCEPTED" &&
+          existingReview.subjectVersion === getLatestFindingVersion(finding);
+        const status =
+          finding.status !== "ACCEPTED"
+            ? "BLOCKED"
+            : hasCurrentApprovedReview
+              ? "APPROVED"
+              : hasCurrentRejectedReview
+                ? "REJECTED"
+                : "PENDING";
 
-      return {
-        reviewType,
-        findingId: finding?.findingId ?? null,
-        subjectVersion: finding ? getLatestFindingVersion(finding) : null,
-        findingTitle: finding?.title ?? "No accepted eligible finding is ready for review",
-        status
-      };
-    }
-  );
+        return {
+          reviewType,
+          findingId: finding.findingId,
+          subjectVersion: getLatestFindingVersion(finding),
+          findingTitle: finding.title,
+          status
+        };
+      });
+    });
 }
 
 function getLatestReview(
   scenario: ScenarioState,
-  reviewType: ReviewType
+  reviewType: ReviewType,
+  findingId: string
 ): ScenarioState["reviews"][number] | undefined {
   for (let index = scenario.reviews.length - 1; index >= 0; index -= 1) {
     const review = scenario.reviews[index];
-    if (review?.reviewType === reviewType) {
+    if (
+      review?.reviewType === reviewType &&
+      review.findingId === findingId
+    ) {
       return review;
     }
   }
@@ -206,28 +229,8 @@ function getLatestReview(
   return undefined;
 }
 
-function pickFindingForReviewType(
-  reviewType: ReviewType,
-  scenario: ScenarioState,
-  evidenceById: ReadonlyMap<string, ScenarioState["evidence"][number]>
-): ScenarioState["findings"][number] | undefined {
-  const preferredDomains: Readonly<Record<ReviewType, readonly string[]>> = {
-    DEAL: ["FINANCIAL", "COMMERCIAL", "OPERATIONAL"],
-    LEGAL: ["LEGAL"],
-    COMPLIANCE: ["ESG", "LEGAL", "OPERATIONAL", "FINANCIAL", "COMMERCIAL"]
-  };
-  return scenario.findings.find(
-    (finding) =>
-      finding.status === "ACCEPTED" &&
-      finding.citations.some((citation) =>
-        preferredDomains[reviewType].includes(
-          evidenceById.get(citation.evidenceId)?.domain ?? "FINANCIAL"
-        )
-      )
-  );
-}
-
 function buildOpenConditions(
+  scenario: ScenarioState,
   materialFindings: readonly ScenarioState["findings"][number][],
   reviewItems: readonly ReviewChecklistItem[]
 ): string[] {
@@ -241,10 +244,40 @@ function buildOpenConditions(
 
   return [
     ...conditions,
+    ...(hasCurrentSecurityGatePassEvidence(scenario)
+      ? []
+      : ["Mandatory security gates require current PASS evidence"]),
     ...materialFindings
       .filter((finding) => finding.status !== "ACCEPTED")
       .map((finding) => `${finding.title} must be accepted`)
   ];
+}
+
+function hasCurrentSecurityGatePassEvidence(scenario: ScenarioState): boolean {
+  const fingerprint = scenario.latestAnalysisRun?.analysisRequestFingerprint;
+  if (!fingerprint) {
+    return false;
+  }
+  const latestByGate = new Map<
+    string,
+    ScenarioState["governanceEvents"][number]
+  >();
+  for (const event of scenario.governanceEvents) {
+    if (
+      event.type === "SECURITY_GATE_EVIDENCE_RECORDED" &&
+      event.metadata?.securityGateId
+    ) {
+      latestByGate.set(event.metadata.securityGateId, event);
+    }
+  }
+  return mandatorySecurityGateBindings.every((binding) => {
+    const event = latestByGate.get(binding.gateId);
+    return (
+      event?.outcome === "SUCCESS" &&
+      event.metadata?.securityGateEvidenceId === binding.evidenceId &&
+      event.metadata.analysisRequestFingerprint === fingerprint
+    );
+  });
 }
 
 function formatReviewType(reviewType: ReviewType): string {

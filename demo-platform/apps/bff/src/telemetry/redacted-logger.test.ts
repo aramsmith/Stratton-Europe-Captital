@@ -16,7 +16,8 @@ describe("redact", () => {
           clientSecret: "secret-value",
           locator: "page 42"
         }
-      ]
+      ],
+      parserFailure: new Error("raw completion fragment")
     };
 
     expect(redact(payload)).toEqual({
@@ -32,7 +33,8 @@ describe("redact", () => {
           clientSecret: "[REDACTED]",
           locator: "page 42"
         }
-      ]
+      ],
+      parserFailure: "[REDACTED_ERROR]"
     });
   });
 });

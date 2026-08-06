@@ -14,7 +14,11 @@ export class ScenarioService {
 
   public async reset(fixture: DemoScenarioFixture = "BASELINE"): Promise<ScenarioState> {
     const state = createScenarioFixtureState(fixture);
-    await this.repository.reset(state);
+    const snapshot = await this.repository.load();
+    await this.repository.reset({
+      ...snapshot,
+      state
+    });
     return state;
   }
 }

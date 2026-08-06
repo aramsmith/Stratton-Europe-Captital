@@ -53,7 +53,10 @@ function createClient() {
       route: "TERRA",
       deploymentId: "terra-grounded-analysis",
       geography: "EU_DATA_ZONE",
-      evidenceId: "SEC-EVID-TERRA-ROUTE",
+      resourceId:
+        "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/terra",
+      region: "westeurope",
+      evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
       output: {
         summary: "Governed Terra output",
         citations: [
@@ -93,11 +96,11 @@ function createClient() {
   };
 }
 
-describe("createAzureWorkflowClient", () => {
+describe("createAzureWorkflowClient supporting operations", () => {
   it("uses blob, document intelligence, and service bus for evidence admission", async () => {
     const { client, blob, documentIntelligence, serviceBus } = createClient();
 
-    await client.admitEvidence({
+    await client.afterEvidenceAdmitted({
       caseId: "project-danube",
       evidenceId: "evidence-board-pack",
       idempotencyKey: "idem-admit-1",
@@ -123,7 +126,7 @@ describe("createAzureWorkflowClient", () => {
   it("uses Search, OpenAI, and Service Bus for governed analysis requests", async () => {
     const { client, search, openAi, serviceBus } = createClient();
 
-    const result = await client.requestAnalysis({
+    await client.afterAnalysisAccepted({
       caseId: "project-danube",
       evidenceIds: ["evidence-board-pack", "evidence-qoe-report"],
       analystQuestion: "Challenge management EBITDA quality.",
@@ -132,6 +135,7 @@ describe("createAzureWorkflowClient", () => {
       modelDeploymentId: "terra-grounded-analysis",
       promptTemplateVersion: "stratton-workbench-v2:abc123",
       analysisRequestFingerprint: "a".repeat(64),
+      analysisRunId: "phase5-run-1",
       idempotencyKey: "analysis:aaaaaaaaaaaa",
       correlationId: "corr-analysis-1"
     });
@@ -173,10 +177,11 @@ describe("createAzureWorkflowClient", () => {
         correlationId: "corr-analysis-1"
       })
     );
-    expect(result).toEqual({
-      analysisRunId: "run-aaaaaaaaaaaa",
-      status: "QUEUED"
-    });
+    expect(serviceBus.publish).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: expect.objectContaining({ analysisRunId: "phase5-run-1" })
+      })
+    );
   });
 
   it("fails closed when Azure Search cannot supply every admitted evidence source", async () => {
@@ -195,7 +200,7 @@ describe("createAzureWorkflowClient", () => {
     ]);
 
     await expect(
-      client.requestAnalysis({
+      client.afterAnalysisAccepted({
         caseId: "project-danube",
         evidenceIds: ["evidence-board-pack", "evidence-qoe-report"],
         analystQuestion: "Challenge management EBITDA quality.",
@@ -204,6 +209,7 @@ describe("createAzureWorkflowClient", () => {
         modelDeploymentId: "terra-grounded-analysis",
         promptTemplateVersion: "stratton-workbench-v2:abc123",
         analysisRequestFingerprint: "b".repeat(64),
+        analysisRunId: "phase5-run-2",
         idempotencyKey: "analysis:bbbbbbbbbbbb",
         correlationId: "corr-analysis-2"
       })
@@ -218,7 +224,7 @@ describe("createAzureWorkflowClient", () => {
   it("publishes review and recommendation operations through Service Bus", async () => {
     const { client, serviceBus } = createClient();
 
-    await client.submitReview({
+    await client.afterReviewAccepted({
       caseId: "project-danube",
       analysisRunId: "run-terra-1",
       reviewType: "LEGAL",
@@ -228,7 +234,7 @@ describe("createAzureWorkflowClient", () => {
       idempotencyKey: "review-1",
       correlationId: "corr-review-1"
     });
-    await client.prepareDraft({
+    await client.afterDraftAccepted({
       caseId: "project-danube",
       analysisRunId: "run-terra-1",
       subjectVersion: "recommendation-v1",

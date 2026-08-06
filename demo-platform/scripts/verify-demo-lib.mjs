@@ -3,15 +3,29 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 
 export const verificationCommands = Object.freeze([
+  { command: "npm", args: ["run", "build:packages"] },
   { command: "npm", args: ["run", "lint"] },
   { command: "npm", args: ["run", "typecheck"] },
   { command: "npm", args: ["run", "test"] },
   { command: "npm", args: ["run", "build"] },
   { command: "npx", args: ["playwright", "test"] },
+  { command: "az", args: ["bicep", "lint", "--file", "infra/main.bicep"] },
   {
     command: "az",
     args: ["bicep", "build", "--file", "infra/main.bicep"],
     cleanupGeneratedFile: path.join("infra", "main.json")
+  },
+  {
+    command: "az",
+    args: [
+      "bicep",
+      "build-params",
+      "--file",
+      "infra/parameters/dev.bicepparam",
+      "--outfile",
+      "infra/parameters/dev.parameters.json"
+    ],
+    cleanupGeneratedFile: path.join("infra", "parameters", "dev.parameters.json")
   },
   { command: "pwsh", args: ["-NoProfile", "-File", "tests/iac/Invoke-DemoIaCTests.ps1"] }
 ]);

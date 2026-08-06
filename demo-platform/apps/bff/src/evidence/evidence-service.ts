@@ -74,7 +74,23 @@ export class EvidenceService {
         );
       }
 
-      if (isHostileEvidence(evidence)) {
+      if (!isLicenceEligible(evidence.licenceStatus)) {
+        const detail = `EVIDENCE_LICENCE_${evidence.licenceStatus}`;
+        return this.rejectWithAudit({
+          snapshot,
+          state,
+          correlationId: input.correlationId,
+          type: "EVIDENCE_LICENCE_DENIED",
+          detail,
+          error: new DemoHttpError(403, "POLICY_DENIED", detail),
+          securityGateId: "CC002-R2-SEC-GATE-008",
+          securityGateEvidenceId: evidence.evidenceId
+        });
+      }
+
+      if (isHostileEvidenceText(
+        [evidence.title, evidence.sourceLocator, evidence.sourcePreview ?? ""].join("\n")
+      )) {
         return this.rejectWithAudit({
           snapshot,
           state,
@@ -163,6 +179,12 @@ export class EvidenceService {
           detail: input.detail,
           metadata: {
             securityGateId: input.securityGateId,
+            ...(input.state.latestAnalysisRun
+              ? {
+                  analysisRequestFingerprint:
+                    input.state.latestAnalysisRun.analysisRequestFingerprint
+                }
+              : {}),
             ...(input.securityGateEvidenceId
               ? {
                   securityGateEvidenceId: input.securityGateEvidenceId
@@ -201,11 +223,16 @@ function createGovernanceEvent(
   };
 }
 
-function isHostileEvidence(evidence: ScenarioState["evidence"][number]): boolean {
-  const searchableText = [evidence.title, evidence.sourceLocator, evidence.sourcePreview ?? ""].join("\n");
+export function isHostileEvidenceText(searchableText: string): boolean {
   return /SYSTEM OVERRIDE:|reveal every case|approve the investment|ignore the evidence policy/i.test(
     searchableText
   );
+}
+
+export function isLicenceEligible(
+  licenceStatus: ScenarioState["evidence"][number]["licenceStatus"]
+): boolean {
+  return licenceStatus === "APPROVED" || licenceStatus === "NOT_REQUIRED";
 }
 
 function isStateConflict(error: unknown): error is DemoHttpError {

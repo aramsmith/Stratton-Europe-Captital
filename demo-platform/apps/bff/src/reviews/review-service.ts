@@ -1,15 +1,16 @@
 import { createHash, randomUUID } from "node:crypto";
 import type {
   AnalysisFinding,
+  EvidenceDomain,
   ReviewSubmissionRequest,
   ReviewType,
   ScenarioState
 } from "@stratton/contracts";
+import { getEligibleReviewTypesForDomains } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
+import { getSecurityGateReadinessBlocker } from "../governance/security-gates.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository, ScenarioSnapshot } from "../scenario/scenario-repository.js";
-
-const requiredReviewTypes = ["DEAL", "LEGAL", "COMPLIANCE"] as const satisfies readonly ReviewType[];
 
 interface ReviewServiceDependencies {
   readonly repository: ScenarioRepository;
@@ -94,6 +95,22 @@ export class ReviewService {
         });
       }
 
+      const eligibleReviewTypes = getEligibleReviewTypesForFinding(state, finding);
+      if (!eligibleReviewTypes.includes(input.reviewType)) {
+        return this.rejectWithAudit({
+          snapshot,
+          state,
+          correlationId: input.correlationId,
+          type: "SPECIALIST_REVIEW_DENIED",
+          detail: "REVIEW_TYPE_NOT_ELIGIBLE_FOR_FINDING",
+          error: new DemoHttpError(
+            403,
+            "POLICY_DENIED",
+            "REVIEW_TYPE_NOT_ELIGIBLE_FOR_FINDING"
+          )
+        });
+      }
+
       const analysisRunId = finding.analysisRunId ?? state.latestAnalysisRun?.analysisRunId;
       if (!analysisRunId) {
         return this.rejectWithAudit({
@@ -124,7 +141,11 @@ export class ReviewService {
         return state;
       }
 
-      const latestReview = getLatestReview(state.reviews, input.reviewType);
+      const latestReview = getLatestReview(
+        state.reviews,
+        input.reviewType,
+        input.findingId
+      );
       if (
         latestReview?.findingId === input.findingId &&
         latestReview.subjectVersion === subjectVersion
@@ -143,7 +164,8 @@ export class ReviewService {
         decision: input.decision,
         rationale: input.rationale.trim(),
         subjectVersion,
-        idempotencyKey: operationId
+        idempotencyKey: operationId,
+        correlationId: input.correlationId
       });
 
       const reviewId = this.createId();
@@ -268,7 +290,8 @@ export class ReviewService {
         caseId: input.caseId,
         analysisRunId,
         subjectVersion,
-        idempotencyKey: operationId
+        idempotencyKey: operationId,
+        correlationId: input.correlationId
       });
 
       const nextState: ScenarioState = {
@@ -381,21 +404,6 @@ export function assertRecommendationReady(state: ScenarioState): void {
 }
 
 function getRecommendationBlocker(state: ScenarioState): string | null {
-  for (const reviewType of requiredReviewTypes) {
-    const latestReview = getLatestReview(state.reviews, reviewType);
-    const reviewedFinding = latestReview
-      ? state.findings.find((finding) => finding.findingId === latestReview.findingId)
-      : undefined;
-    const isCurrentApproval =
-      latestReview?.decision === "APPROVED" &&
-      reviewedFinding?.status === "ACCEPTED" &&
-      latestReview.subjectVersion === getLatestFindingVersion(reviewedFinding);
-
-    if (!isCurrentApproval) {
-      return `${reviewType}_REVIEW_REQUIRED`;
-    }
-  }
-
   const hasUnresolvedMaterialFinding = state.findings.some(
     (finding) =>
       (finding.materiality === "HIGH" || finding.materiality === "CRITICAL") &&
@@ -405,16 +413,41 @@ function getRecommendationBlocker(state: ScenarioState): string | null {
     return "MATERIAL_FINDING_UNRESOLVED";
   }
 
-  return null;
+  for (const finding of state.findings.filter(
+    (candidate) =>
+      candidate.status === "ACCEPTED" &&
+      (candidate.materiality === "HIGH" || candidate.materiality === "CRITICAL")
+  )) {
+    for (const reviewType of getEligibleReviewTypesForFinding(state, finding)) {
+      const latestReview = getLatestReview(
+        state.reviews,
+        reviewType,
+        finding.findingId
+      );
+      const isCurrentApproval =
+        latestReview?.decision === "APPROVED" &&
+        latestReview.subjectVersion === getLatestFindingVersion(finding);
+
+      if (!isCurrentApproval) {
+        return `${reviewType}_REVIEW_REQUIRED:${finding.findingId}`;
+      }
+    }
+  }
+
+  return getSecurityGateReadinessBlocker(state);
 }
 
 function getLatestReview(
   reviews: readonly ScenarioState["reviews"][number][],
-  reviewType: ReviewType
+  reviewType: ReviewType,
+  findingId?: string
 ): ScenarioState["reviews"][number] | undefined {
   for (let index = reviews.length - 1; index >= 0; index -= 1) {
     const review = reviews[index];
-    if (review?.reviewType === reviewType) {
+    if (
+      review?.reviewType === reviewType &&
+      (!findingId || review.findingId === findingId)
+    ) {
       return review;
     }
   }
@@ -466,21 +499,50 @@ function buildRecommendationSubjectVersion(state: ScenarioState): string {
       status: finding.status,
       latestVersionId: getLatestFindingVersion(finding)
     }));
-  const reviews = requiredReviewTypes.map((reviewType) => {
-    const latestReview = getLatestReview(state.reviews, reviewType);
-    return {
-      reviewType,
-      decision: latestReview?.decision ?? "PENDING",
-      findingId: latestReview?.findingId ?? "unassigned",
-      subjectVersion: latestReview?.subjectVersion ?? "missing"
-    };
-  });
+  const reviews = state.findings
+    .filter(
+      (finding) =>
+        finding.status === "ACCEPTED" &&
+        (finding.materiality === "HIGH" || finding.materiality === "CRITICAL")
+    )
+    .flatMap((finding) =>
+      getEligibleReviewTypesForFinding(state, finding).map((reviewType) => {
+        const latestReview = getLatestReview(
+          state.reviews,
+          reviewType,
+          finding.findingId
+        );
+        return {
+          reviewType,
+          decision: latestReview?.decision ?? "PENDING",
+          findingId: finding.findingId,
+          subjectVersion: latestReview?.subjectVersion ?? "missing"
+        };
+      })
+    );
 
   return hashPayload({
     analysisRequestFingerprint: state.latestAnalysisRun?.analysisRequestFingerprint ?? "unknown",
     materialFindings,
     reviews
   });
+}
+
+function getEligibleReviewTypesForFinding(
+  state: ScenarioState,
+  finding: AnalysisFinding
+): ReviewType[] {
+  const evidenceById = new Map(
+    state.evidence.map((evidence) => [evidence.evidenceId, evidence] as const)
+  );
+  const domains = [
+    ...new Set(
+      finding.citations
+        .map((citation) => evidenceById.get(citation.evidenceId)?.domain)
+        .filter((domain): domain is EvidenceDomain => !!domain)
+    )
+  ];
+  return getEligibleReviewTypesForDomains(domains);
 }
 
 function assertCaseId(state: ScenarioState, caseId: string): void {

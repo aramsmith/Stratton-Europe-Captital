@@ -196,13 +196,85 @@ function createReviewedScenario(
   return scenario;
 }
 
+function withCurrentSecurityGatePasses(state: ScenarioState): ScenarioState {
+  const fingerprint = state.latestAnalysisRun?.analysisRequestFingerprint;
+  if (!fingerprint) {
+    throw new Error("analysis fingerprint required");
+  }
+  state.governanceEvents.push(
+    ...Array.from({ length: 12 }, (_, index) => {
+      const ordinal = String(index + 1).padStart(3, "0");
+      return {
+        eventId: `gate-pass-${ordinal}`,
+        type: "SECURITY_GATE_EVIDENCE_RECORDED",
+        outcome: "SUCCESS" as const,
+        occurredAtIso: `2026-08-06T11:${String(index).padStart(2, "0")}:00.000Z`,
+        correlationId: "corr-gate-suite",
+        detail: `DETERMINISTIC_GATE_PASS:CC002-R2-SEC-GATE-${ordinal}`,
+        metadata: {
+          securityGateId: `CC002-R2-SEC-GATE-${ordinal}`,
+          securityGateEvidenceId: `STRATTON-DEMO-SEC-GATE-${ordinal}-v1`,
+          analysisRequestFingerprint: fingerprint
+        }
+      };
+    })
+  );
+  return state;
+}
+
 describe("ReviewService", () => {
+  it("rejects a review type that is not eligible for the finding domains", async () => {
+    const repository = new InMemoryScenarioRepository(createReviewedScenario());
+    const phase5Client = createPhase5ClientDouble();
+    const service = new ReviewService({ repository, phase5Client });
+
+    await expect(
+      service.submitReview({
+        caseId: "project-danube",
+        findingId: "finding-ebitda-quality",
+        reviewType: "LEGAL",
+        decision: "APPROVED",
+        rationale: "An arbitrary approval must not satisfy Legal review.",
+        subjectVersion: "finding-ebitda-quality-v2",
+        principalType: "HUMAN",
+        correlationId: "corr-ineligible-review"
+      })
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "REVIEW_TYPE_NOT_ELIGIBLE_FOR_FINDING"
+    });
+    expect(phase5Client.submitReview).not.toHaveBeenCalled();
+  });
+
+  it("requires current approvals for each exact applicable finding and version", async () => {
+    const scenario = createReviewedScenario([
+      approvedReview("DEAL", "finding-ebitda-quality"),
+      approvedReview("LEGAL", "finding-ebitda-quality"),
+      approvedReview("COMPLIANCE", "finding-ebitda-quality")
+    ]);
+    const service = new ReviewService({
+      repository: new InMemoryScenarioRepository(scenario),
+      phase5Client: createPhase5ClientDouble()
+    });
+
+    await expect(
+      service.prepareRecommendation({
+        caseId: "project-danube",
+        principalType: "HUMAN",
+        correlationId: "corr-arbitrary-approvals"
+      })
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "LEGAL_REVIEW_REQUIRED:finding-permit-transfer"
+    });
+  });
+
   it("blocks committee preparation while Legal review is pending", async () => {
     const repository = new InMemoryScenarioRepository(
       createReviewedScenario([
         approvedReview("DEAL", "finding-ebitda-quality"),
         pendingReview("LEGAL", "finding-permit-transfer"),
-        approvedReview("COMPLIANCE", "finding-customer-concentration")
+        approvedReview("COMPLIANCE", "finding-permit-transfer")
       ])
     );
     const service = new ReviewService({
@@ -216,7 +288,10 @@ describe("ReviewService", () => {
         principalType: "HUMAN",
         correlationId: "corr-prepare-blocked"
       })
-    ).rejects.toMatchObject({ code: "POLICY_DENIED", message: "LEGAL_REVIEW_REQUIRED" });
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "LEGAL_REVIEW_REQUIRED:finding-permit-transfer"
+    });
 
     const nextState = (await repository.load()).state;
     expect(nextState.governanceEvents).toEqual(
@@ -225,10 +300,35 @@ describe("ReviewService", () => {
           type: "COMMITTEE_PACK_PREPARATION_DENIED",
           outcome: "DENY",
           correlationId: "corr-prepare-blocked",
-          detail: "LEGAL_REVIEW_REQUIRED"
+          detail: "LEGAL_REVIEW_REQUIRED:finding-permit-transfer"
         })
       ])
     );
+  });
+
+  it("blocks committee preparation until all mandatory security gates have current PASS evidence", async () => {
+    const scenario = createReviewedScenario([
+      approvedReview("DEAL", "finding-ebitda-quality"),
+      approvedReview("LEGAL", "finding-permit-transfer"),
+      approvedReview("COMPLIANCE", "finding-permit-transfer")
+    ]);
+    const phase5Client = createPhase5ClientDouble();
+    const service = new ReviewService({
+      repository: new InMemoryScenarioRepository(scenario),
+      phase5Client
+    });
+
+    await expect(
+      service.prepareRecommendation({
+        caseId: "project-danube",
+        principalType: "HUMAN",
+        correlationId: "corr-gates-not-run"
+      })
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "SECURITY_GATE_CC002-R2-SEC-GATE-001_NOT_RUN"
+    });
+    expect(phase5Client.prepareDraft).not.toHaveBeenCalled();
   });
 
   it("requires a human specialist review and appends it to the scenario projection", async () => {
@@ -282,7 +382,8 @@ describe("ReviewService", () => {
       decision: "APPROVED",
       rationale: "Permit transfer completion steps are documented.",
       subjectVersion: "finding-permit-transfer-v2",
-      idempotencyKey: "review:LEGAL:finding-permit-transfer:finding-permit-transfer-v2"
+      idempotencyKey: "review:LEGAL:finding-permit-transfer:finding-permit-transfer-v2",
+      correlationId: "corr-review-human"
     });
     expect(nextState.reviews).toContainEqual({
       reviewId: "review-legal-1",
@@ -306,11 +407,13 @@ describe("ReviewService", () => {
 
   it("prepares a committee-pack draft only after mandatory approvals resolve every material condition", async () => {
     const repository = new InMemoryScenarioRepository(
-      createReviewedScenario([
-        approvedReview("DEAL", "finding-ebitda-quality"),
-        approvedReview("LEGAL", "finding-permit-transfer"),
-        approvedReview("COMPLIANCE", "finding-customer-concentration")
-      ])
+      withCurrentSecurityGatePasses(
+        createReviewedScenario([
+          approvedReview("DEAL", "finding-ebitda-quality"),
+          approvedReview("LEGAL", "finding-permit-transfer"),
+          approvedReview("COMPLIANCE", "finding-permit-transfer")
+        ])
+      )
     );
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({
@@ -330,7 +433,8 @@ describe("ReviewService", () => {
       caseId: "project-danube",
       analysisRunId: "run-terra-1",
       subjectVersion: expect.stringMatching(/^[a-f0-9]{64}$/),
-      idempotencyKey: expect.stringContaining("draft:run-terra-1")
+      idempotencyKey: expect.stringContaining("draft:run-terra-1"),
+      correlationId: "corr-committee-pack"
     });
     expect(nextState.stage).toBe("COMMITTEE_PREPARATION");
     expect(nextState.governanceEvents).toEqual(
@@ -349,7 +453,7 @@ describe("ReviewService", () => {
     const scenario = createReviewedScenario([
       approvedReview("DEAL", "finding-ebitda-quality"),
       approvedReview("LEGAL", "finding-permit-transfer"),
-      approvedReview("COMPLIANCE", "finding-customer-concentration")
+      approvedReview("COMPLIANCE", "finding-permit-transfer")
     ]);
     scenario.findings = scenario.findings.map((finding) =>
       finding.findingId === "finding-permit-transfer"
@@ -381,7 +485,10 @@ describe("ReviewService", () => {
         principalType: "HUMAN",
         correlationId: "corr-review-stale"
       })
-    ).rejects.toMatchObject({ code: "POLICY_DENIED", message: "LEGAL_REVIEW_REQUIRED" });
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "LEGAL_REVIEW_REQUIRED:finding-permit-transfer"
+    });
   });
 
   it("rejects a stale review subject version before mutating local state or calling Phase 5", async () => {
@@ -481,11 +588,13 @@ describe("ReviewService", () => {
 
   it("returns the existing committee-pack success on an identical retry without duplicating audit history", async () => {
     const repository = new InMemoryScenarioRepository(
-      createReviewedScenario([
-        approvedReview("DEAL", "finding-ebitda-quality"),
-        approvedReview("LEGAL", "finding-permit-transfer"),
-        approvedReview("COMPLIANCE", "finding-customer-concentration")
-      ])
+      withCurrentSecurityGatePasses(
+        createReviewedScenario([
+          approvedReview("DEAL", "finding-ebitda-quality"),
+          approvedReview("LEGAL", "finding-permit-transfer"),
+          approvedReview("COMPLIANCE", "finding-permit-transfer")
+        ])
+      )
     );
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({

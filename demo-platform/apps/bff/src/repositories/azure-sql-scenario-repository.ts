@@ -29,52 +29,183 @@ export interface SqlExecutor {
   ): Promise<SqlQueryResult<TRecord>>;
 }
 
-interface CreateManagedIdentitySqlExecutorOptions {
+export interface SqlAccessToken {
+  readonly token: string;
+  readonly expiresOnTimestamp: number;
+}
+
+export interface SqlRequestLike {
+  input(name: string, type: unknown, value: string | number): SqlRequestLike;
+  query(statement: string): Promise<{
+    readonly recordset: readonly Record<string, unknown>[];
+    readonly rowsAffected: readonly number[];
+  }>;
+}
+
+export interface SqlPoolLike {
+  connect(): Promise<SqlPoolLike>;
+  request(): SqlRequestLike;
+  close(): Promise<void>;
+}
+
+export interface CreateManagedIdentitySqlExecutorOptions {
   readonly server: string;
   readonly database: string;
   readonly managedIdentityClientId?: string;
   readonly port?: number;
+  readonly now?: () => number;
+  readonly refreshSkewMs?: number;
+  readonly tokenProvider?: () => Promise<SqlAccessToken | null>;
+  readonly poolFactory?: (config: mssql.config) => SqlPoolLike;
 }
 
 export function createManagedIdentitySqlExecutor(
   options: CreateManagedIdentitySqlExecutorOptions
 ): SqlExecutor {
   const credential = createManagedIdentityCredential(options.managedIdentityClientId);
-  let poolPromise: Promise<mssql.ConnectionPool> | undefined;
+  const now = options.now ?? Date.now;
+  const refreshSkewMs = options.refreshSkewMs ?? 5 * 60 * 1000;
+  const tokenProvider =
+    options.tokenProvider ??
+    (() => credential.getToken("https://database.windows.net/.default"));
+  const poolFactory =
+    options.poolFactory ??
+    ((config: mssql.config): SqlPoolLike => new mssql.ConnectionPool(config));
 
-  const getPool = async (): Promise<mssql.ConnectionPool> => {
-    if (!poolPromise) {
-      poolPromise = (async () => {
-        const token = await credential.getToken("https://database.windows.net/.default");
-        if (!token?.token) {
+  interface PoolGeneration {
+    readonly pool: SqlPoolLike;
+    readonly expiresOnTimestamp: number;
+    leases: number;
+    retiring: boolean;
+    closePromise?: Promise<void>;
+  }
+
+  let activeGeneration: PoolGeneration | undefined;
+  let rotationPromise: Promise<void> | undefined;
+
+  const closeGeneration = async (generation: PoolGeneration): Promise<void> => {
+    if (!generation.closePromise) {
+      generation.closePromise = generation.pool.close().catch(() => {
+        throw new DemoHttpError(
+          503,
+          "DEPENDENCY_UNAVAILABLE",
+          "SQL_POOL_RETIREMENT_FAILED"
+        );
+      });
+    }
+    await generation.closePromise;
+  };
+
+  const rotatePool = async (): Promise<void> => {
+    if (rotationPromise) {
+      return rotationPromise;
+    }
+
+    rotationPromise = (async () => {
+      let token: SqlAccessToken | null;
+      try {
+        token = await tokenProvider();
+      } catch {
+        throw new DemoHttpError(
+          503,
+          "DEPENDENCY_UNAVAILABLE",
+          "SQL_MANAGED_IDENTITY_TOKEN_UNAVAILABLE"
+        );
+      }
+      if (
+        !token?.token ||
+        !Number.isFinite(token.expiresOnTimestamp) ||
+        token.expiresOnTimestamp <= now()
+      ) {
+        throw new DemoHttpError(
+          503,
+          "DEPENDENCY_UNAVAILABLE",
+          "SQL_MANAGED_IDENTITY_TOKEN_UNAVAILABLE"
+        );
+      }
+
+      const poolConfig: mssql.config = {
+        server: options.server,
+        database: options.database,
+        ...(options.port ? { port: options.port } : {}),
+        options: {
+          encrypt: true,
+          trustServerCertificate: false
+        },
+        authentication: {
+          type: "azure-active-directory-access-token",
+          options: {
+            token: token.token
+          }
+        }
+      };
+      const candidate = poolFactory(poolConfig);
+
+      try {
+        await candidate.connect();
+      } catch {
+        try {
+          await candidate.close();
+        } catch {
           throw new DemoHttpError(
             503,
             "DEPENDENCY_UNAVAILABLE",
-            "SQL_MANAGED_IDENTITY_TOKEN_UNAVAILABLE"
+            "SQL_POOL_CANDIDATE_CLOSE_FAILED"
           );
         }
+        throw new DemoHttpError(
+          503,
+          "DEPENDENCY_UNAVAILABLE",
+          "SQL_POOL_INITIALIZATION_FAILED"
+        );
+      }
 
-        const pool = new mssql.ConnectionPool({
-          server: options.server,
-          database: options.database,
-          ...(options.port ? { port: options.port } : {}),
-          options: {
-            encrypt: true,
-            trustServerCertificate: false
-          },
-          authentication: {
-            type: "azure-active-directory-access-token",
-            options: {
-              token: token.token
-            }
-          }
-        } as mssql.config);
+      const previous = activeGeneration;
+      activeGeneration = {
+        pool: candidate,
+        expiresOnTimestamp: token.expiresOnTimestamp,
+        leases: 0,
+        retiring: false
+      };
+      if (previous) {
+        previous.retiring = true;
+        if (previous.leases === 0) {
+          await closeGeneration(previous);
+        }
+      }
+    })();
 
-        return pool.connect();
-      })();
+    try {
+      await rotationPromise;
+    } finally {
+      rotationPromise = undefined;
     }
+  };
 
-    return poolPromise;
+  const acquireGeneration = async (): Promise<PoolGeneration> => {
+    if (
+      !activeGeneration ||
+      now() >= activeGeneration.expiresOnTimestamp - refreshSkewMs
+    ) {
+      await rotatePool();
+    }
+    const generation = activeGeneration;
+    if (!generation) {
+      throw new DemoHttpError(
+        503,
+        "DEPENDENCY_UNAVAILABLE",
+        "SQL_POOL_INITIALIZATION_FAILED"
+      );
+    }
+    generation.leases += 1;
+    return generation;
+  };
+
+  const releaseGeneration = async (generation: PoolGeneration): Promise<void> => {
+    generation.leases -= 1;
+    if (generation.retiring && generation.leases === 0) {
+      await closeGeneration(generation);
+    }
   };
 
   return {
@@ -82,23 +213,27 @@ export function createManagedIdentitySqlExecutor(
       statement: string,
       parameters: readonly SqlParameter[] = []
     ) {
-      const pool = await getPool();
-      const request = pool.request();
+      const generation = await acquireGeneration();
+      try {
+        const request = generation.pool.request();
 
-      for (const parameter of parameters) {
-        if (parameter.type === "nvarchar") {
-          request.input(parameter.name, mssql.NVarChar(mssql.MAX), parameter.value);
-          continue;
+        for (const parameter of parameters) {
+          if (parameter.type === "nvarchar") {
+            request.input(parameter.name, mssql.NVarChar(mssql.MAX), parameter.value);
+            continue;
+          }
+
+          request.input(parameter.name, mssql.BigInt, parameter.value);
         }
 
-        request.input(parameter.name, mssql.BigInt, parameter.value);
+        const result = await request.query(statement);
+        return {
+          recordset: result.recordset as readonly TRecord[],
+          rowsAffected: result.rowsAffected
+        };
+      } finally {
+        await releaseGeneration(generation);
       }
-
-      const result = await request.query(statement);
-      return {
-        recordset: result.recordset as readonly TRecord[],
-        rowsAffected: result.rowsAffected
-      };
     }
   };
 }
@@ -179,23 +314,55 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
     }
   }
 
-  public async reset(state: ScenarioState): Promise<void> {
-    const parsedState = scenarioStateSchema.parse(structuredClone(state));
+  public async reset(snapshot: ScenarioSnapshot): Promise<void> {
+    if (snapshot.concurrencyToken.kind !== "ROW_VERSION") {
+      throw new DemoHttpError(409, "STATE_CONFLICT", "SCENARIO_PROJECTION_LOAD_REQUIRED");
+    }
+    const parsedState = scenarioStateSchema.parse(structuredClone(snapshot.state));
     this.assertCaseContext(parsedState.caseId);
 
-    const result = await this.queryWithSessionContext<ProjectionRecord>(
+    const result = await this.queryWithSessionContext(
       [
-        "MERGE dbo.demo_scenario_projection WITH (HOLDLOCK) AS target",
-        "USING (SELECT @tenantId AS tenant_id, @caseId AS case_id) AS source",
-        "ON target.tenant_id = source.tenant_id AND target.case_id = source.case_id",
-        "WHEN MATCHED THEN",
-        "  UPDATE SET state_json = @stateJson,",
-        "             row_version = target.row_version + 1,",
-        "             updated_at = SYSUTCDATETIME()",
-        "WHEN NOT MATCHED THEN",
-        "  INSERT (tenant_id, case_id, state_json, row_version, updated_at)",
-        "  VALUES (@tenantId, @caseId, @stateJson, 0, SYSUTCDATETIME())",
-        "OUTPUT inserted.row_version;"
+        "UPDATE dbo.demo_scenario_projection",
+        "SET state_json = @stateJson,",
+        "    row_version = row_version + 1,",
+        "    updated_at = SYSUTCDATETIME()",
+        "WHERE tenant_id = @tenantId",
+        "  AND case_id = @caseId",
+        "  AND row_version = @expectedVersion;"
+      ].join("\n"),
+      [
+        ...this.createTenantCaseParameters(),
+        {
+          name: "stateJson",
+          type: "nvarchar",
+          value: JSON.stringify(parsedState)
+        },
+        {
+          name: "expectedVersion",
+          type: "bigint",
+          value: snapshot.concurrencyToken.value
+        }
+      ]
+    );
+
+    if (result.rowsAffected[0] !== 1) {
+      throw new DemoHttpError(409, "STATE_CONFLICT", "SCENARIO_PROJECTION_VERSION_STALE");
+    }
+  }
+
+  public async initialize(state: ScenarioState): Promise<void> {
+    const parsedState = scenarioStateSchema.parse(structuredClone(state));
+    this.assertCaseContext(parsedState.caseId);
+    const result = await this.queryWithSessionContext(
+      [
+        "INSERT INTO dbo.demo_scenario_projection",
+        "  (tenant_id, case_id, state_json, row_version, updated_at)",
+        "SELECT @tenantId, @caseId, @stateJson, 0, SYSUTCDATETIME()",
+        "WHERE NOT EXISTS (",
+        "  SELECT 1 FROM dbo.demo_scenario_projection WITH (UPDLOCK, HOLDLOCK)",
+        "  WHERE tenant_id = @tenantId AND case_id = @caseId",
+        ");"
       ].join("\n"),
       [
         ...this.createTenantCaseParameters(),
@@ -206,9 +373,13 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
         }
       ]
     );
-
-    const row = result.recordset[0];
-    void row;
+    if (result.rowsAffected[0] !== 1) {
+      throw new DemoHttpError(
+        409,
+        "STATE_CONFLICT",
+        "SCENARIO_PROJECTION_ALREADY_INITIALIZED"
+      );
+    }
   }
 
   private queryWithSessionContext<TRecord extends Record<string, unknown>>(

@@ -4,11 +4,12 @@ import { describe, expect, it } from "vitest";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
 import { AnalysisService } from "../analysis/analysis-service.js";
-import { GovernanceService } from "./governance-service.js";
+import {
+  buildRecommendationSubjectVersion,
+  GovernanceService
+} from "./governance-service.js";
 
 function createGovernanceReadyState(): ScenarioState {
-  const recommendationSubjectVersion =
-    "48beb87818dc2e8d44de2100bd83d4250399861f9c83c11bf9d563e3f23ab50a";
   const state = createProjectDanubeState();
   state.stage = "COMMITTEE_PREPARATION";
   state.evidence = state.evidence.map((evidence) => ({
@@ -166,8 +167,8 @@ function createGovernanceReadyState(): ScenarioState {
       reviewId: "review-compliance-approved",
       reviewType: "COMPLIANCE",
       decision: "APPROVED",
-      findingId: "finding-customer-concentration",
-      subjectVersion: "finding-customer-concentration-v1"
+      findingId: "finding-permit-transfer",
+      subjectVersion: "finding-permit-transfer-v2"
     },
     {
       reviewId: "review-legal-approved",
@@ -177,6 +178,7 @@ function createGovernanceReadyState(): ScenarioState {
       subjectVersion: "finding-permit-transfer-v2"
     }
   ];
+  const recommendationSubjectVersion = buildRecommendationSubjectVersion(state);
   state.governanceEvents.push(
     {
       eventId: "event-route-selected",
@@ -270,16 +272,16 @@ function createGovernanceReadyState(): ScenarioState {
       outcome: "SUCCESS",
       occurredAtIso: "2026-08-06T10:21:00.000Z",
       correlationId: "corr-review-compliance",
-      detail: "COMPLIANCE:APPROVED:finding-customer-concentration",
+      detail: "COMPLIANCE:APPROVED:finding-permit-transfer",
       metadata: {
         analysisRequestFingerprint:
           "9ce51afba65845db4feec598b18b180d3ce4f40353f3b8d9fa1906c80d05e55b",
         phase5RunId: "run-terra-1",
-        findingIds: ["finding-customer-concentration"],
+        findingIds: ["finding-permit-transfer"],
         operationId:
-          "review:COMPLIANCE:finding-customer-concentration:finding-customer-concentration-v1",
+          "review:COMPLIANCE:finding-permit-transfer:finding-permit-transfer-v2",
         payloadHash: "94bdfbbeb922da545c1338c4fe1fc2b1153684f13147dd0f4c91f4fb1e27dcaa",
-        subjectVersion: "finding-customer-concentration-v1"
+        subjectVersion: "finding-permit-transfer-v2"
       }
     },
     {
@@ -323,6 +325,32 @@ function createGovernanceReadyState(): ScenarioState {
     }
   );
 
+  state.governanceEvents.push(
+    ...(() => {
+      const analysisRequestFingerprint =
+        state.latestAnalysisRun?.analysisRequestFingerprint;
+      if (!analysisRequestFingerprint) {
+        throw new Error("analysis fingerprint required");
+      }
+      return Array.from({ length: 12 }, (_, index) => {
+        const ordinal = String(index + 1).padStart(3, "0");
+        return {
+          eventId: `gate-pass-${ordinal}`,
+          type: "SECURITY_GATE_EVIDENCE_RECORDED",
+          outcome: "SUCCESS" as const,
+          occurredAtIso: `2026-08-06T11:${String(index).padStart(2, "0")}:00.000Z`,
+          correlationId: "corr-gate-suite",
+          detail: `DETERMINISTIC_GATE_PASS:CC002-R2-SEC-GATE-${ordinal}`,
+          metadata: {
+            securityGateId: `CC002-R2-SEC-GATE-${ordinal}`,
+            securityGateEvidenceId: `STRATTON-DEMO-SEC-GATE-${ordinal}-v1`,
+            analysisRequestFingerprint
+          }
+        };
+      });
+    })()
+  );
+
   return state;
 }
 
@@ -349,6 +377,48 @@ function createPhase5ClientDouble(): Phase5Client {
 }
 
 describe("GovernanceService", () => {
+  it("records dedicated version-bound PASS evidence for all twelve mandatory gates", async () => {
+    const initialState = createGovernanceReadyState();
+    initialState.governanceEvents = initialState.governanceEvents.filter(
+      (event) => event.type !== "SECURITY_GATE_EVIDENCE_RECORDED"
+    );
+    const repository = new InMemoryScenarioRepository(initialState);
+    let id = 0;
+    const service = new GovernanceService({
+      repository,
+      createId: () => `gate-event-${++id}`,
+      now: () => "2026-08-06T12:00:00.000Z"
+    });
+
+    const state = await service.recordSecurityGateEvidence({
+      caseId: "project-danube",
+      correlationId: "corr-gate-suite"
+    });
+    const gateEvents = state.governanceEvents.filter(
+      (event) => event.type === "SECURITY_GATE_EVIDENCE_RECORDED"
+    );
+
+    expect(gateEvents).toHaveLength(12);
+    expect(gateEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          outcome: "SUCCESS",
+          metadata: expect.objectContaining({
+            securityGateId: "CC002-R2-SEC-GATE-001",
+            securityGateEvidenceId: "STRATTON-DEMO-SEC-GATE-001-v1",
+            analysisRequestFingerprint:
+              state.latestAnalysisRun?.analysisRequestFingerprint
+          })
+        })
+      ])
+    );
+    expect(
+      (await service.getView("project-danube")).securityGates.every(
+        (gate) => gate.outcome === "PASS"
+      )
+    ).toBe(true);
+  });
+
   it("links each material finding to evidence, route, review, policy events, and the recommendation preview", async () => {
     const service = new GovernanceService({
       repository: new InMemoryScenarioRepository(createGovernanceReadyState())
@@ -410,16 +480,16 @@ describe("GovernanceService", () => {
     ]);
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-004")
-    ).toMatchObject({ outcome: "NOT_RUN" });
+    ).toMatchObject({ outcome: "PASS" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-008")
-    ).toMatchObject({ outcome: "NOT_RUN" });
+    ).toMatchObject({ outcome: "PASS" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-012")
-    ).toMatchObject({ outcome: "NOT_RUN" });
+    ).toMatchObject({ outcome: "PASS" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-001")
-    ).toMatchObject({ outcome: "NOT_RUN" });
+    ).toMatchObject({ outcome: "PASS" });
     expect(view.auditExport).toEqual({
       status: "READY",
       missingItems: [],
@@ -509,7 +579,7 @@ describe("GovernanceService", () => {
             historicalPolicyDecisionIds?: readonly string[];
           }
         | undefined)?.historicalPolicyDecisionIds
-    ).toEqual(["review-legal"]);
+    ).toEqual(["review-compliance", "review-legal"]);
     expect(
       (permit as
         | {
@@ -517,7 +587,7 @@ describe("GovernanceService", () => {
             historicalReviewVersionIds?: readonly string[];
           }
         | undefined)?.historicalReviewTypes
-    ).toEqual(["LEGAL"]);
+    ).toEqual(["COMPLIANCE", "LEGAL"]);
     expect(
       (permit as
         | {
@@ -537,6 +607,14 @@ describe("GovernanceService", () => {
 
   it("derives gate outcomes only from dedicated gate-specific evidence events", async () => {
     const state = createGovernanceReadyState();
+    state.governanceEvents = state.governanceEvents.filter(
+      (event) => event.type !== "SECURITY_GATE_EVIDENCE_RECORDED"
+    );
+    const analysisRequestFingerprint =
+      state.latestAnalysisRun?.analysisRequestFingerprint;
+    if (!analysisRequestFingerprint) {
+      throw new Error("analysis fingerprint required");
+    }
     state.governanceEvents.push(
       {
         eventId: "gate-004-pass",
@@ -547,9 +625,10 @@ describe("GovernanceService", () => {
         detail: "Citation spoofing scenario replay",
         metadata: {
           securityGateId: "CC002-R2-SEC-GATE-004",
-          securityGateEvidenceId: "gate-evidence-004"
+          securityGateEvidenceId: "STRATTON-DEMO-SEC-GATE-004-v1",
+          analysisRequestFingerprint
         }
-      } as ScenarioState["governanceEvents"][number],
+      },
       {
         eventId: "gate-008-fail",
         type: "SECURITY_GATE_EVIDENCE_RECORDED",
@@ -559,9 +638,10 @@ describe("GovernanceService", () => {
         detail: "Revoked evidence scenario replay",
         metadata: {
           securityGateId: "CC002-R2-SEC-GATE-008",
-          securityGateEvidenceId: "gate-evidence-008"
+          securityGateEvidenceId: "evidence-expired-licence",
+          analysisRequestFingerprint
         }
-      } as ScenarioState["governanceEvents"][number]
+      }
     );
 
     const view = await new GovernanceService({
@@ -570,10 +650,13 @@ describe("GovernanceService", () => {
 
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-004")
-    ).toMatchObject({ outcome: "PASS", evidenceId: "gate-evidence-004" });
+    ).toMatchObject({
+      outcome: "PASS",
+      evidenceId: "STRATTON-DEMO-SEC-GATE-004-v1"
+    });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-008")
-    ).toMatchObject({ outcome: "FAIL", evidenceId: "gate-evidence-008" });
+    ).toMatchObject({ outcome: "FAIL", evidenceId: "evidence-expired-licence" });
     expect(
       view.securityGates.find((gate) => gate.gateId === "CC002-R2-SEC-GATE-012")
     ).toMatchObject({ outcome: "NOT_RUN" });
@@ -610,7 +693,8 @@ describe("GovernanceService", () => {
       status: "BLOCKED",
       missingItems: [
         "Governed analysis route evidence has not been recorded.",
-        "Committee-pack draft evidence has not been prepared."
+        "Committee-pack draft evidence has not been prepared.",
+        "Mandatory security gates are not ready: SECURITY_GATE_CC002-R2-SEC-GATE-001_NOT_RUN."
       ],
       previewSections: ["Lineage", "Policy decisions", "Model routes", "Security & audit"]
     });
