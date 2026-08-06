@@ -1,0 +1,6 @@
+{
+  "name": "@azure/ai-document-intelligence",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module"
+}

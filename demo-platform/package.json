@@ -1,0 +1,27 @@
+{
+  "name": "stratton-demo-platform",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0 <27.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "validate": "npm run lint && npm run typecheck && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.55.0",
+    "eslint": "9.34.0",
+    "typescript": "5.9.2",
+    "vitest": "3.2.4",
+    "typescript-eslint": "^8.41.0",
+    "eslint-plugin-react-hooks": "^5.2.0"
+  }
+}
