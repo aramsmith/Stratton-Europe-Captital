@@ -42,6 +42,15 @@ $script:RequiredOpenAiModels = @(
   }
 )
 
+$script:RecognizedLocationParameterNames = @(
+  'listofallowedlocations',
+  'allowedlocations',
+  'allowedregions',
+  'listofallowedregions',
+  'allowedlocationnames',
+  'locations'
+)
+
 function Invoke-AzJson {
   [CmdletBinding()]
   param(
@@ -154,6 +163,295 @@ function Get-NestedPropertyValue {
   return $current
 }
 
+function Get-NormalizedLocationName {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $Location
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Location)) {
+    return $null
+  }
+
+  return $Location.Trim().ToLowerInvariant()
+}
+
+function Get-NormalizedStringTokens {
+  [CmdletBinding()]
+  param(
+    [AllowEmptyCollection()]
+    [AllowNull()]
+    [object[]] $Values
+  )
+
+  $tokens = [System.Collections.Generic.List[string]]::new()
+  foreach ($value in @($Values)) {
+    if ($null -eq $value) {
+      continue
+    }
+
+    if ($value -is [string]) {
+      $normalizedValue = $value.Trim().ToLowerInvariant()
+      if ($normalizedValue) {
+        $tokens.Add($normalizedValue)
+      }
+      continue
+    }
+
+    if ($value -is [System.Collections.IEnumerable] -and $value -isnot [string]) {
+      foreach ($item in $value) {
+        foreach ($token in @(Get-NormalizedStringTokens -Values @($item))) {
+          $tokens.Add($token)
+        }
+      }
+      continue
+    }
+
+    if ($value.PSObject -and $value.PSObject.Properties.Count -gt 0) {
+      foreach ($property in $value.PSObject.Properties) {
+        foreach ($token in @(Get-NormalizedStringTokens -Values @($property.Value))) {
+          $tokens.Add($token)
+        }
+      }
+      continue
+    }
+
+    $normalizedScalar = ([string] $value).Trim().ToLowerInvariant()
+    if ($normalizedScalar) {
+      $tokens.Add($normalizedScalar)
+    }
+  }
+
+  return @($tokens | Select-Object -Unique)
+}
+
+function Test-HasLocationSignal {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $Value
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Value)) {
+    return $false
+  }
+
+  return [bool] ($Value -match '(?i)(location|region|geograph|geo)')
+}
+
+function Get-SubscriptionLocations {
+  [CmdletBinding()]
+  param()
+
+  $locations = @(Invoke-AzJson -Arguments @('account', 'list-locations'))
+  return @(
+    $locations |
+      ForEach-Object {
+        Get-FirstPopulatedValue -Values @(
+          (Get-NestedPropertyValue -InputObject $_ -Path @('name')),
+          (Get-NestedPropertyValue -InputObject $_ -Path @('displayName'))
+        )
+      } |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+      ForEach-Object { $_.Trim().ToLowerInvariant() } |
+      Select-Object -Unique
+  )
+}
+
+function Get-PolicyLocationEvaluation {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $Parameters,
+
+    [AllowNull()]
+    [string] $PolicyName,
+
+    [AllowNull()]
+    [string] $PolicyDisplayName,
+
+    [AllowNull()]
+    [string] $PolicyDefinitionId,
+
+    [AllowNull()]
+    [string] $TargetLocation,
+
+    [AllowEmptyCollection()]
+    [string[]] $KnownLocations = @()
+  )
+
+  $normalizedTargetLocation = Get-NormalizedLocationName -Location $TargetLocation
+  $normalizedKnownLocations = @(
+    $KnownLocations |
+      ForEach-Object { Get-NormalizedLocationName -Location $_ } |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
+
+  if ($null -eq $Parameters -or @($Parameters.PSObject.Properties).Count -eq 0) {
+    if (
+      (Test-HasLocationSignal -Value $PolicyName) -or
+      (Test-HasLocationSignal -Value $PolicyDisplayName) -or
+      (Test-HasLocationSignal -Value $PolicyDefinitionId)
+    ) {
+      return [pscustomobject]@{
+        allowedLocations = @()
+        locationEvidenceStatus = 'Indeterminate'
+        locationEvidenceReason = 'LOCATION_POLICY_WITHOUT_ASSIGNMENT_PARAMETERS'
+        matchedLocationParameters = @()
+      }
+    }
+
+    return [pscustomobject]@{
+      allowedLocations = @()
+      locationEvidenceStatus = 'NotApplicable'
+      locationEvidenceReason = 'NO_LOCATION_SIGNAL'
+      matchedLocationParameters = @()
+    }
+  }
+
+  $recognizedParameterNames = [System.Collections.Generic.List[string]]::new()
+  $genericLocationParameterNames = [System.Collections.Generic.List[string]]::new()
+  $recognizedLocationTokens = [System.Collections.Generic.List[string]]::new()
+  $genericLocationTokens = [System.Collections.Generic.List[string]]::new()
+
+  foreach ($parameter in $Parameters.PSObject.Properties) {
+    $parameterName = $parameter.Name
+    $normalizedParameterName = $parameterName.Trim().ToLowerInvariant()
+    $parameterValue = Get-NestedPropertyValue -InputObject $parameter.Value -Path @('value')
+    if ($null -eq $parameterValue) {
+      $parameterValue = $parameter.Value
+    }
+
+    $tokens = @(Get-NormalizedStringTokens -Values @($parameterValue))
+    if ($script:RecognizedLocationParameterNames -contains $normalizedParameterName) {
+      $recognizedParameterNames.Add($parameterName)
+      foreach ($token in $tokens) {
+        $recognizedLocationTokens.Add($token)
+      }
+      continue
+    }
+
+    if (Test-HasLocationSignal -Value $parameterName) {
+      $genericLocationParameterNames.Add($parameterName)
+      foreach ($token in $tokens) {
+        $genericLocationTokens.Add($token)
+      }
+    }
+  }
+
+  $hasLocationSignal = (
+    $recognizedParameterNames.Count -gt 0 -or
+    $genericLocationParameterNames.Count -gt 0 -or
+    (Test-HasLocationSignal -Value $PolicyName) -or
+    (Test-HasLocationSignal -Value $PolicyDisplayName) -or
+    (Test-HasLocationSignal -Value $PolicyDefinitionId)
+  )
+
+  if (-not $hasLocationSignal) {
+    return [pscustomobject]@{
+      allowedLocations = @()
+      locationEvidenceStatus = 'NotApplicable'
+      locationEvidenceReason = 'NO_LOCATION_SIGNAL'
+      matchedLocationParameters = @()
+    }
+  }
+
+  $allowedLocations = if ($recognizedParameterNames.Count -gt 0) {
+    @($recognizedLocationTokens | Select-Object -Unique)
+  }
+  else {
+    @(
+      $genericLocationTokens |
+        Where-Object {
+          $normalizedToken = $_
+          $normalizedToken -eq $normalizedTargetLocation -or $normalizedKnownLocations -contains $normalizedToken
+        } |
+        Select-Object -Unique
+    )
+  }
+
+  $allowedLocations = @($allowedLocations)
+
+  if ($allowedLocations.Count -gt 0) {
+    if ($normalizedTargetLocation -and $allowedLocations -contains $normalizedTargetLocation) {
+      return [pscustomobject]@{
+        allowedLocations = $allowedLocations
+        locationEvidenceStatus = 'Allowed'
+        locationEvidenceReason = 'PARAMETER_ALLOW_LIST'
+        matchedLocationParameters = @($recognizedParameterNames + $genericLocationParameterNames | Select-Object -Unique)
+      }
+    }
+
+    return [pscustomobject]@{
+      allowedLocations = $allowedLocations
+      locationEvidenceStatus = 'Denied'
+      locationEvidenceReason = 'PARAMETER_ALLOW_LIST'
+      matchedLocationParameters = @($recognizedParameterNames + $genericLocationParameterNames | Select-Object -Unique)
+    }
+  }
+
+  return [pscustomobject]@{
+    allowedLocations = @()
+    locationEvidenceStatus = 'Indeterminate'
+    locationEvidenceReason = 'UNRECOGNISED_LOCATION_PARAMETER_SHAPE'
+    matchedLocationParameters = @($recognizedParameterNames + $genericLocationParameterNames | Select-Object -Unique)
+  }
+}
+
+function Get-SafePolicyAssignments {
+  [CmdletBinding()]
+  param(
+    [AllowEmptyCollection()]
+    [object[]] $PolicyAssignments
+  )
+
+  return @(
+    foreach ($policyAssignment in @($PolicyAssignments)) {
+      [pscustomobject]@{
+        name = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('name')))
+        displayName = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('displayName')))
+        scope = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('scope')))
+        enforcementMode = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('enforcementMode')))
+        policyDefinitionId = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('policyDefinitionId')))
+        allowedLocations = @(
+          @(Get-NestedPropertyValue -InputObject $policyAssignment -Path @('allowedLocations')) |
+            ForEach-Object { Get-NormalizedLocationName -Location $_ } |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+            Select-Object -Unique
+        )
+        locationEvidenceStatus = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('locationEvidenceStatus')))
+        locationEvidenceReason = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $policyAssignment -Path @('locationEvidenceReason')))
+        matchedLocationParameters = @(
+          @(Get-NestedPropertyValue -InputObject $policyAssignment -Path @('matchedLocationParameters')) |
+            Where-Object { -not [string]::IsNullOrWhiteSpace([string] $_) } |
+            Select-Object -Unique
+        )
+      }
+    }
+  )
+}
+
+function Get-NormalizedModelVersion {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $Version
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Version)) {
+    return $null
+  }
+
+  $trimmedVersion = $Version.Trim()
+  if ($trimmedVersion -match '^(?i:unknown|n/?a|notset|unset)$') {
+    return $null
+  }
+
+  return $trimmedVersion
+}
+
 function Get-ProviderReadiness {
   [CmdletBinding()]
   param(
@@ -177,62 +475,59 @@ function Get-PolicyAssignments {
   [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
-    [string] $SubscriptionId
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $TargetLocation,
+
+    [AllowEmptyCollection()]
+    [string[]] $KnownLocations = @()
   )
 
   $assignments = @(Invoke-AzJson -Arguments @('policy', 'assignment', 'list', '--scope', "/subscriptions/$SubscriptionId"))
-  return @(
+  return @(Get-SafePolicyAssignments -PolicyAssignments @(
     $assignments |
       ForEach-Object {
-        $parametersProperty = $_.PSObject.Properties['parameters']
-        $parametersValue = if ($null -ne $parametersProperty) { $parametersProperty.Value } else { $null }
+        $parametersValue = Get-NestedPropertyValue -InputObject $_ -Path @('parameters')
+        $locationEvaluation = Get-PolicyLocationEvaluation `
+          -Parameters $parametersValue `
+          -PolicyName $_.name `
+          -PolicyDisplayName $_.displayName `
+          -PolicyDefinitionId (Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $_ -Path @('policyDefinitionId')))) `
+          -TargetLocation $TargetLocation `
+          -KnownLocations $KnownLocations
 
         [pscustomobject]@{
           name = $_.name
           displayName = $_.displayName
           scope = $_.scope
           enforcementMode = $_.enforcementMode
-          parameters = $parametersValue
-          allowedLocations = @(Get-AllowedLocationsFromPolicyParameters -Parameters $parametersValue)
+          policyDefinitionId = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $_ -Path @('policyDefinitionId')))
+          allowedLocations = @($locationEvaluation.allowedLocations)
+          locationEvidenceStatus = $locationEvaluation.locationEvidenceStatus
+          locationEvidenceReason = $locationEvaluation.locationEvidenceReason
+          matchedLocationParameters = @($locationEvaluation.matchedLocationParameters)
         }
       }
-  )
+  ))
 }
 
 function Get-AllowedLocationsFromPolicyParameters {
   [CmdletBinding()]
   param(
     [AllowNull()]
-    [object] $Parameters
+    [object] $Parameters,
+
+    [AllowNull()]
+    [string] $TargetLocation,
+
+    [AllowEmptyCollection()]
+    [string[]] $KnownLocations = @()
   )
 
-  if ($null -eq $Parameters) {
-    return @()
-  }
-
-  $allowedLocations = [System.Collections.Generic.List[string]]::new()
-  foreach ($name in @(
-    'listOfAllowedLocations',
-    'allowedLocations',
-    'allowedRegions',
-    'listOfAllowedRegions',
-    'allowedLocationNames',
-    'locations'
-  )) {
-    $entry = $Parameters.PSObject.Properties[$name]
-    if ($null -eq $entry) {
-      continue
-    }
-
-    $value = Get-NestedPropertyValue -InputObject $entry.Value -Path @('value')
-    foreach ($location in @($value)) {
-      if (-not [string]::IsNullOrWhiteSpace([string] $location)) {
-        $allowedLocations.Add(([string] $location).ToLowerInvariant())
-      }
-    }
-  }
-
-  return @($allowedLocations | Select-Object -Unique)
+  return @(
+    (Get-PolicyLocationEvaluation -Parameters $Parameters -TargetLocation $TargetLocation -KnownLocations $KnownLocations).allowedLocations
+  )
 }
 
 function Get-NamingConflicts {
@@ -287,13 +582,13 @@ function Get-NormalizedListedModels {
 
       [pscustomobject]@{
         modelId = $modelName
-        modelVersion = Get-FirstPopulatedValue -Values @(
+        modelVersion = Get-NormalizedModelVersion -Version (Get-FirstPopulatedValue -Values @(
           (Get-NestedPropertyValue -InputObject $model -Path @('version')),
           (Get-NestedPropertyValue -InputObject $model -Path @('modelVersion')),
           (Get-NestedPropertyValue -InputObject $model -Path @('model', 'version')),
           (Get-NestedPropertyValue -InputObject $model -Path @('properties', 'version')),
           (Get-NestedPropertyValue -InputObject $model -Path @('properties', 'model', 'version'))
-        )
+        ))
       }
     }
   )
@@ -383,10 +678,13 @@ function Get-OpenAiReadiness {
     $blockingFindings.Add('AZURE_OPENAI_ACCOUNT_DISCOVERY_FAILED')
   }
 
-  $selectedAccount = $discoveredAccounts | Where-Object location -eq $Location | Select-Object -First 1
-  if ($null -eq $selectedAccount) {
-    $selectedAccount = $discoveredAccounts | Select-Object -First 1
-  }
+  $normalizedLocation = Get-NormalizedLocationName -Location $Location
+  $selectedAccount = @(
+    $discoveredAccounts |
+      Where-Object {
+        (Get-NormalizedLocationName -Location (Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $_ -Path @('location'))))) -eq $normalizedLocation
+      }
+  ) | Select-Object -First 1
 
   $listedModels = @()
   if ($null -ne $selectedAccount) {
@@ -409,19 +707,21 @@ function Get-OpenAiReadiness {
   $normalizedModels = @(Get-NormalizedListedModels -ListedModels $listedModels)
   $openAiModels = @(
     foreach ($requiredModel in $RequiredModels) {
+      $requiredVersion = Get-NormalizedModelVersion -Version $requiredModel.modelVersion
       $quotaRow = Find-QuotaRow -QuotaRows $quotaRows -QuotaName $requiredModel.quotaName
       $quotaLimit = if ($null -ne $quotaRow) { [double] $quotaRow.limit } else { $null }
       $quotaCurrentValue = if ($null -ne $quotaRow) { [double] $quotaRow.currentValue } else { $null }
       $quotaAvailable = ($null -ne $quotaRow -and $quotaLimit -gt 0)
 
-      $match = @(
+      $modelCandidates = @(
         $normalizedModels |
+          Where-Object { $_.modelId -eq $requiredModel.modelId }
+      )
+
+      $match = @(
+        $modelCandidates |
           Where-Object {
-            $_.modelId -eq $requiredModel.modelId -and (
-              [string]::IsNullOrWhiteSpace([string] $requiredModel.modelVersion) -or
-              [string]::IsNullOrWhiteSpace([string] $_.modelVersion) -or
-              $_.modelVersion -eq $requiredModel.modelVersion
-            )
+            $requiredVersion -eq $null -or $_.modelVersion -eq $requiredVersion
           }
       ) | Select-Object -First 1
 
@@ -435,14 +735,20 @@ function Get-OpenAiReadiness {
       elseif ($null -eq $selectedAccount) {
         'NO_OPENAI_ACCOUNT_AVAILABLE_FOR_LIST_MODELS'
       }
-      else {
+      elseif ($modelCandidates.Count -eq 0) {
         'MODEL_NOT_LISTED'
+      }
+      elseif ($requiredVersion -and @($modelCandidates | Where-Object { $null -eq $_.modelVersion }).Count -gt 0) {
+        'MODEL_VERSION_UNKNOWN'
+      }
+      else {
+        'MODEL_VERSION_MISMATCH'
       }
 
       [pscustomobject]@{
         route = $requiredModel.route
         modelId = $requiredModel.modelId
-        requiredVersion = $requiredModel.modelVersion
+        requiredVersion = $requiredVersion
         discoveryAccountName = if ($null -ne $selectedAccount) { $selectedAccount.name } else { $null }
         discoveryAccountResourceGroup = if ($null -ne $selectedAccount) { $selectedAccount.resourceGroup } else { $null }
         available = $available
@@ -509,6 +815,8 @@ function ConvertTo-PreflightResult {
   )
 
   $blockingFindings = [System.Collections.Generic.List[string]]::new()
+  $sanitizedPolicyAssignments = @(Get-SafePolicyAssignments -PolicyAssignments $PolicyAssignments)
+  $normalizedLocation = Get-NormalizedLocationName -Location $Location
 
   foreach ($providerNamespace in $RequiredProviders) {
     $provider = @($ResourceProviders | Where-Object namespace -eq $providerNamespace) | Select-Object -First 1
@@ -517,9 +825,19 @@ function ConvertTo-PreflightResult {
     }
   }
 
-  foreach ($policyAssignment in @($PolicyAssignments)) {
+  foreach ($policyAssignment in $sanitizedPolicyAssignments) {
     $allowedLocations = @($policyAssignment.allowedLocations)
-    if ($allowedLocations.Count -gt 0 -and $allowedLocations -notcontains $Location.ToLowerInvariant()) {
+    if ($policyAssignment.locationEvidenceStatus -eq 'Indeterminate') {
+      $blockingFindings.Add("AZURE_POLICY_LOCATION_INDETERMINATE:$($policyAssignment.name)")
+      continue
+    }
+
+    if ($policyAssignment.locationEvidenceStatus -eq 'Denied') {
+      $blockingFindings.Add("AZURE_POLICY_LOCATION_DENIED:$($policyAssignment.name)")
+      continue
+    }
+
+    if ($allowedLocations.Count -gt 0 -and $allowedLocations -notcontains $normalizedLocation) {
       $blockingFindings.Add("AZURE_POLICY_LOCATION_DENIED:$($policyAssignment.name)")
     }
   }
@@ -557,7 +875,7 @@ function ConvertTo-PreflightResult {
     tenantId = $TenantId
     location = $Location
     resourceProviders = @($ResourceProviders)
-    policyAssignments = @($PolicyAssignments)
+    policyAssignments = $sanitizedPolicyAssignments
     skuAvailability = if ($null -ne $SkuAvailability) { $SkuAvailability } else { [pscustomobject]@{} }
     openAiModels = @($OpenAiModels)
     namingConflicts = @($NamingConflicts)
@@ -599,7 +917,7 @@ function Invoke-StrattonAzurePreflight {
 
   $policyAssignments = @()
   try {
-    $policyAssignments = @(Get-PolicyAssignments -SubscriptionId $SubscriptionId)
+    $policyAssignments = @(Get-PolicyAssignments -SubscriptionId $SubscriptionId -TargetLocation $Location)
   }
   catch {
     $additionalBlockingFindings.Add('AZURE_POLICY_QUERY_FAILED')
