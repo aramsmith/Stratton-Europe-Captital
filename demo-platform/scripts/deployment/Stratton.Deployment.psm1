@@ -983,6 +983,320 @@ function Invoke-StrattonAzurePreflight {
     -AdditionalBlockingFindings @($additionalBlockingFindings)
 }
 
+function Test-ImageDigest {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $Digest
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Digest)) {
+    return $false
+  }
+
+  return ($Digest -cmatch '^sha256:[a-f0-9]{64}$')
+}
+
+function Get-StrattonImageBuildDefinitions {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $DemoPlatformRoot
+  )
+
+  $resolvedDemoPlatformRoot = (Resolve-Path -LiteralPath $DemoPlatformRoot).Path
+  $worktreeRoot = (Resolve-Path -LiteralPath (Join-Path $resolvedDemoPlatformRoot '..')).Path
+  $phase5AppRoot = (Resolve-Path -LiteralPath (Join-Path $worktreeRoot '5-coding-r4\app')).Path
+
+  return @(
+    [pscustomobject]@{
+      repository = 'stratton/demo-web'
+      dockerfileRelativePath = 'apps\web\Dockerfile'
+      sourceContextPath = $resolvedDemoPlatformRoot
+    },
+    [pscustomobject]@{
+      repository = 'stratton/demo-bff'
+      dockerfileRelativePath = 'apps\bff\Dockerfile'
+      sourceContextPath = $resolvedDemoPlatformRoot
+    },
+    [pscustomobject]@{
+      repository = 'stratton/phase5-api'
+      dockerfileRelativePath = 'Dockerfile.api'
+      sourceContextPath = $phase5AppRoot
+    }
+  )
+}
+
+function New-TemporaryImageTag {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Repository,
+
+    [Parameter(Mandatory)]
+    [string] $CommitSha
+  )
+
+  if ($CommitSha -notmatch '^[0-9a-fA-F]{8,40}$') {
+    throw 'INVALID_COMMIT_SHA'
+  }
+
+  $shortCommitSha = $CommitSha.Substring(0, 8).ToLowerInvariant()
+  $repositoryToken = ($Repository.Split('/')[-1] -replace '[^a-zA-Z0-9-]', '-').ToLowerInvariant()
+  $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+  $uniquenessSuffix = [Guid]::NewGuid().ToString('N').Substring(0, 8).ToLowerInvariant()
+
+  return "dev-$timestamp-$shortCommitSha-$repositoryToken-$uniquenessSuffix"
+}
+
+function Get-AcrBuildRunId {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $BuildResult,
+
+    [Parameter(Mandatory)]
+    [string] $Repository
+  )
+
+  $candidates = [System.Collections.Generic.List[string]]::new()
+  foreach ($candidate in @(
+      (Get-NestedPropertyValue -InputObject $BuildResult -Path @('runId')),
+      (Get-NestedPropertyValue -InputObject $BuildResult -Path @('name'))
+    )) {
+    if (-not [string]::IsNullOrWhiteSpace([string] $candidate)) {
+      $candidates.Add([string] $candidate)
+    }
+  }
+
+  $resourceId = Get-FirstPopulatedValue -Values @((Get-NestedPropertyValue -InputObject $BuildResult -Path @('id')))
+  if (-not [string]::IsNullOrWhiteSpace($resourceId)) {
+    $resourceIdTail = ($resourceId -split '/')[-1]
+    if (-not [string]::IsNullOrWhiteSpace($resourceIdTail)) {
+      $candidates.Add($resourceIdTail)
+    }
+  }
+
+  $distinctCandidates = @(
+    $candidates |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
+
+  if ($distinctCandidates.Count -ne 1) {
+    throw "AMBIGUOUS_IMAGE_BUILD_ID:${Repository}"
+  }
+
+  return $distinctCandidates[0]
+}
+
+function Get-AcrRunStatus {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $RunStatusResult,
+
+    [Parameter(Mandatory)]
+    [string] $Repository,
+
+    [Parameter(Mandatory)]
+    [string] $BuildId
+  )
+
+  $distinctStatuses = @(
+    @(
+      (Get-NestedPropertyValue -InputObject $RunStatusResult -Path @('status')),
+      (Get-NestedPropertyValue -InputObject $RunStatusResult -Path @('runStatus')),
+      (Get-NestedPropertyValue -InputObject $RunStatusResult -Path @('properties', 'status')),
+      (Get-NestedPropertyValue -InputObject $RunStatusResult -Path @('properties', 'runStatus'))
+    ) |
+      Where-Object { -not [string]::IsNullOrWhiteSpace([string] $_) } |
+      ForEach-Object { [string] $_ } |
+      Select-Object -Unique
+  )
+
+  if ($distinctStatuses.Count -ne 1) {
+    throw "AMBIGUOUS_IMAGE_BUILD_STATUS:${Repository}:${BuildId}"
+  }
+
+  return $distinctStatuses[0]
+}
+
+function Get-AcrImageDigest {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $DigestResult,
+
+    [Parameter(Mandatory)]
+    [string] $Repository
+  )
+
+  $digestCandidates = [System.Collections.Generic.List[string]]::new()
+
+  foreach ($candidate in @(
+      $DigestResult,
+      (Get-NestedPropertyValue -InputObject $DigestResult -Path @('digest')),
+      (Get-NestedPropertyValue -InputObject $DigestResult -Path @('value'))
+    )) {
+    if ($null -eq $candidate) {
+      continue
+    }
+
+    foreach ($item in @($candidate)) {
+      if (-not [string]::IsNullOrWhiteSpace([string] $item)) {
+        $digestCandidates.Add([string] $item)
+      }
+    }
+  }
+
+  $distinctDigests = @(
+    $digestCandidates |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
+
+  if ($distinctDigests.Count -ne 1) {
+    throw "AMBIGUOUS_IMAGE_DIGEST:${Repository}"
+  }
+
+  if (-not (Test-ImageDigest -Digest $distinctDigests[0])) {
+    throw "INVALID_IMAGE_DIGEST:${Repository}"
+  }
+
+  return $distinctDigests[0]
+}
+
+function Invoke-StrattonImageBuilds {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $RegistryName,
+
+    [Parameter(Mandatory)]
+    [string] $CommitSha,
+
+    [string] $DemoPlatformRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path,
+
+    [string] $OutFile = (Join-Path $PSScriptRoot '..\..\artifacts\deployment\images.json'),
+
+    [ValidateRange(0, 3600)]
+    [int] $PollIntervalSeconds = 5,
+
+    [ValidateRange(1, 3600)]
+    [int] $MaxPollAttempts = 120,
+
+    [scriptblock] $BuildInvoker,
+
+    [scriptblock] $RunStatusInvoker,
+
+    [scriptblock] $DigestInvoker
+  )
+
+  if ([string]::IsNullOrWhiteSpace($RegistryName)) {
+    throw 'REGISTRY_NAME_REQUIRED'
+  }
+
+  if (-not $BuildInvoker) {
+    $BuildInvoker = {
+      param($Definition, $ResolvedRegistryName, $BuildTag)
+
+      Push-Location -LiteralPath $Definition.sourceContextPath
+      try {
+        Invoke-AzJson -Arguments @(
+          'acr', 'build',
+          '--registry', $ResolvedRegistryName,
+          '--image', "$($Definition.repository):$BuildTag",
+          '--file', $Definition.dockerfileRelativePath,
+          '--no-wait',
+          '.'
+        )
+      }
+      finally {
+        Pop-Location
+      }
+    }
+  }
+
+  if (-not $RunStatusInvoker) {
+    $RunStatusInvoker = {
+      param($ResolvedRegistryName, $BuildId, $Definition)
+
+      Invoke-AzJson -Arguments @(
+        'acr', 'task', 'show-run',
+        '--registry', $ResolvedRegistryName,
+        '--run-id', $BuildId
+      )
+    }
+  }
+
+  if (-not $DigestInvoker) {
+    $DigestInvoker = {
+      param($ResolvedRegistryName, $Repository, $BuildTag, $Definition)
+
+      Invoke-AzJson -Arguments @(
+        'acr', 'repository', 'show',
+        '--name', $ResolvedRegistryName,
+        '--image', "$Repository`:$BuildTag",
+        '--query', 'digest'
+      )
+    }
+  }
+
+  $terminalStatuses = @('Succeeded', 'Failed', 'Error', 'Canceled', 'Cancelled')
+  $definitions = @(Get-StrattonImageBuildDefinitions -DemoPlatformRoot $DemoPlatformRoot)
+  $images = foreach ($definition in $definitions) {
+    $buildTag = New-TemporaryImageTag -Repository $definition.repository -CommitSha $CommitSha
+    $buildResult = & $BuildInvoker $definition $RegistryName $buildTag
+    $buildId = Get-AcrBuildRunId -BuildResult $buildResult -Repository $definition.repository
+
+    $terminalStatus = $null
+    for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
+      $runStatus = & $RunStatusInvoker $RegistryName $buildId $definition
+      $currentStatus = Get-AcrRunStatus `
+        -RunStatusResult $runStatus `
+        -Repository $definition.repository `
+        -BuildId $buildId
+
+      if ($terminalStatuses -contains $currentStatus) {
+        $terminalStatus = $currentStatus
+        break
+      }
+
+      if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
+        Start-Sleep -Seconds $PollIntervalSeconds
+      }
+    }
+
+    if (-not $terminalStatus) {
+      throw "IMAGE_BUILD_STATUS_INDETERMINATE:$($definition.repository):${buildId}"
+    }
+
+    if ($terminalStatus -ne 'Succeeded') {
+      throw "IMAGE_BUILD_FAILED:$($definition.repository):${buildId}:${terminalStatus}"
+    }
+
+    $digest = Get-AcrImageDigest `
+      -DigestResult (& $DigestInvoker $RegistryName $definition.repository $buildTag $definition) `
+      -Repository $definition.repository
+
+    [pscustomobject]@{
+      repository = $definition.repository
+      buildId = $buildId
+      digest = $digest
+    }
+  }
+
+  $artifact = [pscustomobject]@{
+    registryName = $RegistryName
+    generatedAtUtc = (Get-Date).ToUniversalTime().ToString('o')
+    images = @($images)
+  }
+
+  Write-DeploymentArtifact -Path $OutFile -InputObject $artifact
+  return $artifact
+}
+
 function Write-DeploymentArtifact {
   [CmdletBinding()]
   param(
@@ -1004,6 +1318,8 @@ Export-ModuleMember -Function @(
   'Get-RequiredOpenAiModels',
   'Get-RequiredProviderNamespaces',
   'Invoke-AzJson',
+  'Invoke-StrattonImageBuilds',
   'Invoke-StrattonAzurePreflight',
+  'Test-ImageDigest',
   'Write-DeploymentArtifact'
 )
