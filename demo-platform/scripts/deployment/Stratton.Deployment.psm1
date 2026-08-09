@@ -1297,6 +1297,199 @@ function Invoke-StrattonImageBuilds {
   return $artifact
 }
 
+function Get-StrattonMigrationFiles {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $RepositoryRoot
+  )
+
+  $resolvedRepositoryRoot = (Resolve-Path -LiteralPath $RepositoryRoot).Path
+  $worktreeRoot = (Resolve-Path -LiteralPath (Join-Path $resolvedRepositoryRoot '..')).Path
+  $migrationPaths = @(
+    [pscustomobject]@{
+      Name = '001_init.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\001_init.sql'
+    },
+    [pscustomobject]@{
+      Name = '002_demo_authority.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\002_demo_authority.sql'
+    },
+    [pscustomobject]@{
+      Name = 'demo-projection.sql'
+      Path = Join-Path $resolvedRepositoryRoot 'apps\bff\migrations\001_demo_projection.sql'
+    }
+  )
+
+  return @(
+    foreach ($migration in $migrationPaths) {
+      if (-not (Test-Path -LiteralPath $migration.Path -PathType Leaf)) {
+        throw "MIGRATION_FILE_MISSING:$($migration.Name)"
+      }
+      [pscustomobject]@{
+        Name = $migration.Name
+        Path = (Resolve-Path -LiteralPath $migration.Path).Path
+        Sha256 = (Get-FileHash -LiteralPath $migration.Path -Algorithm SHA256).Hash.ToLowerInvariant()
+      }
+    }
+  )
+}
+
+function Get-StrattonBootstrapImageBuildDefinition {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $DemoPlatformRoot
+  )
+
+  $resolvedDemoPlatformRoot = (Resolve-Path -LiteralPath $DemoPlatformRoot).Path
+  $worktreeRoot = (Resolve-Path -LiteralPath (Join-Path $resolvedDemoPlatformRoot '..')).Path
+  $phase5AppRoot = (Resolve-Path -LiteralPath (Join-Path $worktreeRoot '5-coding-r4\app')).Path
+
+  return [pscustomobject]@{
+    repository = 'stratton/bootstrap'
+    dockerfileRelativePath = 'Dockerfile.bootstrap'
+    sourceContextPath = $phase5AppRoot
+  }
+}
+
+function Invoke-StrattonBootstrapImageBuild {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $RegistryName,
+
+    [Parameter(Mandatory)]
+    [string] $CommitSha,
+
+    [string] $DemoPlatformRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path,
+
+    [string] $OutFile = (Join-Path $PSScriptRoot '..\..\artifacts\deployment\images.json'),
+
+    [ValidateRange(0, 3600)]
+    [int] $PollIntervalSeconds = 5,
+
+    [ValidateRange(1, 3600)]
+    [int] $MaxPollAttempts = 120,
+
+    [scriptblock] $BuildInvoker,
+
+    [scriptblock] $RunStatusInvoker,
+
+    [scriptblock] $DigestInvoker
+  )
+
+  if ([string]::IsNullOrWhiteSpace($RegistryName)) {
+    throw 'REGISTRY_NAME_REQUIRED'
+  }
+
+  $definition = Get-StrattonBootstrapImageBuildDefinition -DemoPlatformRoot $DemoPlatformRoot
+  if (-not $BuildInvoker) {
+    $BuildInvoker = {
+      param($Definition, $ResolvedRegistryName, $BuildTag)
+
+      Push-Location -LiteralPath $Definition.sourceContextPath
+      try {
+        Invoke-AzJson -Arguments @(
+          'acr', 'build',
+          '--registry', $ResolvedRegistryName,
+          '--image', "$($Definition.repository):$BuildTag",
+          '--file', $Definition.dockerfileRelativePath,
+          '--no-wait',
+          '.'
+        )
+      }
+      finally {
+        Pop-Location
+      }
+    }
+  }
+
+  if (-not $RunStatusInvoker) {
+    $RunStatusInvoker = {
+      param($ResolvedRegistryName, $BuildId, $Definition)
+
+      Invoke-AzJson -Arguments @(
+        'acr', 'task', 'show-run',
+        '--registry', $ResolvedRegistryName,
+        '--run-id', $BuildId
+      )
+    }
+  }
+
+  if (-not $DigestInvoker) {
+    $DigestInvoker = {
+      param($ResolvedRegistryName, $Repository, $BuildTag, $Definition)
+
+      Invoke-AzJson -Arguments @(
+        'acr', 'repository', 'show',
+        '--name', $ResolvedRegistryName,
+        '--image', "$Repository`:$BuildTag",
+        '--query', 'digest'
+      )
+    }
+  }
+
+  $buildTag = New-TemporaryImageTag -Repository $definition.repository -CommitSha $CommitSha
+  $buildResult = & $BuildInvoker $definition $RegistryName $buildTag
+  $buildId = Get-AcrBuildRunId -BuildResult $buildResult -Repository $definition.repository
+  $terminalStatuses = @('Succeeded', 'Failed', 'Error', 'Canceled', 'Cancelled')
+  $terminalStatus = $null
+  for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
+    $runStatus = & $RunStatusInvoker $RegistryName $buildId $definition
+    $currentStatus = Get-AcrRunStatus `
+      -RunStatusResult $runStatus `
+      -Repository $definition.repository `
+      -BuildId $buildId
+
+    if ($terminalStatuses -contains $currentStatus) {
+      $terminalStatus = $currentStatus
+      break
+    }
+
+    if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $PollIntervalSeconds
+    }
+  }
+
+  if (-not $terminalStatus) {
+    throw "IMAGE_BUILD_STATUS_INDETERMINATE:$($definition.repository):${buildId}"
+  }
+  if ($terminalStatus -ne 'Succeeded') {
+    throw "IMAGE_BUILD_FAILED:$($definition.repository):${buildId}:${terminalStatus}"
+  }
+
+  $digest = Get-AcrImageDigest `
+    -DigestResult (& $DigestInvoker $RegistryName $definition.repository $buildTag $definition) `
+    -Repository $definition.repository
+
+  $existingImages = @()
+  if (Test-Path -LiteralPath $OutFile -PathType Leaf) {
+    $existingArtifact = Get-Content -LiteralPath $OutFile -Raw | ConvertFrom-Json -Depth 50
+    if (
+      $existingArtifact.registryName -and
+      $existingArtifact.registryName -ne $RegistryName
+    ) {
+      throw 'IMAGE_ARTIFACT_REGISTRY_MISMATCH'
+    }
+    $existingImages = @($existingArtifact.images | Where-Object repository -ne $definition.repository)
+  }
+
+  $artifact = [pscustomobject]@{
+    registryName = $RegistryName
+    generatedAtUtc = (Get-Date).ToUniversalTime().ToString('o')
+    images = @(
+      $existingImages + [pscustomobject]@{
+        repository = $definition.repository
+        buildId = $buildId
+        digest = $digest
+      }
+    )
+  }
+  Write-DeploymentArtifact -Path $OutFile -InputObject $artifact
+  return $artifact
+}
+
 function Write-DeploymentArtifact {
   [CmdletBinding()]
   param(
@@ -1366,7 +1559,9 @@ Export-ModuleMember -Function @(
   'ConvertTo-PreflightResult',
   'Get-RequiredOpenAiModels',
   'Get-RequiredProviderNamespaces',
+  'Get-StrattonMigrationFiles',
   'Invoke-AzJson',
+  'Invoke-StrattonBootstrapImageBuild',
   'Invoke-StrattonImageBuilds',
   'Invoke-StrattonAzurePreflight',
   'Test-ImageDigest',

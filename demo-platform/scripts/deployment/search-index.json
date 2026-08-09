@@ -1,0 +1,115 @@
+{
+  "name": "governed-evidence",
+  "fields": [
+    {
+      "name": "id",
+      "type": "Edm.String",
+      "key": true,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    },
+    {
+      "name": "tenantId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "caseId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "evidenceId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    },
+    {
+      "name": "evidenceVersionId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    },
+    {
+      "name": "chunkId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    },
+    {
+      "name": "text",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": false,
+      "searchable": true,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": false
+    },
+    {
+      "name": "classification",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "qualityStatus",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": true,
+      "retrievable": true
+    },
+    {
+      "name": "policyVersion",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    },
+    {
+      "name": "citationLocator",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    }
+  ]
+}

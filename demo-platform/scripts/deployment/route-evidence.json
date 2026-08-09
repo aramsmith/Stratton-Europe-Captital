@@ -1,0 +1,41 @@
+[
+  {
+    "route": "LUNA",
+    "tenantId": "27140306-eea5-4e7f-91e9-4c9e86864b3a",
+    "caseId": "project-danube",
+    "evidenceId": "SEC-EVID-LUNA-ROUTE-v1",
+    "evidenceVersion": "route-evidence-luna-v1",
+    "accountResourceId": "${lunaOpenAiAccountResourceId}",
+    "deploymentId": "${lunaOpenAiDeploymentId}",
+    "region": "${lunaOpenAiRegion}",
+    "apiVersion": "2025-01-01-preview",
+    "approvalStatus": "APPROVED",
+    "validityDays": 30
+  },
+  {
+    "route": "TERRA",
+    "tenantId": "27140306-eea5-4e7f-91e9-4c9e86864b3a",
+    "caseId": "project-danube",
+    "evidenceId": "SEC-EVID-TERRA-ROUTE-v1",
+    "evidenceVersion": "route-evidence-terra-v1",
+    "accountResourceId": "${terraOpenAiAccountResourceId}",
+    "deploymentId": "${terraOpenAiDeploymentId}",
+    "region": "${terraOpenAiRegion}",
+    "apiVersion": "2025-01-01-preview",
+    "approvalStatus": "APPROVED",
+    "validityDays": 30
+  },
+  {
+    "route": "SOL",
+    "tenantId": "27140306-eea5-4e7f-91e9-4c9e86864b3a",
+    "caseId": "project-danube",
+    "evidenceId": "SEC-EVID-SOL-ROUTE-v1",
+    "evidenceVersion": "route-evidence-sol-v1",
+    "accountResourceId": "${solOpenAiAccountResourceId}",
+    "deploymentId": "${solOpenAiDeploymentId}",
+    "region": "${solOpenAiRegion}",
+    "apiVersion": "2025-01-01-preview",
+    "approvalStatus": "APPROVED",
+    "validityDays": 30
+  }
+]

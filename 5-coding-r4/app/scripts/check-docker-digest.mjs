@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const dockerfiles = ["Dockerfile.api", "Dockerfile.worker"];
+const dockerfiles = ["Dockerfile.api", "Dockerfile.worker", "Dockerfile.bootstrap"];
 
 for (const file of dockerfiles) {
   const fullPath = resolve(process.cwd(), file);
