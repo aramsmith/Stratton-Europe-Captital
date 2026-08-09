@@ -5,6 +5,36 @@ Describe 'Stratton Entra reconciliation' {
     $script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
     $script:manifestPath = Join-Path $script:repoRoot 'scripts\deployment\entra-manifest.json'
     $script:entraScriptPath = Join-Path $script:repoRoot 'scripts\deployment\Set-StrattonEntra.ps1'
+    . $script:entraScriptPath -LoadOnly
+
+    function New-TestMatchedApplication {
+      param(
+        [object[]] $PasswordCredentials = @(),
+        [object[]] $KeyCredentials = @(),
+        [bool] $EnableAccessTokenIssuance = $false,
+        [bool] $EnableIdTokenIssuance = $false
+      )
+
+      return [pscustomobject]@{
+        id = '11111111-1111-1111-1111-111111111111'
+        appId = '22222222-2222-2222-2222-222222222222'
+        displayName = 'Stratton Demo Web - dev'
+        identifierUris = @('api://stratton-demo-web-dev')
+        passwordCredentials = @($PasswordCredentials)
+        keyCredentials = @($KeyCredentials)
+        web = [pscustomobject]@{
+          redirectUris = @()
+          implicitGrantSettings = [pscustomobject]@{
+            enableAccessTokenIssuance = $EnableAccessTokenIssuance
+            enableIdTokenIssuance = $EnableIdTokenIssuance
+          }
+        }
+        spa = [pscustomobject]@{ redirectUris = @('http://old.example') }
+        api = $null
+        appRoles = @()
+        requiredResourceAccess = @()
+      }
+    }
   }
 
   It 'rejects password credentials and implicit grant settings' {
@@ -40,13 +70,15 @@ Describe 'Stratton Entra reconciliation' {
   }
 
   It 'performs Graph reads but no Graph writes in WhatIf mode' {
-    . $script:entraScriptPath -LoadOnly
     $script:graphRequests = [System.Collections.Generic.List[object]]::new()
 
     $result = Invoke-StrattonEntraReconciliation `
       -TenantId '27140306-eea5-4e7f-91e9-4c9e86864b3a' `
       -WebRedirectUri 'http://localhost:4173' `
       -WhatIf `
+      -AccountInvoker {
+        [pscustomobject]@{ tenantId = '27140306-eea5-4e7f-91e9-4c9e86864b3a' }
+      } `
       -GraphInvoker {
         param($Method, $Uri, $Body)
 
@@ -65,9 +97,195 @@ Describe 'Stratton Entra reconciliation' {
     @($result.plan | Where-Object action -eq 'Create application') | Should -HaveCount 3
   }
 
-  It 'rejects a managed identity principal whose client ID is not the BFF client ID' {
-    . $script:entraScriptPath -LoadOnly
+  It 'rejects a tenant other than the approved tenant before account or Graph calls' {
+    $script:accountCalls = 0
+    $script:graphCalls = 0
 
+    {
+      Invoke-StrattonEntraReconciliation `
+        -TenantId 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' `
+        -WebRedirectUri 'http://localhost:4173' `
+        -WhatIf `
+        -AccountInvoker {
+          $script:accountCalls++
+          [pscustomobject]@{ tenantId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' }
+        } `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          $script:graphCalls++
+          [pscustomobject]@{ value = @() }
+        }
+    } | Should -Throw 'ENTRA_TENANT_NOT_APPROVED'
+
+    $script:accountCalls | Should -Be 0
+    $script:graphCalls | Should -Be 0
+  }
+
+  It 'rejects the wrong active Azure tenant before any Graph call' {
+    $script:graphCalls = 0
+
+    {
+      Invoke-StrattonEntraReconciliation `
+        -TenantId '27140306-eea5-4e7f-91e9-4c9e86864b3a' `
+        -WebRedirectUri 'http://localhost:4173' `
+        -WhatIf `
+        -AccountInvoker {
+          [pscustomobject]@{ tenantId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' }
+        } `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          $script:graphCalls++
+          [pscustomobject]@{ value = @() }
+        }
+    } | Should -Throw 'ENTRA_AZURE_TENANT_MISMATCH'
+
+    $script:graphCalls | Should -Be 0
+  }
+
+  It 'preserves the existing application when Graph PATCH returns no content' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key web
+    $existingApplication = New-TestMatchedApplication
+    $plan = [System.Collections.Generic.List[object]]::new()
+
+    $application = Ensure-StrattonApplication `
+      -Manifest $manifest `
+      -ApplicationDefinition $definition `
+      -DesiredDefinition (New-ApplicationDefinition `
+        -Manifest $manifest `
+        -Application $definition `
+        -WebRedirectUri 'http://localhost:4173') `
+      -Plan $plan `
+      -GraphInvoker {
+        param($Method, $Uri, $Body)
+
+        if ($Uri -match '/applications\?') {
+          return [pscustomobject]@{ value = @($existingApplication) }
+        }
+
+        if ($Method -eq 'GET') {
+          return $existingApplication
+        }
+
+        return $null
+      }
+
+    $application.id | Should -Be '11111111-1111-1111-1111-111111111111'
+    $application.appId | Should -Be '22222222-2222-2222-2222-222222222222'
+    @($plan | Where-Object action -eq 'Update application') | Should -HaveCount 1
+  }
+
+  It 'rejects an existing matched application with password credentials' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key web
+    $application = New-TestMatchedApplication -PasswordCredentials @(
+      [pscustomobject]@{
+        displayName = 'prohibited-secret'
+        keyId = '33333333-3333-3333-3333-333333333333'
+      }
+    )
+
+    {
+      Find-StrattonApplication `
+        -Definition $definition `
+        -IdentifierUriPrefix $manifest.identifierUriPrefix `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          if ($Uri -match '&') {
+            throw 'WINDOWS_AZ_URI_SPLIT'
+          }
+          if ($Uri -match '/applications\?') {
+            return [pscustomobject]@{
+              value = @(
+                [pscustomobject]@{
+                  id = $application.id
+                  appId = $application.appId
+                  displayName = $application.displayName
+                  identifierUris = @($application.identifierUris)
+                }
+              )
+            }
+          }
+
+          return $application
+        }
+    } | Should -Throw 'ENTRA_APPLICATION_PASSWORD_CREDENTIALS_PROHIBITED'
+  }
+
+  It 'rejects an existing matched application with key credentials' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key web
+    $application = New-TestMatchedApplication -KeyCredentials @(
+      [pscustomobject]@{
+        displayName = 'prohibited-certificate'
+        keyId = '44444444-4444-4444-4444-444444444444'
+        type = 'AsymmetricX509Cert'
+        usage = 'Verify'
+      }
+    )
+
+    {
+      Find-StrattonApplication `
+        -Definition $definition `
+        -IdentifierUriPrefix $manifest.identifierUriPrefix `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          if ($Uri -match '/applications\?') {
+            return [pscustomobject]@{ value = @($application) }
+          }
+
+          return $application
+        }
+    } | Should -Throw 'ENTRA_APPLICATION_KEY_CREDENTIALS_PROHIBITED'
+  }
+
+  It 'rejects an existing matched application with implicit access-token issuance' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key web
+    $application = New-TestMatchedApplication -EnableAccessTokenIssuance $true
+
+    {
+      Find-StrattonApplication `
+        -Definition $definition `
+        -IdentifierUriPrefix $manifest.identifierUriPrefix `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          if ($Uri -match '/applications\?') {
+            return [pscustomobject]@{ value = @($application) }
+          }
+
+          return $application
+        }
+    } | Should -Throw 'ENTRA_APPLICATION_IMPLICIT_GRANT_PROHIBITED'
+  }
+
+  It 'rejects an existing matched application with implicit ID-token issuance' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key web
+    $application = New-TestMatchedApplication -EnableIdTokenIssuance $true
+
+    {
+      Find-StrattonApplication `
+        -Definition $definition `
+        -IdentifierUriPrefix $manifest.identifierUriPrefix `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          if ($Uri -match '/applications\?') {
+            return [pscustomobject]@{ value = @($application) }
+          }
+
+          return $application
+        }
+    } | Should -Throw 'ENTRA_APPLICATION_IMPLICIT_GRANT_PROHIBITED'
+  }
+
+  It 'rejects a managed identity principal whose client ID is not the BFF client ID' {
     {
       Get-BffManagedIdentityServicePrincipal `
         -PrincipalId '11111111-1111-1111-1111-111111111111' `
@@ -78,13 +296,77 @@ Describe 'Stratton Entra reconciliation' {
           [pscustomobject]@{
             id = '11111111-1111-1111-1111-111111111111'
             appId = '33333333-3333-3333-3333-333333333333'
+            servicePrincipalType = 'ManagedIdentity'
           }
         }
     } | Should -Throw 'ENTRA_BFF_MANAGED_IDENTITY_MISMATCH'
   }
 
+  It 'rejects an ordinary application service principal as the BFF managed identity' {
+    {
+      Get-BffManagedIdentityServicePrincipal `
+        -PrincipalId '11111111-1111-1111-1111-111111111111' `
+        -ClientId '22222222-2222-2222-2222-222222222222' `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          [pscustomobject]@{
+            id = '11111111-1111-1111-1111-111111111111'
+            appId = '22222222-2222-2222-2222-222222222222'
+            servicePrincipalType = 'Application'
+          }
+        }
+    } | Should -Throw 'ENTRA_BFF_MANAGED_IDENTITY_TYPE_INVALID'
+  }
+
+  It 'rejects a Phase 5 completion-role assignment to a foreign principal' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $plan = [System.Collections.Generic.List[object]]::new()
+    $script:graphRequests = [System.Collections.Generic.List[object]]::new()
+
+    {
+      Ensure-Phase5CompletionRoleAssignment `
+        -Phase5ServicePrincipal ([pscustomobject]@{
+          id = '55555555-5555-5555-5555-555555555555'
+        }) `
+        -Manifest $manifest `
+        -BffManagedIdentityServicePrincipal ([pscustomobject]@{
+          id = '11111111-1111-1111-1111-111111111111'
+        }) `
+        -Plan $plan `
+        -WhatIf `
+        -GraphInvoker {
+          param($Method, $Uri, $Body)
+
+          $script:graphRequests.Add([pscustomobject]@{
+              method = $Method
+              uri = $Uri
+            })
+          if ($Uri -notmatch 'page=2') {
+            return [pscustomobject]@{
+              value = @()
+              '@odata.nextLink' = 'https://graph.microsoft.com/v1.0/servicePrincipals/55555555-5555-5555-5555-555555555555/appRoleAssignedTo?page=2'
+            }
+          }
+
+          [pscustomobject]@{
+            value = @(
+              [pscustomobject]@{
+                id = '66666666-6666-6666-6666-666666666666'
+                principalId = '77777777-7777-7777-7777-777777777777'
+                resourceId = '55555555-5555-5555-5555-555555555555'
+                appRoleId = '647359fa-8313-475c-a34b-bdca05b1f329'
+              }
+            )
+          }
+        }
+    } | Should -Throw 'ENTRA_PHASE5_ROLE_ASSIGNED_TO_FOREIGN_PRINCIPAL'
+
+    @($script:graphRequests | Where-Object method -ne 'GET') | Should -BeNullOrEmpty
+    @($script:graphRequests | Where-Object uri -match '/appRoleAssignedTo') | Should -HaveCount 2
+  }
+
   It 'rejects an apply without BFF managed identity inputs before making Graph calls' {
-    . $script:entraScriptPath -LoadOnly
     $script:graphRequests = [System.Collections.Generic.List[object]]::new()
 
     {

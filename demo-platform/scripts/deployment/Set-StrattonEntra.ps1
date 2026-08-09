@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [ValidatePattern('^[0-9a-fA-F-]{36}$')]
+  [ValidateSet('27140306-eea5-4e7f-91e9-4c9e86864b3a')]
   [string] $TenantId,
 
   [ValidatePattern('^https?://')]
@@ -22,6 +22,7 @@ $ErrorActionPreference = 'Stop'
 
 $modulePath = Join-Path $PSScriptRoot 'Stratton.Deployment.psm1'
 Import-Module $modulePath -Force
+$script:ApprovedTenantId = '27140306-eea5-4e7f-91e9-4c9e86864b3a'
 
 function Get-PropertyValue {
   [CmdletBinding()]
@@ -94,6 +95,59 @@ function Invoke-Graph {
   return Invoke-AzJson -Arguments $arguments
 }
 
+function Assert-EntraTenantContext {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $TenantId,
+
+    [AllowNull()]
+    [scriptblock] $AccountInvoker
+  )
+
+  if ($TenantId -cne $script:ApprovedTenantId) {
+    throw 'ENTRA_TENANT_NOT_APPROVED'
+  }
+
+  $account = if ($null -ne $AccountInvoker) {
+    & $AccountInvoker
+  }
+  else {
+    Invoke-AzJson -Arguments @('account', 'show')
+  }
+
+  if (
+    $null -eq $account -or
+    (Get-PropertyValue -InputObject $account -Name tenantId) -cne $script:ApprovedTenantId
+  ) {
+    throw 'ENTRA_AZURE_TENANT_MISMATCH'
+  }
+}
+
+function Get-AllGraphCollection {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Uri,
+
+    [AllowNull()]
+    [scriptblock] $GraphInvoker
+  )
+
+  $items = [System.Collections.Generic.List[object]]::new()
+  $nextUri = $Uri
+  while (-not [string]::IsNullOrWhiteSpace($nextUri)) {
+    $response = Invoke-Graph -Method GET -Uri $nextUri -GraphInvoker $GraphInvoker
+    foreach ($item in @(Get-GraphCollection -Response $response)) {
+      $items.Add($item)
+    }
+
+    $nextUri = [string] (Get-PropertyValue -InputObject $response -Name '@odata.nextLink')
+  }
+
+  return @($items)
+}
+
 function Add-ReconciliationPlan {
   [CmdletBinding()]
   param(
@@ -161,10 +215,45 @@ function Find-StrattonApplication {
   }
 
   if ($matches.Count -eq 1) {
-    return $matches[0]
+    $select = [uri]::EscapeDataString(
+      'id,appId,displayName,identifierUris,passwordCredentials,keyCredentials,web,spa,api,appRoles,requiredResourceAccess'
+    )
+    $application = Invoke-Graph `
+      -Method GET `
+      -Uri "https://graph.microsoft.com/v1.0/applications/$($matches[0].id)?`$select=$select" `
+      -GraphInvoker $GraphInvoker
+    Assert-ApplicationHasNoProhibitedAuthState -Application $application
+    return $application
   }
 
   return $null
+}
+
+function Assert-ApplicationHasNoProhibitedAuthState {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [object] $Application
+  )
+
+  $passwordCredentials = @(Get-PropertyValue -InputObject $Application -Name passwordCredentials)
+  if ($passwordCredentials.Count -gt 0) {
+    throw 'ENTRA_APPLICATION_PASSWORD_CREDENTIALS_PROHIBITED'
+  }
+
+  $keyCredentials = @(Get-PropertyValue -InputObject $Application -Name keyCredentials)
+  if ($keyCredentials.Count -gt 0) {
+    throw 'ENTRA_APPLICATION_KEY_CREDENTIALS_PROHIBITED'
+  }
+
+  $web = Get-PropertyValue -InputObject $Application -Name web
+  $implicitGrantSettings = Get-PropertyValue -InputObject $web -Name implicitGrantSettings
+  if (
+    (Get-PropertyValue -InputObject $implicitGrantSettings -Name enableAccessTokenIssuance) -eq $true -or
+    (Get-PropertyValue -InputObject $implicitGrantSettings -Name enableIdTokenIssuance) -eq $true
+  ) {
+    throw 'ENTRA_APPLICATION_IMPLICIT_GRANT_PROHIBITED'
+  }
 }
 
 function New-DelegatedScope {
@@ -352,11 +441,11 @@ function Ensure-StrattonApplication {
   if (-not (Test-ApplicationMatches -Application $application -Definition $DesiredDefinition)) {
     Add-ReconciliationPlan -Plan $Plan -Action 'Update application' -Target $ApplicationDefinition.displayName
     if (-not $WhatIf) {
-      $application = Invoke-Graph `
+      Invoke-Graph `
         -Method PATCH `
         -Uri "https://graph.microsoft.com/v1.0/applications/$($application.id)" `
         -Body $DesiredDefinition `
-        -GraphInvoker $GraphInvoker
+        -GraphInvoker $GraphInvoker | Out-Null
     }
   }
 
@@ -419,6 +508,10 @@ function Get-BffManagedIdentityServicePrincipal {
     -Method GET `
     -Uri "https://graph.microsoft.com/v1.0/servicePrincipals/$PrincipalId" `
     -GraphInvoker $GraphInvoker
+  if ($servicePrincipal.servicePrincipalType -cne 'ManagedIdentity') {
+    throw 'ENTRA_BFF_MANAGED_IDENTITY_TYPE_INVALID'
+  }
+
   if ($servicePrincipal.appId -cne $ClientId) {
     throw 'ENTRA_BFF_MANAGED_IDENTITY_MISMATCH'
   }
@@ -576,24 +669,37 @@ function Ensure-Phase5CompletionRoleAssignment {
     [scriptblock] $GraphInvoker
   )
 
-  $uri = "https://graph.microsoft.com/v1.0/servicePrincipals/$($BffManagedIdentityServicePrincipal.id)/appRoleAssignments"
-  $assignments = @(Get-GraphCollection -Response (Invoke-Graph -Method GET -Uri $uri -GraphInvoker $GraphInvoker))
-  $assignment = @(
+  $uri = "https://graph.microsoft.com/v1.0/servicePrincipals/$($Phase5ServicePrincipal.id)/appRoleAssignedTo"
+  $assignments = @(Get-AllGraphCollection -Uri $uri -GraphInvoker $GraphInvoker)
+  $completionRoleAssignments = @(
     $assignments | Where-Object {
-      $_.resourceId -eq $Phase5ServicePrincipal.id -and
       $_.appRoleId -eq $Manifest.phase5CompletionRoleId
     }
   )
-  if ($assignment.Count -gt 1) {
+  $foreignAssignments = @(
+    $completionRoleAssignments | Where-Object {
+      $_.principalId -cne $BffManagedIdentityServicePrincipal.id
+    }
+  )
+  if ($foreignAssignments.Count -gt 0) {
+    throw 'ENTRA_PHASE5_ROLE_ASSIGNED_TO_FOREIGN_PRINCIPAL'
+  }
+
+  $approvedAssignments = @(
+    $completionRoleAssignments | Where-Object {
+      $_.principalId -ceq $BffManagedIdentityServicePrincipal.id
+    }
+  )
+  if ($approvedAssignments.Count -gt 1) {
     throw 'ENTRA_APP_ROLE_ASSIGNMENT_CONFLICT'
   }
 
-  if ($assignment.Count -eq 0) {
+  if ($approvedAssignments.Count -eq 0) {
     Add-ReconciliationPlan -Plan $Plan -Action 'Assign Phase 5 completion role' -Target 'BFF managed identity'
     if (-not $WhatIf) {
       Invoke-Graph `
         -Method POST `
-        -Uri $uri `
+        -Uri "https://graph.microsoft.com/v1.0/servicePrincipals/$($BffManagedIdentityServicePrincipal.id)/appRoleAssignments" `
         -Body @{
           principalId = $BffManagedIdentityServicePrincipal.id
           resourceId = $Phase5ServicePrincipal.id
@@ -608,7 +714,6 @@ function Invoke-StrattonEntraReconciliation {
   [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
-    [ValidatePattern('^[0-9a-fA-F-]{36}$')]
     [string] $TenantId,
 
     [Parameter(Mandatory)]
@@ -622,6 +727,9 @@ function Invoke-StrattonEntraReconciliation {
     [string] $BffManagedIdentityClientId,
 
     [switch] $WhatIf,
+
+    [AllowNull()]
+    [scriptblock] $AccountInvoker,
 
     [AllowNull()]
     [scriptblock] $GraphInvoker
@@ -638,6 +746,8 @@ function Invoke-StrattonEntraReconciliation {
   ) {
     throw 'BFF_MANAGED_IDENTITY_INPUT_REQUIRED'
   }
+
+  Assert-EntraTenantContext -TenantId $TenantId -AccountInvoker $AccountInvoker
 
   $webDefinition = Get-ManifestApplication -Manifest $manifest -Key web
   $bffDefinition = Get-ManifestApplication -Manifest $manifest -Key bff
