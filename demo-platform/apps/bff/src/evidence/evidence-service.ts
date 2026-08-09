@@ -9,7 +9,7 @@ const promptInjectionSecurityGateId = "CC002-R2-SEC-GATE-002";
 
 interface EvidenceServiceDependencies {
   readonly repository: ScenarioRepository;
-  readonly phase5Client: Phase5Client;
+  readonly phase5Client?: Phase5Client;
   readonly createId?: () => string;
   readonly now?: () => string;
 }
@@ -112,12 +112,14 @@ export class EvidenceService {
       }
 
       if (!workflowSubmitted) {
-        await this.dependencies.phase5Client.admitEvidence({
-          caseId: input.caseId,
-          evidenceId: input.evidenceId,
-          idempotencyKey: operationId,
-          correlationId: input.correlationId
-        });
+        if (this.dependencies.phase5Client) {
+          await this.dependencies.phase5Client.admitEvidence({
+            caseId: input.caseId,
+            evidenceId: input.evidenceId,
+            idempotencyKey: operationId,
+            correlationId: input.correlationId
+          });
+        }
         workflowSubmitted = true;
       }
 

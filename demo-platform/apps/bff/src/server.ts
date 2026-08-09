@@ -10,7 +10,7 @@ import { createManagedIdentityCredential } from "./azure/managed-identity.js";
 import { createOpenAiAdapter } from "./azure/openai-analysis-adapter.js";
 import { createSearchAdapter } from "./azure/search-adapter.js";
 import { createServiceBusAdapter } from "./azure/service-bus-adapter.js";
-import { createAzureWorkflowClient } from "./azure/azure-workflow-client.js";
+import { createAzureSupportingAnalysis } from "./azure/azure-workflow-client.js";
 import { parseDemoConfig, type DemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
@@ -26,10 +26,14 @@ import {
   runWithTrustedRequestContext
 } from "./identity/request-context.js";
 import {
-  createPhase5Client,
-  type Phase5Client
-} from "./phase5/phase5-client.js";
-import { createGovernedWorkflowClient } from "./phase5/governed-workflow-client.js";
+  createDemoAuthorityClient,
+  type DemoAuthorityClient
+} from "./phase5/demo-authority-client.js";
+import {
+  createAuthoritativeBundleWorkflowClient,
+  type AuthoritativeBundleWorkflowClient
+} from "./phase5/governed-workflow-client.js";
+import { createLocalDemoAuthorityClient } from "./phase5/local-demo-authority-client.js";
 import {
   AzureSqlScenarioRepository,
   createManagedIdentitySqlExecutor
@@ -180,7 +184,7 @@ async function startServer(): Promise<void> {
   try {
     const config = parseDemoConfig();
     const repository = await createScenarioRepository(config);
-    const phase5Client = createWorkflowClient(config, logger);
+    const workflow = createWorkflowClient(config, logger);
     const security: DemoServerSecurityOptions =
       config.DEMO_MODE === "LOCAL"
         ? localServerSecurityOptions
@@ -188,9 +192,17 @@ async function startServer(): Promise<void> {
 
     createDemoServer({
       scenarioService: new ScenarioService(repository),
-      evidenceService: new EvidenceService({ repository, phase5Client }),
-      analysisService: new AnalysisService({ repository, phase5Client }),
-      reviewService: new ReviewService({ repository, phase5Client }),
+      evidenceService: new EvidenceService({ repository }),
+      analysisService: new AnalysisService({
+        repository,
+        authoritativeWorkflow: workflow.analysis,
+        getTenantId: () => getTrustedRequestContext().identity.tenantId
+      }),
+      reviewService: new ReviewService({
+        repository,
+        demoAuthorityClient: workflow.authority,
+        getTenantId: () => getTrustedRequestContext().identity.tenantId
+      }),
       governanceService: new GovernanceService({ repository })
     }, security).listen(config.PORT, () => {
       console.log(`Stratton demo BFF listening on ${config.PORT}`);
@@ -224,43 +236,41 @@ function getCorrelationId(response: express.Response): string {
   return setCorrelationId(response);
 }
 
-export function createLocalPhase5Client(): Phase5Client {
-  return {
-    admitEvidence: async () => undefined,
-    requestAnalysis: async (input) => ({
-      analysisRunId: `local-analysis-${input.analysisRequestFingerprint.slice(0, 12)}`,
-      status: "QUEUED"
-    }),
-    submitReview: async () => undefined,
-    prepareDraft: async () => undefined
-  };
+interface AuthoritativeWorkflow {
+  readonly authority: DemoAuthorityClient;
+  readonly analysis: AuthoritativeBundleWorkflowClient;
 }
 
 type AzureDemoConfig = ReturnType<typeof parseAzureDemoConfig>;
 
 interface WorkflowClientFactoryOverrides {
-  readonly createLocalPhase5Client?: typeof createLocalPhase5Client;
+  readonly createLocalDemoAuthorityClient?: typeof createLocalDemoAuthorityClient;
   readonly parseAzureConfig?: typeof parseAzureDemoConfig;
   readonly createAzureAdapters?: typeof createAzureAdapters;
-  readonly createAzureSupportingOperations?: typeof createAzureWorkflowClient;
-  readonly createPhase5AuthorityClient?: typeof createPhase5Client;
-  readonly createGovernedWorkflowClient?: typeof createGovernedWorkflowClient;
-  readonly getPhase5AccessToken?: () => Promise<string>;
+  readonly createAzureSupportingAnalysis?: typeof createAzureSupportingAnalysis;
+  readonly createDemoAuthorityClient?: typeof createDemoAuthorityClient;
 }
 
 export function createWorkflowClient(
   config: ReturnType<typeof parseDemoConfig>,
   logger: RedactedLogger,
   overrides: WorkflowClientFactoryOverrides = {}
-): Phase5Client {
+): AuthoritativeWorkflow {
   if (config.DEMO_MODE === "LOCAL") {
-    return (overrides.createLocalPhase5Client ?? createLocalPhase5Client)();
+    const authority = (overrides.createLocalDemoAuthorityClient ?? createLocalDemoAuthorityClient)();
+    return {
+      authority,
+      analysis: createAuthoritativeBundleWorkflowClient({
+        authority,
+        supporting: { requestAnalysis: async () => undefined }
+      })
+    };
   }
 
   const azureConfig = (overrides.parseAzureConfig ?? parseAzureDemoConfig)();
   const adapters = (overrides.createAzureAdapters ?? createAzureAdapters)(azureConfig, logger);
   const supporting = (
-    overrides.createAzureSupportingOperations ?? createAzureWorkflowClient
+    overrides.createAzureSupportingAnalysis ?? createAzureSupportingAnalysis
   )({
     tenantId: azureConfig.DEMO_TENANT_ID,
     caseId: "project-danube",
@@ -268,41 +278,27 @@ export function createWorkflowClient(
     ...adapters,
     logger: logger.child({ dependency: "workflow-supporting-operations" })
   });
-  const getAccessToken =
-    overrides.getPhase5AccessToken ??
-    createDelegatedPhase5AccessTokenProvider(
-      config.ENTRA_TOKEN_ENDPOINT,
-      config.PHASE5_DELEGATED_SCOPE,
-      config.AZURE_MANAGED_IDENTITY_CLIENT_ID
-    );
-  const authority = (overrides.createPhase5AuthorityClient ?? createPhase5Client)({
+  const authority = (overrides.createDemoAuthorityClient ?? createDemoAuthorityClient)({
     baseUrl: config.PHASE5_API_BASE_URL,
-    getAccessToken,
+    oboTokenExchange: createOboTokenExchange({
+      tokenEndpoint: config.ENTRA_TOKEN_ENDPOINT,
+      phase5DelegatedScope: config.PHASE5_DELEGATED_SCOPE,
+      managedIdentityClientId: config.AZURE_MANAGED_IDENTITY_CLIENT_ID
+    }),
+    getDelegatedUserToken: async () => {
+      const token = getTrustedRequestContext().delegatedUserToken;
+      if (!token) {
+        throw new DemoHttpError(401, "UNAUTHENTICATED", "DELEGATED_TOKEN_REQUIRED");
+      }
+      return token;
+    },
+    phase5ApplicationId: config.PHASE5_APPLICATION_ID,
+    managedIdentityClientId: config.AZURE_MANAGED_IDENTITY_CLIENT_ID,
     getRequestContext: getTrustedRequestContext
   });
-
-  return (overrides.createGovernedWorkflowClient ?? createGovernedWorkflowClient)({
+  return {
     authority,
-    supporting
-  });
-}
-
-function createDelegatedPhase5AccessTokenProvider(
-  tokenEndpoint: string,
-  phase5DelegatedScope: string,
-  managedIdentityClientId: string
-): () => Promise<string> {
-  const exchange = createOboTokenExchange({
-    tokenEndpoint,
-    phase5DelegatedScope,
-    managedIdentityClientId
-  });
-  return async () => {
-    const userAssertion = getTrustedRequestContext().delegatedUserToken?.accessToken;
-    if (!userAssertion) {
-      throw new DemoHttpError(401, "UNAUTHENTICATED", "DELEGATED_TOKEN_REQUIRED");
-    }
-    return exchange.acquirePhase5Token(userAssertion);
+    analysis: createAuthoritativeBundleWorkflowClient({ authority, supporting })
   };
 }
 

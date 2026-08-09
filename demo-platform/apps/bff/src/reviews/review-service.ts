@@ -9,12 +9,15 @@ import type {
 import { getEligibleReviewTypesForDomains } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
 import { getSecurityGateReadinessBlocker } from "../governance/security-gates.js";
+import type { DemoAuthorityClient } from "../phase5/demo-authority-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository, ScenarioSnapshot } from "../scenario/scenario-repository.js";
 
 interface ReviewServiceDependencies {
   readonly repository: ScenarioRepository;
-  readonly phase5Client: Phase5Client;
+  readonly phase5Client?: Phase5Client;
+  readonly demoAuthorityClient?: DemoAuthorityClient;
+  readonly getTenantId?: () => string;
   readonly createId?: () => string;
   readonly now?: () => string;
 }
@@ -50,11 +53,13 @@ interface SuccessfulOperation {
 export class ReviewService {
   private readonly createId: () => string;
   private readonly now: () => string;
+  private readonly getTenantId: () => string;
   private pendingMutation: Promise<void> = Promise.resolve();
 
   public constructor(private readonly dependencies: ReviewServiceDependencies) {
     this.createId = dependencies.createId ?? randomUUID;
     this.now = dependencies.now ?? (() => new Date().toISOString());
+    this.getTenantId = dependencies.getTenantId ?? (() => "local-stratton-demo");
   }
 
   public async submitReview(input: SubmitReviewInput): Promise<ScenarioState> {
@@ -124,7 +129,10 @@ export class ReviewService {
         });
       }
 
-      const subjectVersion = getLatestFindingVersion(finding);
+      const analysisAuthority = this.dependencies.demoAuthorityClient
+        ? requireAnalysisAuthority(state)
+        : undefined;
+      const subjectVersion = analysisAuthority?.subjectVersion ?? getLatestFindingVersion(finding);
       if (input.subjectVersion !== subjectVersion) {
         throw new DemoHttpError(409, "STATE_CONFLICT", "FINDING_VERSION_STALE");
       }
@@ -157,18 +165,35 @@ export class ReviewService {
         throw new DemoHttpError(409, "STATE_CONFLICT", "REVIEW_RETRY_CONFLICT");
       }
 
-      await this.dependencies.phase5Client.submitReview({
-        caseId: input.caseId,
-        analysisRunId,
-        reviewType: input.reviewType,
-        decision: input.decision,
-        rationale: input.rationale.trim(),
-        subjectVersion,
-        idempotencyKey: operationId,
-        correlationId: input.correlationId
-      });
-
       const reviewId = this.createId();
+      if (this.dependencies.demoAuthorityClient && analysisAuthority) {
+        await this.dependencies.demoAuthorityClient.submitBundleReview({
+          tenantId: this.getTenantId(),
+          caseId: input.caseId,
+          analysisBundleId: analysisAuthority.analysisBundleId,
+          reviewId,
+          subjectVersion,
+          reviewType: input.reviewType,
+          decision: input.decision,
+          rationale: input.rationale.trim(),
+          evidenceManifestHash: analysisAuthority.evidenceManifestHash
+        });
+      } else {
+        if (!this.dependencies.phase5Client) {
+          throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+        }
+        await this.dependencies.phase5Client.submitReview({
+          caseId: input.caseId,
+          analysisRunId,
+          reviewType: input.reviewType,
+          decision: input.decision,
+          rationale: input.rationale.trim(),
+          subjectVersion,
+          idempotencyKey: operationId,
+          correlationId: input.correlationId
+        });
+      }
+
       const analysisRequestFingerprint =
         finding.analysisRequestFingerprint ?? state.latestAnalysisRun?.analysisRequestFingerprint;
       const nextState: ScenarioState = {
@@ -264,7 +289,11 @@ export class ReviewService {
         });
       }
 
-      const subjectVersion = buildRecommendationSubjectVersion(state);
+      const analysisAuthority = this.dependencies.demoAuthorityClient
+        ? requireAnalysisAuthority(state)
+        : undefined;
+      const subjectVersion =
+        analysisAuthority?.subjectVersion ?? buildRecommendationSubjectVersion(state);
       const operationId = buildPrepareOperationId(analysisRunId, subjectVersion);
       const payloadHash = buildPreparePayloadHash(input.caseId, analysisRunId, subjectVersion);
       if (
@@ -286,13 +315,25 @@ export class ReviewService {
         return state;
       }
 
-      await this.dependencies.phase5Client.prepareDraft({
-        caseId: input.caseId,
-        analysisRunId,
-        subjectVersion,
-        idempotencyKey: operationId,
-        correlationId: input.correlationId
-      });
+      if (this.dependencies.demoAuthorityClient && analysisAuthority) {
+        await this.dependencies.demoAuthorityClient.prepareBundleDraft({
+          tenantId: this.getTenantId(),
+          caseId: input.caseId,
+          analysisBundleId: analysisAuthority.analysisBundleId,
+          subjectVersion
+        });
+      } else {
+        if (!this.dependencies.phase5Client) {
+          throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+        }
+        await this.dependencies.phase5Client.prepareDraft({
+          caseId: input.caseId,
+          analysisRunId,
+          subjectVersion,
+          idempotencyKey: operationId,
+          correlationId: input.correlationId
+        });
+      }
 
       const nextState: ScenarioState = {
         ...state,
@@ -403,6 +444,15 @@ export function assertRecommendationReady(state: ScenarioState): void {
   }
 }
 
+function requireAnalysisAuthority(
+  state: ScenarioState
+): NonNullable<ScenarioState["analysisAuthority"]> {
+  if (!state.analysisAuthority) {
+    throw new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_AUTHORITY_REQUIRED");
+  }
+  return state.analysisAuthority;
+}
+
 function getRecommendationBlocker(state: ScenarioState): string | null {
   const hasUnresolvedMaterialFinding = state.findings.some(
     (finding) =>
@@ -424,9 +474,11 @@ function getRecommendationBlocker(state: ScenarioState): string | null {
         reviewType,
         finding.findingId
       );
+      const requiredSubjectVersion =
+        state.analysisAuthority?.subjectVersion ?? getLatestFindingVersion(finding);
       const isCurrentApproval =
         latestReview?.decision === "APPROVED" &&
-        latestReview.subjectVersion === getLatestFindingVersion(finding);
+        latestReview.subjectVersion === requiredSubjectVersion;
 
       if (!isCurrentApproval) {
         return `${reviewType}_REVIEW_REQUIRED:${finding.findingId}`;

@@ -3,7 +3,11 @@ import type {
   Phase5Client,
   WorkflowSupportingOperations
 } from "./phase5-client.js";
-import { createGovernedWorkflowClient } from "./governed-workflow-client.js";
+import type { DemoAuthorityClient } from "./demo-authority-client.js";
+import {
+  createAuthoritativeBundleWorkflowClient,
+  createGovernedWorkflowClient
+} from "./governed-workflow-client.js";
 
 function authorityClient(): Phase5Client {
   return {
@@ -107,5 +111,171 @@ describe("createGovernedWorkflowClient", () => {
     ).rejects.toMatchObject({ code: "DEPENDENCY_UNAVAILABLE" });
     expect(authority.admitEvidence).toHaveBeenCalledTimes(1);
     expect(supporting.afterEvidenceAdmitted).toHaveBeenCalledTimes(1);
+  });
+});
+
+function authorityBundleClient(calls: string[]): DemoAuthorityClient {
+  const bundle = {
+    tenantId: "tenant-stratton",
+    caseId: "project-danube",
+    analysisBundleId: "bundle-1",
+    evidenceManifestHash: "a".repeat(64),
+    modelRoute: "TERRA" as const,
+    modelDeploymentId: "terra-grounded-analysis",
+    routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+    promptTemplateVersion: "stratton-workbench-v2",
+    requestFingerprint: "b".repeat(64),
+    status: "DRAFT_ONLY_READY" as const,
+    outputKind: "DRAFT_ONLY" as const,
+    unsupportedClaims: 0,
+    subjectVersion: "c".repeat(64),
+    evidence: [
+      {
+        evidenceId: "evidence-board-pack",
+        evidenceVersionId: "evidence-board-pack-v1",
+        ordinal: 1
+      }
+    ],
+    citationCounts: {
+      totalClaims: 1,
+      citedClaims: 1,
+      unsupportedClaims: 0
+    }
+  };
+
+  return {
+    createAnalysisBundle: vi.fn(async () => {
+      calls.push("phase5:createBundle");
+      return { ...bundle, status: "QUEUED" as const };
+    }),
+    completeAnalysisBundle: vi.fn(async () => {
+      calls.push("phase5:completeBundle");
+      return bundle;
+    }),
+    getAnalysisBundle: vi.fn(async () => {
+      calls.push("phase5:getBundle");
+      return bundle;
+    }),
+    submitBundleReview: vi.fn(async () => undefined),
+    prepareBundleDraft: vi.fn(async () => undefined),
+    getModelRouteEvidence: vi.fn(async () => ({
+      evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+      status: "APPROVED" as const,
+      resourceId: "/subscriptions/1/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/terra",
+      deploymentId: "terra-grounded-analysis",
+      region: "westeurope",
+      route: "TERRA" as const,
+      apiVersion: "2025-01-01-preview",
+      evidenceVersion: "v1",
+      validFromIso: "2026-01-01T00:00:00.000Z",
+      validUntilIso: "2027-01-01T00:00:00.000Z"
+    }))
+  };
+}
+
+describe("createAuthoritativeBundleWorkflowClient", () => {
+  it("authorizes, analyzes, completes, and fetches the authoritative bundle in order", async () => {
+    const callOrder: string[] = [];
+    const authority = authorityBundleClient(callOrder);
+    const client = createAuthoritativeBundleWorkflowClient({
+      authority,
+      supporting: {
+        requestAnalysis: vi.fn(async () => {
+          callOrder.push("azure:requestAnalysis");
+        })
+      }
+    });
+
+    const result = await client.run({
+      tenantId: "tenant-stratton",
+      caseId: "project-danube",
+      analysisBundleId: "bundle-1",
+      evidenceManifestHash: "a".repeat(64),
+      modelRoute: "TERRA",
+      modelDeploymentId: "terra-grounded-analysis",
+      routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+      promptTemplateVersion: "stratton-workbench-v2",
+      requestFingerprint: "b".repeat(64),
+      evidenceIds: ["evidence-board-pack"],
+      analystQuestion: "Challenge management EBITDA quality",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      complete: () => ({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        subjectVersion: "c".repeat(64),
+        status: "DRAFT_ONLY_READY",
+        unsupportedClaims: 0
+      })
+    });
+
+    expect(callOrder).toEqual([
+      "phase5:createBundle",
+      "azure:requestAnalysis",
+      "phase5:completeBundle",
+      "phase5:getBundle"
+    ]);
+    expect(result.subjectVersion).toBe("c".repeat(64));
+  });
+
+  it("does not run Azure analysis when authority denies bundle creation", async () => {
+    const authority = authorityBundleClient([]);
+    vi.mocked(authority.createAnalysisBundle).mockRejectedValue(
+      new Error("authority denied")
+    );
+    const supporting = { requestAnalysis: vi.fn(async () => undefined) };
+    const client = createAuthoritativeBundleWorkflowClient({ authority, supporting });
+
+    await expect(
+      client.run({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        evidenceManifestHash: "a".repeat(64),
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        promptTemplateVersion: "stratton-workbench-v2",
+        requestFingerprint: "b".repeat(64),
+        evidenceIds: ["evidence-board-pack"],
+        analystQuestion: "Challenge management EBITDA quality",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        complete: () => {
+          throw new Error("completion must not run");
+        }
+      })
+    ).rejects.toThrow("authority denied");
+    expect(supporting.requestAnalysis).not.toHaveBeenCalled();
+  });
+
+  it("does not complete a bundle when Azure analysis fails", async () => {
+    const authority = authorityBundleClient([]);
+    const supporting = {
+      requestAnalysis: vi.fn(async () => {
+        throw new Error("Azure unavailable");
+      })
+    };
+    const client = createAuthoritativeBundleWorkflowClient({ authority, supporting });
+
+    await expect(
+      client.run({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        evidenceManifestHash: "a".repeat(64),
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        promptTemplateVersion: "stratton-workbench-v2",
+        requestFingerprint: "b".repeat(64),
+        evidenceIds: ["evidence-board-pack"],
+        analystQuestion: "Challenge management EBITDA quality",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        complete: () => {
+          throw new Error("completion must not run");
+        }
+      })
+    ).rejects.toThrow("Azure unavailable");
+    expect(authority.completeAnalysisBundle).not.toHaveBeenCalled();
   });
 });

@@ -125,6 +125,16 @@ export const analysisRunMetadataSchema = z
   .strict();
 export type AnalysisRunMetadata = z.infer<typeof analysisRunMetadataSchema>;
 
+export const analysisAuthoritySchema = z
+  .object({
+    analysisBundleId: z.string().min(1),
+    evidenceManifestHash: z.string().min(1),
+    subjectVersion: z.string().min(1),
+    status: z.literal("DRAFT_ONLY_READY")
+  })
+  .strict();
+export type AnalysisAuthority = z.infer<typeof analysisAuthoritySchema>;
+
 export const governanceEventMetadataSchema = z
   .object({
     analysisRequestFingerprint: z.string().regex(/^[a-f0-9]{64}$/).optional(),
@@ -177,6 +187,7 @@ export const scenarioStateSchema = z
           .strict()
       ),
     latestAnalysisRun: analysisRunMetadataSchema.optional(),
+    analysisAuthority: analysisAuthoritySchema.optional(),
     governanceEvents: z
       .array(
         z

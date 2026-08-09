@@ -13,6 +13,7 @@ import type {
   ScenarioState
 } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
+import type { AuthoritativeBundleWorkflowClient } from "../phase5/governed-workflow-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository } from "../scenario/scenario-repository.js";
 import { routeTask } from "./model-router.js";
@@ -28,6 +29,11 @@ const modelDeploymentByRoute: Readonly<Record<ModelRoute, string>> = {
   TERRA: "terra-grounded-analysis",
   SOL: "sol-thesis-challenge"
 };
+const routeEvidenceIdByRoute: Readonly<Record<ModelRoute, string>> = {
+  LUNA: "SEC-EVID-LUNA-ROUTE-v1",
+  TERRA: "SEC-EVID-TERRA-ROUTE-v1",
+  SOL: "SEC-EVID-SOL-ROUTE-v1"
+};
 const promptTemplateVersionPrefix = "stratton-workbench-v2";
 const humanAnalystAuthorityGateRole: AuthorityGateRole = "HUMAN_ANALYST_REVIEW_GATE";
 const rerunConflictMessage =
@@ -35,7 +41,9 @@ const rerunConflictMessage =
 
 interface AnalysisServiceDependencies {
   readonly repository: ScenarioRepository;
-  readonly phase5Client: Phase5Client;
+  readonly phase5Client?: Phase5Client;
+  readonly authoritativeWorkflow?: AuthoritativeBundleWorkflowClient;
+  readonly getTenantId?: () => string;
   readonly createId?: () => string;
   readonly now?: () => string;
 }
@@ -55,10 +63,12 @@ interface RecordDispositionInput extends Omit<FindingDispositionRequest, "caseId
 export class AnalysisService {
   private readonly createId: () => string;
   private readonly now: () => string;
+  private readonly getTenantId: () => string;
 
   public constructor(private readonly dependencies: AnalysisServiceDependencies) {
     this.createId = dependencies.createId ?? randomUUID;
     this.now = dependencies.now ?? (() => new Date().toISOString());
+    this.getTenantId = dependencies.getTenantId ?? (() => "local-stratton-demo");
   }
 
   public async run(input: RunAnalysisInput): Promise<AnalysisRunResponse> {
@@ -68,6 +78,7 @@ export class AnalysisService {
           readonly metadata: AnalysisRunMetadata;
           readonly findings: readonly AnalysisFinding[];
           readonly response: { analysisRunId: string; status: "QUEUED" };
+          readonly analysisAuthority?: NonNullable<ScenarioState["analysisAuthority"]>;
         }
       | undefined;
 
@@ -75,6 +86,29 @@ export class AnalysisService {
       const snapshot = await this.dependencies.repository.load();
       const state = snapshot.state;
       assertCaseId(state, input.caseId);
+
+      if (state.analysisAuthority && state.latestAnalysisRun) {
+        const requestedMetadata = createAnalysisRunMetadata({
+          caseId: input.caseId,
+          taskClass: input.taskClass,
+          route,
+          analystQuestion: input.question,
+          admittedEvidenceIds: listAdmittedEvidenceIds(state)
+        });
+        if (
+          state.latestAnalysisRun.analysisRequestFingerprint ===
+          requestedMetadata.analysisRequestFingerprint
+        ) {
+          return {
+            analysisRunId: state.latestAnalysisRun.analysisRunId,
+            route,
+            scenario: state,
+            findings: state.findings,
+            correlationId: input.correlationId,
+            analysisMetadata: state.latestAnalysisRun
+          };
+        }
+      }
 
       if (!analysisArtifacts) {
         assertAnalysisRerunAllowed(state);
@@ -88,39 +122,122 @@ export class AnalysisService {
           analystQuestion: input.question,
           admittedEvidenceIds
         });
-        const response = await this.dependencies.phase5Client.requestAnalysis({
-          caseId: input.caseId,
-          evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
-          analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
-          route,
-          taskClass: input.taskClass,
-          modelDeploymentId: modelDeploymentByRoute[route],
-          promptTemplateVersion: analysisMetadataWithoutRunId.promptTemplateVersion,
-          analysisRequestFingerprint: analysisMetadataWithoutRunId.analysisRequestFingerprint,
-          idempotencyKey: buildAnalysisIdempotencyKey(
-            analysisMetadataWithoutRunId.analysisRequestFingerprint
-          ),
-          correlationId: input.correlationId
-        });
-        const metadata: AnalysisRunMetadata = {
-          ...analysisMetadataWithoutRunId,
-          analysisRunId: response.analysisRunId
-        };
-        const findings = runLocalGovernedScenarioAnalysisAdapter({
-          analysisMetadata: metadata,
-          includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
-            "evidence-environmental-permit"
-          ),
-          occurredAtIso: this.now(),
-          createId: this.createId
-        });
+        if (this.dependencies.authoritativeWorkflow) {
+          const analysisBundleId =
+            `bundle-${analysisMetadataWithoutRunId.analysisRequestFingerprint}`;
+          let findings: readonly AnalysisFinding[] | undefined;
+          const authoritativeBundle = await this.dependencies.authoritativeWorkflow.run({
+            tenantId: this.getTenantId(),
+            caseId: input.caseId,
+            analysisBundleId,
+            evidenceManifestHash: createEvidenceManifestHash(
+              analysisMetadataWithoutRunId.admittedEvidenceIds
+            ),
+            modelRoute: route,
+            modelDeploymentId: modelDeploymentByRoute[route],
+            routeEvidenceId: routeEvidenceIdByRoute[route],
+            promptTemplateVersion: analysisMetadataWithoutRunId.promptTemplateVersion,
+            requestFingerprint: analysisMetadataWithoutRunId.analysisRequestFingerprint,
+            evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
+            analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
+            taskClass: input.taskClass,
+            complete: (acceptedBundle) => {
+              const metadata: AnalysisRunMetadata = {
+                ...analysisMetadataWithoutRunId,
+                analysisRunId: acceptedBundle.analysisBundleId
+              };
+              findings = runLocalGovernedScenarioAnalysisAdapter({
+                analysisMetadata: metadata,
+                includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
+                  "evidence-environmental-permit"
+                ),
+                occurredAtIso: this.now(),
+                createId: this.createId
+              });
+              return {
+                tenantId: acceptedBundle.tenantId,
+                caseId: acceptedBundle.caseId,
+                analysisBundleId: acceptedBundle.analysisBundleId,
+                subjectVersion: createOutputManifestHash(findings),
+                status: "DRAFT_ONLY_READY",
+                unsupportedClaims: 0
+              };
+            }
+          });
+          if (!findings) {
+            throw new DemoHttpError(
+              503,
+              "DEPENDENCY_UNAVAILABLE",
+              "AUTHORITATIVE_BUNDLE_OUTPUT_UNAVAILABLE"
+            );
+          }
+          if (!authoritativeBundle.subjectVersion) {
+            throw new DemoHttpError(
+              409,
+              "STATE_CONFLICT",
+              "ANALYSIS_BUNDLE_SUBJECT_VERSION_REQUIRED"
+            );
+          }
+          const projectedFindings = findings;
+          const metadata: AnalysisRunMetadata = {
+            ...analysisMetadataWithoutRunId,
+            analysisRunId: authoritativeBundle.analysisBundleId
+          };
+          analysisArtifacts = {
+            metadata,
+            findings: projectedFindings,
+            response: {
+              analysisRunId: authoritativeBundle.analysisBundleId,
+              status: "QUEUED"
+            },
+            analysisAuthority: {
+              analysisBundleId: authoritativeBundle.analysisBundleId,
+              evidenceManifestHash: authoritativeBundle.evidenceManifestHash,
+              subjectVersion: authoritativeBundle.subjectVersion,
+              status: "DRAFT_ONLY_READY"
+            }
+          };
+        } else {
+          if (!this.dependencies.phase5Client) {
+            throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+          }
+          const response = await this.dependencies.phase5Client.requestAnalysis({
+            caseId: input.caseId,
+            evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
+            analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
+            route,
+            taskClass: input.taskClass,
+            modelDeploymentId: modelDeploymentByRoute[route],
+            promptTemplateVersion: analysisMetadataWithoutRunId.promptTemplateVersion,
+            analysisRequestFingerprint: analysisMetadataWithoutRunId.analysisRequestFingerprint,
+            idempotencyKey: buildAnalysisIdempotencyKey(
+              analysisMetadataWithoutRunId.analysisRequestFingerprint
+            ),
+            correlationId: input.correlationId
+          });
+          const metadata: AnalysisRunMetadata = {
+            ...analysisMetadataWithoutRunId,
+            analysisRunId: response.analysisRunId
+          };
+          const findings = runLocalGovernedScenarioAnalysisAdapter({
+            analysisMetadata: metadata,
+            includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
+              "evidence-environmental-permit"
+            ),
+            occurredAtIso: this.now(),
+            createId: this.createId
+          });
 
-        analysisArtifacts = {
-          metadata,
-          findings,
-          response
-        };
-      } else if (state.latestAnalysisRun?.analysisRequestFingerprint === analysisArtifacts.metadata.analysisRequestFingerprint) {
+          analysisArtifacts = {
+            metadata,
+            findings,
+            response
+          };
+        }
+      } else if (
+        state.latestAnalysisRun?.analysisRequestFingerprint ===
+        analysisArtifacts?.metadata.analysisRequestFingerprint
+      ) {
         return {
           analysisRunId: analysisArtifacts.response.analysisRunId,
           route,
@@ -133,6 +250,9 @@ export class AnalysisService {
 
       assertAnalysisRerunAllowed(state);
       assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
+      if (!analysisArtifacts) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_ARTIFACTS_UNAVAILABLE");
+      }
       assertFindingCitationsAdmitted(state, analysisArtifacts.findings);
       const governedAnalysisEventMetadata = createGovernedAnalysisEventMetadata(
         analysisArtifacts.metadata,
@@ -144,6 +264,9 @@ export class AnalysisService {
         stage: "ANALYSIS",
         findings: [...analysisArtifacts.findings],
         latestAnalysisRun: analysisArtifacts.metadata,
+        ...(analysisArtifacts.analysisAuthority
+          ? { analysisAuthority: analysisArtifacts.analysisAuthority }
+          : {}),
         governanceEvents: [
           ...state.governanceEvents,
           createGovernanceEvent(this.createId, this.now, {
@@ -552,6 +675,25 @@ function createGovernedAnalysisEventMetadata(
 
 function hashValue(value: string): string {
   return createHash("sha256").update(value).digest("hex");
+}
+
+function createEvidenceManifestHash(evidenceIds: readonly string[]): string {
+  return hashValue(JSON.stringify([...evidenceIds]));
+}
+
+function createOutputManifestHash(findings: readonly AnalysisFinding[]): string {
+  return hashValue(
+    JSON.stringify(
+      findings.map((finding) => ({
+        findingId: finding.findingId,
+        summary: finding.summary,
+        citations: finding.citations.map((citation) => ({
+          evidenceId: citation.evidenceId,
+          locator: citation.locator
+        }))
+      }))
+    )
+  );
 }
 
 function createGovernanceEvent(

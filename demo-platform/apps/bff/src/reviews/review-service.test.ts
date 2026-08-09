@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { ScenarioState } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import type { Phase5Client } from "../phase5/phase5-client.js";
+import type { DemoAuthorityClient } from "../phase5/demo-authority-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
 import { ReviewService } from "./review-service.js";
 
@@ -15,6 +16,17 @@ function createPhase5ClientDouble() {
     submitReview: vi.fn<Phase5Client["submitReview"]>().mockResolvedValue(undefined),
     prepareDraft: vi.fn<Phase5Client["prepareDraft"]>().mockResolvedValue(undefined)
   } satisfies Phase5Client;
+}
+
+function createDemoAuthorityClientDouble(): DemoAuthorityClient {
+  return {
+    createAnalysisBundle: vi.fn(),
+    completeAnalysisBundle: vi.fn(),
+    getAnalysisBundle: vi.fn(),
+    submitBundleReview: vi.fn(async () => undefined),
+    prepareBundleDraft: vi.fn(async () => undefined),
+    getModelRouteEvidence: vi.fn()
+  };
 }
 
 function approvedReview(
@@ -223,6 +235,46 @@ function withCurrentSecurityGatePasses(state: ScenarioState): ScenarioState {
 }
 
 describe("ReviewService", () => {
+  it("uses the exact authoritative bundle subject version for specialist reviews", async () => {
+    const scenario = createReviewedScenario();
+    scenario.analysisAuthority = {
+      analysisBundleId: "bundle-terra-1",
+      evidenceManifestHash: "a".repeat(64),
+      subjectVersion: "authoritative-subject-version",
+      status: "DRAFT_ONLY_READY"
+    };
+    const repository = new InMemoryScenarioRepository(scenario);
+    const demoAuthorityClient = createDemoAuthorityClientDouble();
+    const service = new ReviewService({
+      repository,
+      phase5Client: createPhase5ClientDouble(),
+      demoAuthorityClient
+    } as ConstructorParameters<typeof ReviewService>[0]);
+
+    await service.submitReview({
+      caseId: "project-danube",
+      findingId: "finding-permit-transfer",
+      reviewType: "LEGAL",
+      decision: "APPROVED",
+      rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "authoritative-subject-version",
+      principalType: "HUMAN",
+      correlationId: "corr-authoritative-review"
+    });
+
+    expect(demoAuthorityClient.submitBundleReview).toHaveBeenCalledWith({
+      tenantId: "local-stratton-demo",
+      caseId: "project-danube",
+      analysisBundleId: "bundle-terra-1",
+      reviewId: expect.any(String),
+      subjectVersion: "authoritative-subject-version",
+      reviewType: "LEGAL",
+      decision: "APPROVED",
+      rationale: "Permit transfer completion steps are documented.",
+      evidenceManifestHash: "a".repeat(64)
+    });
+  });
+
   it("rejects a review type that is not eligible for the finding domains", async () => {
     const repository = new InMemoryScenarioRepository(createReviewedScenario());
     const phase5Client = createPhase5ClientDouble();

@@ -1,6 +1,7 @@
 import type { AnalysisTaskClass, ModelRoute, ScenarioState } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
 import type { WorkflowSupportingOperations } from "../phase5/phase5-client.js";
+import type { BundleSupportingAnalysis } from "../phase5/governed-workflow-client.js";
 import {
   createRedactedLogger,
   type RedactedLogger
@@ -224,6 +225,27 @@ export function createAzureWorkflowClient(
         }
       });
     }
+  };
+}
+
+export function createAzureSupportingAnalysis(
+  options: CreateAzureWorkflowClientOptions
+): BundleSupportingAnalysis {
+  const supporting = createAzureWorkflowClient(options);
+  return {
+    requestAnalysis: async (input) =>
+      supporting.afterAnalysisAccepted({
+        caseId: input.caseId,
+        evidenceIds: [...input.evidenceIds],
+        analystQuestion: input.analystQuestion,
+        route: input.modelRoute,
+        taskClass: input.taskClass,
+        modelDeploymentId: input.modelDeploymentId,
+        promptTemplateVersion: input.promptTemplateVersion,
+        analysisRequestFingerprint: input.requestFingerprint,
+        idempotencyKey: `bundle:${input.requestFingerprint}`,
+        analysisRunId: input.analysisBundleId
+      })
   };
 }
 

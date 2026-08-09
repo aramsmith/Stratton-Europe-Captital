@@ -3,6 +3,7 @@ import type { AnalysisFinding } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { DemoHttpError } from "../errors.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
+import type { AuthoritativeBundleWorkflowClient } from "../phase5/governed-workflow-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
 import { AnalysisService } from "./analysis-service.js";
 import { routeTask } from "./model-router.js";
@@ -35,6 +36,62 @@ function createPhase5ClientDouble() {
   } satisfies Phase5Client;
 }
 
+function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowClient {
+  return {
+    run: vi.fn(async (input) => {
+      input.complete({
+        tenantId: input.tenantId,
+        caseId: input.caseId,
+        analysisBundleId: input.analysisBundleId,
+        evidenceManifestHash: input.evidenceManifestHash,
+        modelRoute: input.modelRoute,
+        modelDeploymentId: input.modelDeploymentId,
+        routeEvidenceId: input.routeEvidenceId,
+        promptTemplateVersion: input.promptTemplateVersion,
+        requestFingerprint: input.requestFingerprint,
+        status: "QUEUED",
+        outputKind: "DRAFT_ONLY",
+        unsupportedClaims: 0,
+        evidence: input.evidenceIds.map((evidenceId, index) => ({
+          evidenceId,
+          evidenceVersionId: `${evidenceId}-v1`,
+          ordinal: index + 1
+        })),
+        citationCounts: {
+          totalClaims: 3,
+          citedClaims: 3,
+          unsupportedClaims: 0
+        }
+      });
+      return {
+        tenantId: input.tenantId,
+        caseId: input.caseId,
+        analysisBundleId: input.analysisBundleId,
+        evidenceManifestHash: input.evidenceManifestHash,
+        modelRoute: input.modelRoute,
+        modelDeploymentId: input.modelDeploymentId,
+        routeEvidenceId: input.routeEvidenceId,
+        promptTemplateVersion: input.promptTemplateVersion,
+        requestFingerprint: input.requestFingerprint,
+        status: "DRAFT_ONLY_READY",
+        outputKind: "DRAFT_ONLY",
+        unsupportedClaims: 0,
+        subjectVersion: "authoritative-subject-version",
+        evidence: input.evidenceIds.map((evidenceId, index) => ({
+          evidenceId,
+          evidenceVersionId: `${evidenceId}-v1`,
+          ordinal: index + 1
+        })),
+        citationCounts: {
+          totalClaims: 3,
+          citedClaims: 3,
+          unsupportedClaims: 0
+        }
+      };
+    })
+  };
+}
+
 function getFinding(findings: readonly AnalysisFinding[], findingId: string) {
   const finding = findings.find((candidate) => candidate.findingId === findingId);
   expect(finding).toBeDefined();
@@ -52,6 +109,136 @@ describe("routeTask", () => {
 });
 
 describe("AnalysisService", () => {
+  it("projects findings only after a ready authoritative bundle supplies its subject version", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const phase5Client = createPhase5ClientDouble();
+    const authoritativeWorkflow = createAuthoritativeBundleWorkflowDouble();
+    const service = new AnalysisService({
+      repository,
+      phase5Client,
+      authoritativeWorkflow
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+
+    const result = await service.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-authoritative-bundle"
+    });
+
+    expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(1);
+    expect(phase5Client.requestAnalysis).not.toHaveBeenCalled();
+    expect(result.scenario.analysisAuthority).toEqual(
+      expect.objectContaining({
+        analysisBundleId: expect.stringMatching(/^bundle-/),
+        subjectVersion: "authoritative-subject-version",
+        status: "DRAFT_ONLY_READY"
+      })
+    );
+  });
+
+  it("returns the existing authoritative bundle projection for a repeated fingerprint", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const authoritativeWorkflow = createAuthoritativeBundleWorkflowDouble();
+    const service = new AnalysisService({
+      repository,
+      phase5Client: createPhase5ClientDouble(),
+      authoritativeWorkflow
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+    const input = {
+      caseId: "project-danube" as const,
+      taskClass: "CROSS_DOCUMENT_COMPARISON" as const,
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-repeat-authoritative-bundle"
+    };
+
+    const first = await service.run(input);
+    const second = await service.run(input);
+
+    expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(1);
+    expect(second).toEqual({
+      ...first,
+      correlationId: "corr-repeat-authoritative-bundle"
+    });
+  });
+
+  it("does not project local success when authoritative completion fails", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const service = new AnalysisService({
+      repository,
+      phase5Client: createPhase5ClientDouble(),
+      authoritativeWorkflow: {
+        run: vi.fn(async () => {
+          throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "COMPLETION_FAILED");
+        })
+      }
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+
+    await expect(
+      service.run({
+        caseId: "project-danube",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        question: "Challenge management EBITDA quality",
+        correlationId: "corr-completion-failure"
+      })
+    ).rejects.toMatchObject({ message: "COMPLETION_FAILED" });
+    expect((await repository.load()).state.findings).toEqual([]);
+  });
+
+  it("does not expose findings without an authoritative subject version", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const service = new AnalysisService({
+      repository,
+      phase5Client: createPhase5ClientDouble(),
+      authoritativeWorkflow: {
+        run: vi.fn(async (input) => {
+          input.complete({
+            tenantId: input.tenantId,
+            caseId: input.caseId,
+            analysisBundleId: input.analysisBundleId,
+            evidenceManifestHash: input.evidenceManifestHash,
+            modelRoute: input.modelRoute,
+            modelDeploymentId: input.modelDeploymentId,
+            routeEvidenceId: input.routeEvidenceId,
+            promptTemplateVersion: input.promptTemplateVersion,
+            requestFingerprint: input.requestFingerprint,
+            status: "QUEUED",
+            outputKind: "DRAFT_ONLY",
+            unsupportedClaims: 0,
+            evidence: [],
+            citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
+          });
+          return {
+            tenantId: input.tenantId,
+            caseId: input.caseId,
+            analysisBundleId: input.analysisBundleId,
+            evidenceManifestHash: input.evidenceManifestHash,
+            modelRoute: input.modelRoute,
+            modelDeploymentId: input.modelDeploymentId,
+            routeEvidenceId: input.routeEvidenceId,
+            promptTemplateVersion: input.promptTemplateVersion,
+            requestFingerprint: input.requestFingerprint,
+            status: "DRAFT_ONLY_READY" as const,
+            outputKind: "DRAFT_ONLY" as const,
+            unsupportedClaims: 0,
+            evidence: [],
+            citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
+          };
+        })
+      }
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+
+    await expect(
+      service.run({
+        caseId: "project-danube",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        question: "Challenge management EBITDA quality",
+        correlationId: "corr-subject-version-missing"
+      })
+    ).rejects.toMatchObject({ message: "ANALYSIS_BUNDLE_SUBJECT_VERSION_REQUIRED" });
+    expect((await repository.load()).state.findings).toEqual([]);
+  });
+
   it("blocks an EBITDA finding when one cited source is not admitted", async () => {
     const state = createAdmittedState();
     state.evidence = state.evidence.map((evidence) =>

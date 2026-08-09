@@ -880,7 +880,7 @@ describe("createWorkflowClient", () => {
   it("keeps LOCAL mode on the local workflow stub", async () => {
     const { createWorkflowClient } = await import("./server.js");
     const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
-    const localClient = createPhase5ClientDouble();
+    const localAuthority = {} as never;
     const supportingFactory = vi.fn();
 
     const client = createWorkflowClient(
@@ -891,26 +891,22 @@ describe("createWorkflowClient", () => {
       },
       createRedactedLogger({ sink: () => undefined }),
       {
-        createLocalPhase5Client: () => localClient,
-        createAzureSupportingOperations: supportingFactory
+        createLocalDemoAuthorityClient: () => localAuthority,
+        createAzureSupportingAnalysis: supportingFactory
       }
     );
 
-    expect(client).toBe(localClient);
+    expect(client.authority).toBe(localAuthority);
     expect(supportingFactory).not.toHaveBeenCalled();
   });
 
   it("wires AZURE mode through HTTP Phase 5 authority before Azure supporting operations", async () => {
     const { createWorkflowClient } = await import("./server.js");
     const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
-    const localPhase5ClientFactory = vi.fn(() => createPhase5ClientDouble());
-    const authorityClient = createPhase5ClientDouble();
-    const governedClient = createPhase5ClientDouble();
-    const supportingOperations = {
-      afterEvidenceAdmitted: vi.fn(),
-      afterAnalysisAccepted: vi.fn(),
-      afterReviewAccepted: vi.fn(),
-      afterDraftAccepted: vi.fn()
+    const localAuthorityFactory = vi.fn(() => ({} as never));
+    const authorityClient = {} as never;
+    const supportingAnalysis = {
+      requestAnalysis: vi.fn()
     };
     const adapters = {
       documentIntelligence: { analyseLayout: vi.fn() },
@@ -919,54 +915,55 @@ describe("createWorkflowClient", () => {
       blob: { readEvidence: vi.fn(), writeSyntheticEvidence: vi.fn() },
       serviceBus: { publish: vi.fn() }
     };
-    const createAzureSupportingOperations = vi.fn(() => supportingOperations);
-    const createPhase5AuthorityClient = vi.fn(() => authorityClient);
-    const createGovernedClient = vi.fn(() => governedClient);
+    const createAzureSupportingAnalysis = vi.fn(() => supportingAnalysis);
+    const createDemoAuthorityClient = vi.fn(() => authorityClient);
 
     const client = createWorkflowClient(
       {
         PORT: 3001,
         DEMO_MODE: "AZURE",
         PHASE5_API_BASE_URL: "https://phase5.example.test",
-        PHASE5_TOKEN_SCOPE: "api://phase5/.default",
         DEMO_TENANT_ID: "tenant-stratton-demo",
         TRUSTED_WEB_PROXY_PRINCIPAL_ID: "web-proxy-object-id",
         AZURE_SQL_SERVER_FQDN: "sql.example.test",
-        AZURE_SQL_DATABASE_NAME: "stratton"
+        AZURE_SQL_DATABASE_NAME: "stratton",
+        PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
+        PHASE5_APPLICATION_ID: "phase5-application-id",
+        BFF_DELEGATED_AUDIENCE: "api://stratton-demo-bff",
+        BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
+        ENTRA_TOKEN_ENDPOINT:
+          "https://login.microsoftonline.com/tenant-stratton-demo/oauth2/v2.0/token",
+        AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
       },
       createRedactedLogger({ sink: () => undefined }),
       {
-        createLocalPhase5Client: localPhase5ClientFactory,
+        createLocalDemoAuthorityClient: localAuthorityFactory,
         parseAzureConfig: () =>
           parseAzureDemoConfig(validAzureConfigEnvironment()),
         createAzureAdapters: () => adapters,
-        createAzureSupportingOperations,
-        createPhase5AuthorityClient,
-        createGovernedWorkflowClient: createGovernedClient,
-        getPhase5AccessToken: async () => "phase5-token"
+        createAzureSupportingAnalysis,
+        createDemoAuthorityClient
       }
     );
 
-    expect(client).toBe(governedClient);
-    expect(localPhase5ClientFactory).not.toHaveBeenCalled();
-    expect(createAzureSupportingOperations).toHaveBeenCalledWith(
+    expect(client.authority).toBe(authorityClient);
+    expect(localAuthorityFactory).not.toHaveBeenCalled();
+    expect(createAzureSupportingAnalysis).toHaveBeenCalledWith(
       expect.objectContaining({
         tenantId: "tenant-stratton-demo",
         caseId: "project-danube",
         ...adapters
       })
     );
-    expect(createPhase5AuthorityClient).toHaveBeenCalledWith(
+    expect(createDemoAuthorityClient).toHaveBeenCalledWith(
       expect.objectContaining({
         baseUrl: "https://phase5.example.test",
-        getAccessToken: expect.any(Function),
+        oboTokenExchange: expect.any(Object),
+        getDelegatedUserToken: expect.any(Function),
         getRequestContext: expect.any(Function)
       })
     );
-    expect(createGovernedClient).toHaveBeenCalledWith({
-      authority: authorityClient,
-      supporting: supportingOperations
-    });
+    expect(client.analysis).toEqual(expect.objectContaining({ run: expect.any(Function) }));
   });
 });
 
