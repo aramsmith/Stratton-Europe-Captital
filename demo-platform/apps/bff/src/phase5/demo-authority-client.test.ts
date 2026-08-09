@@ -60,6 +60,54 @@ function authorityClient(fetchImpl: typeof fetch) {
 }
 
 describe("createDemoAuthorityClient", () => {
+  it("reads route evidence with an application token before a request context exists", async () => {
+    const fetchImpl = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+          status: "APPROVED",
+          resourceId:
+            "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra",
+          deploymentId: "terra-grounded-analysis",
+          region: "westeurope",
+          route: "TERRA",
+          apiVersion: "2025-01-01-preview",
+          evidenceVersion: "route-evidence-v1",
+          validFromIso: "2026-01-01T00:00:00.000Z",
+          validUntilIso: "2027-01-01T00:00:00.000Z"
+        }),
+        { status: 200 }
+      )
+    );
+    const client = createDemoAuthorityClient({
+      baseUrl: "https://authority.stratton.example",
+      oboTokenExchange: {
+        acquirePhase5Token: vi.fn(() => {
+          throw new Error("OBO must not be used for startup authority");
+        })
+      },
+      getDelegatedUserToken: vi.fn(() => {
+        throw new Error("A delegated user must not be required for startup authority");
+      }),
+      getApplicationToken: vi.fn().mockResolvedValue("application-phase5-token"),
+      getRequestContext: () => {
+        throw new Error("No request context exists during startup");
+      },
+      fetch: fetchImpl
+    });
+
+    await expect(client.getModelRouteEvidence("SEC-EVID-TERRA-ROUTE-v1")).resolves.toMatchObject({
+      route: "TERRA",
+      deploymentId: "terra-grounded-analysis"
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      "https://authority.stratton.example/v1/demo-authority/model-route-evidence/SEC-EVID-TERRA-ROUTE-v1",
+      expect.objectContaining({
+        headers: expect.objectContaining({ authorization: expect.any(String) })
+      })
+    );
+  });
+
   it("admits evidence with delegated OBO identity and the caller idempotency key", async () => {
     const fetchImpl = vi.fn<typeof fetch>().mockResolvedValue(
       new Response(

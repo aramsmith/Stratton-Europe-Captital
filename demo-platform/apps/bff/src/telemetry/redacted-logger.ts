@@ -4,6 +4,8 @@ const prohibitedKeys = new Set([
   "completionbody",
   "rawdocumentpayload",
   "authorization",
+  "armtoken",
+  "phase5token",
   "accesstoken",
   "refreshtoken",
   "clientsecret",

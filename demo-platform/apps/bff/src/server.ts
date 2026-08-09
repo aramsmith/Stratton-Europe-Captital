@@ -3,7 +3,8 @@ import { pathToFileURL } from "node:url";
 import express, { type Express } from "express";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { AnalysisService } from "./analysis/analysis-service.js";
-import { buildApprovedDeployments, parseAzureDemoConfig } from "./azure/azure-config.js";
+import { parseAzureDemoConfig } from "./azure/azure-config.js";
+import { createArmCognitiveAccountClient } from "./azure/arm-cognitive-account-client.js";
 import { createBlobEvidenceAdapter } from "./azure/blob-evidence-adapter.js";
 import { createDocumentIntelligenceAdapter } from "./azure/document-intelligence-adapter.js";
 import { createManagedIdentityCredential } from "./azure/managed-identity.js";
@@ -11,6 +12,10 @@ import { createOpenAiAdapter } from "./azure/openai-analysis-adapter.js";
 import { createSearchAdapter } from "./azure/search-adapter.js";
 import { createServiceBusAdapter } from "./azure/service-bus-adapter.js";
 import { createAzureSupportingAnalysis } from "./azure/azure-workflow-client.js";
+import {
+  buildApprovedDeployments,
+  resolveAuthoritativeRoutes
+} from "./azure/route-authority.js";
 import { parseDemoConfig, type DemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
@@ -185,8 +190,8 @@ async function startServer(): Promise<void> {
   const logger = createRedactedLogger();
   try {
     const config = parseDemoConfig();
+    const workflow = await createWorkflowClient(config, logger);
     const repository = await createScenarioRepository(config);
-    const workflow = createWorkflowClient(config, logger);
     const security: DemoServerSecurityOptions =
       config.DEMO_MODE === "LOCAL"
         ? localServerSecurityOptions
@@ -256,13 +261,15 @@ interface WorkflowClientFactoryOverrides {
   readonly createAzureAdapters?: typeof createAzureAdapters;
   readonly createAzureSupportingAnalysis?: typeof createAzureSupportingAnalysis;
   readonly createDemoAuthorityClient?: typeof createDemoAuthorityClient;
+  readonly createArmCognitiveAccountClient?: typeof createArmCognitiveAccountClient;
+  readonly resolveAuthoritativeRoutes?: typeof resolveAuthoritativeRoutes;
 }
 
-export function createWorkflowClient(
+export async function createWorkflowClient(
   config: ReturnType<typeof parseDemoConfig>,
   logger: RedactedLogger,
   overrides: WorkflowClientFactoryOverrides = {}
-): AuthoritativeWorkflow {
+): Promise<AuthoritativeWorkflow> {
   if (config.DEMO_MODE === "LOCAL") {
     const authority = (overrides.createLocalDemoAuthorityClient ?? createLocalDemoAuthorityClient)({
       mode: "LOCAL"
@@ -285,16 +292,6 @@ export function createWorkflowClient(
   }
 
   const azureConfig = (overrides.parseAzureConfig ?? parseAzureDemoConfig)();
-  const adapters = (overrides.createAzureAdapters ?? createAzureAdapters)(azureConfig, logger);
-  const supporting = (
-    overrides.createAzureSupportingAnalysis ?? createAzureSupportingAnalysis
-  )({
-    tenantId: azureConfig.DEMO_TENANT_ID,
-    caseId: "project-danube",
-    evidenceCatalog: buildEvidenceCatalog(createProjectDanubeState()),
-    ...adapters,
-    logger: logger.child({ dependency: "workflow-supporting-operations" })
-  });
   const authority = (overrides.createDemoAuthorityClient ?? createDemoAuthorityClient)({
     baseUrl: config.PHASE5_API_BASE_URL,
     oboTokenExchange: createOboTokenExchange({
@@ -312,6 +309,31 @@ export function createWorkflowClient(
     phase5ApplicationId: config.PHASE5_APPLICATION_ID,
     managedIdentityClientId: config.AZURE_MANAGED_IDENTITY_CLIENT_ID,
     getRequestContext: getTrustedRequestContext
+  });
+  const arm = (overrides.createArmCognitiveAccountClient ?? createArmCognitiveAccountClient)({
+    getAccessToken: createArmAccessTokenProvider(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID)
+  });
+  const authoritativeRoutes = await (
+    overrides.resolveAuthoritativeRoutes ?? resolveAuthoritativeRoutes
+  )({
+    config: azureConfig,
+    arm,
+    authority,
+    logger
+  });
+  const adapters = (overrides.createAzureAdapters ?? createAzureAdapters)(
+    azureConfig,
+    logger,
+    buildApprovedDeployments(authoritativeRoutes)
+  );
+  const supporting = (
+    overrides.createAzureSupportingAnalysis ?? createAzureSupportingAnalysis
+  )({
+    tenantId: azureConfig.DEMO_TENANT_ID,
+    caseId: "project-danube",
+    evidenceCatalog: buildEvidenceCatalog(createProjectDanubeState()),
+    ...adapters,
+    logger: logger.child({ dependency: "workflow-supporting-operations" })
   });
   return {
     authority,
@@ -429,7 +451,11 @@ export async function initializeScenarioRepository(
   }
 }
 
-function createAzureAdapters(azureConfig: AzureDemoConfig, logger: RedactedLogger) {
+function createAzureAdapters(
+  azureConfig: AzureDemoConfig,
+  logger: RedactedLogger,
+  deployments: ReturnType<typeof buildApprovedDeployments>
+) {
   return {
     documentIntelligence: createDocumentIntelligenceAdapter({
       endpoint: azureConfig.AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
@@ -447,7 +473,7 @@ function createAzureAdapters(azureConfig: AzureDemoConfig, logger: RedactedLogge
       logger: logger.child({ dependency: "search" })
     }),
     openAi: createOpenAiAdapter({
-      deployments: buildApprovedDeployments(azureConfig),
+      deployments,
       ...(azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
         ? { managedIdentityClientId: azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID }
         : {}),
@@ -469,6 +495,23 @@ function createAzureAdapters(azureConfig: AzureDemoConfig, logger: RedactedLogge
         : {}),
       logger: logger.child({ dependency: "service-bus" })
     })
+  };
+}
+
+function createArmAccessTokenProvider(
+  managedIdentityClientId: string | undefined
+): () => Promise<string> {
+  const credential = createManagedIdentityCredential(managedIdentityClientId);
+  return async () => {
+    const token = await credential.getToken("https://management.azure.com/.default");
+    if (!token?.token) {
+      throw new DemoHttpError(
+        503,
+        "DEPENDENCY_UNAVAILABLE",
+        "AUTHORITATIVE_ROUTE_VALIDATION_FAILED"
+      );
+    }
+    return token.token;
   };
 }
 

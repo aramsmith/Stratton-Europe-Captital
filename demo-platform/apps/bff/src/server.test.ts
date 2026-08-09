@@ -933,7 +933,7 @@ describe("parseDemoConfig", () => {
 });
 
 describe("parseAzureDemoConfig", () => {
-  it("requires exact Azure adapter bindings in AZURE mode", async () => {
+  it("requires complete Azure adapter route declarations in AZURE mode", async () => {
     const { parseAzureDemoConfig } = await import("./azure/azure-config.js");
     const environment = validAzureConfigEnvironment();
     delete environment.AZURE_OPENAI_SOL_EVIDENCE_ID;
@@ -968,7 +968,7 @@ describe("createWorkflowClient", () => {
     const localAuthority = {} as never;
     const supportingFactory = vi.fn();
 
-    const client = createWorkflowClient(
+    const client = await createWorkflowClient(
       {
         PORT: 3001,
         DEMO_MODE: "LOCAL",
@@ -1003,8 +1003,51 @@ describe("createWorkflowClient", () => {
     };
     const createAzureSupportingAnalysis = vi.fn(() => supportingAnalysis);
     const createDemoAuthorityClient = vi.fn(() => authorityClient);
+    const calls: string[] = [];
+    const authoritativeRoutes = {
+      LUNA: {
+        route: "LUNA" as const,
+        resourceId:
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-luna",
+        accountName: "stratton-luna",
+        location: "swedencentral",
+        endpoint: "https://stratton-luna.openai.azure.com",
+        deploymentId: "luna-evidence-triage",
+        apiVersion: "2025-01-01-preview",
+        evidenceId: "SEC-EVID-LUNA-ROUTE-v1",
+        evidenceVersion: "route-evidence-v1"
+      },
+      TERRA: {
+        route: "TERRA" as const,
+        resourceId:
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra",
+        accountName: "stratton-terra",
+        location: "westeurope",
+        endpoint: "https://stratton-terra.openai.azure.com",
+        deploymentId: "terra-grounded-analysis",
+        apiVersion: "2025-01-01-preview",
+        evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        evidenceVersion: "route-evidence-v1"
+      },
+      SOL: {
+        route: "SOL" as const,
+        resourceId:
+          "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-sol",
+        accountName: "stratton-sol",
+        location: "francecentral",
+        endpoint: "https://stratton-sol.openai.azure.com",
+        deploymentId: "sol-thesis-challenge",
+        apiVersion: "2025-01-01-preview",
+        evidenceId: "SEC-EVID-SOL-ROUTE-v1",
+        evidenceVersion: "route-evidence-v1"
+      }
+    };
+    const resolveAuthoritativeRoutes = vi.fn(async () => {
+      calls.push("route-authority");
+      return authoritativeRoutes;
+    });
 
-    const client = createWorkflowClient(
+    const client = await createWorkflowClient(
       {
         PORT: 3001,
         DEMO_MODE: "AZURE",
@@ -1026,14 +1069,28 @@ describe("createWorkflowClient", () => {
         createLocalDemoAuthorityClient: localAuthorityFactory,
         parseAzureConfig: () =>
           parseAzureDemoConfig(validAzureConfigEnvironment()),
-        createAzureAdapters: () => adapters,
+        createAzureAdapters: () => {
+          calls.push("adapters");
+          return adapters;
+        },
         createAzureSupportingAnalysis,
-        createDemoAuthorityClient
+        createDemoAuthorityClient,
+        createArmCognitiveAccountClient: vi.fn(() => ({} as never)),
+        resolveAuthoritativeRoutes
       }
     );
 
     expect(client.authority).toBe(authorityClient);
     expect(localAuthorityFactory).not.toHaveBeenCalled();
+    expect(resolveAuthoritativeRoutes).toHaveBeenCalledWith(
+      expect.objectContaining({
+        authority: authorityClient,
+        config: expect.objectContaining({
+          AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis"
+        })
+      })
+    );
+    expect(calls).toEqual(["route-authority", "adapters"]);
     expect(createAzureSupportingAnalysis).toHaveBeenCalledWith(
       expect.objectContaining({
         tenantId: "tenant-stratton-demo",

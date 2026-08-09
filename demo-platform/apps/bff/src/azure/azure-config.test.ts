@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildApprovedDeployments, parseAzureDemoConfig } from "./azure-config.js";
+import { parseAzureDemoConfig } from "./azure-config.js";
 
 function validEnvironment(): NodeJS.ProcessEnv {
   return {
@@ -37,37 +37,30 @@ function validEnvironment(): NodeJS.ProcessEnv {
 
 describe("Azure OpenAI route bindings", () => {
   it("accepts HTTPS Azure OpenAI endpoints bound to matching resource IDs and EU regions", () => {
-    expect(buildApprovedDeployments(parseAzureDemoConfig(validEnvironment()))).toMatchObject({
-      LUNA: {
-        endpoint: "https://stratton-luna.openai.azure.com",
-        resourceId: expect.stringContaining("/accounts/stratton-luna"),
-        region: "swedencentral",
-        evidenceId: "SEC-EVID-LUNA-ROUTE-v1"
-      }
+    expect(parseAzureDemoConfig(validEnvironment())).toMatchObject({
+      AZURE_OPENAI_LUNA_ENDPOINT: "https://stratton-luna.openai.azure.com",
+      AZURE_OPENAI_LUNA_RESOURCE_ID: expect.stringContaining("/accounts/stratton-luna"),
+      AZURE_OPENAI_LUNA_REGION: "swedencentral",
+      AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1"
     });
   });
 
-  it("rejects an endpoint and resource ID account mismatch", () => {
+  it("accepts endpoint and resource ID declarations without treating them as binding authority", () => {
     expect(() =>
       parseAzureDemoConfig({
         ...validEnvironment(),
         AZURE_OPENAI_TERRA_ENDPOINT: "https://different-account.openai.azure.com"
       })
-    ).toThrowError(/TERRA_ENDPOINT_RESOURCE_MISMATCH/);
+    ).not.toThrow();
   });
 
-  it("rejects non-EU route regions and mismatched route evidence", () => {
+  it("accepts syntactically valid route declarations without treating them as authority", () => {
     expect(() =>
       parseAzureDemoConfig({
         ...validEnvironment(),
-        AZURE_OPENAI_SOL_REGION: "eastus"
+        AZURE_OPENAI_SOL_REGION: "eastus",
+        AZURE_OPENAI_LUNA_EVIDENCE_ID: "unverified-evidence"
       })
-    ).toThrowError(/SOL_REGION_NOT_PERMITTED/);
-    expect(() =>
-      parseAzureDemoConfig({
-        ...validEnvironment(),
-        AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE-v1"
-      })
-    ).toThrowError(/LUNA_EVIDENCE_ROUTE_MISMATCH/);
+    ).not.toThrow();
   });
 });

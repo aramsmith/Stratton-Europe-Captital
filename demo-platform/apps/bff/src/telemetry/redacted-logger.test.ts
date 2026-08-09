@@ -4,6 +4,8 @@ import { createRedactedLogger, redact } from "./redacted-logger.js";
 describe("redact", () => {
   it("redacts nested bodies, tokens, and secrets without mutating safe fields", () => {
     const payload = {
+      armToken: "arm-token-value",
+      phase5Token: "phase5-token-value",
       promptBody: "very secret prompt",
       Authorization: "Bearer super-secret",
       nested: {
@@ -21,6 +23,8 @@ describe("redact", () => {
     };
 
     expect(redact(payload)).toEqual({
+      armToken: "[REDACTED]",
+      phase5Token: "[REDACTED]",
       promptBody: "[REDACTED]",
       Authorization: "[REDACTED]",
       nested: {

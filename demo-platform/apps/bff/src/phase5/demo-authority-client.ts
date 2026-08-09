@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import type { DemoApiError } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
@@ -292,8 +292,8 @@ export function createDemoAuthorityClient(
       send(
         fetchImpl,
         baseUrl,
-        getRequestContext,
-        delegatedToken,
+        () => ({ correlationId: randomUUID() }),
+        async () => requireToken(await getApplicationToken()),
         "GET",
         `/v1/demo-authority/model-route-evidence/${encodeURIComponent(evidenceId)}`,
         undefined,
@@ -305,7 +305,7 @@ export function createDemoAuthorityClient(
 async function send<TSchema extends z.ZodType>(
   fetchImpl: typeof fetch,
   baseUrl: string,
-  getRequestContext: () => TrustedRequestContext,
+  getRequestContext: () => Pick<TrustedRequestContext, "correlationId" | "traceparent">,
   getAccessToken: () => Promise<string>,
   method: "GET" | "POST",
   path: string,
