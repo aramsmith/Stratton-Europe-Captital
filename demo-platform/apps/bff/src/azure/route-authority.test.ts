@@ -1,22 +1,28 @@
 import { describe, expect, it, vi } from "vitest";
+import type { ModelRoute } from "@stratton/contracts";
 import type { AzureDemoConfig } from "./azure-config.js";
 import { resolveAuthoritativeRoutes } from "./route-authority.js";
 
 const resourceId =
   "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra";
+const routeRegions: Record<ModelRoute, string> = {
+  LUNA: "swedencentral",
+  TERRA: "westeurope",
+  SOL: "francecentral"
+};
 
-function config(): AzureDemoConfig {
-  const route = (name: string, region: string, deploymentId: string) => ({
+function config(regions: Partial<Record<ModelRoute, string>> = {}): AzureDemoConfig {
+  const route = (name: ModelRoute, deploymentId: string) => ({
     endpoint: `https://stratton-${name.toLowerCase()}.openai.azure.com`,
     resourceId: resourceId.replace("stratton-terra", `stratton-${name.toLowerCase()}`),
-    region,
+    region: regions[name] ?? routeRegions[name],
     deploymentId,
     apiVersion: "2025-01-01-preview",
     evidenceId: `SEC-EVID-${name}-ROUTE-v1`
   });
-  const luna = route("LUNA", "swedencentral", "luna-evidence-triage");
-  const terra = route("TERRA", "westeurope", "terra-grounded-analysis");
-  const sol = route("SOL", "francecentral", "sol-thesis-challenge");
+  const luna = route("LUNA", "luna-evidence-triage");
+  const terra = route("TERRA", "terra-grounded-analysis");
+  const sol = route("SOL", "sol-thesis-challenge");
   return {
     DEMO_TENANT_ID: "tenant-stratton-demo",
     AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
@@ -48,20 +54,17 @@ function config(): AzureDemoConfig {
 }
 
 function dependencies(overrides: {
-  readonly arm?: Partial<Awaited<ReturnType<ReturnType<typeof createDependencies>["arm"]["getAccountDeployment"]>>>;
-  readonly evidence?: Partial<Awaited<ReturnType<ReturnType<typeof createDependencies>["authority"]["getModelRouteEvidence"]>>>;
-  readonly armError?: Error;
-  readonly evidenceError?: Error;
-} = {}) {
-  return createDependencies(overrides);
-}
-
-function createDependencies(overrides: {
   readonly arm?: Record<string, unknown>;
   readonly evidence?: Record<string, unknown>;
+  readonly armRegions?: Partial<Record<ModelRoute, string>>;
+  readonly evidenceRegions?: Partial<Record<ModelRoute, string>>;
+  readonly armResourceIds?: Partial<Record<ModelRoute, string>>;
+  readonly evidenceResourceIds?: Partial<Record<ModelRoute, string>>;
   readonly armError?: Error;
   readonly evidenceError?: Error;
 } = {}) {
+  const routeFor = (resource: string): ModelRoute =>
+    resource.includes("luna") ? "LUNA" : resource.includes("terra") ? "TERRA" : "SOL";
   const arm = {
     getAccountDeployment: vi.fn(async (input: {
       resourceId: string;
@@ -71,14 +74,11 @@ function createDependencies(overrides: {
       if (overrides.armError) {
         throw overrides.armError;
       }
+      const route = routeFor(input.resourceId);
       return {
-        resourceId: input.resourceId,
+        resourceId: overrides.armResourceIds?.[route] ?? input.resourceId,
         accountName: input.resourceId.split("/").at(-1)!,
-        location: input.resourceId.includes("luna")
-          ? "swedencentral"
-          : input.resourceId.includes("terra")
-            ? "westeurope"
-            : "francecentral",
+        location: overrides.armRegions?.[route] ?? routeRegions[route],
         endpoint: input.endpoint,
         deploymentId: input.deploymentId,
         ...overrides.arm
@@ -94,7 +94,7 @@ function createDependencies(overrides: {
       if (!routeMatch?.[1]) {
         throw new Error("Expected an approved route evidence identifier.");
       }
-      const route = routeMatch[1];
+      const route = routeMatch[1] as ModelRoute;
       const deploymentId =
         route === "LUNA"
           ? "luna-evidence-triage"
@@ -104,11 +104,12 @@ function createDependencies(overrides: {
       return {
         evidenceId,
         status: "APPROVED" as const,
-        resourceId: resourceId.replace("stratton-terra", `stratton-${route.toLowerCase()}`),
+        resourceId:
+          overrides.evidenceResourceIds?.[route] ??
+          resourceId.replace("stratton-terra", `stratton-${route.toLowerCase()}`),
         deploymentId,
-        region:
-          route === "LUNA" ? "swedencentral" : route === "TERRA" ? "westeurope" : "francecentral",
-        route: route as "LUNA" | "TERRA" | "SOL",
+        region: overrides.evidenceRegions?.[route] ?? routeRegions[route],
+        route,
         apiVersion: "2025-01-01-preview",
         evidenceVersion: "route-evidence-v1",
         validFromIso: "2026-01-01T00:00:00.000Z",
@@ -120,8 +121,24 @@ function createDependencies(overrides: {
   return { arm, authority };
 }
 
+async function expectFailure(
+  configuration: AzureDemoConfig,
+  overrides: Parameters<typeof dependencies>[0] = {}
+): Promise<void> {
+  await expect(
+    resolveAuthoritativeRoutes({
+      config: configuration,
+      ...dependencies(overrides),
+      now: () => new Date("2026-08-09T00:00:00.000Z")
+    })
+  ).rejects.toMatchObject({
+    code: "DEPENDENCY_UNAVAILABLE",
+    message: "AUTHORITATIVE_ROUTE_VALIDATION_FAILED"
+  });
+}
+
 describe("resolveAuthoritativeRoutes", () => {
-  it("returns only immutable bindings where ARM and approved Phase 5 evidence exactly agree", async () => {
+  it("returns only immutable bindings where declared, ARM, and approved Phase 5 regions exactly agree", async () => {
     const logger = {
       info: vi.fn(),
       error: vi.fn(),
@@ -160,38 +177,59 @@ describe("resolveAuthoritativeRoutes", () => {
   });
 
   it.each([
-    ["ARM region differs from Phase 5 evidence", { evidence: { region: "northeurope" } }],
+    [
+      "the configured region differs from ARM",
+      config({ LUNA: "northeurope" }),
+      { armRegions: { LUNA: "swedencentral" }, evidenceRegions: { LUNA: "swedencentral" } }
+    ],
+    [
+      "the configured region differs from Phase 5 evidence",
+      config({ LUNA: "northeurope" }),
+      { armRegions: { LUNA: "northeurope" }, evidenceRegions: { LUNA: "swedencentral" } }
+    ],
+    [
+      "ARM differs from Phase 5 evidence",
+      config(),
+      { armRegions: { LUNA: "swedencentral" }, evidenceRegions: { LUNA: "northeurope" } }
+    ]
+  ])("fails closed when %s", async (_reason, configuration, overrides) => {
+    await expectFailure(configuration, overrides);
+  });
+
+  it("rejects eastus even when the configured region, ARM location, and Phase 5 evidence agree", async () => {
+    await expectFailure(config({ LUNA: "eastus", TERRA: "eastus", SOL: "eastus" }), {
+      armRegions: { LUNA: "eastus", TERRA: "eastus", SOL: "eastus" },
+      evidenceRegions: { LUNA: "eastus", TERRA: "eastus", SOL: "eastus" }
+    });
+  });
+
+  it.each([
     ["ARM endpoint differs from the declared endpoint", { arm: { endpoint: "https://other.openai.azure.com" } }],
     ["Phase 5 evidence is expired", { evidence: { validUntilIso: "2026-08-08T23:59:59.000Z" } }],
     ["Phase 5 evidence is suspended", { evidence: { status: "SUSPENDED" } }],
     ["Phase 5 route or deployment differs", { evidence: { route: "SOL", deploymentId: "wrong-deployment" } }],
     ["Phase 5 account differs", { evidence: { resourceId: resourceId.replace("stratton-terra", "other-account") } }]
   ])("fails closed when %s", async (_reason, overrides) => {
-    await expect(
-      resolveAuthoritativeRoutes({
-        config: config(),
-        ...dependencies(overrides),
-        now: () => new Date("2026-08-09T00:00:00.000Z")
-      })
-    ).rejects.toMatchObject({
-      code: "DEPENDENCY_UNAVAILABLE",
-      message: "AUTHORITATIVE_ROUTE_VALIDATION_FAILED"
+    await expectFailure(config(), overrides);
+  });
+
+  it("accepts Azure casing differences in equivalent ARM and Phase 5 resource IDs", async () => {
+    const result = await resolveAuthoritativeRoutes({
+      config: config(),
+      ...dependencies({
+        armResourceIds: { TERRA: resourceId.toUpperCase() },
+        evidenceResourceIds: { TERRA: resourceId.toUpperCase() }
+      }),
+      now: () => new Date("2026-08-09T00:00:00.000Z")
     });
+
+    expect(result.TERRA.resourceId).toBe(resourceId.toUpperCase());
   });
 
   it.each([
     ["ARM is unavailable", { armError: new Error("ARM unavailable") }],
     ["Phase 5 is unavailable", { evidenceError: new Error("Phase 5 unavailable") }]
   ])("fails closed when %s", async (_reason, overrides) => {
-    await expect(
-      resolveAuthoritativeRoutes({
-        config: config(),
-        ...dependencies(overrides),
-        now: () => new Date("2026-08-09T00:00:00.000Z")
-      })
-    ).rejects.toMatchObject({
-      code: "DEPENDENCY_UNAVAILABLE",
-      message: "AUTHORITATIVE_ROUTE_VALIDATION_FAILED"
-    });
+    await expectFailure(config(), overrides);
   });
 });

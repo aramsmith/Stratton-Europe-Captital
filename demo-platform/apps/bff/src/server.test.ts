@@ -967,6 +967,8 @@ describe("createWorkflowClient", () => {
     const { createRedactedLogger } = await import("./telemetry/redacted-logger.js");
     const localAuthority = {} as never;
     const supportingFactory = vi.fn();
+    const armFactory = vi.fn();
+    const routeAuthority = vi.fn();
 
     const client = await createWorkflowClient(
       {
@@ -977,12 +979,16 @@ describe("createWorkflowClient", () => {
       createRedactedLogger({ sink: () => undefined }),
       {
         createLocalDemoAuthorityClient: () => localAuthority,
-        createAzureSupportingAnalysis: supportingFactory
+        createAzureSupportingAnalysis: supportingFactory,
+        createArmCognitiveAccountClient: armFactory,
+        resolveAuthoritativeRoutes: routeAuthority
       }
     );
 
     expect(client.authority).toBe(localAuthority);
     expect(supportingFactory).not.toHaveBeenCalled();
+    expect(armFactory).not.toHaveBeenCalled();
+    expect(routeAuthority).not.toHaveBeenCalled();
   });
 
   it("wires AZURE mode through HTTP Phase 5 authority before Azure supporting operations", async () => {

@@ -34,12 +34,23 @@ interface DeclaredRouteBinding {
   readonly route: ModelRoute;
   readonly endpoint: string;
   readonly resourceId: string;
+  readonly region: string;
   readonly deploymentId: string;
   readonly apiVersion: string;
   readonly evidenceId: string;
 }
 
 const routes = ["LUNA", "TERRA", "SOL"] as const;
+const approvedEuAzureOpenAiRegions = new Set([
+  "francecentral",
+  "germanywestcentral",
+  "italynorth",
+  "northeurope",
+  "polandcentral",
+  "spaincentral",
+  "swedencentral",
+  "westeurope"
+]);
 
 export async function resolveAuthoritativeRoutes(
   options: ResolveAuthoritativeRoutesOptions
@@ -102,6 +113,7 @@ function declaredRoutes(config: AzureDemoConfig): Readonly<Record<ModelRoute, De
       route: "LUNA",
       endpoint: config.AZURE_OPENAI_LUNA_ENDPOINT,
       resourceId: config.AZURE_OPENAI_LUNA_RESOURCE_ID,
+      region: config.AZURE_OPENAI_LUNA_REGION,
       deploymentId: config.AZURE_OPENAI_LUNA_DEPLOYMENT_ID,
       apiVersion: config.AZURE_OPENAI_LUNA_API_VERSION,
       evidenceId: config.AZURE_OPENAI_LUNA_EVIDENCE_ID
@@ -110,6 +122,7 @@ function declaredRoutes(config: AzureDemoConfig): Readonly<Record<ModelRoute, De
       route: "TERRA",
       endpoint: config.AZURE_OPENAI_TERRA_ENDPOINT,
       resourceId: config.AZURE_OPENAI_TERRA_RESOURCE_ID,
+      region: config.AZURE_OPENAI_TERRA_REGION,
       deploymentId: config.AZURE_OPENAI_TERRA_DEPLOYMENT_ID,
       apiVersion: config.AZURE_OPENAI_TERRA_API_VERSION,
       evidenceId: config.AZURE_OPENAI_TERRA_EVIDENCE_ID
@@ -118,6 +131,7 @@ function declaredRoutes(config: AzureDemoConfig): Readonly<Record<ModelRoute, De
       route: "SOL",
       endpoint: config.AZURE_OPENAI_SOL_ENDPOINT,
       resourceId: config.AZURE_OPENAI_SOL_RESOURCE_ID,
+      region: config.AZURE_OPENAI_SOL_REGION,
       deploymentId: config.AZURE_OPENAI_SOL_DEPLOYMENT_ID,
       apiVersion: config.AZURE_OPENAI_SOL_API_VERSION,
       evidenceId: config.AZURE_OPENAI_SOL_EVIDENCE_ID
@@ -136,13 +150,13 @@ function createBinding(
     evidence.status !== "APPROVED" ||
     !isCurrentlyValid(evidence, now) ||
     evidence.route !== declared.route ||
-    evidence.resourceId !== declared.resourceId ||
-    evidence.resourceId !== arm.resourceId ||
+    !sameArmResourceId(evidence.resourceId, declared.resourceId) ||
+    !sameArmResourceId(evidence.resourceId, arm.resourceId) ||
     evidence.deploymentId !== declared.deploymentId ||
     evidence.deploymentId !== arm.deploymentId ||
     evidence.apiVersion !== declared.apiVersion ||
     normalizeEndpoint(arm.endpoint) !== normalizeEndpoint(declared.endpoint) ||
-    normalizeLocation(evidence.region) !== normalizeLocation(arm.location) ||
+    !hasApprovedMatchingRegion(declared.region, arm.location, evidence.region) ||
     getAccountName(evidence.resourceId) !== arm.accountName.toLowerCase()
   ) {
     throw authoritativeRouteFailure();
@@ -159,6 +173,21 @@ function createBinding(
     evidenceId: evidence.evidenceId,
     evidenceVersion: evidence.evidenceVersion
   });
+}
+
+function hasApprovedMatchingRegion(
+  declaredRegion: string,
+  armLocation: string,
+  evidenceRegion: string
+): boolean {
+  const declared = normalizeLocation(declaredRegion);
+  const arm = normalizeLocation(armLocation);
+  const evidence = normalizeLocation(evidenceRegion);
+  return declared === arm && arm === evidence && approvedEuAzureOpenAiRegions.has(arm);
+}
+
+function sameArmResourceId(left: string, right: string): boolean {
+  return left.toLowerCase() === right.toLowerCase();
 }
 
 function isCurrentlyValid(evidence: ApprovedModelRouteEvidence, now: Date): boolean {

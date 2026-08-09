@@ -64,7 +64,7 @@ export function createArmCognitiveAccountClient(
         const account = parseAccount(
           await getJson(
             fetchImpl,
-            `https://management.azure.com${input.resourceId}?api-version=${accountApiVersion}`,
+            createArmUrl(input.resourceId, accountApiVersion),
             headers
           )
         );
@@ -73,7 +73,10 @@ export function createArmCognitiveAccountClient(
         const deployment = parseDeployment(
           await getJson(
             fetchImpl,
-            `https://management.azure.com${input.resourceId}/deployments/${encodeURIComponent(input.deploymentId)}?api-version=${deploymentApiVersion}`,
+            createArmUrl(
+              `${input.resourceId}/deployments/${encodeURIComponent(input.deploymentId)}`,
+              deploymentApiVersion
+            ),
             headers
           )
         );
@@ -95,13 +98,20 @@ export function createArmCognitiveAccountClient(
 
 function getCognitiveAccountName(resourceId: string): string {
   const match =
-    /^\/subscriptions\/[^/]+\/resourceGroups\/[^/]+\/providers\/Microsoft\.CognitiveServices\/accounts\/([^/]+)$/iu.exec(
+    /^\/subscriptions\/[0-9a-f-]{36}\/resourceGroups\/[a-z0-9_.()-]+\/providers\/Microsoft\.CognitiveServices\/accounts\/([a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9]))$/iu.exec(
       resourceId
     );
   if (!match?.[1]) {
     throw authoritativeRouteFailure();
   }
   return match[1];
+}
+
+function createArmUrl(resourceId: string, apiVersion: string): string {
+  const url = new URL("https://management.azure.com");
+  url.pathname = resourceId;
+  url.searchParams.set("api-version", apiVersion);
+  return url.toString();
 }
 
 async function getJson(
@@ -175,8 +185,8 @@ function assertAccount(
   expectedAccountName: string
 ): void {
   if (
-    account.id !== input.resourceId ||
-    account.name.toLowerCase() !== expectedAccountName.toLowerCase() ||
+    !sameArmResourceId(account.id, input.resourceId) ||
+    !sameArmIdentifier(account.name, expectedAccountName) ||
     account.type.toLowerCase() !== "microsoft.cognitiveservices/accounts" ||
     account.kind.toLowerCase() !== "openai" ||
     !account.location.trim() ||
@@ -191,13 +201,21 @@ function assertDeployment(
   input: Parameters<ArmCognitiveAccountClient["getAccountDeployment"]>[0]
 ): void {
   if (
-    deployment.id !== `${input.resourceId}/deployments/${input.deploymentId}` ||
-    deployment.name !== input.deploymentId ||
+    !sameArmResourceId(deployment.id, `${input.resourceId}/deployments/${input.deploymentId}`) ||
+    !sameArmIdentifier(deployment.name, input.deploymentId) ||
     deployment.type.toLowerCase() !== "microsoft.cognitiveservices/accounts/deployments" ||
     !deployment.properties.model.name.trim()
   ) {
     throw authoritativeRouteFailure();
   }
+}
+
+function sameArmResourceId(left: string, right: string): boolean {
+  return left.toLowerCase() === right.toLowerCase();
+}
+
+function sameArmIdentifier(left: string, right: string): boolean {
+  return left.toLowerCase() === right.toLowerCase();
 }
 
 function normalizeEndpoint(endpoint: string): string {
