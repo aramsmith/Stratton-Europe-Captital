@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 Import-Module Pester -MinimumVersion 5.0.0
 
 $configuration = [PesterConfiguration]::Default
-$configuration.Run.Path = (Join-Path $PSScriptRoot 'Preflight.Tests.ps1')
+$configuration.Run.Path = $PSScriptRoot
 $configuration.Run.PassThru = $true
 $configuration.Output.Verbosity = 'Detailed'
 $configuration.Should.ErrorAction = 'Stop'

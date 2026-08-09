@@ -983,11 +983,27 @@ function Invoke-StrattonAzurePreflight {
     -AdditionalBlockingFindings @($additionalBlockingFindings)
 }
 
+function Write-DeploymentArtifact {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Path,
+
+    [Parameter(Mandatory)]
+    [object] $InputObject
+  )
+
+  $directory = Split-Path -Path $Path -Parent
+  New-Item -ItemType Directory -Path $directory -Force | Out-Null
+  $InputObject | ConvertTo-Json -Depth 50 | Set-Content -Path $Path -Encoding utf8
+}
+
 Export-ModuleMember -Function @(
   'Assert-AzContext',
   'ConvertTo-PreflightResult',
   'Get-RequiredOpenAiModels',
   'Get-RequiredProviderNamespaces',
   'Invoke-AzJson',
-  'Invoke-StrattonAzurePreflight'
+  'Invoke-StrattonAzurePreflight',
+  'Write-DeploymentArtifact'
 )
