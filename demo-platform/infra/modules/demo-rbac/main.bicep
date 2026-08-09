@@ -12,11 +12,13 @@ param terraOpenAiAccountResourceId string
 param solOpenAiAccountResourceId string
 param webPrincipalId string
 param bffPrincipalId string
+param phase5PrincipalId string
 
 var roleDefinitionGuids = {
   acrPull: '7f951dda-4ed3-4680-a7ca-43fe172d538d'
   storageBlobDataContributor: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
   serviceBusDataSender: '69a216fc-b8fb-44d8-bc22-1f3c2cd27a39'
+  serviceBusDataReceiver: '090c5a3c-8e7d-4c64-9b48-2f5785a7a1e6'
   searchIndexDataReader: '1407120a-92aa-4202-b7e9-c0e197c71c8f'
   cognitiveServicesUser: 'a97b65f3-24c7-4388-baec-2e87135dc908'
   cognitiveServicesOpenAiUser: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
@@ -49,6 +51,16 @@ module bffAcrPull './role-assignments/acr-role-assignment.bicep' = {
   }
 }
 
+module phase5AcrPull './role-assignments/acr-role-assignment.bicep' = {
+  name: 'phase5-acr-pull'
+  scope: resourceGroup(split(containerRegistryId, '/')[2], split(containerRegistryId, '/')[4])
+  params: {
+    registryName: split(containerRegistryId, '/')[8]
+    principalId: phase5PrincipalId
+    roleDefinitionGuid: roleDefinitionGuids.acrPull
+  }
+}
+
 module bffBlobDataContributor './role-assignments/storage-account-role-assignment.bicep' = {
   name: 'bff-blob-data-contributor'
   scope: resourceGroup(split(blobStorageAccountResourceId, '/')[2], split(blobStorageAccountResourceId, '/')[4])
@@ -68,6 +80,28 @@ module bffServiceBusDataSender './role-assignments/service-bus-role-assignment.b
     queueName: serviceBusQueueName
     principalId: bffPrincipalId
     roleDefinitionGuid: roleDefinitionGuids.serviceBusDataSender
+  }
+}
+
+module phase5ServiceBusDataSender './role-assignments/service-bus-role-assignment.bicep' = {
+  name: 'phase5-servicebus-data-sender'
+  scope: resourceGroup(split(serviceBusNamespaceResourceId, '/')[2], split(serviceBusNamespaceResourceId, '/')[4])
+  params: {
+    namespaceName: split(serviceBusNamespaceResourceId, '/')[8]
+    queueName: serviceBusQueueName
+    principalId: phase5PrincipalId
+    roleDefinitionGuid: roleDefinitionGuids.serviceBusDataSender
+  }
+}
+
+module phase5ServiceBusDataReceiver './role-assignments/service-bus-role-assignment.bicep' = {
+  name: 'phase5-servicebus-data-receiver'
+  scope: resourceGroup(split(serviceBusNamespaceResourceId, '/')[2], split(serviceBusNamespaceResourceId, '/')[4])
+  params: {
+    namespaceName: split(serviceBusNamespaceResourceId, '/')[8]
+    queueName: serviceBusQueueName
+    principalId: phase5PrincipalId
+    roleDefinitionGuid: roleDefinitionGuids.serviceBusDataReceiver
   }
 }
 
@@ -114,8 +148,11 @@ module bffOpenAiReaders './role-assignments/cognitive-account-role-assignment.bi
 output roleAssignmentIds array = [
   webAcrPull.outputs.roleAssignmentId
   bffAcrPull.outputs.roleAssignmentId
+  phase5AcrPull.outputs.roleAssignmentId
   bffBlobDataContributor.outputs.roleAssignmentId
   bffServiceBusDataSender.outputs.roleAssignmentId
+  phase5ServiceBusDataSender.outputs.roleAssignmentId
+  phase5ServiceBusDataReceiver.outputs.roleAssignmentId
   bffSearchIndexDataReader.outputs.roleAssignmentId
   bffDocumentIntelligenceUser.outputs.roleAssignmentId
 ]

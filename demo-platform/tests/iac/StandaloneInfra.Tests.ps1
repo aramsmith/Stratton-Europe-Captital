@@ -115,6 +115,19 @@ Describe 'Stratton standalone platform foundation' {
     $script:templateJson | Should -Match 'admitted-evidence'
   }
 
+  It 'keeps the Phase 5 API ingress internal' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $phase5App = @($script:allResources | Where-Object {
+      $_.type -eq 'Microsoft.App/containerApps' -and $_.name -match 'phase5AppName'
+    })
+    $phase5App.Count | Should -Be 1
+    $phase5App[0].properties.configuration.ingress.external | Should -BeFalse
+  }
+
   It 'exports the platform bindings required by application deployments' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
@@ -134,7 +147,8 @@ Describe 'Stratton standalone platform foundation' {
       'webIdentityResourceId', 'webIdentityClientId', 'webIdentityPrincipalId',
       'bffIdentityResourceId', 'bffIdentityClientId', 'bffIdentityPrincipalId',
       'phase5IdentityResourceId', 'phase5IdentityClientId', 'phase5IdentityPrincipalId',
-      'bootstrapIdentityResourceId', 'bootstrapIdentityClientId', 'bootstrapIdentityPrincipalId'
+      'bootstrapIdentityResourceId', 'bootstrapIdentityClientId', 'bootstrapIdentityPrincipalId',
+      'webAppFqdn', 'bffAppFqdn', 'phase5ApiFqdn', 'sqlBootstrapSql'
     )) {
       $script:template.outputs.PSObject.Properties.Name | Should -Contain $outputName
     }

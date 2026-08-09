@@ -58,7 +58,6 @@ Describe 'Stratton demo infrastructure' {
       'solOpenAiApiVersion'
       'solOpenAiEvidenceId'
       'solOpenAiRouteEvidenceVersion'
-      'phase5ApiBaseUrl'
       'webDelegatedScope'
       'bffRequiredDelegatedScope'
       'phase5ApplicationId'
@@ -67,6 +66,17 @@ Describe 'Stratton demo infrastructure' {
       'webImageDigest'
       'bffImageRepository'
       'bffImageDigest'
+      'phase5ImageRepository'
+      'phase5ImageDigest'
+      'webIdentityResourceId'
+      'webIdentityClientId'
+      'webIdentityPrincipalId'
+      'bffIdentityResourceId'
+      'bffIdentityClientId'
+      'bffIdentityPrincipalId'
+      'phase5IdentityResourceId'
+      'phase5IdentityClientId'
+      'phase5IdentityPrincipalId'
       'webEntraClientId'
       'bffEntraClientId'
     )
@@ -95,18 +105,17 @@ Describe 'Stratton demo infrastructure' {
     Test-Path $script:compiledTemplatePath | Should -BeTrue
   }
 
-  It 'keeps both demo applications private' {
+  It 'exposes only the web application publicly' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
       return
     }
 
     $apps = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps')
-    $apps.Count | Should -Be 2
-    foreach ($app in $apps) {
-      $app.properties.configuration.ingress.external | Should -BeFalse
-      $app.properties.configuration.ingress.allowInsecure | Should -BeFalse
-    }
+    ($apps | Where-Object { $_.name -match 'webAppName' }).properties.configuration.ingress.external |
+      Should -BeTrue
+    ($apps | Where-Object { $_.name -match 'bffAppName' }).properties.configuration.ingress.external |
+      Should -BeFalse
   }
 
   It 'does not enable registry admin credentials' {
@@ -144,30 +153,34 @@ Describe 'Stratton demo infrastructure' {
         Select-Object -ExpandProperty image
     )
 
-    $images.Count | Should -Be 2
+    $images.Count | Should -Be 3
     foreach ($image in $images) {
-      $image | Should -Match "^\[variables\('(?:web|bff)Image'\)\]$"
+      $image | Should -Match "^\[variables\('(?:web|bff|phase5)Image'\)\]$"
     }
 
     $script:templateJson | Should -Match "format\('\{0\}/\{1\}@\{2\}'"
     $script:templateJson | Should -Match "parameters\('webImageDigest'\)"
     $script:templateJson | Should -Match "parameters\('bffImageDigest'\)"
+    $script:templateJson | Should -Match "parameters\('phase5ImageDigest'\)"
   }
 
-  It 'assigns separate user-assigned identities to both applications' {
+  It 'consumes the three stable foundation identities without creating replacements' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
       return
     }
 
-    $identities = @($script:allResources | Where-Object type -eq 'Microsoft.ManagedIdentity/userAssignedIdentities')
-    $identities.Count | Should -Be 2
-
+    (@($script:allResources | Where-Object type -eq 'Microsoft.ManagedIdentity/userAssignedIdentities')).Count |
+      Should -Be 0
     $apps = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps')
+    $apps.Count | Should -Be 3
     foreach ($app in $apps) {
       $app.identity.type | Should -Be 'UserAssigned'
       (@($app.identity.userAssignedIdentities.PSObject.Properties)).Count | Should -Be 1
     }
+    $script:templateJson | Should -Match "parameters\('webIdentityResourceId'\)"
+    $script:templateJson | Should -Match "parameters\('bffIdentityResourceId'\)"
+    $script:templateJson | Should -Match "parameters\('phase5IdentityResourceId'\)"
   }
 
   It 'preserves supplied shared resource IDs instead of reconstructing same-resource-group bindings' {
@@ -208,13 +221,14 @@ Describe 'Stratton demo infrastructure' {
     }
 
     $roleAssignments = @($script:allResources | Where-Object type -eq 'Microsoft.Authorization/roleAssignments')
-    $roleAssignments.Count | Should -BeGreaterOrEqual 7
+    $roleAssignments.Count | Should -BeGreaterOrEqual 10
 
     $templateText = $script:templateJson
     foreach ($roleGuid in @(
       '7f951dda-4ed3-4680-a7ca-43fe172d538d'
       'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
       '69a216fc-b8fb-44d8-bc22-1f3c2cd27a39'
+      '090c5a3c-8e7d-4c64-9b48-2f5785a7a1e6'
       '1407120a-92aa-4202-b7e9-c0e197c71c8f'
       'a97b65f3-24c7-4388-baec-2e87135dc908'
       '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
@@ -283,7 +297,8 @@ Describe 'Stratton demo infrastructure' {
     }
 
     $authConfigs = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps/authConfigs')
-    $authConfigs.Count | Should -Be 2
+    $authConfigs.Count | Should -Be 3
+    $phase5Auth = $authConfigs | Where-Object { $_.name -match 'phase5AppName' }
     $webAuth = $authConfigs | Where-Object { $_.name -match 'webAppName' }
     $bffAuth = $authConfigs | Where-Object { $_.name -match 'bffAppName' }
 
@@ -299,6 +314,16 @@ Describe 'Stratton demo infrastructure' {
       Should -Be 1
     ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications[0] | Out-String) |
       Should -Match 'webEntraClientId'
+    @($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences).Count |
+      Should -Be 1
+    ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences[0] | Out-String) |
+      Should -Match 'phase5ApplicationId'
+    @($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications).Count |
+      Should -Be 2
+    ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications | ConvertTo-Json) |
+      Should -Match 'bffEntraClientId'
+    ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications | ConvertTo-Json) |
+      Should -Match 'bffIdentityClientId'
     ($authConfigs | ConvertTo-Json -Depth 100) | Should -Not -Match 'tokenStore|sasUrl|clientSecret'
   }
 
@@ -368,7 +393,7 @@ Describe 'Stratton demo infrastructure' {
 
   It 'uses client-directed PKCE without token-store, SAS, or server-directed web auth wiring' {
     $authConfigs = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps/authConfigs')
-    $authConfigs.Count | Should -Be 2
+    $authConfigs.Count | Should -Be 3
     $authJson = $authConfigs | ConvertTo-Json -Depth 100
     $authJson | Should -Not -Match 'tokenStore|sasUrl|clientSecret|loginParameters'
     $authJson | Should -Match 'bffEntraClientId'
@@ -397,7 +422,7 @@ Describe 'Stratton demo infrastructure' {
       $bffEnv | Should -Match $setting
     }
     $script:templateJson | Should -Not -Match 'PHASE5_TOKEN_SCOPE'
-    $script:templateJson | Should -Not -Match 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
+    $bffEnv | Should -Not -Match 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
     $script:templateJson | Should -Not -Match 'clientSecret'
     $script:templateJson | Should -Not -Match 'accountKey'
     $script:templateJson | Should -Not -Match 'sasUrl'

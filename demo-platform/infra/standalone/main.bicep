@@ -48,6 +48,28 @@ param solModelVersion string
 @minValue(1)
 param solModelCapacity int
 
+@description('Full delegated BFF App ID URI scope requested by the web PKCE client.')
+param webDelegatedScope string
+param bffRequiredDelegatedScope string
+@minLength(36)
+@maxLength(36)
+param phase5ApplicationId string
+param phase5DelegatedScope string
+param webImageRepository string
+param webImageDigest string
+param bffImageRepository string
+param bffImageDigest string
+param phase5ImageRepository string
+param phase5ImageDigest string
+param webContainerPort int
+param bffContainerPort int
+@minLength(36)
+@maxLength(36)
+param webEntraClientId string
+@minLength(36)
+@maxLength(36)
+param bffEntraClientId string
+
 param namePrefix string = 'stratton-demo'
 param tags object = {}
 
@@ -132,6 +154,79 @@ module ai './modules/ai/main.bicep' = {
   }
 }
 
+module demoRuntimes '../main.bicep' = {
+  name: '${namePrefix}-demo-runtimes'
+  scope: deploymentResourceGroup
+  params: {
+    location: location
+    tenantId: tenantId
+    namePrefix: namePrefix
+    tags: effectiveTags
+    containerAppsEnvironmentId: operations.outputs.containerAppsEnvironmentId
+    containerRegistryId: operations.outputs.containerRegistryId
+    containerRegistryServer: operations.outputs.containerRegistryServer
+    logAnalyticsWorkspaceId: operations.outputs.logAnalyticsWorkspaceId
+    sqlServerFqdn: data.outputs.sqlServerFqdn
+    sqlDatabaseName: data.outputs.sqlDatabaseName
+    sqlDatabaseResourceId: data.outputs.sqlDatabaseResourceId
+    blobStorageAccountName: data.outputs.blobStorageAccountName
+    blobStorageAccountResourceId: data.outputs.blobStorageAccountResourceId
+    blobContainerName: data.outputs.blobContainerName
+    serviceBusFqdn: data.outputs.serviceBusFqdn
+    serviceBusNamespaceResourceId: data.outputs.serviceBusNamespaceResourceId
+    serviceBusQueueName: data.outputs.serviceBusQueueName
+    searchEndpoint: data.outputs.searchEndpoint
+    searchServiceResourceId: data.outputs.searchServiceResourceId
+    searchIndexName: data.outputs.searchIndexName
+    documentIntelligenceEndpoint: ai.outputs.documentIntelligenceEndpoint
+    documentIntelligenceAccountResourceId: ai.outputs.documentIntelligenceAccountResourceId
+    lunaOpenAiEndpoint: ai.outputs.lunaOpenAiEndpoint
+    lunaOpenAiAccountResourceId: ai.outputs.lunaOpenAiAccountResourceId
+    lunaOpenAiRegion: ai.outputs.lunaOpenAiRegion
+    lunaOpenAiDeploymentId: ai.outputs.lunaOpenAiDeploymentId
+    lunaOpenAiApiVersion: '2025-01-01-preview'
+    lunaOpenAiEvidenceId: 'SEC-EVID-LUNA-ROUTE-v1'
+    lunaOpenAiRouteEvidenceVersion: 'route-evidence-luna-v1'
+    terraOpenAiEndpoint: ai.outputs.terraOpenAiEndpoint
+    terraOpenAiAccountResourceId: ai.outputs.terraOpenAiAccountResourceId
+    terraOpenAiRegion: ai.outputs.terraOpenAiRegion
+    terraOpenAiDeploymentId: ai.outputs.terraOpenAiDeploymentId
+    terraOpenAiApiVersion: '2025-01-01-preview'
+    terraOpenAiEvidenceId: 'SEC-EVID-TERRA-ROUTE-v1'
+    terraOpenAiRouteEvidenceVersion: 'route-evidence-terra-v1'
+    solOpenAiEndpoint: ai.outputs.solOpenAiEndpoint
+    solOpenAiAccountResourceId: ai.outputs.solOpenAiAccountResourceId
+    solOpenAiRegion: ai.outputs.solOpenAiRegion
+    solOpenAiDeploymentId: ai.outputs.solOpenAiDeploymentId
+    solOpenAiApiVersion: '2025-01-01-preview'
+    solOpenAiEvidenceId: 'SEC-EVID-SOL-ROUTE-v1'
+    solOpenAiRouteEvidenceVersion: 'route-evidence-sol-v1'
+    webDelegatedScope: webDelegatedScope
+    bffRequiredDelegatedScope: bffRequiredDelegatedScope
+    phase5ApplicationId: phase5ApplicationId
+    phase5DelegatedScope: phase5DelegatedScope
+    webImageRepository: webImageRepository
+    webImageDigest: webImageDigest
+    bffImageRepository: bffImageRepository
+    bffImageDigest: bffImageDigest
+    phase5ImageRepository: phase5ImageRepository
+    phase5ImageDigest: phase5ImageDigest
+    webContainerPort: webContainerPort
+    bffContainerPort: bffContainerPort
+    webEntraClientId: webEntraClientId
+    bffEntraClientId: bffEntraClientId
+    webIdentityResourceId: operations.outputs.webIdentityResourceId
+    webIdentityClientId: operations.outputs.webIdentityClientId
+    webIdentityPrincipalId: operations.outputs.webIdentityPrincipalId
+    bffIdentityResourceId: operations.outputs.bffIdentityResourceId
+    bffIdentityClientId: operations.outputs.bffIdentityClientId
+    bffIdentityPrincipalId: operations.outputs.bffIdentityPrincipalId
+    phase5IdentityResourceId: operations.outputs.phase5IdentityResourceId
+    phase5IdentityClientId: operations.outputs.phase5IdentityClientId
+    phase5IdentityPrincipalId: operations.outputs.phase5IdentityPrincipalId
+  }
+}
+
 output resourceGroupId string = deploymentResourceGroup.id
 output containerAppsEnvironmentId string = operations.outputs.containerAppsEnvironmentId
 output containerRegistryId string = operations.outputs.containerRegistryId
@@ -180,3 +275,9 @@ output phase5IdentityPrincipalId string = operations.outputs.phase5IdentityPrinc
 output bootstrapIdentityResourceId string = operations.outputs.bootstrapIdentityResourceId
 output bootstrapIdentityClientId string = operations.outputs.bootstrapIdentityClientId
 output bootstrapIdentityPrincipalId string = operations.outputs.bootstrapIdentityPrincipalId
+
+output webAppFqdn string = demoRuntimes.outputs.webAppFqdn
+output bffAppFqdn string = demoRuntimes.outputs.bffAppFqdn
+output phase5ApiFqdn string = demoRuntimes.outputs.phase5ApiFqdn
+output sqlProjectionMigrationSql string = demoRuntimes.outputs.sqlProjectionMigrationSql
+output sqlBootstrapSql string = demoRuntimes.outputs.sqlBootstrapSql

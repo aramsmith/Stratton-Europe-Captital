@@ -50,36 +50,37 @@ param solOpenAiEvidenceId string
 param solOpenAiRouteEvidenceVersion string
 param webEntraClientId string
 param bffEntraClientId string
+param webIdentityResourceId string
+@minLength(36)
+@maxLength(36)
+param webIdentityClientId string
+@minLength(36)
+@maxLength(36)
+param webIdentityPrincipalId string
+param bffIdentityResourceId string
+@minLength(36)
+@maxLength(36)
+param bffIdentityClientId string
+@minLength(36)
+@maxLength(36)
+param bffIdentityPrincipalId string
 
-var webIdentityName = '${namePrefix}-web-mi'
-var bffIdentityName = '${namePrefix}-bff-mi'
+var webIdentityName = split(webIdentityResourceId, '/')[8]
+var bffIdentityName = split(bffIdentityResourceId, '/')[8]
 var webAppName = '${namePrefix}-web'
 var bffAppName = '${namePrefix}-bff'
 var entraIssuer = '${environment().authentication.loginEndpoint}${tenantId}/v2.0'
 var webImage = '${containerRegistryServer}/${webImageRepository}@${webImageDigest}'
 var bffImage = '${containerRegistryServer}/${bffImageRepository}@${bffImageDigest}'
 var bffInternalBaseUrl = 'https://${bffApp.properties.configuration.ingress.fqdn}'
-var defaultScale = {
-  minReplicas: 1
+var webScale = {
+  minReplicas: 0
   maxReplicas: 1
 }
-
-resource webIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
-  name: webIdentityName
-  location: location
-  tags: union(tags, {
-    'stratton.caseId': 'project-danube'
-    'stratton.component': 'web'
-  })
-}
-
-resource bffIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
-  name: bffIdentityName
-  location: location
-  tags: union(tags, {
-    'stratton.caseId': 'project-danube'
-    'stratton.component': 'bff'
-  })
+var backendScale = {
+  // Retain a warm BFF until web-proxy cold-start retry coverage has been demonstrated.
+  minReplicas: 1
+  maxReplicas: 1
 }
 
 resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
@@ -93,7 +94,7 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '${webIdentity.id}': {}
+      '${webIdentityResourceId}': {}
     }
   }
   properties: {
@@ -103,11 +104,11 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
       registries: [
         {
           server: containerRegistryServer
-          identity: webIdentity.id
+          identity: webIdentityResourceId
         }
       ]
       ingress: {
-        external: false
+        external: true
         allowInsecure: false
         targetPort: webContainerPort
         transport: 'auto'
@@ -154,7 +155,7 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
           }
         }
       ]
-      scale: defaultScale
+      scale: webScale
     }
   }
 }
@@ -170,7 +171,7 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '${bffIdentity.id}': {}
+      '${bffIdentityResourceId}': {}
     }
   }
   properties: {
@@ -180,7 +181,7 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
       registries: [
         {
           server: containerRegistryServer
-          identity: bffIdentity.id
+          identity: bffIdentityResourceId
         }
       ]
       ingress: {
@@ -246,7 +247,7 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
             }
             {
               name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
-              value: bffIdentity.properties.clientId
+              value: bffIdentityClientId
             }
             {
               name: 'AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT'
@@ -367,7 +368,7 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
           }
         }
       ]
-      scale: defaultScale
+      scale: backendScale
     }
   }
 }
@@ -466,14 +467,14 @@ resource bffDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
 output webAppName string = webApp.name
 output webAppId string = webApp.id
 output webAppFqdn string = webApp.properties.configuration.ingress.fqdn
-output webIdentityName string = webIdentity.name
-output webIdentityResourceId string = webIdentity.id
-output webIdentityClientId string = webIdentity.properties.clientId
-output webIdentityPrincipalId string = webIdentity.properties.principalId
+output webIdentityName string = webIdentityName
+output webIdentityResourceId string = webIdentityResourceId
+output webIdentityClientId string = webIdentityClientId
+output webIdentityPrincipalId string = webIdentityPrincipalId
 output bffAppName string = bffApp.name
 output bffAppId string = bffApp.id
 output bffAppFqdn string = bffApp.properties.configuration.ingress.fqdn
-output bffIdentityName string = bffIdentity.name
-output bffIdentityResourceId string = bffIdentity.id
-output bffIdentityClientId string = bffIdentity.properties.clientId
-output bffIdentityPrincipalId string = bffIdentity.properties.principalId
+output bffIdentityName string = bffIdentityName
+output bffIdentityResourceId string = bffIdentityResourceId
+output bffIdentityClientId string = bffIdentityClientId
+output bffIdentityPrincipalId string = bffIdentityPrincipalId

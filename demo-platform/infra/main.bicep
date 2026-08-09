@@ -134,9 +134,6 @@ param solOpenAiEvidenceId string
 @description('Expected Phase 5 evidence version that authorizes the Sol route.')
 param solOpenAiRouteEvidenceVersion string
 
-@description('Explicit Phase 5 base URL required by the current BFF configuration contract.')
-param phase5ApiBaseUrl string
-
 @description('Full delegated BFF App ID URI scope requested by MSAL Browser authorization-code + PKCE.')
 param webDelegatedScope string
 
@@ -161,6 +158,12 @@ param bffImageRepository string
 @description('Immutable SHA-256 digest for the BFF image, for example sha256:def456...')
 param bffImageDigest string
 
+@description('Repository path within the approved container registry for the Dockerfile.api Phase 5 image.')
+param phase5ImageRepository string
+
+@description('Immutable SHA-256 digest for the Phase 5 API image.')
+param phase5ImageDigest string
+
 @description('Container port exposed by the web image.')
 param webContainerPort int
 
@@ -177,8 +180,71 @@ param webEntraClientId string
 @maxLength(36)
 param bffEntraClientId string
 
+@description('Existing stable web user-assigned managed identity resource ID.')
+param webIdentityResourceId string
+
+@description('Existing stable web user-assigned managed identity client ID.')
+@minLength(36)
+@maxLength(36)
+param webIdentityClientId string
+
+@description('Existing stable web user-assigned managed identity principal ID.')
+@minLength(36)
+@maxLength(36)
+param webIdentityPrincipalId string
+
+@description('Existing stable BFF user-assigned managed identity resource ID.')
+param bffIdentityResourceId string
+
+@description('Existing stable BFF user-assigned managed identity client ID.')
+@minLength(36)
+@maxLength(36)
+param bffIdentityClientId string
+
+@description('Existing stable BFF user-assigned managed identity principal ID.')
+@minLength(36)
+@maxLength(36)
+param bffIdentityPrincipalId string
+
+@description('Existing stable Phase 5 user-assigned managed identity resource ID.')
+param phase5IdentityResourceId string
+
+@description('Existing stable Phase 5 user-assigned managed identity client ID.')
+@minLength(36)
+@maxLength(36)
+param phase5IdentityClientId string
+
+@description('Existing stable Phase 5 user-assigned managed identity principal ID.')
+@minLength(36)
+@maxLength(36)
+param phase5IdentityPrincipalId string
+
 var blobAccountUrl = 'https://${blobStorageAccountName}.blob.${environment().suffixes.storage}'
 var sqlDatabaseResourceIdParts = split(sqlDatabaseResourceId, '/')
+
+module phase5 './standalone/modules/phase5/main.bicep' = {
+  name: '${namePrefix}-phase5'
+  params: {
+    location: location
+    tenantId: tenantId
+    namePrefix: namePrefix
+    tags: tags
+    containerAppsEnvironmentId: containerAppsEnvironmentId
+    containerRegistryServer: containerRegistryServer
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    phase5IdentityResourceId: phase5IdentityResourceId
+    phase5IdentityClientId: phase5IdentityClientId
+    bffIdentityClientId: bffIdentityClientId
+    bffEntraClientId: bffEntraClientId
+    phase5ApplicationId: phase5ApplicationId
+    phase5ImageRepository: phase5ImageRepository
+    phase5ImageDigest: phase5ImageDigest
+    sqlServerFqdn: sqlServerFqdn
+    sqlDatabaseName: sqlDatabaseName
+    serviceBusFqdn: serviceBusFqdn
+    serviceBusQueueName: serviceBusQueueName
+  }
+}
 
 module demoApps './modules/demo-apps/main.bicep' = {
   name: '${namePrefix}-apps'
@@ -196,7 +262,7 @@ module demoApps './modules/demo-apps/main.bicep' = {
     bffImageDigest: bffImageDigest
     webContainerPort: webContainerPort
     bffContainerPort: bffContainerPort
-    phase5ApiBaseUrl: phase5ApiBaseUrl
+    phase5ApiBaseUrl: 'https://${phase5.outputs.phase5ApiFqdn}'
     webDelegatedScope: webDelegatedScope
     bffRequiredDelegatedScope: bffRequiredDelegatedScope
     phase5ApplicationId: phase5ApplicationId
@@ -233,6 +299,12 @@ module demoApps './modules/demo-apps/main.bicep' = {
     solOpenAiRouteEvidenceVersion: solOpenAiRouteEvidenceVersion
     webEntraClientId: webEntraClientId
     bffEntraClientId: bffEntraClientId
+    webIdentityResourceId: webIdentityResourceId
+    webIdentityClientId: webIdentityClientId
+    webIdentityPrincipalId: webIdentityPrincipalId
+    bffIdentityResourceId: bffIdentityResourceId
+    bffIdentityClientId: bffIdentityClientId
+    bffIdentityPrincipalId: bffIdentityPrincipalId
   }
 }
 
@@ -247,7 +319,8 @@ module demoData './modules/demo-data/main.bicep' = {
     sqlDatabaseName: sqlDatabaseName
     tenantId: tenantId
     caseId: caseId
-    bffIdentityName: demoApps.outputs.bffIdentityName
+    bffIdentityName: split(bffIdentityResourceId, '/')[8]
+    phase5IdentityName: split(phase5IdentityResourceId, '/')[8]
   }
 }
 
@@ -264,21 +337,30 @@ module demoRbac './modules/demo-rbac/main.bicep' = {
     lunaOpenAiAccountResourceId: lunaOpenAiAccountResourceId
     terraOpenAiAccountResourceId: terraOpenAiAccountResourceId
     solOpenAiAccountResourceId: solOpenAiAccountResourceId
-    webPrincipalId: demoApps.outputs.webIdentityPrincipalId
-    bffPrincipalId: demoApps.outputs.bffIdentityPrincipalId
+    webPrincipalId: webIdentityPrincipalId
+    bffPrincipalId: bffIdentityPrincipalId
+    phase5PrincipalId: phase5IdentityPrincipalId
   }
 }
 
 output webAppName string = demoApps.outputs.webAppName
 output webAppId string = demoApps.outputs.webAppId
 output webAppFqdn string = demoApps.outputs.webAppFqdn
-output webIdentityResourceId string = demoApps.outputs.webIdentityResourceId
-output webIdentityClientId string = demoApps.outputs.webIdentityClientId
+output webIdentityResourceId string = webIdentityResourceId
+output webIdentityClientId string = webIdentityClientId
+output webIdentityPrincipalId string = webIdentityPrincipalId
 output bffAppName string = demoApps.outputs.bffAppName
 output bffAppId string = demoApps.outputs.bffAppId
 output bffAppFqdn string = demoApps.outputs.bffAppFqdn
-output bffIdentityResourceId string = demoApps.outputs.bffIdentityResourceId
-output bffIdentityClientId string = demoApps.outputs.bffIdentityClientId
+output bffIdentityResourceId string = bffIdentityResourceId
+output bffIdentityClientId string = bffIdentityClientId
+output bffIdentityPrincipalId string = bffIdentityPrincipalId
+output phase5AppName string = phase5.outputs.phase5AppName
+output phase5AppId string = phase5.outputs.phase5AppId
+output phase5ApiFqdn string = phase5.outputs.phase5ApiFqdn
+output phase5IdentityResourceId string = phase5IdentityResourceId
+output phase5IdentityClientId string = phase5IdentityClientId
+output phase5IdentityPrincipalId string = phase5IdentityPrincipalId
 output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSql
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes

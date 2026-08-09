@@ -10,6 +10,7 @@ param sqlDatabaseName string
 param tenantId string
 param caseId string
 param bffIdentityName string
+param phase5IdentityName string
 
 var sqlDatabaseIdParts = split(sqlDatabaseResourceId, '/')
 var sqlServerName = sqlDatabaseIdParts[8]
@@ -21,6 +22,9 @@ ${projectionMigrationSql}
 
 CREATE USER [${bffIdentityName}] FROM EXTERNAL PROVIDER;
 GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO [${bffIdentityName}];
+
+CREATE USER [${phase5IdentityName}] FROM EXTERNAL PROVIDER;
+GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO [${phase5IdentityName}];
 '''
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
@@ -60,6 +64,7 @@ output sessionIsolationNotes object = {
   tenantId: tenantId
   caseId: caseId
   identityName: bffIdentityName
+  phase5IdentityName: phase5IdentityName
   sessionContextKeys: [
     'tenant_id'
     'case_id'
