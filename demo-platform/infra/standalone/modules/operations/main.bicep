@@ -17,12 +17,7 @@ resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   properties: {
     adminUserEnabled: false
     publicNetworkAccess: 'Enabled'
-    policies: {
-      retentionPolicy: {
-        days: 7
-        status: 'enabled'
-      }
-    }
+    // Basic SKU cannot use native untagged-manifest retention; a later operational cleanup process removes stale manifests.
   }
 }
 

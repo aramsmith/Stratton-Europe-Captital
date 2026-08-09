@@ -78,7 +78,7 @@ Describe 'Stratton standalone platform foundation' {
     $registry.Count | Should -Be 1
     $registry[0].sku.name | Should -Be 'Basic'
     $registry[0].properties.adminUserEnabled | Should -BeFalse
-    $registry[0].properties.policies.retentionPolicy.days | Should -Be 7
+    $registry[0].properties.PSObject.Properties['policies'] | Should -BeNullOrEmpty -Because 'Basic ACR does not support the Premium-only native retention policy; a later operational process performs cleanup.'
 
     $workspace = @($script:allResources | Where-Object type -eq 'Microsoft.OperationalInsights/workspaces')
     $workspace.Count | Should -Be 1
@@ -103,7 +103,9 @@ Describe 'Stratton standalone platform foundation' {
       return
     }
 
-    (@($script:allResources | Where-Object type -eq 'Microsoft.Storage/storageAccounts')).Count | Should -Be 1
+    $storageAccounts = @($script:allResources | Where-Object type -eq 'Microsoft.Storage/storageAccounts')
+    $storageAccounts.Count | Should -Be 1
+    $storageAccounts[0].properties.allowSharedKeyAccess | Should -BeFalse
     (@($script:allResources | Where-Object type -eq 'Microsoft.Storage/storageAccounts/blobServices/containers')).Count | Should -Be 1
     (@($script:allResources | Where-Object type -eq 'Microsoft.ServiceBus/namespaces')).Count | Should -Be 1
     (@($script:allResources | Where-Object type -eq 'Microsoft.ServiceBus/namespaces/queues')).Count | Should -Be 4
