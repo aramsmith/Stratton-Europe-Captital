@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
+import { createDemoAuthorityService, DemoAuthorityError } from "./demo-authority-service.js";
 import { health, readiness } from "./health.js";
 import { StructuredLogger } from "./logger.js";
 import { evaluateRolloutAdmission, policyInputHash } from "./policy-service.js";
@@ -30,7 +31,13 @@ type OperationId =
   | "submitReview"
   | "prepareDraft"
   | "exportValidationEvidence"
-  | "recordVerdict";
+  | "recordVerdict"
+  | "createDemoAnalysisBundle"
+  | "getDemoAnalysisBundle"
+  | "completeDemoAnalysisBundle"
+  | "submitDemoBundleReview"
+  | "prepareDemoBundleDraft"
+  | "getDemoModelRouteEvidence";
 
 interface Route {
   readonly method: "GET" | "POST";
@@ -38,6 +45,7 @@ interface Route {
   readonly pattern: RegExp;
   readonly roles: readonly string[];
   readonly mutation: boolean;
+  readonly authenticatedOnly?: boolean;
   readonly handler: (context: RequestContext, match: RegExpExecArray) => Promise<ResponsePayload>;
 }
 
@@ -88,6 +96,7 @@ export interface ApiRuntimeConfig {
   readonly idempotencyLeaseDurationSeconds: number;
   readonly analysisCapabilityEnabled: boolean;
   readonly auditExportCapabilityEnabled: boolean;
+  readonly completionClientId?: string;
 }
 
 export const implementedOperations: readonly {
@@ -346,7 +355,8 @@ function parsePrincipal(request: IncomingMessage): AuthenticatedPrincipal {
     roles,
     identityProvider: issuer,
     authType,
-    isHuman
+    isHuman,
+    ...(appId ? { applicationId: appId } : {})
   };
 }
 
@@ -597,6 +607,9 @@ function mapError(error: unknown): HttpError {
   if (error instanceof HttpError) {
     return error;
   }
+  if (error instanceof DemoAuthorityError) {
+    return new HttpError(error.statusCode, error.code);
+  }
   return new HttpError(503, "DEPENDENCY_UNAVAILABLE");
 }
 
@@ -631,7 +644,11 @@ function routeCaseId(
   match: RegExpExecArray,
   body: Record<string, unknown> | undefined
 ): string {
-  if (operationId === "createCase" || operationId === "exportValidationEvidence") {
+  if (
+    operationId === "createCase" ||
+    operationId === "exportValidationEvidence" ||
+    operationId === "completeDemoAnalysisBundle"
+  ) {
     return body && typeof body.caseId === "string" ? body.caseId : "unknown";
   }
   if (operationId === "admitEvidence") {
@@ -641,6 +658,10 @@ function routeCaseId(
 }
 
 function buildRoutes(config: ApiRuntimeConfig): readonly Route[] {
+  const demoAuthority = createDemoAuthorityService({
+    repository: config.repository,
+    completionClientId: config.completionClientId ?? ""
+  });
   return [
     {
       method: "POST",
@@ -1632,6 +1653,113 @@ function buildRoutes(config: ApiRuntimeConfig): readonly Route[] {
     },
     {
       method: "POST",
+      operationId: "createDemoAnalysisBundle",
+      pattern: /^\/v1\/demo-authority\/cases\/([^/]+)\/analysis-bundles$/,
+      roles: ["DealContributor"],
+      mutation: true,
+      handler: async ({ body, principal }, match) => {
+        if (!body || !match[1] || requireString(body, "caseId") !== match[1]) {
+          throw new HttpError(400, "INVALID_CONTRACT");
+        }
+        return {
+          statusCode: 202,
+          body: await demoAuthority.createBundle(principal, body as never)
+        };
+      }
+    },
+    {
+      method: "GET",
+      operationId: "getDemoAnalysisBundle",
+      pattern: /^\/v1\/demo-authority\/analysis-bundles\/([^/]+)$/,
+      roles: ["CaseReader"],
+      mutation: false,
+      handler: async ({ principal }, match) => {
+        const analysisBundleId = match[1];
+        if (!analysisBundleId) {
+          throw new HttpError(400, "INVALID_CONTRACT");
+        }
+        return { statusCode: 200, body: await demoAuthority.getBundle(principal, analysisBundleId) };
+      }
+    },
+    {
+      method: "POST",
+      operationId: "completeDemoAnalysisBundle",
+      pattern: /^\/v1\/demo-authority\/analysis-bundles\/([^/]+)\/completion$/,
+      roles: [],
+      authenticatedOnly: true,
+      mutation: true,
+      handler: async ({ body, principal }, match) => {
+        if (
+          principal.isHuman ||
+          !principal.applicationId ||
+          principal.applicationId !== (config.completionClientId ?? "")
+        ) {
+          throw new HttpError(403, "POLICY_DENIED");
+        }
+        if (!body || !match[1] || requireString(body, "analysisBundleId") !== match[1]) {
+          throw new HttpError(400, "INVALID_CONTRACT");
+        }
+        return { statusCode: 200, body: await demoAuthority.completeBundle(principal, body as never) };
+      }
+    },
+    {
+      method: "POST",
+      operationId: "submitDemoBundleReview",
+      pattern: /^\/v1\/demo-authority\/cases\/([^/]+)\/analysis-bundles\/([^/]+)\/reviews$/,
+      roles: ["DealReviewer", "LegalApprover", "ComplianceApprover"],
+      mutation: true,
+      handler: async ({ body, principal }, match) => {
+        if (!principal.isHuman) {
+          throw new HttpError(403, "POLICY_DENIED");
+        }
+        if (
+          !body ||
+          !match[1] ||
+          !match[2] ||
+          requireString(body, "caseId") !== match[1] ||
+          requireString(body, "analysisBundleId") !== match[2]
+        ) {
+          throw new HttpError(400, "INVALID_CONTRACT");
+        }
+        return { statusCode: 201, body: await demoAuthority.submitReview(principal, body as never) };
+      }
+    },
+    {
+      method: "POST",
+      operationId: "prepareDemoBundleDraft",
+      pattern: /^\/v1\/demo-authority\/cases\/([^/]+)\/analysis-bundles\/([^/]+)\/draft-recommendations$/,
+      roles: ["DealReviewer"],
+      mutation: true,
+      handler: async ({ body, principal }, match) => {
+        if (
+          !body ||
+          !match[1] ||
+          !match[2] ||
+          requireString(body, "caseId") !== match[1] ||
+          requireString(body, "analysisBundleId") !== match[2]
+        ) {
+          throw new HttpError(400, "INVALID_CONTRACT");
+        }
+        return { statusCode: 200, body: await demoAuthority.prepareDraft(principal, body as never) };
+      }
+    },
+    {
+      method: "GET",
+      operationId: "getDemoModelRouteEvidence",
+      pattern: /^\/v1\/demo-authority\/model-route-evidence\/([^/]+)$/,
+      roles: ["CaseReader"],
+      authenticatedOnly: true,
+      mutation: false,
+      handler: async ({ principal }, match) => {
+        const evidenceId = match[1];
+        if (!evidenceId) {
+          throw new HttpError(400, "INVALID_CONTRACT");
+        }
+        return { statusCode: 200, body: await demoAuthority.getRouteEvidence(principal, evidenceId) };
+      }
+    },
+    {
+      method: "POST",
       operationId: "recordVerdict",
       pattern: /^\/assurance\/v1\/verdicts$/,
       roles: ["InternalAuditValidator"],
@@ -1700,7 +1828,9 @@ export function createApiServer(config: ApiRuntimeConfig): { server: Server } {
       }
       const { route, match } = routeResult;
       const principal = parsePrincipal(request);
-      requireRole(principal, route.roles);
+      if (!route.authenticatedOnly) {
+        requireRole(principal, route.roles);
+      }
       const body = await parseBody(request, config.requestBodyLimitBytes);
       const context: RequestContext = { request, body, principal, correlationId };
 

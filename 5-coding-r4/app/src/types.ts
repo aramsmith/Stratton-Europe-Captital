@@ -375,6 +375,7 @@ export interface AuthenticatedPrincipal {
   readonly identityProvider: string;
   readonly authType: string;
   readonly isHuman: boolean;
+  readonly applicationId?: string;
 }
 
 export interface IdempotencyRecord {

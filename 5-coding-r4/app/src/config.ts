@@ -4,6 +4,7 @@ export interface AppConfig {
   readonly logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
   readonly modelProviderEvidenceId: string;
   readonly regionalDeploymentEvidenceId: string;
+  readonly demoAuthorityCompletionClientId?: string;
   readonly sqlServerFqdn?: string;
   readonly sqlDatabaseName?: string;
   readonly serviceBusFqdn?: string;
@@ -64,6 +65,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     logLevel: parseLogLevel(required(env, "LOG_LEVEL")),
     modelProviderEvidenceId: required(env, "MODEL_PROVIDER_EVIDENCE_ID"),
     regionalDeploymentEvidenceId: required(env, "REGIONAL_DEPLOYMENT_EVIDENCE_ID"),
+    ...(env.DEMO_AUTHORITY_COMPLETION_CLIENT_ID?.trim()
+      ? { demoAuthorityCompletionClientId: env.DEMO_AUTHORITY_COMPLETION_CLIENT_ID.trim() }
+      : {}),
     ...(env.AZURE_SQL_SERVER_FQDN?.trim()
       ? { sqlServerFqdn: env.AZURE_SQL_SERVER_FQDN.trim() }
       : {}),

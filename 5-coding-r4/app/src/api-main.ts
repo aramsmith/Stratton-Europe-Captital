@@ -91,7 +91,10 @@ async function run(): Promise<void> {
       promptGovernanceEvidenceId,
       idempotencyLeaseDurationSeconds: parsePositive("IDEMPOTENCY_LEASE_DURATION_SECONDS", 120),
       analysisCapabilityEnabled,
-      auditExportCapabilityEnabled
+      auditExportCapabilityEnabled,
+      ...(config.demoAuthorityCompletionClientId
+        ? { completionClientId: config.demoAuthorityCompletionClientId }
+        : {})
     });
 
     await new Promise<void>((resolve) => server.listen(port, () => resolve()));
@@ -123,7 +126,10 @@ async function run(): Promise<void> {
     promptGovernanceEvidenceId,
     idempotencyLeaseDurationSeconds: parsePositive("IDEMPOTENCY_LEASE_DURATION_SECONDS", 120),
     analysisCapabilityEnabled,
-    auditExportCapabilityEnabled
+    auditExportCapabilityEnabled,
+    ...(config.demoAuthorityCompletionClientId
+      ? { completionClientId: config.demoAuthorityCompletionClientId }
+      : {})
   });
   await new Promise<void>((resolve) => server.listen(port, () => resolve()));
   logger.log("INFO", "api-started", { correlationId: "startup", mode, port });

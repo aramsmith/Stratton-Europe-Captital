@@ -5,6 +5,7 @@ export * from "./audit-outbox.js";
 export * from "./benchmark-runner.js";
 export * from "./claim-lineage-service.js";
 export * from "./config.js";
+export * from "./demo-authority-service.js";
 export * from "./health.js";
 export * from "./idempotency-store.js";
 export * from "./logger.js";
