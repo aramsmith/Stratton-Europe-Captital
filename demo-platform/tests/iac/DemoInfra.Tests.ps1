@@ -56,7 +56,12 @@ Describe 'Stratton demo infrastructure' {
       'solOpenAiApiVersion'
       'solOpenAiEvidenceId'
       'phase5ApiBaseUrl'
-      'phase5TokenScope'
+      'webDelegatedScope'
+      'bffDelegatedAudience'
+      'bffRequiredDelegatedScope'
+      'phase5ApplicationId'
+      'phase5DelegatedScope'
+      'demoAuthorityCompletionClientId'
       'webImageRepository'
       'webImageDigest'
       'bffImageRepository'
@@ -64,7 +69,6 @@ Describe 'Stratton demo infrastructure' {
       'webEntraClientId'
       'webAllowedAudiences'
       'bffEntraClientId'
-      'bffAllowedAudiences'
     )
 
     $script:buildOutput = & az bicep build --file $script:mainBicepPath --outfile $script:compiledTemplatePath 2>&1
@@ -284,12 +288,14 @@ Describe 'Stratton demo infrastructure' {
       $authConfig.properties.platform.enabled | Should -BeTrue
       $authConfig.properties.globalValidation.unauthenticatedClientAction | Should -Be 'Return401'
       $authConfig.properties.globalValidation.redirectToProvider | Should -Be 'azureactivedirectory'
-      ($authConfig.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | Out-String) |
-        Should -Match 'AllowedAudiences'
     }
+    (($authConfigs | Where-Object { $_.name -match 'webAppName' }).properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | Out-String) |
+      Should -Match 'webAllowedAudiences'
+    (($authConfigs | Where-Object { $_.name -match 'bffAppName' }).properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | Out-String) |
+      Should -Match 'bffDelegatedAudience'
   }
 
-  It 'wires the production web proxy to the private BFF and forwards trusted identity settings' {
+  It 'wires the production web proxy to the private BFF with delegated token authority' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
       return
@@ -302,9 +308,12 @@ Describe 'Stratton demo infrastructure' {
     $bffEnvText = $bffApp.properties.template.containers[0].env | ConvertTo-Json -Depth 20
 
     $webEnvText | Should -Match 'BFF_INTERNAL_BASE_URL'
-    $webEnvText | Should -Match 'BFF_TOKEN_SCOPE'
-    $webEnvText | Should -Match 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
-    $bffEnvText | Should -Match 'PHASE5_TOKEN_SCOPE'
+    $webEnvText | Should -Not -Match 'BFF_TOKEN_SCOPE'
+    $webEnvText | Should -Not -Match 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
+    $bffEnvText | Should -Match 'PHASE5_DELEGATED_SCOPE'
+    $bffEnvText | Should -Match 'BFF_DELEGATED_AUDIENCE'
+    $bffEnvText | Should -Match 'BFF_REQUIRED_DELEGATED_SCOPE'
+    $bffEnvText | Should -Match 'ENTRA_TOKEN_ENDPOINT'
     $bffEnvText | Should -Match 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
     $bffEnvText | Should -Match 'DEMO_TENANT_ID'
     $bffEnvText | Should -Match 'AZURE_OPENAI_LUNA_RESOURCE_ID'
@@ -312,5 +321,113 @@ Describe 'Stratton demo infrastructure' {
     $bffEnvText | Should -Match 'AZURE_OPENAI_SOL_RESOURCE_ID'
     $script:templateJson | Should -Match 'https://'
     $script:templateJson | Should -Match 'bffApp.*ingress.*fqdn'
+    $script:templateJson | Should -Not -Match 'PHASE5_TOKEN_SCOPE'
+  }
+}
+
+Describe 'Delegated Container Apps authentication' {
+  BeforeAll {
+    function Get-DelegatedAuthTemplateResources {
+      param([Parameter(Mandatory)][object[]] $Resources)
+
+      foreach ($resource in @($Resources)) {
+        $resource
+        if ($resource.type -eq 'Microsoft.Resources/deployments' -and $resource.properties.template.resources) {
+          Get-DelegatedAuthTemplateResources -Resources $resource.properties.template.resources
+        }
+      }
+    }
+
+    $script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+    $script:mainBicepPath = Join-Path $script:repoRoot 'infra\main.bicep'
+    $script:compiledTemplatePath = Join-Path $script:repoRoot (".stratton-demo-delegated-auth-{0}.json" -f [System.Guid]::NewGuid().ToString('N'))
+    $script:buildOutput = & az bicep build --file $script:mainBicepPath --outfile $script:compiledTemplatePath 2>&1
+    $script:buildExitCode = $LASTEXITCODE
+    $script:templateJson = if ($script:buildExitCode -eq 0) { Get-Content -Path $script:compiledTemplatePath -Raw } else { '' }
+    $script:template = if ($script:templateJson) { $script:templateJson | ConvertFrom-Json -Depth 100 } else { $null }
+    $script:allResources = if ($script:template) { @(Get-DelegatedAuthTemplateResources -Resources $script:template.resources) } else { @() }
+  }
+
+  AfterAll {
+    if (Test-Path $script:compiledTemplatePath) {
+      Remove-Item -Path $script:compiledTemplatePath -Force
+    }
+  }
+
+  It 'requires explicit delegated and completion authentication inputs' {
+    foreach ($parameterName in @(
+      'webDelegatedScope'
+      'bffDelegatedAudience'
+      'bffRequiredDelegatedScope'
+      'phase5ApplicationId'
+      'phase5DelegatedScope'
+      'demoAuthorityCompletionClientId'
+    )) {
+      $parameter = $script:template.parameters.$parameterName
+      $parameter | Should -Not -BeNullOrEmpty
+      @($parameter.PSObject.Properties.Name) | Should -Not -Contain 'defaultValue'
+    }
+    $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'phase5TokenScope'
+  }
+
+  It 'enables token storage and delegated Entra validation for the private web and BFF applications' {
+    $authConfigs = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps/authConfigs')
+    $authConfigs.Count | Should -Be 2
+    foreach ($authConfig in $authConfigs) {
+      $authConfig.properties.platform.enabled | Should -BeTrue
+      $authConfig.properties.globalValidation.unauthenticatedClientAction | Should -Be 'Return401'
+    }
+    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Match 'tokenStore'
+    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Match 'webDelegatedScope'
+    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Match 'bffDelegatedAudience'
+  }
+
+  It 'sets all Task 3 OBO settings and no stale managed-identity web token wiring' {
+    $apps = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps')
+    $webApp = $apps | Where-Object { $_.name -match 'webAppName' }
+    $bffApp = $apps | Where-Object { $_.name -match 'bffAppName' }
+    $webEnv = $webApp.properties.template.containers[0].env | ConvertTo-Json -Depth 20
+    $bffEnv = $bffApp.properties.template.containers[0].env | ConvertTo-Json -Depth 20
+
+    $webEnv | Should -Not -Match 'BFF_TOKEN_SCOPE'
+    $webEnv | Should -Not -Match 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
+    foreach ($setting in @(
+      'PHASE5_DELEGATED_SCOPE'
+      'PHASE5_APPLICATION_ID'
+      'BFF_DELEGATED_AUDIENCE'
+      'BFF_REQUIRED_DELEGATED_SCOPE'
+      'ENTRA_TOKEN_ENDPOINT'
+      'AZURE_MANAGED_IDENTITY_CLIENT_ID'
+      'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
+    )) {
+      $bffEnv | Should -Match $setting
+    }
+    $script:templateJson | Should -Not -Match 'PHASE5_TOKEN_SCOPE'
+    $script:templateJson | Should -Not -Match 'clientSecret'
+    $script:templateJson | Should -Not -Match 'accountKey'
+  }
+
+  It 'assigns ARM Reader to the BFF only at each supplied OpenAI account scope' {
+    $roleAssignments = @($script:allResources | Where-Object type -eq 'Microsoft.Authorization/roleAssignments')
+    $readerAssignments = @($roleAssignments | Where-Object {
+      $_.properties.roleDefinitionId -match 'readerRoleDefinitionGuid'
+    })
+    $readerAssignments.Count | Should -Be 1
+    foreach ($assignment in $readerAssignments) {
+      $assignment.name | Should -Match 'guid'
+      ($assignment | ConvertTo-Json -Depth 100) | Should -Match 'Microsoft.CognitiveServices/accounts'
+    }
+    $readerDeployments = @($script:allResources | Where-Object {
+      $_.type -eq 'Microsoft.Resources/deployments' -and $_.name -match 'bff-openai-reader'
+    })
+    $readerDeployments.Count | Should -Be 1
+    ($readerDeployments[0].copy.count | Out-String) | Should -Match 'openAiAccountResourceIds'
+    foreach ($accountParameter in @(
+      'lunaOpenAiAccountResourceId'
+      'terraOpenAiAccountResourceId'
+      'solOpenAiAccountResourceId'
+    )) {
+      $script:templateJson | Should -Match $accountParameter
+    }
   }
 }

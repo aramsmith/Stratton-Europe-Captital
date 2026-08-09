@@ -12,7 +12,12 @@ param bffImageDigest string
 param webContainerPort int
 param bffContainerPort int
 param phase5ApiBaseUrl string
-param phase5TokenScope string
+param webDelegatedScope string
+param bffDelegatedAudience string
+param bffRequiredDelegatedScope string
+param phase5ApplicationId string
+param phase5DelegatedScope string
+param demoAuthorityCompletionClientId string
 param sqlServerFqdn string
 param sqlDatabaseName string
 param blobAccountUrl string
@@ -44,8 +49,6 @@ param webEntraClientId string
 @minLength(1)
 param webAllowedAudiences array
 param bffEntraClientId string
-@minLength(1)
-param bffAllowedAudiences array
 
 var webIdentityName = '${namePrefix}-web-mi'
 var bffIdentityName = '${namePrefix}-bff-mi'
@@ -55,7 +58,6 @@ var entraIssuer = '${environment().authentication.loginEndpoint}${tenantId}/v2.0
 var webImage = '${containerRegistryServer}/${webImageRepository}@${webImageDigest}'
 var bffImage = '${containerRegistryServer}/${bffImageRepository}@${bffImageDigest}'
 var bffInternalBaseUrl = 'https://${bffApp.properties.configuration.ingress.fqdn}'
-var bffTokenScope = '${bffAllowedAudiences[0]}/.default'
 var defaultScale = {
   minReplicas: 1
   maxReplicas: 1
@@ -128,14 +130,6 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
               name: 'BFF_INTERNAL_BASE_URL'
               value: bffInternalBaseUrl
             }
-            {
-              name: 'BFF_TOKEN_SCOPE'
-              value: bffTokenScope
-            }
-            {
-              name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
-              value: webIdentity.properties.clientId
-            }
           ]
           resources: {
             cpu: json('0.5')
@@ -194,8 +188,28 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
               value: phase5ApiBaseUrl
             }
             {
-              name: 'PHASE5_TOKEN_SCOPE'
-              value: phase5TokenScope
+              name: 'PHASE5_DELEGATED_SCOPE'
+              value: phase5DelegatedScope
+            }
+            {
+              name: 'PHASE5_APPLICATION_ID'
+              value: phase5ApplicationId
+            }
+            {
+              name: 'BFF_DELEGATED_AUDIENCE'
+              value: bffDelegatedAudience
+            }
+            {
+              name: 'BFF_REQUIRED_DELEGATED_SCOPE'
+              value: bffRequiredDelegatedScope
+            }
+            {
+              name: 'ENTRA_TOKEN_ENDPOINT'
+              value: '${environment().authentication.loginEndpoint}${tenantId}/oauth2/v2.0/token'
+            }
+            {
+              name: 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
+              value: demoAuthorityCompletionClientId
             }
             {
               name: 'AZURE_SQL_SERVER_FQDN'
@@ -344,6 +358,11 @@ resource webAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
         '/healthz'
       ]
     }
+    login: {
+      tokenStore: {
+        enabled: true
+      }
+    }
     identityProviders: {
       azureActiveDirectory: {
         enabled: true
@@ -353,6 +372,11 @@ resource webAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
         }
         validation: {
           allowedAudiences: webAllowedAudiences
+        }
+        login: {
+          loginParameters: [
+            'scope=openid profile email offline_access ${webDelegatedScope}'
+          ]
         }
       }
     }
@@ -382,7 +406,9 @@ resource bffAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
           openIdIssuer: entraIssuer
         }
         validation: {
-          allowedAudiences: bffAllowedAudiences
+          allowedAudiences: [
+            bffDelegatedAudience
+          ]
         }
       }
     }

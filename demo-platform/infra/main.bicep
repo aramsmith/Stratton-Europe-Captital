@@ -126,8 +126,23 @@ param solOpenAiEvidenceId string
 @description('Explicit Phase 5 base URL required by the current BFF configuration contract.')
 param phase5ApiBaseUrl string
 
-@description('Managed-identity OAuth scope for the immutable Phase 5 API authority.')
-param phase5TokenScope string
+@description('Delegated BFF scope requested by the web Container Apps authentication flow.')
+param webDelegatedScope string
+
+@description('Audience accepted by the BFF for the platform-provided delegated user token.')
+param bffDelegatedAudience string
+
+@description('Delegated user scope required by the BFF.')
+param bffRequiredDelegatedScope string
+
+@description('Application ID of the immutable Phase 5 API authority.')
+param phase5ApplicationId string
+
+@description('Delegated OAuth scope requested by the BFF OBO exchange for Phase 5.')
+param phase5DelegatedScope string
+
+@description('Client ID registered for Phase 5 application-token completion authorization.')
+param demoAuthorityCompletionClientId string
 
 @description('Repository path within the approved container registry for the web image.')
 param webImageRepository string
@@ -156,15 +171,7 @@ param webAllowedAudiences array
 @description('BFF application Microsoft Entra client ID.')
 param bffEntraClientId string
 
-@description('Allowed audiences enforced for the BFF application.')
-param bffAllowedAudiences array
-
 var blobAccountUrl = 'https://${blobStorageAccountName}.blob.${environment().suffixes.storage}'
-var openAiAccountResourceIds = [
-  lunaOpenAiAccountResourceId
-  terraOpenAiAccountResourceId
-  solOpenAiAccountResourceId
-]
 var sqlDatabaseResourceIdParts = split(sqlDatabaseResourceId, '/')
 
 module demoApps './modules/demo-apps/main.bicep' = {
@@ -184,7 +191,12 @@ module demoApps './modules/demo-apps/main.bicep' = {
     webContainerPort: webContainerPort
     bffContainerPort: bffContainerPort
     phase5ApiBaseUrl: phase5ApiBaseUrl
-    phase5TokenScope: phase5TokenScope
+    webDelegatedScope: webDelegatedScope
+    bffDelegatedAudience: bffDelegatedAudience
+    bffRequiredDelegatedScope: bffRequiredDelegatedScope
+    phase5ApplicationId: phase5ApplicationId
+    phase5DelegatedScope: phase5DelegatedScope
+    demoAuthorityCompletionClientId: demoAuthorityCompletionClientId
     sqlServerFqdn: sqlServerFqdn
     sqlDatabaseName: sqlDatabaseName
     blobAccountUrl: blobAccountUrl
@@ -215,7 +227,6 @@ module demoApps './modules/demo-apps/main.bicep' = {
     webEntraClientId: webEntraClientId
     webAllowedAudiences: webAllowedAudiences
     bffEntraClientId: bffEntraClientId
-    bffAllowedAudiences: bffAllowedAudiences
   }
 }
 
@@ -244,7 +255,9 @@ module demoRbac './modules/demo-rbac/main.bicep' = {
     serviceBusQueueName: serviceBusQueueName
     searchServiceResourceId: searchServiceResourceId
     documentIntelligenceAccountResourceId: documentIntelligenceAccountResourceId
-    openAiAccountResourceIds: openAiAccountResourceIds
+    lunaOpenAiAccountResourceId: lunaOpenAiAccountResourceId
+    terraOpenAiAccountResourceId: terraOpenAiAccountResourceId
+    solOpenAiAccountResourceId: solOpenAiAccountResourceId
     webPrincipalId: demoApps.outputs.webIdentityPrincipalId
     bffPrincipalId: demoApps.outputs.bffIdentityPrincipalId
   }
@@ -263,4 +276,8 @@ output bffIdentityClientId string = demoApps.outputs.bffIdentityClientId
 output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSql
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes
-output roleAssignmentIds array = concat(demoRbac.outputs.roleAssignmentIds, demoRbac.outputs.openAiRoleAssignmentIds)
+output roleAssignmentIds array = concat(
+  demoRbac.outputs.roleAssignmentIds,
+  demoRbac.outputs.openAiRoleAssignmentIds,
+  demoRbac.outputs.openAiReaderRoleAssignmentIds
+)

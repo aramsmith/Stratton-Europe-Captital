@@ -39,7 +39,12 @@ param solOpenAiDeploymentId = 'sol-thesis-challenge'
 param solOpenAiApiVersion = '2025-01-01-preview'
 param solOpenAiEvidenceId = 'SEC-EVID-SOL-ROUTE-v1'
 param phase5ApiBaseUrl = 'https://phase5.synthetic.stratton.example.test'
-param phase5TokenScope = 'api://55555555-5555-5555-5555-555555555555/.default'
+param webDelegatedScope = 'api://44444444-4444-4444-4444-444444444444/access_as_user'
+param bffDelegatedAudience = 'api://44444444-4444-4444-4444-444444444444'
+param bffRequiredDelegatedScope = 'access_as_user'
+param phase5ApplicationId = '55555555-5555-5555-5555-555555555555'
+param phase5DelegatedScope = 'api://55555555-5555-5555-5555-555555555555/access_as_user'
+param demoAuthorityCompletionClientId = '66666666-6666-6666-6666-666666666666'
 param webImageRepository = 'stratton/demo-web'
 param webImageDigest = 'sha256:1111111111111111111111111111111111111111111111111111111111111111'
 param bffImageRepository = 'stratton/demo-bff'
@@ -51,6 +56,3 @@ param webAllowedAudiences = [
   'api://33333333-3333-3333-3333-333333333333'
 ]
 param bffEntraClientId = '44444444-4444-4444-4444-444444444444'
-param bffAllowedAudiences = [
-  'api://44444444-4444-4444-4444-444444444444'
-]

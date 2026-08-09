@@ -7,7 +7,9 @@ param serviceBusNamespaceResourceId string
 param serviceBusQueueName string
 param searchServiceResourceId string
 param documentIntelligenceAccountResourceId string
-param openAiAccountResourceIds array
+param lunaOpenAiAccountResourceId string
+param terraOpenAiAccountResourceId string
+param solOpenAiAccountResourceId string
 param webPrincipalId string
 param bffPrincipalId string
 
@@ -20,7 +22,11 @@ var roleDefinitionGuids = {
   cognitiveServicesOpenAiUser: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
 }
 
-var uniqueOpenAiAccountResourceIds = union(openAiAccountResourceIds, [])
+var openAiAccountResourceIds = [
+  lunaOpenAiAccountResourceId
+  terraOpenAiAccountResourceId
+  solOpenAiAccountResourceId
+]
 
 module webAcrPull './role-assignments/acr-role-assignment.bicep' = {
   name: 'web-acr-pull'
@@ -84,13 +90,22 @@ module bffDocumentIntelligenceUser './role-assignments/cognitive-account-role-as
   }
 }
 
-module bffOpenAiUsers './role-assignments/cognitive-account-role-assignment.bicep' = [for (accountResourceId, index) in uniqueOpenAiAccountResourceIds: {
+module bffOpenAiUsers './role-assignments/cognitive-account-role-assignment.bicep' = [for (accountResourceId, index) in openAiAccountResourceIds: {
   name: 'bff-openai-user-${index}'
   scope: resourceGroup(split(accountResourceId, '/')[2], split(accountResourceId, '/')[4])
   params: {
     accountName: split(accountResourceId, '/')[8]
     principalId: bffPrincipalId
     roleDefinitionGuid: roleDefinitionGuids.cognitiveServicesOpenAiUser
+  }
+}]
+
+module bffOpenAiReaders './role-assignments/cognitive-account-reader.bicep' = [for (accountResourceId, index) in openAiAccountResourceIds: {
+  name: 'bff-openai-reader-${index}'
+  scope: resourceGroup(split(accountResourceId, '/')[2], split(accountResourceId, '/')[4])
+  params: {
+    accountName: split(accountResourceId, '/')[8]
+    principalId: bffPrincipalId
   }
 }]
 
@@ -103,4 +118,5 @@ output roleAssignmentIds array = [
   bffDocumentIntelligenceUser.outputs.roleAssignmentId
 ]
 
-output openAiRoleAssignmentIds array = [for i in range(0, length(uniqueOpenAiAccountResourceIds)): bffOpenAiUsers[i].outputs.roleAssignmentId]
+output openAiRoleAssignmentIds array = [for i in range(0, length(openAiAccountResourceIds)): bffOpenAiUsers[i].outputs.roleAssignmentId]
+output openAiReaderRoleAssignmentIds array = [for i in range(0, length(openAiAccountResourceIds)): bffOpenAiReaders[i].outputs.roleAssignmentId]
