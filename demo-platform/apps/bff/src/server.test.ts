@@ -832,9 +832,18 @@ describe("parseDemoConfig", () => {
       parseDemoConfig({
         PORT: "3001",
         DEMO_MODE: "AZURE",
-        PHASE5_API_BASE_URL: "https://phase5.example.test"
+        PHASE5_API_BASE_URL: "https://phase5.example.test",
+        DEMO_TENANT_ID: "tenant-stratton-demo",
+        TRUSTED_WEB_PROXY_PRINCIPAL_ID: "web-proxy-object-id",
+        PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
+        PHASE5_APPLICATION_ID: "phase5-application-id",
+        BFF_DELEGATED_AUDIENCE: "api://stratton-demo-bff",
+        BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
+        ENTRA_TOKEN_ENDPOINT:
+          "https://login.microsoftonline.com/tenant-stratton-demo/oauth2/v2.0/token",
+        AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
       })
-    ).toThrowError(/AZURE_MODE_REQUIRES_SQL_CONFIGURATION/);
+    ).toThrowError(/AZURE_SQL_SERVER_FQDN/);
   });
 });
 

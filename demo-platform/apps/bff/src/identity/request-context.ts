@@ -1,10 +1,12 @@
 import { AsyncLocalStorage } from "node:async_hooks";
+import type { DelegatedUserToken } from "./delegated-token.js";
 import type { TrustedIdentity } from "./trusted-identity.js";
 
 export interface TrustedRequestContext {
   readonly identity: TrustedIdentity;
   readonly correlationId: string;
   readonly traceparent?: string;
+  readonly delegatedUserToken?: DelegatedUserToken;
 }
 
 const requestContextStorage = new AsyncLocalStorage<TrustedRequestContext>();

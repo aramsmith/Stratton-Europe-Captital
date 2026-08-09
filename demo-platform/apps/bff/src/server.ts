@@ -11,7 +11,7 @@ import { createOpenAiAdapter } from "./azure/openai-analysis-adapter.js";
 import { createSearchAdapter } from "./azure/search-adapter.js";
 import { createServiceBusAdapter } from "./azure/service-bus-adapter.js";
 import { createAzureWorkflowClient } from "./azure/azure-workflow-client.js";
-import { parseDemoConfig } from "./config.js";
+import { parseDemoConfig, type DemoConfig } from "./config.js";
 import { EvidenceService } from "./evidence/evidence-service.js";
 import { DemoHttpError, mapDemoError } from "./errors.js";
 import { GovernanceService } from "./governance/governance-service.js";
@@ -20,6 +20,7 @@ import {
   createLocalIdentityResolver,
   type IdentityResolver
 } from "./identity/identity-resolver.js";
+import { createOboTokenExchange } from "./identity/obo-token-exchange.js";
 import {
   getTrustedRequestContext,
   runWithTrustedRequestContext
@@ -113,12 +114,24 @@ export function createDemoServer(
     void security.identityResolver
       .resolve(request)
       .then((identity) => {
+        return security.identityResolver.resolveDelegatedToken(request).then((delegatedUserToken) => {
+          if (
+            delegatedUserToken.tenantId !== identity.tenantId ||
+            delegatedUserToken.actorId !== identity.actorId
+          ) {
+            throw new DemoHttpError(403, "POLICY_DENIED", "DELEGATED_TOKEN_PRINCIPAL_MISMATCH");
+          }
+          return { identity, delegatedUserToken };
+        });
+      })
+      .then(({ identity, delegatedUserToken }) => {
         response.locals.trustedIdentity = identity;
         const traceparent = request.header("traceparent");
         runWithTrustedRequestContext(
           {
             identity,
             correlationId: getCorrelationId(response),
+            delegatedUserToken,
             ...(traceparent ? { traceparent } : {})
           },
           next
@@ -257,9 +270,10 @@ export function createWorkflowClient(
   });
   const getAccessToken =
     overrides.getPhase5AccessToken ??
-    createPhase5AccessTokenProvider(
-      requireConfigValue(config.PHASE5_TOKEN_SCOPE, "PHASE5_TOKEN_SCOPE"),
-      azureConfig.AZURE_MANAGED_IDENTITY_CLIENT_ID
+    createDelegatedPhase5AccessTokenProvider(
+      config.ENTRA_TOKEN_ENDPOINT,
+      config.PHASE5_DELEGATED_SCOPE,
+      config.AZURE_MANAGED_IDENTITY_CLIENT_ID
     );
   const authority = (overrides.createPhase5AuthorityClient ?? createPhase5Client)({
     baseUrl: config.PHASE5_API_BASE_URL,
@@ -273,21 +287,22 @@ export function createWorkflowClient(
   });
 }
 
-function createPhase5AccessTokenProvider(
-  scope: string,
-  managedIdentityClientId?: string
+function createDelegatedPhase5AccessTokenProvider(
+  tokenEndpoint: string,
+  phase5DelegatedScope: string,
+  managedIdentityClientId: string
 ): () => Promise<string> {
-  const credential = createManagedIdentityCredential(managedIdentityClientId);
+  const exchange = createOboTokenExchange({
+    tokenEndpoint,
+    phase5DelegatedScope,
+    managedIdentityClientId
+  });
   return async () => {
-    const token = await credential.getToken(scope);
-    if (!token?.token) {
-      throw new DemoHttpError(
-        503,
-        "DEPENDENCY_UNAVAILABLE",
-        "PHASE5_MANAGED_IDENTITY_TOKEN_UNAVAILABLE"
-      );
+    const userAssertion = getTrustedRequestContext().delegatedUserToken?.accessToken;
+    if (!userAssertion) {
+      throw new DemoHttpError(401, "UNAUTHENTICATED", "DELEGATED_TOKEN_REQUIRED");
     }
-    return token.token;
+    return exchange.acquirePhase5Token(userAssertion);
   };
 }
 
@@ -321,7 +336,7 @@ async function createScenarioRepository(
 }
 
 function createAzureServerSecurityOptions(
-  config: ReturnType<typeof parseDemoConfig>
+  config: Extract<DemoConfig, { readonly DEMO_MODE: "AZURE" }>
 ): DemoServerSecurityOptions {
   const expectedTenantId = requireConfigValue(
     config.DEMO_TENANT_ID,
@@ -334,7 +349,12 @@ function createAzureServerSecurityOptions(
   return {
     identityResolver: createContainerAppsIdentityResolver({
       expectedTenantId,
-      trustedProxyPrincipalId
+      trustedProxyPrincipalId,
+      delegatedTokenPolicy: {
+        expectedTenantId,
+        expectedAudience: config.BFF_DELEGATED_AUDIENCE,
+        requiredScope: config.BFF_REQUIRED_DELEGATED_SCOPE
+      }
     }),
     authorizationPolicy: {
       expectedTenantId,
