@@ -46,6 +46,14 @@ describe("parseDemoConfig", () => {
     expect(() => parseDemoConfig(environment)).toThrow(/AZURE_MODE_REQUIRES_MATCHING_ENTRA_TENANT/);
   });
 
+  it("rejects an ENTRA token endpoint hosted anywhere other than Microsoft Entra", () => {
+    const environment = azureEnvironment();
+    environment.ENTRA_TOKEN_ENDPOINT =
+      "https://identity-attacker.example/tenant-stratton/oauth2/v2.0/token";
+
+    expect(() => parseDemoConfig(environment)).toThrow(/AZURE_MODE_REQUIRES_ENTRA_TOKEN_ORIGIN/);
+  });
+
   it("does not validate AZURE token settings while parsing LOCAL fixtures", () => {
     expect(
       parseDemoConfig({

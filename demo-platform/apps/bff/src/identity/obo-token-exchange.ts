@@ -6,6 +6,7 @@ const azureAdTokenExchangeScope = "api://AzureADTokenExchange/.default";
 const clientAssertionType = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 const onBehalfOfGrantType = "urn:ietf:params:oauth:grant-type:jwt-bearer";
 const cacheSafetyWindowMilliseconds = 60_000;
+const defaultCacheCapacity = 100;
 
 export interface FederatedAssertionCredential {
   getToken(scope: string): Promise<{ readonly token: string; readonly expiresOnTimestamp: number } | null>;
@@ -22,6 +23,7 @@ export interface CreateOboTokenExchangeOptions {
   readonly managedIdentityCredential?: FederatedAssertionCredential;
   readonly fetch?: typeof fetch;
   readonly now?: () => number;
+  readonly cacheCapacity?: number;
 }
 
 export interface CreateManagedIdentityApplicationTokenProviderOptions {
@@ -31,9 +33,9 @@ export interface CreateManagedIdentityApplicationTokenProviderOptions {
 }
 
 interface CachedExchange {
-  readonly token?: string;
-  readonly expiresAt?: number;
-  readonly exchange?: Promise<string>;
+  token?: string;
+  expiresAt?: number;
+  exchange?: Promise<string>;
 }
 
 export function createManagedIdentityApplicationTokenProvider(
@@ -58,6 +60,7 @@ export function createManagedIdentityApplicationTokenProvider(
 }
 
 export function createOboTokenExchange(options: CreateOboTokenExchangeOptions): OboTokenExchange {
+  rejectClientSecretOption(options);
   requireHttpsUrl(options.tokenEndpoint, "ENTRA_TOKEN_ENDPOINT");
   const phase5DelegatedScope = requireValue(options.phase5DelegatedScope, "PHASE5_DELEGATED_SCOPE");
   const fetchImpl = options.fetch ?? fetch;
@@ -66,19 +69,24 @@ export function createOboTokenExchange(options: CreateOboTokenExchangeOptions): 
     createManagedIdentityCredential(options.managedIdentityClientId);
   const cache = new Map<string, CachedExchange>();
   const now = options.now ?? Date.now;
+  const cacheCapacity = requireCacheCapacity(options.cacheCapacity ?? defaultCacheCapacity);
 
   return {
     async acquirePhase5Token(userAssertion) {
       const assertion = requireValue(userAssertion, "USER_ASSERTION");
       const assertionHash = createHash("sha256").update(assertion).digest("hex");
+      sweepExpiredEntries(cache, now());
       const cached = cache.get(assertionHash);
       if (cached?.token && cached.expiresAt && cached.expiresAt > now()) {
+        touchCacheEntry(cache, assertionHash, cached, cacheCapacity);
         return cached.token;
       }
       if (cached?.exchange) {
+        touchCacheEntry(cache, assertionHash, cached, cacheCapacity);
         return cached.exchange;
       }
 
+      const entry: CachedExchange = {};
       const exchange = exchangeToken(
         fetchImpl,
         credential,
@@ -87,20 +95,69 @@ export function createOboTokenExchange(options: CreateOboTokenExchangeOptions): 
         assertion,
         now
       ).then((result) => {
-        if (result.expiresAt > now()) {
-          cache.set(assertionHash, { token: result.token, expiresAt: result.expiresAt });
-        } else {
-          cache.delete(assertionHash);
+        if (cache.get(assertionHash) !== entry) {
+          return result.token;
         }
+        if (result.expiresAt <= now()) {
+          cache.delete(assertionHash);
+          return result.token;
+        }
+        touchCacheEntry(
+          cache,
+          assertionHash,
+          { token: result.token, expiresAt: result.expiresAt },
+          cacheCapacity
+        );
         return result.token;
       }).catch((error: unknown) => {
-        cache.delete(assertionHash);
+        if (cache.get(assertionHash) === entry) {
+          cache.delete(assertionHash);
+        }
         throw error;
       });
-      cache.set(assertionHash, { exchange });
+      entry.exchange = exchange;
+      touchCacheEntry(cache, assertionHash, entry, cacheCapacity);
       return exchange;
     }
   };
+}
+
+function rejectClientSecretOption(options: CreateOboTokenExchangeOptions): void {
+  if (Object.keys(options).some((key) => /^client(?:_|-)?secret$/i.test(key))) {
+    throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "CLIENT_SECRET_NOT_SUPPORTED");
+  }
+}
+
+function requireCacheCapacity(value: number): number {
+  if (!Number.isSafeInteger(value) || value < 1) {
+    throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "OBO_TOKEN_CACHE_CAPACITY_INVALID");
+  }
+  return value;
+}
+
+function sweepExpiredEntries(cache: Map<string, CachedExchange>, currentTime: number): void {
+  for (const [assertionHash, entry] of cache) {
+    if (entry.token && (!entry.expiresAt || entry.expiresAt <= currentTime)) {
+      cache.delete(assertionHash);
+    }
+  }
+}
+
+function touchCacheEntry(
+  cache: Map<string, CachedExchange>,
+  assertionHash: string,
+  entry: CachedExchange,
+  cacheCapacity: number
+): void {
+  cache.delete(assertionHash);
+  cache.set(assertionHash, entry);
+  while (cache.size > cacheCapacity) {
+    const leastRecentlyUsed = cache.keys().next().value;
+    if (leastRecentlyUsed === undefined) {
+      return;
+    }
+    cache.delete(leastRecentlyUsed);
+  }
 }
 
 async function exchangeToken(

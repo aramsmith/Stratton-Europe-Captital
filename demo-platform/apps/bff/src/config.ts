@@ -25,20 +25,27 @@ const azureConfigSchema = z
     AZURE_MANAGED_IDENTITY_CLIENT_ID: z.string().trim().min(1)
   })
   .superRefine((config, context) => {
+    const entraTokenEndpoint = new URL(config.ENTRA_TOKEN_ENDPOINT);
     if (new URL(config.PHASE5_API_BASE_URL).protocol !== "https:") {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: "AZURE_MODE_REQUIRES_HTTPS_PHASE5"
       });
     }
-    if (new URL(config.ENTRA_TOKEN_ENDPOINT).protocol !== "https:") {
+    if (entraTokenEndpoint.protocol !== "https:") {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: "AZURE_MODE_REQUIRES_HTTPS_ENTRA_TOKEN_ENDPOINT"
       });
     }
+    if (entraTokenEndpoint.origin !== "https://login.microsoftonline.com") {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "AZURE_MODE_REQUIRES_ENTRA_TOKEN_ORIGIN"
+      });
+    }
     if (
-      new URL(config.ENTRA_TOKEN_ENDPOINT).pathname !==
+      entraTokenEndpoint.pathname !==
       `/${encodeURIComponent(config.DEMO_TENANT_ID)}/oauth2/v2.0/token`
     ) {
       context.addIssue({

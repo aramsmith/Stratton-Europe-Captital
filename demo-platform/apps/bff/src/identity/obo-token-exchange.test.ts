@@ -83,6 +83,158 @@ describe("createOboTokenExchange", () => {
     );
     expect(fetchImpl).toHaveBeenCalledTimes(2);
   });
+
+  it("rejects client-secret input without exposing secret or assertion values", async () => {
+    const incomingAssertion = "incoming-user-assertion-must-not-leak";
+    const clientSecret = "client-secret-must-not-leak";
+    const federatedAssertion = "federated-assertion-must-not-leak";
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    try {
+      let thrown: unknown;
+      try {
+        createOboTokenExchange({
+          tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+          phase5DelegatedScope: "api://phase5/access_as_user",
+          managedIdentityCredential: {
+            getToken: vi.fn().mockResolvedValue({
+              token: federatedAssertion,
+              expiresOnTimestamp: 1_900_000_000_000
+            })
+          },
+          clientSecret
+        } as unknown as Parameters<typeof createOboTokenExchange>[0]);
+      } catch (error) {
+        thrown = error;
+      }
+
+      expect(thrown).toMatchObject({ message: "CLIENT_SECRET_NOT_SUPPORTED" });
+      const output = thrown instanceof Error ? thrown.message : String(thrown);
+      expect(output).not.toContain(clientSecret);
+      expect(output).not.toContain(incomingAssertion);
+      expect(output).not.toContain(federatedAssertion);
+    } finally {
+      expect(consoleError).not.toHaveBeenCalled();
+      consoleError.mockRestore();
+    }
+  });
+
+  it("evicts the least recently used completed exchange when the bounded cache is full", async () => {
+    const fetchImpl = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(successfulResponse())
+      .mockResolvedValueOnce(successfulResponse())
+      .mockResolvedValueOnce(successfulResponse())
+      .mockResolvedValueOnce(successfulResponse());
+    const exchange = createOboTokenExchange({
+      tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+      phase5DelegatedScope: "api://phase5/access_as_user",
+      managedIdentityCredential: credential(),
+      fetch: fetchImpl,
+      cacheCapacity: 2
+    });
+
+    await exchange.acquirePhase5Token("assertion-a");
+    await exchange.acquirePhase5Token("assertion-b");
+    await exchange.acquirePhase5Token("assertion-a");
+    await exchange.acquirePhase5Token("assertion-c");
+    await exchange.acquirePhase5Token("assertion-b");
+
+    expect(fetchImpl).toHaveBeenCalledTimes(4);
+  });
+
+  it("sweeps expired entries before cache capacity evicts a live exchange", async () => {
+    let currentTime = 0;
+    const fetchImpl = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ access_token: "short-lived-token", expires_in: 61, token_type: "Bearer" }),
+          { status: 200, headers: { "content-type": "application/json" } }
+        )
+      )
+      .mockResolvedValueOnce(successfulResponse())
+      .mockResolvedValueOnce(successfulResponse());
+    const exchange = createOboTokenExchange({
+      tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+      phase5DelegatedScope: "api://phase5/access_as_user",
+      managedIdentityCredential: credential(),
+      fetch: fetchImpl,
+      now: () => currentTime,
+      cacheCapacity: 2
+    });
+
+    await exchange.acquirePhase5Token("assertion-a");
+    await exchange.acquirePhase5Token("assertion-b");
+    currentTime = 500;
+    await exchange.acquirePhase5Token("assertion-a");
+    currentTime = 1_001;
+    await exchange.acquirePhase5Token("assertion-c");
+    await exchange.acquirePhase5Token("assertion-b");
+
+    expect(fetchImpl).toHaveBeenCalledTimes(3);
+  });
+
+  it("shares a single in-flight exchange for the same assertion", async () => {
+    let resolveResponse: ((response: Response) => void) | undefined;
+    const fetchImpl = vi.fn<typeof fetch>().mockImplementation(
+      () =>
+        new Promise<Response>((resolve) => {
+          resolveResponse = resolve;
+        })
+    );
+    const exchange = createOboTokenExchange({
+      tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+      phase5DelegatedScope: "api://phase5/access_as_user",
+      managedIdentityCredential: credential(),
+      fetch: fetchImpl,
+      cacheCapacity: 2
+    });
+
+    const first = exchange.acquirePhase5Token("incoming-user-token");
+    const second = exchange.acquirePhase5Token("incoming-user-token");
+    await vi.waitFor(() => expect(fetchImpl).toHaveBeenCalledTimes(1));
+    resolveResponse?.(successfulResponse());
+
+    await expect(Promise.all([first, second])).resolves.toEqual([
+      "phase5-delegated-token",
+      "phase5-delegated-token"
+    ]);
+  });
+
+  it("does not expose either assertion when the token endpoint rejects the exchange", async () => {
+    const incomingAssertion = "incoming-user-assertion-must-not-leak";
+    const federatedAssertion = "federated-assertion-must-not-leak";
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const exchange = createOboTokenExchange({
+      tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+      phase5DelegatedScope: "api://phase5/access_as_user",
+      managedIdentityCredential: {
+        getToken: vi.fn().mockResolvedValue({
+          token: federatedAssertion,
+          expiresOnTimestamp: 1_900_000_000_000
+        })
+      },
+      fetch: vi.fn<typeof fetch>().mockResolvedValue(new Response("untrusted upstream body", { status: 500 }))
+    });
+
+    try {
+      let thrown: unknown;
+      try {
+        await exchange.acquirePhase5Token(incomingAssertion);
+      } catch (error) {
+        thrown = error;
+      }
+
+      expect(thrown).toMatchObject({ message: "OBO_TOKEN_EXCHANGE_REJECTED" });
+      const output = thrown instanceof Error ? thrown.message : String(thrown);
+      expect(output).not.toContain(incomingAssertion);
+      expect(output).not.toContain(federatedAssertion);
+    } finally {
+      expect(consoleError).not.toHaveBeenCalled();
+      consoleError.mockRestore();
+    }
+  });
 });
 
 describe("createManagedIdentityApplicationTokenProvider", () => {
