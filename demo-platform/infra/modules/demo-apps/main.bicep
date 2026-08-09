@@ -1,4 +1,6 @@
 param location string
+@minLength(36)
+@maxLength(36)
 param tenantId string
 param namePrefix string
 param tags object
@@ -31,18 +33,21 @@ param lunaOpenAiRegion string
 param lunaOpenAiDeploymentId string
 param lunaOpenAiApiVersion string
 param lunaOpenAiEvidenceId string
+param lunaOpenAiRouteEvidenceVersion string
 param terraOpenAiEndpoint string
 param terraOpenAiResourceId string
 param terraOpenAiRegion string
 param terraOpenAiDeploymentId string
 param terraOpenAiApiVersion string
 param terraOpenAiEvidenceId string
+param terraOpenAiRouteEvidenceVersion string
 param solOpenAiEndpoint string
 param solOpenAiResourceId string
 param solOpenAiRegion string
 param solOpenAiDeploymentId string
 param solOpenAiApiVersion string
 param solOpenAiEvidenceId string
+param solOpenAiRouteEvidenceVersion string
 param webEntraClientId string
 param bffEntraClientId string
 
@@ -296,6 +301,10 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
               value: lunaOpenAiEvidenceId
             }
             {
+              name: 'AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION'
+              value: lunaOpenAiRouteEvidenceVersion
+            }
+            {
               name: 'AZURE_OPENAI_TERRA_ENDPOINT'
               value: terraOpenAiEndpoint
             }
@@ -320,6 +329,10 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
               value: terraOpenAiEvidenceId
             }
             {
+              name: 'AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION'
+              value: terraOpenAiRouteEvidenceVersion
+            }
+            {
               name: 'AZURE_OPENAI_SOL_ENDPOINT'
               value: solOpenAiEndpoint
             }
@@ -342,6 +355,10 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'AZURE_OPENAI_SOL_EVIDENCE_ID'
               value: solOpenAiEvidenceId
+            }
+            {
+              name: 'AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION'
+              value: solOpenAiRouteEvidenceVersion
             }
           ]
           resources: {

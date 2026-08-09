@@ -16,6 +16,7 @@ function approvedDeployments(): Record<"LUNA" | "TERRA" | "SOL", ApprovedDeploym
       deploymentId: "luna-evidence-triage",
       apiVersion: "2025-01-01-preview",
       evidenceId: "SEC-EVID-LUNA-ROUTE-v1",
+      evidenceVersion: "route-evidence-luna-v1",
       geography: "EU_DATA_ZONE"
     },
     TERRA: {
@@ -26,6 +27,7 @@ function approvedDeployments(): Record<"LUNA" | "TERRA" | "SOL", ApprovedDeploym
       deploymentId: "terra-grounded-analysis",
       apiVersion: "2025-01-01-preview",
       evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+      evidenceVersion: "route-evidence-terra-v1",
       geography: "EU_DATA_ZONE"
     },
     SOL: {
@@ -36,6 +38,7 @@ function approvedDeployments(): Record<"LUNA" | "TERRA" | "SOL", ApprovedDeploym
       deploymentId: "sol-thesis-challenge",
       apiVersion: "2025-01-01-preview",
       evidenceId: "SEC-EVID-SOL-ROUTE-v1",
+      evidenceVersion: "route-evidence-sol-v1",
       geography: "EU_DATA_ZONE"
     }
   };
@@ -121,6 +124,7 @@ describe("createOpenAiAdapter", () => {
       deploymentId: "terra-grounded-analysis",
       geography: "EU_DATA_ZONE",
       evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+      evidenceVersion: "route-evidence-terra-v1",
       output: {
         summary: "Governed Terra output",
         citations: [

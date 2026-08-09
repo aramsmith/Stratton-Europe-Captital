@@ -68,7 +68,7 @@ function trustedRequestContext() {
 
 function validAzureConfigEnvironment(): NodeJS.ProcessEnv {
   return {
-    DEMO_TENANT_ID: "tenant-stratton-demo",
+    DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
     AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
     AZURE_SEARCH_ENDPOINT: "https://search.search.windows.net",
     AZURE_SEARCH_INDEX_NAME: "governed-evidence",
@@ -83,6 +83,7 @@ function validAzureConfigEnvironment(): NodeJS.ProcessEnv {
     AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
     AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
     AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1",
+    AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION: "route-evidence-luna-v1",
     AZURE_OPENAI_TERRA_ENDPOINT: "https://stratton-terra.openai.azure.com",
     AZURE_OPENAI_TERRA_RESOURCE_ID:
       "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra",
@@ -90,13 +91,15 @@ function validAzureConfigEnvironment(): NodeJS.ProcessEnv {
     AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
     AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
     AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE-v1",
+    AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION: "route-evidence-terra-v1",
     AZURE_OPENAI_SOL_ENDPOINT: "https://stratton-sol.openai.azure.com",
     AZURE_OPENAI_SOL_RESOURCE_ID:
       "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-sol",
     AZURE_OPENAI_SOL_REGION: "francecentral",
     AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
     AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
-    AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1"
+    AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1",
+    AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION: "route-evidence-sol-v1"
   };
 }
 
@@ -918,7 +921,7 @@ describe("parseDemoConfig", () => {
         PORT: "3001",
         DEMO_MODE: "AZURE",
         PHASE5_API_BASE_URL: "https://phase5.example.test",
-        DEMO_TENANT_ID: "tenant-stratton-demo",
+        DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
         PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
         PHASE5_APPLICATION_ID: "phase5-application-id",
         BFF_ENTRA_CLIENT_ID: "44444444-4444-4444-4444-444444444444",
@@ -926,7 +929,7 @@ describe("parseDemoConfig", () => {
         BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
         BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
         ENTRA_TOKEN_ENDPOINT:
-          "https://login.microsoftonline.com/tenant-stratton-demo/oauth2/v2.0/token",
+          "https://login.microsoftonline.com/00000000-0000-0000-0000-000000000123/oauth2/v2.0/token",
         AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
       })
     ).toThrowError(/AZURE_SQL_SERVER_FQDN/);
@@ -955,9 +958,10 @@ describe("parseAzureDemoConfig", () => {
         GITHUB_ACTIONS: "false"
       })
     ).toMatchObject({
-      DEMO_TENANT_ID: "tenant-stratton-demo",
+      DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
       AZURE_SEARCH_INDEX_NAME: "governed-evidence",
-      AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1"
+      AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1",
+      AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION: "route-evidence-sol-v1"
     });
   });
 });
@@ -1059,7 +1063,7 @@ describe("createWorkflowClient", () => {
         PORT: 3001,
         DEMO_MODE: "AZURE",
         PHASE5_API_BASE_URL: "https://phase5.example.test",
-        DEMO_TENANT_ID: "tenant-stratton-demo",
+        DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
         AZURE_SQL_SERVER_FQDN: "sql.example.test",
         AZURE_SQL_DATABASE_NAME: "stratton",
         PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
@@ -1069,7 +1073,7 @@ describe("createWorkflowClient", () => {
         BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
         BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
         ENTRA_TOKEN_ENDPOINT:
-          "https://login.microsoftonline.com/tenant-stratton-demo/oauth2/v2.0/token",
+          "https://login.microsoftonline.com/00000000-0000-0000-0000-000000000123/oauth2/v2.0/token",
         AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
       },
       createRedactedLogger({ sink: () => undefined }),
@@ -1101,7 +1105,7 @@ describe("createWorkflowClient", () => {
     expect(calls).toEqual(["route-authority", "adapters"]);
     expect(createAzureSupportingAnalysis).toHaveBeenCalledWith(
       expect.objectContaining({
-        tenantId: "tenant-stratton-demo",
+        tenantId: "00000000-0000-0000-0000-000000000123",
         caseId: "project-danube",
         ...adapters
       })

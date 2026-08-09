@@ -3,7 +3,7 @@ import { parseAzureDemoConfig } from "./azure-config.js";
 
 function validEnvironment(): NodeJS.ProcessEnv {
   return {
-    DEMO_TENANT_ID: "tenant-stratton-demo",
+    DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
     AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
     AZURE_SEARCH_ENDPOINT: "https://search.search.windows.net",
     AZURE_SEARCH_INDEX_NAME: "governed-evidence",
@@ -18,6 +18,7 @@ function validEnvironment(): NodeJS.ProcessEnv {
     AZURE_OPENAI_LUNA_DEPLOYMENT_ID: "luna-evidence-triage",
     AZURE_OPENAI_LUNA_API_VERSION: "2025-01-01-preview",
     AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1",
+    AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION: "route-evidence-luna-v1",
     AZURE_OPENAI_TERRA_ENDPOINT: "https://stratton-terra.openai.azure.com",
     AZURE_OPENAI_TERRA_RESOURCE_ID:
       "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-terra",
@@ -25,13 +26,15 @@ function validEnvironment(): NodeJS.ProcessEnv {
     AZURE_OPENAI_TERRA_DEPLOYMENT_ID: "terra-grounded-analysis",
     AZURE_OPENAI_TERRA_API_VERSION: "2025-01-01-preview",
     AZURE_OPENAI_TERRA_EVIDENCE_ID: "SEC-EVID-TERRA-ROUTE-v1",
+    AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION: "route-evidence-terra-v1",
     AZURE_OPENAI_SOL_ENDPOINT: "https://stratton-sol.openai.azure.com",
     AZURE_OPENAI_SOL_RESOURCE_ID:
       "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/stratton-sol",
     AZURE_OPENAI_SOL_REGION: "francecentral",
     AZURE_OPENAI_SOL_DEPLOYMENT_ID: "sol-thesis-challenge",
     AZURE_OPENAI_SOL_API_VERSION: "2025-01-01-preview",
-    AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1"
+    AZURE_OPENAI_SOL_EVIDENCE_ID: "SEC-EVID-SOL-ROUTE-v1",
+    AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION: "route-evidence-sol-v1"
   };
 }
 
@@ -41,8 +44,18 @@ describe("Azure OpenAI route bindings", () => {
       AZURE_OPENAI_LUNA_ENDPOINT: "https://stratton-luna.openai.azure.com",
       AZURE_OPENAI_LUNA_RESOURCE_ID: expect.stringContaining("/accounts/stratton-luna"),
       AZURE_OPENAI_LUNA_REGION: "swedencentral",
-      AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1"
+      AZURE_OPENAI_LUNA_EVIDENCE_ID: "SEC-EVID-LUNA-ROUTE-v1",
+      AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION: "route-evidence-luna-v1"
     });
+  });
+
+  it("rejects a non-GUID Microsoft Entra tenant ID", () => {
+    expect(() =>
+      parseAzureDemoConfig({
+        ...validEnvironment(),
+        DEMO_TENANT_ID: "tenant-stratton-demo"
+      })
+    ).toThrow(/DEMO_TENANT_ID/u);
   });
 
   it("accepts endpoint and resource ID declarations without treating them as binding authority", () => {

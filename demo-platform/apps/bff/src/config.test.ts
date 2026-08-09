@@ -2,11 +2,12 @@ import { describe, expect, it } from "vitest";
 import { parseDemoConfig } from "./config.js";
 
 function azureEnvironment(): NodeJS.ProcessEnv {
+  const tenantId = "00000000-0000-0000-0000-000000000123";
   return {
     PORT: "3001",
     DEMO_MODE: "AZURE",
     PHASE5_API_BASE_URL: "https://authority.stratton.example",
-    DEMO_TENANT_ID: "tenant-stratton",
+    DEMO_TENANT_ID: tenantId,
     AZURE_SQL_SERVER_FQDN: "stratton.database.windows.net",
     AZURE_SQL_DATABASE_NAME: "stratton",
     PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
@@ -15,7 +16,7 @@ function azureEnvironment(): NodeJS.ProcessEnv {
     BFF_DELEGATED_AUDIENCE: "44444444-4444-4444-4444-444444444444",
     BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
     BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
-    ENTRA_TOKEN_ENDPOINT: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+    ENTRA_TOKEN_ENDPOINT: `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
     AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
   };
 }
@@ -29,7 +30,8 @@ describe("parseDemoConfig", () => {
       BFF_DELEGATED_AUDIENCE: "44444444-4444-4444-4444-444444444444",
       BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
       BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
-      ENTRA_TOKEN_ENDPOINT: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+      ENTRA_TOKEN_ENDPOINT:
+        "https://login.microsoftonline.com/00000000-0000-0000-0000-000000000123/oauth2/v2.0/token",
       AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
     });
   });
@@ -39,6 +41,15 @@ describe("parseDemoConfig", () => {
     delete environment.PHASE5_DELEGATED_SCOPE;
 
     expect(() => parseDemoConfig(environment)).toThrow(/PHASE5_DELEGATED_SCOPE/);
+  });
+
+  it("rejects a non-GUID Microsoft Entra tenant ID", () => {
+    const environment = azureEnvironment();
+    environment.DEMO_TENANT_ID = "tenant-stratton";
+    environment.ENTRA_TOKEN_ENDPOINT =
+      "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token";
+
+    expect(() => parseDemoConfig(environment)).toThrow(/DEMO_TENANT_ID/u);
   });
 
   it("requires the BFF confidential client ID and approved browser application ID", () => {
@@ -65,7 +76,7 @@ describe("parseDemoConfig", () => {
   it("rejects an ENTRA token endpoint that only contains the configured tenant as a nested path", () => {
     const environment = azureEnvironment();
     environment.ENTRA_TOKEN_ENDPOINT =
-      "https://login.microsoftonline.com/other-tenant/tenant-stratton/oauth2/v2.0/token";
+      "https://login.microsoftonline.com/other-tenant/00000000-0000-0000-0000-000000000123/oauth2/v2.0/token";
 
     expect(() => parseDemoConfig(environment)).toThrow(/AZURE_MODE_REQUIRES_MATCHING_ENTRA_TENANT/);
   });
@@ -73,7 +84,7 @@ describe("parseDemoConfig", () => {
   it("rejects an ENTRA token endpoint hosted anywhere other than Microsoft Entra", () => {
     const environment = azureEnvironment();
     environment.ENTRA_TOKEN_ENDPOINT =
-      "https://identity-attacker.example/tenant-stratton/oauth2/v2.0/token";
+      "https://identity-attacker.example/00000000-0000-0000-0000-000000000123/oauth2/v2.0/token";
 
     expect(() => parseDemoConfig(environment)).toThrow(/AZURE_MODE_REQUIRES_ENTRA_TOKEN_ORIGIN/);
   });

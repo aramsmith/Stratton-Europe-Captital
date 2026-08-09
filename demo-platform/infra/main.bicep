@@ -4,6 +4,8 @@ targetScope = 'resourceGroup'
 param location string
 
 @description('Microsoft Entra tenant ID for tenant-isolated demo execution.')
+@minLength(36)
+@maxLength(36)
 param tenantId string
 
 @description('Fixed demo case identifier used for case-isolated outputs and SQL bootstrap guidance.')
@@ -87,6 +89,9 @@ param lunaOpenAiApiVersion string
 @description('Evidence identifier that authorizes the Luna route.')
 param lunaOpenAiEvidenceId string
 
+@description('Expected Phase 5 evidence version that authorizes the Luna route.')
+param lunaOpenAiRouteEvidenceVersion string
+
 @description('Approved Terra Azure OpenAI endpoint.')
 param terraOpenAiEndpoint string
 
@@ -105,6 +110,9 @@ param terraOpenAiApiVersion string
 @description('Evidence identifier that authorizes the Terra route.')
 param terraOpenAiEvidenceId string
 
+@description('Expected Phase 5 evidence version that authorizes the Terra route.')
+param terraOpenAiRouteEvidenceVersion string
+
 @description('Approved Sol Azure OpenAI endpoint.')
 param solOpenAiEndpoint string
 
@@ -122,6 +130,9 @@ param solOpenAiApiVersion string
 
 @description('Evidence identifier that authorizes the Sol route.')
 param solOpenAiEvidenceId string
+
+@description('Expected Phase 5 evidence version that authorizes the Sol route.')
+param solOpenAiRouteEvidenceVersion string
 
 @description('Explicit Phase 5 base URL required by the current BFF configuration contract.')
 param phase5ApiBaseUrl string
@@ -205,18 +216,21 @@ module demoApps './modules/demo-apps/main.bicep' = {
     lunaOpenAiDeploymentId: lunaOpenAiDeploymentId
     lunaOpenAiApiVersion: lunaOpenAiApiVersion
     lunaOpenAiEvidenceId: lunaOpenAiEvidenceId
+    lunaOpenAiRouteEvidenceVersion: lunaOpenAiRouteEvidenceVersion
     terraOpenAiEndpoint: terraOpenAiEndpoint
     terraOpenAiResourceId: terraOpenAiAccountResourceId
     terraOpenAiRegion: terraOpenAiRegion
     terraOpenAiDeploymentId: terraOpenAiDeploymentId
     terraOpenAiApiVersion: terraOpenAiApiVersion
     terraOpenAiEvidenceId: terraOpenAiEvidenceId
+    terraOpenAiRouteEvidenceVersion: terraOpenAiRouteEvidenceVersion
     solOpenAiEndpoint: solOpenAiEndpoint
     solOpenAiResourceId: solOpenAiAccountResourceId
     solOpenAiRegion: solOpenAiRegion
     solOpenAiDeploymentId: solOpenAiDeploymentId
     solOpenAiApiVersion: solOpenAiApiVersion
     solOpenAiEvidenceId: solOpenAiEvidenceId
+    solOpenAiRouteEvidenceVersion: solOpenAiRouteEvidenceVersion
     webEntraClientId: webEntraClientId
     bffEntraClientId: bffEntraClientId
   }

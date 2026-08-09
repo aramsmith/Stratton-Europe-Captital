@@ -1,13 +1,24 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
-test("no investment-decision action exists", async ({ page, request }) => {
-  const resetResponse = await request.post("/api/scenario/reset");
-  expect(resetResponse.ok()).toBeTruthy();
-
-  const investmentDecisionResponse = await request.post("/api/investment-decisions", {
-    data: { caseId: "project-danube" }
-  });
-  expect(investmentDecisionResponse.status()).toBe(404);
+test("Phase 5 OpenAPI declares no investment-decision or committee-submission operation", async ({
+  page
+}) => {
+  const openApi = await readFile(
+    path.resolve("..", "5-coding-r4", "app", "openapi", "stratton-openapi-3.1.yaml"),
+    "utf8"
+  );
+  const declaredPaths = [...openApi.matchAll(/^  (\/[^:]+):$/gmu)].map((match) => match[1]);
+  const operationIds = [...openApi.matchAll(/^\s+operationId:\s*(\S+)$/gmu)].map(
+    (match) => match[1]
+  );
+  const normalizedManifest = [...declaredPaths, ...operationIds]
+    .join("\n")
+    .replace(/[^a-z]/giu, "")
+    .toLowerCase();
+  expect(normalizedManifest).not.toContain("investmentdecision");
+  expect(normalizedManifest).not.toContain("committeesubmission");
 
   await page.goto("/decision-room");
   await expect(page.getByRole("button", { name: /approve investment/i })).toHaveCount(0);

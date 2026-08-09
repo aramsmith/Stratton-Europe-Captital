@@ -43,18 +43,21 @@ Describe 'Stratton demo infrastructure' {
       'lunaOpenAiDeploymentId'
       'lunaOpenAiApiVersion'
       'lunaOpenAiEvidenceId'
+      'lunaOpenAiRouteEvidenceVersion'
       'terraOpenAiEndpoint'
       'terraOpenAiAccountResourceId'
       'terraOpenAiRegion'
       'terraOpenAiDeploymentId'
       'terraOpenAiApiVersion'
       'terraOpenAiEvidenceId'
+      'terraOpenAiRouteEvidenceVersion'
       'solOpenAiEndpoint'
       'solOpenAiAccountResourceId'
       'solOpenAiRegion'
       'solOpenAiDeploymentId'
       'solOpenAiApiVersion'
       'solOpenAiEvidenceId'
+      'solOpenAiRouteEvidenceVersion'
       'phase5ApiBaseUrl'
       'webDelegatedScope'
       'bffRequiredDelegatedScope'
@@ -328,8 +331,11 @@ Describe 'Stratton demo infrastructure' {
     $bffEnvText | Should -Not -Match 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
     $bffEnvText | Should -Not -Match 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
     $bffEnvText | Should -Match 'AZURE_OPENAI_LUNA_RESOURCE_ID'
+    $bffEnvText | Should -Match 'AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION'
     $bffEnvText | Should -Match 'AZURE_OPENAI_TERRA_REGION'
+    $bffEnvText | Should -Match 'AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION'
     $bffEnvText | Should -Match 'AZURE_OPENAI_SOL_RESOURCE_ID'
+    $bffEnvText | Should -Match 'AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION'
     $script:templateJson | Should -Match 'https://'
     $script:templateJson | Should -Match 'bffApp.*ingress.*fqdn'
     $script:templateJson | Should -Not -Match 'PHASE5_TOKEN_SCOPE'
@@ -348,9 +354,16 @@ Describe 'Stratton demo infrastructure' {
       $parameter | Should -Not -BeNullOrEmpty
       @($parameter.PSObject.Properties.Name) | Should -Not -Contain 'defaultValue'
     }
+
     $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'phase5TokenScope'
     $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'bffDelegatedAudience'
     $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'demoAuthorityCompletionClientId'
+  }
+
+  It 'constrains the Microsoft Entra tenant ID to GUID length' {
+    $tenantParameter = $script:template.parameters.tenantId
+    $tenantParameter.minLength | Should -Be 36
+    $tenantParameter.maxLength | Should -Be 36
   }
 
   It 'uses client-directed PKCE without token-store, SAS, or server-directed web auth wiring' {

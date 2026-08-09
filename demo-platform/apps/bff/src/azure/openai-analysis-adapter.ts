@@ -19,6 +19,7 @@ const approvedDeploymentSchema = z
     deploymentId: z.string().trim().min(1),
     apiVersion: z.string().trim().min(1),
     evidenceId: z.string().trim().min(1),
+    evidenceVersion: z.string().trim().min(1),
     geography: z.literal("EU_DATA_ZONE")
   })
   .strict();
@@ -117,6 +118,7 @@ export interface OpenAiAdapter {
     resourceId: string;
     region: string;
     evidenceId: string;
+    evidenceVersion: string;
     output: GovernedAnalysisOutput;
   }>;
 }
@@ -167,7 +169,8 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
         geography: deployment.geography,
         resourceId: deployment.resourceId,
         region: deployment.region,
-        evidenceId: deployment.evidenceId
+        evidenceId: deployment.evidenceId,
+        evidenceVersion: deployment.evidenceVersion
       });
 
       try {
@@ -202,6 +205,7 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
           resourceId: deployment.resourceId,
           region: deployment.region,
           evidenceId: deployment.evidenceId,
+          evidenceVersion: deployment.evidenceVersion,
           output: parsedOutput
         };
       } catch (error) {

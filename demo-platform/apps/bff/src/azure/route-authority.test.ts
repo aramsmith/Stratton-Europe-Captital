@@ -10,6 +10,11 @@ const routeRegions: Record<ModelRoute, string> = {
   TERRA: "westeurope",
   SOL: "francecentral"
 };
+const routeEvidenceVersions: Record<ModelRoute, string> = {
+  LUNA: "route-evidence-luna-v1",
+  TERRA: "route-evidence-terra-v1",
+  SOL: "route-evidence-sol-v1"
+};
 
 function config(regions: Partial<Record<ModelRoute, string>> = {}): AzureDemoConfig {
   const route = (name: ModelRoute, deploymentId: string) => ({
@@ -18,13 +23,14 @@ function config(regions: Partial<Record<ModelRoute, string>> = {}): AzureDemoCon
     region: regions[name] ?? routeRegions[name],
     deploymentId,
     apiVersion: "2025-01-01-preview",
-    evidenceId: `SEC-EVID-${name}-ROUTE-v1`
+    evidenceId: `SEC-EVID-${name}-ROUTE-v1`,
+    evidenceVersion: routeEvidenceVersions[name]
   });
   const luna = route("LUNA", "luna-evidence-triage");
   const terra = route("TERRA", "terra-grounded-analysis");
   const sol = route("SOL", "sol-thesis-challenge");
   return {
-    DEMO_TENANT_ID: "tenant-stratton-demo",
+    DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
     AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
     AZURE_SEARCH_ENDPOINT: "https://search.search.windows.net",
     AZURE_SEARCH_INDEX_NAME: "governed-evidence",
@@ -38,19 +44,22 @@ function config(regions: Partial<Record<ModelRoute, string>> = {}): AzureDemoCon
     AZURE_OPENAI_LUNA_DEPLOYMENT_ID: luna.deploymentId,
     AZURE_OPENAI_LUNA_API_VERSION: luna.apiVersion,
     AZURE_OPENAI_LUNA_EVIDENCE_ID: luna.evidenceId,
+    AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION: luna.evidenceVersion,
     AZURE_OPENAI_TERRA_ENDPOINT: terra.endpoint,
     AZURE_OPENAI_TERRA_RESOURCE_ID: terra.resourceId,
     AZURE_OPENAI_TERRA_REGION: terra.region,
     AZURE_OPENAI_TERRA_DEPLOYMENT_ID: terra.deploymentId,
     AZURE_OPENAI_TERRA_API_VERSION: terra.apiVersion,
     AZURE_OPENAI_TERRA_EVIDENCE_ID: terra.evidenceId,
+    AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION: terra.evidenceVersion,
     AZURE_OPENAI_SOL_ENDPOINT: sol.endpoint,
     AZURE_OPENAI_SOL_RESOURCE_ID: sol.resourceId,
     AZURE_OPENAI_SOL_REGION: sol.region,
     AZURE_OPENAI_SOL_DEPLOYMENT_ID: sol.deploymentId,
     AZURE_OPENAI_SOL_API_VERSION: sol.apiVersion,
-    AZURE_OPENAI_SOL_EVIDENCE_ID: sol.evidenceId
-  };
+    AZURE_OPENAI_SOL_EVIDENCE_ID: sol.evidenceId,
+    AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION: sol.evidenceVersion
+  } as AzureDemoConfig;
 }
 
 function dependencies(overrides: {
@@ -111,7 +120,7 @@ function dependencies(overrides: {
         region: overrides.evidenceRegions?.[route] ?? routeRegions[route],
         route,
         apiVersion: "2025-01-01-preview",
-        evidenceVersion: "route-evidence-v1",
+        evidenceVersion: routeEvidenceVersions[route],
         validFromIso: "2026-01-01T00:00:00.000Z",
         validUntilIso: "2027-01-01T00:00:00.000Z",
         ...overrides.evidence
@@ -160,7 +169,7 @@ describe("resolveAuthoritativeRoutes", () => {
       deploymentId: "terra-grounded-analysis",
       apiVersion: "2025-01-01-preview",
       evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
-      evidenceVersion: "route-evidence-v1"
+      evidenceVersion: "route-evidence-terra-v1"
     });
     expect(Object.isFrozen(result)).toBe(true);
     expect(Object.isFrozen(result.TERRA)).toBe(true);
@@ -207,6 +216,7 @@ describe("resolveAuthoritativeRoutes", () => {
     ["ARM endpoint differs from the declared endpoint", { arm: { endpoint: "https://other.openai.azure.com" } }],
     ["Phase 5 evidence is expired", { evidence: { validUntilIso: "2026-08-08T23:59:59.000Z" } }],
     ["Phase 5 evidence is suspended", { evidence: { status: "SUSPENDED" } }],
+    ["Phase 5 evidence version differs", { evidence: { evidenceVersion: "route-evidence-v2" } }],
     ["Phase 5 route or deployment differs", { evidence: { route: "SOL", deploymentId: "wrong-deployment" } }],
     ["Phase 5 account differs", { evidence: { resourceId: resourceId.replace("stratton-terra", "other-account") } }]
   ])("fails closed when %s", async (_reason, overrides) => {

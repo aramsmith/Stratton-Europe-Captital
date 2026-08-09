@@ -38,6 +38,7 @@ interface DeclaredRouteBinding {
   readonly deploymentId: string;
   readonly apiVersion: string;
   readonly evidenceId: string;
+  readonly evidenceVersion: string;
 }
 
 const routes = ["LUNA", "TERRA", "SOL"] as const;
@@ -99,6 +100,7 @@ export function buildApprovedDeployments(
             deploymentId: binding.deploymentId,
             apiVersion: binding.apiVersion,
             evidenceId: binding.evidenceId,
+            evidenceVersion: binding.evidenceVersion,
             geography: "EU_DATA_ZONE" as const
           })
         ];
@@ -116,7 +118,8 @@ function declaredRoutes(config: AzureDemoConfig): Readonly<Record<ModelRoute, De
       region: config.AZURE_OPENAI_LUNA_REGION,
       deploymentId: config.AZURE_OPENAI_LUNA_DEPLOYMENT_ID,
       apiVersion: config.AZURE_OPENAI_LUNA_API_VERSION,
-      evidenceId: config.AZURE_OPENAI_LUNA_EVIDENCE_ID
+      evidenceId: config.AZURE_OPENAI_LUNA_EVIDENCE_ID,
+      evidenceVersion: config.AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION
     },
     TERRA: {
       route: "TERRA",
@@ -125,7 +128,8 @@ function declaredRoutes(config: AzureDemoConfig): Readonly<Record<ModelRoute, De
       region: config.AZURE_OPENAI_TERRA_REGION,
       deploymentId: config.AZURE_OPENAI_TERRA_DEPLOYMENT_ID,
       apiVersion: config.AZURE_OPENAI_TERRA_API_VERSION,
-      evidenceId: config.AZURE_OPENAI_TERRA_EVIDENCE_ID
+      evidenceId: config.AZURE_OPENAI_TERRA_EVIDENCE_ID,
+      evidenceVersion: config.AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION
     },
     SOL: {
       route: "SOL",
@@ -134,7 +138,8 @@ function declaredRoutes(config: AzureDemoConfig): Readonly<Record<ModelRoute, De
       region: config.AZURE_OPENAI_SOL_REGION,
       deploymentId: config.AZURE_OPENAI_SOL_DEPLOYMENT_ID,
       apiVersion: config.AZURE_OPENAI_SOL_API_VERSION,
-      evidenceId: config.AZURE_OPENAI_SOL_EVIDENCE_ID
+      evidenceId: config.AZURE_OPENAI_SOL_EVIDENCE_ID,
+      evidenceVersion: config.AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION
     }
   };
 }
@@ -147,6 +152,7 @@ function createBinding(
 ): AuthoritativeRouteBinding {
   if (
     evidence.evidenceId !== declared.evidenceId ||
+    evidence.evidenceVersion !== declared.evidenceVersion ||
     evidence.status !== "APPROVED" ||
     !isCurrentlyValid(evidence, now) ||
     evidence.route !== declared.route ||

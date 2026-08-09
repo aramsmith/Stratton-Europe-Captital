@@ -56,6 +56,7 @@ interface OpenAiAdapter {
     resourceId: string;
     region: string;
     evidenceId: string;
+    evidenceVersion: string;
     output: GovernedAnalysisOutput;
   }>;
 }
@@ -176,6 +177,7 @@ export function createAzureWorkflowClient(
           resourceId: analysis.resourceId,
           region: analysis.region,
           evidenceId: analysis.evidenceId,
+          evidenceVersion: analysis.evidenceVersion,
           output: analysis.output
         }
       });

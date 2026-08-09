@@ -25,20 +25,18 @@ async function withTempRepo(run) {
 
 const silentLogger = { log() {}, error() {} };
 
-test("verification builds shared package outputs before lint, typecheck, and tests", () => {
-  assert.deepEqual(verificationCommands[1], {
-    command: "npm",
-    args: ["run", "build:packages"]
-  });
-});
-
-test("verification runs Phase 5 validation before demo-platform commands from its own cwd", () => {
+test("verification installs and validates Phase 5 before demo-platform commands", () => {
   assert.deepEqual(verificationCommands[0], {
+    command: "npm",
+    args: ["ci"],
+    cwd: "../5-coding-r4/app"
+  });
+  assert.deepEqual(verificationCommands[1], {
     command: "npm",
     args: ["run", "validate"],
     cwd: "../5-coding-r4/app"
   });
-  assert.deepEqual(verificationCommands[1], {
+  assert.deepEqual(verificationCommands[2], {
     command: "npm",
     args: ["run", "build:packages"]
   });
@@ -98,7 +96,7 @@ test("verification removes generated infra/main.json after a failing build step 
     const scriptFile = path.join(repoDir, "failure-script.mjs");
     await writeFile(
       scriptFile,
-      'import { mkdirSync, writeFileSync } from "node:fs"; mkdirSync("infra", { recursive: true }); writeFileSync("infra/main.json", "generated"); process.exit(23);',
+      'import { mkdirSync, writeFileSync } from "node:fs"; mkdirSync("infra", { recursive: true }); writeFileSync("infra/main.json", "generated"); console.error("phase5 install failed"); process.exit(23);',
       "utf8"
     );
 
@@ -115,7 +113,10 @@ test("verification removes generated infra/main.json after a failing build step 
           ],
           logger: silentLogger
         }),
-      (error) => error?.exitCode === 23
+      (error) =>
+        error?.exitCode === 23 &&
+        /exited with code 23/u.test(String(error?.message)) &&
+        /phase5 install failed/u.test(String(error?.message))
     );
 
     await assert.rejects(stat(outputFile));

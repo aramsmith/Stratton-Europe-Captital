@@ -3,6 +3,7 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 
 export const verificationCommands = Object.freeze([
+  { command: "npm", args: ["ci"], cwd: "../5-coding-r4/app" },
   { command: "npm", args: ["run", "validate"], cwd: "../5-coding-r4/app" },
   { command: "npm", args: ["run", "build:packages"] },
   { command: "npm", args: ["run", "lint"] },
@@ -89,16 +90,29 @@ async function runCommand(command, { cwd, logger }) {
 > ${rendered}`);
 
   await new Promise((resolve, reject) => {
+    let stdout = "";
+    let stderr = "";
     const child =
       process.platform === "win32"
         ? spawn(process.env.ComSpec ?? "cmd.exe", ["/d", "/s", "/c", buildWindowsCommandLine(command.command, command.args)], {
             cwd,
-            stdio: "inherit"
+            stdio: ["inherit", "pipe", "pipe"]
           })
         : spawn(command.command, command.args, {
             cwd,
-            stdio: "inherit"
+            stdio: ["inherit", "pipe", "pipe"]
           });
+
+    child.stdout?.on("data", (chunk) => {
+      const text = chunk.toString();
+      stdout += text;
+      writeChildOutput(logger, "stdout", text);
+    });
+    child.stderr?.on("data", (chunk) => {
+      const text = chunk.toString();
+      stderr += text;
+      writeChildOutput(logger, "stderr", text);
+    });
 
     child.on("error", (error) => {
       reject(withExitCode(error, 1));
@@ -111,13 +125,36 @@ async function runCommand(command, { cwd, logger }) {
       }
 
       if ((code ?? 1) !== 0) {
-        reject(withExitCode(new Error(`${rendered} exited with code ${code ?? 1}`), code ?? 1));
+        reject(
+          withExitCode(
+            new Error(
+              [
+                `${rendered} exited with code ${code ?? 1}`,
+                stderr.trim() ? `stderr:\n${stderr.trim()}` : "",
+                stdout.trim() ? `stdout:\n${stdout.trim()}` : ""
+              ]
+                .filter(Boolean)
+                .join("\n")
+            ),
+            code ?? 1
+          )
+        );
         return;
       }
 
       resolve(undefined);
     });
   });
+}
+
+function writeChildOutput(logger, stream, text) {
+  if (logger === console) {
+    process[stream].write(text);
+    return;
+  }
+
+  const method = stream === "stderr" ? logger.error : logger.log;
+  method?.call(logger, text.trimEnd());
 }
 
 function buildWindowsCommandLine(command, args) {

@@ -5,6 +5,8 @@ param sqlDatabaseResourceId string
 param logAnalyticsWorkspaceId string
 param sqlServerFqdn string
 param sqlDatabaseName string
+@minLength(36)
+@maxLength(36)
 param tenantId string
 param caseId string
 param bffIdentityName string

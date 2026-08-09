@@ -120,10 +120,11 @@ node .\scripts\verify-demo.mjs
 ```
 
 `verify-demo.mjs` fails closed if `infra\main.json` already exists before verification, and it removes the generated Bicep output when the verification run created it, on both success and failure.
-It first runs `npm run validate` from `..\5-coding-r4\app`, then builds the contracts and
+It first runs `npm ci` and then `npm run validate` from `..\5-coding-r4\app`, so a clean checkout
+does not rely on pre-existing or root-hoisted Phase 5 dependencies. It then builds the contracts and
 scenario-data workspaces before any consuming demo-platform typecheck or test. Per-command working
-directories preserve fail-fast exit codes and generated-file cleanup, so no pre-existing `dist`
-directory is required.
+directories preserve fail-fast exit codes, stderr details, and generated-file cleanup, so no
+pre-existing `dist` directory is required.
 
 The additive Phase 5 authority routes are limited to analysis-bundle creation and lookup,
 service-principal completion, human bundle reviews, draft preparation, and model-route-evidence
@@ -189,18 +190,21 @@ Azure-mode configuration names are documented here for completeness only; do not
 - `AZURE_OPENAI_LUNA_DEPLOYMENT_ID`
 - `AZURE_OPENAI_LUNA_API_VERSION`
 - `AZURE_OPENAI_LUNA_EVIDENCE_ID`
+- `AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION`
 - `AZURE_OPENAI_TERRA_ENDPOINT`
 - `AZURE_OPENAI_TERRA_RESOURCE_ID`
 - `AZURE_OPENAI_TERRA_REGION`
 - `AZURE_OPENAI_TERRA_DEPLOYMENT_ID`
 - `AZURE_OPENAI_TERRA_API_VERSION`
 - `AZURE_OPENAI_TERRA_EVIDENCE_ID`
+- `AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION`
 - `AZURE_OPENAI_SOL_ENDPOINT`
 - `AZURE_OPENAI_SOL_RESOURCE_ID`
 - `AZURE_OPENAI_SOL_REGION`
 - `AZURE_OPENAI_SOL_DEPLOYMENT_ID`
 - `AZURE_OPENAI_SOL_API_VERSION`
 - `AZURE_OPENAI_SOL_EVIDENCE_ID`
+- `AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION`
 
 The production web image runs the typed server in `apps\web\server\server.ts`. Browser `/api`
 requests remain same-origin. In Azure mode, MSAL Browser uses authorization code with PKCE to acquire
@@ -210,9 +214,11 @@ role headers. In local Vite mode no Entra call or access token is required.
 
 Luna, Terra, and Sol require HTTPS `*.openai.azure.com` endpoints, matching Cognitive Services
 account resource IDs, deployments, permitted EU regions, API versions, and route-specific versioned
-evidence IDs. AZURE startup validates each binding against live ARM account/deployment metadata and
-the Phase 5 approved route-evidence record, including its evidence version and current validity
-period. Any mismatch fails startup; there is no route or region fallback.
+evidence IDs plus separate expected evidence versions. AZURE startup validates each binding against
+live ARM account/deployment metadata and the Phase 5 approved route-evidence record. Its
+`evidenceVersion` must exactly equal the route's configured
+`AZURE_OPENAI_*_ROUTE_EVIDENCE_VERSION`; the evidence ID remains a separate identifier. Any
+mismatch or invalid validity period fails startup; there is no route or region fallback.
 
 ## AZURE delegated OBO prerequisites
 
@@ -274,15 +280,15 @@ Do **not** run any of the following from this README or `verify-demo.mjs`:
 - Confirm the browser sends exactly one bearer token to the same-origin `/api` route; missing,
   malformed, repeated, application-only, or wrong-scope tokens are denied before a human review.
 - Confirm the BFF federated credential trusts the deployed BFF managed identity and the tenant token
-  endpoint matches `DEMO_TENANT_ID`. Do not replace this OBO assertion with a secret.
+  endpoint matches the GUID-valued `DEMO_TENANT_ID`. Do not replace this OBO assertion with a secret.
 - For completion denial, confirm `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` is the BFF managed-identity
   client ID, not the BFF application registration client ID.
 
 ### ARM or route-evidence startup failure
 
 - Verify the account resource ID, HTTPS endpoint account name, deployment, actual ARM region, API
-  version, route-evidence ID and version, and evidence validity interval agree for each Luna, Terra,
-  and Sol route.
+  version, route-evidence ID, configured expected route-evidence version, Phase 5 evidence version,
+  and evidence validity interval agree for each Luna, Terra, and Sol route.
 - Use only the accepted EU regions. Correct the owner-approved route-evidence record or deployment
   configuration; do not introduce a region or route fallback.
 

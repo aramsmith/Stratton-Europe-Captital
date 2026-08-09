@@ -319,6 +319,7 @@ function approvedRoute(
     deploymentId,
     apiVersion: "2025-01-01-preview",
     evidenceId: `SEC-EVID-${route}-ROUTE-v1`,
+    evidenceVersion: `route-evidence-${route.toLowerCase()}-v1`,
     geography: "EU_DATA_ZONE" as const
   };
 }

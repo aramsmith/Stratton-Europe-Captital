@@ -85,27 +85,36 @@ required by this projection.
 ## EU model-route bindings
 
 For each Luna, Terra, and Sol route, keep the endpoint, Cognitive Services account resource ID,
-deployment, EU region, API version, and versioned evidence ID together as one owner-approved binding.
-The endpoint account name must match the resource ID account name. Accepted demo regions are
+deployment, EU region, API version, versioned evidence ID, and separate expected evidence version
+together as one owner-approved binding. The endpoint account name must match the resource ID account
+name. Accepted demo regions are
 `francecentral`, `germanywestcentral`, `italynorth`, `northeurope`, `polandcentral`,
 `spaincentral`, `swedencentral`, and `westeurope`.
 
 Before activation, AZURE startup reads ARM account and deployment metadata and the approved Phase 5
 route-evidence record. It fails closed unless the configured and authoritative route, resource ID,
-HTTPS endpoint, deployment, actual location, API version, evidence ID, evidence version, and current
-validity interval agree. Do not add a route, region, or stale-evidence fallback.
+HTTPS endpoint, deployment, actual location, API version, evidence ID, configured
+`AZURE_OPENAI_*_ROUTE_EVIDENCE_VERSION`, Phase 5 `evidenceVersion`, and current validity interval
+agree exactly. Keep the evidence ID and evidence version as separate values. Do not add a route,
+region, or stale-evidence fallback.
 
 ## Local verification and troubleshooting
 
-The local gate is `npm run clean:generated`, `npm ci`, then
-`node .\scripts\verify-demo.mjs` from `demo-platform`. It runs Phase 5 validation from
-`..\5-coding-r4\app` before demo-platform tests, preserves fail-fast errors, and cleans generated
-Bicep output. It does not log in to Azure or perform a deployment, what-if, provisioning, or runtime
-test.
+Run these exact commands from `demo-platform`:
+
+```powershell
+npm run clean:generated
+npm ci
+node .\scripts\verify-demo.mjs
+```
+
+The verification script runs `npm ci` and then `npm run validate` from `..\5-coding-r4\app` before
+demo-platform tests. It preserves fail-fast exit and stderr details and cleans generated Bicep
+output. It does not log in to Azure or perform a deployment, what-if, provisioning, or runtime test.
 
 - Consent or OBO failure: check both delegated consent grants, the browser's single same-origin
   bearer header, BFF audience/`azp`/scope validation, and the BFF managed-identity federated
-  credential. Do not add a client secret or token store.
+  credential. `DEMO_TENANT_ID` must be a GUID. Do not add a client secret or token store.
 - Subject-version or review failure: use the exact `subjectVersion` returned by Phase 5 completion,
   not a local finding text version.
 - Completion failure: make `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` equal the BFF managed-identity

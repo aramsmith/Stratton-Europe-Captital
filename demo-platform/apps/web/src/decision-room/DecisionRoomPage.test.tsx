@@ -271,9 +271,10 @@ function renderDecisionRoom(initialScenario = createDecisionRoomScenario()) {
             reviewType: input.reviewType,
             decision: input.decision,
             findingId: input.findingId,
-            subjectVersion:
-              current.findings.find((finding) => finding.findingId === input.findingId)?.textHistory.at(-1)
-                ?.versionId ?? input.findingId
+            subjectVersion: input.subjectVersion,
+            projectionVersion: current.findings.find(
+              (finding) => finding.findingId === input.findingId
+            )?.projectionVersion
           }
         ],
         governanceEvents: [
@@ -405,6 +406,55 @@ describe("DecisionRoomPage", () => {
         subjectVersion: "phase5-authoritative-output-manifest"
       })
     );
+  });
+
+  it("reopens authoritative approvals after an edit changes the local projection version", () => {
+    const scenario = createDecisionRoomScenario(true, true);
+    scenario.analysisAuthority = {
+      analysisBundleId: "bundle-terra-1",
+      evidenceManifestHash: "a".repeat(64),
+      subjectVersion: "phase5-authoritative-output-manifest",
+      status: "DRAFT_ONLY_READY"
+    };
+    const projectionVersionByFinding: Readonly<Record<string, string>> = {
+      "finding-ebitda-quality": "a".repeat(64),
+      "finding-customer-concentration": "b".repeat(64),
+      "finding-permit-transfer": "c".repeat(64)
+    };
+    scenario.findings = scenario.findings.map((finding) => ({
+      ...finding,
+      projectionVersion: projectionVersionByFinding[finding.findingId]!
+    }));
+    scenario.reviews = scenario.reviews.map((review) => ({
+      ...review,
+      subjectVersion: "phase5-authoritative-output-manifest",
+      projectionVersion: projectionVersionByFinding[review.findingId]!
+    }));
+    scenario.findings = scenario.findings.map((finding) =>
+      finding.findingId === "finding-permit-transfer"
+        ? {
+            ...finding,
+            summary: "Permit transfer requires a renewed regulatory condition review.",
+            projectionVersion: "d".repeat(64),
+            textHistory: [
+              ...finding.textHistory,
+              {
+                versionId: "finding-permit-transfer-v3",
+                actorType: "HUMAN",
+                action: "EDITED",
+                summary: "Permit transfer requires a renewed regulatory condition review.",
+                occurredAtIso: "2026-08-06T10:25:00.000Z"
+              }
+            ]
+          }
+        : finding
+    );
+
+    renderDecisionRoom(scenario);
+
+    expect(screen.getAllByText("Legal review required").length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "Approve Legal review" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Prepare committee pack" })).toBeDisabled();
   });
 
   it("reopens a stale specialist approval when the accepted finding text changes", () => {

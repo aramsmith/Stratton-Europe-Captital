@@ -141,6 +141,51 @@ describe("AnalysisService", () => {
         status: "DRAFT_ONLY_READY"
       })
     );
+    expect(result.findings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          findingId: "finding-ebitda-quality",
+          projectionVersion: expect.stringMatching(/^[a-f0-9]{64}$/)
+        })
+      ])
+    );
+  });
+
+  it("changes the authoritative local projection version after a human edit", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const service = new AnalysisService({
+      repository,
+      authoritativeWorkflow: createAuthoritativeBundleWorkflowDouble()
+    });
+
+    const analysis = await service.run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-authoritative-edit"
+    });
+    const before = getFinding(analysis.findings, "finding-ebitda-quality") as AnalysisFinding & {
+      projectionVersion?: string;
+    };
+
+    const edited = await service.recordDisposition({
+      caseId: "project-danube",
+      findingId: "finding-ebitda-quality",
+      action: "EDIT",
+      editedSummary: "Human adjusted EBITDA challenge kept for committee review.",
+      principalType: "HUMAN",
+      correlationId: "corr-authoritative-edit"
+    });
+    const after = getFinding(edited.findings, "finding-ebitda-quality") as AnalysisFinding & {
+      projectionVersion?: string;
+    };
+
+    expect(edited.analysisAuthority?.subjectVersion).toBe(
+      analysis.scenario.analysisAuthority?.subjectVersion
+    );
+    expect(before.projectionVersion).toMatch(/^[a-f0-9]{64}$/);
+    expect(after.projectionVersion).toMatch(/^[a-f0-9]{64}$/);
+    expect(after.projectionVersion).not.toBe(before.projectionVersion);
   });
 
   it("returns the existing authoritative bundle projection for a repeated fingerprint", async () => {

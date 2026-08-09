@@ -7,13 +7,14 @@ import path from "node:path";
 import { createProductionWebServer, parseWebServerConfig } from "./server.js";
 
 describe("production web server", () => {
+  const tenantId = "00000000-0000-0000-0000-000000000123";
   const azureConfig = {
     port: 8080,
     bffInternalBaseUrl: "https://stratton-demo-bff.internal.example",
     staticRoot: "dist",
     auth: {
       mode: "AZURE" as const,
-      authority: "https://login.microsoftonline.com/tenant-stratton",
+      authority: `https://login.microsoftonline.com/${tenantId}`,
       clientId: "33333333-3333-3333-3333-333333333333",
       bffScope: "api://44444444-4444-4444-4444-444444444444/access_as_user"
     }
@@ -123,7 +124,7 @@ describe("production web server", () => {
         PORT: "8080",
         BFF_INTERNAL_BASE_URL: "https://stratton-demo-bff.internal.example",
         DEMO_MODE: "AZURE",
-        DEMO_TENANT_ID: "tenant-stratton",
+        DEMO_TENANT_ID: tenantId,
         WEB_ENTRA_CLIENT_ID: "33333333-3333-3333-3333-333333333333",
         WEB_BFF_DELEGATED_SCOPE:
           "api://44444444-4444-4444-4444-444444444444/access_as_user",
@@ -134,7 +135,7 @@ describe("production web server", () => {
       bffInternalBaseUrl: "https://stratton-demo-bff.internal.example",
       auth: {
         mode: "AZURE",
-        authority: "https://login.microsoftonline.com/tenant-stratton",
+        authority: `https://login.microsoftonline.com/${tenantId}`,
         clientId: "33333333-3333-3333-3333-333333333333",
         bffScope: "api://44444444-4444-4444-4444-444444444444/access_as_user"
       }
@@ -143,12 +144,25 @@ describe("production web server", () => {
       parseWebServerConfig({
         BFF_INTERNAL_BASE_URL: "https://stratton-demo-bff.internal.example",
         DEMO_MODE: "AZURE",
-        DEMO_TENANT_ID: "tenant-stratton",
+        DEMO_TENANT_ID: tenantId,
         WEB_ENTRA_CLIENT_ID: "33333333-3333-3333-3333-333333333333",
         WEB_BFF_DELEGATED_SCOPE:
           "api://44444444-4444-4444-4444-444444444444/access_as_user"
       }).staticRoot
     ).toMatch(/[\\/]apps[\\/]web[\\/]dist$/);
+  });
+
+  it("rejects a non-GUID Microsoft Entra tenant ID", () => {
+    expect(() =>
+      parseWebServerConfig({
+        BFF_INTERNAL_BASE_URL: "https://stratton-demo-bff.internal.example",
+        DEMO_MODE: "AZURE",
+        DEMO_TENANT_ID: "tenant-stratton",
+        WEB_ENTRA_CLIENT_ID: "33333333-3333-3333-3333-333333333333",
+        WEB_BFF_DELEGATED_SCOPE:
+          "api://44444444-4444-4444-4444-444444444444/access_as_user"
+      })
+    ).toThrow(/DEMO_TENANT_ID/u);
   });
 
   it("serves the production SPA fallback from the configured static root", async () => {

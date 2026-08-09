@@ -1,8 +1,12 @@
 import { z } from "zod";
 
+const entraTenantId = z.string().regex(
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu
+);
+
 const azureDemoConfigSchema = z
   .object({
-    DEMO_TENANT_ID: z.string().trim().min(1),
+    DEMO_TENANT_ID: entraTenantId,
     AZURE_MANAGED_IDENTITY_CLIENT_ID: z.string().trim().min(1).optional(),
     AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: z.string().url(),
     AZURE_SEARCH_ENDPOINT: z.string().url(),
@@ -17,18 +21,21 @@ const azureDemoConfigSchema = z
     AZURE_OPENAI_LUNA_DEPLOYMENT_ID: z.string().trim().min(1),
     AZURE_OPENAI_LUNA_API_VERSION: z.string().trim().min(1),
     AZURE_OPENAI_LUNA_EVIDENCE_ID: z.string().trim().min(1),
+    AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION: z.string().trim().min(1),
     AZURE_OPENAI_TERRA_ENDPOINT: z.string().url(),
     AZURE_OPENAI_TERRA_RESOURCE_ID: z.string().trim().min(1),
     AZURE_OPENAI_TERRA_REGION: z.string().trim().min(1),
     AZURE_OPENAI_TERRA_DEPLOYMENT_ID: z.string().trim().min(1),
     AZURE_OPENAI_TERRA_API_VERSION: z.string().trim().min(1),
     AZURE_OPENAI_TERRA_EVIDENCE_ID: z.string().trim().min(1),
+    AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION: z.string().trim().min(1),
     AZURE_OPENAI_SOL_ENDPOINT: z.string().url(),
     AZURE_OPENAI_SOL_RESOURCE_ID: z.string().trim().min(1),
     AZURE_OPENAI_SOL_REGION: z.string().trim().min(1),
     AZURE_OPENAI_SOL_DEPLOYMENT_ID: z.string().trim().min(1),
     AZURE_OPENAI_SOL_API_VERSION: z.string().trim().min(1),
-    AZURE_OPENAI_SOL_EVIDENCE_ID: z.string().trim().min(1)
+    AZURE_OPENAI_SOL_EVIDENCE_ID: z.string().trim().min(1),
+    AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION: z.string().trim().min(1)
   })
   .strict();
 
@@ -50,18 +57,21 @@ const azureDemoConfigKeys = [
   "AZURE_OPENAI_LUNA_DEPLOYMENT_ID",
   "AZURE_OPENAI_LUNA_API_VERSION",
   "AZURE_OPENAI_LUNA_EVIDENCE_ID",
+  "AZURE_OPENAI_LUNA_ROUTE_EVIDENCE_VERSION",
   "AZURE_OPENAI_TERRA_ENDPOINT",
   "AZURE_OPENAI_TERRA_RESOURCE_ID",
   "AZURE_OPENAI_TERRA_REGION",
   "AZURE_OPENAI_TERRA_DEPLOYMENT_ID",
   "AZURE_OPENAI_TERRA_API_VERSION",
   "AZURE_OPENAI_TERRA_EVIDENCE_ID",
+  "AZURE_OPENAI_TERRA_ROUTE_EVIDENCE_VERSION",
   "AZURE_OPENAI_SOL_ENDPOINT",
   "AZURE_OPENAI_SOL_RESOURCE_ID",
   "AZURE_OPENAI_SOL_REGION",
   "AZURE_OPENAI_SOL_DEPLOYMENT_ID",
   "AZURE_OPENAI_SOL_API_VERSION",
-  "AZURE_OPENAI_SOL_EVIDENCE_ID"
+  "AZURE_OPENAI_SOL_EVIDENCE_ID",
+  "AZURE_OPENAI_SOL_ROUTE_EVIDENCE_VERSION"
 ] as const satisfies readonly (keyof AzureDemoConfig)[];
 
 export function parseAzureDemoConfig(

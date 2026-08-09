@@ -16,6 +16,7 @@ import { DemoHttpError } from "../errors.js";
 import type { AnalysisBundleStatus } from "../phase5/demo-authority-client.js";
 import type { AuthoritativeBundleWorkflowClient } from "../phase5/governed-workflow-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
+import { createFindingProjectionVersion } from "../reviews/finding-projection-version.js";
 import type { ScenarioRepository } from "../scenario/scenario-repository.js";
 import { routeTask } from "./model-router.js";
 
@@ -237,7 +238,13 @@ export class AnalysisService {
           }
           analysisArtifacts = {
             metadata,
-            findings: projectedFindings,
+            findings: projectedFindings.map((finding) => ({
+              ...finding,
+              projectionVersion: createFindingProjectionVersion(
+                finding,
+                authoritativeBundle.subjectVersion!
+              )
+            })),
             response: {
               analysisRunId: authoritativeBundle.analysisBundleId,
               status: "QUEUED"
@@ -409,13 +416,22 @@ export class AnalysisService {
       throw new DemoHttpError(404, "INVALID_CONTRACT", "Finding does not exist in Project Danube.");
     }
 
-    const nextFinding = applyDispositionToFinding(
+    const dispositionedFinding = applyDispositionToFinding(
       finding,
       input.action,
       input.editedSummary,
       this.now(),
       this.createId
     );
+    const nextFinding = state.analysisAuthority
+      ? {
+          ...dispositionedFinding,
+          projectionVersion: createFindingProjectionVersion(
+            dispositionedFinding,
+            state.analysisAuthority.subjectVersion
+          )
+        }
+      : dispositionedFinding;
 
     const nextState: ScenarioState = {
       ...state,

@@ -94,7 +94,8 @@ export const findingSchema = z
     textHistory: z.array(findingTextVersionSchema).default([]),
     analysisRunId: z.string().min(1).optional(),
     analysisRequestFingerprint: z.string().regex(/^[a-f0-9]{64}$/).optional(),
-    authorityGateRole: authorityGateRoleSchema.optional()
+    authorityGateRole: authorityGateRoleSchema.optional(),
+    projectionVersion: z.string().regex(/^[a-f0-9]{64}$/).optional()
   })
   .strict()
   .superRefine((finding, context) => {

@@ -56,6 +56,7 @@ function createClient() {
       resourceId:
         "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg-ai/providers/Microsoft.CognitiveServices/accounts/terra",
       region: "westeurope",
+      evidenceVersion: "route-evidence-terra-v1",
       evidenceId: "SEC-EVID-TERRA-ROUTE-v1",
       output: {
         summary: "Governed Terra output",

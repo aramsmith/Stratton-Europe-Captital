@@ -12,6 +12,7 @@ import { getSecurityGateReadinessBlocker } from "../governance/security-gates.js
 import type { DemoAuthorityClient } from "../phase5/demo-authority-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository, ScenarioSnapshot } from "../scenario/scenario-repository.js";
+import { createFindingProjectionVersion } from "./finding-projection-version.js";
 
 interface ReviewServiceCommonDependencies {
   readonly repository: ScenarioRepository;
@@ -599,24 +600,6 @@ function createDeterministicReviewId(
     operationId,
     payloadHash
   })}`;
-}
-
-export function createFindingProjectionVersion(
-  finding: AnalysisFinding,
-  authoritativeSubjectVersion: string
-): string {
-  return hashPayload({
-    authoritativeSubjectVersion,
-    findingId: finding.findingId,
-    summary: finding.summary,
-    citations: finding.citations
-      .map(({ citationId, evidenceId, locator }) => ({
-        citationId,
-        evidenceId,
-        locator
-      }))
-      .sort((left, right) => left.citationId.localeCompare(right.citationId))
-  });
 }
 
 function buildPreparePayloadHash(

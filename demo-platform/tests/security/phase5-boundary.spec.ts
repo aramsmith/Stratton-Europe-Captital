@@ -36,7 +36,7 @@ async function prepareAnalysis(request: APIRequestContext): Promise<Record<strin
   return (await (await request.get("/api/scenario")).json()) as Record<string, unknown>;
 }
 
-test("local delegated identity fixture preserves the browser bearer and blocks application tokens before human review", async () => {
+test("local delegated identity fixture preserves the browser bearer and rejects application tokens during delegated parsing", async () => {
   await expect(
     run(
       process.execPath,
@@ -46,7 +46,6 @@ test("local delegated identity fixture preserves the browser bearer and blocks a
         "--input-type=module",
         "--eval",
         `
-          import request from "supertest";
           import { createProductionWebServer } from "./apps/web/server/server.ts";
           import { resolveDelegatedUserToken } from "./apps/bff/src/identity/delegated-token.ts";
 
@@ -68,15 +67,28 @@ test("local delegated identity fixture preserves the browser bearer and blocks a
               return new Response(null, { status: 204 });
             }
           });
-          const response = await request(app)
-            .post("/api/scenario")
-            .set("authorization", "Bearer local-delegated-user-token");
-          if (
-            response.status !== 204 ||
-            forwarded.length !== 1 ||
-            forwarded[0].headers.authorization !== "Bearer local-delegated-user-token"
-          ) {
-            throw new Error("DELEGATED_BROWSER_BEARER_NOT_PRESERVED");
+          const server = app.listen(0);
+          await new Promise((resolve) => server.once("listening", resolve));
+          const address = server.address();
+          if (!address || typeof address === "string") {
+            throw new Error("WEB_FIXTURE_ADDRESS_UNAVAILABLE");
+          }
+          try {
+            const response = await fetch("http://127.0.0.1:" + address.port + "/api/scenario", {
+              method: "POST",
+              headers: { authorization: "Bearer browser-access-token" }
+            });
+            if (
+              response.status !== 204 ||
+              forwarded.length !== 1 ||
+              forwarded[0].headers.authorization !== "Bearer browser-access-token"
+            ) {
+              throw new Error("DELEGATED_BROWSER_BEARER_NOT_PRESERVED");
+            }
+          } finally {
+            await new Promise((resolve, reject) =>
+              server.close((error) => error ? reject(error) : resolve())
+            );
           }
 
           await resolveDelegatedUserToken(
@@ -110,6 +122,85 @@ test("local delegated identity fixture preserves the browser bearer and blocks a
               }
             }
           );
+        `
+      ],
+      { cwd: process.cwd() }
+    )
+  ).resolves.toBeDefined();
+});
+
+test("Phase 5 authority API denies an application principal at the human bundle-review seam", async () => {
+  await expect(
+    run(
+      process.execPath,
+      [
+        "--import",
+        "tsx",
+        "--input-type=module",
+        "--eval",
+        `
+          import { createApiServer } from "../5-coding-r4/app/src/api-runtime.ts";
+          import { InMemoryIdempotencyStore } from "../5-coding-r4/app/src/idempotency-store.ts";
+          import { StructuredLogger } from "../5-coding-r4/app/src/logger.ts";
+          import { InMemoryQueueRouter } from "../5-coding-r4/app/src/queue-adapters.ts";
+          import { InMemoryWorkloadRepository } from "../5-coding-r4/app/src/workload-repository.ts";
+
+          const principal = Buffer.from(JSON.stringify({
+            auth_typ: "aad",
+            role_typ: "roles",
+            claims: [
+              { typ: "tid", val: "tenant-a" },
+              { typ: "oid", val: "application-object-id" },
+              { typ: "iss", val: "https://login.microsoftonline.com/tenant-a/v2.0" },
+              { typ: "idtyp", val: "app" },
+              { typ: "appid", val: "demo-bff" },
+              { typ: "roles", val: "DealReviewer" }
+            ]
+          }), "utf8").toString("base64");
+          const { server } = createApiServer({
+            repository: new InMemoryWorkloadRepository(),
+            idempotencyStore: new InMemoryIdempotencyStore(),
+            queueProducer: new InMemoryQueueRouter(),
+            logger: new StructuredLogger("test"),
+            requestBodyLimitBytes: 32768,
+            modelProviderEvidenceId: "model-evidence",
+            regionalDeploymentEvidenceId: "region-evidence",
+            promptGovernanceEvidenceId: "prompt-evidence",
+            idempotencyLeaseDurationSeconds: 120,
+            analysisCapabilityEnabled: true,
+            auditExportCapabilityEnabled: true,
+            completionClientId: "demo-bff"
+          });
+          await new Promise((resolve) => server.listen(0, resolve));
+          const address = server.address();
+          if (!address || typeof address === "string") {
+            throw new Error("PHASE5_FIXTURE_ADDRESS_UNAVAILABLE");
+          }
+          try {
+            const response = await fetch(
+              "http://127.0.0.1:" + address.port +
+                "/v1/demo-authority/cases/project-danube/analysis-bundles/bundle-1/reviews",
+              {
+                method: "POST",
+                headers: {
+                  "content-type": "application/json",
+                  "idempotency-key": "application-review-denial",
+                  "x-ms-client-principal": principal
+                },
+                body: JSON.stringify({})
+              }
+            );
+            const body = await response.json();
+            if (response.status !== 403 || body.code !== "POLICY_DENIED") {
+              throw new Error(
+                "APPLICATION_REVIEW_NOT_DENIED:" + response.status + ":" + JSON.stringify(body)
+              );
+            }
+          } finally {
+            await new Promise((resolve, reject) =>
+              server.close((error) => error ? reject(error) : resolve())
+            );
+          }
         `
       ],
       { cwd: process.cwd() }

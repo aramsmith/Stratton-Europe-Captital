@@ -190,7 +190,7 @@ function buildReviewChecklistItems(
         const hasCurrentRejectedReview =
           existingReview?.decision === "REJECTED" &&
           finding.status === "ACCEPTED" &&
-          existingReview.subjectVersion === getReviewSubjectVersion(scenario, finding);
+          isCurrentReviewProjection(scenario, finding, existingReview);
         const status =
           finding.status !== "ACCEPTED"
             ? "BLOCKED"
@@ -292,7 +292,27 @@ function isCurrentReview(
   return (
     review.decision === "APPROVED" &&
     finding.status === "ACCEPTED" &&
-    review.subjectVersion === getReviewSubjectVersion(scenario, finding)
+    isCurrentReviewProjection(scenario, finding, review)
+  );
+}
+
+function isCurrentReviewProjection(
+  scenario: ScenarioState,
+  finding: ScenarioState["findings"][number],
+  review: ScenarioState["reviews"][number]
+): boolean {
+  if (review.subjectVersion !== getReviewSubjectVersion(scenario, finding)) {
+    return false;
+  }
+
+  if (!scenario.analysisAuthority) {
+    return true;
+  }
+
+  return (
+    !!finding.projectionVersion &&
+    !!review.projectionVersion &&
+    review.projectionVersion === finding.projectionVersion
   );
 }
 

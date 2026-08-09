@@ -36,7 +36,7 @@ test("AZURE startup accepts only exact local ARM and Phase 5 route authority fix
           };
           const config = () => {
             const result = {
-              DEMO_TENANT_ID: "tenant-stratton",
+              DEMO_TENANT_ID: "00000000-0000-0000-0000-000000000123",
               AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: "https://docint.cognitiveservices.azure.com",
               AZURE_SEARCH_ENDPOINT: "https://search.search.windows.net",
               AZURE_SEARCH_INDEX_NAME: "governed-evidence",
@@ -53,6 +53,7 @@ test("AZURE startup accepts only exact local ARM and Phase 5 route authority fix
               result["AZURE_OPENAI_" + route + "_DEPLOYMENT_ID"] = value.deploymentId;
               result["AZURE_OPENAI_" + route + "_API_VERSION"] = value.apiVersion;
               result["AZURE_OPENAI_" + route + "_EVIDENCE_ID"] = value.evidenceId;
+              result["AZURE_OPENAI_" + route + "_ROUTE_EVIDENCE_VERSION"] = value.evidenceVersion;
             }
             return result;
           };
@@ -111,6 +112,7 @@ test("AZURE startup accepts only exact local ARM and Phase 5 route authority fix
             (value) => value.route === "LUNA" ? { ...value, region: "eastus" } : value,
             (value) => value.route === "LUNA" ? { ...value, apiVersion: "2024-01-01-preview" } : value,
             (value) => value.route === "LUNA" ? { ...value, evidenceId: "SEC-EVID-LUNA-ROUTE-v2" } : value,
+            (value) => value.route === "LUNA" ? { ...value, evidenceVersion: "route-evidence-luna-v2" } : value,
             (value) => value.route === "LUNA" ? { ...value, validUntilIso: "2026-08-08T23:59:59.000Z" } : value
           ];
           for (const mutate of mutations) {

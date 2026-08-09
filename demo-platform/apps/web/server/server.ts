@@ -6,6 +6,7 @@ import { z } from "zod";
 const entraClientId = z.string().regex(
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu
 );
+const entraTenantId = entraClientId;
 
 const webServerConfigSchema = z
   .object({
@@ -15,7 +16,7 @@ const webServerConfigSchema = z
       .url()
       .refine((value) => new URL(value).protocol === "https:", "BFF_INTERNAL_BASE_URL_REQUIRES_HTTPS"),
     DEMO_MODE: z.literal("AZURE"),
-    DEMO_TENANT_ID: z.string().trim().min(1),
+    DEMO_TENANT_ID: entraTenantId,
     WEB_ENTRA_CLIENT_ID: entraClientId,
     WEB_BFF_DELEGATED_SCOPE: z.string().trim().min(1),
     WEB_STATIC_ROOT: z.string().trim().min(1).optional()

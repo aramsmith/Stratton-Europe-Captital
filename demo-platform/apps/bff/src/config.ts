@@ -4,6 +4,7 @@ const port = z.coerce.number().int().min(1).max(65535).default(3001);
 const entraClientId = z.string().regex(
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu
 );
+const entraTenantId = entraClientId;
 
 const localConfigSchema = z.object({
   PORT: port,
@@ -16,7 +17,7 @@ const azureConfigSchema = z
     PORT: port,
     DEMO_MODE: z.literal("AZURE"),
     PHASE5_API_BASE_URL: z.string().url(),
-    DEMO_TENANT_ID: z.string().trim().min(1),
+    DEMO_TENANT_ID: entraTenantId,
     AZURE_SQL_SERVER_FQDN: z.string().trim().min(1),
     AZURE_SQL_DATABASE_NAME: z.string().trim().min(1),
     PHASE5_DELEGATED_SCOPE: z.string().trim().min(1),
