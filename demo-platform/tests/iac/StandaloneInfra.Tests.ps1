@@ -148,7 +148,7 @@ Describe 'Stratton standalone platform foundation' {
       'bffIdentityResourceId', 'bffIdentityClientId', 'bffIdentityPrincipalId',
       'phase5IdentityResourceId', 'phase5IdentityClientId', 'phase5IdentityPrincipalId',
       'bootstrapIdentityResourceId', 'bootstrapIdentityClientId', 'bootstrapIdentityPrincipalId',
-      'webAppFqdn', 'bffAppFqdn', 'phase5ApiFqdn', 'sqlBootstrapSql'
+      'webAppFqdn', 'bffAppFqdn', 'phase5ApiFqdn', 'sqlPhase5InitialMigrationSql', 'sqlPhase5AuthorityMigrationSql', 'sqlBootstrapSql'
     )) {
       $script:template.outputs.PSObject.Properties.Name | Should -Contain $outputName
     }

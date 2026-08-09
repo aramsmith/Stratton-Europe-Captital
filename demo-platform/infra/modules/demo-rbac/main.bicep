@@ -5,6 +5,9 @@ param blobStorageAccountResourceId string
 param blobContainerName string
 param serviceBusNamespaceResourceId string
 param serviceBusQueueName string
+param ingestionQueueName string
+param extractionQueueName string
+param indexingQueueName string
 param searchServiceResourceId string
 param documentIntelligenceAccountResourceId string
 param lunaOpenAiAccountResourceId string
@@ -18,13 +21,17 @@ var roleDefinitionGuids = {
   acrPull: '7f951dda-4ed3-4680-a7ca-43fe172d538d'
   storageBlobDataContributor: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
   serviceBusDataSender: '69a216fc-b8fb-44d8-bc22-1f3c2cd27a39'
-  serviceBusDataReceiver: '090c5a3c-8e7d-4c64-9b48-2f5785a7a1e6'
   searchIndexDataReader: '1407120a-92aa-4202-b7e9-c0e197c71c8f'
   cognitiveServicesUser: 'a97b65f3-24c7-4388-baec-2e87135dc908'
   cognitiveServicesOpenAiUser: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
   reader: 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
 }
 
+var phase5SenderQueueNames = [
+  ingestionQueueName
+  extractionQueueName
+  indexingQueueName
+]
 var openAiAccountResourceIds = union(
   [lunaOpenAiAccountResourceId],
   [terraOpenAiAccountResourceId],
@@ -83,28 +90,16 @@ module bffServiceBusDataSender './role-assignments/service-bus-role-assignment.b
   }
 }
 
-module phase5ServiceBusDataSender './role-assignments/service-bus-role-assignment.bicep' = {
-  name: 'phase5-servicebus-data-sender'
+module phase5ServiceBusDataSenders './role-assignments/service-bus-role-assignment.bicep' = [for queueName in phase5SenderQueueNames: {
+  name: 'phase5-servicebus-data-sender-${queueName}'
   scope: resourceGroup(split(serviceBusNamespaceResourceId, '/')[2], split(serviceBusNamespaceResourceId, '/')[4])
   params: {
     namespaceName: split(serviceBusNamespaceResourceId, '/')[8]
-    queueName: serviceBusQueueName
+    queueName: queueName
     principalId: phase5PrincipalId
     roleDefinitionGuid: roleDefinitionGuids.serviceBusDataSender
   }
-}
-
-module phase5ServiceBusDataReceiver './role-assignments/service-bus-role-assignment.bicep' = {
-  name: 'phase5-servicebus-data-receiver'
-  scope: resourceGroup(split(serviceBusNamespaceResourceId, '/')[2], split(serviceBusNamespaceResourceId, '/')[4])
-  params: {
-    namespaceName: split(serviceBusNamespaceResourceId, '/')[8]
-    queueName: serviceBusQueueName
-    principalId: phase5PrincipalId
-    roleDefinitionGuid: roleDefinitionGuids.serviceBusDataReceiver
-  }
-}
-
+}]
 module bffSearchIndexDataReader './role-assignments/search-role-assignment.bicep' = {
   name: 'bff-search-index-data-reader'
   scope: resourceGroup(split(searchServiceResourceId, '/')[2], split(searchServiceResourceId, '/')[4])
@@ -151,11 +146,10 @@ output roleAssignmentIds array = [
   phase5AcrPull.outputs.roleAssignmentId
   bffBlobDataContributor.outputs.roleAssignmentId
   bffServiceBusDataSender.outputs.roleAssignmentId
-  phase5ServiceBusDataSender.outputs.roleAssignmentId
-  phase5ServiceBusDataReceiver.outputs.roleAssignmentId
   bffSearchIndexDataReader.outputs.roleAssignmentId
   bffDocumentIntelligenceUser.outputs.roleAssignmentId
 ]
 
+output phase5SenderRoleAssignmentIds array = [for i in range(0, length(phase5SenderQueueNames)): phase5ServiceBusDataSenders[i].outputs.roleAssignmentId]
 output openAiRoleAssignmentIds array = [for i in range(0, length(openAiAccountResourceIds)): bffOpenAiUsers[i].outputs.roleAssignmentId]
 output openAiReaderRoleAssignmentIds array = [for i in range(0, length(openAiAccountResourceIds)): bffOpenAiReaders[i].outputs.roleAssignmentId]

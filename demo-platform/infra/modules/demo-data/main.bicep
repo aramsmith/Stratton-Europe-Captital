@@ -15,16 +15,25 @@ param phase5IdentityName string
 var sqlDatabaseIdParts = split(sqlDatabaseResourceId, '/')
 var sqlServerName = sqlDatabaseIdParts[8]
 var sqlDatabaseResourceName = sqlDatabaseIdParts[10]
+var phase5InitialMigrationSql = loadTextContent('../../../../5-coding-r4/app/migrations/001_init.sql')
+var phase5AuthorityMigrationSql = loadTextContent('../../../../5-coding-r4/app/migrations/002_demo_authority.sql')
 var projectionMigrationSql = loadTextContent('../../../apps/bff/migrations/001_demo_projection.sql')
 var bootstrapSql = '''
 -- Run once in the approved ${sqlDatabaseName} database using a Microsoft Entra admin after infrastructure deployment.
+-- Apply the authoritative Phase 5 database contract before the BFF demo projection migration.
+${phase5InitialMigrationSql}
+
+${phase5AuthorityMigrationSql}
+
 ${projectionMigrationSql}
 
+-- BFF is deliberately limited to the demo projection table.
 CREATE USER [${bffIdentityName}] FROM EXTERNAL PROVIDER;
 GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO [${bffIdentityName}];
 
+-- Phase 5 uses the authoritative least-privilege workload role; no database-wide role is granted.
 CREATE USER [${phase5IdentityName}] FROM EXTERNAL PROVIDER;
-GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO [${phase5IdentityName}];
+ALTER ROLE workload_api_role ADD MEMBER [${phase5IdentityName}];
 '''
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
@@ -56,6 +65,8 @@ resource sqlDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
   }
 }
 
+output phase5InitialMigrationSql string = phase5InitialMigrationSql
+output phase5AuthorityMigrationSql string = phase5AuthorityMigrationSql
 output projectionMigrationSql string = projectionMigrationSql
 output bootstrapSql string = bootstrapSql
 output sessionIsolationNotes object = {

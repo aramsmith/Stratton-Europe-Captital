@@ -55,6 +55,12 @@ param serviceBusNamespaceResourceId string
 
 @description('Existing Service Bus queue name for analysis workflow events.')
 param serviceBusQueueName string
+@description('Existing ingestion queue name used by the Phase 5 API.')
+param ingestionQueueName string
+@description('Existing extraction queue name used by the Phase 5 API.')
+param extractionQueueName string
+@description('Existing indexing queue name used by the Phase 5 API.')
+param indexingQueueName string
 
 @description('Existing Azure AI Search endpoint.')
 param searchEndpoint string
@@ -142,6 +148,18 @@ param bffRequiredDelegatedScope string
 
 @description('Application ID of the immutable Phase 5 API authority.')
 param phase5ApplicationId string
+
+@description('Approved deterministic evidence ID for the Phase 5 model-provider allow-list.')
+@allowed(['SEC-EVID-ROUTE-ALLOW-LIST-SNAPSHOT'])
+param modelProviderEvidenceId string
+
+@description('Approved deterministic evidence ID for the Phase 5 regional deployment allow-list.')
+@allowed(['SEC-EVID-DEPLOYMENT-ALLOW-LIST-SNAPSHOT'])
+param regionalDeploymentEvidenceId string
+
+@description('Approved deterministic evidence ID for Phase 5 prompt governance.')
+@allowed(['SEC-EVID-PROMPT-TEMPLATE-HASH'])
+param promptGovernanceEvidenceId string
 
 @description('Delegated OAuth scope requested by the BFF OBO exchange for Phase 5.')
 param phase5DelegatedScope string
@@ -237,12 +255,14 @@ module phase5 './standalone/modules/phase5/main.bicep' = {
     bffIdentityClientId: bffIdentityClientId
     bffEntraClientId: bffEntraClientId
     phase5ApplicationId: phase5ApplicationId
+    modelProviderEvidenceId: modelProviderEvidenceId
+    regionalDeploymentEvidenceId: regionalDeploymentEvidenceId
+    promptGovernanceEvidenceId: promptGovernanceEvidenceId
     phase5ImageRepository: phase5ImageRepository
     phase5ImageDigest: phase5ImageDigest
     sqlServerFqdn: sqlServerFqdn
     sqlDatabaseName: sqlDatabaseName
     serviceBusFqdn: serviceBusFqdn
-    serviceBusQueueName: serviceBusQueueName
   }
 }
 
@@ -332,6 +352,9 @@ module demoRbac './modules/demo-rbac/main.bicep' = {
     blobContainerName: blobContainerName
     serviceBusNamespaceResourceId: serviceBusNamespaceResourceId
     serviceBusQueueName: serviceBusQueueName
+    ingestionQueueName: ingestionQueueName
+    extractionQueueName: extractionQueueName
+    indexingQueueName: indexingQueueName
     searchServiceResourceId: searchServiceResourceId
     documentIntelligenceAccountResourceId: documentIntelligenceAccountResourceId
     lunaOpenAiAccountResourceId: lunaOpenAiAccountResourceId
@@ -361,11 +384,14 @@ output phase5ApiFqdn string = phase5.outputs.phase5ApiFqdn
 output phase5IdentityResourceId string = phase5IdentityResourceId
 output phase5IdentityClientId string = phase5IdentityClientId
 output phase5IdentityPrincipalId string = phase5IdentityPrincipalId
+output sqlPhase5InitialMigrationSql string = demoData.outputs.phase5InitialMigrationSql
+output sqlPhase5AuthorityMigrationSql string = demoData.outputs.phase5AuthorityMigrationSql
 output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSql
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes
 output roleAssignmentIds array = concat(
   demoRbac.outputs.roleAssignmentIds,
+  demoRbac.outputs.phase5SenderRoleAssignmentIds,
   demoRbac.outputs.openAiRoleAssignmentIds,
   demoRbac.outputs.openAiReaderRoleAssignmentIds
 )

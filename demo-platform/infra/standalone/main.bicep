@@ -175,6 +175,9 @@ module demoRuntimes '../main.bicep' = {
     serviceBusFqdn: data.outputs.serviceBusFqdn
     serviceBusNamespaceResourceId: data.outputs.serviceBusNamespaceResourceId
     serviceBusQueueName: data.outputs.serviceBusQueueName
+    ingestionQueueName: data.outputs.ingestionQueueName
+    extractionQueueName: data.outputs.extractionQueueName
+    indexingQueueName: data.outputs.indexingQueueName
     searchEndpoint: data.outputs.searchEndpoint
     searchServiceResourceId: data.outputs.searchServiceResourceId
     searchIndexName: data.outputs.searchIndexName
@@ -204,6 +207,9 @@ module demoRuntimes '../main.bicep' = {
     webDelegatedScope: webDelegatedScope
     bffRequiredDelegatedScope: bffRequiredDelegatedScope
     phase5ApplicationId: phase5ApplicationId
+    modelProviderEvidenceId: 'SEC-EVID-ROUTE-ALLOW-LIST-SNAPSHOT'
+    regionalDeploymentEvidenceId: 'SEC-EVID-DEPLOYMENT-ALLOW-LIST-SNAPSHOT'
+    promptGovernanceEvidenceId: 'SEC-EVID-PROMPT-TEMPLATE-HASH'
     phase5DelegatedScope: phase5DelegatedScope
     webImageRepository: webImageRepository
     webImageDigest: webImageDigest
@@ -279,5 +285,7 @@ output bootstrapIdentityPrincipalId string = operations.outputs.bootstrapIdentit
 output webAppFqdn string = demoRuntimes.outputs.webAppFqdn
 output bffAppFqdn string = demoRuntimes.outputs.bffAppFqdn
 output phase5ApiFqdn string = demoRuntimes.outputs.phase5ApiFqdn
+output sqlPhase5InitialMigrationSql string = demoRuntimes.outputs.sqlPhase5InitialMigrationSql
+output sqlPhase5AuthorityMigrationSql string = demoRuntimes.outputs.sqlPhase5AuthorityMigrationSql
 output sqlProjectionMigrationSql string = demoRuntimes.outputs.sqlProjectionMigrationSql
 output sqlBootstrapSql string = demoRuntimes.outputs.sqlBootstrapSql

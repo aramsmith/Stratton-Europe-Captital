@@ -22,12 +22,14 @@ param bffEntraClientId string
 @minLength(36)
 @maxLength(36)
 param phase5ApplicationId string
+param modelProviderEvidenceId string
+param regionalDeploymentEvidenceId string
+param promptGovernanceEvidenceId string
 param phase5ImageRepository string
 param phase5ImageDigest string
 param sqlServerFqdn string
 param sqlDatabaseName string
 param serviceBusFqdn string
-param serviceBusQueueName string
 
 var phase5AppName = '${namePrefix}-phase5'
 var phase5Image = '${containerRegistryServer}/${phase5ImageRepository}@${phase5ImageDigest}'
@@ -80,9 +82,11 @@ resource phase5App 'Microsoft.App/containerApps@2024-03-01' = {
             { name: 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID', value: bffIdentityClientId }
             { name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID', value: phase5IdentityClientId }
             { name: 'AZURE_SQL_SERVER_FQDN', value: sqlServerFqdn }
+            { name: 'MODEL_PROVIDER_EVIDENCE_ID', value: modelProviderEvidenceId }
+            { name: 'REGIONAL_DEPLOYMENT_EVIDENCE_ID', value: regionalDeploymentEvidenceId }
+            { name: 'PROMPT_GOVERNANCE_EVIDENCE_ID', value: promptGovernanceEvidenceId }
             { name: 'AZURE_SQL_DATABASE_NAME', value: sqlDatabaseName }
-            { name: 'AZURE_SERVICE_BUS_NAMESPACE', value: serviceBusFqdn }
-            { name: 'AZURE_SERVICE_BUS_QUEUE_NAME', value: serviceBusQueueName }
+            { name: 'AZURE_SERVICEBUS_FQDN', value: serviceBusFqdn }
           ]
           resources: {
             cpu: json('0.5')

@@ -32,6 +32,9 @@ Describe 'Stratton demo infrastructure' {
       'serviceBusFqdn'
       'serviceBusNamespaceResourceId'
       'serviceBusQueueName'
+      'ingestionQueueName'
+      'extractionQueueName'
+      'indexingQueueName'
       'searchEndpoint'
       'searchServiceResourceId'
       'searchIndexName'
@@ -61,6 +64,9 @@ Describe 'Stratton demo infrastructure' {
       'webDelegatedScope'
       'bffRequiredDelegatedScope'
       'phase5ApplicationId'
+      'modelProviderEvidenceId'
+      'regionalDeploymentEvidenceId'
+      'promptGovernanceEvidenceId'
       'phase5DelegatedScope'
       'webImageRepository'
       'webImageDigest'
@@ -228,7 +234,6 @@ Describe 'Stratton demo infrastructure' {
       '7f951dda-4ed3-4680-a7ca-43fe172d538d'
       'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
       '69a216fc-b8fb-44d8-bc22-1f3c2cd27a39'
-      '090c5a3c-8e7d-4c64-9b48-2f5785a7a1e6'
       '1407120a-92aa-4202-b7e9-c0e197c71c8f'
       'a97b65f3-24c7-4388-baec-2e87135dc908'
       '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
@@ -462,6 +467,107 @@ Describe 'Stratton demo infrastructure' {
     $handoff | Should -Match 'BFF managed.identity client ID'
     $handoff | Should -Match 'no.deployment'
     $handoff | Should -Not -Match 'trusts forwarded human claims|uses the enabled Container Apps token store'
+  }
+
+  It 'aligns the Phase 5 API environment with the production runtime contract' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $phase5App = @($script:allResources | Where-Object {
+      $_.type -eq 'Microsoft.App/containerApps' -and $_.name -match 'phase5AppName'
+    })
+    $phase5App.Count | Should -Be 1
+    $phase5Env = @($phase5App[0].properties.template.containers[0].env)
+    $phase5EnvNames = @($phase5Env | ForEach-Object name)
+    foreach ($requiredName in @(
+      'MODEL_PROVIDER_EVIDENCE_ID'
+      'REGIONAL_DEPLOYMENT_EVIDENCE_ID'
+      'PROMPT_GOVERNANCE_EVIDENCE_ID'
+      'AZURE_SERVICEBUS_FQDN'
+    )) {
+      $phase5EnvNames | Should -Contain $requiredName
+    }
+    foreach ($obsoleteName in @(
+      'AZURE_SERVICE_BUS_NAMESPACE'
+      'AZURE_SERVICE_BUS_QUEUE_NAME'
+      'AZURE_WORK_QUEUE_NAME'
+    )) {
+      $phase5EnvNames | Should -Not -Contain $obsoleteName
+    }
+
+    $phase5EnvText = $phase5Env | ConvertTo-Json -Depth 20
+    $phase5EnvText | Should -Match 'modelProviderEvidenceId'
+    $phase5EnvText | Should -Match 'regionalDeploymentEvidenceId'
+    $phase5EnvText | Should -Match 'promptGovernanceEvidenceId'
+
+    $standaloneSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\standalone\main.bicep') -Raw
+    foreach ($evidenceSetting in @{
+      modelProviderEvidenceId = 'SEC-EVID-ROUTE-ALLOW-LIST-SNAPSHOT'
+      regionalDeploymentEvidenceId = 'SEC-EVID-DEPLOYMENT-ALLOW-LIST-SNAPSHOT'
+      promptGovernanceEvidenceId = 'SEC-EVID-PROMPT-TEMPLATE-HASH'
+    }.GetEnumerator()) {
+      ($script:template.parameters.($evidenceSetting.Key).allowedValues | Out-String) | Should -Match $evidenceSetting.Value
+      $standaloneSource | Should -Match ([Regex]::Escape("$($evidenceSetting.Key): '$($evidenceSetting.Value)'"))
+    }
+  }
+
+  It 'emits the ordered authoritative Phase 5 bootstrap and least-privilege grants' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $dataModuleSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\modules\demo-data\main.bicep') -Raw
+    $initialMigrationIndex = $dataModuleSource.IndexOf('${phase5InitialMigrationSql}')
+    $authorityMigrationIndex = $dataModuleSource.IndexOf('${phase5AuthorityMigrationSql}')
+    $projectionMigrationIndex = $dataModuleSource.IndexOf('${projectionMigrationSql}')
+    $initialMigrationIndex | Should -BeGreaterThan 0
+    $authorityMigrationIndex | Should -BeGreaterThan $initialMigrationIndex
+    $projectionMigrationIndex | Should -BeGreaterThan $authorityMigrationIndex
+    $dataModuleSource | Should -Match ([Regex]::Escape("loadTextContent('../../../../5-coding-r4/app/migrations/001_init.sql')"))
+    $dataModuleSource | Should -Match ([Regex]::Escape("loadTextContent('../../../../5-coding-r4/app/migrations/002_demo_authority.sql')"))
+    $dataModuleSource | Should -Match 'CREATE USER \[\$\{phase5IdentityName\}\] FROM EXTERNAL PROVIDER;'
+    $dataModuleSource | Should -Match 'ALTER ROLE workload_api_role ADD MEMBER \[\$\{phase5IdentityName\}\];'
+    $dataModuleSource | Should -Match 'GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO \[\$\{bffIdentityName\}\];'
+    $dataModuleSource | Should -Not -Match 'demo_scenario_projection TO \[\$\{phase5IdentityName\}\]'
+    $dataModuleSource | Should -Not -Match 'ALTER ROLE db_datareader ADD MEMBER'
+    $dataModuleSource | Should -Not -Match 'ALTER ROLE db_datawriter ADD MEMBER'
+    foreach ($outputName in @('sqlPhase5InitialMigrationSql', 'sqlPhase5AuthorityMigrationSql', 'sqlProjectionMigrationSql', 'sqlBootstrapSql')) {
+      $script:template.outputs.PSObject.Properties.Name | Should -Contain $outputName
+    }
+  }
+
+  It 'grants Phase 5 sender access only to its runtime queues and retains BFF analysis sender access' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $rbacSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\modules\demo-rbac\main.bicep') -Raw
+    $mainSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\main.bicep') -Raw
+    foreach ($queueParameter in @('ingestionQueueName', 'extractionQueueName', 'indexingQueueName')) {
+      $rbacSource | Should -Match ("  {0}" -f $queueParameter)
+      $mainSource | Should -Match ("    {0}: {0}" -f $queueParameter)
+    }
+    $directParameterSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\parameters\dev.bicepparam') -Raw
+    $standaloneDataSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\standalone\modules\data\main.bicep') -Raw
+    $standaloneDataSource | Should -Match ([Regex]::Escape("var analysisQueueName = 'analysis-work'"))
+    $directParameterSource | Should -Match ([Regex]::Escape("param serviceBusQueueName = 'analysis-work'"))
+    foreach ($queueName in @('q-ingestion', 'q-extraction', 'q-indexing')) {
+      $standaloneDataSource | Should -Match ([Regex]::Escape("name: '$queueName'"))
+      $directParameterSource | Should -Match ([Regex]::Escape("'$queueName'"))
+    }
+
+    $rbacSource | Should -Match 'module bffServiceBusDataSender'
+    $rbacSource | Should -Match 'queueName: serviceBusQueueName'
+    $rbacSource | Should -Match 'module phase5ServiceBusDataSenders'
+    $rbacSource | Should -Match 'queueName: queueName'
+    $rbacSource | Should -Match 'serviceBusDataSender'
+    $rbacSource | Should -Not -Match 'serviceBusDataReceiver'
+    $rbacSource | Should -Not -Match '090c5a3c-8e7d-4c64-9b48-2f5785a7a1e6'
+    $script:templateJson | Should -Not -Match '090c5a3c-8e7d-4c64-9b48-2f5785a7a1e6'
   }
 
   It 'reuses one compiled-template harness for all infrastructure assertions' {
