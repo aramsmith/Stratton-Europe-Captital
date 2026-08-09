@@ -13,14 +13,26 @@ import type { DemoAuthorityClient } from "../phase5/demo-authority-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository, ScenarioSnapshot } from "../scenario/scenario-repository.js";
 
-interface ReviewServiceDependencies {
+interface ReviewServiceCommonDependencies {
   readonly repository: ScenarioRepository;
-  readonly phase5Client?: Phase5Client;
-  readonly demoAuthorityClient?: DemoAuthorityClient;
   readonly getTenantId?: () => string;
   readonly createId?: () => string;
   readonly now?: () => string;
 }
+
+type ReviewServiceDependencies = ReviewServiceCommonDependencies &
+  (
+    | {
+        readonly demoAuthorityClient: DemoAuthorityClient;
+        readonly compatibilityMode?: never;
+        readonly phase5Client?: never;
+      }
+    | {
+        readonly compatibilityMode: "LEGACY_TEST_ONLY";
+        readonly phase5Client: Phase5Client;
+        readonly demoAuthorityClient?: never;
+      }
+  );
 
 interface SubmitReviewInput extends Omit<ReviewSubmissionRequest, "caseId"> {
   readonly caseId: string;
@@ -54,9 +66,22 @@ export class ReviewService {
   private readonly createId: () => string;
   private readonly now: () => string;
   private readonly getTenantId: () => string;
+  private readonly demoAuthorityClient?: DemoAuthorityClient;
+  private readonly phase5Client?: Phase5Client;
   private pendingMutation: Promise<void> = Promise.resolve();
 
   public constructor(private readonly dependencies: ReviewServiceDependencies) {
+    if (dependencies.compatibilityMode === "LEGACY_TEST_ONLY") {
+      if (!dependencies.phase5Client) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+      }
+      this.phase5Client = dependencies.phase5Client;
+    } else {
+      if (!dependencies.demoAuthorityClient) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+      }
+      this.demoAuthorityClient = dependencies.demoAuthorityClient;
+    }
     this.createId = dependencies.createId ?? randomUUID;
     this.now = dependencies.now ?? (() => new Date().toISOString());
     this.getTenantId = dependencies.getTenantId ?? (() => "local-stratton-demo");
@@ -129,16 +154,23 @@ export class ReviewService {
         });
       }
 
-      const analysisAuthority = this.dependencies.demoAuthorityClient
+      const analysisAuthority = this.demoAuthorityClient
         ? requireAnalysisAuthority(state)
         : undefined;
       const subjectVersion = analysisAuthority?.subjectVersion ?? getLatestFindingVersion(finding);
       if (input.subjectVersion !== subjectVersion) {
         throw new DemoHttpError(409, "STATE_CONFLICT", "FINDING_VERSION_STALE");
       }
+      const projectionVersion = analysisAuthority
+        ? createFindingProjectionVersion(finding, subjectVersion)
+        : subjectVersion;
 
-      const operationId = buildReviewOperationId(input);
-      const payloadHash = buildReviewPayloadHash(input, analysisRunId);
+      const operationId = buildReviewOperationId(input, projectionVersion);
+      const payloadHash = buildReviewPayloadHash(
+        input,
+        analysisRunId,
+        projectionVersion
+      );
       if (
         isSatisfiedRetry(
         findSuccessfulOperation(state.governanceEvents, "SPECIALIST_REVIEW_RECORDED", operationId),
@@ -156,7 +188,8 @@ export class ReviewService {
       );
       if (
         latestReview?.findingId === input.findingId &&
-        latestReview.subjectVersion === subjectVersion
+        latestReview.subjectVersion === subjectVersion &&
+        latestReview.projectionVersion === projectionVersion
       ) {
         if (latestReview.decision === input.decision) {
           return state;
@@ -165,9 +198,16 @@ export class ReviewService {
         throw new DemoHttpError(409, "STATE_CONFLICT", "REVIEW_RETRY_CONFLICT");
       }
 
-      const reviewId = this.createId();
-      if (this.dependencies.demoAuthorityClient && analysisAuthority) {
-        await this.dependencies.demoAuthorityClient.submitBundleReview({
+      const reviewId = analysisAuthority
+        ? createDeterministicReviewId(
+            this.getTenantId(),
+            analysisAuthority.analysisBundleId,
+            operationId,
+            payloadHash
+          )
+        : this.createId();
+      if (this.demoAuthorityClient && analysisAuthority) {
+        await this.demoAuthorityClient.submitBundleReview({
           tenantId: this.getTenantId(),
           caseId: input.caseId,
           analysisBundleId: analysisAuthority.analysisBundleId,
@@ -179,10 +219,10 @@ export class ReviewService {
           evidenceManifestHash: analysisAuthority.evidenceManifestHash
         });
       } else {
-        if (!this.dependencies.phase5Client) {
+        if (!this.phase5Client) {
           throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
         }
-        await this.dependencies.phase5Client.submitReview({
+        await this.phase5Client.submitReview({
           caseId: input.caseId,
           analysisRunId,
           reviewType: input.reviewType,
@@ -206,7 +246,8 @@ export class ReviewService {
             reviewType: input.reviewType,
             decision: input.decision,
             findingId: input.findingId,
-            subjectVersion
+            subjectVersion,
+            projectionVersion
           }
         ],
         governanceEvents: [
@@ -289,7 +330,7 @@ export class ReviewService {
         });
       }
 
-      const analysisAuthority = this.dependencies.demoAuthorityClient
+      const analysisAuthority = this.demoAuthorityClient
         ? requireAnalysisAuthority(state)
         : undefined;
       const subjectVersion =
@@ -315,18 +356,18 @@ export class ReviewService {
         return state;
       }
 
-      if (this.dependencies.demoAuthorityClient && analysisAuthority) {
-        await this.dependencies.demoAuthorityClient.prepareBundleDraft({
+      if (this.demoAuthorityClient && analysisAuthority) {
+        await this.demoAuthorityClient.prepareBundleDraft({
           tenantId: this.getTenantId(),
           caseId: input.caseId,
           analysisBundleId: analysisAuthority.analysisBundleId,
           subjectVersion
         });
       } else {
-        if (!this.dependencies.phase5Client) {
+        if (!this.phase5Client) {
           throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
         }
-        await this.dependencies.phase5Client.prepareDraft({
+        await this.phase5Client.prepareDraft({
           caseId: input.caseId,
           analysisRunId,
           subjectVersion,
@@ -476,9 +517,13 @@ function getRecommendationBlocker(state: ScenarioState): string | null {
       );
       const requiredSubjectVersion =
         state.analysisAuthority?.subjectVersion ?? getLatestFindingVersion(finding);
+      const requiredProjectionVersion = state.analysisAuthority
+        ? createFindingProjectionVersion(finding, requiredSubjectVersion)
+        : requiredSubjectVersion;
       const isCurrentApproval =
         latestReview?.decision === "APPROVED" &&
-        latestReview.subjectVersion === requiredSubjectVersion;
+        latestReview.subjectVersion === requiredSubjectVersion &&
+        latestReview.projectionVersion === requiredProjectionVersion;
 
       if (!isCurrentApproval) {
         return `${reviewType}_REVIEW_REQUIRED:${finding.findingId}`;
@@ -511,15 +556,25 @@ function getLatestFindingVersion(finding: AnalysisFinding): string {
   return finding.textHistory.at(-1)?.versionId ?? finding.findingId;
 }
 
-function buildReviewOperationId(input: SubmitReviewInput): string {
-  return `review:${input.reviewType}:${input.findingId}:${input.subjectVersion}`;
+function buildReviewOperationId(
+  input: SubmitReviewInput,
+  projectionVersion: string
+): string {
+  const base = `review:${input.reviewType}:${input.findingId}:${input.subjectVersion}`;
+  return projectionVersion === input.subjectVersion
+    ? base
+    : `${base}:${projectionVersion}`;
 }
 
 function buildPrepareOperationId(analysisRunId: string, subjectVersion: string): string {
   return `draft:${analysisRunId}:${subjectVersion}`;
 }
 
-function buildReviewPayloadHash(input: SubmitReviewInput, analysisRunId: string): string {
+function buildReviewPayloadHash(
+  input: SubmitReviewInput,
+  analysisRunId: string,
+  projectionVersion: string
+): string {
   return hashPayload({
     caseId: input.caseId,
     analysisRunId,
@@ -527,7 +582,40 @@ function buildReviewPayloadHash(input: SubmitReviewInput, analysisRunId: string)
     decision: input.decision,
     rationale: input.rationale.trim(),
     findingId: input.findingId,
-    subjectVersion: input.subjectVersion
+    subjectVersion: input.subjectVersion,
+    projectionVersion
+  });
+}
+
+function createDeterministicReviewId(
+  tenantId: string,
+  analysisBundleId: string,
+  operationId: string,
+  payloadHash: string
+): string {
+  return `review-${hashPayload({
+    tenantId,
+    analysisBundleId,
+    operationId,
+    payloadHash
+  })}`;
+}
+
+export function createFindingProjectionVersion(
+  finding: AnalysisFinding,
+  authoritativeSubjectVersion: string
+): string {
+  return hashPayload({
+    authoritativeSubjectVersion,
+    findingId: finding.findingId,
+    summary: finding.summary,
+    citations: finding.citations
+      .map(({ citationId, evidenceId, locator }) => ({
+        citationId,
+        evidenceId,
+        locator
+      }))
+      .sort((left, right) => left.citationId.localeCompare(right.citationId))
   });
 }
 

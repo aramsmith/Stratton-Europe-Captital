@@ -23,11 +23,24 @@ function createPhase5ClientDouble() {
 }
 
 describe("EvidenceService", () => {
+  it("fails closed when constructed without governed evidence authority", () => {
+    expect(
+      () =>
+        new EvidenceService({
+          repository: new InMemoryScenarioRepository(createProjectDanubeState())
+        } as never)
+    ).toThrow("EVIDENCE_AUTHORITY_REQUIRED");
+  });
+
   it("admits evidence through Phase 5 and records governed provenance state", async () => {
     const repository = new InMemoryScenarioRepository(createProjectDanubeState());
     const phase5Client = createPhase5ClientDouble();
 
-    const service = new EvidenceService({ repository, phase5Client });
+    const service = new EvidenceService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
     const nextState = await service.admit({
       caseId: "project-danube",
       evidenceId: "evidence-board-pack",
@@ -78,7 +91,11 @@ describe("EvidenceService", () => {
     };
     const phase5Client = createPhase5ClientDouble();
 
-    const service = new EvidenceService({ repository, phase5Client });
+    const service = new EvidenceService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
     const nextState = await service.admit({
       caseId: "project-danube",
       evidenceId: "evidence-board-pack",
@@ -103,7 +120,11 @@ describe("EvidenceService", () => {
     const repository = new InMemoryScenarioRepository(createProjectDanubeState());
     const phase5Client = createPhase5ClientDouble();
 
-    const service = new EvidenceService({ repository, phase5Client });
+    const service = new EvidenceService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     await expect(
       service.admit({
@@ -137,7 +158,11 @@ describe("EvidenceService", () => {
     const repository = new InMemoryScenarioRepository(createProjectDanubePromptInjectionState());
     const phase5Client = createPhase5ClientDouble();
 
-    const service = new EvidenceService({ repository, phase5Client });
+    const service = new EvidenceService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     await expect(
       service.admit({
@@ -180,7 +205,11 @@ describe("EvidenceService", () => {
   ) => {
     const repository = new InMemoryScenarioRepository(createState());
     const phase5Client = createPhase5ClientDouble();
-    const service = new EvidenceService({ repository, phase5Client });
+    const service = new EvidenceService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     await expect(
       service.admit({

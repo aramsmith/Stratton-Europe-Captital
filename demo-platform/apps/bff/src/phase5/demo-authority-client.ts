@@ -107,10 +107,25 @@ const approvedModelRouteEvidenceSchema = z
   })
   .strict();
 
+const evidenceAdmissionResultSchema = z
+  .object({
+    evidenceId: z.string().min(1),
+    status: z.literal("ADMITTED")
+  })
+  .strict();
+
 export type AnalysisBundleStatus = z.infer<typeof analysisBundleStatusSchema>;
 export type AnalysisBundleAccepted = AnalysisBundleStatus;
 export type AnalysisBundleReady = AnalysisBundleStatus;
 export type ApprovedModelRouteEvidence = z.infer<typeof approvedModelRouteEvidenceSchema>;
+
+export interface AdmitEvidenceAuthorityInput {
+  readonly tenantId: string;
+  readonly caseId: string;
+  readonly evidenceId: string;
+  readonly idempotencyKey: string;
+  readonly correlationId?: string;
+}
 
 export interface CreateAnalysisBundleInput {
   readonly tenantId: string;
@@ -154,6 +169,7 @@ export interface PrepareBundleDraftInput {
 }
 
 export interface DemoAuthorityClient {
+  admitEvidence(input: AdmitEvidenceAuthorityInput): Promise<void>;
   createAnalysisBundle(input: CreateAnalysisBundleInput): Promise<AnalysisBundleAccepted>;
   completeAnalysisBundle(input: CompleteAnalysisBundleInput): Promise<AnalysisBundleReady>;
   getAnalysisBundle(bundleId: string): Promise<AnalysisBundleStatus>;
@@ -202,6 +218,19 @@ export function createDemoAuthorityClient(
   };
 
   return {
+    admitEvidence: async (input) => {
+      await send(
+        fetchImpl,
+        baseUrl,
+        getRequestContext,
+        delegatedToken,
+        "POST",
+        `/v1/evidence/${encodeURIComponent(input.evidenceId)}/admission`,
+        { caseId: input.caseId },
+        evidenceAdmissionResultSchema,
+        input.idempotencyKey
+      );
+    },
     createAnalysisBundle: async (input) =>
       send(
         fetchImpl,
@@ -281,7 +310,8 @@ async function send<TSchema extends z.ZodType>(
   method: "GET" | "POST",
   path: string,
   body: object | undefined,
-  responseSchema: TSchema
+  responseSchema: TSchema,
+  idempotencyKey?: string
 ): Promise<z.infer<TSchema>> {
   const accessToken = requireToken(await getAccessToken());
   const context = getRequestContext();
@@ -295,7 +325,8 @@ async function send<TSchema extends z.ZodType>(
   }
   if (body) {
     headers["content-type"] = "application/json";
-    headers["idempotency-key"] = createIdempotencyKey(method, path, body);
+    headers["idempotency-key"] =
+      idempotencyKey?.trim() || createIdempotencyKey(method, path, body);
   }
 
   let response: Response;
@@ -367,8 +398,13 @@ function requireApplicationId(value: string | undefined): string {
 }
 
 async function parseJson(response: Response): Promise<unknown> {
+  const body = await response.text();
+  if (body.length === 0) {
+    return undefined;
+  }
+
   try {
-    return await response.json() as unknown;
+    return JSON.parse(body) as unknown;
   } catch {
     throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE");
   }

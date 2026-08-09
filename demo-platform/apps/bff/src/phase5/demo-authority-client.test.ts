@@ -60,6 +60,43 @@ function authorityClient(fetchImpl: typeof fetch) {
 }
 
 describe("createDemoAuthorityClient", () => {
+  it("admits evidence with delegated OBO identity and the caller idempotency key", async () => {
+    const fetchImpl = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          evidenceId: "evidence-board-pack",
+          status: "ADMITTED"
+        }),
+        { status: 200 }
+      )
+    );
+    const client = authorityClient(fetchImpl);
+
+    await client.admitEvidence({
+      tenantId: "tenant-stratton",
+      caseId: "project-danube",
+      evidenceId: "evidence-board-pack",
+      idempotencyKey: "admit:project-danube:evidence-board-pack",
+      correlationId: "corr-123"
+    });
+
+    const [url, init] = fetchImpl.mock.calls[0] ?? [];
+    expect(url).toBe(
+      "https://authority.stratton.example/v1/evidence/evidence-board-pack/admission"
+    );
+    expect(init?.headers).toMatchObject({
+      "idempotency-key": "admit:project-danube:evidence-board-pack",
+      "x-correlation-id": "corr-123"
+    });
+    expect((init?.headers as Record<string, string>).authorization).toMatch(
+      /^Bearer \S+$/
+    );
+    expect(init?.headers).not.toHaveProperty("x-stratton-actor-id");
+    expect(JSON.parse(String(init?.body))).toEqual({
+      caseId: "project-danube"
+    });
+  });
+
   it("uses a delegated OBO token and forwards trace context for human bundle creation", async () => {
     const fetchImpl = vi.fn<typeof fetch>().mockResolvedValue(
       new Response(JSON.stringify(bundle), { status: 202 })

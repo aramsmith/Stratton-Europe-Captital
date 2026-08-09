@@ -230,9 +230,10 @@ export function createAzureWorkflowClient(
 
 export function createAzureSupportingAnalysis(
   options: CreateAzureWorkflowClientOptions
-): BundleSupportingAnalysis {
+): BundleSupportingAnalysis & Pick<WorkflowSupportingOperations, "afterEvidenceAdmitted"> {
   const supporting = createAzureWorkflowClient(options);
   return {
+    afterEvidenceAdmitted: supporting.afterEvidenceAdmitted,
     requestAnalysis: async (input) =>
       supporting.afterAnalysisAccepted({
         caseId: input.caseId,

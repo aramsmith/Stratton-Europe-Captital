@@ -1,18 +1,33 @@
 import { randomUUID } from "node:crypto";
 import type { ScenarioState } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
+import type { AuthoritativeEvidenceAdmissionWorkflowClient } from "../phase5/governed-workflow-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository } from "../scenario/scenario-repository.js";
 
 const crossCaseSecurityGateId = "CC002-R2-SEC-GATE-006";
 const promptInjectionSecurityGateId = "CC002-R2-SEC-GATE-002";
 
-interface EvidenceServiceDependencies {
+interface EvidenceServiceCommonDependencies {
   readonly repository: ScenarioRepository;
-  readonly phase5Client?: Phase5Client;
+  readonly getTenantId?: () => string;
   readonly createId?: () => string;
   readonly now?: () => string;
 }
+
+type EvidenceServiceDependencies = EvidenceServiceCommonDependencies &
+  (
+    | {
+        readonly admissionWorkflow: AuthoritativeEvidenceAdmissionWorkflowClient;
+        readonly compatibilityMode?: never;
+        readonly phase5Client?: never;
+      }
+    | {
+        readonly compatibilityMode: "LEGACY_TEST_ONLY";
+        readonly phase5Client: Phase5Client;
+        readonly admissionWorkflow?: never;
+      }
+  );
 
 export interface AdmitEvidenceInput {
   readonly caseId: string;
@@ -34,10 +49,25 @@ interface RejectWithAuditInput {
 export class EvidenceService {
   private readonly createId: () => string;
   private readonly now: () => string;
+  private readonly admissionWorkflow?: AuthoritativeEvidenceAdmissionWorkflowClient;
+  private readonly phase5Client?: Phase5Client;
+  private readonly getTenantId: () => string;
 
   public constructor(private readonly dependencies: EvidenceServiceDependencies) {
+    if (dependencies.compatibilityMode === "LEGACY_TEST_ONLY") {
+      if (!dependencies.phase5Client) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "EVIDENCE_AUTHORITY_REQUIRED");
+      }
+      this.phase5Client = dependencies.phase5Client;
+    } else {
+      if (!dependencies.admissionWorkflow) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "EVIDENCE_AUTHORITY_REQUIRED");
+      }
+      this.admissionWorkflow = dependencies.admissionWorkflow;
+    }
     this.createId = dependencies.createId ?? randomUUID;
     this.now = dependencies.now ?? (() => new Date().toISOString());
+    this.getTenantId = dependencies.getTenantId ?? (() => "local-stratton-demo");
   }
 
   public async admit(input: AdmitEvidenceInput): Promise<ScenarioState> {
@@ -112,13 +142,27 @@ export class EvidenceService {
       }
 
       if (!workflowSubmitted) {
-        if (this.dependencies.phase5Client) {
-          await this.dependencies.phase5Client.admitEvidence({
+        if (this.admissionWorkflow) {
+          await this.admissionWorkflow.admit({
+            tenantId: this.getTenantId(),
             caseId: input.caseId,
             evidenceId: input.evidenceId,
             idempotencyKey: operationId,
             correlationId: input.correlationId
           });
+        } else if (this.phase5Client) {
+          await this.phase5Client.admitEvidence({
+            caseId: input.caseId,
+            evidenceId: input.evidenceId,
+            idempotencyKey: operationId,
+            correlationId: input.correlationId
+          });
+        } else {
+          throw new DemoHttpError(
+            503,
+            "DEPENDENCY_UNAVAILABLE",
+            "EVIDENCE_AUTHORITY_REQUIRED"
+          );
         }
         workflowSubmitted = true;
       }

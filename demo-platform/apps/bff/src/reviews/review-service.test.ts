@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ScenarioState } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
+import { AnalysisService } from "../analysis/analysis-service.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { DemoAuthorityClient } from "../phase5/demo-authority-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
@@ -20,6 +21,7 @@ function createPhase5ClientDouble() {
 
 function createDemoAuthorityClientDouble(): DemoAuthorityClient {
   return {
+    admitEvidence: vi.fn(),
     createAnalysisBundle: vi.fn(),
     completeAnalysisBundle: vi.fn(),
     getAnalysisBundle: vi.fn(),
@@ -38,7 +40,8 @@ function approvedReview(
     reviewType,
     decision: "APPROVED",
     findingId,
-    subjectVersion: `${findingId}-v2`
+    subjectVersion: `${findingId}-v2`,
+    projectionVersion: `${findingId}-v2`
   };
 }
 
@@ -51,7 +54,8 @@ function pendingReview(
     reviewType,
     decision: "PENDING",
     findingId,
-    subjectVersion: `${findingId}-v2`
+    subjectVersion: `${findingId}-v2`,
+    projectionVersion: `${findingId}-v2`
   };
 }
 
@@ -247,9 +251,8 @@ describe("ReviewService", () => {
     const demoAuthorityClient = createDemoAuthorityClientDouble();
     const service = new ReviewService({
       repository,
-      phase5Client: createPhase5ClientDouble(),
       demoAuthorityClient
-    } as ConstructorParameters<typeof ReviewService>[0]);
+    });
 
     await service.submitReview({
       caseId: "project-danube",
@@ -278,7 +281,11 @@ describe("ReviewService", () => {
   it("rejects a review type that is not eligible for the finding domains", async () => {
     const repository = new InMemoryScenarioRepository(createReviewedScenario());
     const phase5Client = createPhase5ClientDouble();
-    const service = new ReviewService({ repository, phase5Client });
+    const service = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     await expect(
       service.submitReview({
@@ -306,6 +313,7 @@ describe("ReviewService", () => {
     ]);
     const service = new ReviewService({
       repository: new InMemoryScenarioRepository(scenario),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     });
 
@@ -331,6 +339,7 @@ describe("ReviewService", () => {
     );
     const service = new ReviewService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     });
 
@@ -367,6 +376,7 @@ describe("ReviewService", () => {
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({
       repository: new InMemoryScenarioRepository(scenario),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client
     });
 
@@ -388,6 +398,7 @@ describe("ReviewService", () => {
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client,
       createId: () => "review-legal-1",
       now: () => "2026-08-06T10:20:00.000Z"
@@ -442,7 +453,8 @@ describe("ReviewService", () => {
       reviewType: "LEGAL",
       decision: "APPROVED",
       findingId: "finding-permit-transfer",
-      subjectVersion: "finding-permit-transfer-v2"
+      subjectVersion: "finding-permit-transfer-v2",
+      projectionVersion: "finding-permit-transfer-v2"
     });
     expect(nextState.governanceEvents).toEqual(
       expect.arrayContaining([
@@ -470,6 +482,7 @@ describe("ReviewService", () => {
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client,
       createId: () => "event-committee-pack",
       now: () => "2026-08-06T10:30:00.000Z"
@@ -528,6 +541,7 @@ describe("ReviewService", () => {
 
     const service = new ReviewService({
       repository: new InMemoryScenarioRepository(scenario),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     });
 
@@ -546,7 +560,11 @@ describe("ReviewService", () => {
   it("rejects a stale review subject version before mutating local state or calling Phase 5", async () => {
     const repository = new InMemoryScenarioRepository(createReviewedScenario());
     const phase5Client = createPhase5ClientDouble();
-    const service = new ReviewService({ repository, phase5Client });
+    const service = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
     const baseline = await repository.load();
 
     await expect(
@@ -571,6 +589,7 @@ describe("ReviewService", () => {
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client,
       createId: () => "review-legal-1",
       now: () => "2026-08-06T10:20:00.000Z"
@@ -608,7 +627,11 @@ describe("ReviewService", () => {
   it("conflicts when a retry reuses the same review operation with a different payload", async () => {
     const repository = new InMemoryScenarioRepository(createReviewedScenario());
     const phase5Client = createPhase5ClientDouble();
-    const service = new ReviewService({ repository, phase5Client });
+    const service = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     await service.submitReview({
       caseId: "project-danube",
@@ -651,6 +674,7 @@ describe("ReviewService", () => {
     const phase5Client = createPhase5ClientDouble();
     const service = new ReviewService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client,
       createId: () => "event-committee-pack",
       now: () => "2026-08-06T10:30:00.000Z"
@@ -686,6 +710,7 @@ describe("ReviewService", () => {
 
     const service = new ReviewService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client
     });
 
@@ -723,5 +748,125 @@ describe("ReviewService", () => {
     expect(
       nextState.governanceEvents.filter((event) => event.type === "SPECIALIST_REVIEW_RECORDED")
     ).toHaveLength(2);
+  });
+
+  it("reuses the same review identity when local persistence fails and the request is retried", async () => {
+    const scenario = createReviewedScenario();
+    scenario.analysisAuthority = {
+      analysisBundleId: "bundle-terra-1",
+      evidenceManifestHash: "a".repeat(64),
+      subjectVersion: "authoritative-subject-version",
+      status: "DRAFT_ONLY_READY"
+    };
+    let savedState = structuredClone(scenario);
+    const repository = {
+      load: vi.fn(async () => ({
+        state: structuredClone(savedState),
+        concurrencyToken: { kind: "ROW_VERSION" as const, value: 1 }
+      })),
+      save: vi
+        .fn()
+        .mockRejectedValueOnce(new Error("local persistence unavailable"))
+        .mockImplementationOnce(async (snapshot) => {
+          savedState = structuredClone(snapshot.state);
+        }),
+      reset: vi.fn()
+    };
+    const authority = createDemoAuthorityClientDouble();
+    let id = 0;
+    const service = new ReviewService({
+      repository,
+      demoAuthorityClient: authority,
+      createId: () => `random-review-${++id}`
+    });
+    const input = {
+      caseId: "project-danube" as const,
+      findingId: "finding-permit-transfer",
+      reviewType: "LEGAL" as const,
+      decision: "APPROVED" as const,
+      rationale: "Permit transfer completion steps are documented.",
+      subjectVersion: "authoritative-subject-version",
+      principalType: "HUMAN" as const,
+      correlationId: "corr-review-persistence-retry"
+    };
+
+    await expect(service.submitReview(input)).rejects.toThrow("local persistence unavailable");
+    await expect(service.submitReview(input)).resolves.toMatchObject({
+      reviews: [expect.objectContaining({ reviewType: "LEGAL", decision: "APPROVED" })]
+    });
+
+    const submittedReviewIds = vi
+      .mocked(authority.submitBundleReview)
+      .mock.calls.map(([submitted]) => submitted.reviewId);
+    expect(submittedReviewIds).toHaveLength(2);
+    expect(submittedReviewIds[1]).toBe(submittedReviewIds[0]);
+  });
+
+  it("does not let pre-edit authoritative approvals prepare a draft after finding text changes", async () => {
+    const authoritativeSubjectVersion = "authoritative-subject-version";
+    const scenario = createReviewedScenario();
+    scenario.analysisAuthority = {
+      analysisBundleId: "bundle-terra-1",
+      evidenceManifestHash: "a".repeat(64),
+      subjectVersion: authoritativeSubjectVersion,
+      status: "DRAFT_ONLY_READY"
+    };
+    const repository = new InMemoryScenarioRepository(
+      withCurrentSecurityGatePasses(scenario)
+    );
+    const authority = createDemoAuthorityClientDouble();
+    const service = new ReviewService({
+      repository,
+      demoAuthorityClient: authority
+    });
+    for (const [findingId, reviewType] of [
+      ["finding-ebitda-quality", "DEAL"],
+      ["finding-permit-transfer", "LEGAL"],
+      ["finding-permit-transfer", "COMPLIANCE"]
+    ] as const) {
+      await service.submitReview({
+        caseId: "project-danube",
+        findingId,
+        reviewType,
+        decision: "APPROVED",
+        rationale: `${reviewType} approval before the edit.`,
+        subjectVersion: authoritativeSubjectVersion,
+        principalType: "HUMAN",
+        correlationId: `corr-${reviewType.toLowerCase()}-before-edit`
+      });
+    }
+    const analysisService = new AnalysisService({
+      repository,
+      authoritativeWorkflow: { run: vi.fn() }
+    });
+    await analysisService.recordDisposition({
+      caseId: "project-danube",
+      findingId: "finding-permit-transfer",
+      action: "EDIT",
+      editedSummary: "Permit transfer now requires a newly edited condition.",
+      principalType: "HUMAN",
+      correlationId: "corr-edit-after-approval"
+    });
+
+    await expect(
+      service.prepareRecommendation({
+        caseId: "project-danube",
+        principalType: "HUMAN",
+        correlationId: "corr-authoritative-edit-stale"
+      })
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "LEGAL_REVIEW_REQUIRED:finding-permit-transfer"
+    });
+    expect(authority.prepareBundleDraft).not.toHaveBeenCalled();
+  });
+
+  it("fails closed when constructed without an authoritative review client", () => {
+    expect(
+      () =>
+        new ReviewService({
+          repository: new InMemoryScenarioRepository(createReviewedScenario())
+        } as never)
+    ).toThrow("ANALYSIS_AUTHORITY_REQUIRED");
   });
 });

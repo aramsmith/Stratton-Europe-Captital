@@ -31,7 +31,9 @@ import {
 } from "./phase5/demo-authority-client.js";
 import {
   createAuthoritativeBundleWorkflowClient,
-  type AuthoritativeBundleWorkflowClient
+  createAuthoritativeEvidenceAdmissionWorkflowClient,
+  type AuthoritativeBundleWorkflowClient,
+  type AuthoritativeEvidenceAdmissionWorkflowClient
 } from "./phase5/governed-workflow-client.js";
 import { createLocalDemoAuthorityClient } from "./phase5/local-demo-authority-client.js";
 import {
@@ -192,7 +194,11 @@ async function startServer(): Promise<void> {
 
     createDemoServer({
       scenarioService: new ScenarioService(repository),
-      evidenceService: new EvidenceService({ repository }),
+      evidenceService: new EvidenceService({
+        repository,
+        admissionWorkflow: workflow.evidence,
+        getTenantId: () => getTrustedRequestContext().identity.tenantId
+      }),
       analysisService: new AnalysisService({
         repository,
         authoritativeWorkflow: workflow.analysis,
@@ -238,6 +244,7 @@ function getCorrelationId(response: express.Response): string {
 
 interface AuthoritativeWorkflow {
   readonly authority: DemoAuthorityClient;
+  readonly evidence: AuthoritativeEvidenceAdmissionWorkflowClient;
   readonly analysis: AuthoritativeBundleWorkflowClient;
 }
 
@@ -257,12 +264,22 @@ export function createWorkflowClient(
   overrides: WorkflowClientFactoryOverrides = {}
 ): AuthoritativeWorkflow {
   if (config.DEMO_MODE === "LOCAL") {
-    const authority = (overrides.createLocalDemoAuthorityClient ?? createLocalDemoAuthorityClient)();
+    const authority = (overrides.createLocalDemoAuthorityClient ?? createLocalDemoAuthorityClient)({
+      mode: "LOCAL"
+    });
+    const supporting = {
+      afterEvidenceAdmitted: async () => undefined,
+      requestAnalysis: async () => undefined
+    };
     return {
       authority,
+      evidence: createAuthoritativeEvidenceAdmissionWorkflowClient({
+        authority,
+        supporting
+      }),
       analysis: createAuthoritativeBundleWorkflowClient({
         authority,
-        supporting: { requestAnalysis: async () => undefined }
+        supporting
       })
     };
   }
@@ -298,6 +315,10 @@ export function createWorkflowClient(
   });
   return {
     authority,
+    evidence: createAuthoritativeEvidenceAdmissionWorkflowClient({
+      authority,
+      supporting
+    }),
     analysis: createAuthoritativeBundleWorkflowClient({ authority, supporting })
   };
 }

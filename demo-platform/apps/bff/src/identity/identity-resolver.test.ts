@@ -98,9 +98,21 @@ describe("createContainerAppsIdentityResolver", () => {
       createDemoServer(
         {
           scenarioService: new ScenarioService(repository),
-          evidenceService: new EvidenceService({ repository, phase5Client: client }),
-          analysisService: new AnalysisService({ repository, phase5Client: client }),
-          reviewService: new ReviewService({ repository, phase5Client: client }),
+          evidenceService: new EvidenceService({
+            repository,
+            compatibilityMode: "LEGACY_TEST_ONLY",
+            phase5Client: client
+          }),
+          analysisService: new AnalysisService({
+            repository,
+            compatibilityMode: "LEGACY_TEST_ONLY",
+            phase5Client: client
+          }),
+          reviewService: new ReviewService({
+            repository,
+            compatibilityMode: "LEGACY_TEST_ONLY",
+            phase5Client: client
+          }),
           governanceService: new GovernanceService({ repository })
         },
         {

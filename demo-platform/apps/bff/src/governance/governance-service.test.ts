@@ -161,21 +161,24 @@ function createGovernanceReadyState(): ScenarioState {
       reviewType: "DEAL",
       decision: "APPROVED",
       findingId: "finding-ebitda-quality",
-      subjectVersion: "finding-ebitda-quality-v2"
+      subjectVersion: "finding-ebitda-quality-v2",
+      projectionVersion: "finding-ebitda-quality-v2"
     },
     {
       reviewId: "review-compliance-approved",
       reviewType: "COMPLIANCE",
       decision: "APPROVED",
       findingId: "finding-permit-transfer",
-      subjectVersion: "finding-permit-transfer-v2"
+      subjectVersion: "finding-permit-transfer-v2",
+      projectionVersion: "finding-permit-transfer-v2"
     },
     {
       reviewId: "review-legal-approved",
       reviewType: "LEGAL",
       decision: "APPROVED",
       findingId: "finding-permit-transfer",
-      subjectVersion: "finding-permit-transfer-v2"
+      subjectVersion: "finding-permit-transfer-v2",
+      projectionVersion: "finding-permit-transfer-v2"
     }
   ];
   const recommendationSubjectVersion = buildRecommendationSubjectVersion(state);
@@ -502,6 +505,7 @@ describe("GovernanceService", () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const analysisService = new AnalysisService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble(),
       createId: () => `generated-${++sequence}`,
       now: () => "2026-08-06T10:05:00.000Z"

@@ -1,12 +1,17 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import type {
   Phase5Client,
   WorkflowSupportingOperations
 } from "./phase5-client.js";
-import type { DemoAuthorityClient } from "./demo-authority-client.js";
+import type {
+  AnalysisBundleStatus,
+  DemoAuthorityClient
+} from "./demo-authority-client.js";
 import {
+  createAuthoritativeEvidenceAdmissionWorkflowClient,
   createAuthoritativeBundleWorkflowClient,
-  createGovernedWorkflowClient
+  createLegacyGovernedWorkflowClientForCompatibilityTests
 } from "./governed-workflow-client.js";
 
 function authorityClient(): Phase5Client {
@@ -30,7 +35,7 @@ function supportingOperations(): WorkflowSupportingOperations {
   };
 }
 
-describe("createGovernedWorkflowClient", () => {
+describe("createLegacyGovernedWorkflowClientForCompatibilityTests", () => {
   it("calls immutable Phase 5 authority before Azure supporting analysis operations", async () => {
     const calls: string[] = [];
     const authority = authorityClient();
@@ -43,7 +48,10 @@ describe("createGovernedWorkflowClient", () => {
       calls.push("supporting");
     });
 
-    const client = createGovernedWorkflowClient({ authority, supporting });
+    const client = createLegacyGovernedWorkflowClientForCompatibilityTests({
+      authority,
+      supporting
+    });
     const result = await client.requestAnalysis({
       caseId: "project-danube",
       evidenceIds: ["evidence-board-pack"],
@@ -77,7 +85,10 @@ describe("createGovernedWorkflowClient", () => {
       correlationId: "phase5-corr"
     });
 
-    const client = createGovernedWorkflowClient({ authority, supporting });
+    const client = createLegacyGovernedWorkflowClientForCompatibilityTests({
+      authority,
+      supporting
+    });
 
     await expect(
       client.prepareDraft({
@@ -99,7 +110,10 @@ describe("createGovernedWorkflowClient", () => {
       message: "DOCUMENT_INTELLIGENCE_UNAVAILABLE",
       correlationId: "corr-support"
     });
-    const client = createGovernedWorkflowClient({ authority, supporting });
+    const client = createLegacyGovernedWorkflowClientForCompatibilityTests({
+      authority,
+      supporting
+    });
 
     await expect(
       client.admitEvidence({
@@ -115,11 +129,26 @@ describe("createGovernedWorkflowClient", () => {
 });
 
 function authorityBundleClient(calls: string[]): DemoAuthorityClient {
+  const evidence = [
+    {
+      evidenceId: "evidence-board-pack",
+      evidenceVersionId: "evidence-board-pack-v1",
+      ordinal: 1
+    }
+  ];
   const bundle = {
     tenantId: "tenant-stratton",
     caseId: "project-danube",
     analysisBundleId: "bundle-1",
-    evidenceManifestHash: "a".repeat(64),
+    evidenceManifestHash: createHash("sha256")
+      .update(
+        JSON.stringify({
+          tenantId: "tenant-stratton",
+          caseId: "project-danube",
+          evidence
+        })
+      )
+      .digest("hex"),
     modelRoute: "TERRA" as const,
     modelDeploymentId: "terra-grounded-analysis",
     routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -129,13 +158,7 @@ function authorityBundleClient(calls: string[]): DemoAuthorityClient {
     outputKind: "DRAFT_ONLY" as const,
     unsupportedClaims: 0,
     subjectVersion: "c".repeat(64),
-    evidence: [
-      {
-        evidenceId: "evidence-board-pack",
-        evidenceVersionId: "evidence-board-pack-v1",
-        ordinal: 1
-      }
-    ],
+    evidence,
     citationCounts: {
       totalClaims: 1,
       citedClaims: 1,
@@ -144,6 +167,7 @@ function authorityBundleClient(calls: string[]): DemoAuthorityClient {
   };
 
   return {
+    admitEvidence: vi.fn(async () => undefined),
     createAnalysisBundle: vi.fn(async () => {
       calls.push("phase5:createBundle");
       return { ...bundle, status: "QUEUED" as const };
@@ -172,6 +196,102 @@ function authorityBundleClient(calls: string[]): DemoAuthorityClient {
     }))
   };
 }
+
+function withAuthoritativeManifest(
+  bundle: AnalysisBundleStatus
+): AnalysisBundleStatus {
+  return {
+    ...bundle,
+    evidenceManifestHash: createHash("sha256")
+      .update(
+        JSON.stringify({
+          tenantId: bundle.tenantId,
+          caseId: bundle.caseId,
+          evidence: [...bundle.evidence]
+            .sort((left, right) => left.ordinal - right.ordinal)
+            .map(({ evidenceId, evidenceVersionId, ordinal }) => ({
+              evidenceId,
+              evidenceVersionId,
+              ordinal
+            }))
+        })
+      )
+      .digest("hex")
+  };
+}
+
+describe("createAuthoritativeEvidenceAdmissionWorkflowClient", () => {
+  it("runs Phase 5 authority before the Azure extraction and indexing chain", async () => {
+    const calls: string[] = [];
+    const authority = authorityBundleClient(calls);
+    vi.mocked(authority.admitEvidence).mockImplementation(async () => {
+      calls.push("phase5:admitEvidence");
+    });
+    const supporting = supportingOperations();
+    vi.mocked(supporting.afterEvidenceAdmitted).mockImplementation(async () => {
+      calls.push("azure:extractAndIndex");
+    });
+    const client = createAuthoritativeEvidenceAdmissionWorkflowClient({
+      authority,
+      supporting
+    });
+
+    await client.admit({
+      tenantId: "tenant-stratton",
+      caseId: "project-danube",
+      evidenceId: "evidence-board-pack",
+      idempotencyKey: "admit:project-danube:evidence-board-pack",
+      correlationId: "corr-admit"
+    });
+
+    expect(calls).toEqual(["phase5:admitEvidence", "azure:extractAndIndex"]);
+  });
+
+  it("does not run Azure extraction when Phase 5 denies evidence admission", async () => {
+    const authority = authorityBundleClient([]);
+    vi.mocked(authority.admitEvidence).mockRejectedValue(
+      new Error("authority denied")
+    );
+    const supporting = supportingOperations();
+    const client = createAuthoritativeEvidenceAdmissionWorkflowClient({
+      authority,
+      supporting
+    });
+
+    await expect(
+      client.admit({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        evidenceId: "evidence-board-pack",
+        idempotencyKey: "admit:project-danube:evidence-board-pack",
+        correlationId: "corr-admit"
+      })
+    ).rejects.toThrow("authority denied");
+    expect(supporting.afterEvidenceAdmitted).not.toHaveBeenCalled();
+  });
+
+  it("does not report admission success when the Azure supporting chain fails", async () => {
+    const authority = authorityBundleClient([]);
+    const supporting = supportingOperations();
+    vi.mocked(supporting.afterEvidenceAdmitted).mockRejectedValue(
+      new Error("indexing unavailable")
+    );
+    const client = createAuthoritativeEvidenceAdmissionWorkflowClient({
+      authority,
+      supporting
+    });
+
+    await expect(
+      client.admit({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        evidenceId: "evidence-board-pack",
+        idempotencyKey: "admit:project-danube:evidence-board-pack",
+        correlationId: "corr-admit"
+      })
+    ).rejects.toThrow("indexing unavailable");
+  });
+});
 
 describe("createAuthoritativeBundleWorkflowClient", () => {
   it("authorizes, analyzes, completes, and fetches the authoritative bundle in order", async () => {
@@ -277,5 +397,176 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
       })
     ).rejects.toThrow("Azure unavailable");
     expect(authority.completeAnalysisBundle).not.toHaveBeenCalled();
+  });
+
+  it("revalidates a ready bundle and skips Azure only when every authority field matches", async () => {
+    const calls: string[] = [];
+    const authority = authorityBundleClient(calls);
+    const ready = await vi.mocked(authority.getAnalysisBundle)("bundle-1");
+    vi.mocked(authority.createAnalysisBundle).mockImplementation(async () => {
+      calls.push("phase5:createBundle");
+      return ready;
+    });
+    vi.mocked(authority.getAnalysisBundle).mockImplementation(async () => {
+      calls.push("phase5:getBundle");
+      return ready;
+    });
+    calls.length = 0;
+    const supporting = { requestAnalysis: vi.fn(async () => undefined) };
+    const client = createAuthoritativeBundleWorkflowClient({ authority, supporting });
+
+    await expect(
+      client.run({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        evidenceManifestHash: "a".repeat(64),
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        promptTemplateVersion: "stratton-workbench-v2",
+        requestFingerprint: "b".repeat(64),
+        evidenceIds: ["evidence-board-pack"],
+        analystQuestion: "Challenge management EBITDA quality",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        complete: () => {
+          throw new Error("ready bundle must not be completed again");
+        }
+      })
+    ).resolves.toMatchObject({ status: "DRAFT_ONLY_READY" });
+
+    expect(calls).toEqual(["phase5:createBundle", "phase5:getBundle"]);
+    expect(supporting.requestAnalysis).not.toHaveBeenCalled();
+  });
+
+  it("fails closed instead of reusing a ready bundle from another tenant", async () => {
+    const authority = authorityBundleClient([]);
+    const ready = await authority.getAnalysisBundle("bundle-1");
+    vi.mocked(authority.createAnalysisBundle).mockResolvedValue(
+      withAuthoritativeManifest({
+        ...ready,
+        tenantId: "tenant-other"
+      })
+    );
+    const supporting = { requestAnalysis: vi.fn(async () => undefined) };
+    const client = createAuthoritativeBundleWorkflowClient({ authority, supporting });
+
+    await expect(
+      client.run({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        evidenceManifestHash: "a".repeat(64),
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        promptTemplateVersion: "stratton-workbench-v2",
+        requestFingerprint: "b".repeat(64),
+        evidenceIds: ["evidence-board-pack"],
+        analystQuestion: "Challenge management EBITDA quality",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        complete: () => {
+          throw new Error("mismatched bundle must not complete");
+        }
+      })
+    ).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: "ANALYSIS_BUNDLE_IDENTITY_MISMATCH"
+    });
+    expect(supporting.requestAnalysis).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    [
+      "case",
+      (bundle: AnalysisBundleStatus) =>
+        withAuthoritativeManifest({ ...bundle, caseId: "project-other" })
+    ],
+    [
+      "request fingerprint",
+      (bundle: AnalysisBundleStatus) => ({
+        ...bundle,
+        requestFingerprint: "d".repeat(64)
+      })
+    ],
+    [
+      "evidence manifest",
+      (bundle: AnalysisBundleStatus) => ({
+        ...bundle,
+        evidenceManifestHash: "e".repeat(64)
+      })
+    ],
+    [
+      "route evidence version",
+      (bundle: AnalysisBundleStatus) => ({
+        ...bundle,
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v2"
+      })
+    ]
+  ] as const)("rejects a ready bundle with mismatched %s", async (_label, mutate) => {
+    const authority = authorityBundleClient([]);
+    const ready = await authority.getAnalysisBundle("bundle-1");
+    vi.mocked(authority.createAnalysisBundle).mockResolvedValue(mutate(ready));
+    const supporting = { requestAnalysis: vi.fn(async () => undefined) };
+    const client = createAuthoritativeBundleWorkflowClient({ authority, supporting });
+
+    await expect(
+      client.run({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        evidenceManifestHash: "a".repeat(64),
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        promptTemplateVersion: "stratton-workbench-v2",
+        requestFingerprint: "b".repeat(64),
+        evidenceIds: ["evidence-board-pack"],
+        analystQuestion: "Challenge management EBITDA quality",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        complete: () => {
+          throw new Error("mismatched bundle must not complete");
+        }
+      })
+    ).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: "ANALYSIS_BUNDLE_IDENTITY_MISMATCH"
+    });
+    expect(supporting.requestAnalysis).not.toHaveBeenCalled();
+  });
+
+  it("rejects a reused bundle outside the ready lifecycle", async () => {
+    const authority = authorityBundleClient([]);
+    const ready = await authority.getAnalysisBundle("bundle-1");
+    vi.mocked(authority.createAnalysisBundle).mockResolvedValue({
+      ...ready,
+      status: "FAILED"
+    });
+    const supporting = { requestAnalysis: vi.fn(async () => undefined) };
+    const client = createAuthoritativeBundleWorkflowClient({ authority, supporting });
+
+    await expect(
+      client.run({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        analysisBundleId: "bundle-1",
+        evidenceManifestHash: "a".repeat(64),
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        promptTemplateVersion: "stratton-workbench-v2",
+        requestFingerprint: "b".repeat(64),
+        evidenceIds: ["evidence-board-pack"],
+        analystQuestion: "Challenge management EBITDA quality",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        complete: () => {
+          throw new Error("failed bundle must not complete");
+        }
+      })
+    ).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: "ANALYSIS_BUNDLE_LIFECYCLE_MISMATCH"
+    });
+    expect(supporting.requestAnalysis).not.toHaveBeenCalled();
   });
 });

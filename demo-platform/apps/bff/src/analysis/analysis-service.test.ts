@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import type { AnalysisFinding } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
@@ -10,7 +11,11 @@ import { routeTask } from "./model-router.js";
 
 function createAdmittedState() {
   const state = createProjectDanubeState();
-  state.evidence = state.evidence.map((evidence) => ({ ...evidence, admissionStatus: "ADMITTED" }));
+  state.evidence = state.evidence.map((evidence) => ({
+    ...evidence,
+    admissionStatus: "ADMITTED",
+    provenanceStatus: "VERIFIED"
+  }));
   return state;
 }
 
@@ -19,7 +24,11 @@ function createCoreAdmittedState() {
   state.evidence = state.evidence.map((evidence) =>
     evidence.evidenceId === "evidence-environmental-permit"
       ? evidence
-      : { ...evidence, admissionStatus: "ADMITTED" }
+      : {
+          ...evidence,
+          admissionStatus: "ADMITTED",
+          provenanceStatus: "VERIFIED"
+        }
   );
   return state;
 }
@@ -39,7 +48,7 @@ function createPhase5ClientDouble() {
 function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowClient {
   return {
     run: vi.fn(async (input) => {
-      input.complete({
+      const completion = input.complete({
         tenantId: input.tenantId,
         caseId: input.caseId,
         analysisBundleId: input.analysisBundleId,
@@ -75,8 +84,8 @@ function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowC
         requestFingerprint: input.requestFingerprint,
         status: "DRAFT_ONLY_READY",
         outputKind: "DRAFT_ONLY",
-        unsupportedClaims: 0,
-        subjectVersion: "authoritative-subject-version",
+        unsupportedClaims: completion.unsupportedClaims,
+        subjectVersion: completion.subjectVersion,
         evidence: input.evidenceIds.map((evidenceId, index) => ({
           evidenceId,
           evidenceVersionId: `${evidenceId}-v1`,
@@ -111,13 +120,11 @@ describe("routeTask", () => {
 describe("AnalysisService", () => {
   it("projects findings only after a ready authoritative bundle supplies its subject version", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
-    const phase5Client = createPhase5ClientDouble();
     const authoritativeWorkflow = createAuthoritativeBundleWorkflowDouble();
     const service = new AnalysisService({
       repository,
-      phase5Client,
       authoritativeWorkflow
-    } as ConstructorParameters<typeof AnalysisService>[0]);
+    });
 
     const result = await service.run({
       caseId: "project-danube",
@@ -125,13 +132,12 @@ describe("AnalysisService", () => {
       question: "Challenge management EBITDA quality",
       correlationId: "corr-authoritative-bundle"
     });
-
     expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(1);
-    expect(phase5Client.requestAnalysis).not.toHaveBeenCalled();
+    expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(1);
     expect(result.scenario.analysisAuthority).toEqual(
       expect.objectContaining({
         analysisBundleId: expect.stringMatching(/^bundle-/),
-        subjectVersion: "authoritative-subject-version",
+        subjectVersion: expect.stringMatching(/^[a-f0-9]{64}$/),
         status: "DRAFT_ONLY_READY"
       })
     );
@@ -142,9 +148,8 @@ describe("AnalysisService", () => {
     const authoritativeWorkflow = createAuthoritativeBundleWorkflowDouble();
     const service = new AnalysisService({
       repository,
-      phase5Client: createPhase5ClientDouble(),
       authoritativeWorkflow
-    } as ConstructorParameters<typeof AnalysisService>[0]);
+    });
     const input = {
       caseId: "project-danube" as const,
       taskClass: "CROSS_DOCUMENT_COMPARISON" as const,
@@ -155,24 +160,217 @@ describe("AnalysisService", () => {
     const first = await service.run(input);
     const second = await service.run(input);
 
-    expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(1);
+    expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(2);
     expect(second).toEqual({
       ...first,
       correlationId: "corr-repeat-authoritative-bundle"
     });
   });
 
+  it("rehydrates a missing local projection from a matching ready authoritative bundle", async () => {
+    const sourceRepository = new InMemoryScenarioRepository(createAdmittedState());
+    const sourceWorkflow = createAuthoritativeBundleWorkflowDouble();
+    const sourceService = new AnalysisService({
+      repository: sourceRepository,
+      authoritativeWorkflow: sourceWorkflow
+    });
+    const input = {
+      caseId: "project-danube" as const,
+      taskClass: "CROSS_DOCUMENT_COMPARISON" as const,
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-ready-replay"
+    };
+    const source = await sourceService.run(input);
+    const readyBundle = {
+      ...(await vi.mocked(sourceWorkflow.run).mock.results[0]!.value),
+      tenantId: "local-stratton-demo",
+      caseId: "project-danube",
+      analysisBundleId: source.analysisRunId,
+      evidenceManifestHash: source.scenario.analysisAuthority!.evidenceManifestHash,
+      modelRoute: "TERRA" as const,
+      modelDeploymentId: "terra-grounded-analysis",
+      routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+      promptTemplateVersion: source.analysisMetadata.promptTemplateVersion,
+      requestFingerprint: source.analysisMetadata.analysisRequestFingerprint,
+      status: "DRAFT_ONLY_READY" as const,
+      outputKind: "DRAFT_ONLY" as const,
+      unsupportedClaims: 0,
+      subjectVersion: source.scenario.analysisAuthority!.subjectVersion,
+      evidence: source.analysisMetadata.admittedEvidenceIds.map((evidenceId, index) => ({
+        evidenceId,
+        evidenceVersionId: `${evidenceId}-v1`,
+        ordinal: index + 1
+      })),
+      citationCounts: {
+        totalClaims: source.findings.length,
+        citedClaims: source.findings.length,
+        unsupportedClaims: 0
+      }
+    };
+    const replayWorkflow: AuthoritativeBundleWorkflowClient = {
+      run: vi.fn(async () => readyBundle)
+    };
+    const replayRepository = new InMemoryScenarioRepository(createAdmittedState());
+    const replayService = new AnalysisService({
+      repository: replayRepository,
+      authoritativeWorkflow: replayWorkflow
+    });
+
+    const replayed = await replayService.run(input);
+
+    expect(replayed.findings).toHaveLength(source.findings.length);
+    expect(replayed.scenario.analysisAuthority).toEqual(source.scenario.analysisAuthority);
+  });
+
+  it("revalidates authoritative status before returning a cached local projection", async () => {
+    const repository = new InMemoryScenarioRepository(createAdmittedState());
+    const authoritativeWorkflow = createAuthoritativeBundleWorkflowDouble();
+    const service = new AnalysisService({
+      repository,
+      authoritativeWorkflow
+    });
+    const input = {
+      caseId: "project-danube" as const,
+      taskClass: "CROSS_DOCUMENT_COMPARISON" as const,
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-authority-revalidation"
+    };
+    await service.run(input);
+    vi.mocked(authoritativeWorkflow.run).mockRejectedValueOnce(
+      new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_BUNDLE_NOT_READY_FOR_LOCAL_PROJECTION")
+    );
+
+    await expect(service.run(input)).rejects.toMatchObject({
+      message: "ANALYSIS_BUNDLE_NOT_READY_FOR_LOCAL_PROJECTION"
+    });
+    expect(authoritativeWorkflow.run).toHaveBeenCalledTimes(2);
+  });
+
+  it("tenant-scopes deterministic bundle identity for the same request fingerprint", async () => {
+    const firstWorkflow = createAuthoritativeBundleWorkflowDouble();
+    const secondWorkflow = createAuthoritativeBundleWorkflowDouble();
+    const firstService = new AnalysisService({
+      repository: new InMemoryScenarioRepository(createAdmittedState()),
+      authoritativeWorkflow: firstWorkflow,
+      getTenantId: () => "tenant-one"
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+    const secondService = new AnalysisService({
+      repository: new InMemoryScenarioRepository(createAdmittedState()),
+      authoritativeWorkflow: secondWorkflow,
+      getTenantId: () => "tenant-two"
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+    const input = {
+      caseId: "project-danube" as const,
+      taskClass: "CROSS_DOCUMENT_COMPARISON" as const,
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-tenant-bundle"
+    };
+
+    await firstService.run(input);
+    await secondService.run(input);
+
+    expect(vi.mocked(firstWorkflow.run).mock.calls[0]?.[0].analysisBundleId).not.toBe(
+      vi.mocked(secondWorkflow.run).mock.calls[0]?.[0].analysisBundleId
+    );
+  });
+
+  it("validates citations and derives unsupported claims before authority completion", async () => {
+    const authority = {
+      admitEvidence: vi.fn(),
+      createAnalysisBundle: vi.fn(async (input) => {
+        const evidence = input.evidenceIds.map((evidenceId, index) => ({
+          evidenceId,
+          evidenceVersionId: `${evidenceId}-v1`,
+          ordinal: index + 1
+        }));
+        return {
+          ...input,
+          evidenceManifestHash: createHash("sha256")
+            .update(
+              JSON.stringify({
+                tenantId: input.tenantId,
+                caseId: input.caseId,
+                evidence
+              })
+            )
+            .digest("hex"),
+          status: "QUEUED" as const,
+          outputKind: "DRAFT_ONLY" as const,
+          unsupportedClaims: 0,
+          evidence,
+          citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
+        };
+      }),
+      completeAnalysisBundle: vi.fn(),
+      getAnalysisBundle: vi.fn(),
+      submitBundleReview: vi.fn(),
+      prepareBundleDraft: vi.fn(),
+      getModelRouteEvidence: vi.fn()
+    };
+    const { createAuthoritativeBundleWorkflowClient } = await import(
+      "../phase5/governed-workflow-client.js"
+    );
+    const service = new AnalysisService({
+      repository: new InMemoryScenarioRepository(createAdmittedState()),
+      authoritativeWorkflow: createAuthoritativeBundleWorkflowClient({
+        authority,
+        supporting: { requestAnalysis: vi.fn(async () => undefined) }
+      }),
+      createFindings: (input: Parameters<NonNullable<ConstructorParameters<typeof AnalysisService>[0]["createFindings"]>>[0]) => [
+        {
+          findingId: "finding-invalid-citation",
+          title: "Invalid citation",
+          summary: "This claim cites evidence outside the authoritative manifest.",
+          materiality: "HIGH",
+          status: "DRAFT",
+          route: input.analysisMetadata.route,
+          citations: [
+            {
+              citationId: "citation-invalid",
+              evidenceId: "evidence-not-in-bundle",
+              locator: "page 1",
+              accessible: true
+            }
+          ],
+          originalAiSummary: "This claim cites evidence outside the authoritative manifest.",
+          textHistory: [],
+          analysisRunId: input.analysisMetadata.analysisRunId,
+          analysisRequestFingerprint: input.analysisMetadata.analysisRequestFingerprint,
+          authorityGateRole: input.analysisMetadata.authorityGateRole
+        }
+      ]
+    } as ConstructorParameters<typeof AnalysisService>[0]);
+
+    await expect(
+      service.run({
+        caseId: "project-danube",
+        taskClass: "CROSS_DOCUMENT_COMPARISON",
+        question: "Challenge management EBITDA quality",
+        correlationId: "corr-citation-assessment"
+      })
+    ).rejects.toMatchObject({ code: "EVIDENCE_INCOMPLETE" });
+    expect(authority.completeAnalysisBundle).not.toHaveBeenCalled();
+  });
+
+  it("fails closed when constructed without an authoritative workflow", () => {
+    expect(
+      () =>
+        new AnalysisService({
+          repository: new InMemoryScenarioRepository(createAdmittedState())
+        } as never)
+    ).toThrow("ANALYSIS_AUTHORITY_REQUIRED");
+  });
+
   it("does not project local success when authoritative completion fails", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const service = new AnalysisService({
       repository,
-      phase5Client: createPhase5ClientDouble(),
       authoritativeWorkflow: {
         run: vi.fn(async () => {
           throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "COMPLETION_FAILED");
         })
       }
-    } as ConstructorParameters<typeof AnalysisService>[0]);
+    });
 
     await expect(
       service.run({
@@ -189,9 +387,13 @@ describe("AnalysisService", () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const service = new AnalysisService({
       repository,
-      phase5Client: createPhase5ClientDouble(),
       authoritativeWorkflow: {
         run: vi.fn(async (input) => {
+          const evidence = input.evidenceIds.map((evidenceId, index) => ({
+            evidenceId,
+            evidenceVersionId: `${evidenceId}-v1`,
+            ordinal: index + 1
+          }));
           input.complete({
             tenantId: input.tenantId,
             caseId: input.caseId,
@@ -205,7 +407,7 @@ describe("AnalysisService", () => {
             status: "QUEUED",
             outputKind: "DRAFT_ONLY",
             unsupportedClaims: 0,
-            evidence: [],
+            evidence,
             citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
           });
           return {
@@ -221,12 +423,12 @@ describe("AnalysisService", () => {
             status: "DRAFT_ONLY_READY" as const,
             outputKind: "DRAFT_ONLY" as const,
             unsupportedClaims: 0,
-            evidence: [],
+            evidence,
             citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
           };
         })
       }
-    } as ConstructorParameters<typeof AnalysisService>[0]);
+    });
 
     await expect(
       service.run({
@@ -249,6 +451,7 @@ describe("AnalysisService", () => {
 
     const service = new AnalysisService({
       repository: new InMemoryScenarioRepository(state),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     });
 
@@ -265,7 +468,11 @@ describe("AnalysisService", () => {
   it("routes the grounded workbench flow to Terra and stores draft findings with governance evidence", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const phase5Client = createPhase5ClientDouble();
-    const service = new AnalysisService({ repository, phase5Client });
+    const service = new AnalysisService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const result = await service.run({
       caseId: "project-danube",
@@ -458,7 +665,11 @@ describe("AnalysisService", () => {
   it("does not require permit evidence for the EBITDA flow and suppresses the permit finding until admitted", async () => {
     const repository = new InMemoryScenarioRepository(createCoreAdmittedState());
     const phase5Client = createPhase5ClientDouble();
-    const service = new AnalysisService({ repository, phase5Client });
+    const service = new AnalysisService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const result = await service.run({
       caseId: "project-danube",
@@ -482,6 +693,7 @@ describe("AnalysisService", () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const service = new AnalysisService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     });
 
@@ -508,6 +720,7 @@ describe("AnalysisService", () => {
   it("changes the governed analysis fingerprint when the question or admitted evidence set changes", async () => {
     const firstResult = await new AnalysisService({
       repository: new InMemoryScenarioRepository(createCoreAdmittedState()),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     }).run({
       caseId: "project-danube",
@@ -518,6 +731,7 @@ describe("AnalysisService", () => {
 
     const secondResult = await new AnalysisService({
       repository: new InMemoryScenarioRepository(createCoreAdmittedState()),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     }).run({
       caseId: "project-danube",
@@ -528,6 +742,7 @@ describe("AnalysisService", () => {
 
     const thirdResult = await new AnalysisService({
       repository: new InMemoryScenarioRepository(createAdmittedState()),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     }).run({
       caseId: "project-danube",
@@ -569,7 +784,11 @@ describe("AnalysisService", () => {
       reset: vi.fn(async () => undefined)
     };
     const phase5Client = createPhase5ClientDouble();
-    const service = new AnalysisService({ repository, phase5Client });
+    const service = new AnalysisService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const result = await service.run({
       caseId: "project-danube",
@@ -592,6 +811,7 @@ describe("AnalysisService", () => {
     });
     const concurrentResult = await new AnalysisService({
       repository: new InMemoryScenarioRepository(createAdmittedState()),
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: concurrentPhase5Client
     }).run({
       caseId: "project-danube",
@@ -622,7 +842,11 @@ describe("AnalysisService", () => {
       reset: vi.fn(async () => undefined)
     };
     const phase5Client = createPhase5ClientDouble();
-    const service = new AnalysisService({ repository, phase5Client });
+    const service = new AnalysisService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     await expect(
       service.run({
@@ -645,6 +869,7 @@ describe("AnalysisService", () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const service = new AnalysisService({
       repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
       phase5Client: createPhase5ClientDouble()
     });
 

@@ -18,9 +18,21 @@ function testDependencies() {
 
   return {
     scenarioService: new ScenarioService(repository),
-    evidenceService: new EvidenceService({ repository, phase5Client }),
-    analysisService: new AnalysisService({ repository, phase5Client }),
-    reviewService: new ReviewService({ repository, phase5Client }),
+    evidenceService: new EvidenceService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    }),
+    analysisService: new AnalysisService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    }),
+    reviewService: new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    }),
     governanceService: new GovernanceService({ repository })
   };
 }
@@ -233,14 +245,16 @@ function createDecisionRoomState(includeLegalApproval = false) {
       reviewType: "DEAL",
       decision: "APPROVED",
       findingId: "finding-ebitda-quality",
-      subjectVersion: "finding-ebitda-quality-v2"
+      subjectVersion: "finding-ebitda-quality-v2",
+      projectionVersion: "finding-ebitda-quality-v2"
     },
     {
       reviewId: "review-compliance",
       reviewType: "COMPLIANCE",
       decision: "APPROVED",
       findingId: "finding-permit-transfer",
-      subjectVersion: "finding-permit-transfer-v2"
+      subjectVersion: "finding-permit-transfer-v2",
+      projectionVersion: "finding-permit-transfer-v2"
     }
   ];
 
@@ -250,7 +264,8 @@ function createDecisionRoomState(includeLegalApproval = false) {
       reviewType: "LEGAL",
       decision: "APPROVED",
       findingId: "finding-permit-transfer",
-      subjectVersion: "finding-permit-transfer-v2"
+      subjectVersion: "finding-permit-transfer-v2",
+      projectionVersion: "finding-permit-transfer-v2"
     });
     const analysisRequestFingerprint =
       state.latestAnalysisRun?.analysisRequestFingerprint;
@@ -453,9 +468,21 @@ describe("createDemoServer", () => {
     const response = await request(
       createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({ repository, phase5Client }),
-        analysisService: new AnalysisService({ repository, phase5Client }),
-        reviewService: new ReviewService({ repository, phase5Client }),
+        evidenceService: new EvidenceService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
+        analysisService: new AnalysisService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
+        reviewService: new ReviewService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
         governanceService: new GovernanceService({ repository })
       })
     ).get("/api/governance");
@@ -565,10 +592,12 @@ describe("createDemoServer", () => {
         scenarioService: new ScenarioService(repository),
         evidenceService: new EvidenceService({
           repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
           phase5Client: createPhase5ClientDouble()
         }),
         analysisService: new AnalysisService({
           repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
           phase5Client: createPhase5ClientDouble()
         })
       })
@@ -599,7 +628,11 @@ describe("createDemoServer", () => {
   it("rejects client-controlled authority headers", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const phase5Client = createPhase5ClientDouble();
-    const analysisService = new AnalysisService({ repository, phase5Client });
+    const analysisService = new AnalysisService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
     await analysisService.run({
       caseId: "project-danube",
       taskClass: "CROSS_DOCUMENT_COMPARISON",
@@ -610,7 +643,11 @@ describe("createDemoServer", () => {
     const response = await request(
       createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({ repository, phase5Client }),
+        evidenceService: new EvidenceService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
         analysisService
       })
     )
@@ -666,13 +703,25 @@ describe("createDemoServer", () => {
   it("records a human specialist review through the review endpoint", async () => {
     const repository = new InMemoryScenarioRepository(createDecisionRoomState());
     const phase5Client = createPhase5ClientDouble();
-    const reviewService = new ReviewService({ repository, phase5Client });
+    const reviewService = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const response = await request(
       createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({ repository, phase5Client }),
-        analysisService: new AnalysisService({ repository, phase5Client }),
+        evidenceService: new EvidenceService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
+        analysisService: new AnalysisService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
         reviewService
       })
     )
@@ -709,13 +758,25 @@ describe("createDemoServer", () => {
   it("rejects stale review requests before forwarding them to Phase 5", async () => {
     const repository = new InMemoryScenarioRepository(createDecisionRoomState());
     const phase5Client = createPhase5ClientDouble();
-    const reviewService = new ReviewService({ repository, phase5Client });
+    const reviewService = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const response = await request(
       createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({ repository, phase5Client }),
-        analysisService: new AnalysisService({ repository, phase5Client }),
+        evidenceService: new EvidenceService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
+        analysisService: new AnalysisService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
         reviewService
       })
     )
@@ -740,13 +801,25 @@ describe("createDemoServer", () => {
   it("blocks committee-pack preparation until every required approval is recorded", async () => {
     const repository = new InMemoryScenarioRepository(createDecisionRoomState());
     const phase5Client = createPhase5ClientDouble();
-    const reviewService = new ReviewService({ repository, phase5Client });
+    const reviewService = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const response = await request(
       createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({ repository, phase5Client }),
-        analysisService: new AnalysisService({ repository, phase5Client }),
+        evidenceService: new EvidenceService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
+        analysisService: new AnalysisService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
         reviewService
       })
     )
@@ -764,13 +837,25 @@ describe("createDemoServer", () => {
   it("prepares the committee-pack draft when Deal, Legal, and Compliance approve the reviewed findings", async () => {
     const repository = new InMemoryScenarioRepository(createDecisionRoomState(true));
     const phase5Client = createPhase5ClientDouble();
-    const reviewService = new ReviewService({ repository, phase5Client });
+    const reviewService = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client
+    });
 
     const response = await request(
       createLocalDemoServer({
         scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({ repository, phase5Client }),
-        analysisService: new AnalysisService({ repository, phase5Client }),
+        evidenceService: new EvidenceService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
+        analysisService: new AnalysisService({
+          repository,
+          compatibilityMode: "LEGACY_TEST_ONLY",
+          phase5Client
+        }),
         reviewService
       })
     )
@@ -906,6 +991,7 @@ describe("createWorkflowClient", () => {
     const localAuthorityFactory = vi.fn(() => ({} as never));
     const authorityClient = {} as never;
     const supportingAnalysis = {
+      afterEvidenceAdmitted: vi.fn(),
       requestAnalysis: vi.fn()
     };
     const adapters = {
@@ -964,6 +1050,7 @@ describe("createWorkflowClient", () => {
       })
     );
     expect(client.analysis).toEqual(expect.objectContaining({ run: expect.any(Function) }));
+    expect(client.evidence).toEqual(expect.objectContaining({ admit: expect.any(Function) }));
   });
 });
 

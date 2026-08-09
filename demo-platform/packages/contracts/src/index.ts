@@ -182,7 +182,8 @@ export const scenarioStateSchema = z
             reviewType: reviewTypeSchema,
             decision: reviewDecisionSchema,
             findingId: z.string().min(1),
-            subjectVersion: z.string().min(1)
+            subjectVersion: z.string().min(1),
+            projectionVersion: z.string().min(1).optional()
           })
           .strict()
       ),

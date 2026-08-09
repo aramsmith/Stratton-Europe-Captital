@@ -13,6 +13,7 @@ import type {
   ScenarioState
 } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
+import type { AnalysisBundleStatus } from "../phase5/demo-authority-client.js";
 import type { AuthoritativeBundleWorkflowClient } from "../phase5/governed-workflow-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
 import type { ScenarioRepository } from "../scenario/scenario-repository.js";
@@ -39,14 +40,36 @@ const humanAnalystAuthorityGateRole: AuthorityGateRole = "HUMAN_ANALYST_REVIEW_G
 const rerunConflictMessage =
   "Analysis rerun is blocked because governed findings already contain text history or human dispositions. Create a versioned cycle before rerunning.";
 
-interface AnalysisServiceDependencies {
+interface AnalysisFindingsFactoryInput {
+  readonly analysisMetadata: AnalysisRunMetadata;
+  readonly includePermitTransferFinding: boolean;
+  readonly occurredAtIso: string;
+  readonly createId: () => string;
+}
+
+interface AnalysisServiceCommonDependencies {
   readonly repository: ScenarioRepository;
-  readonly phase5Client?: Phase5Client;
-  readonly authoritativeWorkflow?: AuthoritativeBundleWorkflowClient;
   readonly getTenantId?: () => string;
   readonly createId?: () => string;
   readonly now?: () => string;
+  readonly createFindings?: (
+    input: AnalysisFindingsFactoryInput
+  ) => readonly AnalysisFinding[];
 }
+
+type AnalysisServiceDependencies = AnalysisServiceCommonDependencies &
+  (
+    | {
+        readonly authoritativeWorkflow: AuthoritativeBundleWorkflowClient;
+        readonly compatibilityMode?: never;
+        readonly phase5Client?: never;
+      }
+    | {
+        readonly compatibilityMode: "LEGACY_TEST_ONLY";
+        readonly phase5Client: Phase5Client;
+        readonly authoritativeWorkflow?: never;
+      }
+  );
 
 interface RunAnalysisInput extends Omit<AnalysisRunRequest, "caseId"> {
   readonly caseId: string;
@@ -64,11 +87,29 @@ export class AnalysisService {
   private readonly createId: () => string;
   private readonly now: () => string;
   private readonly getTenantId: () => string;
+  private readonly createFindings: (
+    input: AnalysisFindingsFactoryInput
+  ) => readonly AnalysisFinding[];
+  private readonly authoritativeWorkflow?: AuthoritativeBundleWorkflowClient;
+  private readonly phase5Client?: Phase5Client;
 
   public constructor(private readonly dependencies: AnalysisServiceDependencies) {
+    if (dependencies.compatibilityMode === "LEGACY_TEST_ONLY") {
+      if (!dependencies.phase5Client) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+      }
+      this.phase5Client = dependencies.phase5Client;
+    } else {
+      if (!dependencies.authoritativeWorkflow) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
+      }
+      this.authoritativeWorkflow = dependencies.authoritativeWorkflow;
+    }
     this.createId = dependencies.createId ?? randomUUID;
     this.now = dependencies.now ?? (() => new Date().toISOString());
     this.getTenantId = dependencies.getTenantId ?? (() => "local-stratton-demo");
+    this.createFindings =
+      dependencies.createFindings ?? runLocalGovernedScenarioAnalysisAdapter;
   }
 
   public async run(input: RunAnalysisInput): Promise<AnalysisRunResponse> {
@@ -79,6 +120,7 @@ export class AnalysisService {
           readonly findings: readonly AnalysisFinding[];
           readonly response: { analysisRunId: string; status: "QUEUED" };
           readonly analysisAuthority?: NonNullable<ScenarioState["analysisAuthority"]>;
+          readonly authoritativeBundle?: AnalysisBundleStatus;
         }
       | undefined;
 
@@ -87,31 +129,7 @@ export class AnalysisService {
       const state = snapshot.state;
       assertCaseId(state, input.caseId);
 
-      if (state.analysisAuthority && state.latestAnalysisRun) {
-        const requestedMetadata = createAnalysisRunMetadata({
-          caseId: input.caseId,
-          taskClass: input.taskClass,
-          route,
-          analystQuestion: input.question,
-          admittedEvidenceIds: listAdmittedEvidenceIds(state)
-        });
-        if (
-          state.latestAnalysisRun.analysisRequestFingerprint ===
-          requestedMetadata.analysisRequestFingerprint
-        ) {
-          return {
-            analysisRunId: state.latestAnalysisRun.analysisRunId,
-            route,
-            scenario: state,
-            findings: state.findings,
-            correlationId: input.correlationId,
-            analysisMetadata: state.latestAnalysisRun
-          };
-        }
-      }
-
       if (!analysisArtifacts) {
-        assertAnalysisRerunAllowed(state);
         assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
 
         const admittedEvidenceIds = listAdmittedEvidenceIds(state);
@@ -122,12 +140,16 @@ export class AnalysisService {
           analystQuestion: input.question,
           admittedEvidenceIds
         });
-        if (this.dependencies.authoritativeWorkflow) {
-          const analysisBundleId =
-            `bundle-${analysisMetadataWithoutRunId.analysisRequestFingerprint}`;
+        if (this.authoritativeWorkflow) {
+          const tenantId = this.getTenantId();
+          const analysisBundleId = createTenantScopedBundleId(
+            tenantId,
+            input.caseId,
+            analysisMetadataWithoutRunId.analysisRequestFingerprint
+          );
           let findings: readonly AnalysisFinding[] | undefined;
-          const authoritativeBundle = await this.dependencies.authoritativeWorkflow.run({
-            tenantId: this.getTenantId(),
+          const authoritativeBundle = await this.authoritativeWorkflow.run({
+            tenantId,
             caseId: input.caseId,
             analysisBundleId,
             evidenceManifestHash: createEvidenceManifestHash(
@@ -146,7 +168,7 @@ export class AnalysisService {
                 ...analysisMetadataWithoutRunId,
                 analysisRunId: acceptedBundle.analysisBundleId
               };
-              findings = runLocalGovernedScenarioAnalysisAdapter({
+              findings = this.createFindings({
                 analysisMetadata: metadata,
                 includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
                   "evidence-environmental-permit"
@@ -154,23 +176,24 @@ export class AnalysisService {
                 occurredAtIso: this.now(),
                 createId: this.createId
               });
+              const citationAssessment = assessOutputCitations(
+                state,
+                acceptedBundle,
+                findings
+              );
               return {
                 tenantId: acceptedBundle.tenantId,
                 caseId: acceptedBundle.caseId,
                 analysisBundleId: acceptedBundle.analysisBundleId,
-                subjectVersion: createOutputManifestHash(findings),
+                subjectVersion: createOutputManifestHash(
+                  acceptedBundle,
+                  findings
+                ),
                 status: "DRAFT_ONLY_READY",
-                unsupportedClaims: 0
+                unsupportedClaims: citationAssessment.unsupportedClaims
               };
             }
           });
-          if (!findings) {
-            throw new DemoHttpError(
-              503,
-              "DEPENDENCY_UNAVAILABLE",
-              "AUTHORITATIVE_BUNDLE_OUTPUT_UNAVAILABLE"
-            );
-          }
           if (!authoritativeBundle.subjectVersion) {
             throw new DemoHttpError(
               409,
@@ -178,11 +201,40 @@ export class AnalysisService {
               "ANALYSIS_BUNDLE_SUBJECT_VERSION_REQUIRED"
             );
           }
-          const projectedFindings = findings;
           const metadata: AnalysisRunMetadata = {
             ...analysisMetadataWithoutRunId,
             analysisRunId: authoritativeBundle.analysisBundleId
           };
+          const projectedFindings =
+            findings ??
+            this.createFindings({
+              analysisMetadata: metadata,
+              includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
+                "evidence-environmental-permit"
+              ),
+              occurredAtIso: this.now(),
+              createId: this.createId
+            });
+          const citationAssessment = assessOutputCitations(
+            state,
+            authoritativeBundle,
+            projectedFindings
+          );
+          const outputManifestHash = createOutputManifestHash(
+            authoritativeBundle,
+            projectedFindings
+          );
+          if (
+            authoritativeBundle.subjectVersion !== outputManifestHash ||
+            authoritativeBundle.unsupportedClaims !==
+              citationAssessment.unsupportedClaims
+          ) {
+            throw new DemoHttpError(
+              409,
+              "STATE_CONFLICT",
+              "ANALYSIS_BUNDLE_OUTPUT_MISMATCH"
+            );
+          }
           analysisArtifacts = {
             metadata,
             findings: projectedFindings,
@@ -195,13 +247,14 @@ export class AnalysisService {
               evidenceManifestHash: authoritativeBundle.evidenceManifestHash,
               subjectVersion: authoritativeBundle.subjectVersion,
               status: "DRAFT_ONLY_READY"
-            }
+            },
+            authoritativeBundle
           };
         } else {
-          if (!this.dependencies.phase5Client) {
+          if (!this.phase5Client) {
             throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_AUTHORITY_REQUIRED");
           }
-          const response = await this.dependencies.phase5Client.requestAnalysis({
+          const response = await this.phase5Client.requestAnalysis({
             caseId: input.caseId,
             evidenceIds: analysisMetadataWithoutRunId.admittedEvidenceIds,
             analystQuestion: analysisMetadataWithoutRunId.analystQuestion,
@@ -219,7 +272,7 @@ export class AnalysisService {
             ...analysisMetadataWithoutRunId,
             analysisRunId: response.analysisRunId
           };
-          const findings = runLocalGovernedScenarioAnalysisAdapter({
+          const findings = this.createFindings({
             analysisMetadata: metadata,
             includePermitTransferFinding: metadata.admittedEvidenceIds.includes(
               "evidence-environmental-permit"
@@ -234,9 +287,18 @@ export class AnalysisService {
             response
           };
         }
-      } else if (
+      }
+
+      if (!analysisArtifacts) {
+        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_ARTIFACTS_UNAVAILABLE");
+      }
+
+      const isSameRequest =
         state.latestAnalysisRun?.analysisRequestFingerprint ===
-        analysisArtifacts?.metadata.analysisRequestFingerprint
+        analysisArtifacts.metadata.analysisRequestFingerprint;
+      if (
+        isSameRequest &&
+        isCurrentLocalProjection(state, analysisArtifacts)
       ) {
         return {
           analysisRunId: analysisArtifacts.response.analysisRunId,
@@ -248,11 +310,14 @@ export class AnalysisService {
         };
       }
 
-      assertAnalysisRerunAllowed(state);
-      assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
-      if (!analysisArtifacts) {
-        throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", "ANALYSIS_ARTIFACTS_UNAVAILABLE");
+      if (
+        !isSameRequest ||
+        hasHumanFindingHistory(state) ||
+        !analysisArtifacts.analysisAuthority
+      ) {
+        assertAnalysisRerunAllowed(state);
       }
+      assertEvidenceAdmitted(state, requiredCoreEvidenceIds);
       assertFindingCitationsAdmitted(state, analysisArtifacts.findings);
       const governedAnalysisEventMetadata = createGovernedAnalysisEventMetadata(
         analysisArtifacts.metadata,
@@ -582,6 +647,7 @@ function assertFindingCitationsAdmitted(state: ScenarioState, findings: readonly
       (citation) =>
         citation.accessible !== true ||
         evidenceById.get(citation.evidenceId)?.admissionStatus !== "ADMITTED" ||
+        evidenceById.get(citation.evidenceId)?.provenanceStatus !== "VERIFIED" ||
         !hasValidLicence(evidenceById.get(citation.evidenceId))
     )
   );
@@ -607,6 +673,12 @@ function hasValidLicence(
 
 function hasGovernedFindingHistory(state: ScenarioState): boolean {
   return state.findings.some((finding) => finding.status !== "DRAFT" || finding.textHistory.length > 0);
+}
+
+function hasHumanFindingHistory(state: ScenarioState): boolean {
+  return state.findings.some((finding) =>
+    finding.textHistory.some((version) => version.actorType === "HUMAN")
+  );
 }
 
 function hasVersionedAnalysisCycle(): boolean {
@@ -681,18 +753,135 @@ function createEvidenceManifestHash(evidenceIds: readonly string[]): string {
   return hashValue(JSON.stringify([...evidenceIds]));
 }
 
-function createOutputManifestHash(findings: readonly AnalysisFinding[]): string {
-  return hashValue(
-    JSON.stringify(
-      findings.map((finding) => ({
-        findingId: finding.findingId,
-        summary: finding.summary,
-        citations: finding.citations.map((citation) => ({
-          evidenceId: citation.evidenceId,
-          locator: citation.locator
-        }))
+function createTenantScopedBundleId(
+  tenantId: string,
+  caseId: string,
+  requestFingerprint: string
+): string {
+  return `bundle-${hashValue(JSON.stringify({ tenantId, caseId, requestFingerprint }))}`;
+}
+
+function createOutputManifestHash(
+  bundle: AnalysisBundleStatus,
+  findings: readonly AnalysisFinding[]
+): string {
+  const evidenceVersionById = new Map(
+    bundle.evidence.map((item) => [item.evidenceId, item.evidenceVersionId] as const)
+  );
+  const claims = findings
+    .map((finding) => ({
+      claimId: finding.findingId,
+      claimTextReference: finding.summary
+    }))
+    .sort((left, right) => left.claimId.localeCompare(right.claimId));
+  const citations = findings
+    .flatMap((finding) =>
+      finding.citations.map((citation) => ({
+        citationId: citation.citationId,
+        claimId: finding.findingId,
+        evidenceVersionId:
+          evidenceVersionById.get(citation.evidenceId) ?? "missing-evidence-version",
+        locator: citation.locator
       }))
     )
+    .sort((left, right) => left.citationId.localeCompare(right.citationId));
+
+  return hashValue(
+    JSON.stringify(
+      {
+        tenantId: bundle.tenantId,
+        caseId: bundle.caseId,
+        analysisRunId: bundle.analysisBundleId,
+        claims,
+        citations
+      }
+    )
+  );
+}
+
+function assessOutputCitations(
+  state: ScenarioState,
+  bundle: AnalysisBundleStatus,
+  findings: readonly AnalysisFinding[]
+): {
+  readonly totalClaims: number;
+  readonly citedClaims: number;
+  readonly unsupportedClaims: number;
+} {
+  const evidenceById = new Map(
+    state.evidence.map((evidence) => [evidence.evidenceId, evidence] as const)
+  );
+  const bundleEvidenceIds = new Set(bundle.evidence.map((item) => item.evidenceId));
+  let citedClaims = 0;
+
+  for (const finding of findings) {
+    const citationsValid =
+      finding.citations.length > 0 &&
+      finding.citations.every((citation) => {
+        const evidence = evidenceById.get(citation.evidenceId);
+        return (
+          citation.accessible === true &&
+          bundleEvidenceIds.has(citation.evidenceId) &&
+          evidence?.admissionStatus === "ADMITTED" &&
+          evidence.provenanceStatus === "VERIFIED" &&
+          hasValidLicence(evidence)
+        );
+      });
+    if (citationsValid) {
+      citedClaims += 1;
+    }
+  }
+
+  const assessment = {
+    totalClaims: findings.length,
+    citedClaims,
+    unsupportedClaims: findings.length - citedClaims
+  };
+  if (
+    assessment.totalClaims === 0 ||
+    assessment.unsupportedClaims !== 0
+  ) {
+    throw new DemoHttpError(
+      422,
+      "EVIDENCE_INCOMPLETE",
+      "ANALYSIS_OUTPUT_CITATION_ASSESSMENT_FAILED"
+    );
+  }
+  return assessment;
+}
+
+function isCurrentLocalProjection(
+  state: ScenarioState,
+  artifacts: {
+    readonly metadata: AnalysisRunMetadata;
+    readonly findings: readonly AnalysisFinding[];
+    readonly analysisAuthority?: NonNullable<ScenarioState["analysisAuthority"]>;
+    readonly authoritativeBundle?: AnalysisBundleStatus;
+  }
+): boolean {
+  if (
+    !state.latestAnalysisRun ||
+    !state.analysisAuthority ||
+    !artifacts.analysisAuthority ||
+    !artifacts.authoritativeBundle ||
+    state.findings.length === 0
+  ) {
+    return false;
+  }
+
+  return (
+    state.latestAnalysisRun.analysisRequestFingerprint ===
+      artifacts.metadata.analysisRequestFingerprint &&
+    state.latestAnalysisRun.analysisRunId === artifacts.metadata.analysisRunId &&
+    state.analysisAuthority.analysisBundleId ===
+      artifacts.analysisAuthority.analysisBundleId &&
+    state.analysisAuthority.evidenceManifestHash ===
+      artifacts.analysisAuthority.evidenceManifestHash &&
+    state.analysisAuthority.subjectVersion ===
+      artifacts.analysisAuthority.subjectVersion &&
+    state.analysisAuthority.status === "DRAFT_ONLY_READY" &&
+    createOutputManifestHash(artifacts.authoritativeBundle, state.findings) ===
+      artifacts.analysisAuthority.subjectVersion
   );
 }
 
