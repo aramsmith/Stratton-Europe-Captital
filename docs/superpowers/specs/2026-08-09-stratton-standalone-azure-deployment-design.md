@@ -148,11 +148,15 @@ deployable file and is never supplied to Azure.
    - Confirm subscription, tenant, deployment identity, region, resource providers, policy, naming,
      SKU availability, Azure OpenAI model availability, and quota.
    - Stop without changes if any mandatory dependency is unavailable.
-2. **Entra foundation**
-   - Create or reconcile app registrations, permissions, consent, and non-secret identifiers.
-3. **Platform provisioning**
-   - Create the resource group, network, Container Apps environment, registry, monitoring, private
-     SQL, data, messaging, Search, Document Intelligence, and Azure OpenAI resources.
+2. **Platform foundation**
+   - Create the resource group, network, managed identities, Container Apps environment, registry,
+     monitoring, private SQL, data, messaging, Search, Document Intelligence, and Azure OpenAI
+     resources without activating application revisions.
+3. **Entra foundation**
+   - Create or reconcile app registrations, permissions, consent, federated credentials, and
+     non-secret identifiers using the deployed managed-identity IDs.
+   - Use the local development SPA redirect initially; reconcile the exact deployed web redirect
+     after application rollout.
 4. **Image build**
    - Build web, BFF, and Phase 5 API images through ACR.
    - Resolve and record immutable SHA-256 digests.
@@ -163,12 +167,16 @@ deployable file and is never supplied to Azure.
 6. **Application deployment**
    - Deploy the public web app and internal BFF and Phase 5 apps using real IDs, endpoints, and
      immutable digests.
+   - Reconcile the web app registration with the exact deployed HTTPS redirect URI.
 7. **Verification**
    - Confirm health, identity, private SQL resolution, OBO, completion identity, route authority,
      browser sign-in, and the complete Project Danube scenario.
 
 Every stage is incremental and fail closed. The exact Azure what-if is presented for approval before
-resource creation. Destructive operations require separate confirmation.
+each resource stage. The foundation what-if precedes creation of the resource group and shared
+platform. A second application what-if uses the real Entra IDs and immutable image digests before
+activating web, BFF, Phase 5, or bootstrap-job resources. Destructive operations require separate
+confirmation.
 
 ## Error handling and rollback
 
@@ -193,10 +201,11 @@ Before any Azure change:
 - validate scripts without emitting secrets; and
 - run a read-only provider, policy, quota, and resource inventory.
 
-Before deployment:
+Before each resource stage:
 
 - run an Azure what-if;
-- verify it contains only the approved resource group and intended resources;
+- verify it contains only the approved resource group and the intended foundation or application
+  resources for that stage;
 - confirm no deletes and no unrelated modifications; and
 - obtain explicit approval.
 
@@ -223,4 +232,3 @@ The new section includes the approved topology, the meaning and responsibility o
 subscription and region, deployment stages, prerequisites, cost posture, fail-closed controls, and
 post-deployment verification. The SharePoint-safe edition must retain its existing no-external-
 resource and sandbox-safe constraints.
-
