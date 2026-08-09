@@ -1,0 +1,182 @@
+targetScope = 'subscription'
+
+@description('Subscription that owns the standalone foundation and supplies globally unique name entropy.')
+@minLength(36)
+@maxLength(36)
+param subscriptionId string
+
+@description('Microsoft Entra tenant ID for Entra-only Azure SQL authentication.')
+@minLength(36)
+@maxLength(36)
+param tenantId string
+
+@description('Azure region for standalone foundation resources.')
+param location string
+
+@description('Resource group created by this subscription-scoped deployment.')
+param resourceGroupName string
+
+@description('Environment label applied to all foundation resources.')
+param environmentName string
+
+@description('Microsoft Entra object ID of the Azure SQL administrator.')
+@minLength(36)
+@maxLength(36)
+param entraAdministratorObjectId string
+
+@description('Microsoft Entra login of the Azure SQL administrator.')
+param entraAdministratorLogin string
+
+@description('Azure OpenAI region validated by the deployment preflight.')
+param openAiLocation string
+
+@description('Luna model selected by the deployment preflight.')
+param lunaModelName string
+param lunaModelVersion string
+@minValue(1)
+param lunaModelCapacity int
+
+@description('Terra model selected by the deployment preflight.')
+param terraModelName string
+param terraModelVersion string
+@minValue(1)
+param terraModelCapacity int
+
+@description('Sol model selected by the deployment preflight.')
+param solModelName string
+param solModelVersion string
+@minValue(1)
+param solModelCapacity int
+
+param namePrefix string = 'stratton-demo'
+param tags object = {}
+
+var effectiveTags = union(tags, {
+  'stratton.environment': environmentName
+  'stratton.workload': 'demo-platform'
+})
+var uniqueSuffix = uniqueString(subscriptionId, resourceGroupName)
+var registryName = toLower(take('${replace(namePrefix, '-', '')}acr${uniqueSuffix}', 50))
+var sqlServerName = toLower(take('${replace(namePrefix, '-', '')}sql${uniqueSuffix}', 63))
+var storageAccountName = toLower(take('${replace(namePrefix, '-', '')}st${uniqueSuffix}', 24))
+var serviceBusNamespaceName = toLower(take('${namePrefix}-sb-${uniqueSuffix}', 50))
+var searchServiceName = toLower(take('${namePrefix}-search-${uniqueSuffix}', 60))
+var documentIntelligenceAccountName = toLower(take('${namePrefix}-docint-${uniqueSuffix}', 64))
+var openAiAccountName = toLower(take('${namePrefix}-openai-${uniqueSuffix}', 64))
+
+resource deploymentResourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+  name: resourceGroupName
+  location: location
+  tags: effectiveTags
+}
+
+module network './modules/network/main.bicep' = {
+  name: '${namePrefix}-network'
+  scope: deploymentResourceGroup
+  params: {
+    location: location
+    namePrefix: namePrefix
+    tags: effectiveTags
+  }
+}
+
+module operations './modules/operations/main.bicep' = {
+  name: '${namePrefix}-operations'
+  scope: deploymentResourceGroup
+  params: {
+    location: location
+    namePrefix: namePrefix
+    tags: effectiveTags
+    containerAppsSubnetId: network.outputs.containerAppsSubnetId
+    registryName: registryName
+  }
+}
+
+module data './modules/data/main.bicep' = {
+  name: '${namePrefix}-data'
+  scope: deploymentResourceGroup
+  params: {
+    location: location
+    namePrefix: namePrefix
+    tags: effectiveTags
+    tenantId: tenantId
+    entraAdministratorObjectId: entraAdministratorObjectId
+    entraAdministratorLogin: entraAdministratorLogin
+    privateEndpointsSubnetId: network.outputs.privateEndpointsSubnetId
+    sqlPrivateDnsZoneId: network.outputs.sqlPrivateDnsZoneId
+    sqlServerName: sqlServerName
+    storageAccountName: storageAccountName
+    serviceBusNamespaceName: serviceBusNamespaceName
+    searchServiceName: searchServiceName
+  }
+}
+
+module ai './modules/ai/main.bicep' = {
+  name: '${namePrefix}-ai'
+  scope: deploymentResourceGroup
+  params: {
+    location: location
+    openAiLocation: openAiLocation
+    tags: effectiveTags
+    documentIntelligenceAccountName: documentIntelligenceAccountName
+    openAiAccountName: openAiAccountName
+    lunaModelName: lunaModelName
+    lunaModelVersion: lunaModelVersion
+    lunaModelCapacity: lunaModelCapacity
+    terraModelName: terraModelName
+    terraModelVersion: terraModelVersion
+    terraModelCapacity: terraModelCapacity
+    solModelName: solModelName
+    solModelVersion: solModelVersion
+    solModelCapacity: solModelCapacity
+  }
+}
+
+output resourceGroupId string = deploymentResourceGroup.id
+output containerAppsEnvironmentId string = operations.outputs.containerAppsEnvironmentId
+output containerRegistryId string = operations.outputs.containerRegistryId
+output containerRegistryServer string = operations.outputs.containerRegistryServer
+output logAnalyticsWorkspaceId string = operations.outputs.logAnalyticsWorkspaceId
+output sqlServerResourceId string = data.outputs.sqlServerResourceId
+output sqlServerFqdn string = data.outputs.sqlServerFqdn
+output sqlDatabaseName string = data.outputs.sqlDatabaseName
+output sqlDatabaseResourceId string = data.outputs.sqlDatabaseResourceId
+output blobStorageAccountName string = data.outputs.blobStorageAccountName
+output blobStorageAccountResourceId string = data.outputs.blobStorageAccountResourceId
+output blobStorageAccountUrl string = data.outputs.blobStorageAccountUrl
+output blobContainerName string = data.outputs.blobContainerName
+output serviceBusFqdn string = data.outputs.serviceBusFqdn
+output serviceBusNamespaceResourceId string = data.outputs.serviceBusNamespaceResourceId
+output serviceBusQueueName string = data.outputs.serviceBusQueueName
+output ingestionQueueName string = data.outputs.ingestionQueueName
+output extractionQueueName string = data.outputs.extractionQueueName
+output indexingQueueName string = data.outputs.indexingQueueName
+output searchEndpoint string = data.outputs.searchEndpoint
+output searchServiceResourceId string = data.outputs.searchServiceResourceId
+output searchIndexName string = data.outputs.searchIndexName
+output documentIntelligenceEndpoint string = ai.outputs.documentIntelligenceEndpoint
+output documentIntelligenceAccountResourceId string = ai.outputs.documentIntelligenceAccountResourceId
+output lunaOpenAiEndpoint string = ai.outputs.lunaOpenAiEndpoint
+output lunaOpenAiAccountResourceId string = ai.outputs.lunaOpenAiAccountResourceId
+output lunaOpenAiRegion string = ai.outputs.lunaOpenAiRegion
+output lunaOpenAiDeploymentId string = ai.outputs.lunaOpenAiDeploymentId
+output terraOpenAiEndpoint string = ai.outputs.terraOpenAiEndpoint
+output terraOpenAiAccountResourceId string = ai.outputs.terraOpenAiAccountResourceId
+output terraOpenAiRegion string = ai.outputs.terraOpenAiRegion
+output terraOpenAiDeploymentId string = ai.outputs.terraOpenAiDeploymentId
+output solOpenAiEndpoint string = ai.outputs.solOpenAiEndpoint
+output solOpenAiAccountResourceId string = ai.outputs.solOpenAiAccountResourceId
+output solOpenAiRegion string = ai.outputs.solOpenAiRegion
+output solOpenAiDeploymentId string = ai.outputs.solOpenAiDeploymentId
+output webIdentityResourceId string = operations.outputs.webIdentityResourceId
+output webIdentityClientId string = operations.outputs.webIdentityClientId
+output webIdentityPrincipalId string = operations.outputs.webIdentityPrincipalId
+output bffIdentityResourceId string = operations.outputs.bffIdentityResourceId
+output bffIdentityClientId string = operations.outputs.bffIdentityClientId
+output bffIdentityPrincipalId string = operations.outputs.bffIdentityPrincipalId
+output phase5IdentityResourceId string = operations.outputs.phase5IdentityResourceId
+output phase5IdentityClientId string = operations.outputs.phase5IdentityClientId
+output phase5IdentityPrincipalId string = operations.outputs.phase5IdentityPrincipalId
+output bootstrapIdentityResourceId string = operations.outputs.bootstrapIdentityResourceId
+output bootstrapIdentityClientId string = operations.outputs.bootstrapIdentityClientId
+output bootstrapIdentityPrincipalId string = operations.outputs.bootstrapIdentityPrincipalId
