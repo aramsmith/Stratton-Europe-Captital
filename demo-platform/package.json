@@ -14,6 +14,7 @@
     "build": "npm run build:packages && npm run build:apps",
     "test:workspaces": "npm run test --workspaces --if-present",
     "test:scripts": "node --test scripts/acceptance-contract.test.mjs scripts/clean-generated.test.mjs scripts/verify-demo-lib.test.mjs",
+    "test:deployment": "pwsh -NoProfile -File tests/deployment/Invoke-DeploymentTests.ps1",
     "test": "npm run build:packages && npm run test:workspaces && npm run test:scripts",
     "typecheck": "npm run build:packages && npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
