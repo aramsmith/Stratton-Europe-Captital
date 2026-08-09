@@ -228,6 +228,131 @@ paths:
                 $ref: '#/components/schemas/WorkItemResponse'
         '400': { $ref: '#/components/responses/InvalidContract' }
         '403': { $ref: '#/components/responses/PolicyDenied' }
+  /v1/demo-authority/cases/{caseId}/analysis-bundles:
+    post:
+      operationId: createDemoAnalysisBundle
+      x-required-roles: [DealContributor]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDemoAnalysisBundleRequest'
+      responses:
+        '202':
+          description: analysis bundle queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisBundleResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+        '422': { $ref: '#/components/responses/EvidenceIncomplete' }
+  /v1/demo-authority/analysis-bundles/{analysisBundleId}:
+    get:
+      operationId: getDemoAnalysisBundle
+      x-required-roles: [CaseReader]
+      parameters:
+        - $ref: '#/components/parameters/analysisBundleId'
+      responses:
+        '200':
+          description: analysis bundle
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisBundleResponse'
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+  /v1/demo-authority/analysis-bundles/{analysisBundleId}/completion:
+    post:
+      operationId: completeDemoAnalysisBundle
+      x-required-roles: [DealContributor]
+      parameters:
+        - $ref: '#/components/parameters/analysisBundleId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteDemoAnalysisBundleRequest'
+      responses:
+        '200':
+          description: analysis bundle completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisBundleResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+  /v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/reviews:
+    post:
+      operationId: submitDemoBundleReview
+      x-required-roles: [DealReviewer, LegalApprover, ComplianceApprover]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/analysisBundleId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitDemoBundleReviewRequest'
+      responses:
+        '201':
+          description: bundle review appended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BundleReviewResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+  /v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/draft-recommendations:
+    post:
+      operationId: prepareDemoBundleDraft
+      x-required-roles: [DealReviewer]
+      parameters:
+        - $ref: '#/components/parameters/caseId'
+        - $ref: '#/components/parameters/analysisBundleId'
+        - $ref: '#/components/parameters/idempotency-key'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrepareDemoBundleDraftRequest'
+      responses:
+        '200':
+          description: draft recommendation prepared
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BundleDraftResponse'
+        '400': { $ref: '#/components/responses/InvalidContract' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
+        '409': { $ref: '#/components/responses/StateConflict' }
+  /v1/demo-authority/model-route-evidence/{evidenceId}:
+    get:
+      operationId: getDemoModelRouteEvidence
+      x-required-roles: [CaseReader]
+      parameters:
+        - $ref: '#/components/parameters/evidenceId'
+      responses:
+        '200':
+          description: approved model route evidence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelRouteEvidenceResponse'
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/PolicyDenied' }
   /assurance/v1/verdicts:
     post:
       operationId: recordVerdict
@@ -265,6 +390,11 @@ components:
       schema: { type: string }
     analysisRunId:
       name: analysisRunId
+      in: path
+      required: true
+      schema: { type: string }
+    analysisBundleId:
+      name: analysisBundleId
       in: path
       required: true
       schema: { type: string }
@@ -520,3 +650,168 @@ components:
       properties:
         workItemId: { type: string }
         status: { type: string, enum: [QUEUED] }
+    CreateDemoAnalysisBundleRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - tenantId
+        - caseId
+        - analysisBundleId
+        - evidenceManifestHash
+        - modelRoute
+        - modelDeploymentId
+        - routeEvidenceId
+        - promptTemplateVersion
+        - requestFingerprint
+        - evidenceIds
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        analysisBundleId: { type: string }
+        evidenceManifestHash: { type: string }
+        modelRoute: { type: string, enum: [LUNA, TERRA, SOL] }
+        modelDeploymentId: { type: string }
+        routeEvidenceId: { type: string }
+        promptTemplateVersion: { type: string }
+        requestFingerprint: { type: string }
+        evidenceIds:
+          type: array
+          minItems: 1
+          items: { type: string }
+    AnalysisBundleResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - tenantId
+        - caseId
+        - analysisBundleId
+        - evidenceManifestHash
+        - modelRoute
+        - modelDeploymentId
+        - routeEvidenceId
+        - promptTemplateVersion
+        - requestFingerprint
+        - status
+        - outputKind
+        - unsupportedClaims
+        - citationCounts
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        analysisBundleId: { type: string }
+        evidenceManifestHash: { type: string }
+        modelRoute: { type: string, enum: [LUNA, TERRA, SOL] }
+        modelDeploymentId: { type: string }
+        routeEvidenceId: { type: string }
+        promptTemplateVersion: { type: string }
+        requestFingerprint: { type: string }
+        status:
+          type: string
+          enum: [QUEUED, IN_PROGRESS, DRAFT_ONLY_READY, BLOCKED_MISSING_EVIDENCE, FAILED]
+        outputKind: { type: string, enum: [DRAFT_ONLY] }
+        unsupportedClaims: { type: integer, minimum: 0 }
+        subjectVersion: { type: string }
+        evidenceIds:
+          type: array
+          items: { type: string }
+        citationCounts:
+          type: object
+          additionalProperties: false
+          required: [totalClaims, citedClaims, unsupportedClaims]
+          properties:
+            totalClaims: { type: integer, minimum: 0 }
+            citedClaims: { type: integer, minimum: 0 }
+            unsupportedClaims: { type: integer, minimum: 0 }
+    CompleteDemoAnalysisBundleRequest:
+      type: object
+      additionalProperties: false
+      required: [tenantId, caseId, analysisBundleId, subjectVersion, status, unsupportedClaims]
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        analysisBundleId: { type: string }
+        subjectVersion: { type: string }
+        status: { type: string, enum: [DRAFT_ONLY_READY, BLOCKED_MISSING_EVIDENCE, FAILED] }
+        unsupportedClaims: { type: integer, minimum: 0 }
+    SubmitDemoBundleReviewRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - tenantId
+        - caseId
+        - analysisBundleId
+        - reviewId
+        - subjectVersion
+        - reviewType
+        - decision
+        - rationale
+        - evidenceManifestHash
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        analysisBundleId: { type: string }
+        reviewId: { type: string }
+        subjectVersion: { type: string }
+        reviewType: { type: string, enum: [DEAL, LEGAL, COMPLIANCE] }
+        decision: { type: string, enum: [APPROVED, REJECTED] }
+        rationale: { type: string }
+        evidenceManifestHash: { type: string }
+    BundleReviewResponse:
+      type: object
+      additionalProperties: false
+      required: [analysisBundleId, reviewType, decision]
+      properties:
+        analysisBundleId: { type: string }
+        reviewType: { type: string, enum: [DEAL, LEGAL, COMPLIANCE] }
+        decision: { type: string, enum: [APPROVED, REJECTED] }
+    PrepareDemoBundleDraftRequest:
+      type: object
+      additionalProperties: false
+      required: [tenantId, caseId, analysisBundleId, subjectVersion]
+      properties:
+        tenantId: { type: string }
+        caseId: { type: string }
+        analysisBundleId: { type: string }
+        subjectVersion: { type: string }
+    BundleDraftResponse:
+      type: object
+      additionalProperties: false
+      required: [caseId, analysisBundleId, status, outputKind, citationCounts]
+      properties:
+        caseId: { type: string }
+        analysisBundleId: { type: string }
+        status: { type: string, enum: [DRAFT_RECOMMENDATION_READY] }
+        outputKind: { type: string, enum: [DRAFT_ONLY] }
+        citationCounts:
+          type: object
+          additionalProperties: false
+          required: [totalClaims, citedClaims, unsupportedClaims]
+          properties:
+            totalClaims: { type: integer, minimum: 0 }
+            citedClaims: { type: integer, minimum: 0 }
+            unsupportedClaims: { type: integer, minimum: 0 }
+    ModelRouteEvidenceResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - evidenceId
+        - status
+        - resourceId
+        - deploymentId
+        - region
+        - route
+        - apiVersion
+        - evidenceVersion
+        - validFromIso
+        - validUntilIso
+      properties:
+        evidenceId: { type: string }
+        status: { type: string, enum: [APPROVED, SUSPENDED, EXPIRED] }
+        resourceId: { type: string }
+        deploymentId: { type: string }
+        region: { type: string }
+        route: { type: string, enum: [LUNA, TERRA, SOL] }
+        apiVersion: { type: string }
+        evidenceVersion: { type: string }
+        validFromIso: { type: string, format: date-time }
+        validUntilIso: { type: string, format: date-time }

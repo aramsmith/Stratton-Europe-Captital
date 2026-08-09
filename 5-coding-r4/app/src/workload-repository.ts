@@ -6,6 +6,11 @@ import { canonicalQueueMessage } from "./queue-outbox-dispatcher.js";
 import type { SqlExecutor } from "./sql-client.js";
 import type {
   AnalysisRunRecord,
+  AnalysisBundleCompletionRecord,
+  AnalysisBundleEvidenceRecord,
+  AnalysisBundleRecord,
+  AnalysisBundleReviewRecord,
+  ApprovedModelRouteEvidence,
   AuditEvent,
   AuditEventInput,
   CaseAccessAssignment,
@@ -67,6 +72,9 @@ interface InMemorySnapshot {
   readonly evidenceObjects: Map<string, EvidenceObjectRecord[]>;
   readonly admissions: Map<string, EvidenceAdmissionDecision[]>;
   readonly analysisRuns: Map<string, AnalysisRunRecord>;
+  readonly analysisBundles: Map<string, AnalysisBundleRecord>;
+  readonly analysisBundleEvidence: Map<string, AnalysisBundleEvidenceRecord[]>;
+  readonly analysisBundleReviews: Map<string, AnalysisBundleReviewRecord[]>;
   readonly claimsByRun: Map<string, ClaimRecord[]>;
   readonly citationsByRun: Map<string, CitationRecord[]>;
   readonly reviewsByCase: Map<string, ReviewRecord[]>;
@@ -103,6 +111,10 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
   private readonly evidenceObjects = new Map<string, EvidenceObjectRecord[]>();
   private readonly admissions = new Map<string, EvidenceAdmissionDecision[]>();
   private readonly analysisRuns = new Map<string, AnalysisRunRecord>();
+  private readonly analysisBundles = new Map<string, AnalysisBundleRecord>();
+  private readonly analysisBundleEvidence = new Map<string, AnalysisBundleEvidenceRecord[]>();
+  private readonly analysisBundleReviews = new Map<string, AnalysisBundleReviewRecord[]>();
+  private readonly approvedModelRouteEvidence = new Map<string, ApprovedModelRouteEvidence>();
   private readonly claimsByRun = new Map<string, ClaimRecord[]>();
   private readonly citationsByRun = new Map<string, CitationRecord[]>();
   private readonly reviewsByCase = new Map<string, ReviewRecord[]>();
@@ -114,6 +126,12 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
   private readonly workItems = new Map<string, WorkItemRecord>();
   private readonly queueOutbox = new Map<string, QueueOutboxRecord>();
   private activeIdempotencySnapshots: Map<InMemoryIdempotencyStore, Map<string, IdempotencyRecord>> | undefined;
+
+  public constructor(options: { readonly approvedModelRouteEvidence?: readonly ApprovedModelRouteEvidence[] } = {}) {
+    for (const record of options.approvedModelRouteEvidence ?? []) {
+      this.approvedModelRouteEvidence.set(record.evidenceId, record);
+    }
+  }
 
   public seedApprovedEligibility(
     tenantId: string,
@@ -393,6 +411,109 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
       .sort((a, b) => a.citationId.localeCompare(b.citationId));
     const payload = JSON.stringify({ tenantId, caseId, analysisRunId, claims, citations });
     return createHash("sha256").update(payload).digest("hex");
+  }
+
+  public async createAnalysisBundle(record: AnalysisBundleRecord): Promise<void> {
+    const bundleKey = key3(record.tenantId, record.caseId, record.analysisBundleId);
+    const existing = this.analysisBundles.get(bundleKey);
+    if (existing) {
+      if (JSON.stringify(existing) !== JSON.stringify(record)) {
+        throw new Error("ANALYSIS_BUNDLE_CREATE_CONFLICT");
+      }
+      return;
+    }
+    for (const value of this.analysisBundles.values()) {
+      if (
+        value.tenantId === record.tenantId &&
+        value.caseId === record.caseId &&
+        value.requestFingerprint === record.requestFingerprint
+      ) {
+        throw new Error("ANALYSIS_BUNDLE_REQUEST_FINGERPRINT_CONFLICT");
+      }
+    }
+    this.analysisBundles.set(bundleKey, record);
+  }
+
+  public async getAnalysisBundle(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<AnalysisBundleRecord | undefined> {
+    return this.analysisBundles.get(key3(tenantId, caseId, bundleId));
+  }
+
+  public async appendAnalysisBundleEvidence(record: AnalysisBundleEvidenceRecord): Promise<void> {
+    const bundleKey = key3(record.tenantId, record.caseId, record.analysisBundleId);
+    const values = this.analysisBundleEvidence.get(bundleKey) ?? [];
+    const existing = values.find(
+      (value) =>
+        value.ordinal === record.ordinal ||
+        (value.evidenceId === record.evidenceId && value.evidenceVersionId === record.evidenceVersionId)
+    );
+    if (existing) {
+      if (JSON.stringify(existing) !== JSON.stringify(record)) {
+        throw new Error("ANALYSIS_BUNDLE_EVIDENCE_CONFLICT");
+      }
+      return;
+    }
+    this.analysisBundleEvidence.set(bundleKey, [...values, record].sort((a, b) => a.ordinal - b.ordinal));
+  }
+
+  public async listAnalysisBundleEvidence(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<readonly AnalysisBundleEvidenceRecord[]> {
+    return this.analysisBundleEvidence.get(key3(tenantId, caseId, bundleId)) ?? [];
+  }
+
+  public async completeAnalysisBundle(record: AnalysisBundleCompletionRecord): Promise<void> {
+    const bundleKey = key3(record.tenantId, record.caseId, record.analysisBundleId);
+    const current = this.analysisBundles.get(bundleKey);
+    if (!current) {
+      throw new Error("ANALYSIS_BUNDLE_NOT_FOUND");
+    }
+    if (current.subjectVersion) {
+      if (
+        current.subjectVersion !== record.subjectVersion ||
+        current.status !== record.status ||
+        current.unsupportedClaims !== record.unsupportedClaims
+      ) {
+        throw new Error("ANALYSIS_BUNDLE_COMPLETION_CONFLICT");
+      }
+      return;
+    }
+    this.analysisBundles.set(bundleKey, {
+      ...current,
+      status: record.status,
+      unsupportedClaims: record.unsupportedClaims,
+      subjectVersion: record.subjectVersion
+    });
+  }
+
+  public async appendAnalysisBundleReview(record: AnalysisBundleReviewRecord): Promise<void> {
+    const bundleKey = key3(record.tenantId, record.caseId, record.analysisBundleId);
+    const values = this.analysisBundleReviews.get(bundleKey) ?? [];
+    const existing = values.find((value) => value.reviewId === record.reviewId);
+    if (existing) {
+      if (JSON.stringify(existing) !== JSON.stringify(record)) {
+        throw new Error("ANALYSIS_BUNDLE_REVIEW_CONFLICT");
+      }
+      return;
+    }
+    this.analysisBundleReviews.set(bundleKey, [...values, record]);
+  }
+
+  public async listAnalysisBundleReviews(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<readonly AnalysisBundleReviewRecord[]> {
+    return this.analysisBundleReviews.get(key3(tenantId, caseId, bundleId)) ?? [];
+  }
+
+  public async getApprovedModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence | undefined> {
+    return this.approvedModelRouteEvidence.get(evidenceId);
   }
 
   public async appendReview(record: ReviewRecord): Promise<void> {
@@ -685,6 +806,9 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
       evidenceObjects: structuredClone(this.evidenceObjects),
       admissions: structuredClone(this.admissions),
       analysisRuns: structuredClone(this.analysisRuns),
+      analysisBundles: structuredClone(this.analysisBundles),
+      analysisBundleEvidence: structuredClone(this.analysisBundleEvidence),
+      analysisBundleReviews: structuredClone(this.analysisBundleReviews),
       claimsByRun: structuredClone(this.claimsByRun),
       citationsByRun: structuredClone(this.citationsByRun),
       reviewsByCase: structuredClone(this.reviewsByCase),
@@ -706,6 +830,9 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
       mapReplace(this.evidenceObjects, snapshot.evidenceObjects);
       mapReplace(this.admissions, snapshot.admissions);
       mapReplace(this.analysisRuns, snapshot.analysisRuns);
+      mapReplace(this.analysisBundles, snapshot.analysisBundles);
+      mapReplace(this.analysisBundleEvidence, snapshot.analysisBundleEvidence);
+      mapReplace(this.analysisBundleReviews, snapshot.analysisBundleReviews);
       mapReplace(this.claimsByRun, snapshot.claimsByRun);
       mapReplace(this.citationsByRun, snapshot.citationsByRun);
       mapReplace(this.reviewsByCase, snapshot.reviewsByCase);
@@ -1681,6 +1808,360 @@ ORDER BY c.citation_id;
     return createHash("sha256")
       .update(JSON.stringify({ tenantId, caseId, analysisRunId, claims, citations }))
       .digest("hex");
+  }
+
+  public async createAnalysisBundle(record: AnalysisBundleRecord): Promise<void> {
+    await this.executor.execute(
+      `
+IF EXISTS (
+  SELECT 1
+  FROM dbo.analysis_bundles
+  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+)
+BEGIN
+  IF EXISTS (
+    SELECT 1
+    FROM dbo.analysis_bundles
+    WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+      AND evidence_manifest_hash=@evidence_manifest_hash
+      AND model_route=@model_route
+      AND model_deployment_id=@model_deployment_id
+      AND route_evidence_id=@route_evidence_id
+      AND prompt_template_version=@prompt_template_version
+      AND request_fingerprint=@request_fingerprint
+      AND status=@status
+      AND output_kind=@output_kind
+      AND unsupported_claims=@unsupported_claims
+      AND ISNULL(subject_version, N'') = ISNULL(@subject_version, N'')
+  )
+  BEGIN
+    RETURN;
+  END;
+  THROW 52090, 'ANALYSIS_BUNDLE_CREATE_CONFLICT', 1;
+END;
+IF EXISTS (
+  SELECT 1
+  FROM dbo.analysis_bundles
+  WHERE tenant_id=@tenant_id AND case_id=@case_id AND request_fingerprint=@request_fingerprint
+)
+BEGIN
+  THROW 52091, 'ANALYSIS_BUNDLE_REQUEST_FINGERPRINT_CONFLICT', 1;
+END;
+INSERT INTO dbo.analysis_bundles (
+  tenant_id, case_id, analysis_bundle_id, evidence_manifest_hash, model_route, model_deployment_id,
+  route_evidence_id, prompt_template_version, request_fingerprint, status, output_kind, unsupported_claims,
+  subject_version
+) VALUES (
+  @tenant_id, @case_id, @analysis_bundle_id, @evidence_manifest_hash, @model_route, @model_deployment_id,
+  @route_evidence_id, @prompt_template_version, @request_fingerprint, @status, @output_kind, @unsupported_claims,
+  @subject_version
+);
+      `,
+      {
+        tenant_id: record.tenantId,
+        case_id: record.caseId,
+        analysis_bundle_id: record.analysisBundleId,
+        evidence_manifest_hash: record.evidenceManifestHash,
+        model_route: record.modelRoute,
+        model_deployment_id: record.modelDeploymentId,
+        route_evidence_id: record.routeEvidenceId,
+        prompt_template_version: record.promptTemplateVersion,
+        request_fingerprint: record.requestFingerprint,
+        status: record.status,
+        output_kind: record.outputKind,
+        unsupported_claims: record.unsupportedClaims,
+        subject_version: record.subjectVersion ?? null
+      },
+      { context: { tenantId: record.tenantId, caseId: record.caseId } }
+    );
+  }
+
+  public async getAnalysisBundle(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<AnalysisBundleRecord | undefined> {
+    const row = await this.executor.queryOne<{
+      tenant_id: string;
+      case_id: string;
+      analysis_bundle_id: string;
+      evidence_manifest_hash: string;
+      model_route: "LUNA" | "TERRA" | "SOL";
+      model_deployment_id: string;
+      route_evidence_id: string;
+      prompt_template_version: string;
+      request_fingerprint: string;
+      status: AnalysisBundleRecord["status"];
+      output_kind: "DRAFT_ONLY";
+      unsupported_claims: number;
+      subject_version: string | null;
+    }>(
+      `
+SELECT tenant_id, case_id, analysis_bundle_id, evidence_manifest_hash, model_route, model_deployment_id,
+  route_evidence_id, prompt_template_version, request_fingerprint, status, output_kind, unsupported_claims,
+  subject_version
+FROM dbo.analysis_bundles
+WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id;
+      `,
+      { tenant_id: tenantId, case_id: caseId, analysis_bundle_id: bundleId },
+      { context: { tenantId, caseId } }
+    );
+    if (!row) {
+      return undefined;
+    }
+    return {
+      tenantId: row.tenant_id,
+      caseId: row.case_id,
+      analysisBundleId: row.analysis_bundle_id,
+      evidenceManifestHash: row.evidence_manifest_hash,
+      modelRoute: row.model_route,
+      modelDeploymentId: row.model_deployment_id,
+      routeEvidenceId: row.route_evidence_id,
+      promptTemplateVersion: row.prompt_template_version,
+      requestFingerprint: row.request_fingerprint,
+      status: row.status,
+      outputKind: row.output_kind,
+      unsupportedClaims: row.unsupported_claims,
+      ...(row.subject_version ? { subjectVersion: row.subject_version } : {})
+    };
+  }
+
+  public async appendAnalysisBundleEvidence(record: AnalysisBundleEvidenceRecord): Promise<void> {
+    await this.executor.execute(
+      `
+IF EXISTS (
+  SELECT 1
+  FROM dbo.analysis_bundle_evidence
+  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+    AND (ordinal=@ordinal OR (evidence_id=@evidence_id AND evidence_version_id=@evidence_version_id))
+)
+BEGIN
+  IF EXISTS (
+    SELECT 1
+    FROM dbo.analysis_bundle_evidence
+    WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+      AND evidence_id=@evidence_id AND evidence_version_id=@evidence_version_id AND ordinal=@ordinal
+  )
+  BEGIN
+    RETURN;
+  END;
+  THROW 52092, 'ANALYSIS_BUNDLE_EVIDENCE_CONFLICT', 1;
+END;
+INSERT INTO dbo.analysis_bundle_evidence (
+  tenant_id, case_id, analysis_bundle_id, evidence_id, evidence_version_id, ordinal
+) VALUES (
+  @tenant_id, @case_id, @analysis_bundle_id, @evidence_id, @evidence_version_id, @ordinal
+);
+      `,
+      {
+        tenant_id: record.tenantId,
+        case_id: record.caseId,
+        analysis_bundle_id: record.analysisBundleId,
+        evidence_id: record.evidenceId,
+        evidence_version_id: record.evidenceVersionId,
+        ordinal: record.ordinal
+      },
+      { context: { tenantId: record.tenantId, caseId: record.caseId } }
+    );
+  }
+
+  public async listAnalysisBundleEvidence(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<readonly AnalysisBundleEvidenceRecord[]> {
+    const rows = await this.executor.queryMany<{
+      tenant_id: string;
+      case_id: string;
+      analysis_bundle_id: string;
+      evidence_id: string;
+      evidence_version_id: string;
+      ordinal: number;
+    }>(
+      `
+SELECT tenant_id, case_id, analysis_bundle_id, evidence_id, evidence_version_id, ordinal
+FROM dbo.analysis_bundle_evidence
+WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+ORDER BY ordinal;
+      `,
+      { tenant_id: tenantId, case_id: caseId, analysis_bundle_id: bundleId },
+      { context: { tenantId, caseId } }
+    );
+    return rows.map((row) => ({
+      tenantId: row.tenant_id,
+      caseId: row.case_id,
+      analysisBundleId: row.analysis_bundle_id,
+      evidenceId: row.evidence_id,
+      evidenceVersionId: row.evidence_version_id,
+      ordinal: row.ordinal
+    }));
+  }
+
+  public async completeAnalysisBundle(record: AnalysisBundleCompletionRecord): Promise<void> {
+    await this.executor.execute(
+      `
+IF NOT EXISTS (
+  SELECT 1
+  FROM dbo.analysis_bundles
+  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+)
+BEGIN
+  THROW 52093, 'ANALYSIS_BUNDLE_NOT_FOUND', 1;
+END;
+IF EXISTS (
+  SELECT 1
+  FROM dbo.analysis_bundles
+  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+    AND subject_version IS NOT NULL
+    AND (subject_version<>@subject_version OR status<>@status OR unsupported_claims<>@unsupported_claims)
+)
+BEGIN
+  THROW 52094, 'ANALYSIS_BUNDLE_COMPLETION_CONFLICT', 1;
+END;
+UPDATE dbo.analysis_bundles
+SET status=@status,
+    unsupported_claims=@unsupported_claims,
+    subject_version=@subject_version,
+    completed_at=COALESCE(completed_at, SYSUTCDATETIME()),
+    updated_at=SYSUTCDATETIME()
+WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id;
+      `,
+      {
+        tenant_id: record.tenantId,
+        case_id: record.caseId,
+        analysis_bundle_id: record.analysisBundleId,
+        subject_version: record.subjectVersion,
+        status: record.status,
+        unsupported_claims: record.unsupportedClaims
+      },
+      { context: { tenantId: record.tenantId, caseId: record.caseId } }
+    );
+  }
+
+  public async appendAnalysisBundleReview(record: AnalysisBundleReviewRecord): Promise<void> {
+    await this.executor.execute(
+      `
+IF EXISTS (
+  SELECT 1
+  FROM dbo.analysis_bundle_reviews
+  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id AND review_id=@review_id
+)
+BEGIN
+  IF EXISTS (
+    SELECT 1
+    FROM dbo.analysis_bundle_reviews
+    WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id AND review_id=@review_id
+      AND subject_version=@subject_version AND review_type=@review_type AND decision=@decision
+      AND rationale=@rationale AND reviewer_object_id=@reviewer_object_id
+      AND evidence_manifest_hash=@evidence_manifest_hash
+  )
+  BEGIN
+    RETURN;
+  END;
+  THROW 52095, 'ANALYSIS_BUNDLE_REVIEW_CONFLICT', 1;
+END;
+INSERT INTO dbo.analysis_bundle_reviews (
+  tenant_id, case_id, analysis_bundle_id, review_id, subject_version, review_type, decision,
+  rationale, reviewer_object_id, evidence_manifest_hash
+) VALUES (
+  @tenant_id, @case_id, @analysis_bundle_id, @review_id, @subject_version, @review_type, @decision,
+  @rationale, @reviewer_object_id, @evidence_manifest_hash
+);
+      `,
+      {
+        tenant_id: record.tenantId,
+        case_id: record.caseId,
+        analysis_bundle_id: record.analysisBundleId,
+        review_id: record.reviewId,
+        subject_version: record.subjectVersion,
+        review_type: record.reviewType,
+        decision: record.decision,
+        rationale: record.rationale,
+        reviewer_object_id: record.reviewerObjectId,
+        evidence_manifest_hash: record.evidenceManifestHash
+      },
+      { context: { tenantId: record.tenantId, caseId: record.caseId } }
+    );
+  }
+
+  public async listAnalysisBundleReviews(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<readonly AnalysisBundleReviewRecord[]> {
+    const rows = await this.executor.queryMany<{
+      tenant_id: string;
+      case_id: string;
+      analysis_bundle_id: string;
+      review_id: string;
+      subject_version: string;
+      review_type: ReviewRecord["reviewType"];
+      decision: ReviewRecord["decision"];
+      rationale: string;
+      reviewer_object_id: string;
+      evidence_manifest_hash: string;
+    }>(
+      `
+SELECT tenant_id, case_id, analysis_bundle_id, review_id, subject_version, review_type, decision,
+  rationale, reviewer_object_id, evidence_manifest_hash
+FROM dbo.analysis_bundle_reviews
+WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
+ORDER BY decided_at, review_id;
+      `,
+      { tenant_id: tenantId, case_id: caseId, analysis_bundle_id: bundleId },
+      { context: { tenantId, caseId } }
+    );
+    return rows.map((row) => ({
+      tenantId: row.tenant_id,
+      caseId: row.case_id,
+      analysisBundleId: row.analysis_bundle_id,
+      reviewId: row.review_id,
+      subjectVersion: row.subject_version,
+      reviewType: row.review_type,
+      decision: row.decision,
+      rationale: row.rationale,
+      reviewerObjectId: row.reviewer_object_id,
+      evidenceManifestHash: row.evidence_manifest_hash
+    }));
+  }
+
+  public async getApprovedModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence | undefined> {
+    const row = await this.executor.queryOne<{
+      evidence_id: string;
+      status: "APPROVED" | "SUSPENDED" | "EXPIRED";
+      resource_id: string;
+      deployment_id: string;
+      region: string;
+      route: "LUNA" | "TERRA" | "SOL";
+      api_version: string;
+      evidence_version: string;
+      valid_from: string;
+      valid_until: string;
+    }>(
+      `
+SELECT evidence_id, status, resource_id, deployment_id, region, route, api_version, evidence_version,
+  valid_from, valid_until
+FROM dbo.approved_model_route_evidence
+WHERE evidence_id=@evidence_id;
+      `,
+      { evidence_id: evidenceId },
+      { context: { tenantId: "__model-route-evidence__", allowTenantScopedLookup: true } }
+    );
+    if (!row) {
+      return undefined;
+    }
+    return {
+      evidenceId: row.evidence_id,
+      status: row.status,
+      resourceId: row.resource_id,
+      deploymentId: row.deployment_id,
+      region: row.region,
+      route: row.route,
+      apiVersion: row.api_version,
+      evidenceVersion: row.evidence_version,
+      validFromIso: toIso(row.valid_from),
+      validUntilIso: toIso(row.valid_until)
+    };
   }
 
   public async appendReview(record: ReviewRecord): Promise<void> {

@@ -7,6 +7,7 @@ import { approvedOperations } from "../../../app/src/openapi-contract.js";
 
 const appRoot = resolve(process.cwd(), "..", "app");
 const migrationPath = resolve(appRoot, "migrations", "001_init.sql");
+const demoAuthorityMigrationPath = resolve(appRoot, "migrations", "002_demo_authority.sql");
 const repositoryPath = resolve(appRoot, "src", "workload-repository.ts");
 const idempotencyPath = resolve(appRoot, "src", "idempotency-store.ts");
 const apiRuntimePath = resolve(appRoot, "src", "api-runtime.ts");
@@ -253,11 +254,12 @@ test("openapi contains exact approved operations and role sets", () => {
     }
   }
   flush();
-  assert.deepEqual(found, new Set(approvedOperations.map((item) => operationKey(item))));
+  const release1Found = new Set([...found].filter((item) => !item.includes("|/v1/demo-authority/")));
+  assert.deepEqual(release1Found, new Set(approvedOperations.map((item) => operationKey(item))));
 });
 
 test("migration and repository SQL contract is schema-consistent", () => {
-  const migration = readFileSync(migrationPath, "utf8");
+  const migration = `${readFileSync(migrationPath, "utf8")}\n${readFileSync(demoAuthorityMigrationPath, "utf8")}`;
   const schema = parseSchema(migration);
   const repositorySql = extractSqlTemplates(readFileSync(repositoryPath, "utf8"));
   const idempotencySql = extractSqlTemplates(readFileSync(idempotencyPath, "utf8"));
@@ -380,4 +382,51 @@ test("queue outbox recovery SQL/RLS contract stays relay-scoped and autonomous",
   const apiRuntimeSource = readFileSync(apiRuntimePath, "utf8");
   assert.match(apiRuntimeSource, /dispatchPendingAcrossScopes\(\s*100,\s*50\s*\)/);
   assert.equal(/dispatchPending\(\s*50\s*\)/.test(apiRuntimeSource), false);
+});
+
+test("demo authority openapi paths declare strict analysis bundle contracts", () => {
+  const openapiRaw = readFileSync(resolve(appRoot, "openapi", "stratton-openapi-3.1.yaml"), "utf8");
+  for (const required of [
+    "operationId: createDemoAnalysisBundle",
+    "operationId: getDemoAnalysisBundle",
+    "operationId: completeDemoAnalysisBundle",
+    "operationId: submitDemoBundleReview",
+    "operationId: prepareDemoBundleDraft",
+    "operationId: getDemoModelRouteEvidence",
+    "additionalProperties: false",
+    "subjectVersion",
+    "evidenceIds",
+    "citationCounts",
+    "DRAFT_ONLY"
+  ]) {
+    assert.match(openapiRaw, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), required);
+  }
+});
+
+test("demo authority migration creates tenant-scoped bundle persistence without raw content", () => {
+  const sql = readFileSync(demoAuthorityMigrationPath, "utf8").toLowerCase();
+  for (const snippet of [
+    "create table dbo.analysis_bundles",
+    "create table dbo.analysis_bundle_evidence",
+    "create table dbo.analysis_bundle_reviews",
+    "create table dbo.approved_model_route_evidence",
+    "tenant_id nvarchar",
+    "case_id nvarchar",
+    "analysis_bundle_id nvarchar",
+    "request_fingerprint nvarchar",
+    "ordinal int not null",
+    "uq_analysis_bundle_request_fingerprint",
+    "uq_analysis_bundle_evidence_ordinal",
+    "trg_analysis_bundle_evidence_append_only",
+    "add filter predicate rls.fn_tenant_case(tenant_id, case_id) on dbo.analysis_bundles",
+    "add block predicate rls.fn_tenant_case(tenant_id, case_id) on dbo.analysis_bundles after insert",
+    "grant select, insert, update on dbo.analysis_bundles to workload_api_role",
+    "grant select, insert on dbo.analysis_bundle_evidence to workload_api_role",
+    "grant select on dbo.approved_model_route_evidence to workload_api_role"
+  ]) {
+    assert.equal(sql.includes(snippet), true, snippet);
+  }
+  for (const forbidden of ["raw_content", "content_text", "payload_body", "document_text"]) {
+    assert.equal(sql.includes(forbidden), false, forbidden);
+  }
 });

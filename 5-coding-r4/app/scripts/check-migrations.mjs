@@ -1,7 +1,8 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const migrationPath = resolve(process.cwd(), "migrations", "001_init.sql");
+const demoAuthorityMigrationPath = resolve(process.cwd(), "migrations", "002_demo_authority.sql");
 const sql = readFileSync(migrationPath, "utf8");
 const normalized = sql.toLowerCase();
 
@@ -93,6 +94,34 @@ if (!normalized.includes("fk_citations_admitted_evidence")) {
 }
 if (!normalized.includes("fk_citations_evidence_lineage")) {
   throw new Error("MISSING_EVIDENCE_LINEAGE_FK");
+}
+
+if (!existsSync(demoAuthorityMigrationPath)) {
+  throw new Error("MISSING_DEMO_AUTHORITY_MIGRATION:002_demo_authority.sql");
+}
+
+const demoAuthoritySql = readFileSync(demoAuthorityMigrationPath, "utf8").toLowerCase();
+for (const snippet of [
+  "create table dbo.analysis_bundles",
+  "create table dbo.analysis_bundle_evidence",
+  "create table dbo.analysis_bundle_reviews",
+  "create table dbo.approved_model_route_evidence",
+  "uq_analysis_bundle_request_fingerprint",
+  "uq_analysis_bundle_evidence_ordinal",
+  "trg_analysis_bundle_evidence_append_only",
+  "add filter predicate rls.fn_tenant_case(tenant_id, case_id) on dbo.analysis_bundles",
+  "grant select, insert, update on dbo.analysis_bundles to workload_api_role",
+  "grant select on dbo.approved_model_route_evidence to workload_api_role"
+]) {
+  if (!demoAuthoritySql.includes(snippet)) {
+    throw new Error(`MISSING_DEMO_AUTHORITY_SQL_SNIPPET:${snippet}`);
+  }
+}
+
+for (const forbidden of ["raw_content", "content_text", "payload_body", "document_text"]) {
+  if (demoAuthoritySql.includes(forbidden)) {
+    throw new Error(`DEMO_AUTHORITY_RAW_CONTENT_NOT_ALLOWED:${forbidden}`);
+  }
 }
 
 console.log("migration checks passed");

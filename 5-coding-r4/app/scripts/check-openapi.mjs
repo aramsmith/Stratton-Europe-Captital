@@ -45,6 +45,63 @@ for (const approved of approvedOperations) {
   if (!found) {
     throw new Error(`MISSING_OPERATION_ID:${approved.operationId}`);
   }
+
+  const requiredDemoOperations = [
+    {
+      operationId: "createDemoAnalysisBundle",
+      method: "POST",
+      path: "/v1/demo-authority/cases/{caseId}/analysis-bundles"
+    },
+    {
+      operationId: "getDemoAnalysisBundle",
+      method: "GET",
+      path: "/v1/demo-authority/analysis-bundles/{analysisBundleId}"
+    },
+    {
+      operationId: "completeDemoAnalysisBundle",
+      method: "POST",
+      path: "/v1/demo-authority/analysis-bundles/{analysisBundleId}/completion"
+    },
+    {
+      operationId: "submitDemoBundleReview",
+      method: "POST",
+      path: "/v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/reviews"
+    },
+    {
+      operationId: "prepareDemoBundleDraft",
+      method: "POST",
+      path: "/v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/draft-recommendations"
+    },
+    {
+      operationId: "getDemoModelRouteEvidence",
+      method: "GET",
+      path: "/v1/demo-authority/model-route-evidence/{evidenceId}"
+    }
+  ];
+  for (const required of requiredDemoOperations) {
+    const found = operationRows.find((row) => row.operationId === required.operationId);
+    if (!found) {
+      throw new Error(`MISSING_DEMO_OPERATION_ID:${required.operationId}`);
+    }
+    if (found.method !== required.method || found.path !== required.path) {
+      throw new Error(`DEMO_OPERATION_PATH_METHOD_MISMATCH:${required.operationId}`);
+    }
+  }
+
+  const demoSchemas = [
+    "CreateDemoAnalysisBundleRequest",
+    "AnalysisBundleResponse",
+    "CompleteDemoAnalysisBundleRequest",
+    "SubmitDemoBundleReviewRequest",
+    "PrepareDemoBundleDraftRequest",
+    "ModelRouteEvidenceResponse"
+  ];
+  for (const schemaName of demoSchemas) {
+    const schema = openApi.components?.schemas?.[schemaName];
+    if (!schema || schema.additionalProperties !== false) {
+      throw new Error(`DEMO_SCHEMA_MUST_BE_STRICT:${schemaName}`);
+    }
+  }
   if (found.method !== approved.method || found.path !== approved.path) {
     throw new Error(`OPERATION_PATH_METHOD_MISMATCH:${approved.operationId}`);
   }

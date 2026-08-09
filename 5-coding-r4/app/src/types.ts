@@ -1,3 +1,20 @@
+import type {
+  AnalysisBundleCompletionRecord,
+  AnalysisBundleEvidenceRecord,
+  AnalysisBundleRecord,
+  AnalysisBundleReviewRecord,
+  ApprovedModelRouteEvidence
+} from "./demo-authority-types.js";
+
+export type {
+  AnalysisBundleCompletionRecord,
+  AnalysisBundleEvidenceRecord,
+  AnalysisBundleRecord,
+  AnalysisBundleReviewRecord,
+  AnalysisBundleStatus,
+  ApprovedModelRouteEvidence
+} from "./demo-authority-types.js";
+
 export type CaseStatus =
   | "DRAFT"
   | "EVIDENCE_QUARANTINED"
@@ -578,6 +595,26 @@ export interface WorkloadRepository {
   ): Promise<void>;
   getCitationAssessment(tenantId: string, caseId: string, analysisRunId: string): Promise<CitationAssessment>;
   buildEvidenceManifestHash(tenantId: string, caseId: string, analysisRunId: string): Promise<string>;
+  createAnalysisBundle(record: AnalysisBundleRecord): Promise<void>;
+  getAnalysisBundle(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<AnalysisBundleRecord | undefined>;
+  appendAnalysisBundleEvidence(record: AnalysisBundleEvidenceRecord): Promise<void>;
+  listAnalysisBundleEvidence(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<readonly AnalysisBundleEvidenceRecord[]>;
+  completeAnalysisBundle(record: AnalysisBundleCompletionRecord): Promise<void>;
+  appendAnalysisBundleReview(record: AnalysisBundleReviewRecord): Promise<void>;
+  listAnalysisBundleReviews(
+    tenantId: string,
+    caseId: string,
+    bundleId: string
+  ): Promise<readonly AnalysisBundleReviewRecord[]>;
+  getApprovedModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence | undefined>;
   appendReview(record: ReviewRecord): Promise<void>;
   listLatestReviewDecisions(
     tenantId: string,
