@@ -1307,9 +1307,58 @@ function Write-DeploymentArtifact {
     [object] $InputObject
   )
 
-  $directory = Split-Path -Path $Path -Parent
+  $resolvedPath = [System.IO.Path]::GetFullPath($Path)
+  $directory = Split-Path -Path $resolvedPath -Parent
+  if ([string]::IsNullOrWhiteSpace($directory)) {
+    $directory = (Get-Location).Path
+  }
+
   New-Item -ItemType Directory -Path $directory -Force | Out-Null
-  $InputObject | ConvertTo-Json -Depth 50 | Set-Content -Path $Path -Encoding utf8
+
+  $fileName = [System.IO.Path]::GetFileName($resolvedPath)
+  $temporaryPath = Join-Path $directory ".$fileName.$([System.Guid]::NewGuid().ToString('N')).tmp"
+  $json = $InputObject | ConvertTo-Json -Depth 50
+  $stream = $null
+  $writer = $null
+
+  try {
+    $stream = [System.IO.FileStream]::new(
+      $temporaryPath,
+      [System.IO.FileMode]::CreateNew,
+      [System.IO.FileAccess]::Write,
+      [System.IO.FileShare]::None
+    )
+    $writer = [System.IO.StreamWriter]::new($stream, [System.Text.UTF8Encoding]::new($false))
+    $writer.Write($json)
+    $writer.Flush()
+    $stream.Flush($true)
+    $writer.Dispose()
+    $writer = $null
+    $stream.Dispose()
+    $stream = $null
+
+    if (Test-Path -LiteralPath $resolvedPath) {
+      [System.IO.File]::Move($temporaryPath, $resolvedPath, $true)
+    }
+    else {
+      [System.IO.File]::Move($temporaryPath, $resolvedPath)
+    }
+  }
+  catch {
+    if ($null -ne $writer) {
+      $writer.Dispose()
+    }
+
+    if ($null -ne $stream) {
+      $stream.Dispose()
+    }
+
+    if (Test-Path -LiteralPath $temporaryPath) {
+      Remove-Item -LiteralPath $temporaryPath -Force -ErrorAction SilentlyContinue
+    }
+
+    throw
+  }
 }
 
 Export-ModuleMember -Function @(

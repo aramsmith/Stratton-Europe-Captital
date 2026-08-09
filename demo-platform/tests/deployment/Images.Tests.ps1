@@ -160,3 +160,81 @@ Describe 'Stratton image build orchestration' {
     } | Should -Throw 'AMBIGUOUS_IMAGE_DIGEST:stratton/demo-web'
   }
 }
+
+Describe 'Write-DeploymentArtifact' {
+  It 'replaces existing JSON without leaving temporary files behind' {
+    $artifactDirectory = Join-Path $TestDrive 'artifacts'
+    $artifactPath = Join-Path $artifactDirectory 'images.json'
+    New-Item -ItemType Directory -Path $artifactDirectory -Force | Out-Null
+    '{"stale":true,"images":[]}' | Set-Content -Path $artifactPath -Encoding utf8
+
+    Write-DeploymentArtifact -Path $artifactPath -InputObject ([pscustomobject]@{
+        registryName = 'strattondemoacr'
+        images = @(
+          [pscustomobject]@{
+            repository = 'stratton/demo-web'
+            buildId = 'run-demo-web'
+            digest = "sha256:$('a' * 64)"
+          }
+        )
+      })
+
+    $storedArtifact = Get-Content -Path $artifactPath -Raw | ConvertFrom-Json
+
+    $storedArtifact.PSObject.Properties.Name | Should -Not -Contain 'stale'
+    $storedArtifact.registryName | Should -Be 'strattondemoacr'
+    (Get-ChildItem -Path $artifactDirectory -Force | Select-Object -ExpandProperty Name | Sort-Object) |
+      Should -Be @('images.json')
+  }
+
+  It 'does not write directly to the final artifact path before replacement' {
+    $artifactDirectory = Join-Path $TestDrive 'atomic-artifacts'
+    $artifactPath = Join-Path $artifactDirectory 'images.json'
+    New-Item -ItemType Directory -Path $artifactDirectory -Force | Out-Null
+    '{"version":"old","images":[]}' | Set-Content -Path $artifactPath -Encoding utf8
+    $script:directWriteTarget = $artifactPath
+
+    Mock Set-Content -ModuleName Stratton.Deployment {
+      throw 'DIRECT_FINAL_WRITE'
+    } -ParameterFilter { $Path -ceq $script:directWriteTarget }
+
+    {
+      Write-DeploymentArtifact -Path $artifactPath -InputObject ([pscustomobject]@{
+          version = 'new'
+          images = @()
+        })
+    } | Should -Not -Throw
+
+    (Get-Content -Path $artifactPath -Raw | ConvertFrom-Json).version | Should -Be 'new'
+  }
+
+  It 'preserves the previous artifact and cleans up temporary files when replacement fails' {
+    $artifactDirectory = Join-Path $TestDrive 'locked-artifacts'
+    $artifactPath = Join-Path $artifactDirectory 'images.json'
+    New-Item -ItemType Directory -Path $artifactDirectory -Force | Out-Null
+    '{"version":"old","images":[]}' | Set-Content -Path $artifactPath -Encoding utf8
+
+    $lockStream = [System.IO.File]::Open(
+      $artifactPath,
+      [System.IO.FileMode]::Open,
+      [System.IO.FileAccess]::Read,
+      [System.IO.FileShare]::None
+    )
+
+    try {
+      {
+        Write-DeploymentArtifact -Path $artifactPath -InputObject ([pscustomobject]@{
+            version = 'new'
+            images = @()
+          })
+      } | Should -Throw
+    }
+    finally {
+      $lockStream.Dispose()
+    }
+
+    (Get-Content -Path $artifactPath -Raw | ConvertFrom-Json).version | Should -Be 'old'
+    (Get-ChildItem -Path $artifactDirectory -Force | Select-Object -ExpandProperty Name | Sort-Object) |
+      Should -Be @('images.json')
+  }
+}
