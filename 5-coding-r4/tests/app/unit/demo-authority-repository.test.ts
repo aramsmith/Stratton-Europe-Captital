@@ -21,7 +21,11 @@ const bundle: AnalysisBundleRecord = {
   requestFingerprint: "fingerprint-1",
   status: "QUEUED",
   outputKind: "DRAFT_ONLY",
-  unsupportedClaims: 0
+  unsupportedClaims: 0,
+  totalClaims: 0,
+  citedClaims: 0,
+  materialClaims: 0,
+  citedMaterialClaims: 0
 };
 
 const firstEvidence: AnalysisBundleEvidenceRecord = {
@@ -48,7 +52,11 @@ const completion: AnalysisBundleCompletionRecord = {
   analysisBundleId: "bundle-1",
   subjectVersion: "bundle-1:v1",
   status: "DRAFT_ONLY_READY",
-  unsupportedClaims: 2
+  unsupportedClaims: 0,
+  totalClaims: 2,
+  citedClaims: 2,
+  materialClaims: 1,
+  citedMaterialClaims: 1
 };
 
 test("analysis bundle repository stores an immutable ordered evidence manifest", async () => {
@@ -81,7 +89,11 @@ test("analysis bundle repository rejects conflicting completion replay", async (
   assert.deepEqual(await repository.getAnalysisBundle("tenant-a", "project-danube", "bundle-1"), {
     ...bundle,
     status: "DRAFT_ONLY_READY",
-    unsupportedClaims: 2,
+    unsupportedClaims: 0,
+    totalClaims: 2,
+    citedClaims: 2,
+    materialClaims: 1,
+    citedMaterialClaims: 1,
     subjectVersion: "bundle-1:v1"
   });
 });
@@ -114,6 +126,7 @@ test("analysis bundle repository appends bundle reviews idempotently", async () 
 
 test("analysis bundle repository returns approved model route evidence", async () => {
   const routeEvidence: ApprovedModelRouteEvidence = {
+    tenantId: "tenant-a",
     evidenceId: "route-evidence-1",
     status: "APPROVED",
     resourceId: "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/aoai",
@@ -127,5 +140,12 @@ test("analysis bundle repository returns approved model route evidence", async (
   };
   const repository = new InMemoryWorkloadRepository({ approvedModelRouteEvidence: [routeEvidence] });
 
-  assert.deepEqual(await repository.getApprovedModelRouteEvidence("route-evidence-1"), routeEvidence);
+  assert.deepEqual(
+    await repository.getApprovedModelRouteEvidence("tenant-a", "route-evidence-1"),
+    routeEvidence
+  );
+  assert.equal(
+    await repository.getApprovedModelRouteEvidence("tenant-b", "route-evidence-1"),
+    undefined
+  );
 });

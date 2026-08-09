@@ -40,68 +40,53 @@ for (const [path, pathItem] of Object.entries(openApi.paths ?? {})) {
   }
 }
 
+const requiredDemoOperations = [
+  {
+    operationId: "createDemoAnalysisBundle",
+    method: "POST",
+    path: "/v1/demo-authority/cases/{caseId}/analysis-bundles"
+  },
+  {
+    operationId: "getDemoAnalysisBundle",
+    method: "GET",
+    path: "/v1/demo-authority/analysis-bundles/{analysisBundleId}"
+  },
+  {
+    operationId: "completeDemoAnalysisBundle",
+    method: "POST",
+    path: "/v1/demo-authority/analysis-bundles/{analysisBundleId}/completion"
+  },
+  {
+    operationId: "submitDemoBundleReview",
+    method: "POST",
+    path: "/v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/reviews"
+  },
+  {
+    operationId: "prepareDemoBundleDraft",
+    method: "POST",
+    path: "/v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/draft-recommendations"
+  },
+  {
+    operationId: "getDemoModelRouteEvidence",
+    method: "GET",
+    path: "/v1/demo-authority/model-route-evidence/{evidenceId}"
+  }
+];
+const demoSchemas = [
+  "CreateDemoAnalysisBundleRequest",
+  "AnalysisBundleResponse",
+  "CompleteDemoAnalysisBundleRequest",
+  "SubmitDemoBundleReviewRequest",
+  "PrepareDemoBundleDraftRequest",
+  "ModelRouteEvidenceResponse"
+];
+
 for (const approved of approvedOperations) {
   const found = operationRows.find((row) => row.operationId === approved.operationId);
   if (!found) {
     throw new Error(`MISSING_OPERATION_ID:${approved.operationId}`);
   }
 
-  const requiredDemoOperations = [
-    {
-      operationId: "createDemoAnalysisBundle",
-      method: "POST",
-      path: "/v1/demo-authority/cases/{caseId}/analysis-bundles"
-    },
-    {
-      operationId: "getDemoAnalysisBundle",
-      method: "GET",
-      path: "/v1/demo-authority/analysis-bundles/{analysisBundleId}"
-    },
-    {
-      operationId: "completeDemoAnalysisBundle",
-      method: "POST",
-      path: "/v1/demo-authority/analysis-bundles/{analysisBundleId}/completion"
-    },
-    {
-      operationId: "submitDemoBundleReview",
-      method: "POST",
-      path: "/v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/reviews"
-    },
-    {
-      operationId: "prepareDemoBundleDraft",
-      method: "POST",
-      path: "/v1/demo-authority/cases/{caseId}/analysis-bundles/{analysisBundleId}/draft-recommendations"
-    },
-    {
-      operationId: "getDemoModelRouteEvidence",
-      method: "GET",
-      path: "/v1/demo-authority/model-route-evidence/{evidenceId}"
-    }
-  ];
-  for (const required of requiredDemoOperations) {
-    const found = operationRows.find((row) => row.operationId === required.operationId);
-    if (!found) {
-      throw new Error(`MISSING_DEMO_OPERATION_ID:${required.operationId}`);
-    }
-    if (found.method !== required.method || found.path !== required.path) {
-      throw new Error(`DEMO_OPERATION_PATH_METHOD_MISMATCH:${required.operationId}`);
-    }
-  }
-
-  const demoSchemas = [
-    "CreateDemoAnalysisBundleRequest",
-    "AnalysisBundleResponse",
-    "CompleteDemoAnalysisBundleRequest",
-    "SubmitDemoBundleReviewRequest",
-    "PrepareDemoBundleDraftRequest",
-    "ModelRouteEvidenceResponse"
-  ];
-  for (const schemaName of demoSchemas) {
-    const schema = openApi.components?.schemas?.[schemaName];
-    if (!schema || schema.additionalProperties !== false) {
-      throw new Error(`DEMO_SCHEMA_MUST_BE_STRICT:${schemaName}`);
-    }
-  }
   if (found.method !== approved.method || found.path !== approved.path) {
     throw new Error(`OPERATION_PATH_METHOD_MISMATCH:${approved.operationId}`);
   }
@@ -110,6 +95,110 @@ for (const approved of approvedOperations) {
   if (expectedRoles !== actualRoles) {
     throw new Error(`OPERATION_ROLE_MISMATCH:${approved.operationId}`);
   }
+}
+
+for (const required of requiredDemoOperations) {
+  const found = operationRows.find((row) => row.operationId === required.operationId);
+  if (!found) {
+    throw new Error(`MISSING_DEMO_OPERATION_ID:${required.operationId}`);
+  }
+  if (found.method !== required.method || found.path !== required.path) {
+    throw new Error(`DEMO_OPERATION_PATH_METHOD_MISMATCH:${required.operationId}`);
+  }
+}
+
+for (const schemaName of demoSchemas) {
+  const schema = openApi.components?.schemas?.[schemaName];
+  if (!schema || schema.additionalProperties !== false) {
+    throw new Error(`DEMO_SCHEMA_MUST_BE_STRICT:${schemaName}`);
+  }
+}
+
+function assertExactProperties(schemaName, expectedProperties) {
+  const schema = openApi.components?.schemas?.[schemaName];
+  const actual = Object.keys(schema?.properties ?? {}).sort().join(",");
+  const expected = [...expectedProperties].sort().join(",");
+  if (actual !== expected) {
+    throw new Error(`DEMO_SCHEMA_PROPERTY_MISMATCH:${schemaName}:${actual}`);
+  }
+}
+
+assertExactProperties("CreateDemoAnalysisBundleRequest", [
+  "tenantId",
+  "caseId",
+  "analysisBundleId",
+  "modelRoute",
+  "modelDeploymentId",
+  "routeEvidenceId",
+  "promptTemplateVersion",
+  "requestFingerprint",
+  "evidenceIds"
+]);
+assertExactProperties("AnalysisBundleResponse", [
+  "tenantId",
+  "caseId",
+  "analysisBundleId",
+  "evidenceManifestHash",
+  "modelRoute",
+  "modelDeploymentId",
+  "routeEvidenceId",
+  "promptTemplateVersion",
+  "requestFingerprint",
+  "status",
+  "outputKind",
+  "unsupportedClaims",
+  "subjectVersion",
+  "evidence",
+  "citationCounts"
+]);
+assertExactProperties("CompleteDemoAnalysisBundleRequest", [
+  "tenantId",
+  "caseId",
+  "analysisBundleId",
+  "outputManifestHash",
+  "evidenceManifestHash",
+  "modelRoute",
+  "modelDeploymentId",
+  "routeEvidenceId",
+  "status",
+  "citationCounts"
+]);
+
+const analysisBundleSchema = openApi.components?.schemas?.AnalysisBundleResponse;
+if (!analysisBundleSchema?.required?.includes("evidence")) {
+  throw new Error("ANALYSIS_BUNDLE_RESPONSE_EVIDENCE_REQUIRED");
+}
+const evidenceItems = analysisBundleSchema?.properties?.evidence?.items;
+if (
+  evidenceItems?.additionalProperties !== false ||
+  [...(evidenceItems?.required ?? [])].sort().join(",") !==
+    ["evidenceId", "evidenceVersionId", "ordinal"].sort().join(",") ||
+  Object.keys(evidenceItems?.properties ?? {}).sort().join(",") !==
+    ["evidenceId", "evidenceVersionId", "ordinal"].sort().join(",")
+) {
+  throw new Error("ANALYSIS_BUNDLE_RESPONSE_EVIDENCE_CONTRACT_MISMATCH");
+}
+
+const completionOperation =
+  openApi.paths?.["/v1/demo-authority/analysis-bundles/{analysisBundleId}/completion"]?.post;
+if (
+  completionOperation?.["x-authentication"] !== "application" ||
+  (completionOperation?.["x-required-roles"]?.length ?? 0) !== 0
+) {
+  throw new Error("DEMO_COMPLETION_MUST_USE_APPLICATION_AUTHENTICATION");
+}
+
+const routeEvidenceParameters =
+  openApi.paths?.["/v1/demo-authority/model-route-evidence/{evidenceId}"]?.get?.parameters ?? [];
+if (
+  !routeEvidenceParameters.some(
+    (parameter) =>
+      parameter?.name === "tenantId" &&
+      parameter?.in === "query" &&
+      parameter?.required === true
+  )
+) {
+  throw new Error("MODEL_ROUTE_EVIDENCE_TENANT_QUERY_REQUIRED");
 }
 
 const phase3 = JSON.parse(readFileSync(phase3ContractPath, "utf8"));

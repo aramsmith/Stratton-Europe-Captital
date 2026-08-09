@@ -72,7 +72,10 @@ test("AZURE startup accepts only exact local ARM and Phase 5 route authority fix
               }
             },
             authority: {
-              getModelRouteEvidence: async (evidenceId) => {
+              getModelRouteEvidence: async (tenantId, evidenceId) => {
+                if (tenantId !== "00000000-0000-0000-0000-000000000123") {
+                  throw new Error("UNEXPECTED_ROUTE_EVIDENCE_TENANT");
+                }
                 const route = routes.find((candidate) => evidenceId.includes(candidate));
                 const value = mutate(fixture(route));
                 return {

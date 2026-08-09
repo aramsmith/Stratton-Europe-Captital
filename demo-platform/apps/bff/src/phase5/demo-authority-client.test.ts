@@ -27,6 +27,8 @@ const bundle: AnalysisBundleStatus = {
   citationCounts: {
     totalClaims: 0,
     citedClaims: 0,
+    materialClaims: 0,
+    citedMaterialClaims: 0,
     unsupportedClaims: 0
   }
 };
@@ -96,12 +98,17 @@ describe("createDemoAuthorityClient", () => {
       fetch: fetchImpl
     });
 
-    await expect(client.getModelRouteEvidence("SEC-EVID-TERRA-ROUTE-v1")).resolves.toMatchObject({
+    await expect(
+      client.getModelRouteEvidence(
+        "00000000-0000-0000-0000-000000000123",
+        "SEC-EVID-TERRA-ROUTE-v1"
+      )
+    ).resolves.toMatchObject({
       route: "TERRA",
       deploymentId: "terra-grounded-analysis"
     });
     expect(fetchImpl).toHaveBeenCalledWith(
-      "https://authority.stratton.example/v1/demo-authority/model-route-evidence/SEC-EVID-TERRA-ROUTE-v1",
+      "https://authority.stratton.example/v1/demo-authority/model-route-evidence/SEC-EVID-TERRA-ROUTE-v1?tenantId=00000000-0000-0000-0000-000000000123",
       expect.objectContaining({
         headers: expect.objectContaining({ authorization: expect.any(String) })
       })
@@ -156,7 +163,6 @@ describe("createDemoAuthorityClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-123",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -180,7 +186,6 @@ describe("createDemoAuthorityClient", () => {
       tenantId: "tenant-stratton",
       caseId: "project-danube",
       analysisBundleId: "bundle-123",
-      evidenceManifestHash: "a".repeat(64),
       modelRoute: "TERRA",
       modelDeploymentId: "terra-grounded-analysis",
       routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -191,7 +196,19 @@ describe("createDemoAuthorityClient", () => {
   });
 
   it("uses a separate application token only for bundle completion", async () => {
-    const readyBundle = { ...bundle, status: "DRAFT_ONLY_READY" as const, subjectVersion: "c".repeat(64) };
+    const citationCounts = {
+      totalClaims: 2,
+      citedClaims: 2,
+      materialClaims: 1,
+      citedMaterialClaims: 1,
+      unsupportedClaims: 0
+    };
+    const readyBundle = {
+      ...bundle,
+      status: "DRAFT_ONLY_READY" as const,
+      subjectVersion: "c".repeat(64),
+      citationCounts
+    };
     const fetchImpl = vi.fn<typeof fetch>().mockResolvedValue(
       new Response(JSON.stringify(readyBundle), { status: 200 })
     );
@@ -202,9 +219,13 @@ describe("createDemoAuthorityClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-123",
-        subjectVersion: "c".repeat(64),
+        outputManifestHash: "c".repeat(64),
+        evidenceManifestHash: bundle.evidenceManifestHash,
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
         status: "DRAFT_ONLY_READY",
-        unsupportedClaims: 0
+        citationCounts
       })
     ).resolves.toEqual(readyBundle);
 
@@ -212,6 +233,18 @@ describe("createDemoAuthorityClient", () => {
     expect(url).toBe(
       "https://authority.stratton.example/v1/demo-authority/analysis-bundles/bundle-123/completion"
     );
+    expect(JSON.parse(String(init?.body))).toEqual({
+      tenantId: "tenant-stratton",
+      caseId: "project-danube",
+      analysisBundleId: "bundle-123",
+      outputManifestHash: "c".repeat(64),
+      evidenceManifestHash: bundle.evidenceManifestHash,
+      modelRoute: "TERRA",
+      modelDeploymentId: "terra-grounded-analysis",
+      routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+      status: "DRAFT_ONLY_READY",
+      citationCounts
+    });
     expect(init?.headers).toMatchObject({
       authorization: "Bearer application-phase5-token",
       "x-correlation-id": "corr-123"
@@ -227,7 +260,6 @@ describe("createDemoAuthorityClient", () => {
       tenantId: "tenant-stratton",
       caseId: "project-danube",
       analysisBundleId: "bundle-123",
-      evidenceManifestHash: "a".repeat(64),
       modelRoute: "TERRA" as const,
       modelDeploymentId: "terra-grounded-analysis",
       routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -244,7 +276,6 @@ describe("createDemoAuthorityClient", () => {
       routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
       modelDeploymentId: "terra-grounded-analysis",
       modelRoute: "TERRA",
-      evidenceManifestHash: "a".repeat(64),
       analysisBundleId: "bundle-123",
       caseId: "project-danube",
       tenantId: "tenant-stratton"

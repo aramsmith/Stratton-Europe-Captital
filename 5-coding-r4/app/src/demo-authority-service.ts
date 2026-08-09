@@ -7,7 +7,6 @@ import type {
   AnalysisBundleStatus,
   ApprovedModelRouteEvidence,
   AuthenticatedPrincipal,
-  CitationAssessment,
   ReviewDecision,
   ReviewType,
   WorkloadRepository
@@ -37,7 +36,6 @@ export interface CreateDemoAnalysisBundleInput {
   readonly tenantId: string;
   readonly caseId: string;
   readonly analysisBundleId: string;
-  readonly evidenceManifestHash: string;
   readonly modelRoute: "LUNA" | "TERRA" | "SOL";
   readonly modelDeploymentId: string;
   readonly routeEvidenceId: string;
@@ -50,9 +48,13 @@ export interface CompleteDemoAnalysisBundleInput {
   readonly tenantId: string;
   readonly caseId: string;
   readonly analysisBundleId: string;
-  readonly subjectVersion: string;
-  readonly status: Exclude<AnalysisBundleStatus, "QUEUED" | "IN_PROGRESS">;
-  readonly unsupportedClaims: number;
+  readonly outputManifestHash: string;
+  readonly evidenceManifestHash: string;
+  readonly modelRoute: "LUNA" | "TERRA" | "SOL";
+  readonly modelDeploymentId: string;
+  readonly routeEvidenceId: string;
+  readonly status: "DRAFT_ONLY_READY";
+  readonly citationCounts: DemoCitationCounts;
 }
 
 export interface SubmitDemoBundleReviewInput {
@@ -77,6 +79,8 @@ export interface PrepareDemoBundleDraftInput {
 export interface DemoCitationCounts {
   readonly totalClaims: number;
   readonly citedClaims: number;
+  readonly materialClaims: number;
+  readonly citedMaterialClaims: number;
   readonly unsupportedClaims: number;
 }
 
@@ -122,12 +126,24 @@ function requireFields(record: Record<string, unknown>, fields: readonly string[
   }
 }
 
-function citationCounts(assessment: CitationAssessment): DemoCitationCounts {
+function citationCounts(record: AnalysisBundleRecord): DemoCitationCounts {
   return {
-    totalClaims: assessment.totalClaimCount,
-    citedClaims: assessment.citedClaimCount,
-    unsupportedClaims: assessment.unsupportedClaimCount
+    totalClaims: record.totalClaims,
+    citedClaims: record.citedClaims,
+    materialClaims: record.materialClaims,
+    citedMaterialClaims: record.citedMaterialClaims,
+    unsupportedClaims: record.unsupportedClaims
   };
+}
+
+function sameCitationCounts(left: DemoCitationCounts, right: DemoCitationCounts): boolean {
+  return (
+    left.totalClaims === right.totalClaims &&
+    left.citedClaims === right.citedClaims &&
+    left.materialClaims === right.materialClaims &&
+    left.citedMaterialClaims === right.citedMaterialClaims &&
+    left.unsupportedClaims === right.unsupportedClaims
+  );
 }
 
 function isRouteEvidenceCurrent(routeEvidence: ApprovedModelRouteEvidence): boolean {
@@ -141,13 +157,15 @@ function isRouteEvidenceCurrent(routeEvidence: ApprovedModelRouteEvidence): bool
 
 async function requireRouteEvidence(
   repository: WorkloadRepository,
+  tenantId: string,
   routeEvidenceId: string,
   route: "LUNA" | "TERRA" | "SOL",
   deploymentId: string
 ): Promise<ApprovedModelRouteEvidence> {
-  const routeEvidence = await repository.getApprovedModelRouteEvidence(routeEvidenceId);
+  const routeEvidence = await repository.getApprovedModelRouteEvidence(tenantId, routeEvidenceId);
   if (
     !routeEvidence ||
+    routeEvidence.tenantId !== tenantId ||
     !isRouteEvidenceCurrent(routeEvidence) ||
     routeEvidence.route !== route ||
     routeEvidence.deploymentId !== deploymentId
@@ -195,17 +213,18 @@ function evidenceManifestHash(
     .digest("hex");
 }
 
-async function requireCompleteCitations(
-  repository: WorkloadRepository,
-  tenantId: string,
-  caseId: string,
-  analysisBundleId: string
-): Promise<CitationAssessment> {
-  const assessment = await repository.getCitationAssessment(tenantId, caseId, analysisBundleId);
+function requireCompleteCitations(record: AnalysisBundleRecord): DemoCitationCounts {
+  const assessment = citationCounts(record);
   if (
-    assessment.totalClaimCount === 0 ||
-    assessment.materialClaimCount === 0 ||
-    !assessment.allMaterialClaimsCited
+    !Object.values(assessment).every((value) => Number.isInteger(value) && value >= 0) ||
+    assessment.totalClaims === 0 ||
+    assessment.materialClaims === 0 ||
+    assessment.citedClaims > assessment.totalClaims ||
+    assessment.materialClaims > assessment.totalClaims ||
+    assessment.citedMaterialClaims > assessment.citedClaims ||
+    assessment.citedMaterialClaims !== assessment.materialClaims ||
+    assessment.unsupportedClaims !== assessment.totalClaims - assessment.citedClaims ||
+    assessment.unsupportedClaims !== 0
   ) {
     fail("EVIDENCE_INCOMPLETE", 422);
   }
@@ -216,18 +235,31 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
   const { repository } = config;
 
   async function response(record: AnalysisBundleRecord): Promise<DemoAuthorityBundleResponse> {
-    const [evidence, assessment] = await Promise.all([
-      repository.listAnalysisBundleEvidence(record.tenantId, record.caseId, record.analysisBundleId),
-      repository.getCitationAssessment(record.tenantId, record.caseId, record.analysisBundleId)
-    ]);
+    const evidence = await repository.listAnalysisBundleEvidence(
+      record.tenantId,
+      record.caseId,
+      record.analysisBundleId
+    );
     return {
-      ...record,
+      tenantId: record.tenantId,
+      caseId: record.caseId,
+      analysisBundleId: record.analysisBundleId,
+      evidenceManifestHash: record.evidenceManifestHash,
+      modelRoute: record.modelRoute,
+      modelDeploymentId: record.modelDeploymentId,
+      routeEvidenceId: record.routeEvidenceId,
+      promptTemplateVersion: record.promptTemplateVersion,
+      requestFingerprint: record.requestFingerprint,
+      status: record.status,
+      outputKind: record.outputKind,
+      unsupportedClaims: record.unsupportedClaims,
+      ...(record.subjectVersion ? { subjectVersion: record.subjectVersion } : {}),
       evidence: evidence.map(({ evidenceId, evidenceVersionId, ordinal }) => ({
         evidenceId,
         evidenceVersionId,
         ordinal
       })),
-      citationCounts: citationCounts(assessment)
+      citationCounts: citationCounts(record)
     };
   }
 
@@ -241,7 +273,6 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
         "tenantId",
         "caseId",
         "analysisBundleId",
-        "evidenceManifestHash",
         "modelDeploymentId",
         "routeEvidenceId",
         "promptTemplateVersion",
@@ -251,7 +282,13 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
         fail("INVALID_CONTRACT", 400);
       }
       await requireCaseAccess(repository, principal, input.tenantId, input.caseId);
-      await requireRouteEvidence(repository, input.routeEvidenceId, input.modelRoute, input.modelDeploymentId);
+      await requireRouteEvidence(
+        repository,
+        input.tenantId,
+        input.routeEvidenceId,
+        input.modelRoute,
+        input.modelDeploymentId
+      );
 
       const evidenceIds = [...new Set(input.evidenceIds.map((evidenceId) => evidenceId.trim()))].sort((a, b) =>
         a.localeCompare(b)
@@ -333,7 +370,11 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
         requestFingerprint: input.requestFingerprint,
         status: "QUEUED",
         outputKind: "DRAFT_ONLY",
-        unsupportedClaims: 0
+        unsupportedClaims: 0,
+        totalClaims: 0,
+        citedClaims: 0,
+        materialClaims: 0,
+        citedMaterialClaims: 0
       };
       try {
         await repository.createAnalysisBundle(record);
@@ -367,14 +408,18 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
         "tenantId",
         "caseId",
         "analysisBundleId",
-        "subjectVersion",
+        "outputManifestHash",
+        "evidenceManifestHash",
+        "modelDeploymentId",
+        "routeEvidenceId",
         "status"
       ]);
       if (
         input.tenantId !== principal.tenantId ||
         input.status !== "DRAFT_ONLY_READY" ||
-        !Number.isInteger(input.unsupportedClaims) ||
-        input.unsupportedClaims < 0
+        !/^[a-f0-9]{64}$/u.test(input.outputManifestHash) ||
+        !input.citationCounts ||
+        typeof input.citationCounts !== "object"
       ) {
         fail("STATE_CONFLICT", 409);
       }
@@ -382,12 +427,37 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
       if (!record) {
         fail("STATE_CONFLICT", 409);
       }
-      await requireRouteEvidence(repository, record.routeEvidenceId, record.modelRoute, record.modelDeploymentId);
+      if (
+        input.evidenceManifestHash !== record.evidenceManifestHash ||
+        input.modelRoute !== record.modelRoute ||
+        input.modelDeploymentId !== record.modelDeploymentId ||
+        input.routeEvidenceId !== record.routeEvidenceId
+      ) {
+        fail("STATE_CONFLICT", 409);
+      }
+      await requireRouteEvidence(
+        repository,
+        input.tenantId,
+        record.routeEvidenceId,
+        record.modelRoute,
+        record.modelDeploymentId
+      );
+      const completionRecord: AnalysisBundleRecord = {
+        ...record,
+        status: "DRAFT_ONLY_READY",
+        subjectVersion: input.outputManifestHash,
+        unsupportedClaims: input.citationCounts.unsupportedClaims,
+        totalClaims: input.citationCounts.totalClaims,
+        citedClaims: input.citationCounts.citedClaims,
+        materialClaims: input.citationCounts.materialClaims,
+        citedMaterialClaims: input.citationCounts.citedMaterialClaims
+      };
+      requireCompleteCitations(completionRecord);
       if (record.subjectVersion) {
         if (
-          record.subjectVersion === input.subjectVersion &&
+          record.subjectVersion === input.outputManifestHash &&
           record.status === "DRAFT_ONLY_READY" &&
-          record.unsupportedClaims === input.unsupportedClaims
+          sameCitationCounts(citationCounts(record), input.citationCounts)
         ) {
           return response(record);
         }
@@ -396,31 +466,17 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
       if (record.status !== "QUEUED") {
         fail("STATE_CONFLICT", 409);
       }
-      const assessment = await requireCompleteCitations(
-        repository,
-        input.tenantId,
-        input.caseId,
-        input.analysisBundleId
-      );
-      const expectedSubjectVersion = await repository.buildEvidenceManifestHash(
-        input.tenantId,
-        input.caseId,
-        input.analysisBundleId
-      );
-      if (
-        input.subjectVersion !== expectedSubjectVersion ||
-        input.unsupportedClaims !== assessment.unsupportedClaimCount ||
-        assessment.unsupportedClaimCount !== 0
-      ) {
-        fail("EVIDENCE_INCOMPLETE", 422);
-      }
       const completion: AnalysisBundleCompletionRecord = {
         tenantId: input.tenantId,
         caseId: input.caseId,
         analysisBundleId: input.analysisBundleId,
-        subjectVersion: input.subjectVersion,
+        subjectVersion: input.outputManifestHash,
         status: "DRAFT_ONLY_READY",
-        unsupportedClaims: input.unsupportedClaims
+        unsupportedClaims: input.citationCounts.unsupportedClaims,
+        totalClaims: input.citationCounts.totalClaims,
+        citedClaims: input.citationCounts.citedClaims,
+        materialClaims: input.citationCounts.materialClaims,
+        citedMaterialClaims: input.citationCounts.citedMaterialClaims
       };
       try {
         await repository.completeAnalysisBundle(completion);
@@ -468,7 +524,7 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
       ) {
         fail("STATE_CONFLICT", 409);
       }
-      await requireCompleteCitations(repository, input.tenantId, input.caseId, input.analysisBundleId);
+      requireCompleteCitations(bundle);
       const review: AnalysisBundleReviewRecord = {
         tenantId: input.tenantId,
         caseId: input.caseId,
@@ -528,36 +584,44 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
           fail("POLICY_DENIED", 403);
         }
       }
-      const assessment = await requireCompleteCitations(
-        repository,
-        input.tenantId,
-        input.caseId,
-        input.analysisBundleId
-      );
+      const assessment = requireCompleteCitations(bundle);
       return {
         caseId: input.caseId,
         analysisBundleId: input.analysisBundleId,
         status: "DRAFT_RECOMMENDATION_READY",
         outputKind: "DRAFT_ONLY",
-        citationCounts: citationCounts(assessment)
+        citationCounts: assessment
       };
     },
 
     async getRouteEvidence(
       principal: AuthenticatedPrincipal,
+      tenantId: string,
       evidenceId: string
-    ): Promise<ApprovedModelRouteEvidence> {
+    ): Promise<Omit<ApprovedModelRouteEvidence, "tenantId">> {
       if (
+        tenantId !== principal.tenantId ||
         !(principal.isHuman && principal.roles.includes("CaseReader")) &&
         principal.applicationId !== config.completionClientId
       ) {
         fail("POLICY_DENIED", 403);
       }
-      const routeEvidence = await repository.getApprovedModelRouteEvidence(evidenceId);
+      const routeEvidence = await repository.getApprovedModelRouteEvidence(tenantId, evidenceId);
       if (!routeEvidence || !isRouteEvidenceCurrent(routeEvidence)) {
         fail("POLICY_DENIED", 403);
       }
-      return routeEvidence;
+      return {
+        evidenceId: routeEvidence.evidenceId,
+        status: routeEvidence.status,
+        resourceId: routeEvidence.resourceId,
+        deploymentId: routeEvidence.deploymentId,
+        region: routeEvidence.region,
+        route: routeEvidence.route,
+        apiVersion: routeEvidence.apiVersion,
+        evidenceVersion: routeEvidence.evidenceVersion,
+        validFromIso: routeEvidence.validFromIso,
+        validUntilIso: routeEvidence.validUntilIso
+      };
     }
   };
 }
@@ -567,12 +631,7 @@ async function findBundle(
   tenantId: string,
   analysisBundleId: string
 ): Promise<AnalysisBundleRecord> {
-  const run = await repository.getAnalysisRunById(tenantId, analysisBundleId);
-  const caseId = run?.caseId;
-  if (!caseId) {
-    fail("STATE_CONFLICT", 409);
-  }
-  const bundle = await repository.getAnalysisBundle(tenantId, caseId, analysisBundleId);
+  const bundle = await repository.getAnalysisBundleById(tenantId, analysisBundleId);
   if (!bundle) {
     fail("STATE_CONFLICT", 409);
   }

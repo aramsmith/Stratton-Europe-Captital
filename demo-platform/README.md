@@ -130,6 +130,10 @@ The additive Phase 5 authority routes are limited to analysis-bundle creation an
 service-principal completion, human bundle reviews, draft preparation, and model-route-evidence
 lookup under `/v1/demo-authority`. They produce only `DRAFT_ONLY` output; no investment-decision or
 committee-submission operation exists.
+Completion submits the BFF-derived output-manifest hash and bundle-scoped citation/material-claim
+counts; Phase 5 persists that hash as the authoritative `subjectVersion` without requiring Release 1
+analysis-run, claim, or citation rows. AZURE startup sends the configured `DEMO_TENANT_ID` on each
+route-evidence lookup so Phase 5 SQL RLS remains tenant-scoped.
 
 Remove only known generated workspace outputs:
 

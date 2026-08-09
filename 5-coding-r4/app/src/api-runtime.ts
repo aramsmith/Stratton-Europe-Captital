@@ -1750,12 +1750,16 @@ function buildRoutes(config: ApiRuntimeConfig): readonly Route[] {
       roles: ["CaseReader"],
       authenticatedOnly: true,
       mutation: false,
-      handler: async ({ principal }, match) => {
+      handler: async ({ request, principal }, match) => {
         const evidenceId = match[1];
-        if (!evidenceId) {
+        const tenantId = new URL(request.url ?? "/", "https://runtime.local").searchParams.get("tenantId");
+        if (!evidenceId || !tenantId) {
           throw new HttpError(400, "INVALID_CONTRACT");
         }
-        return { statusCode: 200, body: await demoAuthority.getRouteEvidence(principal, evidenceId) };
+        return {
+          statusCode: 200,
+          body: await demoAuthority.getRouteEvidence(principal, tenantId, evidenceId)
+        };
       }
     },
     {

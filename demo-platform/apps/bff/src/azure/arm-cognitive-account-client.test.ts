@@ -91,6 +91,27 @@ describe("createArmCognitiveAccountClient", () => {
     );
   });
 
+  it("accepts the exact Azure AI Services account kind approved by the design", async () => {
+    const fetchImpl = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(account({ kind: "AIServices" })), { status: 200 })
+      )
+      .mockResolvedValueOnce(new Response(JSON.stringify(deployment()), { status: 200 }));
+
+    await expect(
+      createClient(fetchImpl).getAccountDeployment({
+        resourceId,
+        endpoint: "https://stratton-terra.openai.azure.com",
+        deploymentId
+      })
+    ).resolves.toMatchObject({
+      resourceId,
+      accountName: "stratton-terra",
+      deploymentId
+    });
+  });
+
   it("accepts Azure casing differences in returned account and deployment resource IDs", async () => {
     const fetchImpl = vi
       .fn<typeof fetch>()

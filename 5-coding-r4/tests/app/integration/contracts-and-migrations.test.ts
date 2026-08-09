@@ -395,7 +395,10 @@ test("demo authority openapi paths declare strict analysis bundle contracts", ()
     "operationId: getDemoModelRouteEvidence",
     "additionalProperties: false",
     "subjectVersion",
-    "evidenceIds",
+    "evidence:",
+    "evidenceVersionId",
+    "outputManifestHash",
+    "x-authentication: application",
     "citationCounts",
     "DRAFT_ONLY"
   ]) {
@@ -414,6 +417,10 @@ test("demo authority migration creates tenant-scoped bundle persistence without 
     "case_id nvarchar",
     "analysis_bundle_id nvarchar",
     "request_fingerprint nvarchar",
+    "total_claims int not null",
+    "cited_claims int not null",
+    "material_claims int not null",
+    "cited_material_claims int not null",
     "ordinal int not null",
     "uq_analysis_bundle_request_fingerprint",
     "uq_analysis_bundle_evidence_ordinal",
@@ -429,4 +436,11 @@ test("demo authority migration creates tenant-scoped bundle persistence without 
   for (const forbidden of ["raw_content", "content_text", "payload_body", "document_text"]) {
     assert.equal(sql.includes(forbidden), false, forbidden);
   }
+});
+
+test("demo authority lifecycle is independent of Release 1 analysis rows", () => {
+  const source = readFileSync(resolve(appRoot, "src", "demo-authority-service.ts"), "utf8");
+  assert.equal(source.includes("getAnalysisRunById"), false);
+  assert.equal(source.includes("getCitationAssessment"), false);
+  assert.equal(source.includes("buildEvidenceManifestHash"), false);
 });

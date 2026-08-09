@@ -117,7 +117,6 @@ export function createAuthoritativeBundleWorkflowClient(
         tenantId: input.tenantId,
         caseId: input.caseId,
         analysisBundleId: input.analysisBundleId,
-        evidenceManifestHash: input.evidenceManifestHash,
         modelRoute: input.modelRoute,
         modelDeploymentId: input.modelDeploymentId,
         routeEvidenceId: input.routeEvidenceId,

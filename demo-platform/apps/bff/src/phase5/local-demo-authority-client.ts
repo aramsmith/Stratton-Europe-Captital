@@ -16,6 +16,7 @@ interface LocalCompletionPrincipal {
 interface CreateLocalDemoAuthorityClientOptions {
   readonly mode: "LOCAL" | "AZURE";
   readonly getCompletionPrincipal?: () => LocalCompletionPrincipal;
+  readonly completionApplicationId?: string;
 }
 
 export function createLocalDemoAuthorityClient(
@@ -32,6 +33,8 @@ export function createLocalDemoAuthorityClient(
   const bundles = new Map<string, AnalysisBundleStatus>();
   const admissions = new Set<string>();
   const reviews = new Map<string, SubmitBundleReviewInput[]>();
+  const completionApplicationId =
+    options.completionApplicationId?.trim() || "local-demo-bff";
   const getCompletionPrincipal =
     options.getCompletionPrincipal ??
     (() => ({
@@ -54,7 +57,7 @@ export function createLocalDemoAuthorityClient(
     const principal = getCompletionPrincipal();
     if (
       principal.principalType !== "APPLICATION" ||
-      !principal.applicationId?.trim()
+      principal.applicationId !== completionApplicationId
     ) {
       throw new DemoHttpError(
         403,
@@ -120,6 +123,8 @@ export function createLocalDemoAuthorityClient(
         citationCounts: {
           totalClaims: 0,
           citedClaims: 0,
+          materialClaims: 0,
+          citedMaterialClaims: 0,
           unsupportedClaims: 0
         }
       };
@@ -137,15 +142,59 @@ export function createLocalDemoAuthorityClient(
       ) {
         throw new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_BUNDLE_COMPLETION_INVALID");
       }
+      if (
+        input.evidenceManifestHash !== existing.evidenceManifestHash ||
+        input.modelRoute !== existing.modelRoute ||
+        input.modelDeploymentId !== existing.modelDeploymentId ||
+        input.routeEvidenceId !== existing.routeEvidenceId
+      ) {
+        throw new DemoHttpError(
+          409,
+          "STATE_CONFLICT",
+          "ANALYSIS_BUNDLE_COMPLETION_BINDING_MISMATCH"
+        );
+      }
+      if (!isCompleteCitationAssessment(input.citationCounts)) {
+        throw new DemoHttpError(
+          422,
+          "EVIDENCE_INCOMPLETE",
+          "ANALYSIS_BUNDLE_COMPLETION_ASSESSMENT_INVALID"
+        );
+      }
+      if (!/^[a-f0-9]{64}$/u.test(input.outputManifestHash)) {
+        throw new DemoHttpError(
+          409,
+          "STATE_CONFLICT",
+          "ANALYSIS_BUNDLE_OUTPUT_MANIFEST_INVALID"
+        );
+      }
+      if (existing.subjectVersion) {
+        if (
+          existing.status === "DRAFT_ONLY_READY" &&
+          existing.subjectVersion === input.outputManifestHash &&
+          sameCitationCounts(existing.citationCounts, input.citationCounts)
+        ) {
+          return existing;
+        }
+        throw new DemoHttpError(
+          409,
+          "STATE_CONFLICT",
+          "ANALYSIS_BUNDLE_COMPLETION_CONFLICT"
+        );
+      }
+      if (existing.status !== "QUEUED") {
+        throw new DemoHttpError(
+          409,
+          "STATE_CONFLICT",
+          "ANALYSIS_BUNDLE_COMPLETION_INVALID"
+        );
+      }
       const completed: AnalysisBundleStatus = {
         ...existing,
         status: input.status,
-        unsupportedClaims: input.unsupportedClaims,
-        subjectVersion: input.subjectVersion,
-        citationCounts: {
-          ...existing.citationCounts,
-          unsupportedClaims: input.unsupportedClaims
-        }
+        unsupportedClaims: input.citationCounts.unsupportedClaims,
+        subjectVersion: input.outputManifestHash,
+        citationCounts: input.citationCounts
       };
       bundles.set(completed.analysisBundleId, completed);
       return completed;
@@ -224,6 +273,35 @@ function createEvidenceManifestHash(
     .digest("hex");
 }
 
+function isCompleteCitationAssessment(
+  counts: AnalysisBundleStatus["citationCounts"]
+): boolean {
+  return (
+    Object.values(counts).every((value) => Number.isInteger(value) && value >= 0) &&
+    counts.totalClaims > 0 &&
+    counts.materialClaims > 0 &&
+    counts.citedClaims <= counts.totalClaims &&
+    counts.materialClaims <= counts.totalClaims &&
+    counts.citedMaterialClaims <= counts.citedClaims &&
+    counts.citedMaterialClaims === counts.materialClaims &&
+    counts.unsupportedClaims === counts.totalClaims - counts.citedClaims &&
+    counts.unsupportedClaims === 0
+  );
+}
+
+function sameCitationCounts(
+  left: AnalysisBundleStatus["citationCounts"],
+  right: AnalysisBundleStatus["citationCounts"]
+): boolean {
+  return (
+    left.totalClaims === right.totalClaims &&
+    left.citedClaims === right.citedClaims &&
+    left.materialClaims === right.materialClaims &&
+    left.citedMaterialClaims === right.citedMaterialClaims &&
+    left.unsupportedClaims === right.unsupportedClaims
+  );
+}
+
 function assertBundleMatchesInput(
   bundle: AnalysisBundleStatus,
   input: Parameters<DemoAuthorityClient["createAnalysisBundle"]>[0]
@@ -264,6 +342,7 @@ function assertReadyBundle(
     bundle.caseId !== caseId ||
     bundle.status !== "DRAFT_ONLY_READY" ||
     bundle.subjectVersion !== subjectVersion ||
+    !isCompleteCitationAssessment(bundle.citationCounts) ||
     (evidenceManifestHash && bundle.evidenceManifestHash !== evidenceManifestHash)
   ) {
     throw new DemoHttpError(409, "STATE_CONFLICT", "ANALYSIS_BUNDLE_SUBJECT_VERSION_STALE");

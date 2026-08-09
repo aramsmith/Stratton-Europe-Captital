@@ -162,6 +162,8 @@ function authorityBundleClient(calls: string[]): DemoAuthorityClient {
     citationCounts: {
       totalClaims: 1,
       citedClaims: 1,
+      materialClaims: 1,
+      citedMaterialClaims: 1,
       unsupportedClaims: 0
     }
   };
@@ -310,7 +312,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
       tenantId: "tenant-stratton",
       caseId: "project-danube",
       analysisBundleId: "bundle-1",
-      evidenceManifestHash: "a".repeat(64),
       modelRoute: "TERRA",
       modelDeploymentId: "terra-grounded-analysis",
       routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -319,13 +320,23 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
       evidenceIds: ["evidence-board-pack"],
       analystQuestion: "Challenge management EBITDA quality",
       taskClass: "CROSS_DOCUMENT_COMPARISON",
-      complete: () => ({
+      complete: (accepted) => ({
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        subjectVersion: "c".repeat(64),
+        outputManifestHash: "c".repeat(64),
+        evidenceManifestHash: accepted.evidenceManifestHash,
+        modelRoute: accepted.modelRoute,
+        modelDeploymentId: accepted.modelDeploymentId,
+        routeEvidenceId: accepted.routeEvidenceId,
         status: "DRAFT_ONLY_READY",
-        unsupportedClaims: 0
+        citationCounts: {
+          totalClaims: 1,
+          citedClaims: 1,
+          materialClaims: 1,
+          citedMaterialClaims: 1,
+          unsupportedClaims: 0
+        }
       })
     });
 
@@ -336,6 +347,19 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
       "phase5:getBundle"
     ]);
     expect(result.subjectVersion).toBe("c".repeat(64));
+    expect(authority.completeAnalysisBundle).toHaveBeenCalledWith(
+      expect.objectContaining({
+        outputManifestHash: "c".repeat(64),
+        evidenceManifestHash: result.evidenceManifestHash,
+        modelRoute: "TERRA",
+        modelDeploymentId: "terra-grounded-analysis",
+        routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
+        citationCounts: expect.objectContaining({
+          materialClaims: 1,
+          citedMaterialClaims: 1
+        })
+      })
+    );
   });
 
   it("does not run Azure analysis when authority denies bundle creation", async () => {
@@ -351,7 +375,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -382,7 +405,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -420,7 +442,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -456,7 +477,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -515,7 +535,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",
@@ -550,7 +569,6 @@ describe("createAuthoritativeBundleWorkflowClient", () => {
         tenantId: "tenant-stratton",
         caseId: "project-danube",
         analysisBundleId: "bundle-1",
-        evidenceManifestHash: "a".repeat(64),
         modelRoute: "TERRA",
         modelDeploymentId: "terra-grounded-analysis",
         routeEvidenceId: "SEC-EVID-TERRA-ROUTE-v1",

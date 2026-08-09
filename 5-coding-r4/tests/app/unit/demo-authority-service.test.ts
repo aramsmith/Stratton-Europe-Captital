@@ -140,53 +140,13 @@ async function seedReadyBundle(repository: InMemoryWorkloadRepository): Promise<
       indexed: true
     }
   ]);
-  await repository.createAnalysisRun({
-    tenantId: "tenant-a",
-    caseId: "case-1",
-    analysisRunId: "bundle-1",
-    evidenceId: "ev-1",
-    evidenceVersionId: "ev-1-v1",
-    modelDeploymentId: "terra-prod-eu",
-    modelProviderEvidenceId: "model-evidence",
-    regionalDeploymentEvidenceId: "region-evidence",
-    promptGovernanceEvidenceId: "prompt-evidence",
-    promptTemplateVersion: "phase5-template-v1",
-    policyVersion: "release-1",
-    inputManifestHash: "input-manifest",
-    status: "IN_PROGRESS",
-    outputKind: "DRAFT_ONLY",
-    unsupportedClaims: 0
-  });
-  await repository.upsertClaims([
-    {
-      tenantId: "tenant-a",
-      caseId: "case-1",
-      claimId: "claim-1",
-      analysisRunId: "bundle-1",
-      claimTextReference: "supported material claim",
-      severity: "NON_CRITICAL",
-      reviewStatus: "CITED",
-      isMaterial: true
-    }
-  ]);
-  await repository.replaceCitations("tenant-a", "case-1", "bundle-1", [
-    {
-      tenantId: "tenant-a",
-      caseId: "case-1",
-      citationId: "citation-1",
-      claimId: "claim-1",
-      evidenceId: "ev-1",
-      evidenceVersionId: "ev-1-v1",
-      locator: "page:1",
-      accessibleAtReview: true
-    }
-  ]);
 }
 
 test("authority lifecycle creates a deterministic bundle and only completes it for the configured BFF", async () => {
   const repository = new InMemoryWorkloadRepository({
     approvedModelRouteEvidence: [
       {
+        tenantId: "tenant-a",
         evidenceId: "route-evidence-1",
         status: "APPROVED",
         resourceId: "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/aoai",
@@ -207,7 +167,6 @@ test("authority lifecycle creates a deterministic bundle and only completes it f
     tenantId: "tenant-a",
     caseId: "case-1",
     analysisBundleId: "bundle-1",
-    evidenceManifestHash: "untrusted-client-value",
     modelRoute: "TERRA",
     modelDeploymentId: "terra-prod-eu",
     routeEvidenceId: "route-evidence-1",
@@ -220,26 +179,61 @@ test("authority lifecycle creates a deterministic bundle and only completes it f
   assert.equal(created.status, "QUEUED");
   assert.match(created.evidenceManifestHash, /^[a-f0-9]{64}$/);
 
-  const subjectVersion = await repository.buildEvidenceManifestHash("tenant-a", "case-1", "bundle-1");
-  await assert.rejects(
-    service.completeBundle({ ...completionApp, applicationId: "other-app" }, {
-      tenantId: "tenant-a",
-      caseId: "case-1",
-      analysisBundleId: "bundle-1",
-      subjectVersion,
-      status: "DRAFT_ONLY_READY",
-      unsupportedClaims: 0
-    }),
-    /POLICY_DENIED/
-  );
-  const completed = await service.completeBundle(completionApp, {
+  const outputManifestHash = "c".repeat(64);
+  const completion = {
     tenantId: "tenant-a",
     caseId: "case-1",
     analysisBundleId: "bundle-1",
-    subjectVersion,
-    status: "DRAFT_ONLY_READY",
-    unsupportedClaims: 0
-  });
+    outputManifestHash,
+    evidenceManifestHash: created.evidenceManifestHash,
+    modelRoute: "TERRA" as const,
+    modelDeploymentId: "terra-prod-eu",
+    routeEvidenceId: "route-evidence-1",
+    status: "DRAFT_ONLY_READY" as const,
+    citationCounts: {
+      totalClaims: 2,
+      citedClaims: 2,
+      materialClaims: 1,
+      citedMaterialClaims: 1,
+      unsupportedClaims: 0
+    }
+  };
+  await assert.rejects(
+    service.completeBundle({ ...completionApp, applicationId: "other-app" }, completion),
+    /POLICY_DENIED/
+  );
+  await assert.rejects(
+    service.completeBundle(completionApp, {
+      ...completion,
+      evidenceManifestHash: "different-manifest"
+    }),
+    /STATE_CONFLICT/
+  );
+  await assert.rejects(
+    service.completeBundle(completionApp, {
+      ...completion,
+      citationCounts: {
+        ...completion.citationCounts,
+        citedMaterialClaims: 0,
+        unsupportedClaims: 1
+      }
+    }),
+    /EVIDENCE_INCOMPLETE/
+  );
+  await assert.rejects(
+    service.completeBundle(completionApp, {
+      ...completion,
+      citationCounts: {
+        totalClaims: 2,
+        citedClaims: 2,
+        materialClaims: 3,
+        citedMaterialClaims: 3,
+        unsupportedClaims: 0
+      }
+    }),
+    /EVIDENCE_INCOMPLETE/
+  );
+  const completed = await service.completeBundle(completionApp, completion);
   assert.deepEqual(
     {
       analysisBundleId: completed.analysisBundleId,
@@ -251,9 +245,11 @@ test("authority lifecycle creates a deterministic bundle and only completes it f
       analysisBundleId: "bundle-1",
       status: "DRAFT_ONLY_READY",
       outputKind: "DRAFT_ONLY",
-      subjectVersion
+      subjectVersion: outputManifestHash
     }
   );
+  assert.deepEqual(completed.citationCounts, completion.citationCounts);
+  assert.equal(await repository.getAnalysisRun("tenant-a", "case-1", "bundle-1"), undefined);
 
   for (const reviewType of ["DEAL", "LEGAL", "COMPLIANCE"] as const) {
     await service.submitReview(human, {
@@ -261,7 +257,7 @@ test("authority lifecycle creates a deterministic bundle and only completes it f
       caseId: "case-1",
       analysisBundleId: "bundle-1",
       reviewId: `review-${reviewType.toLowerCase()}`,
-      subjectVersion,
+      subjectVersion: outputManifestHash,
       reviewType,
       decision: "APPROVED",
       rationale: "Evidence and citations are sufficient.",
@@ -273,14 +269,14 @@ test("authority lifecycle creates a deterministic bundle and only completes it f
       tenantId: "tenant-a",
       caseId: "case-1",
       analysisBundleId: "bundle-1",
-      subjectVersion
+      subjectVersion: outputManifestHash
     }),
     {
       caseId: "case-1",
       analysisBundleId: "bundle-1",
       status: "DRAFT_RECOMMENDATION_READY",
       outputKind: "DRAFT_ONLY",
-      citationCounts: { totalClaims: 1, citedClaims: 1, unsupportedClaims: 0 }
+      citationCounts: completion.citationCounts
     }
   );
 });

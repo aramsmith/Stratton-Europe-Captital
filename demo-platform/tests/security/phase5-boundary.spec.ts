@@ -208,6 +208,186 @@ test("Phase 5 authority API denies an application principal at the human bundle-
   ).resolves.toBeDefined();
 });
 
+test("BFF client and real Phase 5 API complete the additive bundle contract without Release 1 rows", async () => {
+  await expect(
+    run(
+      process.execPath,
+      [
+        "--import",
+        "tsx",
+        "--input-type=module",
+        "--eval",
+        `
+          import { createApiServer } from "../5-coding-r4/app/src/api-runtime.ts";
+          import { InMemoryIdempotencyStore } from "../5-coding-r4/app/src/idempotency-store.ts";
+          import { StructuredLogger } from "../5-coding-r4/app/src/logger.ts";
+          import { InMemoryQueueRouter } from "../5-coding-r4/app/src/queue-adapters.ts";
+          import fixtureModule from "../5-coding-r4/tests/app/support/demo-authority-fixture.ts";
+          import { createDemoAuthorityClient } from "./apps/bff/src/phase5/demo-authority-client.ts";
+
+          const principal = (type, roles, appid) => Buffer.from(JSON.stringify({
+            auth_typ: "aad",
+            role_typ: "roles",
+            claims: [
+              { typ: "tid", val: "tenant-a" },
+              { typ: "oid", val: type === "user" ? "contributor-a" : "demo-bff-service" },
+              { typ: "iss", val: "https://login.microsoftonline.com/tenant-a/v2.0" },
+              { typ: "idtyp", val: type },
+              ...roles.map((role) => ({ typ: "roles", val: role })),
+              ...(appid ? [{ typ: "appid", val: appid }] : [])
+            ]
+          }), "utf8").toString("base64");
+          const humanPrincipal = principal(
+            "user",
+            ["DealContributor", "DealReviewer", "LegalApprover", "ComplianceApprover", "CaseReader"]
+          );
+          const applicationPrincipal = principal("app", [], "demo-bff");
+          const repository = await fixtureModule.createDemoAuthorityRepository();
+          const { server } = createApiServer({
+            repository,
+            idempotencyStore: new InMemoryIdempotencyStore(),
+            queueProducer: new InMemoryQueueRouter(),
+            logger: new StructuredLogger("test"),
+            requestBodyLimitBytes: 32768,
+            modelProviderEvidenceId: "model-evidence",
+            regionalDeploymentEvidenceId: "region-evidence",
+            promptGovernanceEvidenceId: "prompt-evidence",
+            idempotencyLeaseDurationSeconds: 120,
+            analysisCapabilityEnabled: true,
+            auditExportCapabilityEnabled: true,
+            completionClientId: "demo-bff"
+          });
+          await new Promise((resolve) => server.listen(0, resolve));
+          const address = server.address();
+          if (!address || typeof address === "string") {
+            throw new Error("PHASE5_FIXTURE_ADDRESS_UNAVAILABLE");
+          }
+          const fetchPhase5 = async (url, init = {}) => {
+            const source = new URL(String(url));
+            const headers = new Headers(init.headers);
+            const authorization = headers.get("authorization") ?? "";
+            headers.set(
+              "x-ms-client-principal",
+              authorization.includes("application-phase5-token")
+                ? applicationPrincipal
+                : humanPrincipal
+            );
+            return fetch(
+              "http://127.0.0.1:" + address.port + source.pathname + source.search,
+              { ...init, headers }
+            );
+          };
+          const client = createDemoAuthorityClient({
+            baseUrl: "https://phase5.example.test",
+            oboTokenExchange: {
+              acquirePhase5Token: async () => "delegated-phase5-token"
+            },
+            getDelegatedUserToken: async () => ({
+              accessToken: "browser-user-token",
+              tenantId: "tenant-a",
+              actorId: "contributor-a",
+              scopes: ["access_as_user"],
+              roles: ["DealContributor"]
+            }),
+            getApplicationToken: async () => "application-phase5-token",
+            getRequestContext: () => ({
+              identity: {
+                actorId: "contributor-a",
+                tenantId: "tenant-a",
+                principalType: "HUMAN",
+                roles: ["Stratton.Demo.ProjectDanube.Access"]
+              },
+              delegatedUserToken: {
+                accessToken: "browser-user-token",
+                tenantId: "tenant-a",
+                actorId: "contributor-a",
+                scopes: ["access_as_user"],
+                roles: ["DealContributor"]
+              },
+              correlationId: "corr-real-contract"
+            }),
+            fetch: fetchPhase5
+          });
+
+          try {
+            const route = await client.getModelRouteEvidence("tenant-a", "route-evidence-1");
+            if (route.route !== "TERRA") {
+              throw new Error("TENANT_ROUTE_EVIDENCE_NOT_RESOLVED");
+            }
+            const created = await client.createAnalysisBundle({
+              tenantId: "tenant-a",
+              caseId: "case-1",
+              analysisBundleId: "bundle-real-contract",
+              modelRoute: "TERRA",
+              modelDeploymentId: "terra-prod-eu",
+              routeEvidenceId: "route-evidence-1",
+              promptTemplateVersion: "phase5-template-v1",
+              requestFingerprint: "request-real-contract",
+              evidenceIds: ["ev-1"]
+            });
+            const citationCounts = {
+              totalClaims: 2,
+              citedClaims: 2,
+              materialClaims: 1,
+              citedMaterialClaims: 1,
+              unsupportedClaims: 0
+            };
+            const completed = await client.completeAnalysisBundle({
+              tenantId: "tenant-a",
+              caseId: "case-1",
+              analysisBundleId: created.analysisBundleId,
+              outputManifestHash: "c".repeat(64),
+              evidenceManifestHash: created.evidenceManifestHash,
+              modelRoute: created.modelRoute,
+              modelDeploymentId: created.modelDeploymentId,
+              routeEvidenceId: created.routeEvidenceId,
+              status: "DRAFT_ONLY_READY",
+              citationCounts
+            });
+            if (
+              completed.subjectVersion !== "c".repeat(64) ||
+              completed.citationCounts.materialClaims !== 1
+            ) {
+              throw new Error("AUTHORITATIVE_COMPLETION_CONTRACT_MISMATCH");
+            }
+            const fetched = await client.getAnalysisBundle(created.analysisBundleId);
+            if (fetched.subjectVersion !== completed.subjectVersion) {
+              throw new Error("AUTHORITATIVE_BUNDLE_GET_MISMATCH");
+            }
+            for (const reviewType of ["DEAL", "LEGAL", "COMPLIANCE"]) {
+              await client.submitBundleReview({
+                tenantId: "tenant-a",
+                caseId: "case-1",
+                analysisBundleId: created.analysisBundleId,
+                reviewId: "review-" + reviewType.toLowerCase(),
+                subjectVersion: completed.subjectVersion,
+                reviewType,
+                decision: "APPROVED",
+                rationale: "Real BFF-to-Phase-5 contract integration.",
+                evidenceManifestHash: created.evidenceManifestHash
+              });
+            }
+            await client.prepareBundleDraft({
+              tenantId: "tenant-a",
+              caseId: "case-1",
+              analysisBundleId: created.analysisBundleId,
+              subjectVersion: completed.subjectVersion
+            });
+            if (await repository.getAnalysisRun("tenant-a", "case-1", created.analysisBundleId)) {
+              throw new Error("RELEASE1_ANALYSIS_ROW_WAS_REQUIRED");
+            }
+          } finally {
+            await new Promise((resolve, reject) =>
+              server.close((error) => error ? reject(error) : resolve())
+            );
+          }
+        `
+      ],
+      { cwd: process.cwd() }
+    )
+  ).resolves.toBeDefined();
+});
+
 test("local contract-equivalent authority uses every admitted evidence item and the exact completion subject version", async ({
   request
 }) => {

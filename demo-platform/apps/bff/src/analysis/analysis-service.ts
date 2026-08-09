@@ -142,6 +142,17 @@ export class AnalysisService {
           admittedEvidenceIds
         });
         if (this.authoritativeWorkflow) {
+          const isSameAuthoritativeRequest =
+            state.latestAnalysisRun?.analysisRequestFingerprint ===
+              analysisMetadataWithoutRunId.analysisRequestFingerprint &&
+            Boolean(state.analysisAuthority);
+          if (
+            !isSameAuthoritativeRequest ||
+            hasHumanFindingHistory(state) ||
+            !state.analysisAuthority
+          ) {
+            assertAnalysisRerunAllowed(state);
+          }
           const tenantId = this.getTenantId();
           const analysisBundleId = createTenantScopedBundleId(
             tenantId,
@@ -153,9 +164,6 @@ export class AnalysisService {
             tenantId,
             caseId: input.caseId,
             analysisBundleId,
-            evidenceManifestHash: createEvidenceManifestHash(
-              analysisMetadataWithoutRunId.admittedEvidenceIds
-            ),
             modelRoute: route,
             modelDeploymentId: modelDeploymentByRoute[route],
             routeEvidenceId: routeEvidenceIdByRoute[route],
@@ -186,12 +194,16 @@ export class AnalysisService {
                 tenantId: acceptedBundle.tenantId,
                 caseId: acceptedBundle.caseId,
                 analysisBundleId: acceptedBundle.analysisBundleId,
-                subjectVersion: createOutputManifestHash(
+                outputManifestHash: createOutputManifestHash(
                   acceptedBundle,
                   findings
                 ),
+                evidenceManifestHash: acceptedBundle.evidenceManifestHash,
+                modelRoute: acceptedBundle.modelRoute,
+                modelDeploymentId: acceptedBundle.modelDeploymentId,
+                routeEvidenceId: acceptedBundle.routeEvidenceId,
                 status: "DRAFT_ONLY_READY",
-                unsupportedClaims: citationAssessment.unsupportedClaims
+                citationCounts: citationAssessment
               };
             }
           });
@@ -227,8 +239,7 @@ export class AnalysisService {
           );
           if (
             authoritativeBundle.subjectVersion !== outputManifestHash ||
-            authoritativeBundle.unsupportedClaims !==
-              citationAssessment.unsupportedClaims
+            !sameCitationCounts(authoritativeBundle.citationCounts, citationAssessment)
           ) {
             throw new DemoHttpError(
               409,
@@ -765,10 +776,6 @@ function hashValue(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
 
-function createEvidenceManifestHash(evidenceIds: readonly string[]): string {
-  return hashValue(JSON.stringify([...evidenceIds]));
-}
-
 function createTenantScopedBundleId(
   tenantId: string,
   caseId: string,
@@ -822,6 +829,8 @@ function assessOutputCitations(
 ): {
   readonly totalClaims: number;
   readonly citedClaims: number;
+  readonly materialClaims: number;
+  readonly citedMaterialClaims: number;
   readonly unsupportedClaims: number;
 } {
   const evidenceById = new Map(
@@ -829,8 +838,15 @@ function assessOutputCitations(
   );
   const bundleEvidenceIds = new Set(bundle.evidence.map((item) => item.evidenceId));
   let citedClaims = 0;
+  let materialClaims = 0;
+  let citedMaterialClaims = 0;
 
   for (const finding of findings) {
+    const isMaterial =
+      finding.materiality === "HIGH" || finding.materiality === "CRITICAL";
+    if (isMaterial) {
+      materialClaims += 1;
+    }
     const citationsValid =
       finding.citations.length > 0 &&
       finding.citations.every((citation) => {
@@ -845,16 +861,23 @@ function assessOutputCitations(
       });
     if (citationsValid) {
       citedClaims += 1;
+      if (isMaterial) {
+        citedMaterialClaims += 1;
+      }
     }
   }
 
   const assessment = {
     totalClaims: findings.length,
     citedClaims,
+    materialClaims,
+    citedMaterialClaims,
     unsupportedClaims: findings.length - citedClaims
   };
   if (
     assessment.totalClaims === 0 ||
+    assessment.materialClaims === 0 ||
+    assessment.citedMaterialClaims !== assessment.materialClaims ||
     assessment.unsupportedClaims !== 0
   ) {
     throw new DemoHttpError(
@@ -864,6 +887,19 @@ function assessOutputCitations(
     );
   }
   return assessment;
+}
+
+function sameCitationCounts(
+  left: AnalysisBundleStatus["citationCounts"],
+  right: AnalysisBundleStatus["citationCounts"]
+): boolean {
+  return (
+    left.totalClaims === right.totalClaims &&
+    left.citedClaims === right.citedClaims &&
+    left.materialClaims === right.materialClaims &&
+    left.citedMaterialClaims === right.citedMaterialClaims &&
+    left.unsupportedClaims === right.unsupportedClaims
+  );
 }
 
 function isCurrentLocalProjection(

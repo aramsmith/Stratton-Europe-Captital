@@ -3,6 +3,7 @@ import { DemoHttpError } from "../errors.js";
 const accountApiVersion = "2023-05-01";
 const deploymentApiVersion = "2024-10-01";
 const failureMessage = "AUTHORITATIVE_ROUTE_VALIDATION_FAILED";
+const approvedAccountKinds = new Set(["openai", "aiservices"]);
 
 export interface ArmCognitiveAccountClient {
   getAccountDeployment(input: {
@@ -188,7 +189,7 @@ function assertAccount(
     !sameArmResourceId(account.id, input.resourceId) ||
     !sameArmIdentifier(account.name, expectedAccountName) ||
     account.type.toLowerCase() !== "microsoft.cognitiveservices/accounts" ||
-    account.kind.toLowerCase() !== "openai" ||
+    !approvedAccountKinds.has(account.kind.toLowerCase()) ||
     !account.location.trim() ||
     normalizeEndpoint(account.properties.endpoint) !== normalizeEndpoint(input.endpoint)
   ) {

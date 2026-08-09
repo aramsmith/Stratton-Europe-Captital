@@ -270,7 +270,7 @@ paths:
   /v1/demo-authority/analysis-bundles/{analysisBundleId}/completion:
     post:
       operationId: completeDemoAnalysisBundle
-      x-required-roles: [DealContributor]
+      x-authentication: application
       parameters:
         - $ref: '#/components/parameters/analysisBundleId'
         - $ref: '#/components/parameters/idempotency-key'
@@ -344,6 +344,10 @@ paths:
       x-required-roles: [CaseReader]
       parameters:
         - $ref: '#/components/parameters/evidenceId'
+        - name: tenantId
+          in: query
+          required: true
+          schema: { type: string }
       responses:
         '200':
           description: approved model route evidence
@@ -657,7 +661,6 @@ components:
         - tenantId
         - caseId
         - analysisBundleId
-        - evidenceManifestHash
         - modelRoute
         - modelDeploymentId
         - routeEvidenceId
@@ -668,7 +671,6 @@ components:
         tenantId: { type: string }
         caseId: { type: string }
         analysisBundleId: { type: string }
-        evidenceManifestHash: { type: string }
         modelRoute: { type: string, enum: [LUNA, TERRA, SOL] }
         modelDeploymentId: { type: string }
         routeEvidenceId: { type: string }
@@ -694,6 +696,7 @@ components:
         - status
         - outputKind
         - unsupportedClaims
+        - evidence
         - citationCounts
       properties:
         tenantId: { type: string }
@@ -711,28 +714,70 @@ components:
         outputKind: { type: string, enum: [DRAFT_ONLY] }
         unsupportedClaims: { type: integer, minimum: 0 }
         subjectVersion: { type: string }
-        evidenceIds:
+        evidence:
           type: array
-          items: { type: string }
+          items:
+            type: object
+            additionalProperties: false
+            required: [evidenceId, evidenceVersionId, ordinal]
+            properties:
+              evidenceId: { type: string }
+              evidenceVersionId: { type: string }
+              ordinal: { type: integer, minimum: 1 }
         citationCounts:
           type: object
           additionalProperties: false
-          required: [totalClaims, citedClaims, unsupportedClaims]
+          required:
+            - totalClaims
+            - citedClaims
+            - materialClaims
+            - citedMaterialClaims
+            - unsupportedClaims
           properties:
             totalClaims: { type: integer, minimum: 0 }
             citedClaims: { type: integer, minimum: 0 }
+            materialClaims: { type: integer, minimum: 0 }
+            citedMaterialClaims: { type: integer, minimum: 0 }
             unsupportedClaims: { type: integer, minimum: 0 }
     CompleteDemoAnalysisBundleRequest:
       type: object
       additionalProperties: false
-      required: [tenantId, caseId, analysisBundleId, subjectVersion, status, unsupportedClaims]
+      required:
+        - tenantId
+        - caseId
+        - analysisBundleId
+        - outputManifestHash
+        - evidenceManifestHash
+        - modelRoute
+        - modelDeploymentId
+        - routeEvidenceId
+        - status
+        - citationCounts
       properties:
         tenantId: { type: string }
         caseId: { type: string }
         analysisBundleId: { type: string }
-        subjectVersion: { type: string }
-        status: { type: string, enum: [DRAFT_ONLY_READY, BLOCKED_MISSING_EVIDENCE, FAILED] }
-        unsupportedClaims: { type: integer, minimum: 0 }
+        outputManifestHash: { type: string, pattern: '^[a-f0-9]{64}$' }
+        evidenceManifestHash: { type: string }
+        modelRoute: { type: string, enum: [LUNA, TERRA, SOL] }
+        modelDeploymentId: { type: string }
+        routeEvidenceId: { type: string }
+        status: { type: string, enum: [DRAFT_ONLY_READY] }
+        citationCounts:
+          type: object
+          additionalProperties: false
+          required:
+            - totalClaims
+            - citedClaims
+            - materialClaims
+            - citedMaterialClaims
+            - unsupportedClaims
+          properties:
+            totalClaims: { type: integer, minimum: 0 }
+            citedClaims: { type: integer, minimum: 0 }
+            materialClaims: { type: integer, minimum: 0 }
+            citedMaterialClaims: { type: integer, minimum: 0 }
+            unsupportedClaims: { type: integer, minimum: 0 }
     SubmitDemoBundleReviewRequest:
       type: object
       additionalProperties: false
@@ -785,10 +830,17 @@ components:
         citationCounts:
           type: object
           additionalProperties: false
-          required: [totalClaims, citedClaims, unsupportedClaims]
+          required:
+            - totalClaims
+            - citedClaims
+            - materialClaims
+            - citedMaterialClaims
+            - unsupportedClaims
           properties:
             totalClaims: { type: integer, minimum: 0 }
             citedClaims: { type: integer, minimum: 0 }
+            materialClaims: { type: integer, minimum: 0 }
+            citedMaterialClaims: { type: integer, minimum: 0 }
             unsupportedClaims: { type: integer, minimum: 0 }
     ModelRouteEvidenceResponse:
       type: object

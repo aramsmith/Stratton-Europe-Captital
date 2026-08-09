@@ -44,11 +44,14 @@ login, what-if, deployment, provisioning, or runtime validation as part of this 
 - The additive Phase 5 route set is limited to bundle creation and lookup, service-principal
   completion, human bundle review, draft preparation, and route-evidence lookup under
   `/v1/demo-authority`. Human operations require the OBO delegated token. Completion accepts only
-  the configured BFF application principal and returns an authoritative `subjectVersion`; reviews
-  and draft preparation must supply that exact version.
+  the configured BFF application principal, validates bundle/route binding plus citation and
+  material-claim counts, and persists the submitted output-manifest hash as the authoritative
+  `subjectVersion`; reviews and draft preparation must supply that exact version.
 - Provision a route-evidence record for each Luna, Terra, and Sol binding before activation. Each
   record must identify the account resource ID, deployment, region, API version, evidence version,
-  and approved validity interval.
+  and approved validity interval. The BFF sends `DEMO_TENANT_ID` explicitly on startup lookups;
+  Phase 5 must query the same tenant and set that real tenant in SQL session context. Do not
+  configure a sentinel or RLS bypass.
 - Maintain the no-secret boundary: do not configure client secrets, account keys, registry passwords,
   token-store Blob SAS values, or token values in Bicep, parameters, Container Apps settings, source
   control, or telemetry.

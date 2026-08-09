@@ -95,7 +95,10 @@ function dependencies(overrides: {
     })
   };
   const authority = {
-    getModelRouteEvidence: vi.fn(async (evidenceId: string) => {
+    getModelRouteEvidence: vi.fn(async (tenantId: string, evidenceId: string) => {
+      if (tenantId !== "00000000-0000-0000-0000-000000000123") {
+        throw new Error("Expected the configured demo tenant.");
+      }
       if (overrides.evidenceError) {
         throw overrides.evidenceError;
       }
@@ -153,9 +156,10 @@ describe("resolveAuthoritativeRoutes", () => {
       error: vi.fn(),
       child: vi.fn()
     };
+    const deps = dependencies();
     const result = await resolveAuthoritativeRoutes({
       config: config(),
-      ...dependencies(),
+      ...deps,
       now: () => new Date("2026-08-09T00:00:00.000Z"),
       logger
     });
@@ -173,6 +177,10 @@ describe("resolveAuthoritativeRoutes", () => {
     });
     expect(Object.isFrozen(result)).toBe(true);
     expect(Object.isFrozen(result.TERRA)).toBe(true);
+    expect(deps.authority.getModelRouteEvidence).toHaveBeenCalledWith(
+      "00000000-0000-0000-0000-000000000123",
+      "SEC-EVID-TERRA-ROUTE-v1"
+    );
     expect(logger.info).toHaveBeenCalledTimes(3);
     expect(Object.keys(logger.info.mock.calls[0]?.[1] ?? {}).sort()).toEqual([
       "deploymentIdHash",

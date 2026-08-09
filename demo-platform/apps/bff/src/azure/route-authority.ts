@@ -64,7 +64,10 @@ export async function resolveAuthoritativeRoutes(
       try {
         const [arm, evidence] = await Promise.all([
           options.arm.getAccountDeployment(binding),
-          options.authority.getModelRouteEvidence(binding.evidenceId)
+          options.authority.getModelRouteEvidence(
+            options.config.DEMO_TENANT_ID,
+            binding.evidenceId
+          )
         ]);
         const approved = createBinding(binding, arm, evidence, now());
         logOutcome(options.logger, approved, "APPROVED");

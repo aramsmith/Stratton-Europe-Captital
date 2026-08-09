@@ -602,6 +602,10 @@ export interface WorkloadRepository {
     caseId: string,
     bundleId: string
   ): Promise<AnalysisBundleRecord | undefined>;
+  getAnalysisBundleById(
+    tenantId: string,
+    bundleId: string
+  ): Promise<AnalysisBundleRecord | undefined>;
   appendAnalysisBundleEvidence(record: AnalysisBundleEvidenceRecord): Promise<void>;
   listAnalysisBundleEvidence(
     tenantId: string,
@@ -615,7 +619,10 @@ export interface WorkloadRepository {
     caseId: string,
     bundleId: string
   ): Promise<readonly AnalysisBundleReviewRecord[]>;
-  getApprovedModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence | undefined>;
+  getApprovedModelRouteEvidence(
+    tenantId: string,
+    evidenceId: string
+  ): Promise<ApprovedModelRouteEvidence | undefined>;
   appendReview(record: ReviewRecord): Promise<void>;
   listLatestReviewDecisions(
     tenantId: string,

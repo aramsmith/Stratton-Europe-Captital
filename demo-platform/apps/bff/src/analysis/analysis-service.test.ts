@@ -3,8 +3,12 @@ import { describe, expect, it, vi } from "vitest";
 import type { AnalysisFinding } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
 import { DemoHttpError } from "../errors.js";
+import type { DemoAuthorityClient } from "../phase5/demo-authority-client.js";
 import type { Phase5Client } from "../phase5/phase5-client.js";
-import type { AuthoritativeBundleWorkflowClient } from "../phase5/governed-workflow-client.js";
+import {
+  createAuthoritativeBundleWorkflowClient,
+  type AuthoritativeBundleWorkflowClient
+} from "../phase5/governed-workflow-client.js";
 import { InMemoryScenarioRepository } from "../scenario/in-memory-scenario-repository.js";
 import { AnalysisService } from "./analysis-service.js";
 import { routeTask } from "./model-router.js";
@@ -48,11 +52,19 @@ function createPhase5ClientDouble() {
 function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowClient {
   return {
     run: vi.fn(async (input) => {
+      const evidence = input.evidenceIds.map((evidenceId, index) => ({
+        evidenceId,
+        evidenceVersionId: `${evidenceId}-v1`,
+        ordinal: index + 1
+      }));
+      const evidenceManifestHash = createHash("sha256")
+        .update(JSON.stringify({ tenantId: input.tenantId, caseId: input.caseId, evidence }))
+        .digest("hex");
       const completion = input.complete({
         tenantId: input.tenantId,
         caseId: input.caseId,
         analysisBundleId: input.analysisBundleId,
-        evidenceManifestHash: input.evidenceManifestHash,
+        evidenceManifestHash,
         modelRoute: input.modelRoute,
         modelDeploymentId: input.modelDeploymentId,
         routeEvidenceId: input.routeEvidenceId,
@@ -61,14 +73,12 @@ function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowC
         status: "QUEUED",
         outputKind: "DRAFT_ONLY",
         unsupportedClaims: 0,
-        evidence: input.evidenceIds.map((evidenceId, index) => ({
-          evidenceId,
-          evidenceVersionId: `${evidenceId}-v1`,
-          ordinal: index + 1
-        })),
+        evidence,
         citationCounts: {
           totalClaims: 3,
           citedClaims: 3,
+          materialClaims: 2,
+          citedMaterialClaims: 2,
           unsupportedClaims: 0
         }
       });
@@ -76,7 +86,7 @@ function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowC
         tenantId: input.tenantId,
         caseId: input.caseId,
         analysisBundleId: input.analysisBundleId,
-        evidenceManifestHash: input.evidenceManifestHash,
+        evidenceManifestHash,
         modelRoute: input.modelRoute,
         modelDeploymentId: input.modelDeploymentId,
         routeEvidenceId: input.routeEvidenceId,
@@ -84,16 +94,14 @@ function createAuthoritativeBundleWorkflowDouble(): AuthoritativeBundleWorkflowC
         requestFingerprint: input.requestFingerprint,
         status: "DRAFT_ONLY_READY",
         outputKind: "DRAFT_ONLY",
-        unsupportedClaims: completion.unsupportedClaims,
-        subjectVersion: completion.subjectVersion,
-        evidence: input.evidenceIds.map((evidenceId, index) => ({
-          evidenceId,
-          evidenceVersionId: `${evidenceId}-v1`,
-          ordinal: index + 1
-        })),
+        unsupportedClaims: completion.citationCounts.unsupportedClaims,
+        subjectVersion: completion.outputManifestHash,
+        evidence,
         citationCounts: {
           totalClaims: 3,
           citedClaims: 3,
+          materialClaims: 2,
+          citedMaterialClaims: 2,
           unsupportedClaims: 0
         }
       };
@@ -249,6 +257,12 @@ describe("AnalysisService", () => {
       citationCounts: {
         totalClaims: source.findings.length,
         citedClaims: source.findings.length,
+        materialClaims: source.findings.filter(
+          (finding) => finding.materiality === "HIGH" || finding.materiality === "CRITICAL"
+        ).length,
+        citedMaterialClaims: source.findings.filter(
+          (finding) => finding.materiality === "HIGH" || finding.materiality === "CRITICAL"
+        ).length,
         unsupportedClaims: 0
       }
     };
@@ -343,7 +357,13 @@ describe("AnalysisService", () => {
           outputKind: "DRAFT_ONLY" as const,
           unsupportedClaims: 0,
           evidence,
-          citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
+          citationCounts: {
+            totalClaims: 0,
+            citedClaims: 0,
+            materialClaims: 0,
+            citedMaterialClaims: 0,
+            unsupportedClaims: 0
+          }
         };
       }),
       completeAnalysisBundle: vi.fn(),
@@ -439,11 +459,14 @@ describe("AnalysisService", () => {
             evidenceVersionId: `${evidenceId}-v1`,
             ordinal: index + 1
           }));
+          const evidenceManifestHash = createHash("sha256")
+            .update(JSON.stringify({ tenantId: input.tenantId, caseId: input.caseId, evidence }))
+            .digest("hex");
           input.complete({
             tenantId: input.tenantId,
             caseId: input.caseId,
             analysisBundleId: input.analysisBundleId,
-            evidenceManifestHash: input.evidenceManifestHash,
+            evidenceManifestHash,
             modelRoute: input.modelRoute,
             modelDeploymentId: input.modelDeploymentId,
             routeEvidenceId: input.routeEvidenceId,
@@ -453,13 +476,19 @@ describe("AnalysisService", () => {
             outputKind: "DRAFT_ONLY",
             unsupportedClaims: 0,
             evidence,
-            citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
+            citationCounts: {
+              totalClaims: 0,
+              citedClaims: 0,
+              materialClaims: 0,
+              citedMaterialClaims: 0,
+              unsupportedClaims: 0
+            }
           });
           return {
             tenantId: input.tenantId,
             caseId: input.caseId,
             analysisBundleId: input.analysisBundleId,
-            evidenceManifestHash: input.evidenceManifestHash,
+            evidenceManifestHash,
             modelRoute: input.modelRoute,
             modelDeploymentId: input.modelDeploymentId,
             routeEvidenceId: input.routeEvidenceId,
@@ -469,7 +498,13 @@ describe("AnalysisService", () => {
             outputKind: "DRAFT_ONLY" as const,
             unsupportedClaims: 0,
             evidence,
-            citationCounts: { totalClaims: 0, citedClaims: 0, unsupportedClaims: 0 }
+            citationCounts: {
+              totalClaims: 0,
+              citedClaims: 0,
+              materialClaims: 0,
+              citedMaterialClaims: 0,
+              unsupportedClaims: 0
+            }
           };
         })
       }
@@ -760,6 +795,102 @@ describe("AnalysisService", () => {
       code: "STATE_CONFLICT",
       message: expect.stringContaining("versioned cycle")
     });
+  });
+
+  it("blocks an authoritative rerun before bundle creation, Azure work, or completion", async () => {
+    let readyBundle: Awaited<ReturnType<DemoAuthorityClient["getAnalysisBundle"]>> | undefined;
+    const createAnalysisBundle = vi.fn<DemoAuthorityClient["createAnalysisBundle"]>(async (input) => {
+      const evidence = input.evidenceIds.map((evidenceId, index) => ({
+        evidenceId,
+        evidenceVersionId: `${evidenceId}-v1`,
+        ordinal: index + 1
+      }));
+      return {
+        ...input,
+        evidenceManifestHash: createHash("sha256")
+          .update(JSON.stringify({ tenantId: input.tenantId, caseId: input.caseId, evidence }))
+          .digest("hex"),
+        status: "QUEUED",
+        outputKind: "DRAFT_ONLY",
+        unsupportedClaims: 0,
+        evidence,
+        citationCounts: {
+          totalClaims: 0,
+          citedClaims: 0,
+          materialClaims: 0,
+          citedMaterialClaims: 0,
+          unsupportedClaims: 0
+        }
+      };
+    });
+    const completeAnalysisBundle = vi.fn<DemoAuthorityClient["completeAnalysisBundle"]>(
+      async (input) => {
+        const accepted = await createAnalysisBundle.mock.results.at(-1)?.value;
+        if (!accepted) {
+          throw new Error("accepted bundle missing");
+        }
+        readyBundle = {
+          ...accepted,
+          status: "DRAFT_ONLY_READY",
+          subjectVersion: input.outputManifestHash,
+          unsupportedClaims: input.citationCounts.unsupportedClaims,
+          citationCounts: input.citationCounts
+        };
+        return readyBundle;
+      }
+    );
+    const getAnalysisBundle = vi.fn<DemoAuthorityClient["getAnalysisBundle"]>(async () => {
+      if (!readyBundle) {
+        throw new Error("ready bundle missing");
+      }
+      return readyBundle;
+    });
+    const authority = {
+      admitEvidence: vi.fn(),
+      createAnalysisBundle,
+      completeAnalysisBundle,
+      getAnalysisBundle,
+      submitBundleReview: vi.fn(),
+      prepareBundleDraft: vi.fn(),
+      getModelRouteEvidence: vi.fn()
+    } satisfies DemoAuthorityClient;
+    const requestAnalysis = vi.fn(async () => undefined);
+    const service = new AnalysisService({
+      repository: new InMemoryScenarioRepository(createAdmittedState()),
+      authoritativeWorkflow: createAuthoritativeBundleWorkflowClient({
+        authority,
+        supporting: { requestAnalysis }
+      })
+    });
+    const input = {
+      caseId: "project-danube" as const,
+      taskClass: "CROSS_DOCUMENT_COMPARISON" as const,
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-authoritative-rerun"
+    };
+
+    await service.run(input);
+    await service.recordDisposition({
+      caseId: "project-danube",
+      findingId: "finding-ebitda-quality",
+      action: "EDIT",
+      editedSummary: "Human-edited governed finding.",
+      principalType: "HUMAN",
+      correlationId: "corr-authoritative-edit"
+    });
+    createAnalysisBundle.mockClear();
+    completeAnalysisBundle.mockClear();
+    getAnalysisBundle.mockClear();
+    requestAnalysis.mockClear();
+
+    await expect(service.run(input)).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: expect.stringContaining("versioned cycle")
+    });
+    expect(createAnalysisBundle).not.toHaveBeenCalled();
+    expect(requestAnalysis).not.toHaveBeenCalled();
+    expect(completeAnalysisBundle).not.toHaveBeenCalled();
+    expect(getAnalysisBundle).not.toHaveBeenCalled();
   });
 
   it("changes the governed analysis fingerprint when the question or admitted evidence set changes", async () => {

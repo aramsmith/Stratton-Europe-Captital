@@ -62,6 +62,8 @@ const analysisBundleStatusSchema = z
       .object({
         totalClaims: z.number().int().min(0),
         citedClaims: z.number().int().min(0),
+        materialClaims: z.number().int().min(0),
+        citedMaterialClaims: z.number().int().min(0),
         unsupportedClaims: z.number().int().min(0)
       })
       .strict()
@@ -86,6 +88,8 @@ const draftResultSchema = z
       .object({
         totalClaims: z.number().int().min(0),
         citedClaims: z.number().int().min(0),
+        materialClaims: z.number().int().min(0),
+        citedMaterialClaims: z.number().int().min(0),
         unsupportedClaims: z.number().int().min(0)
       })
       .strict()
@@ -131,7 +135,6 @@ export interface CreateAnalysisBundleInput {
   readonly tenantId: string;
   readonly caseId: string;
   readonly analysisBundleId: string;
-  readonly evidenceManifestHash: string;
   readonly modelRoute: "LUNA" | "TERRA" | "SOL";
   readonly modelDeploymentId: string;
   readonly routeEvidenceId: string;
@@ -144,9 +147,13 @@ export interface CompleteAnalysisBundleInput {
   readonly tenantId: string;
   readonly caseId: string;
   readonly analysisBundleId: string;
-  readonly subjectVersion: string;
-  readonly status: "DRAFT_ONLY_READY" | "BLOCKED_MISSING_EVIDENCE" | "FAILED";
-  readonly unsupportedClaims: number;
+  readonly outputManifestHash: string;
+  readonly evidenceManifestHash: string;
+  readonly modelRoute: "LUNA" | "TERRA" | "SOL";
+  readonly modelDeploymentId: string;
+  readonly routeEvidenceId: string;
+  readonly status: "DRAFT_ONLY_READY";
+  readonly citationCounts: AnalysisBundleStatus["citationCounts"];
 }
 
 export interface SubmitBundleReviewInput {
@@ -175,7 +182,7 @@ export interface DemoAuthorityClient {
   getAnalysisBundle(bundleId: string): Promise<AnalysisBundleStatus>;
   submitBundleReview(input: SubmitBundleReviewInput): Promise<void>;
   prepareBundleDraft(input: PrepareBundleDraftInput): Promise<void>;
-  getModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence>;
+  getModelRouteEvidence(tenantId: string, evidenceId: string): Promise<ApprovedModelRouteEvidence>;
 }
 
 export interface CreateDemoAuthorityClientOptions {
@@ -288,14 +295,14 @@ export function createDemoAuthorityClient(
         draftResultSchema
       );
     },
-    getModelRouteEvidence: async (evidenceId) =>
+    getModelRouteEvidence: async (tenantId, evidenceId) =>
       send(
         fetchImpl,
         baseUrl,
         () => ({ correlationId: randomUUID() }),
         async () => requireToken(await getApplicationToken()),
         "GET",
-        `/v1/demo-authority/model-route-evidence/${encodeURIComponent(evidenceId)}`,
+        `/v1/demo-authority/model-route-evidence/${encodeURIComponent(evidenceId)}?tenantId=${encodeURIComponent(tenantId)}`,
         undefined,
         approvedModelRouteEvidenceSchema
       )

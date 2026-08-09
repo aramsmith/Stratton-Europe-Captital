@@ -18,11 +18,16 @@ BEGIN
     status NVARCHAR(64) NOT NULL,
     output_kind NVARCHAR(32) NOT NULL,
     unsupported_claims INT NOT NULL CONSTRAINT DF_analysis_bundles_unsupported DEFAULT 0,
+    total_claims INT NOT NULL CONSTRAINT DF_analysis_bundles_total_claims DEFAULT 0,
+    cited_claims INT NOT NULL CONSTRAINT DF_analysis_bundles_cited_claims DEFAULT 0,
+    material_claims INT NOT NULL CONSTRAINT DF_analysis_bundles_material_claims DEFAULT 0,
+    cited_material_claims INT NOT NULL CONSTRAINT DF_analysis_bundles_cited_material_claims DEFAULT 0,
     subject_version NVARCHAR(128) NULL,
     queued_at DATETIME2(7) NOT NULL CONSTRAINT DF_analysis_bundles_queued DEFAULT SYSUTCDATETIME(),
     completed_at DATETIME2(7) NULL,
     updated_at DATETIME2(7) NOT NULL CONSTRAINT DF_analysis_bundles_updated DEFAULT SYSUTCDATETIME(),
     CONSTRAINT PK_analysis_bundles PRIMARY KEY CLUSTERED (tenant_id, case_id, analysis_bundle_id),
+    CONSTRAINT UQ_analysis_bundle_tenant_id UNIQUE (tenant_id, analysis_bundle_id),
     CONSTRAINT UQ_analysis_bundle_request_fingerprint UNIQUE (tenant_id, case_id, request_fingerprint),
     CONSTRAINT FK_analysis_bundles_case FOREIGN KEY (tenant_id, case_id)
       REFERENCES dbo.cases(tenant_id, case_id),
@@ -34,7 +39,28 @@ BEGIN
       N'BLOCKED_MISSING_EVIDENCE',
       N'FAILED'
     )),
-    CONSTRAINT CK_analysis_bundles_output_kind CHECK (output_kind = N'DRAFT_ONLY')
+    CONSTRAINT CK_analysis_bundles_output_kind CHECK (output_kind = N'DRAFT_ONLY'),
+    CONSTRAINT CK_analysis_bundles_citation_counts CHECK (
+      total_claims >= 0
+      AND cited_claims >= 0
+      AND material_claims >= 0
+      AND cited_material_claims >= 0
+      AND cited_claims <= total_claims
+      AND material_claims <= total_claims
+      AND cited_material_claims <= cited_claims
+      AND cited_material_claims <= material_claims
+      AND unsupported_claims = total_claims - cited_claims
+    ),
+    CONSTRAINT CK_analysis_bundles_ready_assessment CHECK (
+      status <> N'DRAFT_ONLY_READY'
+      OR (
+        subject_version IS NOT NULL
+        AND total_claims > 0
+        AND material_claims > 0
+        AND cited_material_claims = material_claims
+        AND unsupported_claims = 0
+      )
+    )
   );
 END;
 GO

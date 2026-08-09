@@ -20,6 +20,10 @@ export interface AnalysisBundleRecord {
   readonly status: AnalysisBundleStatus;
   readonly outputKind: "DRAFT_ONLY";
   readonly unsupportedClaims: number;
+  readonly totalClaims: number;
+  readonly citedClaims: number;
+  readonly materialClaims: number;
+  readonly citedMaterialClaims: number;
   readonly subjectVersion?: string;
 }
 
@@ -33,6 +37,7 @@ export interface AnalysisBundleEvidenceRecord {
 }
 
 export interface ApprovedModelRouteEvidence {
+  readonly tenantId: string;
   readonly evidenceId: string;
   readonly status: "APPROVED" | "SUSPENDED" | "EXPIRED";
   readonly resourceId: string;
@@ -50,8 +55,12 @@ export interface AnalysisBundleCompletionRecord {
   readonly caseId: string;
   readonly analysisBundleId: string;
   readonly subjectVersion: string;
-  readonly status: Exclude<AnalysisBundleStatus, "QUEUED" | "IN_PROGRESS">;
+  readonly status: "DRAFT_ONLY_READY";
   readonly unsupportedClaims: number;
+  readonly totalClaims: number;
+  readonly citedClaims: number;
+  readonly materialClaims: number;
+  readonly citedMaterialClaims: number;
 }
 
 export interface AnalysisBundleReviewRecord {

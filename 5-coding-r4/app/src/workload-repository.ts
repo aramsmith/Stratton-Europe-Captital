@@ -129,7 +129,7 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
 
   public constructor(options: { readonly approvedModelRouteEvidence?: readonly ApprovedModelRouteEvidence[] } = {}) {
     for (const record of options.approvedModelRouteEvidence ?? []) {
-      this.approvedModelRouteEvidence.set(record.evidenceId, record);
+      this.approvedModelRouteEvidence.set(key2(record.tenantId, record.evidenceId), record);
     }
   }
 
@@ -442,6 +442,15 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
     return this.analysisBundles.get(key3(tenantId, caseId, bundleId));
   }
 
+  public async getAnalysisBundleById(
+    tenantId: string,
+    bundleId: string
+  ): Promise<AnalysisBundleRecord | undefined> {
+    return [...this.analysisBundles.values()].find(
+      (record) => record.tenantId === tenantId && record.analysisBundleId === bundleId
+    );
+  }
+
   public async appendAnalysisBundleEvidence(record: AnalysisBundleEvidenceRecord): Promise<void> {
     const bundleKey = key3(record.tenantId, record.caseId, record.analysisBundleId);
     const values = this.analysisBundleEvidence.get(bundleKey) ?? [];
@@ -477,7 +486,11 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
       if (
         current.subjectVersion !== record.subjectVersion ||
         current.status !== record.status ||
-        current.unsupportedClaims !== record.unsupportedClaims
+        current.unsupportedClaims !== record.unsupportedClaims ||
+        current.totalClaims !== record.totalClaims ||
+        current.citedClaims !== record.citedClaims ||
+        current.materialClaims !== record.materialClaims ||
+        current.citedMaterialClaims !== record.citedMaterialClaims
       ) {
         throw new Error("ANALYSIS_BUNDLE_COMPLETION_CONFLICT");
       }
@@ -487,6 +500,10 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
       ...current,
       status: record.status,
       unsupportedClaims: record.unsupportedClaims,
+      totalClaims: record.totalClaims,
+      citedClaims: record.citedClaims,
+      materialClaims: record.materialClaims,
+      citedMaterialClaims: record.citedMaterialClaims,
       subjectVersion: record.subjectVersion
     });
   }
@@ -512,8 +529,11 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
     return this.analysisBundleReviews.get(key3(tenantId, caseId, bundleId)) ?? [];
   }
 
-  public async getApprovedModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence | undefined> {
-    return this.approvedModelRouteEvidence.get(evidenceId);
+  public async getApprovedModelRouteEvidence(
+    tenantId: string,
+    evidenceId: string
+  ): Promise<ApprovedModelRouteEvidence | undefined> {
+    return this.approvedModelRouteEvidence.get(key2(tenantId, evidenceId));
   }
 
   public async appendReview(record: ReviewRecord): Promise<void> {
@@ -1832,6 +1852,10 @@ BEGIN
       AND status=@status
       AND output_kind=@output_kind
       AND unsupported_claims=@unsupported_claims
+      AND total_claims=@total_claims
+      AND cited_claims=@cited_claims
+      AND material_claims=@material_claims
+      AND cited_material_claims=@cited_material_claims
       AND ISNULL(subject_version, N'') = ISNULL(@subject_version, N'')
   )
   BEGIN
@@ -1850,11 +1874,11 @@ END;
 INSERT INTO dbo.analysis_bundles (
   tenant_id, case_id, analysis_bundle_id, evidence_manifest_hash, model_route, model_deployment_id,
   route_evidence_id, prompt_template_version, request_fingerprint, status, output_kind, unsupported_claims,
-  subject_version
+  total_claims, cited_claims, material_claims, cited_material_claims, subject_version
 ) VALUES (
   @tenant_id, @case_id, @analysis_bundle_id, @evidence_manifest_hash, @model_route, @model_deployment_id,
   @route_evidence_id, @prompt_template_version, @request_fingerprint, @status, @output_kind, @unsupported_claims,
-  @subject_version
+  @total_claims, @cited_claims, @material_claims, @cited_material_claims, @subject_version
 );
       `,
       {
@@ -1870,6 +1894,10 @@ INSERT INTO dbo.analysis_bundles (
         status: record.status,
         output_kind: record.outputKind,
         unsupported_claims: record.unsupportedClaims,
+        total_claims: record.totalClaims,
+        cited_claims: record.citedClaims,
+        material_claims: record.materialClaims,
+        cited_material_claims: record.citedMaterialClaims,
         subject_version: record.subjectVersion ?? null
       },
       { context: { tenantId: record.tenantId, caseId: record.caseId } }
@@ -1894,12 +1922,16 @@ INSERT INTO dbo.analysis_bundles (
       status: AnalysisBundleRecord["status"];
       output_kind: "DRAFT_ONLY";
       unsupported_claims: number;
+      total_claims: number;
+      cited_claims: number;
+      material_claims: number;
+      cited_material_claims: number;
       subject_version: string | null;
     }>(
       `
 SELECT tenant_id, case_id, analysis_bundle_id, evidence_manifest_hash, model_route, model_deployment_id,
   route_evidence_id, prompt_template_version, request_fingerprint, status, output_kind, unsupported_claims,
-  subject_version
+  total_claims, cited_claims, material_claims, cited_material_claims, subject_version
 FROM dbo.analysis_bundles
 WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id;
       `,
@@ -1922,8 +1954,28 @@ WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis
       status: row.status,
       outputKind: row.output_kind,
       unsupportedClaims: row.unsupported_claims,
+      totalClaims: row.total_claims,
+      citedClaims: row.cited_claims,
+      materialClaims: row.material_claims,
+      citedMaterialClaims: row.cited_material_claims,
       ...(row.subject_version ? { subjectVersion: row.subject_version } : {})
     };
+  }
+
+  public async getAnalysisBundleById(
+    tenantId: string,
+    bundleId: string
+  ): Promise<AnalysisBundleRecord | undefined> {
+    const row = await this.executor.queryOne<{ case_id: string }>(
+      `
+SELECT case_id
+FROM dbo.analysis_bundles
+WHERE tenant_id=@tenant_id AND analysis_bundle_id=@analysis_bundle_id;
+      `,
+      { tenant_id: tenantId, analysis_bundle_id: bundleId },
+      { context: { tenantId, allowTenantScopedLookup: true } }
+    );
+    return row ? this.getAnalysisBundle(tenantId, row.case_id, bundleId) : undefined;
   }
 
   public async appendAnalysisBundleEvidence(record: AnalysisBundleEvidenceRecord): Promise<void> {
@@ -1998,33 +2050,23 @@ ORDER BY ordinal;
   }
 
   public async completeAnalysisBundle(record: AnalysisBundleCompletionRecord): Promise<void> {
-    await this.executor.execute(
+    const result = await this.executor.execute(
       `
-IF NOT EXISTS (
-  SELECT 1
-  FROM dbo.analysis_bundles
-  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
-)
-BEGIN
-  THROW 52093, 'ANALYSIS_BUNDLE_NOT_FOUND', 1;
-END;
-IF EXISTS (
-  SELECT 1
-  FROM dbo.analysis_bundles
-  WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id
-    AND subject_version IS NOT NULL
-    AND (subject_version<>@subject_version OR status<>@status OR unsupported_claims<>@unsupported_claims)
-)
-BEGIN
-  THROW 52094, 'ANALYSIS_BUNDLE_COMPLETION_CONFLICT', 1;
-END;
 UPDATE dbo.analysis_bundles
 SET status=@status,
     unsupported_claims=@unsupported_claims,
+    total_claims=@total_claims,
+    cited_claims=@cited_claims,
+    material_claims=@material_claims,
+    cited_material_claims=@cited_material_claims,
     subject_version=@subject_version,
-    completed_at=COALESCE(completed_at, SYSUTCDATETIME()),
+    completed_at=SYSUTCDATETIME(),
     updated_at=SYSUTCDATETIME()
-WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis_bundle_id;
+WHERE tenant_id=@tenant_id
+  AND case_id=@case_id
+  AND analysis_bundle_id=@analysis_bundle_id
+  AND status=N'QUEUED'
+  AND subject_version IS NULL;
       `,
       {
         tenant_id: record.tenantId,
@@ -2032,10 +2074,33 @@ WHERE tenant_id=@tenant_id AND case_id=@case_id AND analysis_bundle_id=@analysis
         analysis_bundle_id: record.analysisBundleId,
         subject_version: record.subjectVersion,
         status: record.status,
-        unsupported_claims: record.unsupportedClaims
+        unsupported_claims: record.unsupportedClaims,
+        total_claims: record.totalClaims,
+        cited_claims: record.citedClaims,
+        material_claims: record.materialClaims,
+        cited_material_claims: record.citedMaterialClaims
       },
       { context: { tenantId: record.tenantId, caseId: record.caseId } }
     );
+    if (result.rowsAffected > 0) {
+      return;
+    }
+    const current = await this.getAnalysisBundle(record.tenantId, record.caseId, record.analysisBundleId);
+    if (!current) {
+      throw new Error("ANALYSIS_BUNDLE_NOT_FOUND");
+    }
+    if (
+      current.subjectVersion === record.subjectVersion &&
+      current.status === record.status &&
+      current.unsupportedClaims === record.unsupportedClaims &&
+      current.totalClaims === record.totalClaims &&
+      current.citedClaims === record.citedClaims &&
+      current.materialClaims === record.materialClaims &&
+      current.citedMaterialClaims === record.citedMaterialClaims
+    ) {
+      return;
+    }
+    throw new Error("ANALYSIS_BUNDLE_COMPLETION_CONFLICT");
   }
 
   public async appendAnalysisBundleReview(record: AnalysisBundleReviewRecord): Promise<void> {
@@ -2125,8 +2190,12 @@ ORDER BY decided_at, review_id;
     }));
   }
 
-  public async getApprovedModelRouteEvidence(evidenceId: string): Promise<ApprovedModelRouteEvidence | undefined> {
+  public async getApprovedModelRouteEvidence(
+    tenantId: string,
+    evidenceId: string
+  ): Promise<ApprovedModelRouteEvidence | undefined> {
     const row = await this.executor.queryOne<{
+      tenant_id: string;
       evidence_id: string;
       status: "APPROVED" | "SUSPENDED" | "EXPIRED";
       resource_id: string;
@@ -2139,18 +2208,19 @@ ORDER BY decided_at, review_id;
       valid_until: string;
     }>(
       `
-SELECT evidence_id, status, resource_id, deployment_id, region, route, api_version, evidence_version,
+SELECT tenant_id, evidence_id, status, resource_id, deployment_id, region, route, api_version, evidence_version,
   valid_from, valid_until
 FROM dbo.approved_model_route_evidence
-WHERE evidence_id=@evidence_id;
+WHERE tenant_id=@tenant_id AND evidence_id=@evidence_id;
       `,
-      { evidence_id: evidenceId },
-      { context: { tenantId: "__model-route-evidence__", allowTenantScopedLookup: true } }
+      { tenant_id: tenantId, evidence_id: evidenceId },
+      { context: { tenantId, allowTenantScopedLookup: true } }
     );
     if (!row) {
       return undefined;
     }
     return {
+      tenantId: row.tenant_id,
       evidenceId: row.evidence_id,
       status: row.status,
       resourceId: row.resource_id,
