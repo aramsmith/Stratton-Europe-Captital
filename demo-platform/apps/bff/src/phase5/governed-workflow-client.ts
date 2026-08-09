@@ -113,7 +113,18 @@ export function createAuthoritativeBundleWorkflowClient(
 
   return {
     async run(input) {
-      const { analystQuestion: _analystQuestion, taskClass: _taskClass, complete, ...bundleInput } = input;
+      const bundleInput: CreateAnalysisBundleInput = {
+        tenantId: input.tenantId,
+        caseId: input.caseId,
+        analysisBundleId: input.analysisBundleId,
+        evidenceManifestHash: input.evidenceManifestHash,
+        modelRoute: input.modelRoute,
+        modelDeploymentId: input.modelDeploymentId,
+        routeEvidenceId: input.routeEvidenceId,
+        promptTemplateVersion: input.promptTemplateVersion,
+        requestFingerprint: input.requestFingerprint,
+        evidenceIds: input.evidenceIds
+      };
       const accepted = await options.authority.createAnalysisBundle(bundleInput);
       assertBundleIdentity(accepted, bundleInput);
       if (accepted.status === "DRAFT_ONLY_READY" && accepted.subjectVersion) {
@@ -131,7 +142,7 @@ export function createAuthoritativeBundleWorkflowClient(
       }
 
       await options.supporting.requestAnalysis(input);
-      const completed = await options.authority.completeAnalysisBundle(complete(accepted));
+      const completed = await options.authority.completeAnalysisBundle(input.complete(accepted));
       assertBundleIdentity(completed, bundleInput);
       assertDraftOnlyReady(completed);
       const authoritative = await options.authority.getAnalysisBundle(input.analysisBundleId);

@@ -186,11 +186,11 @@ function buildReviewChecklistItems(
           finding.findingId
         );
         const hasCurrentApprovedReview =
-          !!existingReview && isCurrentReview(finding, existingReview);
+          !!existingReview && isCurrentReview(scenario, finding, existingReview);
         const hasCurrentRejectedReview =
           existingReview?.decision === "REJECTED" &&
           finding.status === "ACCEPTED" &&
-          existingReview.subjectVersion === getLatestFindingVersion(finding);
+          existingReview.subjectVersion === getReviewSubjectVersion(scenario, finding);
         const status =
           finding.status !== "ACCEPTED"
             ? "BLOCKED"
@@ -203,7 +203,7 @@ function buildReviewChecklistItems(
         return {
           reviewType,
           findingId: finding.findingId,
-          subjectVersion: getLatestFindingVersion(finding),
+          subjectVersion: getReviewSubjectVersion(scenario, finding),
           findingTitle: finding.title,
           status
         };
@@ -285,14 +285,22 @@ function formatReviewType(reviewType: ReviewType): string {
 }
 
 function isCurrentReview(
+  scenario: ScenarioState,
   finding: ScenarioState["findings"][number],
   review: ScenarioState["reviews"][number]
 ): boolean {
   return (
     review.decision === "APPROVED" &&
     finding.status === "ACCEPTED" &&
-    review.subjectVersion === (finding.textHistory.at(-1)?.versionId ?? finding.findingId)
+    review.subjectVersion === getReviewSubjectVersion(scenario, finding)
   );
+}
+
+function getReviewSubjectVersion(
+  scenario: ScenarioState,
+  finding: ScenarioState["findings"][number]
+): string {
+  return scenario.analysisAuthority?.subjectVersion ?? getLatestFindingVersion(finding);
 }
 
 function getLatestFindingVersion(finding: ScenarioState["findings"][number]): string {

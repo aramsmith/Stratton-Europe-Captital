@@ -4,6 +4,11 @@ test("no investment-decision action exists", async ({ page, request }) => {
   const resetResponse = await request.post("/api/scenario/reset");
   expect(resetResponse.ok()).toBeTruthy();
 
+  const investmentDecisionResponse = await request.post("/api/investment-decisions", {
+    data: { caseId: "project-danube" }
+  });
+  expect(investmentDecisionResponse.status()).toBe(404);
+
   await page.goto("/decision-room");
   await expect(page.getByRole("button", { name: /approve investment/i })).toHaveCount(0);
   await expect(page.getByText("It cannot issue an investment decision.")).toBeVisible();

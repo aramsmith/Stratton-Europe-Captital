@@ -3,6 +3,7 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 
 export const verificationCommands = Object.freeze([
+  { command: "npm", args: ["run", "validate"], cwd: "../5-coding-r4/app" },
   { command: "npm", args: ["run", "build:packages"] },
   { command: "npm", args: ["run", "lint"] },
   { command: "npm", args: ["run", "typecheck"] },
@@ -36,12 +37,13 @@ export async function runVerificationSequence({
   logger = console
 } = {}) {
   for (const command of commands) {
+    const commandCwd = command.cwd ? path.resolve(cwd, command.cwd) : cwd;
     if (command.cleanupGeneratedFile) {
-      await runCommandWithCleanup({ cwd, command, logger });
+      await runCommandWithCleanup({ cwd: commandCwd, command, logger });
       continue;
     }
 
-    await runCommand(command, { cwd, logger });
+    await runCommand(command, { cwd: commandCwd, logger });
   }
 }
 

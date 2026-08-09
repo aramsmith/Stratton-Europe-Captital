@@ -38,7 +38,10 @@ npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173
 
 LOCAL mode uses one fixed synthetic identity with the approved demo roles. It is selected only when
 `DEMO_MODE=LOCAL`; AZURE mode requires Container Apps authentication claims and cannot activate the
-synthetic seam. Client-supplied authority headers such as `x-demo-principal-type` are rejected.
+synthetic seam. The local fixture carries the deterministic delegated-user token
+`local-delegated-token-fixture` through the BFF authority seam; it is not an Entra token and cannot
+activate any Azure credential or runtime call. Client-supplied authority headers such as
+`x-demo-principal-type` are rejected.
 
 Routes:
 
@@ -111,12 +114,21 @@ Whole local verification:
 
 ```powershell
 Set-Location .\demo-platform
+npm run clean:generated
+npm ci
 node .\scripts\verify-demo.mjs
 ```
 
 `verify-demo.mjs` fails closed if `infra\main.json` already exists before verification, and it removes the generated Bicep output when the verification run created it, on both success and failure.
-It builds the contracts and scenario-data workspaces before any consuming typecheck or test, so no
-pre-existing `dist` directory is required.
+It first runs `npm run validate` from `..\5-coding-r4\app`, then builds the contracts and
+scenario-data workspaces before any consuming demo-platform typecheck or test. Per-command working
+directories preserve fail-fast exit codes and generated-file cleanup, so no pre-existing `dist`
+directory is required.
+
+The additive Phase 5 authority routes are limited to analysis-bundle creation and lookup,
+service-principal completion, human bundle reviews, draft preparation, and model-route-evidence
+lookup under `/v1/demo-authority`. They produce only `DRAFT_ONLY` output; no investment-decision or
+committee-submission operation exists.
 
 Remove only known generated workspace outputs:
 
@@ -161,6 +173,9 @@ Azure-mode configuration names are documented here for completeness only; do not
 - `BFF_ALLOWED_CLIENT_APPLICATION_ID`
 - `ENTRA_TOKEN_ENDPOINT`
 - `AZURE_MANAGED_IDENTITY_CLIENT_ID`
+- `WEB_ENTRA_CLIENT_ID`
+- `WEB_BFF_DELEGATED_SCOPE`
+- `BFF_INTERNAL_BASE_URL`
 - `AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT`
 - `AZURE_SEARCH_ENDPOINT`
 - `AZURE_SEARCH_INDEX_NAME`
@@ -194,8 +209,26 @@ unchanged to the internal BFF FQDN supplied as `BFF_INTERNAL_BASE_URL`, and neve
 role headers. In local Vite mode no Entra call or access token is required.
 
 Luna, Terra, and Sol require HTTPS `*.openai.azure.com` endpoints, matching Cognitive Services
-account resource IDs, permitted EU regions, and route-specific versioned evidence IDs. Mismatches
-fail startup validation; there is no route or region fallback.
+account resource IDs, deployments, permitted EU regions, API versions, and route-specific versioned
+evidence IDs. AZURE startup validates each binding against live ARM account/deployment metadata and
+the Phase 5 approved route-evidence record, including its evidence version and current validity
+period. Any mismatch fails startup; there is no route or region fallback.
+
+## AZURE delegated OBO prerequisites
+
+These prerequisites are configuration guidance only; they are not part of local verification:
+
+- Register the browser as a public SPA for the exact redirect URI. MSAL Browser uses authorization
+  code plus PKCE to acquire `WEB_BFF_DELEGATED_SCOPE`; do not configure a client secret,
+  certificate, or web token store.
+- Grant admin consent for the browser-to-BFF delegated scope. Configure Easy Auth to accept only the
+  BFF client-ID audience and the registered browser client application; the BFF independently
+  verifies tenant, issuer, expiry, audience, `azp`, and delegated scope.
+- Grant the BFF application the Phase 5 delegated scope. Its managed identity federated credential
+  supplies the OBO `client_assertion` for `api://AzureADTokenExchange/.default`; no secret is used.
+- Configure Phase 5 `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` with the deployed BFF managed-identity
+  client ID and authorize only that service principal to complete bundles. This is a Phase 5 setting,
+  not a BFF runtime setting.
 
 See `infra\ADMIN-HANDOFF.md` for app-role assignments, SQL bootstrap, and exact RBAC scopes.
 
@@ -230,8 +263,28 @@ Do **not** run any of the following from this README or `verify-demo.mjs`:
 
 - Confirm Deal approval targets `finding-ebitda-quality`.
 - Confirm Legal and Compliance approvals target `finding-permit-transfer`.
+- Use the exact authoritative `analysisAuthority.subjectVersion` returned after Phase 5 completion;
+  a finding text version or a stale completion version is rejected.
 - Re-run the deterministic security-gate checks after a new analysis or failed hostile test; stale,
   failed, or not-run gate evidence cannot satisfy readiness.
+
+### Entra consent, OBO, or completion failures
+
+- Confirm tenant admin consent for both browser-to-BFF and BFF-to-Phase-5 delegated scopes.
+- Confirm the browser sends exactly one bearer token to the same-origin `/api` route; missing,
+  malformed, repeated, application-only, or wrong-scope tokens are denied before a human review.
+- Confirm the BFF federated credential trusts the deployed BFF managed identity and the tenant token
+  endpoint matches `DEMO_TENANT_ID`. Do not replace this OBO assertion with a secret.
+- For completion denial, confirm `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` is the BFF managed-identity
+  client ID, not the BFF application registration client ID.
+
+### ARM or route-evidence startup failure
+
+- Verify the account resource ID, HTTPS endpoint account name, deployment, actual ARM region, API
+  version, route-evidence ID and version, and evidence validity interval agree for each Luna, Terra,
+  and Sol route.
+- Use only the accepted EU regions. Correct the owner-approved route-evidence record or deployment
+  configuration; do not introduce a region or route fallback.
 
 ### Unavailable routes or failed page loads
 

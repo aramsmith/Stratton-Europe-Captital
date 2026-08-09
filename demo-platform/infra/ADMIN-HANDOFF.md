@@ -41,6 +41,11 @@ login, what-if, deployment, provisioning, or runtime validation as part of this 
   `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` as the deployed BFF managed-identity client ID and authorize
   that service principal for the Phase 5 completion application permission. This value is not a BFF
   runtime setting.
+- The additive Phase 5 route set is limited to bundle creation and lookup, service-principal
+  completion, human bundle review, draft preparation, and route-evidence lookup under
+  `/v1/demo-authority`. Human operations require the OBO delegated token. Completion accepts only
+  the configured BFF application principal and returns an authoritative `subjectVersion`; reviews
+  and draft preparation must supply that exact version.
 - Provision a route-evidence record for each Luna, Terra, and Sol binding before activation. Each
   record must identify the account resource ID, deployment, region, API version, evidence version,
   and approved validity interval.
@@ -84,3 +89,26 @@ deployment, EU region, API version, and versioned evidence ID together as one ow
 The endpoint account name must match the resource ID account name. Accepted demo regions are
 `francecentral`, `germanywestcentral`, `italynorth`, `northeurope`, `polandcentral`,
 `spaincentral`, `swedencentral`, and `westeurope`.
+
+Before activation, AZURE startup reads ARM account and deployment metadata and the approved Phase 5
+route-evidence record. It fails closed unless the configured and authoritative route, resource ID,
+HTTPS endpoint, deployment, actual location, API version, evidence ID, evidence version, and current
+validity interval agree. Do not add a route, region, or stale-evidence fallback.
+
+## Local verification and troubleshooting
+
+The local gate is `npm run clean:generated`, `npm ci`, then
+`node .\scripts\verify-demo.mjs` from `demo-platform`. It runs Phase 5 validation from
+`..\5-coding-r4\app` before demo-platform tests, preserves fail-fast errors, and cleans generated
+Bicep output. It does not log in to Azure or perform a deployment, what-if, provisioning, or runtime
+test.
+
+- Consent or OBO failure: check both delegated consent grants, the browser's single same-origin
+  bearer header, BFF audience/`azp`/scope validation, and the BFF managed-identity federated
+  credential. Do not add a client secret or token store.
+- Subject-version or review failure: use the exact `subjectVersion` returned by Phase 5 completion,
+  not a local finding text version.
+- Completion failure: make `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` equal the BFF managed-identity
+  client ID and grant only that principal the completion permission.
+- ARM or evidence failure: reconcile every binding field above and renew the owner-approved
+  route-evidence record before starting the BFF.

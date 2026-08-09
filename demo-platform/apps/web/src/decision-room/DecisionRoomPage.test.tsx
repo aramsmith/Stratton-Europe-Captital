@@ -384,6 +384,29 @@ describe("DecisionRoomPage", () => {
     expect(screen.getAllByText("COMMITTEE_PREPARATION").length).toBeGreaterThan(0);
   });
 
+  it("submits the authoritative Phase 5 completion version instead of a finding text version", async () => {
+    const scenario = createDecisionRoomScenario(false, true);
+    scenario.reviews = [];
+    scenario.analysisAuthority = {
+      analysisBundleId: "bundle-terra-1",
+      evidenceManifestHash: "a".repeat(64),
+      subjectVersion: "phase5-authoritative-output-manifest",
+      status: "DRAFT_ONLY_READY"
+    };
+    const { submitReview } = renderDecisionRoom(scenario);
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Approve Deal review" }));
+    });
+
+    expect(submitReview).toHaveBeenCalledWith(
+      expect.objectContaining({
+        findingId: "finding-ebitda-quality",
+        subjectVersion: "phase5-authoritative-output-manifest"
+      })
+    );
+  });
+
   it("reopens a stale specialist approval when the accepted finding text changes", () => {
     const scenario = createDecisionRoomScenario(true);
     scenario.findings = scenario.findings.map((finding) =>

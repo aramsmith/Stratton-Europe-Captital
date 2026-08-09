@@ -26,9 +26,43 @@ async function withTempRepo(run) {
 const silentLogger = { log() {}, error() {} };
 
 test("verification builds shared package outputs before lint, typecheck, and tests", () => {
-  assert.deepEqual(verificationCommands[0], {
+  assert.deepEqual(verificationCommands[1], {
     command: "npm",
     args: ["run", "build:packages"]
+  });
+});
+
+test("verification runs Phase 5 validation before demo-platform commands from its own cwd", () => {
+  assert.deepEqual(verificationCommands[0], {
+    command: "npm",
+    args: ["run", "validate"],
+    cwd: "../5-coding-r4/app"
+  });
+  assert.deepEqual(verificationCommands[1], {
+    command: "npm",
+    args: ["run", "build:packages"]
+  });
+});
+
+test("verification resolves a command cwd relative to the verification root", async () => {
+  await withTempRepo(async (repoDir) => {
+    const phase5Dir = path.join(repoDir, "5-coding-r4", "app");
+    const scriptFile = path.join(repoDir, "write-cwd.mjs");
+    const outputFile = path.join(phase5Dir, "cwd.txt");
+    await mkdir(phase5Dir, { recursive: true });
+    await writeFile(
+      scriptFile,
+      'import { writeFileSync } from "node:fs"; writeFileSync("cwd.txt", process.cwd());',
+      "utf8"
+    );
+
+    await runVerificationSequence({
+      cwd: repoDir,
+      commands: [{ command: "node", args: [scriptFile], cwd: path.join("5-coding-r4", "app") }],
+      logger: silentLogger
+    });
+
+    assert.equal(await readFile(outputFile, "utf8"), phase5Dir);
   });
 });
 

@@ -118,12 +118,9 @@ async function driveScenarioToCommitteePreparationViaApi(request: APIRequestCont
 
   const scenarioResponse = await request.get("/api/scenario");
   const scenario = await scenarioResponse.json();
-  const versionByFindingId = new Map(
-    scenario.findings.map((finding: { findingId: string; textHistory: Array<{ versionId: string }> }) => [
-      finding.findingId,
-      finding.textHistory.at(-1)?.versionId ?? finding.findingId
-    ])
-  );
+  const subjectVersion = scenario.analysisAuthority?.subjectVersion;
+  expect(typeof subjectVersion).toBe("string");
+  expect(subjectVersion).not.toHaveLength(0);
 
   for (const [reviewType, findingId] of [
     ["DEAL", "finding-ebitda-quality"],
@@ -136,7 +133,7 @@ async function driveScenarioToCommitteePreparationViaApi(request: APIRequestCont
         reviewType,
         decision: "APPROVED",
         rationale: `${reviewType} review confirms committee-pack readiness.`,
-        subjectVersion: versionByFindingId.get(findingId)
+        subjectVersion
       }
     });
     expect(response.ok()).toBeTruthy();
