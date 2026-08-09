@@ -32,14 +32,9 @@ function encodePrincipal(input: {
 }
 
 describe("resolveContainerAppsIdentity", () => {
-  it("accepts forwarded human claims only from the configured web proxy identity", () => {
+  it("resolves only the outer principal supplied by Container Apps Easy Auth", () => {
     const headers: ContainerAppsIdentityHeaders = {
       clientPrincipal: encodePrincipal({
-        tenantId: "tenant-stratton",
-        actorId: "web-proxy-object-id",
-        roles: []
-      }),
-      forwardedPrincipal: encodePrincipal({
         tenantId: "tenant-stratton",
         actorId: "human-object-id",
         roles: [
@@ -52,8 +47,7 @@ describe("resolveContainerAppsIdentity", () => {
 
     expect(
       resolveContainerAppsIdentity(headers, {
-        expectedTenantId: "tenant-stratton",
-        trustedProxyPrincipalId: "web-proxy-object-id"
+        expectedTenantId: "tenant-stratton"
       })
     ).toEqual({
       actorId: "human-object-id",
@@ -67,13 +61,13 @@ describe("resolveContainerAppsIdentity", () => {
     });
   });
 
-  it("rejects a spoofed forwarded principal from an untrusted caller", () => {
-    expect(() =>
+  it("does not allow a forwarded principal header to replace the outer principal", () => {
+    expect(
       resolveContainerAppsIdentity(
         {
           clientPrincipal: encodePrincipal({
             tenantId: "tenant-stratton",
-            actorId: "untrusted-caller",
+            actorId: "human-object-id",
             roles: ["Stratton.Demo.ProjectDanube.Access"]
           }),
           forwardedPrincipal: encodePrincipal({
@@ -81,13 +75,15 @@ describe("resolveContainerAppsIdentity", () => {
             actorId: "spoofed-human",
             roles: ["Stratton.Demo.CommitteePreparer"]
           })
-        },
+        } as ContainerAppsIdentityHeaders,
         {
-          expectedTenantId: "tenant-stratton",
-          trustedProxyPrincipalId: "web-proxy-object-id"
+          expectedTenantId: "tenant-stratton"
         }
       )
-    ).toThrowError(/UNTRUSTED_FORWARDED_IDENTITY/);
+    ).toMatchObject({
+      actorId: "human-object-id",
+      roles: ["Stratton.Demo.ProjectDanube.Access"]
+    });
   });
 
   it("rejects a principal from another tenant", () => {
@@ -101,8 +97,7 @@ describe("resolveContainerAppsIdentity", () => {
           })
         },
         {
-          expectedTenantId: "tenant-stratton",
-          trustedProxyPrincipalId: "web-proxy-object-id"
+          expectedTenantId: "tenant-stratton"
         }
       )
     ).toThrowError(/TENANT_NOT_AUTHORISED/);

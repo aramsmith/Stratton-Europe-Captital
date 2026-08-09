@@ -32,6 +32,7 @@ describe("createOboTokenExchange", () => {
     const exchange = createOboTokenExchange({
       tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
       managedIdentityCredential,
       fetch: fetchImpl
     });
@@ -56,6 +57,7 @@ describe("createOboTokenExchange", () => {
         requested_token_use: "on_behalf_of",
         assertion: "incoming-user-token",
         scope: "api://phase5/access_as_user",
+        client_id: "44444444-4444-4444-4444-444444444444",
         client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
         client_assertion: "managed-identity-federated-token"
       })
@@ -70,6 +72,7 @@ describe("createOboTokenExchange", () => {
     const exchange = createOboTokenExchange({
       tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
       managedIdentityCredential: credential(),
       fetch: fetchImpl
     });
@@ -96,6 +99,7 @@ describe("createOboTokenExchange", () => {
         createOboTokenExchange({
           tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
           phase5DelegatedScope: "api://phase5/access_as_user",
+          clientId: "44444444-4444-4444-4444-444444444444",
           managedIdentityCredential: {
             getToken: vi.fn().mockResolvedValue({
               token: federatedAssertion,
@@ -129,6 +133,7 @@ describe("createOboTokenExchange", () => {
     const exchange = createOboTokenExchange({
       tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
       managedIdentityCredential: credential(),
       fetch: fetchImpl,
       cacheCapacity: 2
@@ -158,6 +163,7 @@ describe("createOboTokenExchange", () => {
     const exchange = createOboTokenExchange({
       tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
       managedIdentityCredential: credential(),
       fetch: fetchImpl,
       now: () => currentTime,
@@ -186,6 +192,7 @@ describe("createOboTokenExchange", () => {
     const exchange = createOboTokenExchange({
       tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
       managedIdentityCredential: credential(),
       fetch: fetchImpl,
       cacheCapacity: 2
@@ -209,6 +216,7 @@ describe("createOboTokenExchange", () => {
     const exchange = createOboTokenExchange({
       tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
       managedIdentityCredential: {
         getToken: vi.fn().mockResolvedValue({
           token: federatedAssertion,

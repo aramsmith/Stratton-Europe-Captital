@@ -26,6 +26,24 @@ describe("DemoClient", () => {
     expect(fetchMock).toHaveBeenCalledWith("/api/scenario", { signal });
   });
 
+  it("adds the acquired delegated token to authenticated API requests", async () => {
+    const scenario = createProjectDanubeState();
+    fetchMock.mockResolvedValue(new Response(JSON.stringify(scenario), { status: 200 }));
+    const getAccessToken = vi.fn().mockResolvedValue("browser-delegated-token");
+
+    const client = new DemoClient("/api", getAccessToken);
+    const result = await client.getScenario(signal);
+
+    expect(result).toEqual(scenario);
+    expect(getAccessToken).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith("/api/scenario", {
+      signal,
+      headers: {
+        authorization: "Bearer browser-delegated-token"
+      }
+    });
+  });
+
   it("gets the typed governance console projection", async () => {
     const governanceView = governanceViewSchema.parse({
       lineage: [

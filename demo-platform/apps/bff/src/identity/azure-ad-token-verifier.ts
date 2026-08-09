@@ -28,6 +28,7 @@ export function createAzureAdTokenVerifier(options: {
         ...(typeof payload.aud === "string" || Array.isArray(payload.aud)
           ? { aud: payload.aud }
           : {}),
+        ...(typeof payload.azp === "string" ? { azp: payload.azp } : {}),
         ...(typeof payload.scp === "string" ? { scp: payload.scp } : {}),
         ...(Array.isArray(payload.roles) && payload.roles.every((role) => typeof role === "string")
           ? { roles: payload.roles }

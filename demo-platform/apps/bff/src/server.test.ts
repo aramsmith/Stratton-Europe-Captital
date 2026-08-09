@@ -919,11 +919,12 @@ describe("parseDemoConfig", () => {
         DEMO_MODE: "AZURE",
         PHASE5_API_BASE_URL: "https://phase5.example.test",
         DEMO_TENANT_ID: "tenant-stratton-demo",
-        TRUSTED_WEB_PROXY_PRINCIPAL_ID: "web-proxy-object-id",
         PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
         PHASE5_APPLICATION_ID: "phase5-application-id",
-        BFF_DELEGATED_AUDIENCE: "api://stratton-demo-bff",
+        BFF_ENTRA_CLIENT_ID: "44444444-4444-4444-4444-444444444444",
+        BFF_DELEGATED_AUDIENCE: "44444444-4444-4444-4444-444444444444",
         BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
+        BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
         ENTRA_TOKEN_ENDPOINT:
           "https://login.microsoftonline.com/tenant-stratton-demo/oauth2/v2.0/token",
         AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
@@ -1059,13 +1060,14 @@ describe("createWorkflowClient", () => {
         DEMO_MODE: "AZURE",
         PHASE5_API_BASE_URL: "https://phase5.example.test",
         DEMO_TENANT_ID: "tenant-stratton-demo",
-        TRUSTED_WEB_PROXY_PRINCIPAL_ID: "web-proxy-object-id",
         AZURE_SQL_SERVER_FQDN: "sql.example.test",
         AZURE_SQL_DATABASE_NAME: "stratton",
         PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
         PHASE5_APPLICATION_ID: "phase5-application-id",
-        BFF_DELEGATED_AUDIENCE: "api://stratton-demo-bff",
+        BFF_ENTRA_CLIENT_ID: "44444444-4444-4444-4444-444444444444",
+        BFF_DELEGATED_AUDIENCE: "44444444-4444-4444-4444-444444444444",
         BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
+        BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
         ENTRA_TOKEN_ENDPOINT:
           "https://login.microsoftonline.com/tenant-stratton-demo/oauth2/v2.0/token",
         AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"

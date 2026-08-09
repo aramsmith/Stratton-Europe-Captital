@@ -19,6 +19,7 @@ export interface OboTokenExchange {
 export interface CreateOboTokenExchangeOptions {
   readonly tokenEndpoint: string;
   readonly phase5DelegatedScope: string;
+  readonly clientId: string;
   readonly managedIdentityClientId?: string;
   readonly managedIdentityCredential?: FederatedAssertionCredential;
   readonly fetch?: typeof fetch;
@@ -63,6 +64,7 @@ export function createOboTokenExchange(options: CreateOboTokenExchangeOptions): 
   rejectClientSecretOption(options);
   requireHttpsUrl(options.tokenEndpoint, "ENTRA_TOKEN_ENDPOINT");
   const phase5DelegatedScope = requireValue(options.phase5DelegatedScope, "PHASE5_DELEGATED_SCOPE");
+  const clientId = requireValue(options.clientId, "BFF_ENTRA_CLIENT_ID");
   const fetchImpl = options.fetch ?? fetch;
   const credential =
     options.managedIdentityCredential ??
@@ -92,6 +94,7 @@ export function createOboTokenExchange(options: CreateOboTokenExchangeOptions): 
         credential,
         options.tokenEndpoint,
         phase5DelegatedScope,
+        clientId,
         assertion,
         now
       ).then((result) => {
@@ -165,6 +168,7 @@ async function exchangeToken(
   credential: FederatedAssertionCredential,
   tokenEndpoint: string,
   phase5DelegatedScope: string,
+  clientId: string,
   userAssertion: string,
   now: () => number
 ): Promise<{ readonly token: string; readonly expiresAt: number }> {
@@ -190,6 +194,7 @@ async function exchangeToken(
         requested_token_use: "on_behalf_of",
         assertion: userAssertion,
         scope: phase5DelegatedScope,
+        client_id: clientId,
         client_assertion_type: clientAssertionType,
         client_assertion: federatedToken.token
       })

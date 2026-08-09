@@ -297,6 +297,7 @@ export async function createWorkflowClient(
     oboTokenExchange: createOboTokenExchange({
       tokenEndpoint: config.ENTRA_TOKEN_ENDPOINT,
       phase5DelegatedScope: config.PHASE5_DELEGATED_SCOPE,
+      clientId: config.BFF_ENTRA_CLIENT_ID,
       managedIdentityClientId: config.AZURE_MANAGED_IDENTITY_CLIENT_ID
     }),
     getDelegatedUserToken: async () => {
@@ -381,18 +382,14 @@ function createAzureServerSecurityOptions(
     config.DEMO_TENANT_ID,
     "DEMO_TENANT_ID"
   );
-  const trustedProxyPrincipalId = requireConfigValue(
-    config.TRUSTED_WEB_PROXY_PRINCIPAL_ID,
-    "TRUSTED_WEB_PROXY_PRINCIPAL_ID"
-  );
   return {
     identityResolver: createContainerAppsIdentityResolver({
       expectedTenantId,
-      trustedProxyPrincipalId,
       delegatedTokenPolicy: {
         expectedTenantId,
         expectedAudience: config.BFF_DELEGATED_AUDIENCE,
-        requiredScope: config.BFF_REQUIRED_DELEGATED_SCOPE
+        requiredScope: config.BFF_REQUIRED_DELEGATED_SCOPE,
+        expectedClientApplicationId: config.BFF_ALLOWED_CLIENT_APPLICATION_ID
       }
     }),
     authorizationPolicy: {

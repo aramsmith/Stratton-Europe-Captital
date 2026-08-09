@@ -14,6 +14,7 @@ export interface VerifiedAccessTokenClaims {
   readonly oid?: string;
   readonly sub?: string;
   readonly aud?: string | readonly string[];
+  readonly azp?: string;
   readonly scp?: string;
   readonly roles?: readonly string[];
   readonly exp?: number;
@@ -28,15 +29,16 @@ export interface DelegatedTokenPolicy {
   readonly expectedTenantId: string;
   readonly expectedAudience: string;
   readonly requiredScope: string;
+  readonly expectedClientApplicationId: string;
   readonly now?: () => number;
 }
 
 export async function resolveDelegatedUserToken(
-  request: Pick<Request, "header">,
+  request: Pick<Request, "header" | "rawHeaders">,
   policy: DelegatedTokenPolicy,
   verifier: DelegatedAccessTokenVerifier
 ): Promise<DelegatedUserToken> {
-  const accessToken = request.header("x-ms-token-aad-access-token")?.trim();
+  const accessToken = readSingleBearerAccessToken(request);
   if (!accessToken) {
     throw new DemoHttpError(401, "UNAUTHENTICATED");
   }
@@ -64,6 +66,10 @@ export async function resolveDelegatedUserToken(
   if (claims.idtyp !== undefined && claims.idtyp !== "user") {
     throw new DemoHttpError(401, "UNAUTHENTICATED", "DELEGATED_TOKEN_REQUIRED");
   }
+  const clientApplicationId = requiredClaim(claims.azp);
+  if (clientApplicationId !== policy.expectedClientApplicationId) {
+    throw new DemoHttpError(403, "POLICY_DENIED", "TOKEN_CLIENT_APPLICATION_NOT_AUTHORISED");
+  }
 
   const scopes = parseScopes(claims.scp);
   if (scopes.length === 0) {
@@ -81,6 +87,25 @@ export async function resolveDelegatedUserToken(
     scopes,
     roles: parseRoles(claims.roles)
   };
+}
+
+function readSingleBearerAccessToken(
+  request: Pick<Request, "header" | "rawHeaders">
+): string | undefined {
+  const values: string[] = [];
+  for (let index = 0; index < request.rawHeaders.length; index += 2) {
+    if (request.rawHeaders[index]?.toLowerCase() === "authorization") {
+      values.push(request.rawHeaders[index + 1] ?? "");
+    }
+  }
+  if (values.length !== 1) {
+    return undefined;
+  }
+
+  const authorization = values[0];
+  return authorization
+    ? /^Bearer ([A-Za-z0-9\-._~+/]+=*)$/iu.exec(authorization)?.[1]
+    : undefined;
 }
 
 function requiredClaim(value: string | undefined): string {

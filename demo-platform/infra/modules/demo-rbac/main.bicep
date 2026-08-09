@@ -20,13 +20,14 @@ var roleDefinitionGuids = {
   searchIndexDataReader: '1407120a-92aa-4202-b7e9-c0e197c71c8f'
   cognitiveServicesUser: 'a97b65f3-24c7-4388-baec-2e87135dc908'
   cognitiveServicesOpenAiUser: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
+  reader: 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
 }
 
-var openAiAccountResourceIds = [
-  lunaOpenAiAccountResourceId
-  terraOpenAiAccountResourceId
-  solOpenAiAccountResourceId
-]
+var openAiAccountResourceIds = union(
+  [lunaOpenAiAccountResourceId],
+  [terraOpenAiAccountResourceId],
+  [solOpenAiAccountResourceId]
+)
 
 module webAcrPull './role-assignments/acr-role-assignment.bicep' = {
   name: 'web-acr-pull'
@@ -100,12 +101,13 @@ module bffOpenAiUsers './role-assignments/cognitive-account-role-assignment.bice
   }
 }]
 
-module bffOpenAiReaders './role-assignments/cognitive-account-reader.bicep' = [for (accountResourceId, index) in openAiAccountResourceIds: {
+module bffOpenAiReaders './role-assignments/cognitive-account-role-assignment.bicep' = [for (accountResourceId, index) in openAiAccountResourceIds: {
   name: 'bff-openai-reader-${index}'
   scope: resourceGroup(split(accountResourceId, '/')[2], split(accountResourceId, '/')[4])
   params: {
     accountName: split(accountResourceId, '/')[8]
     principalId: bffPrincipalId
+    roleDefinitionGuid: roleDefinitionGuids.reader
   }
 }]
 

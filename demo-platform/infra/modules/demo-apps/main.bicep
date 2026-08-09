@@ -13,11 +13,9 @@ param webContainerPort int
 param bffContainerPort int
 param phase5ApiBaseUrl string
 param webDelegatedScope string
-param bffDelegatedAudience string
 param bffRequiredDelegatedScope string
 param phase5ApplicationId string
 param phase5DelegatedScope string
-param demoAuthorityCompletionClientId string
 param sqlServerFqdn string
 param sqlDatabaseName string
 param blobAccountUrl string
@@ -46,8 +44,6 @@ param solOpenAiDeploymentId string
 param solOpenAiApiVersion string
 param solOpenAiEvidenceId string
 param webEntraClientId string
-@minLength(1)
-param webAllowedAudiences array
 param bffEntraClientId string
 
 var webIdentityName = '${namePrefix}-web-mi'
@@ -130,6 +126,22 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
               name: 'BFF_INTERNAL_BASE_URL'
               value: bffInternalBaseUrl
             }
+            {
+              name: 'DEMO_MODE'
+              value: 'AZURE'
+            }
+            {
+              name: 'DEMO_TENANT_ID'
+              value: tenantId
+            }
+            {
+              name: 'WEB_ENTRA_CLIENT_ID'
+              value: webEntraClientId
+            }
+            {
+              name: 'WEB_BFF_DELEGATED_SCOPE'
+              value: webDelegatedScope
+            }
           ]
           resources: {
             cpu: json('0.5')
@@ -197,19 +209,23 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
             }
             {
               name: 'BFF_DELEGATED_AUDIENCE'
-              value: bffDelegatedAudience
+              value: bffEntraClientId
             }
             {
               name: 'BFF_REQUIRED_DELEGATED_SCOPE'
               value: bffRequiredDelegatedScope
             }
             {
-              name: 'ENTRA_TOKEN_ENDPOINT'
-              value: '${environment().authentication.loginEndpoint}${tenantId}/oauth2/v2.0/token'
+              name: 'BFF_ENTRA_CLIENT_ID'
+              value: bffEntraClientId
             }
             {
-              name: 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
-              value: demoAuthorityCompletionClientId
+              name: 'BFF_ALLOWED_CLIENT_APPLICATION_ID'
+              value: webEntraClientId
+            }
+            {
+              name: 'ENTRA_TOKEN_ENDPOINT'
+              value: '${environment().authentication.loginEndpoint}${tenantId}/oauth2/v2.0/token'
             }
             {
               name: 'AZURE_SQL_SERVER_FQDN'
@@ -222,10 +238,6 @@ resource bffApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'DEMO_TENANT_ID'
               value: tenantId
-            }
-            {
-              name: 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
-              value: webIdentity.properties.principalId
             }
             {
               name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
@@ -348,37 +360,11 @@ resource webAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
   parent: webApp
   properties: {
     platform: {
-      enabled: true
+      enabled: false
       runtimeVersion: '~1'
     }
     globalValidation: {
-      unauthenticatedClientAction: 'Return401'
-      redirectToProvider: 'azureactivedirectory'
-      excludedPaths: [
-        '/healthz'
-      ]
-    }
-    login: {
-      tokenStore: {
-        enabled: true
-      }
-    }
-    identityProviders: {
-      azureActiveDirectory: {
-        enabled: true
-        registration: {
-          clientId: webEntraClientId
-          openIdIssuer: entraIssuer
-        }
-        validation: {
-          allowedAudiences: webAllowedAudiences
-        }
-        login: {
-          loginParameters: [
-            'scope=openid profile email offline_access ${webDelegatedScope}'
-          ]
-        }
-      }
+      unauthenticatedClientAction: 'AllowAnonymous'
     }
   }
 }
@@ -407,8 +393,13 @@ resource bffAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
         }
         validation: {
           allowedAudiences: [
-            bffDelegatedAudience
+            bffEntraClientId
           ]
+          defaultAuthorizationPolicy: {
+            allowedApplications: [
+              webEntraClientId
+            ]
+          }
         }
       }
     }

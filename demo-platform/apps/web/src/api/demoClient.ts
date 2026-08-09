@@ -40,10 +40,13 @@ const demoErrorCodeByStatus: Readonly<Record<number, DemoApiError["code"]>> = {
 };
 
 export class DemoClient {
-  public constructor(private readonly baseUrl = "/api") {}
+  public constructor(
+    private readonly baseUrl = "/api",
+    private readonly getAccessToken: () => Promise<string | undefined> = async () => undefined
+  ) {}
 
   public async getScenario(signal?: AbortSignal): Promise<ScenarioState> {
-    const response = await fetch(`${this.baseUrl}/scenario`, signal ? { signal } : undefined);
+    const response = await this.request("/scenario", signal ? { signal } : undefined);
     if (!response.ok) {
       throw await readDemoApiError(response);
     }
@@ -52,7 +55,7 @@ export class DemoClient {
   }
 
   public async getGovernanceView(signal?: AbortSignal): Promise<GovernanceView> {
-    const response = await fetch(`${this.baseUrl}/governance`, signal ? { signal } : undefined);
+    const response = await this.request("/governance", signal ? { signal } : undefined);
     if (!response.ok) {
       throw await readDemoApiError(response);
     }
@@ -61,7 +64,7 @@ export class DemoClient {
   }
 
   public async resetScenario(): Promise<ScenarioState> {
-    const response = await fetch(`${this.baseUrl}/scenario/reset`, { method: "POST" });
+    const response = await this.request("/scenario/reset", { method: "POST" });
     if (!response.ok) {
       throw await readDemoApiError(response);
     }
@@ -73,7 +76,7 @@ export class DemoClient {
     input: EvidenceAdmissionRequest & { evidenceId: string }
   ): Promise<ScenarioState> {
     const payload = evidenceAdmissionRequestSchema.parse({ caseId: input.caseId });
-    const response = await fetch(`${this.baseUrl}/evidence/${input.evidenceId}/admit`, {
+    const response = await this.request(`/evidence/${input.evidenceId}/admit`, {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -90,7 +93,7 @@ export class DemoClient {
 
   public async runAnalysis(input: AnalysisRunRequest): Promise<AnalysisRunResponse> {
     const payload = analysisRunRequestSchema.parse(input);
-    const response = await fetch(`${this.baseUrl}/analysis-runs`, {
+    const response = await this.request("/analysis-runs", {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -113,7 +116,7 @@ export class DemoClient {
       action: input.action,
       ...(input.editedSummary ? { editedSummary: input.editedSummary } : {})
     });
-    const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/disposition`, {
+    const response = await this.request(`/findings/${input.findingId}/disposition`, {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -138,7 +141,7 @@ export class DemoClient {
       rationale: input.rationale,
       subjectVersion: input.subjectVersion
     });
-    const response = await fetch(`${this.baseUrl}/findings/${input.findingId}/reviews`, {
+    const response = await this.request(`/findings/${input.findingId}/reviews`, {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -157,7 +160,7 @@ export class DemoClient {
     input: RecommendationPreparationRequest
   ): Promise<ScenarioState> {
     const payload = recommendationPreparationRequestSchema.parse(input);
-    const response = await fetch(`${this.baseUrl}/recommendation/prepare`, {
+    const response = await this.request("/recommendation/prepare", {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -176,7 +179,7 @@ export class DemoClient {
     input: SecurityGateRunRequest
   ): Promise<ScenarioState> {
     const payload = securityGateRunRequestSchema.parse(input);
-    const response = await fetch(`${this.baseUrl}/governance/security-gates/run`, {
+    const response = await this.request("/governance/security-gates/run", {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -187,6 +190,21 @@ export class DemoClient {
       throw await readDemoApiError(response);
     }
     return scenarioMutationResponseSchema.parse(await response.json()).scenario;
+  }
+
+  private async request(path: string, init?: RequestInit): Promise<Response> {
+    const accessToken = await this.getAccessToken();
+    if (!accessToken) {
+      return fetch(`${this.baseUrl}${path}`, init);
+    }
+
+    return fetch(`${this.baseUrl}${path}`, {
+      ...(init ?? {}),
+      headers: {
+        ...(init?.headers as Record<string, string> | undefined),
+        authorization: `Bearer ${accessToken}`
+      }
+    });
   }
 }
 

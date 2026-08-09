@@ -57,17 +57,14 @@ Describe 'Stratton demo infrastructure' {
       'solOpenAiEvidenceId'
       'phase5ApiBaseUrl'
       'webDelegatedScope'
-      'bffDelegatedAudience'
       'bffRequiredDelegatedScope'
       'phase5ApplicationId'
       'phase5DelegatedScope'
-      'demoAuthorityCompletionClientId'
       'webImageRepository'
       'webImageDigest'
       'bffImageRepository'
       'bffImageDigest'
       'webEntraClientId'
-      'webAllowedAudiences'
       'bffEntraClientId'
     )
 
@@ -276,7 +273,7 @@ Describe 'Stratton demo infrastructure' {
     }
   }
 
-  It 'enables Entra authentication with explicit allowed audiences for both apps' {
+  It 'keeps the SPA public for client-directed sign-in and locks the BFF to the web public client' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
       return
@@ -284,15 +281,22 @@ Describe 'Stratton demo infrastructure' {
 
     $authConfigs = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps/authConfigs')
     $authConfigs.Count | Should -Be 2
-    foreach ($authConfig in $authConfigs) {
-      $authConfig.properties.platform.enabled | Should -BeTrue
-      $authConfig.properties.globalValidation.unauthenticatedClientAction | Should -Be 'Return401'
-      $authConfig.properties.globalValidation.redirectToProvider | Should -Be 'azureactivedirectory'
-    }
-    (($authConfigs | Where-Object { $_.name -match 'webAppName' }).properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | Out-String) |
-      Should -Match 'webAllowedAudiences'
-    (($authConfigs | Where-Object { $_.name -match 'bffAppName' }).properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | Out-String) |
-      Should -Match 'bffDelegatedAudience'
+    $webAuth = $authConfigs | Where-Object { $_.name -match 'webAppName' }
+    $bffAuth = $authConfigs | Where-Object { $_.name -match 'bffAppName' }
+
+    $webAuth.properties.platform.enabled | Should -BeFalse
+    $webAuth.properties.globalValidation.unauthenticatedClientAction | Should -Be 'AllowAnonymous'
+    $bffAuth.properties.platform.enabled | Should -BeTrue
+    $bffAuth.properties.globalValidation.unauthenticatedClientAction | Should -Be 'Return401'
+    @($bffAuth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences).Count |
+      Should -Be 1
+    ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences[0] | Out-String) |
+      Should -Match 'bffEntraClientId'
+    @($bffAuth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications).Count |
+      Should -Be 1
+    ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications[0] | Out-String) |
+      Should -Match 'webEntraClientId'
+    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Not -Match 'tokenStore|sasUrl|clientSecret'
   }
 
   It 'wires the production web proxy to the private BFF with delegated token authority' {
@@ -308,14 +312,21 @@ Describe 'Stratton demo infrastructure' {
     $bffEnvText = $bffApp.properties.template.containers[0].env | ConvertTo-Json -Depth 20
 
     $webEnvText | Should -Match 'BFF_INTERNAL_BASE_URL'
+    $webEnvText | Should -Match 'DEMO_MODE'
+    $webEnvText | Should -Match 'DEMO_TENANT_ID'
+    $webEnvText | Should -Match 'WEB_ENTRA_CLIENT_ID'
+    $webEnvText | Should -Match 'WEB_BFF_DELEGATED_SCOPE'
     $webEnvText | Should -Not -Match 'BFF_TOKEN_SCOPE'
     $webEnvText | Should -Not -Match 'AZURE_MANAGED_IDENTITY_CLIENT_ID'
     $bffEnvText | Should -Match 'PHASE5_DELEGATED_SCOPE'
     $bffEnvText | Should -Match 'BFF_DELEGATED_AUDIENCE'
     $bffEnvText | Should -Match 'BFF_REQUIRED_DELEGATED_SCOPE'
+    $bffEnvText | Should -Match 'BFF_ENTRA_CLIENT_ID'
+    $bffEnvText | Should -Match 'BFF_ALLOWED_CLIENT_APPLICATION_ID'
     $bffEnvText | Should -Match 'ENTRA_TOKEN_ENDPOINT'
-    $bffEnvText | Should -Match 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
     $bffEnvText | Should -Match 'DEMO_TENANT_ID'
+    $bffEnvText | Should -Not -Match 'TRUSTED_WEB_PROXY_PRINCIPAL_ID'
+    $bffEnvText | Should -Not -Match 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
     $bffEnvText | Should -Match 'AZURE_OPENAI_LUNA_RESOURCE_ID'
     $bffEnvText | Should -Match 'AZURE_OPENAI_TERRA_REGION'
     $bffEnvText | Should -Match 'AZURE_OPENAI_SOL_RESOURCE_ID'
@@ -323,63 +334,32 @@ Describe 'Stratton demo infrastructure' {
     $script:templateJson | Should -Match 'bffApp.*ingress.*fqdn'
     $script:templateJson | Should -Not -Match 'PHASE5_TOKEN_SCOPE'
   }
-}
 
-Describe 'Delegated Container Apps authentication' {
-  BeforeAll {
-    function Get-DelegatedAuthTemplateResources {
-      param([Parameter(Mandatory)][object[]] $Resources)
-
-      foreach ($resource in @($Resources)) {
-        $resource
-        if ($resource.type -eq 'Microsoft.Resources/deployments' -and $resource.properties.template.resources) {
-          Get-DelegatedAuthTemplateResources -Resources $resource.properties.template.resources
-        }
-      }
-    }
-
-    $script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
-    $script:mainBicepPath = Join-Path $script:repoRoot 'infra\main.bicep'
-    $script:compiledTemplatePath = Join-Path $script:repoRoot (".stratton-demo-delegated-auth-{0}.json" -f [System.Guid]::NewGuid().ToString('N'))
-    $script:buildOutput = & az bicep build --file $script:mainBicepPath --outfile $script:compiledTemplatePath 2>&1
-    $script:buildExitCode = $LASTEXITCODE
-    $script:templateJson = if ($script:buildExitCode -eq 0) { Get-Content -Path $script:compiledTemplatePath -Raw } else { '' }
-    $script:template = if ($script:templateJson) { $script:templateJson | ConvertFrom-Json -Depth 100 } else { $null }
-    $script:allResources = if ($script:template) { @(Get-DelegatedAuthTemplateResources -Resources $script:template.resources) } else { @() }
-  }
-
-  AfterAll {
-    if (Test-Path $script:compiledTemplatePath) {
-      Remove-Item -Path $script:compiledTemplatePath -Force
-    }
-  }
-
-  It 'requires explicit delegated and completion authentication inputs' {
+  It 'requires explicit client-directed and OBO authentication inputs' {
     foreach ($parameterName in @(
       'webDelegatedScope'
-      'bffDelegatedAudience'
       'bffRequiredDelegatedScope'
       'phase5ApplicationId'
       'phase5DelegatedScope'
-      'demoAuthorityCompletionClientId'
+      'webEntraClientId'
+      'bffEntraClientId'
     )) {
       $parameter = $script:template.parameters.$parameterName
       $parameter | Should -Not -BeNullOrEmpty
       @($parameter.PSObject.Properties.Name) | Should -Not -Contain 'defaultValue'
     }
     $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'phase5TokenScope'
+    $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'bffDelegatedAudience'
+    $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'demoAuthorityCompletionClientId'
   }
 
-  It 'enables token storage and delegated Entra validation for the private web and BFF applications' {
+  It 'uses client-directed PKCE without token-store, SAS, or server-directed web auth wiring' {
     $authConfigs = @($script:allResources | Where-Object type -eq 'Microsoft.App/containerApps/authConfigs')
     $authConfigs.Count | Should -Be 2
-    foreach ($authConfig in $authConfigs) {
-      $authConfig.properties.platform.enabled | Should -BeTrue
-      $authConfig.properties.globalValidation.unauthenticatedClientAction | Should -Be 'Return401'
-    }
-    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Match 'tokenStore'
-    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Match 'webDelegatedScope'
-    ($authConfigs | ConvertTo-Json -Depth 100) | Should -Match 'bffDelegatedAudience'
+    $authJson = $authConfigs | ConvertTo-Json -Depth 100
+    $authJson | Should -Not -Match 'tokenStore|sasUrl|clientSecret|loginParameters'
+    $authJson | Should -Match 'bffEntraClientId'
+    $authJson | Should -Match 'webEntraClientId'
   }
 
   It 'sets all Task 3 OBO settings and no stale managed-identity web token wiring' {
@@ -396,32 +376,34 @@ Describe 'Delegated Container Apps authentication' {
       'PHASE5_APPLICATION_ID'
       'BFF_DELEGATED_AUDIENCE'
       'BFF_REQUIRED_DELEGATED_SCOPE'
+      'BFF_ENTRA_CLIENT_ID'
+      'BFF_ALLOWED_CLIENT_APPLICATION_ID'
       'ENTRA_TOKEN_ENDPOINT'
       'AZURE_MANAGED_IDENTITY_CLIENT_ID'
-      'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
     )) {
       $bffEnv | Should -Match $setting
     }
     $script:templateJson | Should -Not -Match 'PHASE5_TOKEN_SCOPE'
+    $script:templateJson | Should -Not -Match 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID'
     $script:templateJson | Should -Not -Match 'clientSecret'
     $script:templateJson | Should -Not -Match 'accountKey'
+    $script:templateJson | Should -Not -Match 'sasUrl'
   }
 
   It 'assigns ARM Reader to the BFF only at each supplied OpenAI account scope' {
-    $roleAssignments = @($script:allResources | Where-Object type -eq 'Microsoft.Authorization/roleAssignments')
-    $readerAssignments = @($roleAssignments | Where-Object {
-      $_.properties.roleDefinitionId -match 'readerRoleDefinitionGuid'
-    })
-    $readerAssignments.Count | Should -Be 1
-    foreach ($assignment in $readerAssignments) {
-      $assignment.name | Should -Match 'guid'
-      ($assignment | ConvertTo-Json -Depth 100) | Should -Match 'Microsoft.CognitiveServices/accounts'
-    }
     $readerDeployments = @($script:allResources | Where-Object {
       $_.type -eq 'Microsoft.Resources/deployments' -and $_.name -match 'bff-openai-reader'
     })
     $readerDeployments.Count | Should -Be 1
     ($readerDeployments[0].copy.count | Out-String) | Should -Match 'openAiAccountResourceIds'
+    ($readerDeployments[0].subscriptionId | Out-String) | Should -Match 'openAiAccountResourceIds'
+    ($readerDeployments[0].resourceGroup | Out-String) | Should -Match 'openAiAccountResourceIds'
+    ($readerDeployments[0].properties.parameters.accountName.value | Out-String) |
+      Should -Match 'openAiAccountResourceIds'
+    ($readerDeployments[0].properties.parameters.roleDefinitionGuid.value | Out-String) |
+      Should -Match 'reader'
+    $script:templateJson | Should -Match 'union'
+    $script:templateJson | Should -Match ([Regex]::Escape('acdd72a7-3385-48ef-bd42-f606fba81ae7'))
     foreach ($accountParameter in @(
       'lunaOpenAiAccountResourceId'
       'terraOpenAiAccountResourceId'
@@ -429,5 +411,24 @@ Describe 'Delegated Container Apps authentication' {
     )) {
       $script:templateJson | Should -Match $accountParameter
     }
+  }
+
+  It 'documents PKCE registration, consent, federated credential, and completion identity semantics' {
+    $handoff = Get-Content -Path (Join-Path $script:repoRoot 'infra\ADMIN-HANDOFF.md') -Raw
+
+    $handoff | Should -Match 'authorization code.*PKCE'
+    $handoff | Should -Match 'requestedAccessTokenVersion.*2'
+    $handoff | Should -Match 'admin consent'
+    $handoff | Should -Match 'BFF app registration'
+    $handoff | Should -Match 'federated credential'
+    $handoff | Should -Match 'BFF managed.identity client ID'
+    $handoff | Should -Match 'no.deployment'
+    $handoff | Should -Not -Match 'trusts forwarded human claims|uses the enabled Container Apps token store'
+  }
+
+  It 'reuses one compiled-template harness for all infrastructure assertions' {
+    $testSource = Get-Content -Path $PSCommandPath -Raw
+    $compileCommand = 'az bicep ' + 'build --file'
+    ([Regex]::Matches($testSource, [Regex]::Escape($compileCommand))).Count | Should -Be 1
   }
 }

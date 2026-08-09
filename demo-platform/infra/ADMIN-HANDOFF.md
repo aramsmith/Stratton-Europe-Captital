@@ -1,38 +1,52 @@
 # Stratton demo infrastructure administration handoff
 
-This handoff is configuration guidance only. It does not authorise Azure login, what-if, deployment,
-or runtime testing.
+This handoff is configuration guidance only. It defines a no-deployment boundary: do not run Azure
+login, what-if, deployment, provisioning, or runtime validation as part of this repository task.
 
-## Identity, delegated authentication, and private routing
+## Client-directed Microsoft Entra authentication
 
-- Keep both Container Apps internal and use digest-pinned application images.
-- Configure the web, BFF, and Phase 5 app registrations with the explicit tenant, client IDs,
-  audiences, and delegated scopes supplied to Bicep. Grant tenant admin consent for the web
-  `webDelegatedScope`, BFF `bffRequiredDelegatedScope`, and Phase 5
-  `phase5DelegatedScope` permissions before enabling the route.
-- The web Container App uses the enabled Container Apps token store and asks Entra for the BFF
-  delegated scope. Its proxy forwards only the platform-provided
-  `x-ms-token-aad-access-token` as the BFF bearer token. It must not decode the token, request a
-  managed-identity token for a human request, or manufacture principal or role headers.
-- Configure the BFF auth policy to reject unauthenticated calls and validate
-  `bffDelegatedAudience` and `bffRequiredDelegatedScope` against the supplied tenant issuer.
-- Assign human users only the Project Danube access, evidence-to-decision purpose, and operation roles
-  they require.
-- The BFF trusts forwarded human claims only when the outer Container Apps principal object ID equals
-  `TRUSTED_WEB_PROXY_PRINCIPAL_ID`.
-- Create the BFF managed-identity federated credential in the Phase 5 app registration. The BFF
-  obtains a federated assertion for `api://AzureADTokenExchange/.default` and exchanges the
-  incoming user assertion for `phase5DelegatedScope`; Phase 5 remains the immutable policy and
-  transition authority.
-- Authorize `demoAuthorityCompletionClientId` for the Phase 5 completion application permission.
-  The BFF uses its managed identity to obtain the Phase 5 application token for completion and
-  route-evidence retrieval; do not use that application token for a human API request.
-- Provision a route-evidence record for each Luna, Terra, and Sol binding before activation.
-  Each record must identify the account resource ID, deployment, region, API version, evidence
-  version, and approved validity interval.
-- Maintain the no-secret boundary: do not configure client secrets, account keys, registry
-  passwords, or token values in Bicep, parameters, Container Apps settings, source control, or
-  telemetry.
+- Register the web application as a public single-page application with its exact deployed redirect
+  URI. MSAL Browser uses the authorization code flow with PKCE; do not add a client secret or
+  certificate.
+- Expose the BFF delegated permission using the full App ID URI scope supplied as
+  `webDelegatedScope`. Configure the BFF app registration with
+  `requestedAccessTokenVersion: 2`. For v2 access tokens, the strict `aud` claim is the BFF
+  application client-ID GUID, while the browser requests the full App ID URI scope and the BFF
+  requires only the scope value in `scp`.
+- Grant tenant admin consent for the web public client to request `webDelegatedScope`. Grant the BFF
+  confidential application delegated permission and tenant admin consent for
+  `phase5DelegatedScope`.
+- The web Container App does not use server-directed authentication or a token store. Its static SPA
+  is available anonymously so the browser can start sign-in. The browser signs in through MSAL
+  Browser, acquires the BFF delegated token, and sends exactly one `Authorization: Bearer ...`
+  header to the same-origin `/api` proxy.
+- The web proxy returns 401 for a missing, malformed, or repeated bearer header. It forwards one
+  valid Authorization header unchanged and never decodes the token or manufactures identity or role
+  headers.
+- Configure BFF Container Apps Easy Auth with `Return401`, the BFF client-ID GUID as its only allowed
+  audience, and the approved web public client ID as its only `allowedApplications` entry. The BFF
+  application independently verifies the token signature, issuer, tenant, expiry, `aud`, `azp`, and
+  required `scp`, then binds those verified user claims to the outer Easy Auth principal.
+
+## BFF OBO and Phase 5 completion authorization
+
+- Create the managed-identity federated credential on the BFF app registration, not on the Phase 5
+  app registration. It must trust the deployed BFF user-assigned managed identity and permit the BFF
+  confidential client to use the managed-identity assertion for
+  `api://AzureADTokenExchange/.default`.
+- The BFF sends its app-registration client ID as `client_id`, the incoming delegated token as the
+  OBO assertion, the managed-identity federated assertion as `client_assertion`, and the full
+  `phase5DelegatedScope` to the tenant v2 token endpoint. No client secret or certificate is used.
+- Phase 5 completion tokens are issued directly to the BFF managed identity. Configure Phase 5
+  `DEMO_AUTHORITY_COMPLETION_CLIENT_ID` as the deployed BFF managed-identity client ID and authorize
+  that service principal for the Phase 5 completion application permission. This value is not a BFF
+  runtime setting.
+- Provision a route-evidence record for each Luna, Terra, and Sol binding before activation. Each
+  record must identify the account resource ID, deployment, region, API version, evidence version,
+  and approved validity interval.
+- Maintain the no-secret boundary: do not configure client secrets, account keys, registry passwords,
+  token-store Blob SAS values, or token values in Bicep, parameters, Container Apps settings, source
+  control, or telemetry.
 
 ## SQL bootstrap
 
@@ -59,8 +73,9 @@ required by this projection.
   plane objects, not ARM child-resource scopes for Azure RBAC assignment.
 - Cognitive Services User and Cognitive Services OpenAI User: the supplied account resources. The
   applicable built-in data-plane roles are assigned at Cognitive Services account scope.
-- Reader: the BFF identity only, on each supplied Luna, Terra, and Sol Cognitive Services account
-  resource. Do not grant Reader at subscription, resource-group, or unrelated account scope.
+- Reader (`acdd72a7-3385-48ef-bd42-f606fba81ae7`): the BFF identity only, once per distinct supplied
+  Luna, Terra, or Sol Cognitive Services account resource. Do not grant Reader at subscription,
+  resource-group, or unrelated account scope.
 
 ## EU model-route bindings
 

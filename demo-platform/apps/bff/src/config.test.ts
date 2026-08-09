@@ -7,13 +7,14 @@ function azureEnvironment(): NodeJS.ProcessEnv {
     DEMO_MODE: "AZURE",
     PHASE5_API_BASE_URL: "https://authority.stratton.example",
     DEMO_TENANT_ID: "tenant-stratton",
-    TRUSTED_WEB_PROXY_PRINCIPAL_ID: "web-proxy-object-id",
     AZURE_SQL_SERVER_FQDN: "stratton.database.windows.net",
     AZURE_SQL_DATABASE_NAME: "stratton",
     PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
     PHASE5_APPLICATION_ID: "phase5-application-id",
-    BFF_DELEGATED_AUDIENCE: "api://stratton-demo-bff",
+    BFF_ENTRA_CLIENT_ID: "44444444-4444-4444-4444-444444444444",
+    BFF_DELEGATED_AUDIENCE: "44444444-4444-4444-4444-444444444444",
     BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
+    BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
     ENTRA_TOKEN_ENDPOINT: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
     AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
   };
@@ -24,8 +25,10 @@ describe("parseDemoConfig", () => {
     expect(parseDemoConfig(azureEnvironment())).toMatchObject({
       PHASE5_DELEGATED_SCOPE: "api://phase5/access_as_user",
       PHASE5_APPLICATION_ID: "phase5-application-id",
-      BFF_DELEGATED_AUDIENCE: "api://stratton-demo-bff",
+      BFF_ENTRA_CLIENT_ID: "44444444-4444-4444-4444-444444444444",
+      BFF_DELEGATED_AUDIENCE: "44444444-4444-4444-4444-444444444444",
       BFF_REQUIRED_DELEGATED_SCOPE: "access_as_user",
+      BFF_ALLOWED_CLIENT_APPLICATION_ID: "33333333-3333-3333-3333-333333333333",
       ENTRA_TOKEN_ENDPOINT: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
       AZURE_MANAGED_IDENTITY_CLIENT_ID: "bff-managed-identity"
     });
@@ -36,6 +39,27 @@ describe("parseDemoConfig", () => {
     delete environment.PHASE5_DELEGATED_SCOPE;
 
     expect(() => parseDemoConfig(environment)).toThrow(/PHASE5_DELEGATED_SCOPE/);
+  });
+
+  it("requires the BFF confidential client ID and approved browser application ID", () => {
+    const missingBffClient = azureEnvironment();
+    delete missingBffClient.BFF_ENTRA_CLIENT_ID;
+    expect(() => parseDemoConfig(missingBffClient)).toThrow(/BFF_ENTRA_CLIENT_ID/);
+
+    const missingWebClient = azureEnvironment();
+    delete missingWebClient.BFF_ALLOWED_CLIENT_APPLICATION_ID;
+    expect(() => parseDemoConfig(missingWebClient)).toThrow(
+      /BFF_ALLOWED_CLIENT_APPLICATION_ID/
+    );
+  });
+
+  it("does not retain the dead completion client setting", () => {
+    const config = parseDemoConfig({
+      ...azureEnvironment(),
+      DEMO_AUTHORITY_COMPLETION_CLIENT_ID: "stale-completion-client"
+    });
+
+    expect(config).not.toHaveProperty("DEMO_AUTHORITY_COMPLETION_CLIENT_ID");
   });
 
   it("rejects an ENTRA token endpoint that only contains the configured tenant as a nested path", () => {

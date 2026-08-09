@@ -14,20 +14,6 @@ import {
   type IdentityResolver
 } from "./identity-resolver.js";
 
-function encodePrincipal(): string {
-  return Buffer.from(
-    JSON.stringify({
-      auth_typ: "aad",
-      claims: [
-        { typ: "tid", val: "tenant-stratton" },
-        { typ: "oid", val: "human-object-id" },
-        { typ: "roles", val: "Stratton.Demo.ProjectDanube.Access" }
-      ]
-    }),
-    "utf8"
-  ).toString("base64");
-}
-
 function phase5Client(): Phase5Client {
   return {
     admitEvidence: vi.fn().mockResolvedValue(undefined),
@@ -43,18 +29,19 @@ describe("createContainerAppsIdentityResolver", () => {
       verify: vi.fn().mockResolvedValue({
         tid: "tenant-stratton",
         oid: "human-object-id",
-        aud: "api://stratton-demo-bff",
+        aud: "44444444-4444-4444-4444-444444444444",
+        azp: "33333333-3333-3333-3333-333333333333",
         scp: "access_as_user",
         exp: 1_900_000_000
       })
     };
     const resolver = createContainerAppsIdentityResolver({
       expectedTenantId: "tenant-stratton",
-      trustedProxyPrincipalId: "web-proxy-object-id",
       delegatedTokenPolicy: {
         expectedTenantId: "tenant-stratton",
-        expectedAudience: "api://stratton-demo-bff",
-        requiredScope: "access_as_user"
+        expectedAudience: "44444444-4444-4444-4444-444444444444",
+        requiredScope: "access_as_user",
+        expectedClientApplicationId: "33333333-3333-3333-3333-333333333333"
       },
       delegatedTokenVerifier: tokenVerifier
     });
@@ -62,7 +49,8 @@ describe("createContainerAppsIdentityResolver", () => {
     await expect(
       resolver.resolveDelegatedToken({
         header: (name: string) =>
-          name.toLowerCase() === "x-ms-token-aad-access-token" ? "signed-user-jwt" : undefined
+          name.toLowerCase() === "authorization" ? "Bearer signed-user-jwt" : undefined,
+        rawHeaders: ["Authorization", "Bearer signed-user-jwt"]
       })
     ).resolves.toMatchObject({
       actorId: "human-object-id",

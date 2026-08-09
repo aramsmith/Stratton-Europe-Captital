@@ -22,6 +22,11 @@ import type {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { DemoClient } from "../api/demoClient.js";
+import {
+  createLocalBrowserAuthSession,
+  type BrowserAuthAccount,
+  type BrowserAuthSession
+} from "../auth/browserAuth.js";
 import { StrattonShell } from "../shell/StrattonShell.js";
 import { AppRoutes } from "./routes.js";
 
@@ -45,11 +50,21 @@ const useStyles = makeStyles({
   }
 });
 
-export function App() {
+interface AppProps {
+  readonly authSession?: BrowserAuthSession;
+}
+
+export function App({ authSession = createLocalBrowserAuthSession() }: AppProps) {
   const styles = useStyles();
-  const client = useMemo(() => new DemoClient(), []);
+  const [account, setAccount] = useState<BrowserAuthAccount | null>(authSession.account);
+  const [isSignInPending, setIsSignInPending] = useState(false);
+  const [signInError, setSignInError] = useState<string | null>(null);
+  const client = useMemo(
+    () => new DemoClient("/api", () => authSession.getAccessToken()),
+    [authSession]
+  );
   const [scenario, setScenario] = useState<ScenarioState | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(account !== null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [isResetPending, setIsResetPending] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
@@ -77,13 +92,30 @@ export function App() {
   );
 
   useEffect(() => {
+    if (!account) {
+      return;
+    }
     const controller = new AbortController();
     void loadScenario(controller.signal);
 
     return () => {
       controller.abort();
     };
-  }, [loadScenario]);
+  }, [account, loadScenario]);
+
+  const handleSignIn = useCallback(async () => {
+    setSignInError(null);
+    setIsSignInPending(true);
+    try {
+      await authSession.signIn();
+      setAccount(authSession.account);
+      setIsLoading(authSession.account !== null);
+    } catch (error) {
+      setSignInError(toErrorMessage(error));
+    } finally {
+      setIsSignInPending(false);
+    }
+  }, [authSession]);
 
   const handleRetry = useCallback(() => {
     setScenario(null);
@@ -158,7 +190,26 @@ export function App() {
     <FluentProvider theme={webLightTheme}>
       <title>Stratton demo platform</title>
 
-      {isLoading && !scenario ? (
+      {!account ? (
+        <div className={styles.fullScreen}>
+          <div className={styles.stateCard}>
+            <Title3>Sign in to Stratton demo platform</Title3>
+            <Body1>
+              Use your approved Microsoft Entra account to access Project Danube.
+            </Body1>
+            <Button
+              appearance="primary"
+              disabled={isSignInPending}
+              onClick={() => void handleSignIn()}
+            >
+              {isSignInPending ? "Signing in..." : "Sign in with Microsoft"}
+            </Button>
+            {signInError ? <Body1 role="alert">{signInError}</Body1> : null}
+          </div>
+        </div>
+      ) : null}
+
+      {account && isLoading && !scenario ? (
         <div className={styles.fullScreen}>
           <div className={styles.stateCard}>
             <Spinner label="Loading Project Danube..." labelPosition="below" size="huge" />
@@ -166,7 +217,7 @@ export function App() {
         </div>
       ) : null}
 
-      {!isLoading && !scenario ? (
+      {account && !isLoading && !scenario ? (
         <div className={styles.fullScreen}>
           <div className={styles.stateCard} role="alert">
             <Title3>Unable to load Project Danube</Title3>

@@ -153,8 +153,13 @@ Azure-mode configuration names are documented here for completeness only; do not
 - `DEMO_TENANT_ID`
 - `AZURE_SQL_SERVER_FQDN`
 - `AZURE_SQL_DATABASE_NAME`
-- `TRUSTED_WEB_PROXY_PRINCIPAL_ID`
-- `PHASE5_TOKEN_SCOPE`
+- `PHASE5_DELEGATED_SCOPE`
+- `PHASE5_APPLICATION_ID`
+- `BFF_ENTRA_CLIENT_ID`
+- `BFF_DELEGATED_AUDIENCE`
+- `BFF_REQUIRED_DELEGATED_SCOPE`
+- `BFF_ALLOWED_CLIENT_APPLICATION_ID`
+- `ENTRA_TOKEN_ENDPOINT`
 - `AZURE_MANAGED_IDENTITY_CLIENT_ID`
 - `AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT`
 - `AZURE_SEARCH_ENDPOINT`
@@ -183,10 +188,10 @@ Azure-mode configuration names are documented here for completeness only; do not
 - `AZURE_OPENAI_SOL_EVIDENCE_ID`
 
 The production web image runs the typed server in `apps\web\server\server.ts`. Browser `/api`
-requests remain same-origin. The server accepts only the Container Apps authenticated principal,
-obtains a managed-identity token for the BFF audience, and proxies to the internal BFF FQDN supplied
-as `BFF_INTERNAL_BASE_URL`. The BFF accepts forwarded human claims only when Container Apps identifies
-the configured web managed identity as the caller.
+requests remain same-origin. In Azure mode, MSAL Browser uses authorization code with PKCE to acquire
+the BFF delegated scope. The server accepts exactly one Bearer Authorization header, forwards it
+unchanged to the internal BFF FQDN supplied as `BFF_INTERNAL_BASE_URL`, and never creates identity or
+role headers. In local Vite mode no Entra call or access token is required.
 
 Luna, Terra, and Sol require HTTPS `*.openai.azure.com` endpoints, matching Cognitive Services
 account resource IDs, permitted EU regions, and route-specific versioned evidence IDs. Mismatches

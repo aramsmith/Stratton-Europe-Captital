@@ -8,14 +8,21 @@ import {
 
 const policy: DelegatedTokenPolicy = {
   expectedTenantId: "tenant-stratton",
-  expectedAudience: "api://stratton-demo-bff",
-  requiredScope: "access_as_user"
+  expectedAudience: "44444444-4444-4444-4444-444444444444",
+  requiredScope: "access_as_user",
+  expectedClientApplicationId: "33333333-3333-3333-3333-333333333333"
 };
 
-function requestWithAccessToken(accessToken?: string): Request {
+function requestWithAccessToken(accessToken?: string, duplicate = false): Request {
+  const authorization = accessToken ? `Bearer ${accessToken}` : undefined;
   return {
     header: (name: string) =>
-      name.toLowerCase() === "x-ms-token-aad-access-token" ? accessToken : undefined
+      name.toLowerCase() === "authorization" ? authorization : undefined,
+    rawHeaders: duplicate
+      ? ["Authorization", authorization ?? "", "Authorization", "Bearer duplicate.token"]
+      : authorization
+        ? ["Authorization", authorization]
+        : []
   } as Request;
 }
 
@@ -25,7 +32,8 @@ function verifiedClaims(
   return {
     tid: "tenant-stratton",
     oid: "human-object-id",
-    aud: "api://stratton-demo-bff",
+    aud: "44444444-4444-4444-4444-444444444444",
+    azp: "33333333-3333-3333-3333-333333333333",
     scp: "access_as_user profile",
     roles: ["DealContributor", "CaseReader"],
     exp: 1_900_000_000,
@@ -51,7 +59,9 @@ describe("resolveDelegatedUserToken", () => {
 
   it.each([
     ["wrong tenant", verifiedClaims({ tid: "other-tenant" }), 403, "POLICY_DENIED"],
-    ["wrong audience", verifiedClaims({ aud: "api://other-api" }), 401, "UNAUTHENTICATED"],
+    ["wrong audience", verifiedClaims({ aud: "99999999-9999-9999-9999-999999999999" }), 401, "UNAUTHENTICATED"],
+    ["wrong client application", verifiedClaims({ azp: "other-web-client" }), 403, "POLICY_DENIED"],
+    ["missing client application", verifiedClaims({ azp: undefined }), 401, "UNAUTHENTICATED"],
     ["expired token", verifiedClaims({ exp: 1 }), 401, "UNAUTHENTICATED"],
     ["application token", verifiedClaims({ idtyp: "app", scp: undefined }), 401, "UNAUTHENTICATED"],
     ["missing delegated scope", verifiedClaims({ scp: "profile" }), 403, "POLICY_DENIED"]
@@ -73,6 +83,19 @@ describe("resolveDelegatedUserToken", () => {
       code: "UNAUTHENTICATED"
     });
     expect(tokenVerifier.verify).toHaveBeenCalledWith("not.a.jwt");
+  });
+
+  it("rejects duplicate Authorization header lines", async () => {
+    await expect(
+      resolveDelegatedUserToken(
+        requestWithAccessToken("signed-user-jwt", true),
+        policy,
+        verifier()
+      )
+    ).rejects.toMatchObject({
+      status: 401,
+      code: "UNAUTHENTICATED"
+    });
   });
 
   it("returns verified delegated claims without decoding an unverified token", async () => {

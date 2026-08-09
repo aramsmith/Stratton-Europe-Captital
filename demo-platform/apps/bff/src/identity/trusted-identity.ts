@@ -54,23 +54,17 @@ export interface TrustedIdentity {
 
 export interface ContainerAppsIdentityHeaders {
   readonly clientPrincipal?: string;
-  readonly forwardedPrincipal?: string;
 }
 
 interface ContainerAppsIdentityPolicy {
   readonly expectedTenantId: string;
-  readonly trustedProxyPrincipalId: string;
 }
 
 export function resolveContainerAppsIdentity(
   headers: ContainerAppsIdentityHeaders,
   policy: ContainerAppsIdentityPolicy
 ): TrustedIdentity {
-  const outerPrincipal = parsePrincipal(headers.clientPrincipal);
-  const outerActorId = requireClaim(outerPrincipal.claims, actorClaimTypes, "PRINCIPAL_ACTOR_REQUIRED");
-  const principal = headers.forwardedPrincipal
-    ? resolveForwardedPrincipal(headers.forwardedPrincipal, outerActorId, policy)
-    : outerPrincipal;
+  const principal = parsePrincipal(headers.clientPrincipal);
   const tenantId = requireClaim(principal.claims, tenantClaimTypes, "PRINCIPAL_TENANT_REQUIRED");
 
   if (tenantId !== policy.expectedTenantId) {
@@ -95,18 +89,6 @@ export function resolveContainerAppsIdentity(
 
 function isDemoApplicationRole(role: string): role is DemoApplicationRole {
   return demoApplicationRoleSet.has(role);
-}
-
-function resolveForwardedPrincipal(
-  encodedPrincipal: string,
-  outerActorId: string,
-  policy: ContainerAppsIdentityPolicy
-): z.infer<typeof principalSchema> {
-  if (outerActorId !== policy.trustedProxyPrincipalId) {
-    throw new DemoHttpError(403, "POLICY_DENIED", "UNTRUSTED_FORWARDED_IDENTITY");
-  }
-
-  return parsePrincipal(encodedPrincipal);
 }
 
 function parsePrincipal(encodedPrincipal: string | undefined): z.infer<typeof principalSchema> {

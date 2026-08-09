@@ -16,12 +16,13 @@ import { createAzureAdTokenVerifier } from "./azure-ad-token-verifier.js";
 const deprecatedAuthorityHeaders = [
   "x-demo-principal-type",
   "x-demo-actor",
-  "x-demo-actor-id"
+  "x-demo-actor-id",
+  "x-stratton-forwarded-principal"
 ] as const;
 
 export interface IdentityResolver {
   resolve(request: Request): Promise<TrustedIdentity>;
-  resolveDelegatedToken(request: Pick<Request, "header">): Promise<DelegatedUserToken>;
+  resolveDelegatedToken(request: Pick<Request, "header" | "rawHeaders">): Promise<DelegatedUserToken>;
 }
 
 export function createLocalIdentityResolver(
@@ -53,7 +54,6 @@ export function createLocalIdentityResolver(
 
 export function createContainerAppsIdentityResolver(options: {
   readonly expectedTenantId: string;
-  readonly trustedProxyPrincipalId: string;
   readonly delegatedTokenPolicy: DelegatedTokenPolicy;
   readonly delegatedTokenVerifier?: DelegatedAccessTokenVerifier;
 }): IdentityResolver {
@@ -67,11 +67,9 @@ export function createContainerAppsIdentityResolver(options: {
     async resolve(request) {
       rejectDeprecatedAuthorityHeaders(request);
       const clientPrincipal = request.header("x-ms-client-principal");
-      const forwardedPrincipal = request.header("x-stratton-forwarded-principal");
       return resolveContainerAppsIdentity(
         {
-          ...(clientPrincipal ? { clientPrincipal } : {}),
-          ...(forwardedPrincipal ? { forwardedPrincipal } : {})
+          ...(clientPrincipal ? { clientPrincipal } : {})
         },
         options
       );

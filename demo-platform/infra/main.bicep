@@ -126,11 +126,8 @@ param solOpenAiEvidenceId string
 @description('Explicit Phase 5 base URL required by the current BFF configuration contract.')
 param phase5ApiBaseUrl string
 
-@description('Delegated BFF scope requested by the web Container Apps authentication flow.')
+@description('Full delegated BFF App ID URI scope requested by MSAL Browser authorization-code + PKCE.')
 param webDelegatedScope string
-
-@description('Audience accepted by the BFF for the platform-provided delegated user token.')
-param bffDelegatedAudience string
 
 @description('Delegated user scope required by the BFF.')
 param bffRequiredDelegatedScope string
@@ -140,9 +137,6 @@ param phase5ApplicationId string
 
 @description('Delegated OAuth scope requested by the BFF OBO exchange for Phase 5.')
 param phase5DelegatedScope string
-
-@description('Client ID registered for Phase 5 application-token completion authorization.')
-param demoAuthorityCompletionClientId string
 
 @description('Repository path within the approved container registry for the web image.')
 param webImageRepository string
@@ -163,12 +157,13 @@ param webContainerPort int
 param bffContainerPort int
 
 @description('Web application Microsoft Entra client ID.')
+@minLength(36)
+@maxLength(36)
 param webEntraClientId string
 
-@description('Allowed audiences enforced for the web application.')
-param webAllowedAudiences array
-
 @description('BFF application Microsoft Entra client ID.')
+@minLength(36)
+@maxLength(36)
 param bffEntraClientId string
 
 var blobAccountUrl = 'https://${blobStorageAccountName}.blob.${environment().suffixes.storage}'
@@ -192,11 +187,9 @@ module demoApps './modules/demo-apps/main.bicep' = {
     bffContainerPort: bffContainerPort
     phase5ApiBaseUrl: phase5ApiBaseUrl
     webDelegatedScope: webDelegatedScope
-    bffDelegatedAudience: bffDelegatedAudience
     bffRequiredDelegatedScope: bffRequiredDelegatedScope
     phase5ApplicationId: phase5ApplicationId
     phase5DelegatedScope: phase5DelegatedScope
-    demoAuthorityCompletionClientId: demoAuthorityCompletionClientId
     sqlServerFqdn: sqlServerFqdn
     sqlDatabaseName: sqlDatabaseName
     blobAccountUrl: blobAccountUrl
@@ -225,7 +218,6 @@ module demoApps './modules/demo-apps/main.bicep' = {
     solOpenAiApiVersion: solOpenAiApiVersion
     solOpenAiEvidenceId: solOpenAiEvidenceId
     webEntraClientId: webEntraClientId
-    webAllowedAudiences: webAllowedAudiences
     bffEntraClientId: bffEntraClientId
   }
 }
