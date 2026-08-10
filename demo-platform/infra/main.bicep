@@ -298,7 +298,7 @@ module demoApps './modules/demo-apps/main.bicep' = if (deployApplications) {
     bffImageDigest: bffImageDigest
     webContainerPort: webContainerPort
     bffContainerPort: bffContainerPort
-    phase5ApiBaseUrl: deployApplications ? 'https://${phase5.outputs.phase5ApiFqdn}' : ''
+    phase5ApiBaseUrl: deployApplications ? 'https://${phase5!.outputs.phase5ApiFqdn}' : ''
     webDelegatedScope: webDelegatedScope
     bffRequiredDelegatedScope: bffRequiredDelegatedScope
     phase5ApplicationId: phase5ApplicationId
@@ -384,21 +384,21 @@ module demoRbac './modules/demo-rbac/main.bicep' = if (deployApplications) {
   }
 }
 
-output webAppName string = deployApplications ? demoApps.outputs.webAppName : ''
-output webAppId string = deployApplications ? demoApps.outputs.webAppId : ''
-output webAppFqdn string = deployApplications ? demoApps.outputs.webAppFqdn : ''
+output webAppName string = deployApplications ? demoApps!.outputs.webAppName : ''
+output webAppId string = deployApplications ? demoApps!.outputs.webAppId : ''
+output webAppFqdn string = deployApplications ? demoApps!.outputs.webAppFqdn : ''
 output webIdentityResourceId string = webIdentityResourceId
 output webIdentityClientId string = webIdentityClientId
 output webIdentityPrincipalId string = webIdentityPrincipalId
-output bffAppName string = deployApplications ? demoApps.outputs.bffAppName : ''
-output bffAppId string = deployApplications ? demoApps.outputs.bffAppId : ''
-output bffAppFqdn string = deployApplications ? demoApps.outputs.bffAppFqdn : ''
+output bffAppName string = deployApplications ? demoApps!.outputs.bffAppName : ''
+output bffAppId string = deployApplications ? demoApps!.outputs.bffAppId : ''
+output bffAppFqdn string = deployApplications ? demoApps!.outputs.bffAppFqdn : ''
 output bffIdentityResourceId string = bffIdentityResourceId
 output bffIdentityClientId string = bffIdentityClientId
 output bffIdentityPrincipalId string = bffIdentityPrincipalId
-output phase5AppName string = deployApplications ? phase5.outputs.phase5AppName : ''
-output phase5AppId string = deployApplications ? phase5.outputs.phase5AppId : ''
-output phase5ApiFqdn string = deployApplications ? phase5.outputs.phase5ApiFqdn : ''
+output phase5AppName string = deployApplications ? phase5!.outputs.phase5AppName : ''
+output phase5AppId string = deployApplications ? phase5!.outputs.phase5AppId : ''
+output phase5ApiFqdn string = deployApplications ? phase5!.outputs.phase5ApiFqdn : ''
 output phase5IdentityResourceId string = phase5IdentityResourceId
 output phase5IdentityClientId string = phase5IdentityClientId
 output phase5IdentityPrincipalId string = phase5IdentityPrincipalId
@@ -411,8 +411,8 @@ output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSq
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes
 output roleAssignmentIds array = deployApplications ? concat(
-  demoRbac.outputs.roleAssignmentIds,
-  demoRbac.outputs.phase5SenderRoleAssignmentIds,
-  demoRbac.outputs.openAiRoleAssignmentIds,
-  demoRbac.outputs.openAiReaderRoleAssignmentIds
+  demoRbac!.outputs.roleAssignmentIds,
+  demoRbac!.outputs.phase5SenderRoleAssignmentIds,
+  demoRbac!.outputs.openAiRoleAssignmentIds,
+  demoRbac!.outputs.openAiReaderRoleAssignmentIds
 ) : []
