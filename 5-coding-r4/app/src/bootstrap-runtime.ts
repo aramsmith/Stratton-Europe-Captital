@@ -44,6 +44,10 @@ export function migrationExecutionErrorCode(
   return `MIGRATION_EXECUTION_FAILED:${safeMigrationName}:BATCH${batchIndex + 1}:${number}`;
 }
 
+function bootstrapStageError(stage: string, error: unknown): Error {
+  return new Error(`BOOTSTRAP_STAGE_FAILED:${stage}:${safeBootstrapErrorCode(error)}`);
+}
+
 export type GovernedRoute = (typeof APPROVED_ROUTES)[number];
 
 export interface RouteEvidenceInput {
@@ -204,9 +208,23 @@ export async function runBootstrap(
   dependencies: BootstrapDependencies
 ): Promise<BootstrapReceipt> {
   assertBootstrapInput(input);
-  await dependencies.migrations.apply();
-  const search = await dependencies.search.reconcile();
-  const routeEvidence = await dependencies.routeEvidence.upsert(input.routes);
+  try {
+    await dependencies.migrations.apply();
+  } catch (error) {
+    throw bootstrapStageError("MIGRATIONS", error);
+  }
+  let search: { readonly etag: string };
+  try {
+    search = await dependencies.search.reconcile();
+  } catch (error) {
+    throw bootstrapStageError("SEARCH", error);
+  }
+  let routeEvidence: readonly RouteEvidenceReceipt[];
+  try {
+    routeEvidence = await dependencies.routeEvidence.upsert(input.routes);
+  } catch (error) {
+    throw bootstrapStageError("ROUTE_EVIDENCE", error);
+  }
   return {
     migrationHashes: dependencies.migrations.hashes(),
     searchIndexEtag: search.etag,
