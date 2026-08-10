@@ -6,6 +6,22 @@ const APPROVED_TENANT_ID = "27140306-eea5-4e7f-91e9-4c9e86864b3a";
 const APPROVED_ROUTES = ["LUNA", "TERRA", "SOL"] as const;
 const MAX_ROUTE_VALIDITY_DAYS = 90;
 
+function safeErrorToken(value: unknown): string {
+  if (typeof value !== "string") {
+    return "UNKNOWN";
+  }
+  const normalized = value.toUpperCase();
+  return /^[A-Z0-9_-]{1,64}$/.test(normalized) ? normalized : "UNKNOWN";
+}
+
+export function safeBootstrapErrorCode(error: unknown): string {
+  if (error instanceof Error && /^[A-Z0-9_:-]+$/.test(error.message)) {
+    return error.message;
+  }
+  const candidate = error as { readonly name?: unknown; readonly code?: unknown } | null;
+  return `BOOTSTRAP_FAILED:${safeErrorToken(candidate?.name)}:${safeErrorToken(candidate?.code)}`;
+}
+
 export type GovernedRoute = (typeof APPROVED_ROUTES)[number];
 
 export interface RouteEvidenceInput {

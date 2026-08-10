@@ -6,6 +6,7 @@ import {
   AzureSqlMigrationRunner,
   AzureSqlRouteEvidenceRepository,
   runBootstrap,
+  safeBootstrapErrorCode,
   sha256,
   type BootstrapInput,
   type MigrationInput,
@@ -107,13 +108,6 @@ function loadInput(): {
   };
 }
 
-function errorCode(error: unknown): string {
-  if (error instanceof Error && /^[A-Z0-9_:-]+$/.test(error.message)) {
-    return error.message;
-  }
-  return "BOOTSTRAP_FAILED";
-}
-
 async function main(): Promise<void> {
   const logger = new StructuredLogger("stratton-bootstrap", (entry) => {
     process.stdout.write(`${JSON.stringify(entry)}\n`);
@@ -148,7 +142,10 @@ async function main(): Promise<void> {
     });
     logger.log("INFO", "bootstrap-receipt", { correlationId: "bootstrap", receipt });
   } catch (error) {
-    logger.log("ERROR", "bootstrap-failed", { correlationId: "bootstrap", errorCode: errorCode(error) });
+    logger.log("ERROR", "bootstrap-failed", {
+      correlationId: "bootstrap",
+      errorCode: safeBootstrapErrorCode(error)
+    });
     process.exitCode = 1;
   }
 }

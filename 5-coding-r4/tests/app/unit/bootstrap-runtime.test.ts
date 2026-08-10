@@ -5,6 +5,7 @@ import {
   assertSearchSchemaCompatible,
   reconcileRouteEvidenceValidity,
   runBootstrap,
+  safeBootstrapErrorCode,
   type BootstrapDependencies,
   type BootstrapInput,
   type SearchIndexDefinition,
@@ -12,6 +13,16 @@ import {
 } from "../../../app/src/bootstrap-runtime.js";
 
 const approvedTenantId = "27140306-eea5-4e7f-91e9-4c9e86864b3a";
+
+test("bootstrap error classification exposes only safe type and code tokens", () => {
+  const error = Object.assign(new Error("raw provider message must not be logged"), {
+    name: "ConnectionError",
+    code: "ETIMEOUT"
+  });
+
+  assert.equal(safeBootstrapErrorCode(error), "BOOTSTRAP_FAILED:CONNECTIONERROR:ETIMEOUT");
+  assert.equal(safeBootstrapErrorCode(new Error("SEARCH_AUTH_FAILED")), "SEARCH_AUTH_FAILED");
+});
 
 const routes: readonly RouteEvidenceInput[] = [
   {
