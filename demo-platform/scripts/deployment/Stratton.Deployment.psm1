@@ -1224,6 +1224,33 @@ function Get-AcrImageDigest {
   return $distinctDigests[0]
 }
 
+function New-StrattonAcrBuildArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $RegistryName,
+
+    [Parameter(Mandatory)]
+    [string] $Repository,
+
+    [Parameter(Mandatory)]
+    [string] $BuildTag,
+
+    [Parameter(Mandatory)]
+    [string] $DockerfileRelativePath
+  )
+
+  return @(
+    'acr', 'build',
+    '--registry', $RegistryName,
+    '--image', "${Repository}:$BuildTag",
+    '--file', $DockerfileRelativePath,
+    '--no-wait',
+    '--query', '{runId:runId}',
+    '.'
+  )
+}
+
 function Invoke-StrattonImageBuilds {
   [CmdletBinding()]
   param(
@@ -1260,14 +1287,11 @@ function Invoke-StrattonImageBuilds {
 
       Push-Location -LiteralPath $Definition.sourceContextPath
       try {
-        Invoke-AzJson -Arguments @(
-          'acr', 'build',
-          '--registry', $ResolvedRegistryName,
-          '--image', "$($Definition.repository):$BuildTag",
-          '--file', $Definition.dockerfileRelativePath,
-          '--no-wait',
-          '.'
-        )
+        Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
+            -RegistryName $ResolvedRegistryName `
+            -Repository $Definition.repository `
+            -BuildTag $BuildTag `
+            -DockerfileRelativePath $Definition.dockerfileRelativePath)
       }
       finally {
         Pop-Location
@@ -1447,14 +1471,11 @@ function Invoke-StrattonBootstrapImageBuild {
 
       Push-Location -LiteralPath $Definition.sourceContextPath
       try {
-        Invoke-AzJson -Arguments @(
-          'acr', 'build',
-          '--registry', $ResolvedRegistryName,
-          '--image', "$($Definition.repository):$BuildTag",
-          '--file', $Definition.dockerfileRelativePath,
-          '--no-wait',
-          '.'
-        )
+        Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
+            -RegistryName $ResolvedRegistryName `
+            -Repository $Definition.repository `
+            -BuildTag $BuildTag `
+            -DockerfileRelativePath $Definition.dockerfileRelativePath)
       }
       finally {
         Pop-Location

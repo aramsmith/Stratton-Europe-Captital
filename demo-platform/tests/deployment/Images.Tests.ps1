@@ -1,15 +1,47 @@
 Set-StrictMode -Version Latest
 
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
-$modulePath = Join-Path $repoRoot 'scripts\deployment\Stratton.Deployment.psm1'
+$script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+$modulePath = Join-Path $script:repoRoot 'scripts\deployment\Stratton.Deployment.psm1'
 
 Import-Module $modulePath -Force
 
 Describe 'Stratton image build orchestration' {
+  BeforeAll {
+    $script:imageRepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+  }
+
   It 'accepts only sha256 image digests' {
     Test-ImageDigest 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' |
       Should -BeTrue
     Test-ImageDigest 'latest' | Should -BeFalse
+  }
+
+  It 'constrains Azure CLI build output to a single run ID' {
+    InModuleScope Stratton.Deployment {
+      $arguments = New-StrattonAcrBuildArguments `
+        -RegistryName 'strattondemoacr' `
+        -Repository 'stratton/demo-web' `
+        -BuildTag 'dev-12345678' `
+        -DockerfileRelativePath 'apps\web\Dockerfile'
+
+      $queryIndex = [array]::IndexOf($arguments, '--query')
+      $queryIndex | Should -BeGreaterThan -1
+      $arguments[$queryIndex + 1] | Should -Be '{runId:runId}'
+      $arguments[-1] | Should -Be '.'
+    }
+  }
+
+  It 'builds the scenario-data workspace before compiling the web image' {
+    $dockerfile = Get-Content -LiteralPath (Join-Path $script:imageRepoRoot 'apps\web\Dockerfile') -Raw
+    $copyManifest = 'COPY packages/scenario-data/package.json packages/scenario-data/tsconfig.json ./packages/scenario-data/'
+    $copySource = 'COPY packages/scenario-data/src ./packages/scenario-data/src'
+    $buildScenarioData = 'RUN npm run build --workspace @stratton/scenario-data'
+    $buildWeb = 'RUN npm run build --workspace @stratton/demo-web'
+
+    $dockerfile | Should -Match ([regex]::Escape($copyManifest))
+    $dockerfile | Should -Match ([regex]::Escape($copySource))
+    $dockerfile.IndexOf($buildScenarioData, [System.StringComparison]::Ordinal) |
+      Should -BeLessThan $dockerfile.IndexOf($buildWeb, [System.StringComparison]::Ordinal)
   }
 
   It 'builds only the approved repositories with unique temporary tags and writes a non-secret artifact' {
