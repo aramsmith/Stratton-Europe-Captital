@@ -1246,9 +1246,33 @@ function New-StrattonAcrBuildArguments {
     '--image', "${Repository}:$BuildTag",
     '--file', $DockerfileRelativePath,
     '--no-wait',
-    '--query', '{runId:runId}',
+    '--query', 'runId',
     '.'
   )
+}
+
+function ConvertTo-StrattonAcrBuildResult {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $RunIdResult,
+
+    [Parameter(Mandatory)]
+    [string] $Repository
+  )
+
+  $runIds = @(
+    @($RunIdResult) |
+      ForEach-Object { [string] $_ } |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+  )
+  if ($runIds.Count -ne 1) {
+    throw "AMBIGUOUS_IMAGE_BUILD_ID:${Repository}"
+  }
+
+  return [pscustomobject]@{
+    runId = $runIds[0]
+  }
 }
 
 function Invoke-StrattonImageBuilds {
@@ -1287,11 +1311,13 @@ function Invoke-StrattonImageBuilds {
 
       Push-Location -LiteralPath $Definition.sourceContextPath
       try {
-        Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
-            -RegistryName $ResolvedRegistryName `
-            -Repository $Definition.repository `
-            -BuildTag $BuildTag `
-            -DockerfileRelativePath $Definition.dockerfileRelativePath)
+        ConvertTo-StrattonAcrBuildResult `
+          -RunIdResult (Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
+              -RegistryName $ResolvedRegistryName `
+              -Repository $Definition.repository `
+              -BuildTag $BuildTag `
+              -DockerfileRelativePath $Definition.dockerfileRelativePath)) `
+          -Repository $Definition.repository
       }
       finally {
         Pop-Location
@@ -1471,11 +1497,13 @@ function Invoke-StrattonBootstrapImageBuild {
 
       Push-Location -LiteralPath $Definition.sourceContextPath
       try {
-        Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
-            -RegistryName $ResolvedRegistryName `
-            -Repository $Definition.repository `
-            -BuildTag $BuildTag `
-            -DockerfileRelativePath $Definition.dockerfileRelativePath)
+        ConvertTo-StrattonAcrBuildResult `
+          -RunIdResult (Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
+              -RegistryName $ResolvedRegistryName `
+              -Repository $Definition.repository `
+              -BuildTag $BuildTag `
+              -DockerfileRelativePath $Definition.dockerfileRelativePath)) `
+          -Repository $Definition.repository
       }
       finally {
         Pop-Location

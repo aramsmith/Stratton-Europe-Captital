@@ -26,8 +26,29 @@ Describe 'Stratton image build orchestration' {
 
       $queryIndex = [array]::IndexOf($arguments, '--query')
       $queryIndex | Should -BeGreaterThan -1
-      $arguments[$queryIndex + 1] | Should -Be '{runId:runId}'
+      $arguments[$queryIndex + 1] | Should -Be 'runId'
       $arguments[-1] | Should -Be '.'
+    }
+  }
+
+  It 'normalizes a scalar Azure CLI run ID for fail-closed reconciliation' {
+    InModuleScope Stratton.Deployment {
+      $result = ConvertTo-StrattonAcrBuildResult -RunIdResult 'dt2' -Repository 'stratton/demo-web'
+
+      $result.PSObject.Properties.Name | Should -Be @('runId')
+      $result.runId | Should -Be 'dt2'
+    }
+  }
+
+  It 'rejects empty or repeated Azure CLI run IDs' {
+    InModuleScope Stratton.Deployment {
+      {
+        ConvertTo-StrattonAcrBuildResult -RunIdResult $null -Repository 'stratton/demo-web'
+      } | Should -Throw 'AMBIGUOUS_IMAGE_BUILD_ID:stratton/demo-web'
+
+      {
+        ConvertTo-StrattonAcrBuildResult -RunIdResult @('dt2', 'dt2') -Repository 'stratton/demo-web'
+      } | Should -Throw 'AMBIGUOUS_IMAGE_BUILD_ID:stratton/demo-web'
     }
   }
 
