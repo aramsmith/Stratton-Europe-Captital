@@ -26,7 +26,7 @@ Describe 'Stratton image build orchestration' {
 
       $queryIndex = [array]::IndexOf($arguments, '--query')
       $queryIndex | Should -BeGreaterThan -1
-      $arguments[$queryIndex + 1] | Should -Be 'runId'
+      $arguments[$queryIndex + 1] | Should -Be 'name'
       $arguments[-1] | Should -Be '.'
     }
   }

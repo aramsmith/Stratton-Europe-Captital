@@ -1246,7 +1246,7 @@ function New-StrattonAcrBuildArguments {
     '--image', "${Repository}:$BuildTag",
     '--file', $DockerfileRelativePath,
     '--no-wait',
-    '--query', 'runId',
+    '--query', 'name',
     '.'
   )
 }
