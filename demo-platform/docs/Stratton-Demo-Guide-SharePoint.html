@@ -1,0 +1,1022 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stratton Demo Guide — SharePoint Edition</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.55;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    a { color: var(--cp-link); }
+    :focus-visible {
+      outline: 3px solid var(--cp-accent);
+      outline-offset: 3px;
+    }
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--cp-accent-fg);
+      background: var(--cp-accent);
+      border-radius: 0.625rem;
+    }
+    .top-actions { display: flex; gap: 8px; }
+    .button {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 650;
+    }
+    .button:hover { border-color: var(--cp-border-strong); }
+    .button.primary {
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-color: var(--cp-accent);
+    }
+    .button.primary:hover {
+      background: var(--cp-accent-hover);
+      border-color: var(--cp-accent-hover);
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.6fr);
+      min-height: 430px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .hero-main {
+      padding: clamp(32px, 6vw, 72px);
+      align-self: center;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 760px;
+      margin-bottom: 24px;
+      font-size: clamp(2.75rem, 7vw, 5.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      text-wrap: balance;
+    }
+    .hero-copy {
+      max-width: 66ch;
+      color: var(--cp-text-muted);
+      font-size: 1.1rem;
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 0;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cp-success);
+    }
+    .operator-band {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      padding: 32px 28px;
+      color: var(--cp-accent-fg);
+      background: var(--cp-accent);
+    }
+    .band-title {
+      max-width: 12ch;
+      font-size: 1.85rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .band-data {
+      display: grid;
+      gap: 18px;
+      font-size: 0.88rem;
+    }
+    .band-data strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .band-data code {
+      overflow-wrap: anywhere;
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.8rem;
+    }
+    .section-nav {
+      position: sticky;
+      top: 8px;
+      z-index: 10;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      margin: 20px 0 56px;
+      padding: 8px;
+      background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .section-nav a {
+      flex: 0 0 auto;
+      padding: 7px 11px;
+      border-radius: 0.625rem;
+      color: var(--cp-text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+    .section-nav a:hover {
+      color: var(--cp-text);
+      background: var(--cp-surface-soft);
+    }
+    section {
+      scroll-margin-top: 84px;
+      margin: 0 0 76px;
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.75fr) minmax(280px, 1.25fr);
+      gap: 40px;
+      align-items: end;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--cp-border);
+    }
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+    .section-intro {
+      max-width: 65ch;
+      margin-bottom: 0;
+      color: var(--cp-text-muted);
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 1px;
+      margin-top: 28px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-border);
+    }
+    .flow-step {
+      min-height: 188px;
+      padding: 24px 20px;
+      background: var(--cp-surface);
+    }
+    .flow-step svg { color: var(--cp-accent); }
+    .flow-step h3 {
+      margin: 18px 0 8px;
+      font-size: 1rem;
+    }
+    .flow-step p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+    .callout {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 20px;
+      padding: 18px 20px;
+      background: var(--cp-accent-soft);
+      border-radius: 0.625rem;
+    }
+    .callout svg { color: var(--cp-accent); }
+    .callout p { margin: 0; }
+    .command-deck {
+      display: grid;
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .command-row {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.45fr) minmax(0, 1.55fr);
+      gap: 20px;
+      align-items: start;
+      padding: 22px;
+      background: var(--cp-surface);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .command-row h3 { margin-bottom: 6px; }
+    .command-row p {
+      color: var(--cp-text-muted);
+      font-size: 0.92rem;
+    }
+    .codebox {
+      position: relative;
+      overflow: auto;
+      padding: 18px 52px 18px 18px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.83rem;
+      line-height: 1.65;
+    }
+    .copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      color: var(--cp-text-muted);
+      cursor: pointer;
+    }
+    .copy:hover { color: var(--cp-text); }
+    .scenarios {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .scenario {
+      padding: 28px;
+      background: var(--cp-surface);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .scenario.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 40px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-accent);
+    }
+    .scenario h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .scenario p, .scenario li { color: var(--cp-text-muted); }
+    .scenario ol, .scenario ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .scenario li + li { margin-top: 7px; }
+    .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-accent);
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+    .requirements {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 22px;
+      margin-top: 28px;
+    }
+    .requirements aside {
+      padding: 24px;
+      background: var(--cp-surface);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .requirements aside ul {
+      margin: 12px 0 0;
+      padding-left: 19px;
+      color: var(--cp-text-muted);
+    }
+    .checklist {
+      display: grid;
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-border);
+    }
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      background: var(--cp-surface);
+      cursor: pointer;
+    }
+    .check-item:hover { background: var(--cp-bg-elevated); }
+    .check-item input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--cp-accent);
+    }
+    .check-item strong { display: block; }
+    .check-item small { color: var(--cp-text-muted); }
+    .check-item .owner {
+      color: var(--cp-text-soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: right;
+    }
+    .deployment {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+      gap: 26px;
+      margin-top: 28px;
+    }
+    .deploy-track {
+      display: grid;
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-border);
+    }
+    .deploy-stage {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      padding: 20px;
+      background: var(--cp-surface);
+    }
+    .stage-no {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 50%;
+      font-weight: 750;
+    }
+    .deploy-stage h3 { margin-bottom: 5px; }
+    .deploy-stage p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+    .boundary {
+      align-self: start;
+      padding: 28px;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-radius: 16px;
+    }
+    .boundary h3 {
+      font-size: 1.45rem;
+      letter-spacing: -0.025em;
+    }
+    .boundary ul { padding-left: 20px; }
+    .boundary li + li { margin-top: 8px; }
+    details {
+      margin-top: 20px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+    }
+    summary {
+      padding: 16px 18px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    details > div {
+      padding: 0 18px 18px;
+      color: var(--cp-text-muted);
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 28px;
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      font-size: 0.88rem;
+    }
+    .footer strong { color: var(--cp-text); }
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 30;
+      padding: 11px 14px;
+      background: var(--cp-text);
+      color: var(--cp-bg);
+      border-radius: 0.625rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 920px) {
+      .hero, .scenario.featured, .section-head, .requirements, .deployment {
+        grid-template-columns: 1fr;
+      }
+      .operator-band { min-height: 250px; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+      .flow-step:last-child { grid-column: 1 / -1; }
+      .command-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 20px, 1180px); padding-top: 10px; }
+      .topbar { align-items: flex-start; }
+      .top-actions .button:not(.primary) { display: none; }
+      .hero-main { padding: 32px 22px; }
+      .operator-band { padding: 26px 22px; }
+      .section-nav { margin-bottom: 44px; }
+      section { margin-bottom: 58px; }
+      .flow, .scenarios { grid-template-columns: 1fr; }
+      .flow-step:last-child, .scenario.featured { grid-column: auto; }
+      .scenario.featured { gap: 18px; }
+      .check-item { grid-template-columns: auto 1fr; }
+      .check-item .owner { grid-column: 2; text-align: left; }
+      .footer { flex-direction: column; }
+    }
+    @media print {
+      .top-actions, .section-nav, .copy, .toast { display: none !important; }
+      body { background: var(--cp-surface); }
+      .shell { width: 100%; padding: 0; }
+      .hero, .scenario, .command-row, .requirements aside { box-shadow: none; }
+      section { break-inside: avoid; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: A presenter-first deal dossier wrapped by a dense operator band; it refuses the generic documentation portal.
+  OWN-WORLD: Warm briefing-paper surfaces, one deep-rose authority color, precise rules, compact operator data, and restrained geometric icons.
+  STORY: Understand the governed demo, start it locally, choose a scenario, then see exactly what separates Azure-ready from deployed.
+  FIRST VIEWPORT: A large briefing statement occupies the left; the repository, branch, mode, and delivery state form a saturated operator band on the right.
+  FORM: Presenter’s Deal Dossier, assigned grounded direction; seed key 7d1912e4.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M5 19V5h14v14H5Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+        </span>
+        Stratton Demo Guide
+      </div>
+    </header>
+
+    <article class="hero" aria-labelledby="page-title">
+      <div class="hero-main">
+        <h1 id="page-title">Run the deal. Prove the controls.</h1>
+        <p class="hero-copy">
+          A presenter-ready guide to the synthetic Project Danube evidence-to-decision demo:
+          where it lives, how to start it, which scenarios to rehearse, and what must be
+          configured before a controlled Azure deployment.
+        </p>
+        <div class="status-line" aria-label="Current delivery status">
+          <span class="status"><span class="dot"></span>Local demo ready</span>
+          <span class="status"><span class="dot"></span>Full verification passed</span>
+          <span class="status">Azure deployment not yet performed</span>
+        </div>
+      </div>
+      <aside class="operator-band" aria-label="Operator information">
+        <div>
+          <h2 class="band-title">Private, reviewed, isolated.</h2>
+        </div>
+        <div class="band-data">
+          <div>
+            <strong>Case package</strong>
+            <code>C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package</code>
+          </div>
+          <div>
+            <strong>Branch</strong>
+            <code>feature/stratton-demo-platform</code>
+          </div>
+          <div>
+            <strong>Private PR</strong>
+            <code>aramsmith/Stratton-Europe-Captital #1</code>
+          </div>
+          <div>
+            <strong>Safety boundary</strong>
+            Active source case remains untouched
+          </div>
+        </div>
+      </aside>
+    </article>
+
+    <nav class="section-nav" aria-label="Guide sections">
+      <a href="#how-it-works">How it works</a>
+      <a href="#start">Start locally</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#requirements">Requirements</a>
+      <a href="#azure">Deploy to Azure</a>
+      <a href="#standalone-topology">Standalone topology</a>
+    </nav>
+
+    <section id="how-it-works">
+      <div class="section-head">
+        <h2>The governed demo flow</h2>
+        <p class="section-intro">
+          The demo separates supporting AI work from investment authority. Evidence must be admitted,
+          analysis must be grounded and cited, human reviews are version-bound, and the final output
+          remains a draft committee pack.
+        </p>
+      </div>
+      <div class="flow" role="list">
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l4 4v14H7V3Z" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M14 3v5h5M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Admit evidence</h3>
+          <p>Four synthetic Project Danube documents enter the governed evidence set.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6h16M4 12h10M4 18h13" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="18" cy="12" r="2" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Create bundle</h3>
+          <p>Phase 5 authorizes an immutable, tenant-scoped analysis bundle.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Run analysis</h3>
+          <p>The BFF performs supporting retrieval and model work with citation checks.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="1.9"/>
+          </svg>
+          <h3>Human review</h3>
+          <p>Deal, Legal, and Compliance approvals bind to the exact authoritative version.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 4h14v16H5V4Z" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Prepare draft</h3>
+          <p>A draft-only committee pack is prepared. No investment decision is issued.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3 3 20h18L12 3Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 9v5M12 17h.01" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <p><strong>Authority boundary:</strong> the system demonstrates evidence-to-decision preparation, not automated investment approval. “Submit to committee” remains disabled.</p>
+      </div>
+    </section>
+
+    <section id="start">
+      <div class="section-head">
+        <h2>Start the local demo</h2>
+        <p class="section-intro">
+          LOCAL mode uses deterministic synthetic identity and data. It makes no Azure calls and
+          cannot activate Azure credentials.
+        </p>
+      </div>
+      <div class="command-deck">
+        <div class="command-row">
+          <div>
+            <h3>Prepare dependencies</h3>
+            <p>Use Node 22–26 and PowerShell. Build shared workspace packages before starting the apps.</p>
+          </div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy preparation commands">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>Set-Location C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package\demo-platform
+npm ci
+npm run build:packages</pre>
+          </div>
+        </div>
+        <div class="command-row">
+          <div>
+            <h3>Start the BFF</h3>
+            <p>Run this in the first PowerShell window. The local authority fixture is hosted through the BFF seam.</p>
+          </div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy BFF commands">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>$env:DEMO_MODE = "LOCAL"
+$env:PORT = "3001"
+$env:PHASE5_API_BASE_URL = "http://127.0.0.1:3001"
+npx tsx .\apps\bff\src\server.ts</pre>
+          </div>
+        </div>
+        <div class="command-row">
+          <div>
+            <h3>Start the web app</h3>
+            <p>Run this in a second PowerShell window, then open the workbench.</p>
+          </div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy web commands">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>Set-Location C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package\demo-platform
+npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173
+
+# Open:
+http://127.0.0.1:4173/workbench</pre>
+          </div>
+        </div>
+      </div>
+      <details>
+        <summary>Reset the scenario or load a rehearsal fixture</summary>
+        <div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy reset commands">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>node .\scripts\reset-scenario.mjs
+node .\scripts\reset-scenario.mjs --fixture prompt-injection
+node .\scripts\reset-scenario.mjs --fixture expired-licence
+node .\scripts\reset-scenario.mjs --fixture missing-licence</pre>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section id="scenarios">
+      <div class="section-head">
+        <h2>Scenarios to play</h2>
+        <p class="section-intro">
+          Start with the core presenter storyline, then use the controlled failure fixtures to show
+          that the platform refuses unsafe or incomplete work.
+        </p>
+      </div>
+      <div class="scenarios">
+        <article class="scenario featured">
+          <div>
+            <span class="tag">Primary presenter story</span>
+            <h3>Project Danube: evidence to draft committee pack</h3>
+            <p>Demonstrate the full governed flow and the central financial finding.</p>
+          </div>
+          <ol>
+            <li>Reset Project Danube.</li>
+            <li>Admit the Board Pack, rebate export, QoE report, and environmental permit.</li>
+            <li>Run “Cross-document comparison” with “Challenge management EBITDA quality.”</li>
+            <li>Confirm the EUR 4.2–5.1 million finding and three citations.</li>
+            <li>Accept EBITDA quality and permit readiness findings.</li>
+            <li>Run all twelve security and governance gates.</li>
+            <li>Complete Deal, Legal, and Compliance reviews.</li>
+            <li>Prepare the draft committee pack; confirm submission remains disabled.</li>
+          </ol>
+        </article>
+        <article class="scenario">
+          <span class="tag">Security rehearsal</span>
+          <h3>Prompt-injection resistance</h3>
+          <p>Load the prompt-injection fixture and show that untrusted document instructions cannot replace policy, identity, or citation controls.</p>
+        </article>
+        <article class="scenario">
+          <span class="tag">Evidence policy</span>
+          <h3>Expired licence denial</h3>
+          <p>Use the expired-licence fixture to demonstrate that unsupported evidence cannot become admitted authority.</p>
+        </article>
+        <article class="scenario">
+          <span class="tag">Evidence policy</span>
+          <h3>Missing licence denial</h3>
+          <p>Use the missing-licence fixture to show fail-closed admission and explain why analysis cannot proceed.</p>
+        </article>
+        <article class="scenario">
+          <span class="tag">Version governance</span>
+          <h3>Stale review after an edit</h3>
+          <p>Edit an accepted finding and show that the earlier review becomes stale, reopening the checklist before draft preparation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="requirements">
+      <div class="section-head">
+        <h2>What is needed</h2>
+        <p class="section-intro">
+          Local presentation has a short dependency list. Azure activation adds identity,
+          infrastructure, evidence authority, and operational ownership.
+        </p>
+      </div>
+      <div class="requirements">
+        <aside>
+          <h3>Local prerequisites</h3>
+          <ul>
+            <li>Windows PowerShell or PowerShell 7</li>
+            <li>Node.js 22–26 with npm</li>
+            <li>Azure CLI with Bicep support for offline compilation</li>
+            <li>Microsoft Edge for the configured Playwright runs</li>
+            <li>Two local ports: 3001 and 4173</li>
+          </ul>
+        </aside>
+        <div class="checklist" aria-label="Azure readiness checklist">
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Three Entra applications</strong><small>Public browser SPA, confidential BFF API, and Phase 5 API.</small></span>
+            <span class="owner">Identity admin</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Delegated scopes and consent</strong><small>Browser-to-BFF and BFF-to-Phase-5 permissions with tenant admin consent.</small></span>
+            <span class="owner">Identity admin</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Managed-identity federated credential</strong><small>Created on the BFF app registration; no client secret.</small></span>
+            <span class="owner">Identity admin</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Phase 5 SQL and tenant RLS</strong><small>Apply migrations, bootstrap permissions, and preserve real-tenant session context.</small></span>
+            <span class="owner">Data platform</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Private Azure resources</strong><small>Container Apps, SQL, Storage, Service Bus, Search, Document Intelligence, ACR, and Cognitive Services.</small></span>
+            <span class="owner">Azure platform</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Luna, Terra, and Sol route evidence</strong><small>Exact EU account, deployment, API, evidence ID/version, and validity records.</small></span>
+            <span class="owner">AI governance</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox">
+            <span><strong>Deployment authorization</strong><small>Separate approval to log in, run what-if, deploy, and perform runtime smoke tests.</small></span>
+            <span class="owner">Release owner</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section id="azure">
+      <div class="section-head">
+        <h2>Controlled Azure deployment</h2>
+        <p class="section-intro">
+          The infrastructure code is compiled and tested, but no cloud resources have been deployed.
+          Treat deployment as a separately authorized release activity.
+        </p>
+      </div>
+      <div class="deployment">
+        <div class="deploy-track">
+          <div class="deploy-stage">
+            <span class="stage-no">1</span>
+            <div><h3>Register identity</h3><p>Create SPA, BFF, and Phase 5 registrations; expose scopes, grant consent, and configure access-token version 2.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">2</span>
+            <div><h3>Bind workload identity</h3><p>Attach the BFF user-assigned managed identity and create its federated credential on the BFF registration.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">3</span>
+            <div><h3>Prepare Phase 5</h3><p>Apply additive migrations, set the BFF completion client ID, and provision tenant-scoped route-evidence records.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">4</span>
+            <div><h3>Parameterize infrastructure</h3><p>Replace development placeholders with approved resource IDs, private endpoints, image digests, scopes, and route versions.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">5</span>
+            <div><h3>Authorize and deploy</h3><p>Obtain explicit release approval, run Azure login and what-if, deploy Bicep, then execute controlled runtime smoke tests.</p></div>
+          </div>
+        </div>
+        <aside class="boundary">
+          <h3>What has already been proven</h3>
+          <ul>
+            <li>Phase 5 unit, integration, OpenAPI, migration, and type checks pass.</li>
+            <li>Demo BFF, web, contracts, scenario, script, Playwright, and Pester tests pass.</li>
+            <li>Bicep lint, build, and parameter compilation pass offline.</li>
+            <li>Private ingress, least-privilege RBAC, no-secret OBO, and EU route authority are encoded.</li>
+          </ul>
+          <h3>What remains</h3>
+          <ul>
+            <li>Real tenant app registrations and consent.</li>
+            <li>Approved production parameters and route evidence.</li>
+            <li>Cloud deployment, runtime validation, and operational sign-off.</li>
+          </ul>
+        </aside>
+      </div>
+      <details>
+        <summary>Run the complete local verification gate</summary>
+        <div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy verification commands">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>Set-Location C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package\demo-platform
+npm run clean:generated
+npm ci
+node .\scripts\verify-demo.mjs</pre>
+          </div>
+          <p>The verification script installs and validates Phase 5 first, then validates every demo workspace, Playwright acceptance, offline Bicep, and Pester. It does not log in to Azure or deploy resources.</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="standalone-topology">
+      <div class="section-head">
+        <h2>Approved standalone topology</h2>
+        <p class="section-intro">
+          This development deployment is constrained to <strong>MoA-Sub2</strong>
+          (<code>8364fb4d-2d36-4da5-908b-36cb8b808b8c</code>), tenant
+          <code>27140306-eea5-4e7f-91e9-4c9e86864b3a</code>, <code>westeurope</code>, and
+          <code>stratton-demo-rg</code>. It is a controlled development environment, not a
+          production-resilience claim.
+        </p>
+      </div>
+      <div class="requirements">
+        <aside>
+          <h3>Public web, private services</h3>
+          <ul>
+            <li>The public web Container App is the only browser-facing application endpoint.</li>
+            <li>The internal BFF and internal Phase 5 API are reachable only through the Container Apps network.</li>
+            <li><strong>Backend for Frontend (BFF)</strong> means a small server tailored to the web app: it validates the user token, applies governance rules, and makes internal calls on the browser’s behalf.</li>
+            <li>Phase 5 remains authoritative for bundles, reviews, draft preparation, and approved route evidence; no investment-decision or committee-submission endpoint is added.</li>
+          </ul>
+        </aside>
+        <aside>
+          <h3>Private and governed boundaries</h3>
+          <ul>
+            <li>Azure SQL has public network access disabled and is reached through its private endpoint using Microsoft Entra authentication.</li>
+            <li>Container App managed identities receive only the required SQL, registry, evidence, messaging, Search, Document Intelligence, Azure OpenAI, and ARM Reader permissions; no application secret is stored.</li>
+            <li>One Azure OpenAI account hosts the three separately governed deployments: Luna, Terra, and Sol. Each route retains pinned version and tenant-scoped evidence that must agree with live ARM metadata.</li>
+            <li>The minimum-cost development posture uses the smallest suitable development SKUs, serverless SQL auto-pause, and scale-to-zero where startup behaviour permits.</li>
+          </ul>
+        </aside>
+      </div>
+      <div class="section-head">
+        <h2>Seven controlled deployment stages</h2>
+        <p class="section-intro">
+          Every stage is incremental and fail closed. A required dependency, identity, route, tenant,
+          network, migration, or configuration mismatch stops the next action.
+        </p>
+      </div>
+      <div class="deployment">
+        <div class="deploy-track">
+          <div class="deploy-stage"><span class="stage-no">1</span><div><h3>Preflight</h3><p>Confirm subscription, tenant, deployment identity, policy, providers, naming, region, SKU, Azure OpenAI model availability, and quota without making changes.</p></div></div>
+          <div class="deploy-stage"><span class="stage-no">2</span><div><h3>Platform foundation</h3><p>Approve the foundation Azure what-if, then create the resource group, network, managed identities, private data services, observability, registry, and Azure OpenAI resources without application revisions.</p></div></div>
+          <div class="deploy-stage"><span class="stage-no">3</span><div><h3>Entra foundation</h3><p>Create or reconcile the SPA, BFF, and Phase 5 registrations, permissions, consent, federated credential, and non-secret identifiers.</p></div></div>
+          <div class="deploy-stage"><span class="stage-no">4</span><div><h3>Image build</h3><p>Build web, BFF, and Phase 5 images through ACR, then resolve and record immutable SHA-256 digests.</p></div></div>
+          <div class="deploy-stage"><span class="stage-no">5</span><div><h3>Data-plane bootstrap</h3><p>Apply authorised Entra SQL migrations, create the Search index, and insert the tenant-scoped Luna, Terra, and Sol route-evidence records.</p></div></div>
+          <div class="deploy-stage"><span class="stage-no">6</span><div><h3>Application deployment</h3><p>Approve the application Azure what-if using real Entra IDs and immutable image digests, then deploy the public web, internal BFF, and internal Phase 5 applications.</p></div></div>
+          <div class="deploy-stage"><span class="stage-no">7</span><div><h3>Verification</h3><p>Verify health, ingress, sign-in, token validation, OBO, managed-identity completion, private SQL, route authority, and the complete Project Danube presenter flow.</p></div></div>
+        </div>
+        <aside class="boundary">
+          <h3>Approval and fail-closed controls</h3>
+          <ul>
+            <li>Review the exact Azure what-if before each resource stage; it must contain only approved intended changes and no deletes.</li>
+            <li>No provider registration, deployment, or destructive operation proceeds without the separately required explicit approval.</li>
+            <li>Reject placeholder IDs, mutable tags, missing digests, broad RBAC, secret-bearing settings, public SQL, and fallback AI routes.</li>
+            <li>After deployment, execute Project Danube end to end: admit the synthetic evidence, run the cited analysis, complete human reviews, and confirm committee submission remains disabled.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div><strong>Canonical runbooks</strong><br>demo-platform\README.md<br>demo-platform\infra\ADMIN-HANDOFF.md</div>
+      <div><strong>Delivery state</strong><br>Private draft PR #1<br>Branch: feature/stratton-demo-platform</div>
+    </footer>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite" id="toast">Copied to clipboard</div>
+
+</body>
+</html>
