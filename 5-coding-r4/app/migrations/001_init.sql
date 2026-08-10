@@ -1318,7 +1318,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'FILTER'
+    WHERE p.predicate_type_desc = N'FILTER'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'extraction_chunks'
   )
@@ -1330,7 +1330,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'extraction_chunks'
@@ -1343,7 +1343,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'extraction_chunks'
@@ -1357,7 +1357,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'FILTER'
+    WHERE p.predicate_type_desc = N'FILTER'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'idempotency_records'
   )
@@ -1369,7 +1369,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'idempotency_records'
@@ -1382,7 +1382,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'idempotency_records'
@@ -1396,7 +1396,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'FILTER'
+    WHERE p.predicate_type_desc = N'FILTER'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'audit_outbox'
   )
@@ -1408,7 +1408,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'audit_outbox'
@@ -1421,7 +1421,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'audit_outbox'
@@ -1436,7 +1436,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     JOIN sys.objects fn ON fn.object_id = p.predicate_object_id
-    WHERE p.type = N'FILTER'
+    WHERE p.predicate_type_desc = N'FILTER'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'queue_outbox'
       AND fn.name = N'fn_tenant_case'
@@ -1450,7 +1450,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     JOIN sys.objects fn ON fn.object_id = p.predicate_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'queue_outbox'
@@ -1465,7 +1465,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     JOIN sys.objects fn ON fn.object_id = p.predicate_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'queue_outbox'
@@ -1481,7 +1481,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     JOIN sys.objects fn ON fn.object_id = p.predicate_object_id
-    WHERE p.type = N'FILTER'
+    WHERE p.predicate_type_desc = N'FILTER'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'queue_outbox'
       AND fn.name = N'fn_queue_outbox_access'
@@ -1495,7 +1495,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     JOIN sys.objects fn ON fn.object_id = p.predicate_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'queue_outbox'
@@ -1510,7 +1510,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     JOIN sys.objects fn ON fn.object_id = p.predicate_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'queue_outbox'
@@ -1525,7 +1525,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'FILTER'
+    WHERE p.predicate_type_desc = N'FILTER'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'validation_manifests'
   )
@@ -1537,7 +1537,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'validation_manifests'
@@ -1550,7 +1550,7 @@ BEGIN
     SELECT 1
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
-    WHERE p.type = N'BLOCK'
+    WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
       AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'validation_manifests'
