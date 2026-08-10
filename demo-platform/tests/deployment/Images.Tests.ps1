@@ -10,6 +10,30 @@ Describe 'Stratton image build orchestration' {
     $script:imageRepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
   }
 
+  It 'parses Azure CLI JSON independently from successful stderr warnings' {
+    InModuleScope Stratton.Deployment {
+      $result = ConvertFrom-StrattonAzJsonStreams `
+        -Arguments @('containerapp', 'job', 'show') `
+        -Stdout @('{"name":"stratton-bootstrap"}') `
+        -Stderr @('WARNING: The command behavior has been altered by an extension.') `
+        -ExitCode 0
+
+      $result.name | Should -Be 'stratton-bootstrap'
+    }
+  }
+
+  It 'surfaces Azure CLI stderr when the command fails' {
+    InModuleScope Stratton.Deployment {
+      {
+        ConvertFrom-StrattonAzJsonStreams `
+          -Arguments @('containerapp', 'job', 'show') `
+          -Stdout @() `
+          -Stderr @('ERROR: job not found') `
+          -ExitCode 1
+      } | Should -Throw '*ERROR: job not found*'
+    }
+  }
+
   It 'accepts only sha256 image digests' {
     Test-ImageDigest 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' |
       Should -BeTrue

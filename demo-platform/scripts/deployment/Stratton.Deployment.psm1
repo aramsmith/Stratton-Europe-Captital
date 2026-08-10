@@ -54,6 +54,35 @@ $script:LogAnalyticsQueryResource = 'https://api.loganalytics.io'
 $script:LogAnalyticsWorkspaceApiVersion = '2023-09-01'
 $script:LogAnalyticsRequestFilePrefix = '.stratton-query-body'
 
+function ConvertFrom-StrattonAzJsonStreams {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string[]] $Arguments,
+
+    [AllowEmptyCollection()]
+    [AllowNull()]
+    [object[]] $Stdout,
+
+    [AllowEmptyCollection()]
+    [AllowNull()]
+    [object[]] $Stderr,
+
+    [Parameter(Mandatory)]
+    [int] $ExitCode
+  )
+
+  if ($ExitCode -ne 0) {
+    throw "AZURE_CLI_FAILED:$($Arguments -join ' '):$(@($Stderr, $Stdout) | Out-String)"
+  }
+
+  if (-not $Stdout) {
+    return $null
+  }
+
+  return ($Stdout | Out-String | ConvertFrom-Json -Depth 100)
+}
+
 function Invoke-AzJson {
   [CmdletBinding()]
   param(
@@ -61,16 +90,28 @@ function Invoke-AzJson {
     [string[]] $Arguments
   )
 
-  $output = & az @Arguments --only-show-errors --output json 2>&1
-  if ($LASTEXITCODE -ne 0) {
-    throw "AZURE_CLI_FAILED:$($Arguments -join ' '):$($output | Out-String)"
-  }
+  $stderrPath = Join-Path `
+    ([System.IO.Path]::GetTempPath()) `
+    "stratton-az-stderr-$([System.Guid]::NewGuid().ToString('N')).log"
+  try {
+    $stdout = & az @Arguments --only-show-errors --output json 2> $stderrPath
+    $exitCode = $LASTEXITCODE
+    $stderr = @()
+    if (Test-Path -LiteralPath $stderrPath -PathType Leaf) {
+      $stderr = @(Get-Content -LiteralPath $stderrPath)
+    }
 
-  if (-not $output) {
-    return $null
+    return ConvertFrom-StrattonAzJsonStreams `
+      -Arguments $Arguments `
+      -Stdout @($stdout) `
+      -Stderr $stderr `
+      -ExitCode $exitCode
   }
-
-  return ($output | Out-String | ConvertFrom-Json -Depth 100)
+  finally {
+    if (Test-Path -LiteralPath $stderrPath) {
+      Remove-Item -LiteralPath $stderrPath -Force -ErrorAction Stop
+    }
+  }
 }
 
 function Assert-AzContext {
