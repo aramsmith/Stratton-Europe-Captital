@@ -491,6 +491,38 @@
     }
     .boundary ul { padding-left: 20px; }
     .boundary li + li { margin-top: 8px; }
+    .provider-panel {
+      margin-top: 28px;
+      padding: 28px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .provider-panel > p {
+      margin: 8px 0 20px;
+      color: var(--cp-text-muted);
+    }
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .provider-item {
+      padding: 12px 14px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+    }
+    .provider-item code {
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+    .provider-item span {
+      color: var(--cp-text-muted);
+      font-size: 0.86rem;
+    }
     details {
       margin-top: 20px;
       background: var(--cp-surface);
@@ -552,7 +584,7 @@
       .operator-band { padding: 26px 22px; }
       .section-nav { margin-bottom: 44px; }
       section { margin-bottom: 58px; }
-      .flow, .scenarios { grid-template-columns: 1fr; }
+      .flow, .scenarios, .provider-grid { grid-template-columns: 1fr; }
       .flow-step:last-child, .scenario.featured { grid-column: auto; }
       .scenario.featured { gap: 18px; }
       .check-item { grid-template-columns: auto 1fr; }
@@ -949,6 +981,27 @@ node .\scripts\verify-demo.mjs</pre>
             <li>The minimum-cost development posture uses the smallest suitable development SKUs, serverless SQL auto-pause, and scale-to-zero where startup behaviour permits.</li>
           </ul>
         </aside>
+      </div>
+      <div class="provider-panel">
+        <h3>Required Azure resource providers</h3>
+        <p>
+          The read-only preflight requires all eleven namespaces below to report
+          <code>Registered</code>. Registration is subscription-wide and remains a separately
+          approved action; a missing namespace stops deployment before the foundation what-if.
+        </p>
+        <div class="provider-grid">
+          <div class="provider-item"><code>Microsoft.App</code><span>Azure Container Apps and managed environments</span></div>
+          <div class="provider-item"><code>Microsoft.ContainerRegistry</code><span>Azure Container Registry and cloud image builds</span></div>
+          <div class="provider-item"><code>Microsoft.OperationalInsights</code><span>Log Analytics workspace</span></div>
+          <div class="provider-item"><code>Microsoft.Network</code><span>Virtual network, private endpoints, and private DNS</span></div>
+          <div class="provider-item"><code>Microsoft.Sql</code><span>Azure SQL logical server and serverless database</span></div>
+          <div class="provider-item"><code>Microsoft.Storage</code><span>Evidence storage account and blob container</span></div>
+          <div class="provider-item"><code>Microsoft.ServiceBus</code><span>Service Bus namespace and workflow queues</span></div>
+          <div class="provider-item"><code>Microsoft.Search</code><span>Azure AI Search service and index</span></div>
+          <div class="provider-item"><code>Microsoft.CognitiveServices</code><span>Document Intelligence and Azure OpenAI</span></div>
+          <div class="provider-item"><code>Microsoft.ManagedIdentity</code><span>User-assigned managed identities</span></div>
+          <div class="provider-item"><code>Microsoft.Insights</code><span>Azure Monitor diagnostic settings</span></div>
+        </div>
       </div>
       <div class="section-head">
         <h2>Seven controlled deployment stages</h2>

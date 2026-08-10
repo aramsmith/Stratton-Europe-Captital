@@ -46,6 +46,29 @@ Describe 'Standalone deployment guides' {
     }
   }
 
+  It 'documents every resource provider required by the deployment preflight in both editions' {
+    $requiredProviders = @(
+      'Microsoft.App',
+      'Microsoft.ContainerRegistry',
+      'Microsoft.OperationalInsights',
+      'Microsoft.Network',
+      'Microsoft.Sql',
+      'Microsoft.Storage',
+      'Microsoft.ServiceBus',
+      'Microsoft.Search',
+      'Microsoft.CognitiveServices',
+      'Microsoft.ManagedIdentity',
+      'Microsoft.Insights'
+    )
+
+    foreach ($document in @($guide, $sharePointGuide)) {
+      $document | Should -Match 'Required Azure resource providers'
+      foreach ($provider in $requiredProviders) {
+        $document | Should -Match ([regex]::Escape($provider))
+      }
+    }
+  }
+
   It 'documents all seven controlled stages, what-if gates, and Danube verification in both editions' {
     foreach ($document in @($guide, $sharePointGuide)) {
       foreach ($stage in @(
