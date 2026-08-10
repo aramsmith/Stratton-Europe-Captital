@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   assertAppliedMigrationHashes,
   assertSearchSchemaCompatible,
+  migrationExecutionErrorCode,
   reconcileRouteEvidenceValidity,
   runBootstrap,
   safeBootstrapErrorCode,
@@ -23,6 +24,13 @@ test("bootstrap error classification exposes only safe type and code tokens", ()
 
   assert.equal(safeBootstrapErrorCode(error), "BOOTSTRAP_FAILED:CONNECTIONERROR:ETIMEOUT:N208");
   assert.equal(safeBootstrapErrorCode(new Error("SEARCH_AUTH_FAILED")), "SEARCH_AUTH_FAILED");
+});
+
+test("migration failures expose only migration, batch, and SQL number", () => {
+  assert.equal(
+    migrationExecutionErrorCode("001_init.sql", 17, { number: 102 }),
+    "MIGRATION_EXECUTION_FAILED:001_INIT_SQL:BATCH18:N102"
+  );
 });
 
 const routes: readonly RouteEvidenceInput[] = [

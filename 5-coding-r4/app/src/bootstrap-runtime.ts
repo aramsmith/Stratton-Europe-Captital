@@ -30,6 +30,20 @@ export function safeBootstrapErrorCode(error: unknown): string {
   return `BOOTSTRAP_FAILED:${safeErrorToken(candidate?.name)}:${safeErrorToken(candidate?.code)}:${number}`;
 }
 
+export function migrationExecutionErrorCode(
+  migrationName: string,
+  batchIndex: number,
+  error: unknown
+): string {
+  const safeMigrationName = migrationName.toUpperCase().replace(/[^A-Z0-9_-]/g, "_");
+  const candidate = error as { readonly number?: unknown } | null;
+  const number =
+    typeof candidate?.number === "number" && Number.isSafeInteger(candidate.number)
+      ? `N${candidate.number}`
+      : "NUNKNOWN";
+  return `MIGRATION_EXECUTION_FAILED:${safeMigrationName}:BATCH${batchIndex + 1}:${number}`;
+}
+
 export type GovernedRoute = (typeof APPROVED_ROUTES)[number];
 
 export interface RouteEvidenceInput {
@@ -351,8 +365,13 @@ WHERE migration_name = @migrationName;
           continue;
         }
 
-        for (const batch of splitSqlBatches(migration.sql)) {
-          await new sql.Request(transaction).batch(batch);
+        const batches = splitSqlBatches(migration.sql);
+        for (let batchIndex = 0; batchIndex < batches.length; batchIndex += 1) {
+          try {
+            await new sql.Request(transaction).batch(batches[batchIndex] ?? "");
+          } catch (error) {
+            throw new Error(migrationExecutionErrorCode(migration.name, batchIndex, error));
+          }
         }
         const recordRequest = new sql.Request(transaction);
         recordRequest.input("migrationName", sql.NVarChar(255), migration.name);
