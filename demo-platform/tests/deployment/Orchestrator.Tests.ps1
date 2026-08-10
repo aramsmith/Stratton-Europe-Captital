@@ -618,6 +618,52 @@ Describe 'Stratton standalone deployment orchestrator' {
     @($result.routeBindings.route) | Should -Be @('LUNA', 'TERRA', 'SOL')
   }
 
+  It 'rejects the Azure CLI default JSON log framing and accepts text log output' {
+    $nonce = 'nonce-123'
+    $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
+    $receipt = [ordered]@{
+      version = 1
+      nonce = $nonce
+      generatedAtUtc = '2026-08-10T03:00:10Z'
+      checks = [ordered]@{
+        bffHealth = $true
+        phase5Health = $true
+        sqlPrivateDns = $true
+        sqlTokenAuthenticatedQuery = $true
+      }
+      routeBindings = @(
+        [ordered]@{ route = 'LUNA' }
+        [ordered]@{ route = 'TERRA' }
+        [ordered]@{ route = 'SOL' }
+      )
+    }
+    $encoded = [Convert]::ToBase64String(
+      [System.Text.UTF8Encoding]::new($false).GetBytes(
+        ($receipt | ConvertTo-Json -Depth 30 -Compress)
+      )
+    )
+    $textLog = "2026-08-10T03:00:10Z STRATTON_VERIFICATION_RECEIPT:$encoded"
+    $jsonFramedLog = [ordered]@{
+      TimeStamp = '2026-08-10T03:00:10Z'
+      Log = "STRATTON_VERIFICATION_RECEIPT:$encoded"
+    } | ConvertTo-Json -Compress
+
+    {
+      ConvertFrom-StrattonVerificationJobLog `
+        -RawLog $jsonFramedLog `
+        -ExpectedNonce $nonce `
+        -InvocationStartedAt $startedAt `
+        -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
+    } | Should -Throw 'VERIFICATION_JOB_LOG_FORMAT_INVALID'
+    {
+      ConvertFrom-StrattonVerificationJobLog `
+        -RawLog $textLog `
+        -ExpectedNonce $nonce `
+        -InvocationStartedAt $startedAt `
+        -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
+    } | Should -Not -Throw
+  }
+
   It 'fails closed on stale malformed or ambiguous verification receipts' {
     $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
     $stale = [ordered]@{
@@ -658,7 +704,7 @@ Describe 'Stratton standalone deployment orchestrator' {
         -ExpectedNonce 'nonce-123' `
         -InvocationStartedAt $startedAt `
         -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
-    } | Should -Throw 'VERIFICATION_JOB_RECEIPT_MISSING_OR_AMBIGUOUS'
+    } | Should -Throw 'VERIFICATION_JOB_RECEIPT_AMBIGUOUS'
   }
 
   It 'fails closed unless the exact verification execution succeeds' {
@@ -677,6 +723,127 @@ Describe 'Stratton standalone deployment orchestrator' {
         -ExecutionName 'stratton-verification-exec-123' `
         -TerminalStatus 'Succeeded'
     } | Should -Not -Throw
+  }
+
+  It 'fails promptly for every real non-success terminal job state' {
+    foreach ($terminalStatus in @(
+        'Failed',
+        'Canceled',
+        'Cancelled',
+        'Degraded',
+        'Stopped',
+        'Unknown'
+      )) {
+      $script:terminalPollCount = 0
+      $script:requestedTerminalStatus = $terminalStatus
+      {
+        Wait-StrattonVerificationJobExecution `
+          -JobName 'stratton-verification' `
+          -ResourceGroupName 'stratton-demo-rg' `
+          -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+          -ExecutionName 'stratton-verification-exec-123' `
+          -PollIntervalSeconds 0 `
+          -MaxPollAttempts 3 `
+          -AzInvoker {
+            param([string[]] $Arguments)
+            $script:terminalPollCount++
+            [pscustomobject]@{
+              properties = [pscustomobject]@{ status = $script:requestedTerminalStatus }
+            }
+          }
+      } | Should -Throw "VERIFICATION_JOB_FAILED:stratton-verification-exec-123:$terminalStatus"
+      $script:terminalPollCount | Should -Be 1
+    }
+  }
+
+  It 'retries live logs then uses an execution-scoped Log Analytics fallback' {
+    $nonce = 'nonce-123'
+    $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
+    $now = [datetimeoffset] '2026-08-10T03:00:20Z'
+    $workspaceResourceId = '/subscriptions/sub/resourceGroups/stratton-demo-rg/providers/Microsoft.OperationalInsights/workspaces/stratton-demo-log'
+    $workspaceCustomerId = '55555555-5555-5555-5555-555555555555'
+    $receipt = [ordered]@{
+      version = 1
+      nonce = $nonce
+      generatedAtUtc = '2026-08-10T03:00:10Z'
+      checks = [ordered]@{
+        bffHealth = $true
+        phase5Health = $true
+        sqlPrivateDns = $true
+        sqlTokenAuthenticatedQuery = $true
+      }
+      routeBindings = @(
+        [ordered]@{ route = 'LUNA' }
+        [ordered]@{ route = 'TERRA' }
+        [ordered]@{ route = 'SOL' }
+      )
+    }
+    $encoded = [Convert]::ToBase64String(
+      [System.Text.UTF8Encoding]::new($false).GetBytes(
+        ($receipt | ConvertTo-Json -Depth 30 -Compress)
+      )
+    )
+    $script:liveLogAttempts = 0
+    $analyticsCalls = [System.Collections.Generic.List[string]]::new()
+
+    $result = Get-StrattonVerificationJobReceipt `
+      -JobName 'stratton-verification' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+      -ExecutionName 'stratton-verification-exec-123' `
+      -WorkspaceResourceId $workspaceResourceId `
+      -ExpectedNonce $nonce `
+      -InvocationStartedAt $startedAt `
+      -LiveLogMaxAttempts 2 `
+      -LogAnalyticsMaxAttempts 1 `
+      -RetryIntervalSeconds 0 `
+      -NowProvider { $now } `
+      -LogInvoker {
+        param([string[]] $Arguments)
+        $script:liveLogAttempts++
+        throw 'VERIFICATION_JOB_LOG_RETRIEVAL_FAILED'
+      } `
+      -AzInvoker {
+        param([string[]] $Arguments)
+        $command = $Arguments -join ' '
+        $analyticsCalls.Add($command)
+        if ($command -match '^monitor log-analytics workspace show ') {
+          return [pscustomobject]@{ customerId = $workspaceCustomerId }
+        }
+        if ($command -match '^monitor log-analytics query ') {
+          return [pscustomobject]@{
+            tables = @(
+              [pscustomobject]@{
+                columns = @(
+                  [pscustomobject]@{ name = 'TimeGenerated'; type = 'datetime' }
+                  [pscustomobject]@{ name = 'Log'; type = 'string' }
+                )
+                rows = @(
+                  @('2026-08-10T03:00:10Z', "STRATTON_VERIFICATION_RECEIPT:$encoded")
+                )
+              }
+            )
+          }
+        }
+        throw "UNEXPECTED_AZ_COMMAND:$command"
+      }
+
+    $result.bffHealth | Should -BeTrue
+    $script:liveLogAttempts | Should -Be 2
+    $analyticsCalls[0] | Should -Be (
+      "monitor log-analytics workspace show --ids $workspaceResourceId --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c"
+    )
+    $analyticsCalls[1] | Should -Match (
+      '^monitor log-analytics query --workspace 55555555-5555-5555-5555-555555555555 --analytics-query '
+    )
+    $analyticsCalls[1] | Should -Match "StrattonJob == 'stratton-verification'"
+    $analyticsCalls[1] | Should -Match "StrattonExecution == 'stratton-verification-exec-123'"
+    $analyticsCalls[1] | Should -Match 'column_ifexists\("ExecutionName", ""\)'
+    $analyticsCalls[1] | Should -Match 'column_ifexists\("ExecutionName_s", ""\)'
+    $analyticsCalls[1] | Should -Match "StrattonContainer == 'verification'"
+    $analyticsCalls[1] | Should -Match 'TimeGenerated between'
+    $analyticsCalls[1] | Should -Match '--timespan 2026-08-10T02:59:00.0000000\+00:00/2026-08-10T03:01:20.0000000\+00:00'
+    $analyticsCalls[1] | Should -Not -Match '(?i)(password|connection.?string|client.?secret|api.?key|access.?token|refresh.?token)'
   }
 
   It 'manually starts polls and reads the exact verification execution non-interactively' {
@@ -714,6 +881,7 @@ Describe 'Stratton standalone deployment orchestrator' {
       phase5ApiFqdn = 'stratton-phase5.internal.azurecontainerapps.io'
       sqlServerFqdn = 'stratton.database.windows.net'
       sqlDatabaseName = 'stratton-db'
+      logAnalyticsWorkspaceId = '/subscriptions/sub/resourceGroups/stratton-demo-rg/providers/Microsoft.OperationalInsights/workspaces/stratton-demo-log'
     }
     $script:verificationShowCount = 0
     $script:verificationJobEnvironment = @()
@@ -818,7 +986,7 @@ Describe 'Stratton standalone deployment orchestrator' {
       'containerapp job execution show --name stratton-verification --resource-group stratton-demo-rg --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c --job-execution-name stratton-verification-exec-123'
     )
     $logCalls | Should -Be @(
-      'containerapp job logs show --name stratton-verification --resource-group stratton-demo-rg --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c --execution stratton-verification-exec-123 --container verification --tail 200 --only-show-errors'
+      'containerapp job logs show --name stratton-verification --resource-group stratton-demo-rg --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c --execution stratton-verification-exec-123 --container verification --tail 200 --format text --only-show-errors'
     )
   }
 

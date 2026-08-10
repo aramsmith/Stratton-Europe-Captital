@@ -185,6 +185,74 @@ Describe 'Stratton data-plane bootstrap' {
       Should -Be 'bootstrap'
     ($logArguments[([array]::IndexOf($logArguments, '--container') + 1)]) |
       Should -Be 'bootstrap'
+    ($logArguments[([array]::IndexOf($logArguments, '--format') + 1)]) |
+      Should -Be 'text'
+  }
+
+  It 'parses text bootstrap logs and rejects the Azure CLI default JSON framing' {
+    $receipt = [ordered]@{
+      migrationHashes = @(
+        [ordered]@{ name = '001_init.sql'; sha256 = ('a' * 64) }
+        [ordered]@{ name = '002_demo_authority.sql'; sha256 = ('b' * 64) }
+        [ordered]@{ name = 'demo-projection.sql'; sha256 = ('c' * 64) }
+      )
+      searchIndexEtag = 'etag-123'
+      routeEvidence = @()
+    }
+    $entry = [ordered]@{
+      timestamp = '2026-08-10T03:00:10Z'
+      level = 'INFO'
+      service = 'stratton-bootstrap'
+      message = 'bootstrap-receipt'
+      context = [ordered]@{
+        correlationId = 'bootstrap'
+        receipt = $receipt
+      }
+    }
+    $entryJson = $entry | ConvertTo-Json -Depth 30 -Compress
+    $textOutput = "2026-08-10T03:00:10Z $entryJson"
+    $jsonFramedOutput = [ordered]@{
+      TimeStamp = '2026-08-10T03:00:10Z'
+      Log = $entryJson
+    } | ConvertTo-Json -Compress
+
+    $entries = Get-RedactedBootstrapLogEntries -RawLog $textOutput
+    (Get-BootstrapReceipt -LogEntries $entries).searchIndexEtag | Should -Be 'etag-123'
+    {
+      Get-RedactedBootstrapLogEntries -RawLog $jsonFramedOutput
+    } | Should -Throw 'BOOTSTRAP_JOB_LOG_FORMAT_INVALID'
+  }
+
+  It 'fails promptly for every real non-success bootstrap terminal state' {
+    foreach ($terminalStatus in @(
+        'Failed',
+        'Canceled',
+        'Cancelled',
+        'Degraded',
+        'Stopped',
+        'Unknown'
+      )) {
+      $script:bootstrapTerminalPollCount = 0
+      $script:requestedBootstrapTerminalStatus = $terminalStatus
+      {
+        Wait-StrattonBootstrapJobExecution `
+          -JobName 'stratton-bootstrap' `
+          -ResourceGroupName 'stratton-demo-rg' `
+          -ExecutionName 'stratton-bootstrap-exec-123' `
+          -PollIntervalSeconds 0 `
+          -MaxPollAttempts 3 `
+          -JobInvoker {
+            param([string[]] $Arguments)
+            $script:bootstrapTerminalPollCount++
+            [pscustomobject]@{
+              properties = [pscustomobject]@{
+                status = $script:requestedBootstrapTerminalStatus
+              }
+            }
+          }
+      } | Should -Throw "BOOTSTRAP_JOB_FAILED:stratton-bootstrap-exec-123:$terminalStatus"
+      $script:bootstrapTerminalPollCount | Should -Be 1
+    }
   }
 
   It 'fails predictably when job execution responses omit optional properties' {

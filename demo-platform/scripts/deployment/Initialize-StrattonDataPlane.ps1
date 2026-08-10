@@ -329,6 +329,7 @@ function New-StrattonBootstrapJobLogArguments {
     '--execution', $ExecutionName,
     '--container', 'bootstrap',
     '--tail', '200',
+    '--format', 'text',
     '--only-show-errors'
   )
 }
@@ -404,6 +405,98 @@ function Get-StrattonJobExecutionStatus {
   return Get-UniqueExecutionValue -InputObject ([pscustomobject]@{ name = $status }) -Kind 'EXECUTION_STATUS'
 }
 
+function Wait-StrattonBootstrapJobExecution {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [ValidateRange(0, 3600)]
+    [int] $PollIntervalSeconds = 10,
+
+    [ValidateRange(1, 360)]
+    [int] $MaxPollAttempts = 180,
+
+    [scriptblock] $JobInvoker
+  )
+
+  if (-not $JobInvoker) {
+    $JobInvoker = {
+      param([string[]] $Arguments)
+      Invoke-AzJson -Arguments $Arguments
+    }
+  }
+
+  $terminalStatuses = @(
+    'Succeeded',
+    'Failed',
+    'Canceled',
+    'Cancelled',
+    'Degraded',
+    'Stopped',
+    'Unknown'
+  )
+  $terminalStatus = $null
+  for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
+    $execution = & $JobInvoker @(
+      'containerapp', 'job', 'execution', 'show',
+      '--name', $JobName,
+      '--resource-group', $ResourceGroupName,
+      '--job-execution-name', $ExecutionName
+    )
+    $status = Get-StrattonJobExecutionStatus -Execution $execution
+    if ($status -in $terminalStatuses) {
+      $terminalStatus = $status
+      break
+    }
+    if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $PollIntervalSeconds
+    }
+  }
+
+  if ($terminalStatus -ne 'Succeeded') {
+    throw "BOOTSTRAP_JOB_FAILED:${ExecutionName}:$terminalStatus"
+  }
+  return $terminalStatus
+}
+
+function Test-StrattonBootstrapJsonLogFrame {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $Line
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Line)) {
+    return $false
+  }
+  $trimmed = $Line.Trim()
+  if (-not ($trimmed.StartsWith('{') -or $trimmed.StartsWith('['))) {
+    return $false
+  }
+  try {
+    $frames = @($trimmed | ConvertFrom-Json -Depth 10)
+  }
+  catch {
+    return $false
+  }
+  foreach ($frame in $frames) {
+    if (
+      $null -ne (Get-StrattonOptionalPropertyValue -InputObject $frame -Path @('TimeStamp')) -and
+      $null -ne (Get-StrattonOptionalPropertyValue -InputObject $frame -Path @('Log'))
+    ) {
+      return $true
+    }
+  }
+  return $false
+}
+
 function Get-RedactedBootstrapLogEntries {
   [CmdletBinding()]
   param(
@@ -413,13 +506,19 @@ function Get-RedactedBootstrapLogEntries {
 
   $entries = [System.Collections.Generic.List[object]]::new()
   foreach ($line in @($RawLog -split "`r?`n")) {
+    if (Test-StrattonBootstrapJsonLogFrame -Line $line) {
+      throw 'BOOTSTRAP_JOB_LOG_FORMAT_INVALID'
+    }
     $jsonStart = $line.IndexOf('{')
     if ($jsonStart -lt 0) {
       continue
     }
     try {
       $entry = $line.Substring($jsonStart) | ConvertFrom-Json -Depth 30
-      if ($entry.service -ne 'stratton-bootstrap') {
+      if (
+        (Get-StrattonOptionalPropertyValue -InputObject $entry -Path @('service')) -ne
+        'stratton-bootstrap'
+      ) {
         continue
       }
       $serialized = $entry | ConvertTo-Json -Depth 30 -Compress
@@ -554,26 +653,12 @@ function Invoke-StrattonDataPlaneBootstrap {
     '--resource-group', $ResourceGroupName
   )
   $executionName = Get-UniqueExecutionValue -InputObject $started -Kind 'EXECUTION_NAME'
-  $terminalStatus = $null
-  for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
-    $execution = Invoke-AzJson -Arguments @(
-      'containerapp', 'job', 'execution', 'show',
-      '--name', $JobName,
-      '--resource-group', $ResourceGroupName,
-      '--job-execution-name', $executionName
-    )
-    $status = Get-StrattonJobExecutionStatus -Execution $execution
-    if ($status -in @('Succeeded', 'Failed', 'Canceled', 'Cancelled')) {
-      $terminalStatus = $status
-      break
-    }
-    if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
-      Start-Sleep -Seconds $PollIntervalSeconds
-    }
-  }
-  if ($terminalStatus -ne 'Succeeded') {
-    throw "BOOTSTRAP_JOB_FAILED:${executionName}:$terminalStatus"
-  }
+  Wait-StrattonBootstrapJobExecution `
+    -JobName $JobName `
+    -ResourceGroupName $ResourceGroupName `
+    -ExecutionName $executionName `
+    -PollIntervalSeconds $PollIntervalSeconds `
+    -MaxPollAttempts $MaxPollAttempts | Out-Null
 
   $logArguments = New-StrattonBootstrapJobLogArguments `
     -JobName $JobName `

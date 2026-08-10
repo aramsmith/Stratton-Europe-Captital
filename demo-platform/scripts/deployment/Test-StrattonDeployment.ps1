@@ -551,6 +551,7 @@ function New-StrattonVerificationJobLogArguments {
     '--execution', $ExecutionName,
     '--container', 'verification',
     '--tail', '200',
+    '--format', 'text',
     '--only-show-errors'
   )
 }
@@ -604,6 +605,102 @@ function Assert-StrattonVerificationExecutionSucceeded {
   }
 }
 
+function Wait-StrattonVerificationJobExecution {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [ValidateRange(0, 3600)]
+    [int] $PollIntervalSeconds = 10,
+
+    [ValidateRange(1, 360)]
+    [int] $MaxPollAttempts = 60,
+
+    [scriptblock] $AzInvoker
+  )
+
+  if (-not $AzInvoker) {
+    $AzInvoker = {
+      param([string[]] $Arguments)
+      Invoke-AzJson -Arguments $Arguments
+    }
+  }
+
+  $terminalStatuses = @(
+    'Succeeded',
+    'Failed',
+    'Canceled',
+    'Cancelled',
+    'Degraded',
+    'Stopped',
+    'Unknown'
+  )
+  $terminalStatus = $null
+  for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
+    $execution = & $AzInvoker @(
+      'containerapp', 'job', 'execution', 'show',
+      '--name', $JobName,
+      '--resource-group', $ResourceGroupName,
+      '--subscription', $SubscriptionId,
+      '--job-execution-name', $ExecutionName
+    )
+    $status = Get-StrattonVerificationExecutionValue -InputObject $execution -Kind STATUS
+    if ($status -in $terminalStatuses) {
+      $terminalStatus = $status
+      break
+    }
+    if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $PollIntervalSeconds
+    }
+  }
+
+  Assert-StrattonVerificationExecutionSucceeded `
+    -ExecutionName $ExecutionName `
+    -TerminalStatus $terminalStatus
+  return $terminalStatus
+}
+
+function Test-StrattonVerificationJsonLogFrame {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $Line
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Line)) {
+    return $false
+  }
+  $trimmed = $Line.Trim()
+  if (-not ($trimmed.StartsWith('{') -or $trimmed.StartsWith('['))) {
+    return $false
+  }
+  try {
+    $frames = @($trimmed | ConvertFrom-Json -Depth 10)
+  }
+  catch {
+    return $false
+  }
+  foreach ($frame in $frames) {
+    if (
+      $null -ne (Get-StrattonPropertyValue -InputObject $frame -Name 'TimeStamp') -and
+      $null -ne (Get-StrattonPropertyValue -InputObject $frame -Name 'Log')
+    ) {
+      return $true
+    }
+  }
+  return $false
+}
+
 function ConvertFrom-StrattonVerificationJobLog {
   [CmdletBinding()]
   param(
@@ -621,12 +718,19 @@ function ConvertFrom-StrattonVerificationJobLog {
   )
 
   $prefix = 'STRATTON_VERIFICATION_RECEIPT:'
+  $lines = @($RawLog -split "`r?`n")
+  if (@($lines | Where-Object { Test-StrattonVerificationJsonLogFrame -Line $_ }).Count -gt 0) {
+    throw 'VERIFICATION_JOB_LOG_FORMAT_INVALID'
+  }
   $markerLines = @(
-    $RawLog -split "`r?`n" |
+    $lines |
       Where-Object { $_.Contains($prefix, [System.StringComparison]::Ordinal) }
   )
-  if ($markerLines.Count -ne 1) {
-    throw 'VERIFICATION_JOB_RECEIPT_MISSING_OR_AMBIGUOUS'
+  if ($markerLines.Count -eq 0) {
+    throw 'VERIFICATION_JOB_RECEIPT_MISSING'
+  }
+  if ($markerLines.Count -gt 1) {
+    throw 'VERIFICATION_JOB_RECEIPT_AMBIGUOUS'
   }
   $markerIndex = $markerLines[0].IndexOf($prefix, [System.StringComparison]::Ordinal)
   $encoded = $markerLines[0].Substring($markerIndex + $prefix.Length).Trim()
@@ -692,6 +796,277 @@ function ConvertFrom-StrattonVerificationJobLog {
     sqlTokenAuthenticatedQuery = $true
     routeBindings = $routeBindings
   }
+}
+
+function ConvertTo-StrattonKustoStringLiteral {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Value
+  )
+
+  return $Value.Replace("'", "''")
+}
+
+function New-StrattonVerificationLogAnalyticsQueryArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $WorkspaceCustomerId,
+
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $InvocationStartedAt,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $Now
+  )
+
+  $windowStart = $InvocationStartedAt.AddMinutes(-1).ToUniversalTime()
+  $windowEnd = $Now.AddMinutes(1).ToUniversalTime()
+  $jobLiteral = ConvertTo-StrattonKustoStringLiteral -Value $JobName
+  $executionLiteral = ConvertTo-StrattonKustoStringLiteral -Value $ExecutionName
+  $query = @"
+union isfuzzy=true ContainerAppConsoleLogs, ContainerAppConsoleLogs_CL
+| extend StrattonJob = tostring(coalesce(column_ifexists("ContainerAppName", ""), column_ifexists("ContainerAppName_s", ""))),
+         StrattonExecution = tostring(coalesce(column_ifexists("ExecutionName", ""), column_ifexists("ExecutionName_s", ""), column_ifexists("JobName", ""), column_ifexists("JobName_s", ""))),
+         StrattonReplica = tostring(coalesce(column_ifexists("ContainerGroupName", ""), column_ifexists("ContainerGroupName_g", ""), column_ifexists("ContainerGroupName_s", ""))),
+         StrattonContainer = tostring(coalesce(column_ifexists("ContainerName", ""), column_ifexists("ContainerName_s", ""), column_ifexists("ContainerId_s", ""))),
+         StrattonLog = tostring(coalesce(column_ifexists("Log", ""), column_ifexists("Log_s", "")))
+| where TimeGenerated between (datetime($($windowStart.ToString('o'))) .. datetime($($windowEnd.ToString('o'))))
+| where StrattonJob == '$jobLiteral'
+| where StrattonExecution == '$executionLiteral' or StrattonReplica startswith '$executionLiteral'
+| where StrattonContainer == 'verification'
+| where StrattonLog contains 'STRATTON_VERIFICATION_RECEIPT:'
+| project TimeGenerated, Log = StrattonLog
+| order by TimeGenerated asc
+"@
+  $query = ($query -replace "`r?`n", ' ').Trim()
+
+  return @(
+    'monitor', 'log-analytics', 'query',
+    '--workspace', $WorkspaceCustomerId,
+    '--analytics-query', $query,
+    '--timespan', "$($windowStart.ToString('o'))/$($windowEnd.ToString('o'))",
+    '--subscription', $SubscriptionId
+  )
+}
+
+function Get-StrattonVerificationWorkspaceCustomerId {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $WorkspaceResourceId,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [scriptblock] $AzInvoker
+  )
+
+  $workspace = & $AzInvoker @(
+    'monitor', 'log-analytics', 'workspace', 'show',
+    '--ids', $WorkspaceResourceId,
+    '--subscription', $SubscriptionId
+  )
+  $customerIds = @(
+    @(
+      Get-StrattonPropertyValue -InputObject $workspace -Name 'customerId'
+      Get-StrattonNestedValue -InputObject $workspace -Path @('properties', 'customerId')
+    ) |
+      Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
+  if ($customerIds.Count -ne 1 -or [string] $customerIds[0] -notmatch '^[0-9a-fA-F-]{36}$') {
+    throw 'VERIFICATION_LOG_ANALYTICS_WORKSPACE_INVALID'
+  }
+  return [string] $customerIds[0]
+}
+
+function ConvertFrom-StrattonLogAnalyticsQueryResult {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $QueryResult
+  )
+
+  $logs = [System.Collections.Generic.List[string]]::new()
+  $tables = @(Get-StrattonPropertyValue -InputObject $QueryResult -Name 'tables')
+  if ($tables.Count -gt 0) {
+    foreach ($table in $tables) {
+      $columns = @(Get-StrattonPropertyValue -InputObject $table -Name 'columns')
+      $columnNames = @(
+        $columns |
+          ForEach-Object { [string] (Get-StrattonPropertyValue -InputObject $_ -Name 'name') }
+      )
+      $logIndex = [array]::IndexOf($columnNames, 'Log')
+      if ($logIndex -lt 0) {
+        continue
+      }
+      $rawRows = Get-StrattonPropertyValue -InputObject $table -Name 'rows'
+      $rows = @($rawRows)
+      if (
+        $rows.Count -eq $columnNames.Count -and
+        @($rows | Where-Object { $_ -is [System.Array] }).Count -eq 0
+      ) {
+        $rows = @(, $rows)
+      }
+      foreach ($row in $rows) {
+        $values = @($row)
+        if ($values.Count -gt $logIndex -and -not [string]::IsNullOrWhiteSpace([string] $values[$logIndex])) {
+          $logs.Add([string] $values[$logIndex])
+        }
+      }
+    }
+    return @($logs)
+  }
+
+  foreach ($row in @($QueryResult)) {
+    $log = Get-StrattonPropertyValue -InputObject $row -Name 'Log'
+    if (-not [string]::IsNullOrWhiteSpace([string] $log)) {
+      $logs.Add([string] $log)
+    }
+  }
+  return @($logs)
+}
+
+function Get-StrattonVerificationJobReceipt {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [Parameter(Mandatory)]
+    [string] $WorkspaceResourceId,
+
+    [Parameter(Mandatory)]
+    [string] $ExpectedNonce,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $InvocationStartedAt,
+
+    [ValidateRange(1, 10)]
+    [int] $LiveLogMaxAttempts = 3,
+
+    [ValidateRange(1, 10)]
+    [int] $LogAnalyticsMaxAttempts = 3,
+
+    [ValidateRange(0, 30)]
+    [int] $RetryIntervalSeconds = 2,
+
+    [scriptblock] $NowProvider,
+
+    [scriptblock] $AzInvoker,
+
+    [scriptblock] $LogInvoker
+  )
+
+  if (-not $NowProvider) {
+    $NowProvider = { [datetimeoffset]::UtcNow }
+  }
+  if (-not $AzInvoker) {
+    $AzInvoker = {
+      param([string[]] $Arguments)
+      Invoke-AzJson -Arguments $Arguments
+    }
+  }
+  if (-not $LogInvoker) {
+    $LogInvoker = {
+      param([string[]] $Arguments)
+      $rawLog = & az @Arguments 2>&1
+      if ($LASTEXITCODE -ne 0) {
+        throw 'VERIFICATION_JOB_LOG_RETRIEVAL_FAILED'
+      }
+      return ($rawLog | Out-String)
+    }
+  }
+
+  $logArguments = New-StrattonVerificationJobLogArguments `
+    -JobName $JobName `
+    -ResourceGroupName $ResourceGroupName `
+    -SubscriptionId $SubscriptionId `
+    -ExecutionName $ExecutionName
+  for ($attempt = 1; $attempt -le $LiveLogMaxAttempts; $attempt++) {
+    try {
+      $rawLog = & $LogInvoker $logArguments
+      return ConvertFrom-StrattonVerificationJobLog `
+        -RawLog ($rawLog | Out-String) `
+        -ExpectedNonce $ExpectedNonce `
+        -InvocationStartedAt $InvocationStartedAt `
+        -Now ([datetimeoffset] (& $NowProvider))
+    }
+    catch {
+      if ($_.Exception.Message -notin @(
+          'VERIFICATION_JOB_LOG_RETRIEVAL_FAILED',
+          'VERIFICATION_JOB_RECEIPT_MISSING'
+        )) {
+        throw
+      }
+    }
+    if ($attempt -lt $LiveLogMaxAttempts -and $RetryIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $RetryIntervalSeconds
+    }
+  }
+
+  $workspaceCustomerId = Get-StrattonVerificationWorkspaceCustomerId `
+    -WorkspaceResourceId $WorkspaceResourceId `
+    -SubscriptionId $SubscriptionId `
+    -AzInvoker $AzInvoker
+  $queryFailed = $false
+  for ($attempt = 1; $attempt -le $LogAnalyticsMaxAttempts; $attempt++) {
+    $now = [datetimeoffset] (& $NowProvider)
+    try {
+      $queryResult = & $AzInvoker (New-StrattonVerificationLogAnalyticsQueryArguments `
+          -WorkspaceCustomerId $workspaceCustomerId `
+          -JobName $JobName `
+          -ExecutionName $ExecutionName `
+          -SubscriptionId $SubscriptionId `
+          -InvocationStartedAt $InvocationStartedAt `
+          -Now $now)
+      $rawLog = (ConvertFrom-StrattonLogAnalyticsQueryResult -QueryResult $queryResult) -join "`n"
+      return ConvertFrom-StrattonVerificationJobLog `
+        -RawLog $rawLog `
+        -ExpectedNonce $ExpectedNonce `
+        -InvocationStartedAt $InvocationStartedAt `
+        -Now $now
+    }
+    catch {
+      if ($_.Exception.Message -eq 'VERIFICATION_JOB_RECEIPT_MISSING') {
+        $queryFailed = $false
+      }
+      elseif ($_.Exception.Message -match '^AZURE_CLI_FAILED:') {
+        $queryFailed = $true
+      }
+      else {
+        throw
+      }
+    }
+    if ($attempt -lt $LogAnalyticsMaxAttempts -and $RetryIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $RetryIntervalSeconds
+    }
+  }
+  if ($queryFailed) {
+    throw 'VERIFICATION_JOB_LOG_ANALYTICS_QUERY_FAILED'
+  }
+  throw 'VERIFICATION_JOB_RECEIPT_MISSING'
 }
 
 function Get-StrattonExpectedVerificationRoutes {
@@ -1036,38 +1411,28 @@ function Invoke-StrattonVerificationJob {
     '--subscription', $SubscriptionId
   )
   $executionName = Get-StrattonVerificationExecutionValue -InputObject $started -Kind NAME
-  $terminalStatus = $null
-  for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
-    $execution = & $AzInvoker @(
-      'containerapp', 'job', 'execution', 'show',
-      '--name', $jobName,
-      '--resource-group', $ResourceGroupName,
-      '--subscription', $SubscriptionId,
-      '--job-execution-name', $executionName
-    )
-    $status = Get-StrattonVerificationExecutionValue -InputObject $execution -Kind STATUS
-    if ($status -in @('Succeeded', 'Failed', 'Canceled', 'Cancelled')) {
-      $terminalStatus = $status
-      break
-    }
-    if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
-      Start-Sleep -Seconds $PollIntervalSeconds
-    }
-  }
-  Assert-StrattonVerificationExecutionSucceeded `
+  Wait-StrattonVerificationJobExecution `
+    -JobName $jobName `
+    -ResourceGroupName $ResourceGroupName `
+    -SubscriptionId $SubscriptionId `
     -ExecutionName $executionName `
-    -TerminalStatus $terminalStatus
+    -PollIntervalSeconds $PollIntervalSeconds `
+    -MaxPollAttempts $MaxPollAttempts `
+    -AzInvoker $AzInvoker | Out-Null
 
-  $rawLog = & $LogInvoker (New-StrattonVerificationJobLogArguments `
-      -JobName $jobName `
-      -ResourceGroupName $ResourceGroupName `
-      -SubscriptionId $SubscriptionId `
-      -ExecutionName $executionName)
-  return ConvertFrom-StrattonVerificationJobLog `
-    -RawLog ($rawLog | Out-String) `
+  return Get-StrattonVerificationJobReceipt `
+    -JobName $jobName `
+    -ResourceGroupName $ResourceGroupName `
+    -SubscriptionId $SubscriptionId `
+    -ExecutionName $executionName `
+    -WorkspaceResourceId (
+      Get-StrattonRequiredValue -InputObject $Outputs -Name 'logAnalyticsWorkspaceId'
+    ) `
     -ExpectedNonce $nonce `
     -InvocationStartedAt $invocationStartedAt `
-    -Now ([datetimeoffset] (& $NowProvider))
+    -NowProvider $NowProvider `
+    -AzInvoker $AzInvoker `
+    -LogInvoker $LogInvoker
 }
 
 function Test-StrattonRoleAssignment {
