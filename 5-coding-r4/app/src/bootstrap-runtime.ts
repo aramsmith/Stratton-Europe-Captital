@@ -18,8 +18,16 @@ export function safeBootstrapErrorCode(error: unknown): string {
   if (error instanceof Error && /^[A-Z0-9_:-]+$/.test(error.message)) {
     return error.message;
   }
-  const candidate = error as { readonly name?: unknown; readonly code?: unknown } | null;
-  return `BOOTSTRAP_FAILED:${safeErrorToken(candidate?.name)}:${safeErrorToken(candidate?.code)}`;
+  const candidate = error as {
+    readonly name?: unknown;
+    readonly code?: unknown;
+    readonly number?: unknown;
+  } | null;
+  const number =
+    typeof candidate?.number === "number" && Number.isSafeInteger(candidate.number)
+      ? `N${candidate.number}`
+      : "NUNKNOWN";
+  return `BOOTSTRAP_FAILED:${safeErrorToken(candidate?.name)}:${safeErrorToken(candidate?.code)}:${number}`;
 }
 
 export type GovernedRoute = (typeof APPROVED_ROUTES)[number];
