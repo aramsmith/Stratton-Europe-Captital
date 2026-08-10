@@ -22,6 +22,33 @@ Describe 'Stratton image build orchestration' {
     }
   }
 
+  It 'preserves multiline Azure CLI arguments without cmd.exe re-quoting' {
+    InModuleScope Stratton.Deployment {
+      $complexValue = "BOOTSTRAP_SQL=SELECT *`nFROM dbo.items WHERE status = 'READY'"
+      $startInfo = New-StrattonAzProcessStartInfo -Arguments @(
+        'containerapp', 'job', 'update',
+        '--replace-env-vars', $complexValue
+      )
+
+      $startInfo.UseShellExecute | Should -BeFalse
+      $startInfo.RedirectStandardOutput | Should -BeTrue
+      $startInfo.RedirectStandardError | Should -BeTrue
+      @($startInfo.ArgumentList) | Should -Contain $complexValue
+    }
+  }
+
+  It 'quotes complex arguments for the Windows PowerShell compatibility path' {
+    InModuleScope Stratton.Deployment {
+      $value = "BOOTSTRAP_SQL=SELECT `"READY`"`nFROM dbo.items\\"
+      $quoted = ConvertTo-StrattonWindowsCommandLineArgument -Value $value
+
+      $quoted[0] | Should -Be '"'
+      $quoted[-1] | Should -Be '"'
+      $quoted.Contains('\"READY\"') | Should -BeTrue
+      $quoted.EndsWith('\\"') | Should -BeTrue
+    }
+  }
+
   It 'surfaces Azure CLI stderr when the command fails' {
     InModuleScope Stratton.Deployment {
       {

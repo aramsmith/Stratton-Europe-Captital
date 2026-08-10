@@ -54,6 +54,111 @@ $script:LogAnalyticsQueryResource = 'https://api.loganalytics.io'
 $script:LogAnalyticsWorkspaceApiVersion = '2023-09-01'
 $script:LogAnalyticsRequestFilePrefix = '.stratton-query-body'
 
+function ConvertTo-StrattonWindowsCommandLineArgument {
+  [CmdletBinding()]
+  param(
+    [AllowEmptyString()]
+    [Parameter(Mandatory)]
+    [string] $Value
+  )
+
+  if ($Value.Length -gt 0 -and $Value -cnotmatch '[\s"]') {
+    return $Value
+  }
+
+  $builder = [System.Text.StringBuilder]::new()
+  [void] $builder.Append('"')
+  $backslashCount = 0
+  foreach ($character in $Value.ToCharArray()) {
+    if ($character -eq '\') {
+      $backslashCount++
+      continue
+    }
+    if ($character -eq '"') {
+      [void] $builder.Append((@('\' * ((2 * $backslashCount) + 1)) -join ''))
+      [void] $builder.Append('"')
+      $backslashCount = 0
+      continue
+    }
+
+    [void] $builder.Append((@('\' * $backslashCount) -join ''))
+    [void] $builder.Append($character)
+    $backslashCount = 0
+  }
+  [void] $builder.Append((@('\' * (2 * $backslashCount)) -join ''))
+  [void] $builder.Append('"')
+  return $builder.ToString()
+}
+
+function New-StrattonAzProcessStartInfo {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string[]] $Arguments
+  )
+
+  $azCommand = Get-Command az -ErrorAction Stop
+  $fileName = $azCommand.Source
+  $argumentPrefix = @()
+  if ([System.IO.Path]::GetExtension($fileName) -ieq '.cmd') {
+    $pythonPath = Join-Path (Split-Path -Parent $fileName) '..\python.exe'
+    if (-not (Test-Path -LiteralPath $pythonPath -PathType Leaf)) {
+      throw 'AZURE_CLI_PYTHON_NOT_FOUND'
+    }
+    $fileName = (Resolve-Path -LiteralPath $pythonPath).Path
+    $argumentPrefix = @('-IBm', 'azure.cli')
+  }
+
+  $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
+  $startInfo.FileName = $fileName
+  $startInfo.UseShellExecute = $false
+  $startInfo.RedirectStandardOutput = $true
+  $startInfo.RedirectStandardError = $true
+  $startInfo.CreateNoWindow = $true
+  $allArguments = @($argumentPrefix) + @($Arguments)
+  if ($null -ne $startInfo.PSObject.Properties['ArgumentList']) {
+    foreach ($argument in $allArguments) {
+      $startInfo.ArgumentList.Add($argument)
+    }
+  }
+  else {
+    $startInfo.Arguments = (@(
+        $allArguments |
+          ForEach-Object { ConvertTo-StrattonWindowsCommandLineArgument -Value $_ }
+      ) -join ' ')
+  }
+  return $startInfo
+}
+
+function Invoke-StrattonAzProcess {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string[]] $Arguments
+  )
+
+  $process = [System.Diagnostics.Process]::new()
+  $process.StartInfo = New-StrattonAzProcessStartInfo -Arguments $Arguments
+  try {
+    if (-not $process.Start()) {
+      throw 'AZURE_CLI_START_FAILED'
+    }
+    $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+    $stderrTask = $process.StandardError.ReadToEndAsync()
+    $process.WaitForExit()
+    $stdout = $stdoutTask.GetAwaiter().GetResult()
+    $stderr = $stderrTask.GetAwaiter().GetResult()
+    return [pscustomobject]@{
+      ExitCode = $process.ExitCode
+      Stdout = @($stdout -split "`r?`n" | Where-Object { $_ -ne '' })
+      Stderr = @($stderr -split "`r?`n" | Where-Object { $_ -ne '' })
+    }
+  }
+  finally {
+    $process.Dispose()
+  }
+}
+
 function ConvertFrom-StrattonAzJsonStreams {
   [CmdletBinding()]
   param(
@@ -90,28 +195,12 @@ function Invoke-AzJson {
     [string[]] $Arguments
   )
 
-  $stderrPath = Join-Path `
-    ([System.IO.Path]::GetTempPath()) `
-    "stratton-az-stderr-$([System.Guid]::NewGuid().ToString('N')).log"
-  try {
-    $stdout = & az @Arguments --only-show-errors --output json 2> $stderrPath
-    $exitCode = $LASTEXITCODE
-    $stderr = @()
-    if (Test-Path -LiteralPath $stderrPath -PathType Leaf) {
-      $stderr = @(Get-Content -LiteralPath $stderrPath)
-    }
-
-    return ConvertFrom-StrattonAzJsonStreams `
-      -Arguments $Arguments `
-      -Stdout @($stdout) `
-      -Stderr $stderr `
-      -ExitCode $exitCode
-  }
-  finally {
-    if (Test-Path -LiteralPath $stderrPath) {
-      Remove-Item -LiteralPath $stderrPath -Force -ErrorAction Stop
-    }
-  }
+  $result = Invoke-StrattonAzProcess -Arguments (@($Arguments) + @('--only-show-errors', '--output', 'json'))
+  return ConvertFrom-StrattonAzJsonStreams `
+    -Arguments $Arguments `
+    -Stdout $result.Stdout `
+    -Stderr $result.Stderr `
+    -ExitCode $result.ExitCode
 }
 
 function Assert-AzContext {
@@ -1329,13 +1418,14 @@ function Invoke-StrattonAcrBuildQueue {
     [string] $Repository
   )
 
-  $output = & az @Arguments 2>&1
-  $exitCode = $LASTEXITCODE
-  if ($exitCode -ne 0) {
-    throw "AZURE_CLI_FAILED:$($Arguments -join ' '):$($output | Out-String)"
+  $result = Invoke-StrattonAzProcess -Arguments $Arguments
+  if ($result.ExitCode -ne 0) {
+    throw "AZURE_CLI_FAILED:$($Arguments -join ' '):$(@($result.Stderr, $result.Stdout) | Out-String)"
   }
 
-  return ConvertFrom-StrattonAcrBuildQueueOutput -Output @($output) -Repository $Repository
+  return ConvertFrom-StrattonAcrBuildQueueOutput `
+    -Output @($result.Stderr) `
+    -Repository $Repository
 }
 
 function Invoke-StrattonImageBuilds {
