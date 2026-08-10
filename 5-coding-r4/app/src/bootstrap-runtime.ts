@@ -42,6 +42,24 @@ export interface RouteEvidenceReceipt {
   readonly evidenceVersion: string;
 }
 
+export interface ExistingRouteEvidenceBinding {
+  readonly resourceId: string;
+  readonly deploymentId: string;
+  readonly region: string;
+  readonly route: string;
+  readonly apiVersion: string;
+  readonly evidenceVersion: string;
+  readonly status: string;
+  readonly validFromIso: string;
+  readonly validUntilIso: string;
+}
+
+export interface RouteEvidenceValidityReconciliation {
+  readonly operation: "renew";
+  readonly validFromIso: string;
+  readonly validUntilIso: string;
+}
+
 export interface BootstrapReceipt {
   readonly migrationHashes: readonly MigrationHash[];
   readonly searchIndexEtag: string;
@@ -173,6 +191,28 @@ export function assertAppliedMigrationHashes(
       throw new Error(`MIGRATION_HASH_CHANGED:${migration.name}`);
     }
   }
+}
+
+export function reconcileRouteEvidenceValidity(
+  existing: ExistingRouteEvidenceBinding,
+  desired: RouteEvidenceInput
+): RouteEvidenceValidityReconciliation {
+  if (
+    existing.resourceId !== desired.accountResourceId ||
+    existing.deploymentId !== desired.deploymentId ||
+    existing.region !== desired.region ||
+    existing.route !== desired.route ||
+    existing.apiVersion !== desired.apiVersion ||
+    existing.evidenceVersion !== desired.evidenceVersion ||
+    existing.status !== desired.approvalStatus
+  ) {
+    throw new Error(`ROUTE_EVIDENCE_CONFLICT:${desired.route}`);
+  }
+  return {
+    operation: "renew",
+    validFromIso: desired.validFromIso,
+    validUntilIso: desired.validUntilIso
+  };
 }
 
 function splitSqlBatches(source: string): readonly string[] {
@@ -480,7 +520,8 @@ export class AzureSqlRouteEvidenceRepository {
         }
         const existingQuery = withRouteSession(
           `
-SELECT resource_id, deployment_id, region, route, api_version, evidence_version, status
+SELECT resource_id, deployment_id, region, route, api_version, evidence_version, status,
+       valid_from, valid_until
 FROM dbo.approved_model_route_evidence
 WHERE tenant_id = @tenantId AND case_id = @caseId AND evidence_id = @evidenceId;
 `,
@@ -494,19 +535,47 @@ WHERE tenant_id = @tenantId AND case_id = @caseId AND evidence_id = @evidenceId;
           api_version: string;
           evidence_version: string;
           status: string;
+          valid_from: Date;
+          valid_until: Date;
         }>(existingQuery.statement);
         const row = existing.recordset[0];
         if (row) {
-          if (
-            row.resource_id !== route.accountResourceId ||
-            row.deployment_id !== route.deploymentId ||
-            row.region !== route.region ||
-            row.route !== route.route ||
-            row.api_version !== route.apiVersion ||
-            row.evidence_version !== route.evidenceVersion ||
-            row.status !== route.approvalStatus
-          ) {
-            throw new Error(`ROUTE_EVIDENCE_CONFLICT:${route.route}`);
+          const reconciliation = reconcileRouteEvidenceValidity(
+            {
+              resourceId: row.resource_id,
+              deploymentId: row.deployment_id,
+              region: row.region,
+              route: row.route,
+              apiVersion: row.api_version,
+              evidenceVersion: row.evidence_version,
+              status: row.status,
+              validFromIso: row.valid_from.toISOString(),
+              validUntilIso: row.valid_until.toISOString()
+            },
+            route
+          );
+          const renewRequest = new sql.Request(transaction);
+          for (const [name, value] of Object.entries({
+            tenantId: route.tenantId,
+            caseId: route.caseId,
+            evidenceId: route.evidenceId,
+            validFrom: reconciliation.validFromIso,
+            validUntil: reconciliation.validUntilIso
+          })) {
+            renewRequest.input(name, sql.NVarChar(1024), value);
+          }
+          const renewQuery = withRouteSession(
+            `
+UPDATE dbo.approved_model_route_evidence
+SET valid_from = CONVERT(DATETIME2(7), @validFrom, 127),
+    valid_until = CONVERT(DATETIME2(7), @validUntil, 127)
+WHERE tenant_id = @tenantId AND case_id = @caseId AND evidence_id = @evidenceId;
+`,
+            {}
+          );
+          const renewed = await renewRequest.query(renewQuery.statement);
+          if (renewed.rowsAffected[0] !== 1) {
+            throw new Error(`ROUTE_EVIDENCE_RENEWAL_FAILED:${route.route}`);
           }
           continue;
         }

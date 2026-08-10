@@ -80,6 +80,25 @@ function Resolve-RouteTemplateValue {
   return $Value
 }
 
+function Assert-StrattonRouteSequence {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [object[]] $RouteDefinitions
+  )
+
+  $expectedRoutes = @('LUNA', 'TERRA', 'SOL')
+  if ($RouteDefinitions.Count -ne $expectedRoutes.Count) {
+    throw 'ROUTE_EVIDENCE_DEFINITION_INVALID'
+  }
+  for ($index = 0; $index -lt $expectedRoutes.Count; $index++) {
+    $routeProperty = $RouteDefinitions[$index].PSObject.Properties['route']
+    if ($null -eq $routeProperty -or [string] $routeProperty.Value -cne $expectedRoutes[$index]) {
+      throw 'ROUTE_EVIDENCE_DEFINITION_INVALID'
+    }
+  }
+}
+
 function Get-BootstrapRouteEvidence {
   [CmdletBinding()]
   param(
@@ -91,10 +110,7 @@ function Get-BootstrapRouteEvidence {
   )
 
   $routeDefinitions = Get-Content (Join-Path $PSScriptRoot 'route-evidence.json') -Raw | ConvertFrom-Json
-  $expectedRoutes = @('LUNA', 'TERRA', 'SOL')
-  if (@($routeDefinitions).Count -ne $expectedRoutes.Count -or @($routeDefinitions.route) -ne $expectedRoutes) {
-    throw 'ROUTE_EVIDENCE_DEFINITION_INVALID'
-  }
+  Assert-StrattonRouteSequence -RouteDefinitions @($routeDefinitions)
 
   return @(
     foreach ($definition in $routeDefinitions) {
@@ -142,12 +158,34 @@ function Get-IdentityBootstrapSql {
   return $BootstrapSql.Substring($markerIndex)
 }
 
-function New-StrattonBootstrapJobArguments {
+function Assert-StrattonBootstrapJobPayload {
   [CmdletBinding()]
   param(
-    [ValidateSet('create', 'update')]
-    [string] $Operation = 'create',
+    [Parameter(Mandatory)]
+    [string] $Image,
 
+    [Parameter(Mandatory)]
+    [string[]] $EnvironmentVariables
+  )
+
+  if ($Image -notmatch '@sha256:[a-f0-9]{64}$') {
+    throw 'BOOTSTRAP_IMAGE_DIGEST_INVALID'
+  }
+  foreach ($environmentVariable in $EnvironmentVariables) {
+    $separator = $environmentVariable.IndexOf('=')
+    if ($separator -lt 1) {
+      throw 'BOOTSTRAP_ENVIRONMENT_VARIABLE_INVALID'
+    }
+    $name = $environmentVariable.Substring(0, $separator)
+    if ($name -match '(?i)(password|connection.?string|client.?secret|api.?key|token)') {
+      throw "BOOTSTRAP_SECRET_ENVIRONMENT_VARIABLE_PROHIBITED:$name"
+    }
+  }
+}
+
+function New-StrattonBootstrapJobCreateArguments {
+  [CmdletBinding()]
+  param(
     [Parameter(Mandatory)]
     [string] $JobName,
 
@@ -170,22 +208,9 @@ function New-StrattonBootstrapJobArguments {
     [string[]] $EnvironmentVariables
   )
 
-  if ($Image -notmatch '@sha256:[a-f0-9]{64}$') {
-    throw 'BOOTSTRAP_IMAGE_DIGEST_INVALID'
-  }
-  foreach ($environmentVariable in $EnvironmentVariables) {
-    $separator = $environmentVariable.IndexOf('=')
-    if ($separator -lt 1) {
-      throw 'BOOTSTRAP_ENVIRONMENT_VARIABLE_INVALID'
-    }
-    $name = $environmentVariable.Substring(0, $separator)
-    if ($name -match '(?i)(password|connection.?string|client.?secret|api.?key|token)') {
-      throw "BOOTSTRAP_SECRET_ENVIRONMENT_VARIABLE_PROHIBITED:$name"
-    }
-  }
-
+  Assert-StrattonBootstrapJobPayload -Image $Image -EnvironmentVariables $EnvironmentVariables
   return @(
-    'containerapp', 'job', $Operation,
+    'containerapp', 'job', 'create',
     '--name', $JobName,
     '--resource-group', $ResourceGroupName,
     '--environment', $ContainerAppsEnvironmentId,
@@ -195,6 +220,7 @@ function New-StrattonBootstrapJobArguments {
     '--replica-completion-count', '1',
     '--parallelism', '1',
     '--image', $Image,
+    '--container-name', 'bootstrap',
     '--cpu', '0.5',
     '--memory', '1.0Gi',
     '--mi-user-assigned', $BootstrapIdentityResourceId,
@@ -202,6 +228,133 @@ function New-StrattonBootstrapJobArguments {
     '--registry-identity', $BootstrapIdentityResourceId,
     '--env-vars'
   ) + $EnvironmentVariables
+}
+
+function New-StrattonBootstrapJobUpdateArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $Image,
+
+    [Parameter(Mandatory)]
+    [string[]] $EnvironmentVariables
+  )
+
+  Assert-StrattonBootstrapJobPayload -Image $Image -EnvironmentVariables $EnvironmentVariables
+  return @(
+    'containerapp', 'job', 'update',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--replica-timeout', '1800',
+    '--replica-retry-limit', '0',
+    '--replica-completion-count', '1',
+    '--parallelism', '1',
+    '--image', $Image,
+    '--container-name', 'bootstrap',
+    '--cpu', '0.5',
+    '--memory', '1.0Gi',
+    '--replace-env-vars'
+  ) + $EnvironmentVariables
+}
+
+function New-StrattonBootstrapJobIdentityArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $BootstrapIdentityResourceId
+  )
+
+  return @(
+    'containerapp', 'job', 'identity', 'assign',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--user-assigned', $BootstrapIdentityResourceId
+  )
+}
+
+function New-StrattonBootstrapJobRegistryArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $RegistryServer,
+
+    [Parameter(Mandatory)]
+    [string] $BootstrapIdentityResourceId
+  )
+
+  return @(
+    'containerapp', 'job', 'registry', 'set',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--server', $RegistryServer,
+    '--identity', $BootstrapIdentityResourceId
+  )
+}
+
+function New-StrattonBootstrapJobLogArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName
+  )
+
+  return @(
+    'containerapp', 'job', 'logs', 'show',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--execution', $ExecutionName,
+    '--container', 'bootstrap',
+    '--tail', '200',
+    '--only-show-errors'
+  )
+}
+
+function Get-StrattonOptionalPropertyValue {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $InputObject,
+
+    [Parameter(Mandatory)]
+    [string[]] $Path
+  )
+
+  $current = $InputObject
+  foreach ($name in $Path) {
+    if ($null -eq $current) {
+      return $null
+    }
+    $property = $current.PSObject.Properties[$name]
+    if ($null -eq $property) {
+      return $null
+    }
+    $current = $property.Value
+  }
+  return $current
 }
 
 function Get-UniqueExecutionValue {
@@ -215,25 +368,40 @@ function Get-UniqueExecutionValue {
   )
 
   $executionNames = @(
-    $InputObject.properties.latestExecutionName,
-    $InputObject.latestExecutionName
-  ) |
-    Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
-    Select-Object -Unique
+    @(
+      Get-StrattonOptionalPropertyValue -InputObject $InputObject -Path @('properties', 'latestExecutionName')
+      Get-StrattonOptionalPropertyValue -InputObject $InputObject -Path @('latestExecutionName')
+    ) |
+      Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
   if ($executionNames.Count -eq 1) {
     return [string] $executionNames[0]
   }
   $values = @(
-    $InputObject,
-    $InputObject.name,
-    $InputObject.properties.name
-  ) |
-    Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
-    Select-Object -Unique
+    @(
+      $InputObject
+      Get-StrattonOptionalPropertyValue -InputObject $InputObject -Path @('name')
+      Get-StrattonOptionalPropertyValue -InputObject $InputObject -Path @('properties', 'name')
+    ) |
+      Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
   if ($values.Count -ne 1 -or $executionNames.Count -gt 1) {
     throw "AMBIGUOUS_JOB_$Kind"
   }
   return [string] $values[0]
+}
+
+function Get-StrattonJobExecutionStatus {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $Execution
+  )
+
+  $status = Get-StrattonOptionalPropertyValue -InputObject $Execution -Path @('properties', 'status')
+  return Get-UniqueExecutionValue -InputObject ([pscustomobject]@{ name = $status }) -Kind 'EXECUTION_STATUS'
 }
 
 function Get-RedactedBootstrapLogEntries {
@@ -345,16 +513,40 @@ function Invoke-StrattonDataPlaneBootstrap {
   catch {
     $jobExists = $false
   }
-  $jobArguments = New-StrattonBootstrapJobArguments `
-    -Operation $(if ($jobExists) { 'update' } else { 'create' }) `
-    -JobName $JobName `
-    -ResourceGroupName $ResourceGroupName `
-    -ContainerAppsEnvironmentId (Get-RequiredDeploymentOutput -Outputs $outputs -Name 'containerAppsEnvironmentId') `
-    -Image $image `
-    -RegistryServer $registryServer `
-    -BootstrapIdentityResourceId $bootstrapIdentityResourceId `
-    -EnvironmentVariables $environmentVariables
-  Invoke-AzJson -Arguments $jobArguments | Out-Null
+  if ($jobExists) {
+    Invoke-AzJson -Arguments (
+      New-StrattonBootstrapJobIdentityArguments `
+        -JobName $JobName `
+        -ResourceGroupName $ResourceGroupName `
+        -BootstrapIdentityResourceId $bootstrapIdentityResourceId
+    ) | Out-Null
+    Invoke-AzJson -Arguments (
+      New-StrattonBootstrapJobRegistryArguments `
+        -JobName $JobName `
+        -ResourceGroupName $ResourceGroupName `
+        -RegistryServer $registryServer `
+        -BootstrapIdentityResourceId $bootstrapIdentityResourceId
+    ) | Out-Null
+    Invoke-AzJson -Arguments (
+      New-StrattonBootstrapJobUpdateArguments `
+        -JobName $JobName `
+        -ResourceGroupName $ResourceGroupName `
+        -Image $image `
+        -EnvironmentVariables $environmentVariables
+    ) | Out-Null
+  }
+  else {
+    Invoke-AzJson -Arguments (
+      New-StrattonBootstrapJobCreateArguments `
+        -JobName $JobName `
+        -ResourceGroupName $ResourceGroupName `
+        -ContainerAppsEnvironmentId (Get-RequiredDeploymentOutput -Outputs $outputs -Name 'containerAppsEnvironmentId') `
+        -Image $image `
+        -RegistryServer $registryServer `
+        -BootstrapIdentityResourceId $bootstrapIdentityResourceId `
+        -EnvironmentVariables $environmentVariables
+    ) | Out-Null
+  }
 
   $started = Invoke-AzJson -Arguments @(
     'containerapp', 'job', 'start',
@@ -370,9 +562,7 @@ function Invoke-StrattonDataPlaneBootstrap {
       '--resource-group', $ResourceGroupName,
       '--job-execution-name', $executionName
     )
-    $status = Get-UniqueExecutionValue -InputObject ([pscustomobject]@{
-        name = $execution.properties.status
-      }) -Kind 'EXECUTION_STATUS'
+    $status = Get-StrattonJobExecutionStatus -Execution $execution
     if ($status -in @('Succeeded', 'Failed', 'Canceled', 'Cancelled')) {
       $terminalStatus = $status
       break
@@ -385,12 +575,11 @@ function Invoke-StrattonDataPlaneBootstrap {
     throw "BOOTSTRAP_JOB_FAILED:${executionName}:$terminalStatus"
   }
 
-  $rawLog = & az containerapp job logs show `
-    --name $JobName `
-    --resource-group $ResourceGroupName `
-    --execution $executionName `
-    --tail 200 `
-    --only-show-errors 2>&1
+  $logArguments = New-StrattonBootstrapJobLogArguments `
+    -JobName $JobName `
+    -ResourceGroupName $ResourceGroupName `
+    -ExecutionName $executionName
+  $rawLog = & az @logArguments 2>&1
   if ($LASTEXITCODE -ne 0) {
     throw 'BOOTSTRAP_LOG_RETRIEVAL_FAILED'
   }

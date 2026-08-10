@@ -2,8 +2,7 @@ param location string
 param namePrefix string
 param tags object
 param tenantId string
-param entraAdministratorObjectId string
-param entraAdministratorLogin string
+param bootstrapIdentityPrincipalId string
 param privateEndpointsSubnetId string
 param sqlPrivateDnsZoneId string
 param sqlServerName string
@@ -14,6 +13,7 @@ param searchServiceName string
 var sqlDatabaseName = '${namePrefix}-db'
 var blobContainerName = 'admitted-evidence'
 var analysisQueueName = 'analysis-work'
+var searchServiceContributorRoleDefinitionGuid = '7ca78c08-252a-4471-8644-bb5ff32d4ba0'
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   name: sqlServerName
@@ -25,8 +25,8 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     publicNetworkAccess: 'Disabled'
     administrators: {
       administratorType: 'ActiveDirectory'
-      login: entraAdministratorLogin
-      sid: entraAdministratorObjectId
+      login: '${namePrefix}-bootstrap-mi'
+      sid: bootstrapIdentityPrincipalId
       tenantId: tenantId
       azureADOnlyAuthentication: true
     }
@@ -175,6 +175,19 @@ resource searchService 'Microsoft.Search/searchServices@2023-11-01' = {
     replicaCount: 1
     partitionCount: 1
     hostingMode: 'default'
+  }
+}
+
+resource bootstrapSearchServiceContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(searchService.id, bootstrapIdentityPrincipalId, searchServiceContributorRoleDefinitionGuid)
+  scope: searchService
+  properties: {
+    principalId: bootstrapIdentityPrincipalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      searchServiceContributorRoleDefinitionGuid
+    )
   }
 }
 

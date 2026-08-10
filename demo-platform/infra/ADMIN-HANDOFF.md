@@ -58,8 +58,14 @@ login, what-if, deployment, provisioning, or runtime validation as part of this 
 
 ## SQL bootstrap
 
-Run the emitted `sqlBootstrapSql` once in the approved database as a Microsoft Entra administrator.
-The runtime identity receives only:
+The isolated standalone dev deployment configures the `bootstrap-mi` user-assigned managed identity
+as the private SQL server's Microsoft Entra administrator and grants that same identity Search
+Service Contributor at the Azure AI Search service scope. This is a manually triggered bootstrap
+identity for schema, contained-user, Search index, and route-evidence reconciliation. It is not an
+application runtime identity and must not be attached to the web, BFF, or Phase 5 containers.
+
+The bootstrap job applies the emitted `sqlBootstrapSql` without a database password. The application
+runtime identity receives only:
 
 ```sql
 GRANT SELECT, INSERT, UPDATE

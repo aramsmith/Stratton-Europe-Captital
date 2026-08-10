@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   assertAppliedMigrationHashes,
   assertSearchSchemaCompatible,
+  reconcileRouteEvidenceValidity,
   runBootstrap,
   type BootstrapDependencies,
   type BootstrapInput,
@@ -174,4 +175,29 @@ test("rejects a destructive Azure Search field change", () => {
       }),
     /SEARCH_SCHEMA_DESTRUCTIVE_CHANGE:field-type:tenantId/
   );
+});
+
+test("renews expired validity for an existing identical route binding", () => {
+  const desired = routes[0]!;
+  const reconciliation = reconcileRouteEvidenceValidity(
+    {
+      resourceId: desired.accountResourceId,
+      deploymentId: desired.deploymentId,
+      region: desired.region,
+      route: desired.route,
+      apiVersion: desired.apiVersion,
+      evidenceVersion: desired.evidenceVersion,
+      status: desired.approvalStatus,
+      validFromIso: "2026-06-01T00:00:00.000Z",
+      validUntilIso: "2026-07-01T00:00:00.000Z"
+    },
+    desired
+  );
+
+  const rerunTime = Date.parse("2026-08-10T12:00:00.000Z");
+  assert.equal(reconciliation.operation, "renew");
+  assert.equal(reconciliation.validFromIso, desired.validFromIso);
+  assert.equal(reconciliation.validUntilIso, desired.validUntilIso);
+  assert.ok(Date.parse(reconciliation.validFromIso) <= rerunTime);
+  assert.ok(Date.parse(reconciliation.validUntilIso) > rerunTime);
 });

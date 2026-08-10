@@ -8,6 +8,7 @@ Describe 'Stratton data-plane bootstrap' {
     $script:bootstrapScriptPath = Join-Path $script:repoRoot 'scripts\deployment\Initialize-StrattonDataPlane.ps1'
 
     Import-Module $modulePath -Force
+    . $script:bootstrapScriptPath -LoadOnly
   }
 
   It 'orders Phase 5 migrations before demo projection bootstrap' {
@@ -18,7 +19,7 @@ Describe 'Stratton data-plane bootstrap' {
   It 'defines exactly one approved record for each governed route' {
     $routes = Get-Content $script:routeEvidencePath -Raw | ConvertFrom-Json
 
-    @($routes.route) | Should -Be @('LUNA', 'TERRA', 'SOL')
+    { Assert-StrattonRouteSequence -RouteDefinitions $routes } | Should -Not -Throw
     @($routes | Where-Object tenantId -ne '27140306-eea5-4e7f-91e9-4c9e86864b3a').Count |
       Should -Be 0
     @($routes | Where-Object caseId -ne 'project-danube').Count | Should -Be 0
@@ -31,6 +32,21 @@ Describe 'Stratton data-plane bootstrap' {
         $_.accountResourceId -notmatch '^\$\{[A-Za-z][A-Za-z0-9]*\}$' -or
         $_.deploymentId -notmatch '^\$\{[A-Za-z][A-Za-z0-9]*\}$'
       }).Count | Should -Be 0
+  }
+
+  It 'rejects any route definition sequence other than exact ordered LUNA TERRA SOL' {
+    $invalidSequences = @(
+      @('TERRA', 'LUNA', 'SOL'),
+      @('LUNA', 'TERRA', 'TERRA'),
+      @('LUNA', 'TERRA'),
+      @('LUNA', 'TERRA', 'SOL', 'SOL')
+    )
+
+    foreach ($sequence in $invalidSequences) {
+      $definitions = @($sequence | ForEach-Object { [pscustomobject]@{ route = $_ } })
+      { Assert-StrattonRouteSequence -RouteDefinitions $definitions } |
+        Should -Throw -ExpectedMessage 'ROUTE_EVIDENCE_DEFINITION_INVALID'
+    }
   }
 
   It 'builds and appends only the immutable bootstrap image digest' {
@@ -83,29 +99,101 @@ Describe 'Stratton data-plane bootstrap' {
     ($stored | ConvertTo-Json -Depth 10) | Should -Not -Match [regex]::Escape($buildTags[0])
   }
 
-  It 'creates a manual VNet job using the bootstrap identity and non-secret environment values' {
-    . $script:bootstrapScriptPath -LoadOnly
-
-    $arguments = New-StrattonBootstrapJobArguments `
-      -JobName 'stratton-bootstrap' `
-      -ResourceGroupName 'stratton-demo-rg' `
-      -ContainerAppsEnvironmentId '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/cae' `
-      -Image 'stratton.azurecr.io/stratton/bootstrap@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' `
-      -RegistryServer 'stratton.azurecr.io' `
-      -BootstrapIdentityResourceId '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/bootstrap' `
-      -EnvironmentVariables @(
+  It 'splits create and update commands and excludes create-only flags from update' {
+    $commonParameters = @{
+      JobName = 'stratton-bootstrap'
+      ResourceGroupName = 'stratton-demo-rg'
+      Image = 'stratton.azurecr.io/stratton/bootstrap@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+      EnvironmentVariables = @(
         'BOOTSTRAP_TENANT_ID=27140306-eea5-4e7f-91e9-4c9e86864b3a',
         'AZURE_SQL_SERVER_FQDN=stratton.database.windows.net'
       )
+    }
+    $createArguments = New-StrattonBootstrapJobCreateArguments `
+      @commonParameters `
+      -ContainerAppsEnvironmentId '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/cae' `
+      -RegistryServer 'stratton.azurecr.io' `
+      -BootstrapIdentityResourceId '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/bootstrap'
+    $updateArguments = New-StrattonBootstrapJobUpdateArguments @commonParameters
 
-    $arguments | Should -Contain '--trigger-type'
-    ($arguments[([array]::IndexOf($arguments, '--trigger-type') + 1)]) | Should -Be 'Manual'
-    $arguments | Should -Contain '--mi-user-assigned'
-    ($arguments[([array]::IndexOf($arguments, '--mi-user-assigned') + 1)]) |
+    $createArguments[0..2] | Should -Be @('containerapp', 'job', 'create')
+    $createArguments | Should -Contain '--trigger-type'
+    ($createArguments[([array]::IndexOf($createArguments, '--trigger-type') + 1)]) | Should -Be 'Manual'
+    $createArguments | Should -Contain '--mi-user-assigned'
+    ($createArguments[([array]::IndexOf($createArguments, '--mi-user-assigned') + 1)]) |
       Should -Be '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/bootstrap'
-    $arguments | Should -Contain '--registry-server'
-    ($arguments[([array]::IndexOf($arguments, '--registry-server') + 1)]) | Should -Be 'stratton.azurecr.io'
-    ($arguments -join ' ') | Should -Not -Match '(?i)(password|connection.string|client.secret|api.key)'
+    $createArguments | Should -Contain '--registry-server'
+    ($createArguments[([array]::IndexOf($createArguments, '--registry-server') + 1)]) |
+      Should -Be 'stratton.azurecr.io'
+
+    $updateArguments[0..2] | Should -Be @('containerapp', 'job', 'update')
+    $updateArguments | Should -Contain '--replace-env-vars'
+    foreach ($createOnlyFlag in @(
+        '--environment',
+        '--trigger-type',
+        '--mi-user-assigned',
+        '--registry-server',
+        '--registry-identity',
+        '--env-vars'
+      )) {
+      $updateArguments | Should -Not -Contain $createOnlyFlag
+    }
+    (($createArguments + $updateArguments) -join ' ') |
+      Should -Not -Match '(?i)(password|connection.string|client.secret|api.key)'
+  }
+
+  It 'reconciles identity and registry with supported idempotent commands' {
+    $identityResourceId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/bootstrap'
+    $identityArguments = New-StrattonBootstrapJobIdentityArguments `
+      -JobName 'stratton-bootstrap' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -BootstrapIdentityResourceId $identityResourceId
+    $registryArguments = New-StrattonBootstrapJobRegistryArguments `
+      -JobName 'stratton-bootstrap' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -RegistryServer 'stratton.azurecr.io' `
+      -BootstrapIdentityResourceId $identityResourceId
+
+    $identityArguments | Should -Be @(
+      'containerapp', 'job', 'identity', 'assign',
+      '--name', 'stratton-bootstrap',
+      '--resource-group', 'stratton-demo-rg',
+      '--user-assigned', $identityResourceId
+    )
+    $registryArguments | Should -Be @(
+      'containerapp', 'job', 'registry', 'set',
+      '--name', 'stratton-bootstrap',
+      '--resource-group', 'stratton-demo-rg',
+      '--server', 'stratton.azurecr.io',
+      '--identity', $identityResourceId
+    )
+  }
+
+  It 'uses the deterministic bootstrap container name for job changes and log retrieval' {
+    $environmentVariables = @('BOOTSTRAP_TENANT_ID=27140306-eea5-4e7f-91e9-4c9e86864b3a')
+    $updateArguments = New-StrattonBootstrapJobUpdateArguments `
+      -JobName 'stratton-bootstrap' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -Image 'stratton.azurecr.io/stratton/bootstrap@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' `
+      -EnvironmentVariables $environmentVariables
+    $logArguments = New-StrattonBootstrapJobLogArguments `
+      -JobName 'stratton-bootstrap' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -ExecutionName 'stratton-bootstrap-abc123'
+
+    ($updateArguments[([array]::IndexOf($updateArguments, '--container-name') + 1)]) |
+      Should -Be 'bootstrap'
+    ($logArguments[([array]::IndexOf($logArguments, '--container') + 1)]) |
+      Should -Be 'bootstrap'
+  }
+
+  It 'fails predictably when job execution responses omit optional properties' {
+    { Get-UniqueExecutionValue -InputObject ([pscustomobject]@{}) -Kind 'EXECUTION_NAME' } |
+      Should -Throw -ExpectedMessage 'AMBIGUOUS_JOB_EXECUTION_NAME'
+    { Get-StrattonJobExecutionStatus -Execution ([pscustomobject]@{}) } |
+      Should -Throw -ExpectedMessage 'AMBIGUOUS_JOB_EXECUTION_STATUS'
+    { Get-StrattonJobExecutionStatus -Execution ([pscustomobject]@{ properties = [pscustomobject]@{} }) } |
+      Should -Throw -ExpectedMessage 'AMBIGUOUS_JOB_EXECUTION_STATUS'
   }
 
   It 'requires a pinned non-root bootstrap image without a package manager' {

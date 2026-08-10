@@ -115,6 +115,36 @@ Describe 'Stratton standalone platform foundation' {
     $script:templateJson | Should -Match 'admitted-evidence'
   }
 
+  It 'authorizes only the manual bootstrap identity to administer SQL and reconcile Search' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'entraAdministratorObjectId'
+    $script:template.parameters.PSObject.Properties.Name | Should -Not -Contain 'entraAdministratorLogin'
+
+    $sqlServers = @($script:allResources | Where-Object type -eq 'Microsoft.Sql/servers')
+    $sqlServers.Count | Should -Be 1
+    $sqlServers[0].properties.publicNetworkAccess | Should -Be 'Disabled'
+    $sqlServers[0].properties.administrators.azureADOnlyAuthentication | Should -BeTrue
+    $sqlServers[0].properties.administrators.login | Should -Match 'bootstrap-mi'
+    $sqlServers[0].properties.administrators.sid | Should -Match 'bootstrapIdentityPrincipalId'
+
+    $searchServiceContributorRoleId = '7ca78c08-252a-4471-8644-bb5ff32d4ba0'
+    $searchAssignments = @(
+      $script:allResources |
+        Where-Object {
+          $_.type -eq 'Microsoft.Authorization/roleAssignments' -and
+          [string] $_.properties.principalId -match 'bootstrapIdentityPrincipalId'
+        }
+    )
+    $searchAssignments.Count | Should -Be 1
+    $searchAssignments[0].scope | Should -Match 'Microsoft.Search/searchServices'
+    $script:templateJson | Should -Match ([Regex]::Escape($searchServiceContributorRoleId))
+    $script:templateJson | Should -Not -Match ([Regex]::Escape('9b7fa17d-e63e-47b0-bb0a-15c516ac86ec'))
+  }
+
   It 'keeps the Phase 5 API ingress internal' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'

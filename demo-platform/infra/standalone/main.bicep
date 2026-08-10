@@ -19,14 +19,6 @@ param resourceGroupName string
 @description('Environment label applied to all foundation resources.')
 param environmentName string
 
-@description('Microsoft Entra object ID of the Azure SQL administrator.')
-@minLength(36)
-@maxLength(36)
-param entraAdministratorObjectId string
-
-@description('Microsoft Entra login of the Azure SQL administrator.')
-param entraAdministratorLogin string
-
 @description('Azure OpenAI region validated by the deployment preflight.')
 param openAiLocation string
 
@@ -122,8 +114,7 @@ module data './modules/data/main.bicep' = {
     namePrefix: namePrefix
     tags: effectiveTags
     tenantId: tenantId
-    entraAdministratorObjectId: entraAdministratorObjectId
-    entraAdministratorLogin: entraAdministratorLogin
+    bootstrapIdentityPrincipalId: operations.outputs.bootstrapIdentityPrincipalId
     privateEndpointsSubnetId: network.outputs.privateEndpointsSubnetId
     sqlPrivateDnsZoneId: network.outputs.sqlPrivateDnsZoneId
     sqlServerName: sqlServerName
