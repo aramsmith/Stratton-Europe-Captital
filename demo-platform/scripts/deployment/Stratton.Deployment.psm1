@@ -48,6 +48,12 @@ $script:RecognizedLocationParameterNames = @(
   'locations'
 )
 
+$script:DemoPlatformRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+$script:DeploymentArtifactRoot = Join-Path $script:DemoPlatformRoot 'artifacts\deployment'
+$script:LogAnalyticsQueryResource = 'https://api.loganalytics.io'
+$script:LogAnalyticsWorkspaceApiVersion = '2023-09-01'
+$script:LogAnalyticsRequestFilePrefix = '.stratton-query-body'
+
 function Invoke-AzJson {
   [CmdletBinding()]
   param(
@@ -1518,6 +1524,423 @@ function Invoke-StrattonBootstrapImageBuild {
   return $artifact
 }
 
+function Get-StrattonUtcTimestampLiteral {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [datetimeoffset] $Value
+  )
+
+  return $Value.ToUniversalTime().UtcDateTime.ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')
+}
+
+function Assert-StrattonKustoLiteralSafe {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [AllowEmptyString()]
+    [string] $Value,
+
+    [Parameter(Mandatory)]
+    [string] $Name
+  )
+
+  if ($Value -cnotmatch '^[A-Za-z0-9._:\-]{1,256}$') {
+    throw "KUSTO_LITERAL_UNSAFE:$Name"
+  }
+
+  return $Value
+}
+
+function New-StrattonJobReceiptKustoQuery {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [Parameter(Mandatory)]
+    [string] $ContainerName,
+
+    [Parameter(Mandatory)]
+    [string] $ReceiptMarker,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $WindowStart,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $WindowEnd
+  )
+
+  $job = Assert-StrattonKustoLiteralSafe -Value $JobName -Name 'JobName'
+  $execution = Assert-StrattonKustoLiteralSafe -Value $ExecutionName -Name 'ExecutionName'
+  $container = Assert-StrattonKustoLiteralSafe -Value $ContainerName -Name 'ContainerName'
+  $marker = Assert-StrattonKustoLiteralSafe -Value $ReceiptMarker -Name 'ReceiptMarker'
+  $start = Get-StrattonUtcTimestampLiteral -Value $WindowStart
+  $end = Get-StrattonUtcTimestampLiteral -Value $WindowEnd
+
+  return (@(
+      'union isfuzzy=true ContainerAppConsoleLogs, ContainerAppConsoleLogs_CL',
+      '| extend StrattonJob = tostring(coalesce(column_ifexists("ContainerAppName", ""), column_ifexists("ContainerAppName_s", ""))),',
+      'StrattonExecution = tostring(coalesce(column_ifexists("ExecutionName", ""), column_ifexists("ExecutionName_s", ""), column_ifexists("JobName", ""), column_ifexists("JobName_s", ""))),',
+      'StrattonReplica = tostring(coalesce(column_ifexists("ContainerGroupName", ""), column_ifexists("ContainerGroupName_g", ""), column_ifexists("ContainerGroupName_s", ""))),',
+      'StrattonContainer = tostring(coalesce(column_ifexists("ContainerName", ""), column_ifexists("ContainerName_s", ""))),',
+      'StrattonLog = tostring(coalesce(column_ifexists("Log", ""), column_ifexists("Log_s", "")))',
+      "| where TimeGenerated between (datetime($start) .. datetime($end))",
+      "| where StrattonJob == '$job'",
+      "| where StrattonExecution == '$execution' or StrattonReplica startswith '$execution'",
+      "| where StrattonContainer == '$container'",
+      "| where StrattonLog contains '$marker'",
+      '| project TimeGenerated, Log = StrattonLog',
+      '| order by TimeGenerated asc'
+    ) -join ' ')
+}
+
+function New-StrattonLogAnalyticsQueryBody {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Query,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $WindowStart,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $WindowEnd
+  )
+
+  return [ordered]@{
+    query = $Query
+    timespan = '{0}/{1}' -f
+      (Get-StrattonUtcTimestampLiteral -Value $WindowStart),
+      (Get-StrattonUtcTimestampLiteral -Value $WindowEnd)
+  }
+}
+
+function New-StrattonTemporaryJsonFile {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Directory,
+
+    [Parameter(Mandatory)]
+    [object] $InputObject,
+
+    [string] $Prefix = '.stratton-request'
+  )
+
+  New-Item -ItemType Directory -Path $Directory -Force | Out-Null
+  $path = Join-Path $Directory "$Prefix.$([System.Guid]::NewGuid().ToString('N')).json"
+  [System.IO.File]::WriteAllText(
+    $path,
+    ($InputObject | ConvertTo-Json -Depth 20),
+    [System.Text.UTF8Encoding]::new($false)
+  )
+  return $path
+}
+
+function New-StrattonLogAnalyticsWorkspaceRestArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $WorkspaceResourceId,
+
+    [string] $SubscriptionId
+  )
+
+  if (
+    $WorkspaceResourceId -notmatch
+    '^/subscriptions/[^/?#\s]+/resourceGroups/[^/?#\s]+/providers/Microsoft\.OperationalInsights/workspaces/[^/?#\s]+$'
+  ) {
+    throw 'LOG_ANALYTICS_WORKSPACE_RESOURCE_ID_INVALID'
+  }
+
+  $arguments = @(
+    'rest',
+    '--method', 'get',
+    '--url', "$($WorkspaceResourceId)?api-version=$($script:LogAnalyticsWorkspaceApiVersion)"
+  )
+  if (-not [string]::IsNullOrWhiteSpace($SubscriptionId)) {
+    $arguments += @('--subscription', $SubscriptionId)
+  }
+  return $arguments
+}
+
+function New-StrattonLogAnalyticsQueryRestArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $WorkspaceCustomerId,
+
+    [Parameter(Mandatory)]
+    [string] $BodyFilePath,
+
+    [string] $SubscriptionId
+  )
+
+  if ($WorkspaceCustomerId -cnotmatch '^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$') {
+    throw 'LOG_ANALYTICS_WORKSPACE_INVALID'
+  }
+
+  $arguments = @(
+    'rest',
+    '--method', 'post',
+    '--url', "$script:LogAnalyticsQueryResource/v1/workspaces/$WorkspaceCustomerId/query",
+    '--resource', $script:LogAnalyticsQueryResource,
+    '--headers', 'Content-Type=application/json',
+    '--body', "@$BodyFilePath"
+  )
+  if (-not [string]::IsNullOrWhiteSpace($SubscriptionId)) {
+    $arguments += @('--subscription', $SubscriptionId)
+  }
+  return $arguments
+}
+
+function Get-StrattonLogAnalyticsWorkspaceCustomerId {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $WorkspaceResourceId,
+
+    [Parameter(Mandatory)]
+    [scriptblock] $AzInvoker,
+
+    [string] $SubscriptionId
+  )
+
+  $workspace = & $AzInvoker (
+    New-StrattonLogAnalyticsWorkspaceRestArguments `
+      -WorkspaceResourceId $WorkspaceResourceId `
+      -SubscriptionId $SubscriptionId
+  )
+  $customerIds = @(
+    @(
+      Get-NestedPropertyValue -InputObject $workspace -Path @('properties', 'customerId')
+      Get-NestedPropertyValue -InputObject $workspace -Path @('customerId')
+    ) |
+      Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
+  if (
+    $customerIds.Count -ne 1 -or
+    [string] $customerIds[0] -cnotmatch '^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$'
+  ) {
+    throw 'LOG_ANALYTICS_WORKSPACE_INVALID'
+  }
+  return [string] $customerIds[0]
+}
+
+function ConvertFrom-StrattonLogAnalyticsQueryResponse {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $Response,
+
+    [string] $ColumnName = 'Log'
+  )
+
+  if ($null -eq $Response) {
+    throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+  }
+  $tables = @(Get-NestedPropertyValue -InputObject $Response -Path @('tables'))
+  if ($tables.Count -eq 0) {
+    throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+  }
+
+  $values = [System.Collections.Generic.List[string]]::new()
+  $columnFound = $false
+  foreach ($table in $tables) {
+    $columns = @(Get-NestedPropertyValue -InputObject $table -Path @('columns'))
+    if ($columns.Count -eq 0) {
+      throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+    }
+    $columnNames = @(
+      $columns |
+        ForEach-Object { [string] (Get-NestedPropertyValue -InputObject $_ -Path @('name')) }
+    )
+    $columnIndex = [array]::IndexOf($columnNames, $ColumnName)
+    if ($columnIndex -lt 0) {
+      continue
+    }
+    $columnFound = $true
+    foreach ($row in @(Get-NestedPropertyValue -InputObject $table -Path @('rows'))) {
+      if ($row -is [string] -or $row -isnot [System.Collections.IEnumerable]) {
+        throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+      }
+      $cells = @($row)
+      if ($cells.Count -ne $columnNames.Count) {
+        throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+      }
+      $value = [string] $cells[$columnIndex]
+      if (-not [string]::IsNullOrWhiteSpace($value)) {
+        $values.Add($value)
+      }
+    }
+  }
+  if (-not $columnFound) {
+    throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+  }
+  return @($values)
+}
+
+function Get-StrattonDurableJobReceipt {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [Parameter(Mandatory)]
+    [string] $ContainerName,
+
+    [Parameter(Mandatory)]
+    [string] $ReceiptMarker,
+
+    [Parameter(Mandatory)]
+    [string] $WorkspaceResourceId,
+
+    [Parameter(Mandatory)]
+    [string[]] $LogArguments,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $InvocationStartedAt,
+
+    [Parameter(Mandatory)]
+    [scriptblock] $ReceiptParser,
+
+    [hashtable] $ReceiptParserState = @{},
+
+    [Parameter(Mandatory)]
+    [string[]] $RetryableErrorMessages,
+
+    [Parameter(Mandatory)]
+    [string] $MissingReceiptError,
+
+    [Parameter(Mandatory)]
+    [string] $QueryFailedError,
+
+    [Parameter(Mandatory)]
+    [scriptblock] $AzInvoker,
+
+    [Parameter(Mandatory)]
+    [scriptblock] $LogInvoker,
+
+    [string] $SubscriptionId,
+
+    [string] $TemporaryDirectory,
+
+    [ValidateRange(1, 10)]
+    [int] $LiveLogMaxAttempts = 3,
+
+    [ValidateRange(1, 10)]
+    [int] $LogAnalyticsMaxAttempts = 3,
+
+    [ValidateRange(0, 30)]
+    [int] $RetryIntervalSeconds = 2,
+
+    [scriptblock] $NowProvider
+  )
+
+  if (-not $NowProvider) {
+    $NowProvider = { [datetimeoffset]::UtcNow }
+  }
+  if ([string]::IsNullOrWhiteSpace($TemporaryDirectory)) {
+    $TemporaryDirectory = $script:DeploymentArtifactRoot
+  }
+
+  for ($attempt = 1; $attempt -le $LiveLogMaxAttempts; $attempt++) {
+    try {
+      $rawLog = & $LogInvoker $LogArguments
+      return & $ReceiptParser `
+        ([string] ($rawLog | Out-String)) `
+        ([datetimeoffset] (& $NowProvider)) `
+        $ReceiptParserState
+    }
+    catch {
+      if ($_.Exception.Message -notin $RetryableErrorMessages) {
+        throw
+      }
+    }
+    if ($attempt -lt $LiveLogMaxAttempts -and $RetryIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $RetryIntervalSeconds
+    }
+  }
+
+  $workspaceCustomerId = Get-StrattonLogAnalyticsWorkspaceCustomerId `
+    -WorkspaceResourceId $WorkspaceResourceId `
+    -SubscriptionId $SubscriptionId `
+    -AzInvoker $AzInvoker
+
+  $queryFailed = $false
+  for ($attempt = 1; $attempt -le $LogAnalyticsMaxAttempts; $attempt++) {
+    $now = [datetimeoffset] (& $NowProvider)
+    $windowStart = $InvocationStartedAt.AddMinutes(-1)
+    $windowEnd = $now.AddMinutes(1)
+    $bodyFilePath = $null
+    try {
+      $bodyFilePath = New-StrattonTemporaryJsonFile `
+        -Directory $TemporaryDirectory `
+        -Prefix $script:LogAnalyticsRequestFilePrefix `
+        -InputObject (
+          New-StrattonLogAnalyticsQueryBody `
+            -Query (
+              New-StrattonJobReceiptKustoQuery `
+                -JobName $JobName `
+                -ExecutionName $ExecutionName `
+                -ContainerName $ContainerName `
+                -ReceiptMarker $ReceiptMarker `
+                -WindowStart $windowStart `
+                -WindowEnd $windowEnd
+            ) `
+            -WindowStart $windowStart `
+            -WindowEnd $windowEnd
+        )
+      $response = & $AzInvoker (
+        New-StrattonLogAnalyticsQueryRestArguments `
+          -WorkspaceCustomerId $workspaceCustomerId `
+          -BodyFilePath $bodyFilePath `
+          -SubscriptionId $SubscriptionId
+      )
+      $rawLog = (ConvertFrom-StrattonLogAnalyticsQueryResponse -Response $response) -join "`n"
+      return & $ReceiptParser ([string] $rawLog) $now $ReceiptParserState
+    }
+    catch {
+      if ($_.Exception.Message -in $RetryableErrorMessages) {
+        $queryFailed = $false
+      }
+      elseif (
+        $_.Exception.Message -eq 'LOG_ANALYTICS_RESPONSE_INVALID' -or
+        $_.Exception.Message -match '^AZURE_CLI_FAILED:'
+      ) {
+        $queryFailed = $true
+      }
+      else {
+        throw
+      }
+    }
+    finally {
+      if (
+        -not [string]::IsNullOrWhiteSpace($bodyFilePath) -and
+        (Test-Path -LiteralPath $bodyFilePath)
+      ) {
+        Remove-Item -LiteralPath $bodyFilePath -Force -ErrorAction SilentlyContinue
+      }
+    }
+    if ($attempt -lt $LogAnalyticsMaxAttempts -and $RetryIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $RetryIntervalSeconds
+    }
+  }
+
+  if ($queryFailed) {
+    throw $QueryFailedError
+  }
+  throw $MissingReceiptError
+}
+
 function Write-DeploymentArtifact {
   [CmdletBinding()]
   param(
@@ -1584,14 +2007,23 @@ function Write-DeploymentArtifact {
 
 Export-ModuleMember -Function @(
   'Assert-AzContext',
+  'Assert-StrattonKustoLiteralSafe',
+  'ConvertFrom-StrattonLogAnalyticsQueryResponse',
   'ConvertTo-PreflightResult',
   'Get-RequiredOpenAiModels',
   'Get-RequiredProviderNamespaces',
+  'Get-StrattonDurableJobReceipt',
+  'Get-StrattonLogAnalyticsWorkspaceCustomerId',
   'Get-StrattonMigrationFiles',
   'Invoke-AzJson',
   'Invoke-StrattonBootstrapImageBuild',
   'Invoke-StrattonImageBuilds',
   'Invoke-StrattonAzurePreflight',
+  'New-StrattonJobReceiptKustoQuery',
+  'New-StrattonLogAnalyticsQueryBody',
+  'New-StrattonLogAnalyticsQueryRestArguments',
+  'New-StrattonLogAnalyticsWorkspaceRestArguments',
+  'New-StrattonTemporaryJsonFile',
   'Test-ImageDigest',
   'Write-DeploymentArtifact'
 )

@@ -56,7 +56,15 @@ Internal verification is non-interactive. `Test-StrattonDeployment.ps1` reconcil
 triggered `stratton-verification` Container Apps job in the existing managed environment, using the
 immutable BFF image digest from the deployment artifacts. It starts one execution, polls that exact
 execution to a terminal state, and retrieves only its `verification` container logs with
-`az containerapp job logs show`. Verification fails closed unless the job succeeds and emits exactly
+`az containerapp job logs show`. `Unknown` is treated as indeterminate, so polling continues until a
+real terminal status or the poll budget is exhausted. If the live log is not yet durable, the
+bootstrap and verification receipts both use the same bounded-retry helper that falls back to the
+deployed Log Analytics workspace through core `az rest` against
+`https://api.loganalytics.io/v1/workspaces/<customerId>/query`, scoped to the exact job, execution,
+container, receipt marker, and recent time window. No Azure CLI extension is required or installed;
+the query body is written to a temporary JSON file next to the deployment artifacts, passed as
+`--body @<file>` so Windows `az.cmd` quoting cannot corrupt it, and deleted after every attempt.
+Verification fails closed unless the job succeeds and emits exactly
 one fresh nonce-bound base64 receipt. The receipt contains boolean checks and the three route
 bindings only; no access token or secret is placed in environment variables, commands, logs, or
 artifacts.

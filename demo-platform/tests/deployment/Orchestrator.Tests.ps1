@@ -731,8 +731,7 @@ Describe 'Stratton standalone deployment orchestrator' {
         'Canceled',
         'Cancelled',
         'Degraded',
-        'Stopped',
-        'Unknown'
+        'Stopped'
       )) {
       $script:terminalPollCount = 0
       $script:requestedTerminalStatus = $terminalStatus
@@ -756,12 +755,48 @@ Describe 'Stratton standalone deployment orchestrator' {
     }
   }
 
-  It 'retries live logs then uses an execution-scoped Log Analytics fallback' {
+  It 'treats Unknown as indeterminate and keeps polling until a terminal status' {
+    $script:unknownPollCount = 0
+    {
+      Wait-StrattonVerificationJobExecution `
+        -JobName 'stratton-verification' `
+        -ResourceGroupName 'stratton-demo-rg' `
+        -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+        -ExecutionName 'stratton-verification-exec-123' `
+        -PollIntervalSeconds 0 `
+        -MaxPollAttempts 4 `
+        -AzInvoker {
+          param([string[]] $Arguments)
+          $script:unknownPollCount++
+          [pscustomobject]@{ properties = [pscustomobject]@{ status = 'Unknown' } }
+        }
+    } | Should -Throw 'VERIFICATION_JOB_NOT_TERMINAL:stratton-verification-exec-123:Unknown'
+    $script:unknownPollCount | Should -Be 4
+
+    $script:unknownThenSucceededCount = 0
+    Wait-StrattonVerificationJobExecution `
+      -JobName 'stratton-verification' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+      -ExecutionName 'stratton-verification-exec-123' `
+      -PollIntervalSeconds 0 `
+      -MaxPollAttempts 4 `
+      -AzInvoker {
+        param([string[]] $Arguments)
+        $script:unknownThenSucceededCount++
+        $status = if ($script:unknownThenSucceededCount -lt 3) { 'Unknown' } else { 'Succeeded' }
+        [pscustomobject]@{ properties = [pscustomobject]@{ status = $status } }
+      } | Should -Be 'Succeeded'
+    $script:unknownThenSucceededCount | Should -Be 3
+  }
+
+  It 'retries live logs then uses an execution-scoped Log Analytics REST fallback' {
     $nonce = 'nonce-123'
     $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
     $now = [datetimeoffset] '2026-08-10T03:00:20Z'
-    $workspaceResourceId = '/subscriptions/sub/resourceGroups/stratton-demo-rg/providers/Microsoft.OperationalInsights/workspaces/stratton-demo-log'
+    $workspaceResourceId = '/subscriptions/8364fb4d-2d36-4da5-908b-36cb8b808b8c/resourceGroups/stratton-demo-rg/providers/Microsoft.OperationalInsights/workspaces/stratton-demo-log'
     $workspaceCustomerId = '55555555-5555-5555-5555-555555555555'
+    $temporaryDirectory = Join-Path $TestDrive 'log-analytics-success'
     $receipt = [ordered]@{
       version = 1
       nonce = $nonce
@@ -784,7 +819,8 @@ Describe 'Stratton standalone deployment orchestrator' {
       )
     )
     $script:liveLogAttempts = 0
-    $analyticsCalls = [System.Collections.Generic.List[string]]::new()
+    $analyticsCalls = [System.Collections.Generic.List[object]]::new()
+    $observedBodies = [System.Collections.Generic.List[object]]::new()
 
     $result = Get-StrattonVerificationJobReceipt `
       -JobName 'stratton-verification' `
@@ -797,6 +833,7 @@ Describe 'Stratton standalone deployment orchestrator' {
       -LiveLogMaxAttempts 2 `
       -LogAnalyticsMaxAttempts 1 `
       -RetryIntervalSeconds 0 `
+      -TemporaryDirectory $temporaryDirectory `
       -NowProvider { $now } `
       -LogInvoker {
         param([string[]] $Arguments)
@@ -805,21 +842,26 @@ Describe 'Stratton standalone deployment orchestrator' {
       } `
       -AzInvoker {
         param([string[]] $Arguments)
+        $analyticsCalls.Add($Arguments)
         $command = $Arguments -join ' '
-        $analyticsCalls.Add($command)
-        if ($command -match '^monitor log-analytics workspace show ') {
-          return [pscustomobject]@{ customerId = $workspaceCustomerId }
+        if ($command -match '(?i)Microsoft\.OperationalInsights/workspaces/') {
+          return [pscustomobject]@{
+            properties = [pscustomobject]@{ customerId = $workspaceCustomerId }
+          }
         }
-        if ($command -match '^monitor log-analytics query ') {
+        if ($command -match '(?i)api\.loganalytics\.io') {
+          $bodyPath = $Arguments[[array]::IndexOf($Arguments, '--body') + 1].Substring(1)
+          $observedBodies.Add((Get-Content -LiteralPath $bodyPath -Raw | ConvertFrom-Json))
           return [pscustomobject]@{
             tables = @(
               [pscustomobject]@{
+                name = 'PrimaryResult'
                 columns = @(
                   [pscustomobject]@{ name = 'TimeGenerated'; type = 'datetime' }
                   [pscustomobject]@{ name = 'Log'; type = 'string' }
                 )
                 rows = @(
-                  @('2026-08-10T03:00:10Z', "STRATTON_VERIFICATION_RECEIPT:$encoded")
+                  , @('2026-08-10T03:00:10Z', "STRATTON_VERIFICATION_RECEIPT:$encoded")
                 )
               }
             )
@@ -830,20 +872,181 @@ Describe 'Stratton standalone deployment orchestrator' {
 
     $result.bffHealth | Should -BeTrue
     $script:liveLogAttempts | Should -Be 2
-    $analyticsCalls[0] | Should -Be (
-      "monitor log-analytics workspace show --ids $workspaceResourceId --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c"
+    $analyticsCalls.Count | Should -Be 2
+    $analyticsCalls[0] | Should -Be @(
+      'rest',
+      '--method', 'get',
+      '--url', "$($workspaceResourceId)?api-version=2023-09-01",
+      '--subscription', '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
     )
-    $analyticsCalls[1] | Should -Match (
-      '^monitor log-analytics query --workspace 55555555-5555-5555-5555-555555555555 --analytics-query '
+    $analyticsCalls[1] | Should -Be @(
+      'rest',
+      '--method', 'post',
+      '--url', "https://api.loganalytics.io/v1/workspaces/$workspaceCustomerId/query",
+      '--resource', 'https://api.loganalytics.io',
+      '--headers', 'Content-Type=application/json',
+      '--body', $analyticsCalls[1][[array]::IndexOf($analyticsCalls[1], '--body') + 1],
+      '--subscription', '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
     )
-    $analyticsCalls[1] | Should -Match "StrattonJob == 'stratton-verification'"
-    $analyticsCalls[1] | Should -Match "StrattonExecution == 'stratton-verification-exec-123'"
-    $analyticsCalls[1] | Should -Match 'column_ifexists\("ExecutionName", ""\)'
-    $analyticsCalls[1] | Should -Match 'column_ifexists\("ExecutionName_s", ""\)'
-    $analyticsCalls[1] | Should -Match "StrattonContainer == 'verification'"
-    $analyticsCalls[1] | Should -Match 'TimeGenerated between'
-    $analyticsCalls[1] | Should -Match '--timespan 2026-08-10T02:59:00.0000000\+00:00/2026-08-10T03:01:20.0000000\+00:00'
-    $analyticsCalls[1] | Should -Not -Match '(?i)(password|connection.?string|client.?secret|api.?key|access.?token|refresh.?token)'
+    $observedBodies.Count | Should -Be 1
+    $observedBodies[0].query | Should -Match "StrattonJob == 'stratton-verification'"
+    $observedBodies[0].query | Should -Match "StrattonExecution == 'stratton-verification-exec-123'"
+    $observedBodies[0].query | Should -Match "StrattonContainer == 'verification'"
+    $observedBodies[0].query | Should -Match "StrattonLog contains 'STRATTON_VERIFICATION_RECEIPT:'"
+    $observedBodies[0].query | Should -Match 'column_ifexists\("ExecutionName", ""\)'
+    $observedBodies[0].query | Should -Match 'column_ifexists\("ExecutionName_s", ""\)'
+    $observedBodies[0].query | Should -Match 'TimeGenerated between'
+    $observedBodies[0].timespan |
+      Should -Be '2026-08-10T02:59:00.0000000Z/2026-08-10T03:01:20.0000000Z'
+    $observedBodies[0].query |
+      Should -Not -Match '(?i)(password|connection.?string|client.?secret|api.?key|access.?token|refresh.?token)'
+  }
+
+  It 'keeps Windows az.cmd argument vectors free of embedded KQL and cleans temporary bodies' {
+    $temporaryDirectory = Join-Path $TestDrive 'log-analytics-argv'
+    $capturedArguments = [System.Collections.Generic.List[object]]::new()
+    $bodyPathsDuringCall = [System.Collections.Generic.List[string]]::new()
+
+    {
+      Get-StrattonVerificationJobReceipt `
+        -JobName 'stratton-verification' `
+        -ResourceGroupName 'stratton-demo-rg' `
+        -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+        -ExecutionName 'stratton-verification-exec-123' `
+        -WorkspaceResourceId '/subscriptions/8364fb4d-2d36-4da5-908b-36cb8b808b8c/resourceGroups/stratton-demo-rg/providers/Microsoft.OperationalInsights/workspaces/stratton-demo-log' `
+        -ExpectedNonce 'nonce-123' `
+        -InvocationStartedAt ([datetimeoffset] '2026-08-10T03:00:00Z') `
+        -LiveLogMaxAttempts 1 `
+        -LogAnalyticsMaxAttempts 2 `
+        -RetryIntervalSeconds 0 `
+        -TemporaryDirectory $temporaryDirectory `
+        -NowProvider { [datetimeoffset] '2026-08-10T03:00:20Z' } `
+        -LogInvoker {
+          param([string[]] $Arguments)
+          throw 'VERIFICATION_JOB_LOG_RETRIEVAL_FAILED'
+        } `
+        -AzInvoker {
+          param([string[]] $Arguments)
+          $capturedArguments.Add($Arguments)
+          $command = $Arguments -join ' '
+          if ($command -match '(?i)Microsoft\.OperationalInsights/workspaces/') {
+            return [pscustomobject]@{
+              properties = [pscustomobject]@{
+                customerId = '55555555-5555-5555-5555-555555555555'
+              }
+            }
+          }
+          $bodyPathsDuringCall.Add(
+            $Arguments[[array]::IndexOf($Arguments, '--body') + 1].Substring(1)
+          )
+          throw 'AZURE_CLI_FAILED:rest:boom'
+        }
+    } | Should -Throw 'VERIFICATION_JOB_LOG_ANALYTICS_QUERY_FAILED'
+
+    $bodyPathsDuringCall.Count | Should -Be 2
+    foreach ($bodyPath in $bodyPathsDuringCall) {
+      (Split-Path -Path $bodyPath -Parent) | Should -Be $temporaryDirectory
+      Test-Path -LiteralPath $bodyPath | Should -BeFalse
+    }
+    @(Get-ChildItem -Path $temporaryDirectory -Force -File).Count | Should -Be 0
+
+    foreach ($arguments in $capturedArguments) {
+      foreach ($argument in $arguments) {
+        $argument | Should -Not -Match '[\r\n"'']'
+        $argument | Should -Not -Match '(?i)(union isfuzzy|column_ifexists|TimeGenerated|\| where)'
+      }
+    }
+    $restArguments = @($capturedArguments)[1]
+    $restArguments | Should -Not -Contain '--analytics-query'
+    ($restArguments[[array]::IndexOf($restArguments, '--body') + 1]) | Should -Match '^@'
+  }
+
+  It 'parses only the Log Analytics REST tables columns and rows envelope' {
+    $response = [pscustomobject]@{
+      tables = @(
+        [pscustomobject]@{
+          name = 'PrimaryResult'
+          columns = @(
+            [pscustomobject]@{ name = 'TimeGenerated'; type = 'datetime' }
+            [pscustomobject]@{ name = 'Log'; type = 'string' }
+          )
+          rows = @(
+            @('2026-08-10T03:00:10Z', 'first'),
+            @('2026-08-10T03:00:11Z', 'second')
+          )
+        }
+      )
+    }
+
+    ConvertFrom-StrattonLogAnalyticsQueryResponse -Response $response |
+      Should -Be @('first', 'second')
+
+    $singleRow = [pscustomobject]@{
+      tables = @(
+        [pscustomobject]@{
+          columns = @(
+            [pscustomobject]@{ name = 'TimeGenerated' }
+            [pscustomobject]@{ name = 'Log' }
+          )
+          rows = @(, @('2026-08-10T03:00:10Z', 'only'))
+        }
+      )
+    }
+    ConvertFrom-StrattonLogAnalyticsQueryResponse -Response $singleRow | Should -Be @('only')
+
+    foreach ($invalid in @(
+        $null,
+        [pscustomobject]@{ error = [pscustomobject]@{ code = 'BadArgumentError' } },
+        [pscustomobject]@{ tables = @([pscustomobject]@{ columns = @(); rows = @() }) },
+        [pscustomobject]@{
+          tables = @(
+            [pscustomobject]@{
+              columns = @([pscustomobject]@{ name = 'TimeGenerated' })
+              rows = @(, @('2026-08-10T03:00:10Z'))
+            }
+          )
+        }
+      )) {
+      { ConvertFrom-StrattonLogAnalyticsQueryResponse -Response $invalid } |
+        Should -Throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+    }
+
+    {
+      ConvertFrom-StrattonLogAnalyticsQueryResponse -Response ([pscustomobject]@{
+          tables = @(
+            [pscustomobject]@{
+              columns = @(
+                [pscustomobject]@{ name = 'TimeGenerated' }
+                [pscustomobject]@{ name = 'Log' }
+              )
+              rows = @('flat', 'row')
+            }
+          )
+        })
+    } | Should -Throw 'LOG_ANALYTICS_RESPONSE_INVALID'
+  }
+
+  It 'rejects unsafe Kusto literals instead of escaping them' {
+    foreach ($unsafe in @("stratton'", 'stratton or 1==1', "job`nname", 'job name', '')) {
+      { Assert-StrattonKustoLiteralSafe -Value $unsafe -Name 'JobName' } |
+        Should -Throw 'KUSTO_LITERAL_UNSAFE:JobName'
+    }
+    Assert-StrattonKustoLiteralSafe -Value 'STRATTON_VERIFICATION_RECEIPT:' -Name 'Marker' |
+      Should -Be 'STRATTON_VERIFICATION_RECEIPT:'
+  }
+
+  It 'never depends on an Azure CLI extension for log retrieval' {
+    $scriptText = @(
+      Get-Content $script:verificationPath -Raw
+      Get-Content (Join-Path $script:repoRoot 'scripts\deployment\Initialize-StrattonDataPlane.ps1') -Raw
+      Get-Content (Join-Path $script:repoRoot 'scripts\deployment\Stratton.Deployment.psm1') -Raw
+    ) -join "`n"
+
+    $scriptText | Should -Not -Match '(?i)log-analytics'
+    $scriptText | Should -Not -Match '(?i)--analytics-query'
+    $scriptText | Should -Not -Match '(?i)az\s+extension\s+add'
+    $scriptText | Should -Not -Match "'monitor'"
+    $scriptText | Should -Match "'rest',"
   }
 
   It 'manually starts polls and reads the exact verification execution non-interactively' {

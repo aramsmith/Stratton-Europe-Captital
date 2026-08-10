@@ -229,8 +229,7 @@ Describe 'Stratton data-plane bootstrap' {
         'Canceled',
         'Cancelled',
         'Degraded',
-        'Stopped',
-        'Unknown'
+        'Stopped'
       )) {
       $script:bootstrapTerminalPollCount = 0
       $script:requestedBootstrapTerminalStatus = $terminalStatus
@@ -253,6 +252,144 @@ Describe 'Stratton data-plane bootstrap' {
       } | Should -Throw "BOOTSTRAP_JOB_FAILED:stratton-bootstrap-exec-123:$terminalStatus"
       $script:bootstrapTerminalPollCount | Should -Be 1
     }
+  }
+
+  It 'treats Unknown bootstrap status as indeterminate and keeps polling' {
+    $script:bootstrapUnknownPollCount = 0
+    {
+      Wait-StrattonBootstrapJobExecution `
+        -JobName 'stratton-bootstrap' `
+        -ResourceGroupName 'stratton-demo-rg' `
+        -ExecutionName 'stratton-bootstrap-exec-123' `
+        -PollIntervalSeconds 0 `
+        -MaxPollAttempts 4 `
+        -JobInvoker {
+          param([string[]] $Arguments)
+          $script:bootstrapUnknownPollCount++
+          [pscustomobject]@{ properties = [pscustomobject]@{ status = 'Unknown' } }
+        }
+    } | Should -Throw 'BOOTSTRAP_JOB_NOT_TERMINAL:stratton-bootstrap-exec-123:Unknown'
+    $script:bootstrapUnknownPollCount | Should -Be 4
+
+    $script:bootstrapRecoveryPollCount = 0
+    Wait-StrattonBootstrapJobExecution `
+      -JobName 'stratton-bootstrap' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -ExecutionName 'stratton-bootstrap-exec-123' `
+      -PollIntervalSeconds 0 `
+      -MaxPollAttempts 4 `
+      -JobInvoker {
+        param([string[]] $Arguments)
+        $script:bootstrapRecoveryPollCount++
+        $status = if ($script:bootstrapRecoveryPollCount -lt 3) { 'Unknown' } else { 'Succeeded' }
+        [pscustomobject]@{ properties = [pscustomobject]@{ status = $status } }
+      } | Should -Be 'Succeeded'
+    $script:bootstrapRecoveryPollCount | Should -Be 3
+  }
+
+  It 'requires exactly one bootstrap receipt' {
+    $receipt = [pscustomobject]@{ searchIndexEtag = 'etag-123' }
+    $entry = [pscustomobject]@{
+      message = 'bootstrap-receipt'
+      context = [pscustomobject]@{ receipt = $receipt }
+    }
+
+    { Get-BootstrapReceipt -LogEntries @() } | Should -Throw 'BOOTSTRAP_RECEIPT_MISSING'
+    { Get-BootstrapReceipt -LogEntries @($entry, $entry) } |
+      Should -Throw 'BOOTSTRAP_RECEIPT_AMBIGUOUS'
+    (Get-BootstrapReceipt -LogEntries @($entry)).searchIndexEtag | Should -Be 'etag-123'
+  }
+
+  It 'retries bootstrap live logs then falls back to the Log Analytics REST query' {
+    $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
+    $now = [datetimeoffset] '2026-08-10T03:00:20Z'
+    $workspaceResourceId = '/subscriptions/8364fb4d-2d36-4da5-908b-36cb8b808b8c/resourceGroups/stratton-demo-rg/providers/Microsoft.OperationalInsights/workspaces/stratton-demo-log'
+    $temporaryDirectory = Join-Path $TestDrive 'bootstrap-log-analytics'
+    $entry = [ordered]@{
+      timestamp = '2026-08-10T03:00:10Z'
+      level = 'INFO'
+      service = 'stratton-bootstrap'
+      message = 'bootstrap-receipt'
+      context = [ordered]@{
+        correlationId = 'bootstrap'
+        receipt = [ordered]@{
+          migrationHashes = @()
+          searchIndexEtag = 'etag-123'
+          routeEvidence = @()
+        }
+      }
+    }
+    $entryJson = $entry | ConvertTo-Json -Depth 30 -Compress
+    $script:bootstrapLiveLogAttempts = 0
+    $capturedArguments = [System.Collections.Generic.List[object]]::new()
+    $observedBodies = [System.Collections.Generic.List[object]]::new()
+    $bodyPaths = [System.Collections.Generic.List[string]]::new()
+
+    $result = Get-StrattonBootstrapJobReceipt `
+      -JobName 'stratton-bootstrap' `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -ExecutionName 'stratton-bootstrap-exec-123' `
+      -WorkspaceResourceId $workspaceResourceId `
+      -InvocationStartedAt $startedAt `
+      -LiveLogMaxAttempts 2 `
+      -LogAnalyticsMaxAttempts 1 `
+      -RetryIntervalSeconds 0 `
+      -TemporaryDirectory $temporaryDirectory `
+      -NowProvider { $now } `
+      -LogInvoker {
+        param([string[]] $Arguments)
+        $script:bootstrapLiveLogAttempts++
+        throw 'BOOTSTRAP_LOG_RETRIEVAL_FAILED'
+      } `
+      -AzInvoker {
+        param([string[]] $Arguments)
+        $capturedArguments.Add($Arguments)
+        $command = $Arguments -join ' '
+        if ($command -match '(?i)Microsoft\.OperationalInsights/workspaces/') {
+          return [pscustomobject]@{
+            properties = [pscustomobject]@{
+              customerId = '55555555-5555-5555-5555-555555555555'
+            }
+          }
+        }
+        $bodyPath = $Arguments[[array]::IndexOf($Arguments, '--body') + 1].Substring(1)
+        $bodyPaths.Add($bodyPath)
+        $observedBodies.Add((Get-Content -LiteralPath $bodyPath -Raw | ConvertFrom-Json))
+        return [pscustomobject]@{
+          tables = @(
+            [pscustomobject]@{
+              name = 'PrimaryResult'
+              columns = @(
+                [pscustomobject]@{ name = 'TimeGenerated'; type = 'datetime' }
+                [pscustomobject]@{ name = 'Log'; type = 'string' }
+              )
+              rows = @(, @('2026-08-10T03:00:10Z', $entryJson))
+            }
+          )
+        }
+      }
+
+    $script:bootstrapLiveLogAttempts | Should -Be 2
+    $result.receipt.searchIndexEtag | Should -Be 'etag-123'
+    @($result.entries).Count | Should -Be 1
+    $capturedArguments[0][0] | Should -Be 'rest'
+    $capturedArguments[1][0] | Should -Be 'rest'
+    $observedBodies[0].query | Should -Match "StrattonJob == 'stratton-bootstrap'"
+    $observedBodies[0].query | Should -Match "StrattonExecution == 'stratton-bootstrap-exec-123'"
+    $observedBodies[0].query | Should -Match "StrattonContainer == 'bootstrap'"
+    $observedBodies[0].query | Should -Match "StrattonLog contains 'bootstrap-receipt'"
+    $observedBodies[0].timespan |
+      Should -Be '2026-08-10T02:59:00.0000000Z/2026-08-10T03:01:20.0000000Z'
+    foreach ($arguments in $capturedArguments) {
+      foreach ($argument in $arguments) {
+        $argument | Should -Not -Match '[\r\n"'']'
+        $argument | Should -Not -Match '(?i)(union isfuzzy|column_ifexists|\| where)'
+      }
+    }
+    foreach ($bodyPath in $bodyPaths) {
+      Test-Path -LiteralPath $bodyPath | Should -BeFalse
+    }
+    @(Get-ChildItem -Path $temporaryDirectory -Force -File).Count | Should -Be 0
   }
 
   It 'fails predictably when job execution responses omit optional properties' {

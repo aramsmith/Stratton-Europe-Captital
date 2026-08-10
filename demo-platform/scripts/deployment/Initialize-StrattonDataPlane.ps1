@@ -439,10 +439,10 @@ function Wait-StrattonBootstrapJobExecution {
     'Canceled',
     'Cancelled',
     'Degraded',
-    'Stopped',
-    'Unknown'
+    'Stopped'
   )
   $terminalStatus = $null
+  $lastStatus = $null
   for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
     $execution = & $JobInvoker @(
       'containerapp', 'job', 'execution', 'show',
@@ -451,6 +451,7 @@ function Wait-StrattonBootstrapJobExecution {
       '--job-execution-name', $ExecutionName
     )
     $status = Get-StrattonJobExecutionStatus -Execution $execution
+    $lastStatus = $status
     if ($status -in $terminalStatuses) {
       $terminalStatus = $status
       break
@@ -460,6 +461,9 @@ function Wait-StrattonBootstrapJobExecution {
     }
   }
 
+  if ($null -eq $terminalStatus) {
+    throw "BOOTSTRAP_JOB_NOT_TERMINAL:${ExecutionName}:$lastStatus"
+  }
   if ($terminalStatus -ne 'Succeeded') {
     throw "BOOTSTRAP_JOB_FAILED:${ExecutionName}:$terminalStatus"
   }
@@ -541,6 +545,7 @@ function Get-BootstrapReceipt {
   [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
+    [AllowEmptyCollection()]
     [object[]] $LogEntries
   )
 
@@ -549,10 +554,111 @@ function Get-BootstrapReceipt {
       Where-Object { $_.message -eq 'bootstrap-receipt' -and $null -ne $_.context.receipt } |
       ForEach-Object { $_.context.receipt }
   )
-  if ($receipts.Count -ne 1) {
-    throw 'BOOTSTRAP_RECEIPT_MISSING_OR_AMBIGUOUS'
+  if ($receipts.Count -eq 0) {
+    throw 'BOOTSTRAP_RECEIPT_MISSING'
+  }
+  if ($receipts.Count -gt 1) {
+    throw 'BOOTSTRAP_RECEIPT_AMBIGUOUS'
   }
   return $receipts[0]
+}
+
+function Get-StrattonBootstrapJobReceipt {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [Parameter(Mandatory)]
+    [string] $WorkspaceResourceId,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $InvocationStartedAt,
+
+    [ValidateRange(1, 10)]
+    [int] $LiveLogMaxAttempts = 3,
+
+    [ValidateRange(1, 10)]
+    [int] $LogAnalyticsMaxAttempts = 3,
+
+    [ValidateRange(0, 30)]
+    [int] $RetryIntervalSeconds = 2,
+
+    [string] $TemporaryDirectory,
+
+    [scriptblock] $NowProvider,
+
+    [scriptblock] $AzInvoker,
+
+    [scriptblock] $LogInvoker
+  )
+
+  if (-not $NowProvider) {
+    $NowProvider = { [datetimeoffset]::UtcNow }
+  }
+  if (-not $AzInvoker) {
+    $AzInvoker = {
+      param([string[]] $Arguments)
+      Invoke-AzJson -Arguments $Arguments
+    }
+  }
+  if (-not $LogInvoker) {
+    $LogInvoker = {
+      param([string[]] $Arguments)
+      $rawLog = & az @Arguments 2>&1
+      if ($LASTEXITCODE -ne 0) {
+        throw 'BOOTSTRAP_LOG_RETRIEVAL_FAILED'
+      }
+      return ($rawLog | Out-String)
+    }
+  }
+
+  $logArguments = New-StrattonBootstrapJobLogArguments `
+    -JobName $JobName `
+    -ResourceGroupName $ResourceGroupName `
+    -ExecutionName $ExecutionName
+  $receiptParser = {
+    param(
+      [string] $RawLog,
+      [datetimeoffset] $Now,
+      [hashtable] $State
+    )
+
+    $entries = @(Get-RedactedBootstrapLogEntries -RawLog $RawLog)
+    [pscustomobject]@{
+      entries = $entries
+      receipt = Get-BootstrapReceipt -LogEntries $entries
+    }
+  }
+
+  return Get-StrattonDurableJobReceipt `
+    -JobName $JobName `
+    -ExecutionName $ExecutionName `
+    -ContainerName 'bootstrap' `
+    -ReceiptMarker 'bootstrap-receipt' `
+    -WorkspaceResourceId $WorkspaceResourceId `
+    -LogArguments $logArguments `
+    -InvocationStartedAt $InvocationStartedAt `
+    -ReceiptParser $receiptParser `
+    -RetryableErrorMessages @(
+      'BOOTSTRAP_LOG_RETRIEVAL_FAILED',
+      'BOOTSTRAP_RECEIPT_MISSING'
+    ) `
+    -MissingReceiptError 'BOOTSTRAP_RECEIPT_MISSING' `
+    -QueryFailedError 'BOOTSTRAP_LOG_ANALYTICS_QUERY_FAILED' `
+    -TemporaryDirectory $TemporaryDirectory `
+    -LiveLogMaxAttempts $LiveLogMaxAttempts `
+    -LogAnalyticsMaxAttempts $LogAnalyticsMaxAttempts `
+    -RetryIntervalSeconds $RetryIntervalSeconds `
+    -NowProvider $NowProvider `
+    -AzInvoker $AzInvoker `
+    -LogInvoker $LogInvoker
 }
 
 function Invoke-StrattonDataPlaneBootstrap {
@@ -647,6 +753,7 @@ function Invoke-StrattonDataPlaneBootstrap {
     ) | Out-Null
   }
 
+  $invocationStartedAt = [datetimeoffset]::UtcNow
   $started = Invoke-AzJson -Arguments @(
     'containerapp', 'job', 'start',
     '--name', $JobName,
@@ -660,19 +767,18 @@ function Invoke-StrattonDataPlaneBootstrap {
     -PollIntervalSeconds $PollIntervalSeconds `
     -MaxPollAttempts $MaxPollAttempts | Out-Null
 
-  $logArguments = New-StrattonBootstrapJobLogArguments `
+  $receiptResult = Get-StrattonBootstrapJobReceipt `
     -JobName $JobName `
     -ResourceGroupName $ResourceGroupName `
-    -ExecutionName $executionName
-  $rawLog = & az @logArguments 2>&1
-  if ($LASTEXITCODE -ne 0) {
-    throw 'BOOTSTRAP_LOG_RETRIEVAL_FAILED'
-  }
-  $redactedLogs = Get-RedactedBootstrapLogEntries -RawLog ($rawLog | Out-String)
-  foreach ($entry in $redactedLogs) {
+    -ExecutionName $executionName `
+    -WorkspaceResourceId (
+      Get-RequiredDeploymentOutput -Outputs $outputs -Name 'logAnalyticsWorkspaceId'
+    ) `
+    -InvocationStartedAt $invocationStartedAt
+  foreach ($entry in $receiptResult.entries) {
     Write-Output ($entry | ConvertTo-Json -Depth 30 -Compress)
   }
-  $receipt = Get-BootstrapReceipt -LogEntries $redactedLogs
+  $receipt = $receiptResult.receipt
   $receiptRoutes = @(
     $routes |
       ForEach-Object {
