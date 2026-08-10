@@ -123,9 +123,9 @@ Describe 'Stratton standalone platform foundation' {
     $environment[0].properties.workloadProfiles[0].workloadProfileType | Should -Be 'Consumption'
 
     $identities = @($script:allResources | Where-Object type -eq 'Microsoft.ManagedIdentity/userAssignedIdentities')
-    $identities.Count | Should -Be 4
+    $identities.Count | Should -Be 5
     $identityJson = $identities | ConvertTo-Json -Depth 20
-    foreach ($identityName in @('web-mi', 'bff-mi', 'phase5-mi', 'bootstrap-mi')) {
+    foreach ($identityName in @('web-mi', 'bff-mi', 'phase5-mi', 'bootstrap-mi', 'verification-mi')) {
       $identityJson | Should -Match $identityName
     }
   }
@@ -211,6 +211,7 @@ Describe 'Stratton standalone platform foundation' {
       'bffIdentityResourceId', 'bffIdentityClientId', 'bffIdentityPrincipalId',
       'phase5IdentityResourceId', 'phase5IdentityClientId', 'phase5IdentityPrincipalId',
       'bootstrapIdentityResourceId', 'bootstrapIdentityClientId', 'bootstrapIdentityPrincipalId',
+      'verificationIdentityResourceId', 'verificationIdentityClientId', 'verificationIdentityPrincipalId',
       'webAppFqdn', 'bffAppFqdn', 'phase5ApiFqdn', 'sqlPhase5InitialMigrationSql', 'sqlPhase5AuthorityMigrationSql', 'sqlBootstrapSql'
     )) {
       $script:template.outputs.PSObject.Properties.Name | Should -Contain $outputName

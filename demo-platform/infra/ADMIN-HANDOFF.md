@@ -52,6 +52,15 @@ plus token-authenticated query, exact dependency RBAC, Luna/Terra/Sol ARM and Ph
 the authenticated Project Danube scenario. The provisional localhost SPA redirect is removed only
 after that browser scenario passes.
 
+Internal verification is non-interactive. `Test-StrattonDeployment.ps1` reconciles the manually
+triggered `stratton-verification` Container Apps job in the existing managed environment, using the
+immutable BFF image digest from the deployment artifacts. It starts one execution, polls that exact
+execution to a terminal state, and retrieves only its `verification` container logs with
+`az containerapp job logs show`. Verification fails closed unless the job succeeds and emits exactly
+one fresh nonce-bound base64 receipt. The receipt contains boolean checks and the three route
+bindings only; no access token or secret is placed in environment variables, commands, logs, or
+artifacts.
+
 ## Client-directed Microsoft Entra authentication
 
 - Register the web application as a public single-page application with its exact deployed redirect
@@ -125,6 +134,18 @@ TO [<bff-managed-identity>];
 Do not add `db_datareader`, `db_datawriter`, database-wide `EXECUTE`, or SQL DB Contributor.
 `sys.sp_set_session_context` is used for tenant and case context; no custom stored procedure grant is
 required by this projection.
+
+The separate `verification-mi` identity is attached only to the verification job. It receives
+AcrPull at the registry and this contained-database permission:
+
+```sql
+GRANT SELECT
+ON OBJECT::dbo.approved_model_route_evidence
+TO [<verification-managed-identity>];
+```
+
+It is not a SQL administrator and receives no Storage, Service Bus, Search, Document Intelligence,
+OpenAI, or broad Azure Reader role.
 
 ## Azure RBAC scopes
 

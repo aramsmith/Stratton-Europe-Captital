@@ -64,6 +64,7 @@ Describe 'Stratton standalone deployment orchestrator' {
           'ACR_PULL_WEB',
           'ACR_PULL_BFF',
           'ACR_PULL_PHASE5',
+          'ACR_PULL_VERIFICATION',
           'STORAGE_BFF',
           'SERVICEBUS_BFF',
           'SERVICEBUS_PHASE5',
@@ -90,6 +91,7 @@ Describe 'Stratton standalone deployment orchestrator' {
         webIdentityPrincipalId = '11111111-1111-1111-1111-111111111111'
         bffIdentityPrincipalId = '22222222-2222-2222-2222-222222222222'
         phase5IdentityPrincipalId = '33333333-3333-3333-3333-333333333333'
+        verificationIdentityPrincipalId = '44444444-4444-4444-4444-444444444444'
         blobStorageAccountResourceId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/storage'
         blobContainerName = 'evidence'
         serviceBusNamespaceResourceId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ServiceBus/namespaces/bus'
@@ -456,6 +458,370 @@ Describe 'Stratton standalone deployment orchestrator' {
     Test-StrattonPrivateIpAddress -Address '20.50.10.2' | Should -BeFalse
   }
 
+  It 'reconciles a pinned manual verification job with a dedicated identity' {
+    $common = @{
+      JobName = 'stratton-verification'
+      ResourceGroupName = 'stratton-demo-rg'
+      SubscriptionId = '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
+      Image = "stratton.azurecr.io/stratton/demo-bff@sha256:$('b' * 64)"
+      EnvironmentVariables = @(
+        'STRATTON_VERIFICATION_NONCE=nonce-123',
+        'STRATTON_BFF_HEALTH_URL=https://bff.internal/healthz',
+        'STRATTON_PHASE5_HEALTH_URL=https://phase5.internal/health',
+        'AZURE_SQL_SERVER_FQDN=stratton.database.windows.net',
+        'AZURE_SQL_DATABASE_NAME=stratton-db',
+        'AZURE_MANAGED_IDENTITY_CLIENT_ID=44444444-4444-4444-4444-444444444444',
+        'STRATTON_TENANT_ID=27140306-eea5-4e7f-91e9-4c9e86864b3a',
+        'STRATTON_CASE_ID=project-danube',
+        'STRATTON_EXPECTED_ROUTES_BASE64=W10='
+      )
+    }
+    $identityId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/verification'
+    $create = New-StrattonVerificationJobCreateArguments `
+      @common `
+      -ContainerAppsEnvironmentId '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/cae' `
+      -RegistryServer 'stratton.azurecr.io' `
+      -VerificationIdentityResourceId $identityId
+    $update = New-StrattonVerificationJobUpdateArguments @common
+    $identity = New-StrattonVerificationJobIdentityArguments `
+      -JobName $common.JobName `
+      -ResourceGroupName $common.ResourceGroupName `
+      -SubscriptionId $common.SubscriptionId `
+      -VerificationIdentityResourceId $identityId
+    $registry = New-StrattonVerificationJobRegistryArguments `
+      -JobName $common.JobName `
+      -ResourceGroupName $common.ResourceGroupName `
+      -SubscriptionId $common.SubscriptionId `
+      -RegistryServer 'stratton.azurecr.io' `
+      -VerificationIdentityResourceId $identityId
+    $identityRemoval = New-StrattonVerificationJobIdentityRemovalArguments `
+      -JobName $common.JobName `
+      -ResourceGroupName $common.ResourceGroupName `
+      -SubscriptionId $common.SubscriptionId `
+      -RemoveSystemAssigned `
+      -UserAssignedIdentityResourceIds @(
+        '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/legacy'
+      )
+    $registryRemoval = New-StrattonVerificationJobRegistryRemovalArguments `
+      -JobName $common.JobName `
+      -ResourceGroupName $common.ResourceGroupName `
+      -SubscriptionId $common.SubscriptionId `
+      -RegistryServer 'legacy.azurecr.io'
+
+    $create[0..2] | Should -Be @('containerapp', 'job', 'create')
+    $create | Should -Contain '--trigger-type'
+    $create[([array]::IndexOf($create, '--trigger-type') + 1)] | Should -Be 'Manual'
+    $create[([array]::IndexOf($create, '--mi-user-assigned') + 1)] | Should -Be $identityId
+    $create[([array]::IndexOf($create, '--registry-identity') + 1)] | Should -Be $identityId
+    $create[([array]::IndexOf($create, '--container-name') + 1)] | Should -Be 'verification'
+    $create[([array]::IndexOf($create, '--command') + 1)] | Should -Be 'node'
+    $create[([array]::IndexOf($create, '--args') + 1)] |
+      Should -Be 'apps/bff/dist/verification-job.js'
+
+    $update[0..2] | Should -Be @('containerapp', 'job', 'update')
+    $update | Should -Contain '--replace-env-vars'
+    foreach ($createOnlyFlag in @(
+        '--environment',
+        '--trigger-type',
+        '--mi-user-assigned',
+        '--registry-server',
+        '--registry-identity',
+        '--env-vars'
+      )) {
+      $update | Should -Not -Contain $createOnlyFlag
+    }
+    $identity | Should -Be @(
+      'containerapp', 'job', 'identity', 'assign',
+      '--name', 'stratton-verification',
+      '--resource-group', 'stratton-demo-rg',
+      '--subscription', '8364fb4d-2d36-4da5-908b-36cb8b808b8c',
+      '--user-assigned', $identityId
+    )
+    $registry | Should -Be @(
+      'containerapp', 'job', 'registry', 'set',
+      '--name', 'stratton-verification',
+      '--resource-group', 'stratton-demo-rg',
+      '--subscription', '8364fb4d-2d36-4da5-908b-36cb8b808b8c',
+      '--server', 'stratton.azurecr.io',
+      '--identity', $identityId
+    )
+    $identityRemoval | Should -Be @(
+      'containerapp', 'job', 'identity', 'remove',
+      '--name', 'stratton-verification',
+      '--resource-group', 'stratton-demo-rg',
+      '--subscription', '8364fb4d-2d36-4da5-908b-36cb8b808b8c',
+      '--system-assigned',
+      '--user-assigned',
+      '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/legacy'
+    )
+    $registryRemoval | Should -Be @(
+      'containerapp', 'job', 'registry', 'remove',
+      '--name', 'stratton-verification',
+      '--resource-group', 'stratton-demo-rg',
+      '--subscription', '8364fb4d-2d36-4da5-908b-36cb8b808b8c',
+      '--server', 'legacy.azurecr.io'
+    )
+    (($create + $update + $identity + $registry) -join ' ') |
+      Should -Not -Match '(?i)(password|connection.?string|client.?secret|api.?key|access.?token|refresh.?token)'
+  }
+
+  It 'rejects mutable verification images and secret-bearing job settings' {
+    {
+      Assert-StrattonVerificationJobPayload `
+        -Image 'stratton.azurecr.io/stratton/demo-bff:latest' `
+        -EnvironmentVariables @('STRATTON_VERIFICATION_NONCE=nonce-123')
+    } | Should -Throw 'VERIFICATION_IMAGE_DIGEST_INVALID'
+
+    {
+      Assert-StrattonVerificationJobPayload `
+        -Image "stratton.azurecr.io/stratton/demo-bff@sha256:$('b' * 64)" `
+        -EnvironmentVariables @('ACCESS_TOKEN=prohibited')
+    } | Should -Throw 'VERIFICATION_SECRET_ENVIRONMENT_VARIABLE_PROHIBITED:ACCESS_TOKEN'
+  }
+
+  It 'accepts exactly one fresh nonce-bound verification receipt' {
+    $nonce = 'nonce-123'
+    $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
+    $receipt = [ordered]@{
+      version = 1
+      nonce = $nonce
+      generatedAtUtc = '2026-08-10T03:00:10Z'
+      checks = [ordered]@{
+        bffHealth = $true
+        phase5Health = $true
+        sqlPrivateDns = $true
+        sqlTokenAuthenticatedQuery = $true
+      }
+      routeBindings = @(
+        [ordered]@{ route = 'LUNA'; resourceId = '/luna'; deploymentId = 'luna'; region = 'swedencentral'; apiVersion = '2025-01-01-preview'; evidenceId = 'luna-evidence'; evidenceVersion = 'v1'; status = 'APPROVED'; validFrom = '2026-08-09T03:00:00Z'; validUntil = '2026-08-11T03:00:00Z' }
+        [ordered]@{ route = 'TERRA'; resourceId = '/terra'; deploymentId = 'terra'; region = 'francecentral'; apiVersion = '2025-01-01-preview'; evidenceId = 'terra-evidence'; evidenceVersion = 'v1'; status = 'APPROVED'; validFrom = '2026-08-09T03:00:00Z'; validUntil = '2026-08-11T03:00:00Z' }
+        [ordered]@{ route = 'SOL'; resourceId = '/sol'; deploymentId = 'sol'; region = 'westeurope'; apiVersion = '2025-01-01-preview'; evidenceId = 'sol-evidence'; evidenceVersion = 'v1'; status = 'APPROVED'; validFrom = '2026-08-09T03:00:00Z'; validUntil = '2026-08-11T03:00:00Z' }
+      )
+    }
+    $encoded = [Convert]::ToBase64String(
+      [System.Text.UTF8Encoding]::new($false).GetBytes(
+        ($receipt | ConvertTo-Json -Depth 30 -Compress)
+      )
+    )
+    $rawLog = "console prefix`nSTRATTON_VERIFICATION_RECEIPT:$encoded`n"
+
+    $result = ConvertFrom-StrattonVerificationJobLog `
+      -RawLog $rawLog `
+      -ExpectedNonce $nonce `
+      -InvocationStartedAt $startedAt `
+      -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
+
+    $result.bffHealth | Should -BeTrue
+    $result.phase5Health | Should -BeTrue
+    $result.sqlPrivateDns | Should -BeTrue
+    $result.sqlTokenAuthenticatedQuery | Should -BeTrue
+    @($result.routeBindings.route) | Should -Be @('LUNA', 'TERRA', 'SOL')
+  }
+
+  It 'fails closed on stale malformed or ambiguous verification receipts' {
+    $startedAt = [datetimeoffset] '2026-08-10T03:00:00Z'
+    $stale = [ordered]@{
+      version = 1
+      nonce = 'nonce-123'
+      generatedAtUtc = '2026-08-10T02:59:59Z'
+      checks = [ordered]@{
+        bffHealth = $true
+        phase5Health = $true
+        sqlPrivateDns = $true
+        sqlTokenAuthenticatedQuery = $true
+      }
+      routeBindings = @()
+    }
+    $encoded = [Convert]::ToBase64String(
+      [System.Text.UTF8Encoding]::new($false).GetBytes(
+        ($stale | ConvertTo-Json -Depth 30 -Compress)
+      )
+    )
+
+    {
+      ConvertFrom-StrattonVerificationJobLog `
+        -RawLog "STRATTON_VERIFICATION_RECEIPT:$encoded" `
+        -ExpectedNonce 'nonce-123' `
+        -InvocationStartedAt $startedAt `
+        -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
+    } | Should -Throw 'VERIFICATION_JOB_RECEIPT_STALE'
+    {
+      ConvertFrom-StrattonVerificationJobLog `
+        -RawLog 'STRATTON_VERIFICATION_RECEIPT:not-base64!' `
+        -ExpectedNonce 'nonce-123' `
+        -InvocationStartedAt $startedAt `
+        -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
+    } | Should -Throw 'VERIFICATION_JOB_RECEIPT_MALFORMED'
+    {
+      ConvertFrom-StrattonVerificationJobLog `
+        -RawLog "STRATTON_VERIFICATION_RECEIPT:$encoded`nSTRATTON_VERIFICATION_RECEIPT:$encoded" `
+        -ExpectedNonce 'nonce-123' `
+        -InvocationStartedAt $startedAt `
+        -Now ([datetimeoffset] '2026-08-10T03:00:20Z')
+    } | Should -Throw 'VERIFICATION_JOB_RECEIPT_MISSING_OR_AMBIGUOUS'
+  }
+
+  It 'fails closed unless the exact verification execution succeeds' {
+    {
+      Assert-StrattonVerificationExecutionSucceeded `
+        -ExecutionName 'stratton-verification-exec-123' `
+        -TerminalStatus 'Failed'
+    } | Should -Throw 'VERIFICATION_JOB_FAILED:stratton-verification-exec-123:Failed'
+    {
+      Assert-StrattonVerificationExecutionSucceeded `
+        -ExecutionName 'stratton-verification-exec-123' `
+        -TerminalStatus $null
+    } | Should -Throw 'VERIFICATION_JOB_FAILED:stratton-verification-exec-123:'
+    {
+      Assert-StrattonVerificationExecutionSucceeded `
+        -ExecutionName 'stratton-verification-exec-123' `
+        -TerminalStatus 'Succeeded'
+    } | Should -Not -Throw
+  }
+
+  It 'manually starts polls and reads the exact verification execution non-interactively' {
+    $calls = [System.Collections.Generic.List[string]]::new()
+    $logCalls = [System.Collections.Generic.List[string]]::new()
+    $nonce = 'nonce-123'
+    $generatedAt = '2026-08-10T03:00:20Z'
+    $receipt = [ordered]@{
+      version = 1
+      nonce = $nonce
+      generatedAtUtc = $generatedAt
+      checks = [ordered]@{
+        bffHealth = $true
+        phase5Health = $true
+        sqlPrivateDns = $true
+        sqlTokenAuthenticatedQuery = $true
+      }
+      routeBindings = @(
+        [ordered]@{ route = 'LUNA' }
+        [ordered]@{ route = 'TERRA' }
+        [ordered]@{ route = 'SOL' }
+      )
+    }
+    $encoded = [Convert]::ToBase64String(
+      [System.Text.UTF8Encoding]::new($false).GetBytes(
+        ($receipt | ConvertTo-Json -Depth 30 -Compress)
+      )
+    )
+    $outputs = [pscustomobject]@{
+      containerAppsEnvironmentId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/cae'
+      containerRegistryServer = 'stratton.azurecr.io'
+      verificationIdentityResourceId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/verification'
+      verificationIdentityClientId = '44444444-4444-4444-4444-444444444444'
+      bffAppFqdn = 'stratton-bff.internal.azurecontainerapps.io'
+      phase5ApiFqdn = 'stratton-phase5.internal.azurecontainerapps.io'
+      sqlServerFqdn = 'stratton.database.windows.net'
+      sqlDatabaseName = 'stratton-db'
+    }
+    $script:verificationShowCount = 0
+    $script:verificationJobEnvironment = @()
+    $script:verificationJobImage = ''
+
+    $result = Invoke-StrattonVerificationJob `
+      -Outputs $outputs `
+      -Image "stratton.azurecr.io/stratton/demo-bff@sha256:$('b' * 64)" `
+      -ExpectedRoutes @(
+        [pscustomobject]@{ route = 'LUNA' }
+        [pscustomobject]@{ route = 'TERRA' }
+        [pscustomobject]@{ route = 'SOL' }
+      ) `
+      -ResourceGroupName 'stratton-demo-rg' `
+      -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+      -PollIntervalSeconds 0 `
+      -MaxPollAttempts 1 `
+      -NonceProvider { $nonce } `
+      -NowProvider { [datetimeoffset] '2026-08-10T03:00:20Z' } `
+      -AzInvoker {
+        param([string[]] $Arguments)
+        $command = $Arguments -join ' '
+        $calls.Add($command)
+        if ($command -match '^containerapp job show ') {
+          $script:verificationShowCount++
+          if ($script:verificationShowCount -eq 1) {
+            throw 'JOB_NOT_FOUND'
+          }
+          $identityId = $outputs.verificationIdentityResourceId
+          return [pscustomobject]@{
+            identity = [pscustomobject]@{
+              type = 'UserAssigned'
+              userAssignedIdentities = [pscustomobject]@{
+                $identityId = [pscustomobject]@{}
+              }
+            }
+            properties = [pscustomobject]@{
+              configuration = [pscustomobject]@{
+                triggerType = 'Manual'
+                registries = @(
+                  [pscustomobject]@{
+                    server = $outputs.containerRegistryServer
+                    identity = $identityId
+                  }
+                )
+              }
+              template = [pscustomobject]@{
+                containers = @(
+                  [pscustomobject]@{
+                    name = 'verification'
+                    image = $script:verificationJobImage
+                    command = @('node')
+                    args = @('apps/bff/dist/verification-job.js')
+                    env = @(
+                      $script:verificationJobEnvironment |
+                        ForEach-Object {
+                          $separator = $_.IndexOf('=')
+                          [pscustomobject]@{
+                            name = $_.Substring(0, $separator)
+                            value = $_.Substring($separator + 1)
+                          }
+                        }
+                    )
+                  }
+                )
+              }
+            }
+          }
+        }
+        if ($command -match '^containerapp job create ') {
+          $script:verificationJobImage = $Arguments[
+            [array]::IndexOf($Arguments, '--image') + 1
+          ]
+          $environmentIndex = [array]::IndexOf($Arguments, '--env-vars')
+          $script:verificationJobEnvironment = @(
+            $Arguments[($environmentIndex + 1)..($Arguments.Count - 1)]
+          )
+          return $null
+        }
+        if ($command -match '^containerapp job start ') {
+          return [pscustomobject]@{ name = 'stratton-verification-exec-123' }
+        }
+        if ($command -match '^containerapp job execution show ') {
+          return [pscustomobject]@{
+            name = 'stratton-verification-exec-123'
+            properties = [pscustomobject]@{ status = 'Succeeded' }
+          }
+        }
+        return $null
+      } `
+      -LogInvoker {
+        param([string[]] $Arguments)
+        $logCalls.Add(($Arguments -join ' '))
+        "STRATTON_VERIFICATION_RECEIPT:$encoded"
+      }
+
+    $result.bffHealth | Should -BeTrue
+    $calls | Should -Contain (
+      'containerapp job start --name stratton-verification --resource-group stratton-demo-rg --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c'
+    )
+    $calls | Should -Contain (
+      'containerapp job execution show --name stratton-verification --resource-group stratton-demo-rg --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c --job-execution-name stratton-verification-exec-123'
+    )
+    $logCalls | Should -Be @(
+      'containerapp job logs show --name stratton-verification --resource-group stratton-demo-rg --subscription 8364fb4d-2d36-4da5-908b-36cb8b808b8c --execution stratton-verification-exec-123 --container verification --tail 200 --only-show-errors'
+    )
+  }
+
   It 'validates every runtime boundary before producing verification evidence' {
     $result = ConvertTo-StrattonVerificationResult -Evidence (New-ValidVerificationEvidence)
 
@@ -602,5 +968,13 @@ Describe 'Stratton standalone deployment orchestrator' {
     ) -join "`n"
 
     $scriptText | Should -Not -Match '(?i)az\s+group\s+delete|az\s+resource\s+delete|--mode\s+Complete'
+  }
+
+  It 'never relies on interactive Container Apps exec for verification' {
+    $scriptText = Get-Content $script:verificationPath -Raw
+
+    $scriptText | Should -Not -Match '(?i)containerapp\s+exec'
+    $scriptText | Should -Match "containerapp', 'job', 'logs', 'show'"
+    $scriptText | Should -Match "'--container', 'verification'"
   }
 }

@@ -225,6 +225,9 @@ module demoRuntimes '../main.bicep' = {
     phase5IdentityResourceId: operations.outputs.phase5IdentityResourceId
     phase5IdentityClientId: operations.outputs.phase5IdentityClientId
     phase5IdentityPrincipalId: operations.outputs.phase5IdentityPrincipalId
+    verificationIdentityResourceId: operations.outputs.verificationIdentityResourceId
+    verificationIdentityClientId: operations.outputs.verificationIdentityClientId
+    verificationIdentityPrincipalId: operations.outputs.verificationIdentityPrincipalId
   }
 }
 
@@ -276,6 +279,9 @@ output phase5IdentityPrincipalId string = operations.outputs.phase5IdentityPrinc
 output bootstrapIdentityResourceId string = operations.outputs.bootstrapIdentityResourceId
 output bootstrapIdentityClientId string = operations.outputs.bootstrapIdentityClientId
 output bootstrapIdentityPrincipalId string = operations.outputs.bootstrapIdentityPrincipalId
+output verificationIdentityResourceId string = operations.outputs.verificationIdentityResourceId
+output verificationIdentityClientId string = operations.outputs.verificationIdentityClientId
+output verificationIdentityPrincipalId string = operations.outputs.verificationIdentityPrincipalId
 
 output webAppName string = demoRuntimes.outputs.webAppName
 output webAppFqdn string = demoRuntimes.outputs.webAppFqdn

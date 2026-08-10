@@ -240,6 +240,19 @@ param phase5IdentityClientId string
 @maxLength(36)
 param phase5IdentityPrincipalId string
 
+@description('Existing verification user-assigned managed identity resource ID.')
+param verificationIdentityResourceId string
+
+@description('Existing verification user-assigned managed identity client ID.')
+@minLength(36)
+@maxLength(36)
+param verificationIdentityClientId string
+
+@description('Existing verification user-assigned managed identity principal ID.')
+@minLength(36)
+@maxLength(36)
+param verificationIdentityPrincipalId string
+
 var blobAccountUrl = 'https://${blobStorageAccountName}.blob.${environment().suffixes.storage}'
 var sqlDatabaseResourceIdParts = split(sqlDatabaseResourceId, '/')
 
@@ -344,6 +357,7 @@ module demoData './modules/demo-data/main.bicep' = {
     caseId: caseId
     bffIdentityName: split(bffIdentityResourceId, '/')[8]
     phase5IdentityName: split(phase5IdentityResourceId, '/')[8]
+    verificationIdentityName: split(verificationIdentityResourceId, '/')[8]
   }
 }
 
@@ -366,6 +380,7 @@ module demoRbac './modules/demo-rbac/main.bicep' = if (deployApplications) {
     webPrincipalId: webIdentityPrincipalId
     bffPrincipalId: bffIdentityPrincipalId
     phase5PrincipalId: phase5IdentityPrincipalId
+    verificationPrincipalId: verificationIdentityPrincipalId
   }
 }
 
@@ -387,6 +402,9 @@ output phase5ApiFqdn string = deployApplications ? phase5.outputs.phase5ApiFqdn 
 output phase5IdentityResourceId string = phase5IdentityResourceId
 output phase5IdentityClientId string = phase5IdentityClientId
 output phase5IdentityPrincipalId string = phase5IdentityPrincipalId
+output verificationIdentityResourceId string = verificationIdentityResourceId
+output verificationIdentityClientId string = verificationIdentityClientId
+output verificationIdentityPrincipalId string = verificationIdentityPrincipalId
 output sqlPhase5InitialMigrationSql string = demoData.outputs.phase5InitialMigrationSql
 output sqlPhase5AuthorityMigrationSql string = demoData.outputs.phase5AuthorityMigrationSql
 output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSql

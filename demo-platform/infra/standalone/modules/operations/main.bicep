@@ -82,6 +82,12 @@ resource bootstrapIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@202
   tags: union(tags, { 'stratton.component': 'bootstrap' })
 }
 
+resource verificationIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: '${namePrefix}-verification-mi'
+  location: location
+  tags: union(tags, { 'stratton.component': 'verification' })
+}
+
 output containerAppsEnvironmentId string = containerAppsEnvironment.id
 output containerRegistryId string = registry.id
 output containerRegistryServer string = registry.properties.loginServer
@@ -98,3 +104,6 @@ output phase5IdentityPrincipalId string = phase5Identity.properties.principalId
 output bootstrapIdentityResourceId string = bootstrapIdentity.id
 output bootstrapIdentityClientId string = bootstrapIdentity.properties.clientId
 output bootstrapIdentityPrincipalId string = bootstrapIdentity.properties.principalId
+output verificationIdentityResourceId string = verificationIdentity.id
+output verificationIdentityClientId string = verificationIdentity.properties.clientId
+output verificationIdentityPrincipalId string = verificationIdentity.properties.principalId

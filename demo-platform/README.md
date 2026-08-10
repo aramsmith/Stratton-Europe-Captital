@@ -286,9 +286,14 @@ protected authenticated Playwright storage-state file and
 `STRATTON_PLAYWRIGHT_SESSION_STORAGE_STATE` to a protected JSON object containing the deployed
 origin's MSAL session-storage key/value pairs. Both files are sensitive and must remain outside the
 repository. The verifier restores both browser stores, disables authenticated-run traces,
-screenshots, videos, and HTML reports, runs the deployed Project Danube scenario, then removes the
-provisional redirect and records `VERIFIED`. Tokens and secrets are not written to deployment state,
-parameters, command lines, logs, or retained test evidence.
+screenshots, videos, and HTML reports, and runs the deployed Project Danube scenario. Internal BFF
+and Phase 5 health, private SQL DNS and token authentication, and the three Phase 5 route bindings
+are checked by a manually triggered `stratton-verification` Container Apps job in the deployed
+managed environment. It uses the immutable BFF image digest and a dedicated identity limited to ACR
+pull plus `SELECT` on `dbo.approved_model_route_evidence`. The verifier polls the exact execution,
+reads `az containerapp job logs show --container verification`, and accepts one fresh nonce-bound
+base64 receipt before removing the provisional redirect and recording `VERIFIED`. Tokens and secrets
+are not written to deployment state, parameters, command lines, logs, or retained test evidence.
 
 ## Troubleshooting
 

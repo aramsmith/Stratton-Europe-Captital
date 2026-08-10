@@ -16,6 +16,7 @@ param solOpenAiAccountResourceId string
 param webPrincipalId string
 param bffPrincipalId string
 param phase5PrincipalId string
+param verificationPrincipalId string
 
 var roleDefinitionGuids = {
   acrPull: '7f951dda-4ed3-4680-a7ca-43fe172d538d'
@@ -64,6 +65,16 @@ module phase5AcrPull './role-assignments/acr-role-assignment.bicep' = {
   params: {
     registryName: split(containerRegistryId, '/')[8]
     principalId: phase5PrincipalId
+    roleDefinitionGuid: roleDefinitionGuids.acrPull
+  }
+}
+
+module verificationAcrPull './role-assignments/acr-role-assignment.bicep' = {
+  name: 'verification-acr-pull'
+  scope: resourceGroup(split(containerRegistryId, '/')[2], split(containerRegistryId, '/')[4])
+  params: {
+    registryName: split(containerRegistryId, '/')[8]
+    principalId: verificationPrincipalId
     roleDefinitionGuid: roleDefinitionGuids.acrPull
   }
 }
@@ -144,6 +155,7 @@ output roleAssignmentIds array = [
   webAcrPull.outputs.roleAssignmentId
   bffAcrPull.outputs.roleAssignmentId
   phase5AcrPull.outputs.roleAssignmentId
+  verificationAcrPull.outputs.roleAssignmentId
   bffBlobDataContributor.outputs.roleAssignmentId
   bffServiceBusDataSender.outputs.roleAssignmentId
   bffSearchIndexDataReader.outputs.roleAssignmentId

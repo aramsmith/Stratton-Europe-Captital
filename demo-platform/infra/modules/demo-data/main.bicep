@@ -11,6 +11,7 @@ param tenantId string
 param caseId string
 param bffIdentityName string
 param phase5IdentityName string
+param verificationIdentityName string
 
 var sqlDatabaseIdParts = split(sqlDatabaseResourceId, '/')
 var sqlServerName = sqlDatabaseIdParts[8]
@@ -34,6 +35,10 @@ GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO [${bffId
 -- Phase 5 uses the authoritative least-privilege workload role; no database-wide role is granted.
 CREATE USER [${phase5IdentityName}] FROM EXTERNAL PROVIDER;
 ALTER ROLE workload_api_role ADD MEMBER [${phase5IdentityName}];
+
+-- The verification job can only read the governed route bindings that it attests.
+CREATE USER [${verificationIdentityName}] FROM EXTERNAL PROVIDER;
+GRANT SELECT ON OBJECT::dbo.approved_model_route_evidence TO [${verificationIdentityName}];
 '''
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
@@ -76,6 +81,7 @@ output sessionIsolationNotes object = {
   caseId: caseId
   identityName: bffIdentityName
   phase5IdentityName: phase5IdentityName
+  verificationIdentityName: verificationIdentityName
   sessionContextKeys: [
     'tenant_id'
     'case_id'

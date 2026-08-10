@@ -208,6 +208,7 @@ function ConvertTo-StrattonVerificationResult {
     'ACR_PULL_WEB',
     'ACR_PULL_BFF',
     'ACR_PULL_PHASE5',
+    'ACR_PULL_VERIFICATION',
     'STORAGE_BFF',
     'SERVICEBUS_BFF',
     'SERVICEBUS_PHASE5',
@@ -260,11 +261,70 @@ function ConvertTo-StrattonVerificationResult {
   }
 }
 
-function Invoke-StrattonContainerAppNodeCommand {
+function ConvertTo-StrattonBase64Json {
   [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
-    [string] $AppName,
+    [object] $InputObject
+  )
+
+  $json = $InputObject | ConvertTo-Json -Depth 50 -Compress
+  return [Convert]::ToBase64String(
+    [System.Text.UTF8Encoding]::new($false).GetBytes($json)
+  )
+}
+
+function Assert-StrattonVerificationJobPayload {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $Image,
+
+    [Parameter(Mandatory)]
+    [string[]] $EnvironmentVariables
+  )
+
+  if ($Image -cnotmatch '^[^@\s]+/stratton/demo-bff@sha256:[a-f0-9]{64}$') {
+    throw 'VERIFICATION_IMAGE_DIGEST_INVALID'
+  }
+  $allowedNames = @(
+    'STRATTON_VERIFICATION_NONCE',
+    'STRATTON_BFF_HEALTH_URL',
+    'STRATTON_PHASE5_HEALTH_URL',
+    'AZURE_SQL_SERVER_FQDN',
+    'AZURE_SQL_DATABASE_NAME',
+    'AZURE_MANAGED_IDENTITY_CLIENT_ID',
+    'STRATTON_TENANT_ID',
+    'STRATTON_CASE_ID',
+    'STRATTON_EXPECTED_ROUTES_BASE64'
+  )
+  $names = [System.Collections.Generic.List[string]]::new()
+  foreach ($environmentVariable in $EnvironmentVariables) {
+    $separator = $environmentVariable.IndexOf('=')
+    if ($separator -lt 1 -or $environmentVariable -match "[`r`n]") {
+      throw 'VERIFICATION_ENVIRONMENT_VARIABLE_INVALID'
+    }
+    $name = $environmentVariable.Substring(0, $separator)
+    if ($name -match '(?i)(password|connection.?string|client.?secret|api.?key|access.?token|refresh.?token)') {
+      throw "VERIFICATION_SECRET_ENVIRONMENT_VARIABLE_PROHIBITED:$name"
+    }
+    if ($allowedNames -cnotcontains $name -or $names -ccontains $name) {
+      throw "VERIFICATION_ENVIRONMENT_VARIABLE_INVALID:$name"
+    }
+    $names.Add($name)
+  }
+  $actualNameSet = (@($names | Sort-Object) -join '|')
+  $allowedNameSet = (@($allowedNames | Sort-Object) -join '|')
+  if ($actualNameSet -cne $allowedNameSet) {
+    throw 'VERIFICATION_ENVIRONMENT_VARIABLE_SET_INVALID'
+  }
+}
+
+function New-StrattonVerificationJobCreateArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
 
     [Parameter(Mandatory)]
     [string] $ResourceGroupName,
@@ -273,129 +333,741 @@ function Invoke-StrattonContainerAppNodeCommand {
     [string] $SubscriptionId,
 
     [Parameter(Mandatory)]
-    [string] $Code
+    [string] $ContainerAppsEnvironmentId,
+
+    [Parameter(Mandatory)]
+    [string] $Image,
+
+    [Parameter(Mandatory)]
+    [string] $RegistryServer,
+
+    [Parameter(Mandatory)]
+    [string] $VerificationIdentityResourceId,
+
+    [Parameter(Mandatory)]
+    [string[]] $EnvironmentVariables
   )
 
-  $encoded = [Convert]::ToBase64String([System.Text.UTF8Encoding]::new($false).GetBytes($Code))
-  $bootstrap = "eval(Buffer.from('$encoded','base64').toString('utf8'))"
-  $command = "node --input-type=module -e `"$bootstrap`""
-  $output = & az containerapp exec `
-    --name $AppName `
-    --resource-group $ResourceGroupName `
-    --subscription $SubscriptionId `
-    --command $command 2>&1
-  if ($LASTEXITCODE -ne 0) {
-    throw "CONTAINER_APP_INTERNAL_VERIFICATION_FAILED:$AppName"
-  }
-  return ($output | Out-String)
+  Assert-StrattonVerificationJobPayload -Image $Image -EnvironmentVariables $EnvironmentVariables
+  return @(
+    'containerapp', 'job', 'create',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId,
+    '--environment', $ContainerAppsEnvironmentId,
+    '--trigger-type', 'Manual',
+    '--replica-timeout', '600',
+    '--replica-retry-limit', '0',
+    '--replica-completion-count', '1',
+    '--parallelism', '1',
+    '--image', $Image,
+    '--container-name', 'verification',
+    '--cpu', '0.5',
+    '--memory', '1.0Gi',
+    '--mi-user-assigned', $VerificationIdentityResourceId,
+    '--registry-server', $RegistryServer,
+    '--registry-identity', $VerificationIdentityResourceId,
+    '--command', 'node',
+    '--args', 'apps/bff/dist/verification-job.js',
+    '--env-vars'
+  ) + $EnvironmentVariables
 }
 
-function Invoke-StrattonDefaultInternalVerification {
+function New-StrattonVerificationJobUpdateArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $Image,
+
+    [Parameter(Mandatory)]
+    [string[]] $EnvironmentVariables
+  )
+
+  Assert-StrattonVerificationJobPayload -Image $Image -EnvironmentVariables $EnvironmentVariables
+  return @(
+    'containerapp', 'job', 'update',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId,
+    '--replica-timeout', '600',
+    '--replica-retry-limit', '0',
+    '--replica-completion-count', '1',
+    '--parallelism', '1',
+    '--image', $Image,
+    '--container-name', 'verification',
+    '--cpu', '0.5',
+    '--memory', '1.0Gi',
+    '--command', 'node',
+    '--args', 'apps/bff/dist/verification-job.js',
+    '--replace-env-vars'
+  ) + $EnvironmentVariables
+}
+
+function New-StrattonVerificationJobIdentityArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $VerificationIdentityResourceId
+  )
+
+  return @(
+    'containerapp', 'job', 'identity', 'assign',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId,
+    '--user-assigned', $VerificationIdentityResourceId
+  )
+}
+
+function New-StrattonVerificationJobRegistryArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $RegistryServer,
+
+    [Parameter(Mandatory)]
+    [string] $VerificationIdentityResourceId
+  )
+
+  return @(
+    'containerapp', 'job', 'registry', 'set',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId,
+    '--server', $RegistryServer,
+    '--identity', $VerificationIdentityResourceId
+  )
+}
+
+function New-StrattonVerificationJobIdentityRemovalArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [switch] $RemoveSystemAssigned,
+
+    [string[]] $UserAssignedIdentityResourceIds = @()
+  )
+
+  if (-not $RemoveSystemAssigned -and $UserAssignedIdentityResourceIds.Count -eq 0) {
+    throw 'VERIFICATION_JOB_IDENTITY_REMOVAL_EMPTY'
+  }
+  $arguments = @(
+    'containerapp', 'job', 'identity', 'remove',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId
+  )
+  if ($RemoveSystemAssigned) {
+    $arguments += '--system-assigned'
+  }
+  if ($UserAssignedIdentityResourceIds.Count -gt 0) {
+    $arguments += '--user-assigned'
+    $arguments += $UserAssignedIdentityResourceIds
+  }
+  return $arguments
+}
+
+function New-StrattonVerificationJobRegistryRemovalArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $RegistryServer
+  )
+
+  return @(
+    'containerapp', 'job', 'registry', 'remove',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId,
+    '--server', $RegistryServer
+  )
+}
+
+function New-StrattonVerificationJobLogArguments {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $JobName,
+
+    [Parameter(Mandatory)]
+    [string] $ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory)]
+    [string] $ExecutionName
+  )
+
+  return @(
+    'containerapp', 'job', 'logs', 'show',
+    '--name', $JobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId,
+    '--execution', $ExecutionName,
+    '--container', 'verification',
+    '--tail', '200',
+    '--only-show-errors'
+  )
+}
+
+function Get-StrattonVerificationExecutionValue {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $InputObject,
+
+    [Parameter(Mandatory)]
+    [ValidateSet('NAME', 'STATUS')]
+    [string] $Kind
+  )
+
+  $candidates = if ($Kind -eq 'NAME') {
+    @(
+      Get-StrattonPropertyValue -InputObject $InputObject -Name 'name'
+      Get-StrattonNestedValue -InputObject $InputObject -Path @('properties', 'latestExecutionName')
+    )
+  }
+  else {
+    @(
+      Get-StrattonPropertyValue -InputObject $InputObject -Name 'status'
+      Get-StrattonNestedValue -InputObject $InputObject -Path @('properties', 'status')
+    )
+  }
+  $values = @(
+    $candidates |
+      Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) } |
+      Select-Object -Unique
+  )
+  if ($values.Count -ne 1) {
+    throw "AMBIGUOUS_VERIFICATION_JOB_EXECUTION_$Kind"
+  }
+  return [string] $values[0]
+}
+
+function Assert-StrattonVerificationExecutionSucceeded {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string] $ExecutionName,
+
+    [AllowNull()]
+    [string] $TerminalStatus
+  )
+
+  if ($TerminalStatus -cne 'Succeeded') {
+    throw "VERIFICATION_JOB_FAILED:${ExecutionName}:$TerminalStatus"
+  }
+}
+
+function ConvertFrom-StrattonVerificationJobLog {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [string] $RawLog,
+
+    [Parameter(Mandatory)]
+    [string] $ExpectedNonce,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $InvocationStartedAt,
+
+    [Parameter(Mandatory)]
+    [datetimeoffset] $Now
+  )
+
+  $prefix = 'STRATTON_VERIFICATION_RECEIPT:'
+  $markerLines = @(
+    $RawLog -split "`r?`n" |
+      Where-Object { $_.Contains($prefix, [System.StringComparison]::Ordinal) }
+  )
+  if ($markerLines.Count -ne 1) {
+    throw 'VERIFICATION_JOB_RECEIPT_MISSING_OR_AMBIGUOUS'
+  }
+  $markerIndex = $markerLines[0].IndexOf($prefix, [System.StringComparison]::Ordinal)
+  $encoded = $markerLines[0].Substring($markerIndex + $prefix.Length).Trim()
+  if ($encoded -cnotmatch '^[A-Za-z0-9+/]+={0,2}$') {
+    throw 'VERIFICATION_JOB_RECEIPT_MALFORMED'
+  }
+  try {
+    $json = [System.Text.UTF8Encoding]::new($false).GetString(
+      [Convert]::FromBase64String($encoded)
+    )
+    $receipt = $json | ConvertFrom-Json -Depth 50
+  }
+  catch {
+    throw 'VERIFICATION_JOB_RECEIPT_MALFORMED'
+  }
+
+  if (
+    (Get-StrattonPropertyValue -InputObject $receipt -Name 'version') -ne 1 -or
+    [string] (Get-StrattonPropertyValue -InputObject $receipt -Name 'nonce') -cne $ExpectedNonce
+  ) {
+    throw 'VERIFICATION_JOB_RECEIPT_BINDING_INVALID'
+  }
+  try {
+    $generatedAt = [datetimeoffset] (
+      Get-StrattonPropertyValue -InputObject $receipt -Name 'generatedAtUtc'
+    )
+  }
+  catch {
+    throw 'VERIFICATION_JOB_RECEIPT_MALFORMED'
+  }
+  if (
+    ($generatedAt -lt $InvocationStartedAt) -or
+    ($generatedAt -gt $Now.AddMinutes(1)) -or
+    ($Now.Subtract($generatedAt) -gt [timespan]::FromMinutes(15))
+  ) {
+    throw 'VERIFICATION_JOB_RECEIPT_STALE'
+  }
+
+  $checks = Get-StrattonPropertyValue -InputObject $receipt -Name 'checks'
+  foreach ($name in @(
+      'bffHealth',
+      'phase5Health',
+      'sqlPrivateDns',
+      'sqlTokenAuthenticatedQuery'
+    )) {
+    if ((Get-StrattonPropertyValue -InputObject $checks -Name $name) -ne $true) {
+      throw "VERIFICATION_JOB_CHECK_FAILED:$name"
+    }
+  }
+  $routeBindings = @(
+    Get-StrattonPropertyValue -InputObject $receipt -Name 'routeBindings'
+  )
+  if (
+    $routeBindings.Count -ne 3 -or
+    @($routeBindings.route) -join '|' -cne 'LUNA|TERRA|SOL'
+  ) {
+    throw 'VERIFICATION_JOB_ROUTE_BINDINGS_INVALID'
+  }
+  return [pscustomobject]@{
+    bffHealth = $true
+    phase5Health = $true
+    sqlPrivateDns = $true
+    sqlTokenAuthenticatedQuery = $true
+    routeBindings = $routeBindings
+  }
+}
+
+function Get-StrattonExpectedVerificationRoutes {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [object] $Outputs
+  )
+
+  return @(
+    foreach ($definition in @(
+        Get-Content (Join-Path $PSScriptRoot 'route-evidence.json') -Raw |
+          ConvertFrom-Json -Depth 30
+      )) {
+      [pscustomobject]@{
+        route = [string] $definition.route
+        resourceId = Resolve-StrattonRouteTemplateValue `
+          -Value ([string] $definition.accountResourceId) `
+          -Outputs $Outputs
+        deploymentId = Resolve-StrattonRouteTemplateValue `
+          -Value ([string] $definition.deploymentId) `
+          -Outputs $Outputs
+        region = Resolve-StrattonRouteTemplateValue `
+          -Value ([string] $definition.region) `
+          -Outputs $Outputs
+        apiVersion = [string] $definition.apiVersion
+        evidenceId = [string] $definition.evidenceId
+        evidenceVersion = [string] $definition.evidenceVersion
+      }
+    }
+  )
+}
+
+function Get-StrattonPinnedVerificationImage {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [object] $State,
+
+    [Parameter(Mandatory)]
+    [object] $Outputs
+  )
+
+  $parametersPath = Join-Path $script:DeploymentArtifactRoot 'application.parameters.json'
+  Assert-StrattonFileHash `
+    -Path $parametersPath `
+    -ExpectedHash ([string] (
+      Get-StrattonRequiredValue -InputObject $State -Name 'applicationParameterFileHash'
+    )) `
+    -Kind 'PARAMETER'
+  $parameterDocument = Read-StrattonJsonArtifact -Path $parametersPath
+  $repository = [string] (
+    Get-StrattonNestedValue `
+      -InputObject $parameterDocument `
+      -Path @('parameters', 'bffImageRepository', 'value')
+  )
+  $digest = [string] (
+    Get-StrattonNestedValue `
+      -InputObject $parameterDocument `
+      -Path @('parameters', 'bffImageDigest', 'value')
+  )
+  if ($repository -cne 'stratton/demo-bff' -or -not (Test-ImageDigest -Digest $digest)) {
+    throw 'VERIFICATION_IMAGE_PARAMETER_INVALID'
+  }
+  $imagesArtifact = Read-StrattonJsonArtifact `
+    -Path (Join-Path $script:DeploymentArtifactRoot 'images.json')
+  $matches = @(
+    $imagesArtifact.images |
+      Where-Object {
+        $_.repository -ceq $repository -and
+        $_.digest -ceq $digest
+      }
+  )
+  if ($matches.Count -ne 1) {
+    throw 'VERIFICATION_IMAGE_ARTIFACT_DRIFT'
+  }
+  $registryServer = [string] (
+    Get-StrattonRequiredValue -InputObject $Outputs -Name 'containerRegistryServer'
+  )
+  return "$registryServer/$repository@$digest"
+}
+
+function Assert-StrattonVerificationJobDefinition {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [object] $Job,
+
+    [Parameter(Mandatory)]
+    [string] $Image,
+
+    [Parameter(Mandatory)]
+    [string] $RegistryServer,
+
+    [Parameter(Mandatory)]
+    [string] $VerificationIdentityResourceId,
+
+    [Parameter(Mandatory)]
+    [string[]] $EnvironmentVariables
+  )
+
+  $identityType = [string] (Get-StrattonNestedValue -InputObject $Job -Path @('identity', 'type'))
+  $userAssigned = Get-StrattonNestedValue `
+    -InputObject $Job `
+    -Path @('identity', 'userAssignedIdentities')
+  $identityNames = @(
+    if ($null -ne $userAssigned) {
+      $userAssigned.PSObject.Properties.Name
+    }
+  )
+  if (
+    $identityType -cne 'UserAssigned' -or
+    $identityNames.Count -ne 1 -or
+    $identityNames[0] -ine $VerificationIdentityResourceId
+  ) {
+    throw 'VERIFICATION_JOB_IDENTITY_INVALID'
+  }
+
+  $registries = @(
+    Get-StrattonNestedValue -InputObject $Job -Path @('properties', 'configuration', 'registries')
+  )
+  if (
+    $registries.Count -ne 1 -or
+    [string] $registries[0].server -cne $RegistryServer -or
+    [string] $registries[0].identity -ine $VerificationIdentityResourceId
+  ) {
+    throw 'VERIFICATION_JOB_REGISTRY_INVALID'
+  }
+  if (
+    [string] (Get-StrattonNestedValue -InputObject $Job -Path @('properties', 'configuration', 'triggerType')) -cne 'Manual'
+  ) {
+    throw 'VERIFICATION_JOB_TRIGGER_INVALID'
+  }
+  $containers = @(
+    Get-StrattonNestedValue -InputObject $Job -Path @('properties', 'template', 'containers')
+  )
+  if (
+    $containers.Count -ne 1 -or
+    [string] $containers[0].name -cne 'verification' -or
+    [string] $containers[0].image -cne $Image -or
+    @($containers[0].command) -join ' ' -cne 'node' -or
+    @($containers[0].args) -join ' ' -cne 'apps/bff/dist/verification-job.js'
+  ) {
+    throw 'VERIFICATION_JOB_CONTAINER_INVALID'
+  }
+  $actualEnvironment = @(
+    $containers[0].env |
+      ForEach-Object { "$($_.name)=$($_.value)" }
+  )
+  $actualEnvironmentSet = (@($actualEnvironment | Sort-Object) -join '|')
+  $expectedEnvironmentSet = (@($EnvironmentVariables | Sort-Object) -join '|')
+  if ($actualEnvironmentSet -cne $expectedEnvironmentSet) {
+    throw 'VERIFICATION_JOB_ENVIRONMENT_INVALID'
+  }
+}
+
+function Invoke-StrattonVerificationJob {
   [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
     [object] $Outputs,
 
     [Parameter(Mandatory)]
+    [string] $Image,
+
+    [Parameter(Mandatory)]
+    [object[]] $ExpectedRoutes,
+
+    [Parameter(Mandatory)]
     [string] $ResourceGroupName,
 
     [Parameter(Mandatory)]
-    [string] $SubscriptionId
+    [string] $SubscriptionId,
+
+    [ValidateRange(0, 3600)]
+    [int] $PollIntervalSeconds = 10,
+
+    [ValidateRange(1, 360)]
+    [int] $MaxPollAttempts = 60,
+
+    [scriptblock] $NonceProvider,
+
+    [scriptblock] $NowProvider,
+
+    [scriptblock] $AzInvoker,
+
+    [scriptblock] $LogInvoker
   )
 
-  $bffAppName = [string] (Get-StrattonRequiredValue -InputObject $Outputs -Name 'bffAppName')
-  $phase5AppName = [string] (Get-StrattonRequiredValue -InputObject $Outputs -Name 'phase5AppName')
-  $phase5Fqdn = [string] (Get-StrattonRequiredValue -InputObject $Outputs -Name 'phase5ApiFqdn')
-
-  $bffHealth = Invoke-StrattonContainerAppNodeCommand `
-    -AppName $bffAppName `
-    -ResourceGroupName $ResourceGroupName `
-    -SubscriptionId $SubscriptionId `
-    -Code "const response=await fetch('http://127.0.0.1:3001/healthz');if(!response.ok)process.exit(1);console.log('STRATTON_BFF_HEALTH_PASS');"
-  $phase5Health = Invoke-StrattonContainerAppNodeCommand `
-    -AppName $bffAppName `
-    -ResourceGroupName $ResourceGroupName `
-    -SubscriptionId $SubscriptionId `
-    -Code "const response=await fetch('https://$phase5Fqdn/health');if(!response.ok)process.exit(1);console.log('STRATTON_PHASE5_HEALTH_PASS');"
-  $sqlResult = Invoke-StrattonContainerAppNodeCommand `
-    -AppName $bffAppName `
-    -ResourceGroupName $ResourceGroupName `
-    -SubscriptionId $SubscriptionId `
-    -Code @'
-const dns = await import('node:dns/promises');
-const { DefaultAzureCredential } = await import('@azure/identity');
-const sql = await import('mssql');
-const resolved = await dns.lookup(process.env.AZURE_SQL_SERVER_FQDN);
-const octets = resolved.address.split('.').map(Number);
-const privateAddress = octets.length === 4 && (
-  octets[0] === 10 ||
-  (octets[0] === 172 && octets[1] >= 16 && octets[1] <= 31) ||
-  (octets[0] === 192 && octets[1] === 168)
-);
-if (!privateAddress) process.exit(1);
-console.log(`STRATTON_SQL_PRIVATE_DNS_PASS:${resolved.address}`);
-const credential = new DefaultAzureCredential({
-  managedIdentityClientId: process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID
-});
-const access = await credential.getToken('https://database.windows.net/.default');
-if (!access?.token) process.exit(1);
-const pool = await sql.connect({
-  server: process.env.AZURE_SQL_SERVER_FQDN,
-  database: process.env.AZURE_SQL_DATABASE_NAME,
-  options: { encrypt: true, trustServerCertificate: false },
-  authentication: {
-    type: 'azure-active-directory-access-token',
-    options: { token: access.token }
+  if (-not $NonceProvider) {
+    $NonceProvider = { [guid]::NewGuid().ToString('N') }
   }
-});
-await pool.request().query('SELECT 1 AS verified');
-await pool.close();
-console.log('STRATTON_SQL_QUERY_PASS');
-'@
-
-  $routeResult = Invoke-StrattonContainerAppNodeCommand `
-    -AppName $phase5AppName `
-    -ResourceGroupName $ResourceGroupName `
-    -SubscriptionId $SubscriptionId `
-    -Code @'
-const { DefaultAzureCredential } = await import('@azure/identity');
-const sql = await import('mssql');
-const credential = new DefaultAzureCredential({
-  managedIdentityClientId: process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID
-});
-const access = await credential.getToken('https://database.windows.net/.default');
-if (!access?.token) process.exit(1);
-const pool = await sql.connect({
-  server: process.env.AZURE_SQL_SERVER_FQDN,
-  database: process.env.AZURE_SQL_DATABASE_NAME,
-  options: { encrypt: true, trustServerCertificate: false },
-  authentication: {
-    type: 'azure-active-directory-access-token',
-    options: { token: access.token }
+  if (-not $NowProvider) {
+    $NowProvider = { [datetimeoffset]::UtcNow }
   }
-});
-const request = pool.request();
-await request.query("EXEC sys.sp_set_session_context @key=N'tenant_id', @value=N'27140306-eea5-4e7f-91e9-4c9e86864b3a'; EXEC sys.sp_set_session_context @key=N'case_id', @value=N'project-danube';");
-const result = await request.query("SELECT route, resource_id AS resourceId, deployment_id AS deploymentId, region, api_version AS apiVersion, evidence_id AS evidenceId, evidence_version AS evidenceVersion, status, valid_from AS validFrom, valid_until AS validUntil FROM dbo.approved_model_route_evidence ORDER BY CASE route WHEN 'LUNA' THEN 1 WHEN 'TERRA' THEN 2 WHEN 'SOL' THEN 3 ELSE 4 END;");
-await pool.close();
-console.log(`STRATTON_ROUTES:${JSON.stringify(result.recordset)}`);
-'@
-
-  $routeLine = @($routeResult -split "`r?`n" | Where-Object { $_ -match 'STRATTON_ROUTES:' }) |
-    Select-Object -Last 1
-  if (-not $routeLine) {
-    throw 'PHASE5_ROUTE_EVIDENCE_UNAVAILABLE'
+  if (-not $AzInvoker) {
+    $AzInvoker = {
+      param([string[]] $Arguments)
+      Invoke-AzJson -Arguments $Arguments
+    }
   }
-  $routeJson = $routeLine.Substring($routeLine.IndexOf('STRATTON_ROUTES:') + 'STRATTON_ROUTES:'.Length)
-
-  return [pscustomobject]@{
-    bffHealth = ($bffHealth -match 'STRATTON_BFF_HEALTH_PASS')
-    phase5Health = ($phase5Health -match 'STRATTON_PHASE5_HEALTH_PASS')
-    sqlPrivateDns = ($sqlResult -match 'STRATTON_SQL_PRIVATE_DNS_PASS:(?<address>[0-9.]+)') -and
-      (Test-StrattonPrivateIpAddress -Address $Matches.address)
-    sqlTokenAuthenticatedQuery = ($sqlResult -match 'STRATTON_SQL_QUERY_PASS')
-    routeBindings = @($routeJson | ConvertFrom-Json -Depth 30)
+  if (-not $LogInvoker) {
+    $LogInvoker = {
+      param([string[]] $Arguments)
+      $rawLog = & az @Arguments 2>&1
+      if ($LASTEXITCODE -ne 0) {
+        throw 'VERIFICATION_JOB_LOG_RETRIEVAL_FAILED'
+      }
+      return ($rawLog | Out-String)
+    }
   }
+
+  $jobName = 'stratton-verification'
+  $nonce = [string] (& $NonceProvider)
+  if ([string]::IsNullOrWhiteSpace($nonce) -or $nonce -cnotmatch '^[A-Za-z0-9-]{8,128}$') {
+    throw 'VERIFICATION_JOB_NONCE_INVALID'
+  }
+  $invocationStartedAt = [datetimeoffset] (& $NowProvider)
+  $registryServer = [string] (
+    Get-StrattonRequiredValue -InputObject $Outputs -Name 'containerRegistryServer'
+  )
+  $identityResourceId = [string] (
+    Get-StrattonRequiredValue -InputObject $Outputs -Name 'verificationIdentityResourceId'
+  )
+  $environmentVariables = @(
+    "STRATTON_VERIFICATION_NONCE=$nonce",
+    "STRATTON_BFF_HEALTH_URL=https://$(Get-StrattonRequiredValue -InputObject $Outputs -Name 'bffAppFqdn')/healthz",
+    "STRATTON_PHASE5_HEALTH_URL=https://$(Get-StrattonRequiredValue -InputObject $Outputs -Name 'phase5ApiFqdn')/health",
+    "AZURE_SQL_SERVER_FQDN=$(Get-StrattonRequiredValue -InputObject $Outputs -Name 'sqlServerFqdn')",
+    "AZURE_SQL_DATABASE_NAME=$(Get-StrattonRequiredValue -InputObject $Outputs -Name 'sqlDatabaseName')",
+    "AZURE_MANAGED_IDENTITY_CLIENT_ID=$(Get-StrattonRequiredValue -InputObject $Outputs -Name 'verificationIdentityClientId')",
+    "STRATTON_TENANT_ID=$script:ApprovedTenantId",
+    'STRATTON_CASE_ID=project-danube',
+    "STRATTON_EXPECTED_ROUTES_BASE64=$(ConvertTo-StrattonBase64Json -InputObject $ExpectedRoutes)"
+  )
+  Assert-StrattonVerificationJobPayload -Image $Image -EnvironmentVariables $environmentVariables
+
+  $jobExists = $false
+  $existingJob = $null
+  try {
+    $existingJob = & $AzInvoker @(
+      'containerapp', 'job', 'show',
+      '--name', $jobName,
+      '--resource-group', $ResourceGroupName,
+      '--subscription', $SubscriptionId
+    )
+    $jobExists = $true
+  }
+  catch {
+    if ($_.Exception.Message -notmatch '(?i)(JOB_NOT_FOUND|ResourceNotFound|could not be found|not found)') {
+      throw
+    }
+  }
+
+  if ($jobExists) {
+    $existingIdentityType = [string] (
+      Get-StrattonNestedValue -InputObject $existingJob -Path @('identity', 'type')
+    )
+    $existingUserAssigned = Get-StrattonNestedValue `
+      -InputObject $existingJob `
+      -Path @('identity', 'userAssignedIdentities')
+    $extraIdentityIds = @(
+      if ($null -ne $existingUserAssigned) {
+        $existingUserAssigned.PSObject.Properties.Name |
+          Where-Object { $_ -ine $identityResourceId }
+      }
+    )
+    $removeSystemAssigned = $existingIdentityType -match 'SystemAssigned'
+    if ($removeSystemAssigned -or $extraIdentityIds.Count -gt 0) {
+      & $AzInvoker (New-StrattonVerificationJobIdentityRemovalArguments `
+          -JobName $jobName `
+          -ResourceGroupName $ResourceGroupName `
+          -SubscriptionId $SubscriptionId `
+          -RemoveSystemAssigned:$removeSystemAssigned `
+          -UserAssignedIdentityResourceIds $extraIdentityIds) | Out-Null
+    }
+    foreach ($existingRegistry in @(
+        Get-StrattonNestedValue `
+          -InputObject $existingJob `
+          -Path @('properties', 'configuration', 'registries')
+      )) {
+      if (
+        -not [string]::IsNullOrWhiteSpace([string] $existingRegistry.server) -and
+        [string] $existingRegistry.server -cne $registryServer
+      ) {
+        & $AzInvoker (New-StrattonVerificationJobRegistryRemovalArguments `
+            -JobName $jobName `
+            -ResourceGroupName $ResourceGroupName `
+            -SubscriptionId $SubscriptionId `
+            -RegistryServer ([string] $existingRegistry.server)) | Out-Null
+      }
+    }
+    & $AzInvoker (New-StrattonVerificationJobIdentityArguments `
+        -JobName $jobName `
+        -ResourceGroupName $ResourceGroupName `
+        -SubscriptionId $SubscriptionId `
+        -VerificationIdentityResourceId $identityResourceId) | Out-Null
+    & $AzInvoker (New-StrattonVerificationJobRegistryArguments `
+        -JobName $jobName `
+        -ResourceGroupName $ResourceGroupName `
+        -SubscriptionId $SubscriptionId `
+        -RegistryServer $registryServer `
+        -VerificationIdentityResourceId $identityResourceId) | Out-Null
+    & $AzInvoker (New-StrattonVerificationJobUpdateArguments `
+        -JobName $jobName `
+        -ResourceGroupName $ResourceGroupName `
+        -SubscriptionId $SubscriptionId `
+        -Image $Image `
+        -EnvironmentVariables $environmentVariables) | Out-Null
+  }
+  else {
+    & $AzInvoker (New-StrattonVerificationJobCreateArguments `
+        -JobName $jobName `
+        -ResourceGroupName $ResourceGroupName `
+        -SubscriptionId $SubscriptionId `
+        -ContainerAppsEnvironmentId (
+          Get-StrattonRequiredValue -InputObject $Outputs -Name 'containerAppsEnvironmentId'
+        ) `
+        -Image $Image `
+        -RegistryServer $registryServer `
+        -VerificationIdentityResourceId $identityResourceId `
+        -EnvironmentVariables $environmentVariables) | Out-Null
+  }
+
+  $reconciledJob = & $AzInvoker @(
+    'containerapp', 'job', 'show',
+    '--name', $jobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId
+  )
+  Assert-StrattonVerificationJobDefinition `
+    -Job $reconciledJob `
+    -Image $Image `
+    -RegistryServer $registryServer `
+    -VerificationIdentityResourceId $identityResourceId `
+    -EnvironmentVariables $environmentVariables
+
+  $started = & $AzInvoker @(
+    'containerapp', 'job', 'start',
+    '--name', $jobName,
+    '--resource-group', $ResourceGroupName,
+    '--subscription', $SubscriptionId
+  )
+  $executionName = Get-StrattonVerificationExecutionValue -InputObject $started -Kind NAME
+  $terminalStatus = $null
+  for ($attempt = 1; $attempt -le $MaxPollAttempts; $attempt++) {
+    $execution = & $AzInvoker @(
+      'containerapp', 'job', 'execution', 'show',
+      '--name', $jobName,
+      '--resource-group', $ResourceGroupName,
+      '--subscription', $SubscriptionId,
+      '--job-execution-name', $executionName
+    )
+    $status = Get-StrattonVerificationExecutionValue -InputObject $execution -Kind STATUS
+    if ($status -in @('Succeeded', 'Failed', 'Canceled', 'Cancelled')) {
+      $terminalStatus = $status
+      break
+    }
+    if ($attempt -lt $MaxPollAttempts -and $PollIntervalSeconds -gt 0) {
+      Start-Sleep -Seconds $PollIntervalSeconds
+    }
+  }
+  Assert-StrattonVerificationExecutionSucceeded `
+    -ExecutionName $executionName `
+    -TerminalStatus $terminalStatus
+
+  $rawLog = & $LogInvoker (New-StrattonVerificationJobLogArguments `
+      -JobName $jobName `
+      -ResourceGroupName $ResourceGroupName `
+      -SubscriptionId $SubscriptionId `
+      -ExecutionName $executionName)
+  return ConvertFrom-StrattonVerificationJobLog `
+    -RawLog ($rawLog | Out-String) `
+    -ExpectedNonce $nonce `
+    -InvocationStartedAt $invocationStartedAt `
+    -Now ([datetimeoffset] (& $NowProvider))
 }
 
 function Test-StrattonRoleAssignment {
@@ -516,6 +1188,7 @@ function Get-StrattonExpectedRuntimeRoleAssignments {
       @{ label = 'ACR_PULL_WEB'; principal = 'webIdentityPrincipalId' }
       @{ label = 'ACR_PULL_BFF'; principal = 'bffIdentityPrincipalId' }
       @{ label = 'ACR_PULL_PHASE5'; principal = 'phase5IdentityPrincipalId' }
+      @{ label = 'ACR_PULL_VERIFICATION'; principal = 'verificationIdentityPrincipalId' }
     )) {
     $expected.Add([pscustomobject]@{
         label = $app.label
@@ -613,6 +1286,7 @@ function Get-StrattonRoleAssignmentChecks {
     Get-StrattonRequiredValue -InputObject $Outputs -Name 'webIdentityPrincipalId'
     Get-StrattonRequiredValue -InputObject $Outputs -Name 'bffIdentityPrincipalId'
     Get-StrattonRequiredValue -InputObject $Outputs -Name 'phase5IdentityPrincipalId'
+    Get-StrattonRequiredValue -InputObject $Outputs -Name 'verificationIdentityPrincipalId'
   )
   Assert-StrattonExactRuntimeRoleAssignments `
     -Assignments $Assignments `
@@ -886,8 +1560,11 @@ function Invoke-StrattonDeploymentVerification {
     & $InternalInvoker $outputs 'stratton-demo-rg' $subscriptionId
   }
   else {
-    Invoke-StrattonDefaultInternalVerification `
+    $expectedRoutes = @(Get-StrattonExpectedVerificationRoutes -Outputs $outputs)
+    Invoke-StrattonVerificationJob `
       -Outputs $outputs `
+      -Image (Get-StrattonPinnedVerificationImage -State $state -Outputs $outputs) `
+      -ExpectedRoutes $expectedRoutes `
       -ResourceGroupName 'stratton-demo-rg' `
       -SubscriptionId $subscriptionId
   }

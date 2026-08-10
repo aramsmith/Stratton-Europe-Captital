@@ -83,6 +83,9 @@ Describe 'Stratton demo infrastructure' {
       'phase5IdentityResourceId'
       'phase5IdentityClientId'
       'phase5IdentityPrincipalId'
+      'verificationIdentityResourceId'
+      'verificationIdentityClientId'
+      'verificationIdentityPrincipalId'
       'webEntraClientId'
       'bffEntraClientId'
     )
@@ -273,6 +276,7 @@ Describe 'Stratton demo infrastructure' {
     $script:templateJson | Should -Not -Match 'ALTER ROLE db_datawriter ADD MEMBER'
     $script:templateJson | Should -Not -Match 'GRANT EXECUTE TO'
     $script:templateJson | Should -Match 'GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection'
+    $script:templateJson | Should -Match 'GRANT SELECT ON OBJECT::dbo.approved_model_route_evidence'
   }
 
   It 'scopes Blob and Service Bus data-plane roles to the approved container and queue' {
@@ -554,6 +558,7 @@ Describe 'Stratton demo infrastructure' {
     $dataModuleSource | Should -Match 'CREATE USER \[\$\{phase5IdentityName\}\] FROM EXTERNAL PROVIDER;'
     $dataModuleSource | Should -Match 'ALTER ROLE workload_api_role ADD MEMBER \[\$\{phase5IdentityName\}\];'
     $dataModuleSource | Should -Match 'GRANT SELECT, INSERT, UPDATE ON OBJECT::dbo.demo_scenario_projection TO \[\$\{bffIdentityName\}\];'
+    $dataModuleSource | Should -Match 'GRANT SELECT ON OBJECT::dbo.approved_model_route_evidence TO \[\$\{verificationIdentityName\}\];'
     $dataModuleSource | Should -Not -Match 'demo_scenario_projection TO \[\$\{phase5IdentityName\}\]'
     $dataModuleSource | Should -Not -Match 'ALTER ROLE db_datareader ADD MEMBER'
     $dataModuleSource | Should -Not -Match 'ALTER ROLE db_datawriter ADD MEMBER'
