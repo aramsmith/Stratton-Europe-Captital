@@ -4,6 +4,7 @@ import {
   assertAppliedMigrationHashes,
   assertSearchSchemaCompatible,
   migrationExecutionErrorCode,
+  migrationRollbackErrorCode,
   reconcileRouteEvidenceValidity,
   runBootstrap,
   safeBootstrapErrorCode,
@@ -30,6 +31,16 @@ test("migration failures expose only migration, batch, and SQL number", () => {
   assert.equal(
     migrationExecutionErrorCode("001_init.sql", 17, { number: 102 }),
     "MIGRATION_EXECUTION_FAILED:001_INIT_SQL:BATCH18:N102"
+  );
+});
+
+test("migration rollback failures preserve both safe error codes", () => {
+  assert.equal(
+    migrationRollbackErrorCode(
+      new Error("MIGRATION_EXECUTION_FAILED:001_INIT_SQL:BATCH83:N102"),
+      { name: "TransactionError", code: "EABORT" }
+    ),
+    "MIGRATION_ROLLBACK_FAILED:MIGRATION_EXECUTION_FAILED:001_INIT_SQL:BATCH83:N102:BOOTSTRAP_FAILED:TRANSACTIONERROR:EABORT:NUNKNOWN"
   );
 });
 

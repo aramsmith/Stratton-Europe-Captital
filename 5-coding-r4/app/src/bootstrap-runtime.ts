@@ -48,6 +48,10 @@ function bootstrapStageError(stage: string, error: unknown): Error {
   return new Error(`BOOTSTRAP_STAGE_FAILED:${stage}:${safeBootstrapErrorCode(error)}`);
 }
 
+export function migrationRollbackErrorCode(originalError: unknown, rollbackError: unknown): string {
+  return `MIGRATION_ROLLBACK_FAILED:${safeBootstrapErrorCode(originalError)}:${safeBootstrapErrorCode(rollbackError)}`;
+}
+
 export type GovernedRoute = (typeof APPROVED_ROUTES)[number];
 
 export interface RouteEvidenceInput {
@@ -407,7 +411,11 @@ VALUES (@migrationName, @migrationHash);
       transactionStarted = false;
     } catch (error) {
       if (transactionStarted) {
-        await transaction.rollback();
+        try {
+          await transaction.rollback();
+        } catch (rollbackError) {
+          throw new Error(migrationRollbackErrorCode(error, rollbackError));
+        }
       }
       throw error;
     } finally {
