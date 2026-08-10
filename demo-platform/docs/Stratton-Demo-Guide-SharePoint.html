@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stratton Demo Guide — SharePoint Edition</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -625,15 +633,6 @@
       </aside>
     </article>
 
-    <nav class="section-nav" aria-label="Guide sections">
-      <a href="#how-it-works">How it works</a>
-      <a href="#start">Start locally</a>
-      <a href="#scenarios">Scenarios</a>
-      <a href="#requirements">Requirements</a>
-      <a href="#azure">Deploy to Azure</a>
-      <a href="#standalone-topology">Standalone topology</a>
-    </nav>
-
     <section id="how-it-works">
       <div class="section-head">
         <h2>The governed demo flow</h2>
@@ -707,12 +706,6 @@
             <p>Use Node 22–26 and PowerShell. Build shared workspace packages before starting the apps.</p>
           </div>
           <div class="codebox">
-            <button class="copy" type="button" aria-label="Copy preparation commands">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </button>
             <pre>Set-Location C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package\demo-platform
 npm ci
 npm run build:packages</pre>
@@ -724,12 +717,6 @@ npm run build:packages</pre>
             <p>Run this in the first PowerShell window. The local authority fixture is hosted through the BFF seam.</p>
           </div>
           <div class="codebox">
-            <button class="copy" type="button" aria-label="Copy BFF commands">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </button>
             <pre>$env:DEMO_MODE = "LOCAL"
 $env:PORT = "3001"
 $env:PHASE5_API_BASE_URL = "http://127.0.0.1:3001"
@@ -742,12 +729,6 @@ npx tsx .\apps\bff\src\server.ts</pre>
             <p>Run this in a second PowerShell window, then open the workbench.</p>
           </div>
           <div class="codebox">
-            <button class="copy" type="button" aria-label="Copy web commands">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </button>
             <pre>Set-Location C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package\demo-platform
 npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173
 
@@ -760,12 +741,6 @@ http://127.0.0.1:4173/workbench</pre>
         <summary>Reset the scenario or load a rehearsal fixture</summary>
         <div>
           <div class="codebox">
-            <button class="copy" type="button" aria-label="Copy reset commands">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </button>
             <pre>node .\scripts\reset-scenario.mjs
 node .\scripts\reset-scenario.mjs --fixture prompt-injection
 node .\scripts\reset-scenario.mjs --fixture expired-licence
@@ -934,12 +909,6 @@ node .\scripts\reset-scenario.mjs --fixture missing-licence</pre>
         <summary>Run the complete local verification gate</summary>
         <div>
           <div class="codebox">
-            <button class="copy" type="button" aria-label="Copy verification commands">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </button>
             <pre>Set-Location C:\Users\arsmith\Projects\Agentic-Architecture-v2\cases\Stratton-Europe-Captital\stratton-demo-package\demo-platform
 npm run clean:generated
 npm ci
@@ -1014,9 +983,7 @@ node .\scripts\verify-demo.mjs</pre>
       <div><strong>Canonical runbooks</strong><br>demo-platform\README.md<br>demo-platform\infra\ADMIN-HANDOFF.md</div>
       <div><strong>Delivery state</strong><br>Private draft PR #1<br>Branch: feature/stratton-demo-platform</div>
     </footer>
-  </main>
-
-  <div class="toast" role="status" aria-live="polite" id="toast">Copied to clipboard</div>
+    </main>
 
 </body>
 </html>

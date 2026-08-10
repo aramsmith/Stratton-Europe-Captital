@@ -7,6 +7,16 @@ Describe 'Standalone deployment guides' {
     $guide = Get-Content -LiteralPath (Join-Path $docsRoot 'Stratton-Demo-Guide.html') -Raw
     $sharePointGuide = Get-Content -LiteralPath (Join-Path $docsRoot 'Stratton-Demo-Guide-SharePoint.html') -Raw
     $syncScript = Get-Content -LiteralPath (Join-Path $demoPlatformRoot 'scripts\deployment\Sync-StrattonGuides.ps1') -Raw
+    $mandatoryScoutThemeScript = @'
+<script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+'@
   }
 
   It 'preserves the presenter guide content in both editions' {
@@ -62,17 +72,31 @@ Describe 'Standalone deployment guides' {
       $document | Should -Match 'html\[data-theme="dark"\]'
       $document | Should -Match '"Segoe UI", Aptos'
     }
-
-    $guide | Should -Match 'scoutTheme'
   }
 
-  It 'keeps the SharePoint edition self-contained and sandbox-safe' {
-    $sharePointGuide | Should -Not -Match '<script\b'
+  It 'uses the exact mandatory scoutTheme inline script before styles in both editions' {
+    $expectedScript = ($mandatoryScoutThemeScript -replace "`r`n", "`n").Trim()
+
+    foreach ($document in @($guide, $sharePointGuide)) {
+      $normalizedDocument = ($document -replace "`r`n", "`n")
+      $scriptIndex = $normalizedDocument.IndexOf($expectedScript)
+      $styleIndex = $normalizedDocument.IndexOf('<style>')
+
+      $scriptIndex | Should -BeGreaterThan -1
+      $scriptIndex | Should -BeLessThan $styleIndex
+    }
+  }
+
+  It 'keeps the SharePoint edition self-contained, sandbox-safe, and static' {
+    ([regex]::Matches($sharePointGuide, '<script\b')).Count | Should -Be 1
+    $sharePointGuide | Should -Match 'scoutTheme'
     $sharePointGuide | Should -Not -Match '<link[^>]+href=|<(?:iframe|object|embed)\b'
     $sharePointGuide | Should -Not -Match '\b(?:fetch|XMLHttpRequest|WebSocket|EventSource)\s*\('
-    $sharePointGuide | Should -Not -Match '\b(?:localStorage|sessionStorage|indexedDB|navigator\.serviceWorker|window\.(?:location|open|history)|document\.location|history\.)'
+    $sharePointGuide | Should -Not -Match '\b(?:localStorage|sessionStorage|indexedDB|navigator\.serviceWorker|window\.open|window\.history|document\.location|history\.|location\.(?:assign|replace|reload)|window\.location\s*=)'
     $sharePointGuide | Should -Not -Match '<form\b|<[^>]+\son[a-z]+\s*='
     $sharePointGuide | Should -Not -Match '<(?:img|audio|video|source)\b[^>]*\bsrc='
+    $sharePointGuide | Should -Not -Match '<nav\b|<a\b|<button\b'
+    $sharePointGuide | Should -Not -Match 'navigator\.clipboard|window\.print|themeButton|id="toast"'
   }
 
   It 'synchronizes only the named guides and verifies SHA-256 copies' {
