@@ -64,6 +64,54 @@ Describe 'Stratton Entra reconciliation' {
     $script | Should -Match 'signInAudience'
   }
 
+  It 'passes Graph JSON through a temporary body file and cleans it up' {
+    $script:bodyFilePath = $null
+    $body = [ordered]@{
+      displayName = 'Stratton Demo Web - dev'
+      identifierUris = @('api://stratton-demo-web-dev')
+    }
+
+    $result = Invoke-Graph `
+      -Method POST `
+      -Uri 'https://graph.microsoft.com/v1.0/applications' `
+      -Body $body `
+      -AzInvoker {
+        param([string[]] $Arguments)
+
+        $bodyArgumentIndex = [array]::IndexOf($Arguments, '--body')
+        $bodyReference = $Arguments[$bodyArgumentIndex + 1]
+        $script:bodyFilePath = $bodyReference.Substring(1)
+        Test-Path -LiteralPath $script:bodyFilePath | Should -BeTrue
+        (Get-Content -LiteralPath $script:bodyFilePath -Raw | ConvertFrom-Json).displayName |
+          Should -Be 'Stratton Demo Web - dev'
+        ($Arguments -join ' ') | Should -Not -Match '\{"displayName"'
+        return [pscustomobject]@{ id = 'created' }
+      }
+
+    $result.id | Should -Be 'created'
+    Test-Path -LiteralPath $script:bodyFilePath | Should -BeFalse
+  }
+
+  It 'cleans up the temporary Graph body file when Azure CLI fails' {
+    $script:bodyFilePath = $null
+
+    {
+      Invoke-Graph `
+        -Method PATCH `
+        -Uri 'https://graph.microsoft.com/v1.0/applications/11111111-1111-1111-1111-111111111111' `
+        -Body @{ displayName = 'Stratton Demo Web - dev' } `
+        -AzInvoker {
+          param([string[]] $Arguments)
+
+          $bodyArgumentIndex = [array]::IndexOf($Arguments, '--body')
+          $script:bodyFilePath = $Arguments[$bodyArgumentIndex + 1].Substring(1)
+          throw 'simulated Azure CLI failure'
+        }
+    } | Should -Throw 'simulated Azure CLI failure'
+
+    Test-Path -LiteralPath $script:bodyFilePath | Should -BeFalse
+  }
+
   It 'can retain the provisional local redirect while registering the deployed SPA redirect' {
     $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
     $definition = Get-ManifestApplication -Manifest $manifest -Key web

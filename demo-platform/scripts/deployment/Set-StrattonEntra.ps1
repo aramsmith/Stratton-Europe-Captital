@@ -85,24 +85,74 @@ function Invoke-Graph {
     [object] $Body,
 
     [AllowNull()]
-    [scriptblock] $GraphInvoker
+    [scriptblock] $GraphInvoker,
+
+    [AllowNull()]
+    [scriptblock] $AzInvoker
   )
 
   if ($null -ne $GraphInvoker) {
     return & $GraphInvoker $Method $Uri $Body
   }
 
-  $arguments = @('rest', '--method', $Method, '--uri', $Uri)
-  if ($null -ne $Body) {
-    $arguments += @(
-      '--headers',
-      'Content-Type=application/json',
-      '--body',
-      ($Body | ConvertTo-Json -Depth 50 -Compress)
-    )
+  $bodyFilePath = $null
+  $result = $null
+  $operationError = $null
+  $cleanupError = $null
+  try {
+    $arguments = @('rest', '--method', $Method, '--uri', $Uri)
+    if ($null -ne $Body) {
+      $bodyFilePath = Join-Path `
+        ([System.IO.Path]::GetTempPath()) `
+        "stratton-graph-$([System.Guid]::NewGuid().ToString('N')).json"
+      [System.IO.File]::WriteAllText(
+        $bodyFilePath,
+        ($Body | ConvertTo-Json -Depth 50 -Compress),
+        [System.Text.UTF8Encoding]::new($false)
+      )
+      $arguments += @(
+        '--headers',
+        'Content-Type=application/json',
+        '--body',
+        "@$bodyFilePath"
+      )
+    }
+
+    if ($null -ne $AzInvoker) {
+      $result = & $AzInvoker $arguments
+    }
+    else {
+      $result = Invoke-AzJson -Arguments $arguments
+    }
+  }
+  catch {
+    $operationError = $_
+  }
+  finally {
+    if ($null -ne $bodyFilePath -and (Test-Path -LiteralPath $bodyFilePath)) {
+      try {
+        Remove-Item -LiteralPath $bodyFilePath -Force -ErrorAction Stop
+      }
+      catch {
+        $cleanupError = $_
+      }
+    }
   }
 
-  return Invoke-AzJson -Arguments $arguments
+  if ($null -ne $operationError -and $null -ne $cleanupError) {
+    throw [System.AggregateException]::new(
+      'The Microsoft Graph request failed and its temporary JSON body could not be removed.',
+      [System.Exception[]]@($operationError.Exception, $cleanupError.Exception)
+    )
+  }
+  if ($null -ne $operationError) {
+    throw $operationError
+  }
+  if ($null -ne $cleanupError) {
+    throw $cleanupError
+  }
+
+  return $result
 }
 
 function Assert-EntraTenantContext {
