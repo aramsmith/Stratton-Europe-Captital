@@ -1443,7 +1443,7 @@ BEGIN
   )
   BEGIN
     ALTER SECURITY POLICY dbo.stratton_rls_policy
-      DROP FILTER PREDICATE rls.fn_tenant_case(tenant_id, case_id) ON dbo.queue_outbox;
+      DROP FILTER PREDICATE ON dbo.queue_outbox;
   END;
   IF EXISTS (
     SELECT 1
@@ -1458,7 +1458,7 @@ BEGIN
   )
   BEGIN
     ALTER SECURITY POLICY dbo.stratton_rls_policy
-      DROP BLOCK PREDICATE rls.fn_queue_outbox_access(tenant_id, case_id) ON dbo.queue_outbox AFTER INSERT;
+      DROP BLOCK PREDICATE ON dbo.queue_outbox AFTER INSERT;
   END;
   IF EXISTS (
     SELECT 1
@@ -1473,7 +1473,7 @@ BEGIN
   )
   BEGIN
     ALTER SECURITY POLICY dbo.stratton_rls_policy
-      DROP BLOCK PREDICATE rls.fn_queue_outbox_access(tenant_id, case_id) ON dbo.queue_outbox AFTER UPDATE;
+      DROP BLOCK PREDICATE ON dbo.queue_outbox AFTER UPDATE;
   END;
 
   IF NOT EXISTS (
