@@ -690,7 +690,7 @@ function Invoke-StrattonDataPlaneBootstrap {
   foreach ($migration in $migrationOutputs.GetEnumerator()) {
     $migrationHashes[$migration.Key] = Get-Sha256Text -Value $migration.Value
   }
-  $routes = Get-BootstrapRouteEvidence -Outputs $outputs -Now [datetimeoffset]::UtcNow
+  $routes = Get-BootstrapRouteEvidence -Outputs $outputs -Now ([datetimeoffset]::UtcNow)
   $searchSchema = Get-Content (Join-Path $PSScriptRoot 'search-index.json') -Raw | ConvertFrom-Json
   $identityBootstrapSql = Get-IdentityBootstrapSql -BootstrapSql (
     Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlBootstrapSql'

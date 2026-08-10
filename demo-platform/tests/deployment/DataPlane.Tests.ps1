@@ -34,6 +34,13 @@ Describe 'Stratton data-plane bootstrap' {
       }).Count | Should -Be 0
   }
 
+  It 'evaluates the bootstrap route timestamp before parameter binding' {
+    $script = Get-Content -LiteralPath $script:bootstrapScriptPath -Raw
+
+    $script | Should -Match '-Now\s+\(\[datetimeoffset\]::UtcNow\)'
+    $script | Should -Not -Match '-Now\s+\[datetimeoffset\]::UtcNow'
+  }
+
   It 'rejects any route definition sequence other than exact ordered LUNA TERRA SOL' {
     $invalidSequences = @(
       @('TERRA', 'LUNA', 'SOL'),
