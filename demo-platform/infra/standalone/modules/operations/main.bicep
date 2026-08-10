@@ -76,12 +76,6 @@ resource phase5Identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-0
   tags: union(tags, { 'stratton.component': 'phase5' })
 }
 
-resource bootstrapIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
-  name: '${namePrefix}-bootstrap-mi'
-  location: location
-  tags: union(tags, { 'stratton.component': 'bootstrap' })
-}
-
 resource verificationIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: '${namePrefix}-verification-mi'
   location: location
@@ -101,9 +95,6 @@ output bffIdentityPrincipalId string = bffIdentity.properties.principalId
 output phase5IdentityResourceId string = phase5Identity.id
 output phase5IdentityClientId string = phase5Identity.properties.clientId
 output phase5IdentityPrincipalId string = phase5Identity.properties.principalId
-output bootstrapIdentityResourceId string = bootstrapIdentity.id
-output bootstrapIdentityClientId string = bootstrapIdentity.properties.clientId
-output bootstrapIdentityPrincipalId string = bootstrapIdentity.properties.principalId
 output verificationIdentityResourceId string = verificationIdentity.id
 output verificationIdentityClientId string = verificationIdentity.properties.clientId
 output verificationIdentityPrincipalId string = verificationIdentity.properties.principalId

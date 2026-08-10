@@ -651,6 +651,20 @@ function Assert-StrattonWhatIfSafe {
     [object] $WhatIfResult
   )
 
+  $diagnostics = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'diagnostics'
+  if ($null -eq $diagnostics) {
+    $whatIfProperties = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'properties'
+    $diagnostics = Get-StrattonPropertyValue -InputObject $whatIfProperties -Name 'diagnostics'
+  }
+  foreach ($diagnostic in @($diagnostics)) {
+    $diagnosticCode = [string] (
+      Get-StrattonPropertyValue -InputObject $diagnostic -Name 'code'
+    )
+    if ($diagnosticCode -ieq 'NestedDeploymentShortCircuited') {
+      throw "WHAT_IF_INCOMPLETE:$diagnosticCode"
+    }
+  }
+
   foreach ($change in @(Get-StrattonWhatIfChanges -WhatIfResult $WhatIfResult)) {
     if ((Get-StrattonPropertyValue -InputObject $change -Name 'changeType') -ceq 'Delete') {
       throw 'WHAT_IF_DELETE_PROHIBITED'

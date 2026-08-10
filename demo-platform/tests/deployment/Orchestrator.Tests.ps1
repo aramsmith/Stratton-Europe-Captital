@@ -363,6 +363,44 @@ Describe 'Stratton standalone deployment orchestrator' {
     } | Should -Throw 'WHAT_IF_NOT_SUCCEEDED'
   }
 
+  It 'fails closed when Azure short-circuits a nested deployment' {
+    {
+      Assert-StrattonWhatIfSafe -WhatIfResult ([pscustomobject]@{
+        status = 'Succeeded'
+        changes = @(
+          [pscustomobject]@{
+            changeType = 'Create'
+            resourceId = '/subscriptions/sub/resourceGroups/stratton-demo-rg'
+          }
+        )
+        diagnostics = @(
+          [pscustomobject]@{
+            code = 'NestedDeploymentShortCircuited'
+            level = 'Warning'
+            target = '/subscriptions/sub/resourceGroups/stratton-demo-rg/providers/Microsoft.Resources/deployments/stratton-demo-data'
+          }
+        )
+      })
+    } | Should -Throw 'WHAT_IF_INCOMPLETE:NestedDeploymentShortCircuited'
+  }
+
+  It 'fails closed when nested what-if diagnostics report a short-circuit' {
+    {
+      Assert-StrattonWhatIfSafe -WhatIfResult ([pscustomobject]@{
+        status = 'Succeeded'
+        properties = [pscustomobject]@{
+          changes = @()
+          diagnostics = @(
+            [pscustomobject]@{
+              code = 'nesteddeploymentshortcircuited'
+              level = 'Warning'
+            }
+          )
+        }
+      })
+    } | Should -Throw 'WHAT_IF_INCOMPLETE:nesteddeploymentshortcircuited'
+  }
+
   It 'rejects a changed what-if artifact before approval can deploy it' {
     $reviewed = [pscustomobject]@{
       status = 'Succeeded'

@@ -80,6 +80,25 @@ var serviceBusNamespaceName = toLower(take('${namePrefix}-sb-${uniqueSuffix}', 5
 var searchServiceName = toLower(take('${namePrefix}-search-${uniqueSuffix}', 60))
 var documentIntelligenceAccountName = toLower(take('${namePrefix}-docint-${uniqueSuffix}', 64))
 var openAiAccountName = toLower(take('${namePrefix}-openai-${uniqueSuffix}', 64))
+var containerAppsEnvironmentName = '${namePrefix}-cae'
+var logAnalyticsWorkspaceName = '${namePrefix}-log'
+var sqlDatabaseName = '${namePrefix}-db'
+var blobContainerName = 'admitted-evidence'
+var analysisQueueName = 'analysis-work'
+var emptyGuid = '00000000-0000-0000-0000-000000000000'
+var containerAppsEnvironmentId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.App/managedEnvironments', containerAppsEnvironmentName)
+var containerRegistryId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ContainerRegistry/registries', registryName)
+var logAnalyticsWorkspaceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.OperationalInsights/workspaces', logAnalyticsWorkspaceName)
+var sqlDatabaseResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.Sql/servers/databases', sqlServerName, sqlDatabaseName)
+var blobStorageAccountResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.Storage/storageAccounts', storageAccountName)
+var serviceBusNamespaceResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ServiceBus/namespaces', serviceBusNamespaceName)
+var searchServiceResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.Search/searchServices', searchServiceName)
+var documentIntelligenceAccountResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.CognitiveServices/accounts', documentIntelligenceAccountName)
+var openAiAccountResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.CognitiveServices/accounts', openAiAccountName)
+var webIdentityResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ManagedIdentity/userAssignedIdentities', '${namePrefix}-web-mi')
+var bffIdentityResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ManagedIdentity/userAssignedIdentities', '${namePrefix}-bff-mi')
+var phase5IdentityResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ManagedIdentity/userAssignedIdentities', '${namePrefix}-phase5-mi')
+var verificationIdentityResourceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ManagedIdentity/userAssignedIdentities', '${namePrefix}-verification-mi')
 
 resource deploymentResourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: resourceGroupName
@@ -117,7 +136,6 @@ module data './modules/data/main.bicep' = {
     namePrefix: namePrefix
     tags: effectiveTags
     tenantId: tenantId
-    bootstrapIdentityPrincipalId: operations.outputs.bootstrapIdentityPrincipalId
     privateEndpointsSubnetId: network.outputs.privateEndpointsSubnetId
     sqlPrivateDnsZoneId: network.outputs.sqlPrivateDnsZoneId
     sqlServerName: sqlServerName
@@ -151,51 +169,55 @@ module ai './modules/ai/main.bicep' = {
 module demoRuntimes '../main.bicep' = {
   name: '${namePrefix}-demo-runtimes'
   scope: deploymentResourceGroup
+  dependsOn: [
+    data
+    ai
+  ]
   params: {
     location: location
     tenantId: tenantId
     namePrefix: namePrefix
     tags: effectiveTags
     deployApplications: deployApplications
-    containerAppsEnvironmentId: operations.outputs.containerAppsEnvironmentId
-    containerRegistryId: operations.outputs.containerRegistryId
-    containerRegistryServer: operations.outputs.containerRegistryServer
-    logAnalyticsWorkspaceId: operations.outputs.logAnalyticsWorkspaceId
-    sqlServerFqdn: data.outputs.sqlServerFqdn
-    sqlDatabaseName: data.outputs.sqlDatabaseName
-    sqlDatabaseResourceId: data.outputs.sqlDatabaseResourceId
-    blobStorageAccountName: data.outputs.blobStorageAccountName
-    blobStorageAccountResourceId: data.outputs.blobStorageAccountResourceId
-    blobContainerName: data.outputs.blobContainerName
-    serviceBusFqdn: data.outputs.serviceBusFqdn
-    serviceBusNamespaceResourceId: data.outputs.serviceBusNamespaceResourceId
-    serviceBusQueueName: data.outputs.serviceBusQueueName
-    ingestionQueueName: data.outputs.ingestionQueueName
-    extractionQueueName: data.outputs.extractionQueueName
-    indexingQueueName: data.outputs.indexingQueueName
-    searchEndpoint: data.outputs.searchEndpoint
-    searchServiceResourceId: data.outputs.searchServiceResourceId
-    searchIndexName: data.outputs.searchIndexName
-    documentIntelligenceEndpoint: ai.outputs.documentIntelligenceEndpoint
-    documentIntelligenceAccountResourceId: ai.outputs.documentIntelligenceAccountResourceId
-    lunaOpenAiEndpoint: ai.outputs.lunaOpenAiEndpoint
-    lunaOpenAiAccountResourceId: ai.outputs.lunaOpenAiAccountResourceId
-    lunaOpenAiRegion: ai.outputs.lunaOpenAiRegion
-    lunaOpenAiDeploymentId: ai.outputs.lunaOpenAiDeploymentId
+    containerAppsEnvironmentId: containerAppsEnvironmentId
+    containerRegistryId: containerRegistryId
+    containerRegistryServer: '${registryName}.azurecr.io'
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    sqlServerFqdn: '${sqlServerName}${environment().suffixes.sqlServerHostname}'
+    sqlDatabaseName: sqlDatabaseName
+    sqlDatabaseResourceId: sqlDatabaseResourceId
+    blobStorageAccountName: storageAccountName
+    blobStorageAccountResourceId: blobStorageAccountResourceId
+    blobContainerName: blobContainerName
+    serviceBusFqdn: '${serviceBusNamespaceName}.servicebus.windows.net'
+    serviceBusNamespaceResourceId: serviceBusNamespaceResourceId
+    serviceBusQueueName: analysisQueueName
+    ingestionQueueName: 'q-ingestion'
+    extractionQueueName: 'q-extraction'
+    indexingQueueName: 'q-indexing'
+    searchEndpoint: 'https://${searchServiceName}.search.windows.net'
+    searchServiceResourceId: searchServiceResourceId
+    searchIndexName: 'governed-evidence'
+    documentIntelligenceEndpoint: 'https://${documentIntelligenceAccountName}.cognitiveservices.azure.com/'
+    documentIntelligenceAccountResourceId: documentIntelligenceAccountResourceId
+    lunaOpenAiEndpoint: 'https://${openAiAccountName}.openai.azure.com/'
+    lunaOpenAiAccountResourceId: openAiAccountResourceId
+    lunaOpenAiRegion: openAiLocation
+    lunaOpenAiDeploymentId: 'luna-evidence-triage'
     lunaOpenAiApiVersion: '2025-01-01-preview'
     lunaOpenAiEvidenceId: 'SEC-EVID-LUNA-ROUTE-v1'
     lunaOpenAiRouteEvidenceVersion: 'route-evidence-luna-v1'
-    terraOpenAiEndpoint: ai.outputs.terraOpenAiEndpoint
-    terraOpenAiAccountResourceId: ai.outputs.terraOpenAiAccountResourceId
-    terraOpenAiRegion: ai.outputs.terraOpenAiRegion
-    terraOpenAiDeploymentId: ai.outputs.terraOpenAiDeploymentId
+    terraOpenAiEndpoint: 'https://${openAiAccountName}.openai.azure.com/'
+    terraOpenAiAccountResourceId: openAiAccountResourceId
+    terraOpenAiRegion: openAiLocation
+    terraOpenAiDeploymentId: 'terra-grounded-analysis'
     terraOpenAiApiVersion: '2025-01-01-preview'
     terraOpenAiEvidenceId: 'SEC-EVID-TERRA-ROUTE-v1'
     terraOpenAiRouteEvidenceVersion: 'route-evidence-terra-v1'
-    solOpenAiEndpoint: ai.outputs.solOpenAiEndpoint
-    solOpenAiAccountResourceId: ai.outputs.solOpenAiAccountResourceId
-    solOpenAiRegion: ai.outputs.solOpenAiRegion
-    solOpenAiDeploymentId: ai.outputs.solOpenAiDeploymentId
+    solOpenAiEndpoint: 'https://${openAiAccountName}.openai.azure.com/'
+    solOpenAiAccountResourceId: openAiAccountResourceId
+    solOpenAiRegion: openAiLocation
+    solOpenAiDeploymentId: 'sol-thesis-challenge'
     solOpenAiApiVersion: '2025-01-01-preview'
     solOpenAiEvidenceId: 'SEC-EVID-SOL-ROUTE-v1'
     solOpenAiRouteEvidenceVersion: 'route-evidence-sol-v1'
@@ -216,18 +238,18 @@ module demoRuntimes '../main.bicep' = {
     bffContainerPort: bffContainerPort
     webEntraClientId: webEntraClientId
     bffEntraClientId: bffEntraClientId
-    webIdentityResourceId: operations.outputs.webIdentityResourceId
-    webIdentityClientId: operations.outputs.webIdentityClientId
-    webIdentityPrincipalId: operations.outputs.webIdentityPrincipalId
-    bffIdentityResourceId: operations.outputs.bffIdentityResourceId
-    bffIdentityClientId: operations.outputs.bffIdentityClientId
-    bffIdentityPrincipalId: operations.outputs.bffIdentityPrincipalId
-    phase5IdentityResourceId: operations.outputs.phase5IdentityResourceId
-    phase5IdentityClientId: operations.outputs.phase5IdentityClientId
-    phase5IdentityPrincipalId: operations.outputs.phase5IdentityPrincipalId
-    verificationIdentityResourceId: operations.outputs.verificationIdentityResourceId
-    verificationIdentityClientId: operations.outputs.verificationIdentityClientId
-    verificationIdentityPrincipalId: operations.outputs.verificationIdentityPrincipalId
+    webIdentityResourceId: webIdentityResourceId
+    webIdentityClientId: deployApplications ? operations.outputs.webIdentityClientId : emptyGuid
+    webIdentityPrincipalId: deployApplications ? operations.outputs.webIdentityPrincipalId : emptyGuid
+    bffIdentityResourceId: bffIdentityResourceId
+    bffIdentityClientId: deployApplications ? operations.outputs.bffIdentityClientId : emptyGuid
+    bffIdentityPrincipalId: deployApplications ? operations.outputs.bffIdentityPrincipalId : emptyGuid
+    phase5IdentityResourceId: phase5IdentityResourceId
+    phase5IdentityClientId: deployApplications ? operations.outputs.phase5IdentityClientId : emptyGuid
+    phase5IdentityPrincipalId: deployApplications ? operations.outputs.phase5IdentityPrincipalId : emptyGuid
+    verificationIdentityResourceId: verificationIdentityResourceId
+    verificationIdentityClientId: deployApplications ? operations.outputs.verificationIdentityClientId : emptyGuid
+    verificationIdentityPrincipalId: deployApplications ? operations.outputs.verificationIdentityPrincipalId : emptyGuid
   }
 }
 
@@ -276,9 +298,9 @@ output bffIdentityPrincipalId string = operations.outputs.bffIdentityPrincipalId
 output phase5IdentityResourceId string = operations.outputs.phase5IdentityResourceId
 output phase5IdentityClientId string = operations.outputs.phase5IdentityClientId
 output phase5IdentityPrincipalId string = operations.outputs.phase5IdentityPrincipalId
-output bootstrapIdentityResourceId string = operations.outputs.bootstrapIdentityResourceId
-output bootstrapIdentityClientId string = operations.outputs.bootstrapIdentityClientId
-output bootstrapIdentityPrincipalId string = operations.outputs.bootstrapIdentityPrincipalId
+output bootstrapIdentityResourceId string = data.outputs.bootstrapIdentityResourceId
+output bootstrapIdentityClientId string = data.outputs.bootstrapIdentityClientId
+output bootstrapIdentityPrincipalId string = data.outputs.bootstrapIdentityPrincipalId
 output verificationIdentityResourceId string = operations.outputs.verificationIdentityResourceId
 output verificationIdentityClientId string = operations.outputs.verificationIdentityClientId
 output verificationIdentityPrincipalId string = operations.outputs.verificationIdentityPrincipalId

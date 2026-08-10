@@ -162,14 +162,15 @@ Describe 'Stratton standalone platform foundation' {
     $sqlServers[0].properties.publicNetworkAccess | Should -Be 'Disabled'
     $sqlServers[0].properties.administrators.azureADOnlyAuthentication | Should -BeTrue
     $sqlServers[0].properties.administrators.login | Should -Match 'bootstrap-mi'
-    $sqlServers[0].properties.administrators.sid | Should -Match 'bootstrapIdentityPrincipalId'
+    $sqlServers[0].properties.administrators.sid | Should -Match 'bootstrap-mi'
+    $sqlServers[0].properties.administrators.sid | Should -Match '\.principalId'
 
     $searchServiceContributorRoleId = '7ca78c08-252a-4471-8644-bb5ff32d4ba0'
     $searchAssignments = @(
       $script:allResources |
         Where-Object {
           $_.type -eq 'Microsoft.Authorization/roleAssignments' -and
-          [string] $_.properties.principalId -match 'bootstrapIdentityPrincipalId'
+          [string] $_.properties.principalId -match 'bootstrap-mi'
         }
     )
     $searchAssignments.Count | Should -Be 1

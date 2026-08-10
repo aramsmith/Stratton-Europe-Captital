@@ -2,7 +2,6 @@ param location string
 param namePrefix string
 param tags object
 param tenantId string
-param bootstrapIdentityPrincipalId string
 param privateEndpointsSubnetId string
 param sqlPrivateDnsZoneId string
 param sqlServerName string
@@ -15,6 +14,12 @@ var blobContainerName = 'admitted-evidence'
 var analysisQueueName = 'analysis-work'
 var searchServiceContributorRoleDefinitionGuid = '7ca78c08-252a-4471-8644-bb5ff32d4ba0'
 
+resource bootstrapIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: '${namePrefix}-bootstrap-mi'
+  location: location
+  tags: union(tags, { 'stratton.component': 'bootstrap' })
+}
+
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   name: sqlServerName
   location: location
@@ -26,7 +31,7 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     administrators: {
       administratorType: 'ActiveDirectory'
       login: '${namePrefix}-bootstrap-mi'
-      sid: bootstrapIdentityPrincipalId
+      sid: bootstrapIdentity.properties.principalId
       tenantId: tenantId
       azureADOnlyAuthentication: true
     }
@@ -179,10 +184,10 @@ resource searchService 'Microsoft.Search/searchServices@2023-11-01' = {
 }
 
 resource bootstrapSearchServiceContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(searchService.id, bootstrapIdentityPrincipalId, searchServiceContributorRoleDefinitionGuid)
+  name: guid(searchService.id, bootstrapIdentity.id, searchServiceContributorRoleDefinitionGuid)
   scope: searchService
   properties: {
-    principalId: bootstrapIdentityPrincipalId
+    principalId: bootstrapIdentity.properties.principalId
     principalType: 'ServicePrincipal'
     roleDefinitionId: subscriptionResourceId(
       'Microsoft.Authorization/roleDefinitions',
@@ -208,3 +213,6 @@ output indexingQueueName string = indexingQueue.name
 output searchEndpoint string = 'https://${searchService.name}.search.windows.net'
 output searchServiceResourceId string = searchService.id
 output searchIndexName string = 'governed-evidence'
+output bootstrapIdentityResourceId string = bootstrapIdentity.id
+output bootstrapIdentityClientId string = bootstrapIdentity.properties.clientId
+output bootstrapIdentityPrincipalId string = bootstrapIdentity.properties.principalId
