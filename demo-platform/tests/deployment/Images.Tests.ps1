@@ -33,6 +33,7 @@ Describe 'Stratton image build orchestration' {
       $startInfo.UseShellExecute | Should -BeFalse
       $startInfo.RedirectStandardOutput | Should -BeTrue
       $startInfo.RedirectStandardError | Should -BeTrue
+      $startInfo.WorkingDirectory | Should -Be (Get-Location).Path
       @($startInfo.ArgumentList) | Should -Contain $complexValue
     }
   }

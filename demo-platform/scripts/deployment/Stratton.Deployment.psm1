@@ -115,6 +115,7 @@ function New-StrattonAzProcessStartInfo {
   $startInfo.RedirectStandardOutput = $true
   $startInfo.RedirectStandardError = $true
   $startInfo.CreateNoWindow = $true
+  $startInfo.WorkingDirectory = (Get-Location).Path
   $allArguments = @($argumentPrefix) + @($Arguments)
   if ($null -ne $startInfo.PSObject.Properties['ArgumentList']) {
     foreach ($argument in $allArguments) {
