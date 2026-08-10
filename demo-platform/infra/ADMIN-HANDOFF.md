@@ -1,7 +1,56 @@
 # Stratton demo infrastructure administration handoff
 
-This handoff is configuration guidance only. It defines a no-deployment boundary: do not run Azure
-login, what-if, deployment, provisioning, or runtime validation as part of this repository task.
+Local repository validation remains read-only. Azure changes occur only through the controlled
+standalone orchestrator below, with separate provider-registration, foundation what-if, and
+application what-if approvals.
+
+## Controlled standalone deployment
+
+Run from `demo-platform` while signed in as `aram@azurelab.nl` to subscription
+`8364fb4d-2d36-4da5-908b-36cb8b808b8c` and tenant
+`27140306-eea5-4e7f-91e9-4c9e86864b3a`:
+
+```powershell
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase Preflight
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase FoundationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase FoundationDeploy -ApproveFoundationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase ApplicationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase ApplicationDeploy -ApproveApplicationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Test-StrattonDeployment.ps1
+```
+
+When `preflight.json` lists unregistered providers, inspect the exact namespaces and explicitly run:
+
+```powershell
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase FoundationWhatIf -ApproveProviderRegistration
+```
+
+The post-registration recheck is written to
+`artifacts\deployment\provider-registration-preflight.json`, preserving the exact preflight evidence
+that was approved if the command must resume.
+
+OpenAI readiness and the Bicep deployments both use `DataZoneStandard`; preflight requires remaining
+quota for every route's requested capacity. Restrictive `.dockerignore` files exclude dependencies,
+test output, artifacts, and local credential files from all ACR build contexts.
+
+The provider approval cannot approve either Bicep what-if. Foundation deploys shared services and
+stable identities with `deployApplications=false`; application activation uses
+`deployApplications=true`, real Entra IDs, and immutable digests. Both deployments are
+subscription-scoped and incremental. Complete mode and Azure delete commands are prohibited.
+
+The state machine persists atomically after each successful phase and rejects subscription, tenant,
+user, commit, or parameter-hash drift. Review `artifacts\deployment\what-if.json` before each
+approval. `outputs.json` and `verification.json` contain non-secret evidence only.
+
+Before the final verification command, set `STRATTON_PLAYWRIGHT_STORAGE_STATE` to a protected
+authenticated Playwright storage-state file and `STRATTON_PLAYWRIGHT_SESSION_STORAGE_STATE` to a
+protected JSON object containing the deployed origin's MSAL session-storage key/value pairs. Keep
+both sensitive files outside the repository. Authenticated verification disables traces,
+screenshots, videos, and HTML reports. Verification checks Azure Resource Health, active Container
+Apps revisions, public/internal ingress, all health endpoints, Entra reconciliation, private SQL DNS
+plus token-authenticated query, exact dependency RBAC, Luna/Terra/Sol ARM and Phase 5 bindings, and
+the authenticated Project Danube scenario. The provisional localhost SPA redirect is removed only
+after that browser scenario passes.
 
 ## Client-directed Microsoft Entra authentication
 
@@ -117,9 +166,10 @@ npm ci
 node .\scripts\verify-demo.mjs
 ```
 
-The verification script runs `npm ci` and then `npm run validate` from `..\5-coding-r4\app` before
-demo-platform tests. It preserves fail-fast exit and stderr details and cleans generated Bicep
-output. It does not log in to Azure or perform a deployment, what-if, provisioning, or runtime test.
+The local verification script runs `npm ci` and then `npm run validate` from
+`..\5-coding-r4\app` before demo-platform tests. It preserves fail-fast exit and stderr details and
+cleans generated Bicep output. It does not log in to Azure or perform deployment, provider
+registration, Entra writes, image builds, jobs, or runtime tests.
 
 - Consent or OBO failure: check both delegated consent grants, the browser's single same-origin
   bearer header, BFF audience/`azp`/scope validation, and the BFF managed-identity federated

@@ -1,5 +1,38 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
+import { readFileSync } from "node:fs";
+
+const remoteBaseUrl = process.env.STRATTON_E2E_BASE_URL;
+const remoteSessionStorageStatePath =
+  process.env.STRATTON_E2E_SESSION_STORAGE_STATE;
+
+function readRemoteSessionStorageState(): Readonly<Record<string, string>> | undefined {
+  if (!remoteBaseUrl) {
+    return undefined;
+  }
+  if (!remoteSessionStorageStatePath) {
+    throw new Error("PLAYWRIGHT_AUTH_SESSION_STORAGE_STATE_REQUIRED");
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(
+      readFileSync(remoteSessionStorageStatePath, "utf8")
+    );
+    if (
+      !parsed ||
+      typeof parsed !== "object" ||
+      Array.isArray(parsed) ||
+      Object.values(parsed).some((value) => typeof value !== "string")
+    ) {
+      throw new Error("INVALID");
+    }
+    return parsed as Readonly<Record<string, string>>;
+  } catch {
+    throw new Error("PLAYWRIGHT_AUTH_SESSION_STORAGE_STATE_INVALID");
+  }
+}
+
+const remoteSessionStorageState = readRemoteSessionStorageState();
 
 const baseEvidenceTitles = [
   "FY25 Board Pack",
@@ -152,6 +185,26 @@ async function pressKeyTimes(page: Page, key: string, count: number): Promise<vo
 }
 
 test.describe("Stratton evidence-to-decision demo", () => {
+  test.beforeEach(async ({ page }) => {
+    if (!remoteBaseUrl || !remoteSessionStorageState) {
+      return;
+    }
+    await page.addInitScript(
+      ({ origin, entries }) => {
+        if (window.location.origin !== origin) {
+          return;
+        }
+        for (const [name, value] of Object.entries(entries)) {
+          window.sessionStorage.setItem(name, value);
+        }
+      },
+      {
+        origin: new URL(remoteBaseUrl).origin,
+        entries: remoteSessionStorageState
+      }
+    );
+  });
+
   test("Project Danube moves from evidence to committee preparation", async ({ page }) => {
     await driveScenarioToCommitteePreparation(page);
 

@@ -21,24 +21,21 @@ $script:RequiredOpenAiModels = @(
     modelId = 'gpt-5.6-luna'
     modelVersion = '2026-07-09'
     quotaName = 'OpenAI.DataZoneStandard.gpt-5.6-luna'
+    requiredCapacity = 1
   },
   [pscustomobject]@{
     route = 'TERRA'
     modelId = 'gpt-5.6-terra'
     modelVersion = '2026-07-09'
     quotaName = 'OpenAI.DataZoneStandard.gpt-5.6-terra'
+    requiredCapacity = 1
   },
   [pscustomobject]@{
     route = 'SOL'
     modelId = 'gpt-5.6-sol'
     modelVersion = '2026-07-09'
     quotaName = 'OpenAI.DataZoneStandard.gpt-5.6-sol'
-  },
-  [pscustomobject]@{
-    route = 'EMBEDDING'
-    modelId = 'text-embedding-3-large'
-    modelVersion = $null
-    quotaName = 'OpenAI.DataZoneStandard.text-embedding-3-large'
+    requiredCapacity = 1
   }
 )
 
@@ -112,6 +109,7 @@ function Get-RequiredOpenAiModels {
           modelId = $_.modelId
           modelVersion = $_.modelVersion
           quotaName = $_.quotaName
+          requiredCapacity = $_.requiredCapacity
         }
       }
   )
@@ -711,7 +709,17 @@ function Get-OpenAiReadiness {
       $quotaRow = Find-QuotaRow -QuotaRows $quotaRows -QuotaName $requiredModel.quotaName
       $quotaLimit = if ($null -ne $quotaRow) { [double] $quotaRow.limit } else { $null }
       $quotaCurrentValue = if ($null -ne $quotaRow) { [double] $quotaRow.currentValue } else { $null }
-      $quotaAvailable = ($null -ne $quotaRow -and $quotaLimit -gt 0)
+      $requiredCapacityProperty = $requiredModel.PSObject.Properties['requiredCapacity']
+      $requiredCapacity = if ($null -ne $requiredCapacityProperty) {
+        [double] $requiredCapacityProperty.Value
+      }
+      else {
+        1.0
+      }
+      $quotaAvailable = (
+        $null -ne $quotaRow -and
+        ($quotaLimit - $quotaCurrentValue) -ge $requiredCapacity
+      )
 
       $modelCandidates = @(
         $normalizedModels |
@@ -756,6 +764,7 @@ function Get-OpenAiReadiness {
         quotaLimit = $quotaLimit
         quotaCurrentValue = $quotaCurrentValue
         quotaAvailable = $quotaAvailable
+        requiredCapacity = $requiredCapacity
         reason = $reason
       }
     }
@@ -856,11 +865,29 @@ function ConvertTo-PreflightResult {
     $blockingFindings.Add('AZURE_OPENAI_SKU_UNAVAILABLE')
   }
 
-  if (@($OpenAiModels).Count -eq 0 -or @($OpenAiModels | Where-Object available -ne $true).Count -gt 0) {
+  $openAiModels = @($OpenAiModels)
+  $accountScopedModelDiscoveryDeferred = (
+    $openAiModels.Count -gt 0 -and
+    @($SkuAvailability.discoveredOpenAiAccounts).Count -eq 0 -and
+    @(
+      $openAiModels |
+        Where-Object {
+          $_.reason -cne 'NO_OPENAI_ACCOUNT_AVAILABLE_FOR_LIST_MODELS' -or
+          $_.quotaAvailable -ne $true
+        }
+    ).Count -eq 0
+  )
+  if (
+    $openAiModels.Count -eq 0 -or
+    (
+      @($openAiModels | Where-Object available -ne $true).Count -gt 0 -and
+      -not $accountScopedModelDiscoveryDeferred
+    )
+  ) {
     $blockingFindings.Add('AZURE_OPENAI_MODEL_UNAVAILABLE')
   }
 
-  if (@($OpenAiModels).Count -eq 0 -or @($OpenAiModels | Where-Object quotaAvailable -ne $true).Count -gt 0) {
+  if ($openAiModels.Count -eq 0 -or @($openAiModels | Where-Object quotaAvailable -ne $true).Count -gt 0) {
     $blockingFindings.Add('AZURE_OPENAI_QUOTA_UNAVAILABLE')
   }
 
@@ -952,6 +979,7 @@ function Invoke-StrattonAzurePreflight {
             quotaLimit = $null
             quotaCurrentValue = $null
             quotaAvailable = $false
+            requiredCapacity = $_.requiredCapacity
             reason = 'MODEL_DISCOVERY_NOT_RUN'
           }
         }

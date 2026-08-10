@@ -41,6 +41,26 @@ Describe 'Stratton standalone platform foundation' {
     (@($script:template.resources | Where-Object type -eq 'Microsoft.Resources/resourceGroups')).Count | Should -Be 1
   }
 
+  It 'supports a foundation-only deployment before application activation' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $script:template.parameters.deployApplications.type | Should -Be 'bool'
+    $script:template.parameters.deployApplications.defaultValue | Should -BeTrue
+    $applicationDeployment = @(
+      $script:template.resources |
+        Where-Object {
+          $_.type -eq 'Microsoft.Resources/deployments' -and
+          $_.name -match 'demo-runtimes'
+        }
+    )
+    $applicationDeployment.Count | Should -Be 1
+    ($applicationDeployment[0].properties.parameters.deployApplications.value | Out-String) |
+      Should -Match "parameters\('deployApplications'\)"
+  }
+
   It 'creates a VNet-integrated consumption environment and private SQL database' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
@@ -66,6 +86,19 @@ Describe 'Stratton standalone platform foundation' {
       Should -Be 2
     (@($script:allResources | Where-Object type -eq 'Microsoft.CognitiveServices/accounts/deployments')).Count |
       Should -Be 3
+  }
+
+  It 'uses the approved DataZoneStandard deployment type' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $deployments = @(
+      $script:allResources |
+        Where-Object type -eq 'Microsoft.CognitiveServices/accounts/deployments'
+    )
+    @($deployments.sku.name | Select-Object -Unique) | Should -Be @('DataZoneStandard')
   }
 
   It 'provisions cost-minimised operations resources and stable identities' {

@@ -1,19 +1,18 @@
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory)]
   [string] $SubscriptionId,
 
-  [Parameter(Mandatory)]
   [string] $TenantId,
 
-  [Parameter(Mandatory)]
   [string] $ExpectedUser,
 
-  [Parameter(Mandatory)]
   [string] $Location,
 
-  [Parameter(Mandatory)]
-  [string] $OutFile
+  [string] $OutFile,
+
+  [switch] $AllowProviderRegistrationPending,
+
+  [switch] $LoadOnly
 )
 
 Set-StrictMode -Version Latest
@@ -22,23 +21,46 @@ $ErrorActionPreference = 'Stop'
 $modulePath = Join-Path $PSScriptRoot 'Stratton.Deployment.psm1'
 Import-Module $modulePath -Force
 
+function Assert-StrattonPreflightResult {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [object] $Result,
+
+    [switch] $AllowProviderRegistrationPending
+  )
+
+  $blockingFindings = @($Result.blockingFindings)
+  if ($AllowProviderRegistrationPending) {
+    $blockingFindings = @(
+      $blockingFindings |
+        Where-Object { $_ -notlike 'AZURE_PROVIDER_UNREGISTERED:*' }
+    )
+  }
+  if ($blockingFindings.Count -gt 0) {
+    throw "AZURE_PREFLIGHT_BLOCKED:$($blockingFindings -join ',')"
+  }
+}
+
+if ($LoadOnly) {
+  return
+}
+
+foreach ($requiredParameter in @('SubscriptionId', 'TenantId', 'ExpectedUser', 'Location', 'OutFile')) {
+  if ([string]::IsNullOrWhiteSpace([string] (Get-Variable -Name $requiredParameter -ValueOnly))) {
+    throw "PREFLIGHT_PARAMETER_REQUIRED:$requiredParameter"
+  }
+}
+
 $result = Invoke-StrattonAzurePreflight `
   -SubscriptionId $SubscriptionId `
   -TenantId $TenantId `
   -ExpectedUser $ExpectedUser `
   -Location $Location
 
-$outputDirectory = Split-Path -Parent $OutFile
-if (-not [string]::IsNullOrWhiteSpace($outputDirectory)) {
-  New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
-}
-
-$result |
-  ConvertTo-Json -Depth 100 |
-  Set-Content -LiteralPath $OutFile -Encoding utf8NoBOM
-
-if (@($result.blockingFindings).Count -gt 0) {
-  throw "AZURE_PREFLIGHT_BLOCKED:$($result.blockingFindings -join ',')"
-}
+Write-DeploymentArtifact -Path $OutFile -InputObject $result
+Assert-StrattonPreflightResult `
+  -Result $result `
+  -AllowProviderRegistrationPending:$AllowProviderRegistrationPending
 
 $result

@@ -47,7 +47,7 @@ resource luna 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAi
   name: 'luna-evidence-triage'
   sku: {
-    name: 'GlobalStandard'
+    name: 'DataZoneStandard'
     capacity: lunaModelCapacity
   }
   properties: {
@@ -63,7 +63,7 @@ resource terra 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAi
   name: 'terra-grounded-analysis'
   sku: {
-    name: 'GlobalStandard'
+    name: 'DataZoneStandard'
     capacity: terraModelCapacity
   }
   properties: {
@@ -79,7 +79,7 @@ resource sol 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAi
   name: 'sol-thesis-challenge'
   sku: {
-    name: 'GlobalStandard'
+    name: 'DataZoneStandard'
     capacity: solModelCapacity
   }
   properties: {

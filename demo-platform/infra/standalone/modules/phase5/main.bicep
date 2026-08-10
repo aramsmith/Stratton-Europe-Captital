@@ -115,7 +115,7 @@ resource phase5AuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' =
       unauthenticatedClientAction: 'Return401'
       redirectToProvider: 'azureactivedirectory'
       excludedPaths: [
-        '/healthz'
+        '/health'
       ]
     }
     identityProviders: {

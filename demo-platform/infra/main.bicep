@@ -17,6 +17,9 @@ param namePrefix string = 'stratton-demo'
 @description('Tags applied to demo-owned resources.')
 param tags object = {}
 
+@description('Deploy application Container Apps and their runtime role assignments.')
+param deployApplications bool = true
+
 @description('Existing Container Apps managed environment resource ID.')
 param containerAppsEnvironmentId string
 
@@ -240,7 +243,7 @@ param phase5IdentityPrincipalId string
 var blobAccountUrl = 'https://${blobStorageAccountName}.blob.${environment().suffixes.storage}'
 var sqlDatabaseResourceIdParts = split(sqlDatabaseResourceId, '/')
 
-module phase5 './standalone/modules/phase5/main.bicep' = {
+module phase5 './standalone/modules/phase5/main.bicep' = if (deployApplications) {
   name: '${namePrefix}-phase5'
   params: {
     location: location
@@ -266,7 +269,7 @@ module phase5 './standalone/modules/phase5/main.bicep' = {
   }
 }
 
-module demoApps './modules/demo-apps/main.bicep' = {
+module demoApps './modules/demo-apps/main.bicep' = if (deployApplications) {
   name: '${namePrefix}-apps'
   params: {
     location: location
@@ -282,7 +285,7 @@ module demoApps './modules/demo-apps/main.bicep' = {
     bffImageDigest: bffImageDigest
     webContainerPort: webContainerPort
     bffContainerPort: bffContainerPort
-    phase5ApiBaseUrl: 'https://${phase5.outputs.phase5ApiFqdn}'
+    phase5ApiBaseUrl: deployApplications ? 'https://${phase5.outputs.phase5ApiFqdn}' : ''
     webDelegatedScope: webDelegatedScope
     bffRequiredDelegatedScope: bffRequiredDelegatedScope
     phase5ApplicationId: phase5ApplicationId
@@ -344,7 +347,7 @@ module demoData './modules/demo-data/main.bicep' = {
   }
 }
 
-module demoRbac './modules/demo-rbac/main.bicep' = {
+module demoRbac './modules/demo-rbac/main.bicep' = if (deployApplications) {
   name: '${namePrefix}-rbac'
   params: {
     containerRegistryId: containerRegistryId
@@ -366,21 +369,21 @@ module demoRbac './modules/demo-rbac/main.bicep' = {
   }
 }
 
-output webAppName string = demoApps.outputs.webAppName
-output webAppId string = demoApps.outputs.webAppId
-output webAppFqdn string = demoApps.outputs.webAppFqdn
+output webAppName string = deployApplications ? demoApps.outputs.webAppName : ''
+output webAppId string = deployApplications ? demoApps.outputs.webAppId : ''
+output webAppFqdn string = deployApplications ? demoApps.outputs.webAppFqdn : ''
 output webIdentityResourceId string = webIdentityResourceId
 output webIdentityClientId string = webIdentityClientId
 output webIdentityPrincipalId string = webIdentityPrincipalId
-output bffAppName string = demoApps.outputs.bffAppName
-output bffAppId string = demoApps.outputs.bffAppId
-output bffAppFqdn string = demoApps.outputs.bffAppFqdn
+output bffAppName string = deployApplications ? demoApps.outputs.bffAppName : ''
+output bffAppId string = deployApplications ? demoApps.outputs.bffAppId : ''
+output bffAppFqdn string = deployApplications ? demoApps.outputs.bffAppFqdn : ''
 output bffIdentityResourceId string = bffIdentityResourceId
 output bffIdentityClientId string = bffIdentityClientId
 output bffIdentityPrincipalId string = bffIdentityPrincipalId
-output phase5AppName string = phase5.outputs.phase5AppName
-output phase5AppId string = phase5.outputs.phase5AppId
-output phase5ApiFqdn string = phase5.outputs.phase5ApiFqdn
+output phase5AppName string = deployApplications ? phase5.outputs.phase5AppName : ''
+output phase5AppId string = deployApplications ? phase5.outputs.phase5AppId : ''
+output phase5ApiFqdn string = deployApplications ? phase5.outputs.phase5ApiFqdn : ''
 output phase5IdentityResourceId string = phase5IdentityResourceId
 output phase5IdentityClientId string = phase5IdentityClientId
 output phase5IdentityPrincipalId string = phase5IdentityPrincipalId
@@ -389,9 +392,9 @@ output sqlPhase5AuthorityMigrationSql string = demoData.outputs.phase5AuthorityM
 output sqlProjectionMigrationSql string = demoData.outputs.projectionMigrationSql
 output sqlBootstrapSql string = demoData.outputs.bootstrapSql
 output sqlSessionIsolationNotes object = demoData.outputs.sessionIsolationNotes
-output roleAssignmentIds array = concat(
+output roleAssignmentIds array = deployApplications ? concat(
   demoRbac.outputs.roleAssignmentIds,
   demoRbac.outputs.phase5SenderRoleAssignmentIds,
   demoRbac.outputs.openAiRoleAssignmentIds,
   demoRbac.outputs.openAiReaderRoleAssignmentIds
-)
+) : []

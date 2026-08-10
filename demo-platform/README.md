@@ -242,16 +242,53 @@ These prerequisites are configuration guidance only; they are not part of local 
 
 See `infra\ADMIN-HANDOFF.md` for app-role assignments, SQL bootstrap, and exact RBAC scopes.
 
-## Explicit no-deployment boundary
+## Controlled standalone Azure deployment
 
-This task stops at local build, test, Playwright, Bicep compilation, and Pester validation.
+Local verification never logs in, registers providers, builds images, writes Entra, runs a job, or
+calls Azure deployment commands. Those changes occur only when an operator explicitly runs the
+controlled orchestrator against the approved subscription, tenant, user, and commit.
 
-Do **not** run any of the following from this README or `verify-demo.mjs`:
+Run each stage separately from `demo-platform`:
 
-- `az login`
-- `az deployment ...`
-- `az deployment group|sub|mg|tenant what-if ...`
-- Azure runtime smoke tests against deployed resources
+```powershell
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase Preflight
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase FoundationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase FoundationDeploy -ApproveFoundationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase ApplicationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase ApplicationDeploy -ApproveApplicationWhatIf
+pwsh -NoProfile -File .\scripts\deployment\Test-StrattonDeployment.ps1
+```
+
+If preflight reports unregistered providers, review `artifacts\deployment\preflight.json` and rerun
+the foundation what-if with `-ApproveProviderRegistration`. Only the exact namespaces in that
+artifact are registered; this approval is separate from both what-if approvals.
+
+The foundation uses `deployApplications=false`. The application what-if and deployment use the real
+Entra client IDs plus immutable image digests with `deployApplications=true`. Both resource stages
+are subscription-scoped and incremental. The scripts never use Complete mode or Azure delete
+commands. OpenAI preflight and deployment both use the approved `DataZoneStandard` type and require
+remaining quota for each route capacity. Restrictive `.dockerignore` files keep dependencies,
+artifacts, test output, and local credential files out of ACR build contexts.
+
+The resumable state and evidence are written atomically to:
+
+- `artifacts\deployment\deployment-state.json`
+- `artifacts\deployment\preflight.json`
+- `artifacts\deployment\provider-registration-preflight.json`
+- `artifacts\deployment\what-if.json`
+- `artifacts\deployment\outputs.json`
+- `artifacts\deployment\verification.json`
+
+State is bound to subscription, tenant, user, commit, and parameter hash. Any drift stops the next
+stage. The application deployment temporarily retains `http://localhost:4173` beside the exact
+deployed SPA redirect. Before verification, set `STRATTON_PLAYWRIGHT_STORAGE_STATE` to a locally
+protected authenticated Playwright storage-state file and
+`STRATTON_PLAYWRIGHT_SESSION_STORAGE_STATE` to a protected JSON object containing the deployed
+origin's MSAL session-storage key/value pairs. Both files are sensitive and must remain outside the
+repository. The verifier restores both browser stores, disables authenticated-run traces,
+screenshots, videos, and HTML reports, runs the deployed Project Danube scenario, then removes the
+provisional redirect and records `VERIFIED`. Tokens and secrets are not written to deployment state,
+parameters, command lines, logs, or retained test evidence.
 
 ## Troubleshooting
 

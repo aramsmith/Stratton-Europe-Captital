@@ -1,6 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const repoRoot = process.cwd();
+const remoteBaseUrl = process.env.STRATTON_E2E_BASE_URL;
+const remoteStorageState = process.env.STRATTON_E2E_STORAGE_STATE;
+const isRemoteAuthenticatedRun = Boolean(remoteBaseUrl);
 const localBffEnv = {
   ...process.env,
   DEMO_MODE: "LOCAL",
@@ -23,35 +26,40 @@ export default defineConfig({
   expect: {
     timeout: 10_000
   },
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: isRemoteAuthenticatedRun
+    ? [["list"]]
+    : [["list"], ["html", { open: "never" }]],
   use: {
-    baseURL: "http://127.0.0.1:4173",
-    trace: "retain-on-failure",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure"
+    baseURL: remoteBaseUrl ?? "http://127.0.0.1:4173",
+    ...(remoteStorageState ? { storageState: remoteStorageState } : {}),
+    trace: isRemoteAuthenticatedRun ? "off" : "retain-on-failure",
+    screenshot: isRemoteAuthenticatedRun ? "off" : "only-on-failure",
+    video: isRemoteAuthenticatedRun ? "off" : "retain-on-failure"
   },
-  webServer: [
-    {
-      command: "npx tsx apps/bff/src/server.ts",
-      url: "http://127.0.0.1:3001/healthz",
-      cwd: repoRoot,
-      env: localBffEnv,
-      reuseExistingServer: false,
-      stdout: "pipe",
-      stderr: "pipe",
-      timeout: 120_000
-    },
-    {
-      command: "npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173",
-      url: "http://127.0.0.1:4173/workbench",
-      cwd: repoRoot,
-      env: localWebEnv,
-      reuseExistingServer: false,
-      stdout: "pipe",
-      stderr: "pipe",
-      timeout: 120_000
-    }
-  ],
+  webServer: isRemoteAuthenticatedRun
+    ? undefined
+    : [
+        {
+          command: "npx tsx apps/bff/src/server.ts",
+          url: "http://127.0.0.1:3001/healthz",
+          cwd: repoRoot,
+          env: localBffEnv,
+          reuseExistingServer: false,
+          stdout: "pipe",
+          stderr: "pipe",
+          timeout: 120_000
+        },
+        {
+          command: "npm run dev --workspace @stratton/demo-web -- --host 127.0.0.1 --port 4173",
+          url: "http://127.0.0.1:4173/workbench",
+          cwd: repoRoot,
+          env: localWebEnv,
+          reuseExistingServer: false,
+          stdout: "pipe",
+          stderr: "pipe",
+          timeout: 120_000
+        }
+      ],
   projects: [
     {
       name: "chromium",

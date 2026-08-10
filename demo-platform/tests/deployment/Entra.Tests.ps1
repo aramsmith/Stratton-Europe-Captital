@@ -61,6 +61,85 @@ Describe 'Stratton Entra reconciliation' {
       'Stratton Phase 5 API - dev'
     )
     $script | Should -Match 'https://graph\.microsoft\.com/v1\.0'
+    $script | Should -Match 'signInAudience'
+  }
+
+  It 'can retain the provisional local redirect while registering the deployed SPA redirect' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key web
+
+    $desired = New-ApplicationDefinition `
+      -Manifest $manifest `
+      -Application $definition `
+      -WebRedirectUri 'https://stratton.example' `
+      -AdditionalWebRedirectUri 'http://localhost:4173'
+
+    @($desired.spa.redirectUris) | Should -Be @(
+      'https://stratton.example',
+      'http://localhost:4173'
+    )
+  }
+
+  It 'ignores Graph read-only fields while comparing the controlled application contract' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key phase5
+    $desired = New-ApplicationDefinition `
+      -Manifest $manifest `
+      -Application $definition `
+      -WebRedirectUri 'http://localhost:4173'
+    $actual = $desired | ConvertTo-Json -Depth 50 | ConvertFrom-Json -Depth 50
+    $actual.api | Add-Member -NotePropertyName acceptMappedClaims -NotePropertyValue $null
+    $actual.api.oauth2PermissionScopes[0] |
+      Add-Member -NotePropertyName origin -NotePropertyValue 'Application'
+    $actual.appRoles[0] |
+      Add-Member -NotePropertyName origin -NotePropertyValue 'Application'
+
+    Test-ApplicationMatches -Application $actual -Definition $desired | Should -BeTrue
+  }
+
+  It 'rejects mutable API authorization settings outside the controlled contract' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key bff
+    $desired = New-ApplicationDefinition `
+      -Manifest $manifest `
+      -Application $definition `
+      -WebRedirectUri 'http://localhost:4173'
+    $actual = $desired | ConvertTo-Json -Depth 50 | ConvertFrom-Json -Depth 50
+    $actual.api | Add-Member -NotePropertyName acceptMappedClaims -NotePropertyValue $true
+    $actual.api | Add-Member -NotePropertyName knownClientApplications -NotePropertyValue @(
+      'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    )
+    $actual.api | Add-Member -NotePropertyName preAuthorizedApplications -NotePropertyValue @(
+      [pscustomobject]@{
+        appId = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+        delegatedPermissionIds = @($manifest.webToBffScopeId)
+      }
+    )
+
+    Test-ApplicationMatches -Application $actual -Definition $desired | Should -BeFalse
+  }
+
+  It 'rejects every federated credential outside the exact approved set' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $plan = [System.Collections.Generic.List[object]]::new()
+
+    {
+      Ensure-FederatedCredential `
+        -BffApplication ([pscustomobject]@{ id = '11111111-1111-1111-1111-111111111111' }) `
+        -Manifest $manifest `
+        -TenantId '27140306-eea5-4e7f-91e9-4c9e86864b3a' `
+        -BffManagedIdentityPrincipalId '22222222-2222-2222-2222-222222222222' `
+        -Plan $plan `
+        -WhatIf `
+        -GraphInvoker {
+          [pscustomobject]@{
+            value = @(
+              [pscustomobject]@{ name = $manifest.federatedCredentialName }
+              [pscustomobject]@{ name = 'unauthorized-workload' }
+            )
+          }
+        }
+    } | Should -Throw 'ENTRA_FEDERATED_CREDENTIAL_SCOPE_VIOLATION'
   }
 
   It 'allows the documented plan-only WhatIf command without BFF identity arguments' {

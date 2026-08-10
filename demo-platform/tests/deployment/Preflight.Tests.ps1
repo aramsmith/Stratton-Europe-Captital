@@ -7,6 +7,9 @@ Import-Module $modulePath -Force
 
 Describe 'Test-StrattonAzurePreflight' {
   BeforeAll {
+    $preflightScriptPath = Join-Path (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path 'scripts\deployment\Test-StrattonAzurePreflight.ps1'
+    . $preflightScriptPath -LoadOnly
+
     function New-OpenAiSkuAvailabilityEvidence {
       [CmdletBinding()]
       param()
@@ -84,10 +87,67 @@ Describe 'Test-StrattonAzurePreflight' {
     $result.blockingFindings | Should -Contain 'AZURE_PROVIDER_UNREGISTERED:Microsoft.ServiceBus'
   }
 
+  It 'allows only provider-registration findings to reach the separate approval gate' {
+    $providerOnly = [pscustomobject]@{
+      blockingFindings = @('AZURE_PROVIDER_UNREGISTERED:Microsoft.ServiceBus')
+    }
+    $mixed = [pscustomobject]@{
+      blockingFindings = @(
+        'AZURE_PROVIDER_UNREGISTERED:Microsoft.ServiceBus',
+        'AZURE_OPENAI_MODEL_UNAVAILABLE'
+      )
+    }
+
+    {
+      Assert-StrattonPreflightResult -Result $providerOnly -AllowProviderRegistrationPending
+    } | Should -Not -Throw
+    {
+      Assert-StrattonPreflightResult -Result $mixed -AllowProviderRegistrationPending
+    } | Should -Throw 'AZURE_PREFLIGHT_BLOCKED:AZURE_OPENAI_MODEL_UNAVAILABLE'
+  }
+
   It 'marks a missing Azure OpenAI model or quota as blocking' {
     $result = ConvertTo-PreflightResult -OpenAiModels @() -RequiredProviders @()
 
     $result.blockingFindings | Should -Contain 'AZURE_OPENAI_MODEL_UNAVAILABLE'
+  }
+
+  It 'defers only account-scoped model discovery for an empty standalone subscription' {
+    $result = ConvertTo-PreflightResult `
+      -RequiredProviders @() `
+      -SkuAvailability (New-OpenAiSkuAvailabilityEvidence) `
+      -OpenAiModels @(
+        [pscustomobject]@{
+          route = 'LUNA'
+          modelId = 'gpt-5.6-luna'
+          available = $false
+          quotaAvailable = $true
+          reason = 'NO_OPENAI_ACCOUNT_AVAILABLE_FOR_LIST_MODELS'
+        }
+      )
+
+    $result.blockingFindings | Should -Not -Contain 'AZURE_OPENAI_MODEL_UNAVAILABLE'
+    $result.blockingFindings | Should -Not -Contain 'AZURE_OPENAI_QUOTA_UNAVAILABLE'
+  }
+
+  It 'requires remaining DataZoneStandard quota for every deployed route' {
+    $scriptText = Get-Content $modulePath -Raw
+    $scriptText | Should -Not -Match 'OpenAI\.GlobalStandard\.'
+
+    $result = ConvertTo-PreflightResult `
+      -RequiredProviders @() `
+      -SkuAvailability (New-OpenAiSkuAvailabilityEvidence) `
+      -OpenAiModels @(
+        [pscustomobject]@{
+          route = 'LUNA'
+          modelId = 'gpt-5.6-luna'
+          available = $false
+          quotaAvailable = $false
+          reason = 'NO_OPENAI_ACCOUNT_AVAILABLE_FOR_LIST_MODELS'
+        }
+      )
+
+    $result.blockingFindings | Should -Contain 'AZURE_OPENAI_QUOTA_UNAVAILABLE'
   }
 
   It 'blocks when location allow evidence is indeterminate' {

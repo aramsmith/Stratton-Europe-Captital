@@ -111,6 +111,24 @@ Describe 'Stratton demo infrastructure' {
     Test-Path $script:compiledTemplatePath | Should -BeTrue
   }
 
+  It 'does not dereference the conditional Phase 5 module in foundation-only mode' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $appsDeployment = @(
+      $script:template.resources |
+        Where-Object {
+          $_.type -eq 'Microsoft.Resources/deployments' -and
+          $_.name -match '-apps'
+        }
+    )
+    $appsDeployment.Count | Should -Be 1
+    ($appsDeployment[0].properties.parameters.phase5ApiBaseUrl | ConvertTo-Json -Compress) |
+      Should -Match "if\(parameters\('deployApplications'\)"
+  }
+
   It 'exposes only the web application publicly' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
@@ -330,6 +348,8 @@ Describe 'Stratton demo infrastructure' {
     ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications | ConvertTo-Json) |
       Should -Match 'bffIdentityClientId'
     ($authConfigs | ConvertTo-Json -Depth 100) | Should -Not -Match 'tokenStore|sasUrl|clientSecret'
+    @($phase5Auth.properties.globalValidation.excludedPaths) | Should -Contain '/health'
+    @($phase5Auth.properties.globalValidation.excludedPaths) | Should -Not -Contain '/healthz'
   }
 
   It 'wires the production web proxy to the private BFF with delegated token authority' {
@@ -465,7 +485,10 @@ Describe 'Stratton demo infrastructure' {
     $handoff | Should -Match 'BFF app registration'
     $handoff | Should -Match 'federated credential'
     $handoff | Should -Match 'BFF managed.identity client ID'
-    $handoff | Should -Match 'no.deployment'
+    $handoff | Should -Match 'controlled\s+standalone orchestrator'
+    $handoff | Should -Match 'ApproveProviderRegistration'
+    $handoff | Should -Match 'deployApplications=false'
+    $handoff | Should -Match 'deployApplications=true'
     $handoff | Should -Not -Match 'trusts forwarded human claims|uses the enabled Container Apps token store'
   }
 

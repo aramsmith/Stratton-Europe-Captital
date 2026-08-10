@@ -6,6 +6,9 @@ param(
   [ValidatePattern('^https?://')]
   [string] $WebRedirectUri,
 
+  [ValidatePattern('^$|^https?://')]
+  [string] $AdditionalWebRedirectUri,
+
   [ValidatePattern('^$|^[0-9a-fA-F-]{36}$')]
   [string] $BffManagedIdentityPrincipalId,
 
@@ -35,6 +38,13 @@ function Get-PropertyValue {
   )
 
   if ($null -eq $InputObject) {
+    return $null
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    if ($InputObject.Contains($Name)) {
+      return $InputObject[$Name]
+    }
     return $null
   }
 
@@ -216,7 +226,7 @@ function Find-StrattonApplication {
 
   if ($matches.Count -eq 1) {
     $select = [uri]::EscapeDataString(
-      'id,appId,displayName,identifierUris,passwordCredentials,keyCredentials,web,spa,api,appRoles,requiredResourceAccess'
+      'id,appId,displayName,signInAudience,identifierUris,passwordCredentials,keyCredentials,web,spa,api,appRoles,requiredResourceAccess'
     )
     $application = Invoke-Graph `
       -Method GET `
@@ -290,6 +300,9 @@ function New-ApplicationDefinition {
     [Parameter(Mandatory)]
     [string] $WebRedirectUri,
 
+    [AllowEmptyString()]
+    [string] $AdditionalWebRedirectUri,
+
     [AllowNull()]
     [object] $BffApplication,
 
@@ -305,7 +318,13 @@ function New-ApplicationDefinition {
 
   switch ($Application.key) {
     'web' {
-      $definition.spa = @{ redirectUris = @($WebRedirectUri) }
+      $definition.spa = @{
+        redirectUris = @(
+          @($WebRedirectUri, $AdditionalWebRedirectUri) |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+            Select-Object -Unique
+        )
+      }
       if ($null -ne $BffApplication) {
         $definition.requiredResourceAccess = @(
           @{
@@ -364,6 +383,50 @@ function New-ApplicationDefinition {
   return $definition
 }
 
+function ConvertTo-ControlledApplicationValue {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $Actual,
+
+    [AllowNull()]
+    [object] $Expected
+  )
+
+  if ($Expected -is [System.Collections.IDictionary]) {
+    $projected = [ordered]@{}
+    foreach ($key in $Expected.Keys) {
+      $projected[[string] $key] = ConvertTo-ControlledApplicationValue `
+        -Actual (Get-PropertyValue -InputObject $Actual -Name ([string] $key)) `
+        -Expected $Expected[$key]
+    }
+    return [pscustomobject] $projected
+  }
+
+  if ($Expected -is [System.Collections.IEnumerable] -and $Expected -isnot [string]) {
+    $expectedItems = @($Expected)
+    $actualItems = @($Actual)
+    if ($expectedItems.Count -eq 0) {
+      return ,@($actualItems)
+    }
+
+    $projectedItems = @(
+      foreach ($actualItem in $actualItems) {
+        ConvertTo-ControlledApplicationValue -Actual $actualItem -Expected $expectedItems[0]
+      }
+    )
+    $sortedItems = @(
+      $projectedItems |
+        Sort-Object {
+          $_ | ConvertTo-Json -Depth 50 -Compress
+        }
+    )
+    return ,$sortedItems
+  }
+
+  return $Actual
+}
+
 function Test-ApplicationMatches {
   [CmdletBinding()]
   param(
@@ -376,10 +439,25 @@ function Test-ApplicationMatches {
 
   if (
     $Application.displayName -cne $Definition.displayName -or
+    (Get-PropertyValue -InputObject $Application -Name 'signInAudience') -cne $Definition.signInAudience -or
     @($Application.identifierUris).Count -ne @($Definition.identifierUris).Count -or
     @($Application.identifierUris | Where-Object { $_ -notin @($Definition.identifierUris) }).Count -gt 0
   ) {
     return $false
+  }
+
+  $actualApi = Get-PropertyValue -InputObject $Application -Name 'api'
+  if ($null -ne $actualApi) {
+    $acceptMappedClaims = Get-PropertyValue -InputObject $actualApi -Name 'acceptMappedClaims'
+    $knownClientApplications = Get-PropertyValue -InputObject $actualApi -Name 'knownClientApplications'
+    $preAuthorizedApplications = Get-PropertyValue -InputObject $actualApi -Name 'preAuthorizedApplications'
+    if (
+      $acceptMappedClaims -eq $true -or
+      ($null -ne $knownClientApplications -and @($knownClientApplications).Count -gt 0) -or
+      ($null -ne $preAuthorizedApplications -and @($preAuthorizedApplications).Count -gt 0)
+    ) {
+      return $false
+    }
   }
 
   foreach ($propertyName in @('spa', 'api', 'appRoles', 'requiredResourceAccess')) {
@@ -387,9 +465,12 @@ function Test-ApplicationMatches {
       continue
     }
 
+    $expected = $Definition[$propertyName]
     $actual = Get-PropertyValue -InputObject $Application -Name $propertyName
-    $expectedJson = $Definition[$propertyName] | ConvertTo-Json -Depth 50 -Compress
-    $actualJson = $actual | ConvertTo-Json -Depth 50 -Compress
+    $expectedJson = ConvertTo-ControlledApplicationValue -Actual $expected -Expected $expected |
+      ConvertTo-Json -Depth 50 -Compress
+    $actualJson = ConvertTo-ControlledApplicationValue -Actual $actual -Expected $expected |
+      ConvertTo-Json -Depth 50 -Compress
     if ($actualJson -ne $expectedJson) {
       return $false
     }
@@ -612,10 +693,13 @@ function Ensure-FederatedCredential {
     audiences = @('api://AzureADTokenExchange')
   }
   $uri = "https://graph.microsoft.com/v1.0/applications/$($BffApplication.id)/federatedIdentityCredentials"
-  $matches = @(
-    Get-GraphCollection -Response (Invoke-Graph -Method GET -Uri $uri -GraphInvoker $GraphInvoker) |
-      Where-Object name -eq $Manifest.federatedCredentialName
+  $credentials = @(
+    Get-GraphCollection -Response (Invoke-Graph -Method GET -Uri $uri -GraphInvoker $GraphInvoker)
   )
+  if (@($credentials | Where-Object name -cne $Manifest.federatedCredentialName).Count -gt 0) {
+    throw 'ENTRA_FEDERATED_CREDENTIAL_SCOPE_VIOLATION'
+  }
+  $matches = @($credentials)
   if ($matches.Count -gt 1) {
     throw 'ENTRA_FEDERATED_CREDENTIAL_CONFLICT'
   }
@@ -720,6 +804,9 @@ function Invoke-StrattonEntraReconciliation {
     [ValidatePattern('^https?://')]
     [string] $WebRedirectUri,
 
+    [ValidatePattern('^$|^https?://')]
+    [string] $AdditionalWebRedirectUri,
+
     [ValidatePattern('^$|^[0-9a-fA-F-]{36}$')]
     [string] $BffManagedIdentityPrincipalId,
 
@@ -756,21 +843,21 @@ function Invoke-StrattonEntraReconciliation {
   $web = Ensure-StrattonApplication `
     -Manifest $manifest `
     -ApplicationDefinition $webDefinition `
-    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $webDefinition -WebRedirectUri $WebRedirectUri) `
+    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $webDefinition -WebRedirectUri $WebRedirectUri -AdditionalWebRedirectUri $AdditionalWebRedirectUri) `
     -Plan $plan `
     -WhatIf:$WhatIf `
     -GraphInvoker $GraphInvoker
   $bff = Ensure-StrattonApplication `
     -Manifest $manifest `
     -ApplicationDefinition $bffDefinition `
-    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $bffDefinition -WebRedirectUri $WebRedirectUri) `
+    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $bffDefinition -WebRedirectUri $WebRedirectUri -AdditionalWebRedirectUri $AdditionalWebRedirectUri) `
     -Plan $plan `
     -WhatIf:$WhatIf `
     -GraphInvoker $GraphInvoker
   $phase5 = Ensure-StrattonApplication `
     -Manifest $manifest `
     -ApplicationDefinition $phase5Definition `
-    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $phase5Definition -WebRedirectUri $WebRedirectUri) `
+    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $phase5Definition -WebRedirectUri $WebRedirectUri -AdditionalWebRedirectUri $AdditionalWebRedirectUri) `
     -Plan $plan `
     -WhatIf:$WhatIf `
     -GraphInvoker $GraphInvoker
@@ -785,14 +872,14 @@ function Invoke-StrattonEntraReconciliation {
   $web = Ensure-StrattonApplication `
     -Manifest $manifest `
     -ApplicationDefinition $webDefinition `
-    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $webDefinition -WebRedirectUri $WebRedirectUri -BffApplication $bff) `
+    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $webDefinition -WebRedirectUri $WebRedirectUri -AdditionalWebRedirectUri $AdditionalWebRedirectUri -BffApplication $bff) `
     -Plan $plan `
     -WhatIf:$WhatIf `
     -GraphInvoker $GraphInvoker
   $bff = Ensure-StrattonApplication `
     -Manifest $manifest `
     -ApplicationDefinition $bffDefinition `
-    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $bffDefinition -WebRedirectUri $WebRedirectUri -Phase5Application $phase5) `
+    -DesiredDefinition (New-ApplicationDefinition -Manifest $manifest -Application $bffDefinition -WebRedirectUri $WebRedirectUri -AdditionalWebRedirectUri $AdditionalWebRedirectUri -Phase5Application $phase5) `
     -Plan $plan `
     -WhatIf:$WhatIf `
     -GraphInvoker $GraphInvoker
@@ -892,6 +979,7 @@ if (-not $LoadOnly) {
   $result = Invoke-StrattonEntraReconciliation `
     -TenantId $TenantId `
     -WebRedirectUri $WebRedirectUri `
+    -AdditionalWebRedirectUri $AdditionalWebRedirectUri `
     -BffManagedIdentityPrincipalId $BffManagedIdentityPrincipalId `
     -BffManagedIdentityClientId $BffManagedIdentityClientId `
     -WhatIf:$WhatIf

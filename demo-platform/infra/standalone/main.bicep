@@ -19,6 +19,9 @@ param resourceGroupName string
 @description('Environment label applied to all foundation resources.')
 param environmentName string
 
+@description('Deploy application Container Apps and their runtime role assignments.')
+param deployApplications bool = true
+
 @description('Azure OpenAI region validated by the deployment preflight.')
 param openAiLocation string
 
@@ -153,6 +156,7 @@ module demoRuntimes '../main.bicep' = {
     tenantId: tenantId
     namePrefix: namePrefix
     tags: effectiveTags
+    deployApplications: deployApplications
     containerAppsEnvironmentId: operations.outputs.containerAppsEnvironmentId
     containerRegistryId: operations.outputs.containerRegistryId
     containerRegistryServer: operations.outputs.containerRegistryServer
@@ -273,9 +277,13 @@ output bootstrapIdentityResourceId string = operations.outputs.bootstrapIdentity
 output bootstrapIdentityClientId string = operations.outputs.bootstrapIdentityClientId
 output bootstrapIdentityPrincipalId string = operations.outputs.bootstrapIdentityPrincipalId
 
+output webAppName string = demoRuntimes.outputs.webAppName
 output webAppFqdn string = demoRuntimes.outputs.webAppFqdn
+output bffAppName string = demoRuntimes.outputs.bffAppName
 output bffAppFqdn string = demoRuntimes.outputs.bffAppFqdn
+output phase5AppName string = demoRuntimes.outputs.phase5AppName
 output phase5ApiFqdn string = demoRuntimes.outputs.phase5ApiFqdn
+output roleAssignmentIds array = demoRuntimes.outputs.roleAssignmentIds
 output sqlPhase5InitialMigrationSql string = demoRuntimes.outputs.sqlPhase5InitialMigrationSql
 output sqlPhase5AuthorityMigrationSql string = demoRuntimes.outputs.sqlPhase5AuthorityMigrationSql
 output sqlProjectionMigrationSql string = demoRuntimes.outputs.sqlProjectionMigrationSql
