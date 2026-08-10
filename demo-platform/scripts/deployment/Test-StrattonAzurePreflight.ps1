@@ -8,6 +8,8 @@ param(
 
   [string] $Location,
 
+  [string] $OpenAiLocation,
+
   [string] $OutFile,
 
   [switch] $AllowProviderRegistrationPending,
@@ -56,7 +58,8 @@ $result = Invoke-StrattonAzurePreflight `
   -SubscriptionId $SubscriptionId `
   -TenantId $TenantId `
   -ExpectedUser $ExpectedUser `
-  -Location $Location
+  -Location $Location `
+  -OpenAiLocation $(if ([string]::IsNullOrWhiteSpace($OpenAiLocation)) { $Location } else { $OpenAiLocation })
 
 Write-DeploymentArtifact -Path $OutFile -InputObject $result
 Assert-StrattonPreflightResult `

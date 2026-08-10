@@ -652,15 +652,23 @@ function Get-OpenAiReadiness {
     [Parameter(Mandatory)]
     [string] $Location,
 
+    [string] $OpenAiLocation = $Location,
+
     [Parameter(Mandatory)]
     [object[]] $RequiredModels
   )
 
   $blockingFindings = [System.Collections.Generic.List[string]]::new()
+  $effectiveOpenAiLocation = if ([string]::IsNullOrWhiteSpace($OpenAiLocation)) {
+    $Location
+  }
+  else {
+    $OpenAiLocation
+  }
 
   $openAiSkus = @()
   try {
-    $openAiSkus = @(Invoke-AzJson -Arguments @('cognitiveservices', 'account', 'list-skus', '--kind', 'OpenAI', '--location', $Location))
+    $openAiSkus = @(Invoke-AzJson -Arguments @('cognitiveservices', 'account', 'list-skus', '--kind', 'OpenAI', '--location', $effectiveOpenAiLocation))
   }
   catch {
     $blockingFindings.Add('AZURE_OPENAI_SKU_QUERY_FAILED')
@@ -668,7 +676,7 @@ function Get-OpenAiReadiness {
 
   $quotaRows = @()
   try {
-    $quotaRows = @(Invoke-AzJson -Arguments @('cognitiveservices', 'usage', 'list', '--location', $Location))
+    $quotaRows = @(Invoke-AzJson -Arguments @('cognitiveservices', 'usage', 'list', '--location', $effectiveOpenAiLocation))
   }
   catch {
     $blockingFindings.Add('AZURE_OPENAI_QUOTA_QUERY_FAILED')
@@ -682,7 +690,7 @@ function Get-OpenAiReadiness {
     $blockingFindings.Add('AZURE_OPENAI_ACCOUNT_DISCOVERY_FAILED')
   }
 
-  $normalizedLocation = Get-NormalizedLocationName -Location $Location
+  $normalizedLocation = Get-NormalizedLocationName -Location $effectiveOpenAiLocation
   $selectedAccount = @(
     $discoveredAccounts |
       Where-Object {
@@ -778,7 +786,7 @@ function Get-OpenAiReadiness {
 
   return [pscustomobject]@{
     skuAvailability = [pscustomobject]@{
-      openAiAccountSkuAvailable = (Test-OpenAiSkuAvailability -Skus $openAiSkus -Location $Location)
+      openAiAccountSkuAvailable = (Test-OpenAiSkuAvailability -Skus $openAiSkus -Location $effectiveOpenAiLocation)
       openAiAccountSkus = @($openAiSkus)
       quota = @(
         foreach ($requiredModel in $RequiredModels) {
@@ -813,6 +821,7 @@ function ConvertTo-PreflightResult {
     [string] $SubscriptionId = '',
     [string] $TenantId = '',
     [string] $Location = '',
+    [string] $OpenAiLocation = $Location,
     [AllowEmptyCollection()]
     [object[]] $ResourceProviders = @(),
     [AllowEmptyCollection()]
@@ -832,6 +841,12 @@ function ConvertTo-PreflightResult {
   $blockingFindings = [System.Collections.Generic.List[string]]::new()
   $sanitizedPolicyAssignments = @(Get-SafePolicyAssignments -PolicyAssignments $PolicyAssignments)
   $normalizedLocation = Get-NormalizedLocationName -Location $Location
+  $effectiveOpenAiLocation = if ([string]::IsNullOrWhiteSpace($OpenAiLocation)) {
+    $Location
+  }
+  else {
+    $OpenAiLocation
+  }
 
   foreach ($providerNamespace in $RequiredProviders) {
     $provider = @($ResourceProviders | Where-Object namespace -eq $providerNamespace) | Select-Object -First 1
@@ -907,6 +922,7 @@ function ConvertTo-PreflightResult {
     subscriptionId = $SubscriptionId
     tenantId = $TenantId
     location = $Location
+    openAiLocation = $effectiveOpenAiLocation
     resourceProviders = @($ResourceProviders)
     policyAssignments = $sanitizedPolicyAssignments
     skuAvailability = if ($null -ne $SkuAvailability) { $SkuAvailability } else { [pscustomobject]@{} }
@@ -930,6 +946,8 @@ function Invoke-StrattonAzurePreflight {
 
     [Parameter(Mandatory)]
     [string] $Location,
+
+    [string] $OpenAiLocation = $Location,
 
     [string] $TargetResourceGroupName = 'stratton-demo-rg'
   )
@@ -994,7 +1012,11 @@ function Invoke-StrattonAzurePreflight {
   }
 
   try {
-    $openAiReadiness = Get-OpenAiReadiness -SubscriptionId $SubscriptionId -Location $Location -RequiredModels $requiredOpenAiModels
+    $openAiReadiness = Get-OpenAiReadiness `
+      -SubscriptionId $SubscriptionId `
+      -Location $Location `
+      -OpenAiLocation $OpenAiLocation `
+      -RequiredModels $requiredOpenAiModels
   }
   catch {
     $additionalBlockingFindings.Add('AZURE_OPENAI_READINESS_QUERY_FAILED')
@@ -1008,6 +1030,7 @@ function Invoke-StrattonAzurePreflight {
     -SubscriptionId $SubscriptionId `
     -TenantId $TenantId `
     -Location $Location `
+    -OpenAiLocation $OpenAiLocation `
     -ResourceProviders $resourceProviders `
     -PolicyAssignments $policyAssignments `
     -SkuAvailability $openAiReadiness.skuAvailability `

@@ -259,6 +259,18 @@ pwsh -NoProfile -File .\scripts\deployment\Deploy-StrattonStandalone.ps1 -Phase 
 pwsh -NoProfile -File .\scripts\deployment\Test-StrattonDeployment.ps1
 ```
 
+### Split-region recovery target
+
+The pending recovery retains `stratton-demo-rg`, subscription, tenant, and deployment user, but
+targets platform resources in `swedencentral` and Azure OpenAI in `westeurope`. This follows the
+approved foundation failure in westeurope: Azure SQL returned `ProvisioningDisabled` and Container
+Apps returned `AKSCapacityHeavyUsage`, while Azure OpenAI model and quota readiness remains valid
+there. Preflight records both locations, performs policy, location, provider, and naming checks for
+the platform location, and performs Azure OpenAI SKU, model, quota, and account discovery only in
+the OpenAI location. Deployment state binds both values and fails closed on drift. Do not delete or
+reuse the partial resource group until destructive cleanup approval is granted; preserve the
+complete what-if review and separate approval gates.
+
 If preflight reports unregistered providers, review `artifacts\deployment\preflight.json` and rerun
 the foundation what-if with `-ApproveProviderRegistration`. Only the exact namespaces in that
 artifact are registered; this approval is separate from both what-if approvals.

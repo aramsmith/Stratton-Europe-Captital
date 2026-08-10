@@ -112,6 +112,17 @@ Describe 'Test-StrattonAzurePreflight' {
     $result.blockingFindings | Should -Contain 'AZURE_OPENAI_MODEL_UNAVAILABLE'
   }
 
+  It 'defaults the OpenAI location to the platform location for existing callers' {
+    $result = ConvertTo-PreflightResult `
+      -Location 'swedencentral' `
+      -RequiredProviders @() `
+      -SkuAvailability (New-OpenAiSkuAvailabilityEvidence) `
+      -OpenAiModels @((New-AvailableOpenAiModelEvidence))
+
+    $result.location | Should -Be 'swedencentral'
+    $result.openAiLocation | Should -Be 'swedencentral'
+  }
+
   It 'defers only account-scoped model discovery for an empty standalone subscription' {
     $result = ConvertTo-PreflightResult `
       -RequiredProviders @() `
@@ -294,6 +305,96 @@ Describe 'Test-StrattonAzurePreflight' {
       $result.openAiModels[0].available | Should -BeFalse
       $result.openAiModels[0].discoveryAccountName | Should -BeNullOrEmpty
       $result.openAiModels[0].reason | Should -Be 'NO_OPENAI_ACCOUNT_AVAILABLE_FOR_LIST_MODELS'
+    }
+
+    It 'uses the OpenAI location, rather than the platform location, for Azure OpenAI discovery' {
+      $requiredModels = @(
+        [pscustomobject]@{
+          route = 'LUNA'
+          modelId = 'gpt-5.6-luna'
+          modelVersion = '2026-07-09'
+          quotaName = 'OpenAI.DataZoneStandard.gpt-5.6-luna'
+        }
+      )
+      $calls = [System.Collections.Generic.List[string]]::new()
+
+      Mock Invoke-AzJson {
+        param([string[]] $Arguments)
+        $calls.Add(($Arguments -join ' '))
+
+        if ($Arguments[0..2] -join ' ' -eq 'cognitiveservices account list-skus') {
+          return @([pscustomobject]@{ name = 'S0'; locations = @('WESTEUROPE') })
+        }
+        if ($Arguments[0..2] -join ' ' -eq 'cognitiveservices usage list') {
+          return @(
+            [pscustomobject]@{
+              name = [pscustomobject]@{ value = 'OpenAI.DataZoneStandard.gpt-5.6-luna' }
+              currentValue = 0
+              limit = 100
+              unit = 'Count'
+            }
+          )
+        }
+        if ($Arguments[0..2] -join ' ' -eq 'cognitiveservices account list-models') {
+          return @([pscustomobject]@{ modelName = 'gpt-5.6-luna'; version = '2026-07-09' })
+        }
+        throw "Unexpected az invocation: $($Arguments -join ' ')"
+      } -ModuleName Stratton.Deployment
+
+      Mock Get-OpenAiAccounts {
+        @(
+          [pscustomobject]@{
+            name = 'oai-we'
+            resourceGroup = 'rg-we'
+            location = 'westeurope'
+            kind = 'OpenAI'
+          }
+        )
+      } -ModuleName Stratton.Deployment
+
+      $result = Get-OpenAiReadiness `
+        -SubscriptionId 'test-sub' `
+        -Location 'swedencentral' `
+        -OpenAiLocation 'westeurope' `
+        -RequiredModels $requiredModels
+
+      $result.openAiModels[0].available | Should -BeTrue
+      $result.openAiModels[0].discoveryAccountName | Should -Be 'oai-we'
+      ($calls -join "`n") | Should -Match '--location westeurope'
+      ($calls -join "`n") | Should -Not -Match '--location swedencentral'
+    }
+
+    It 'records split locations while keeping policy checks on the platform location' {
+      $global:strattonObservedPolicyLocation = $null
+      Mock Assert-AzContext {} -ModuleName Stratton.Deployment
+      Mock Get-RequiredProviderNamespaces { @() } -ModuleName Stratton.Deployment
+      Mock Get-RequiredOpenAiModels { @() } -ModuleName Stratton.Deployment
+      Mock Get-ProviderReadiness { @() } -ModuleName Stratton.Deployment
+      Mock Get-PolicyAssignments {
+        param($SubscriptionId, $TargetLocation)
+        $global:strattonObservedPolicyLocation = $TargetLocation
+        @()
+      } -ModuleName Stratton.Deployment
+      Mock Get-NamingConflicts { @() } -ModuleName Stratton.Deployment
+      Mock Get-OpenAiReadiness {
+        [pscustomobject]@{
+          skuAvailability = New-OpenAiSkuAvailabilityEvidence
+          openAiModels = @()
+          blockingFindings = @()
+        }
+      } -ModuleName Stratton.Deployment
+
+      $result = Invoke-StrattonAzurePreflight `
+        -SubscriptionId 'test-sub' `
+        -TenantId 'test-tenant' `
+        -ExpectedUser 'operator@example.invalid' `
+        -Location 'swedencentral' `
+        -OpenAiLocation 'westeurope'
+
+      $result.location | Should -Be 'swedencentral'
+      $result.openAiLocation | Should -Be 'westeurope'
+      $global:strattonObservedPolicyLocation | Should -Be 'swedencentral'
+      Remove-Variable -Name strattonObservedPolicyLocation -Scope Global -ErrorAction SilentlyContinue
     }
 
     It 'does not accept blank listed model versions for version-pinned models' {

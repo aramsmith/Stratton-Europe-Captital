@@ -33,6 +33,19 @@ OpenAI readiness and the Bicep deployments both use `DataZoneStandard`; prefligh
 quota for every route's requested capacity. Restrictive `.dockerignore` files exclude dependencies,
 test output, artifacts, and local credential files from all ACR build contexts.
 
+## Approved split-region recovery target
+
+Keep the approved subscription, tenant, signed-in user, and `stratton-demo-rg`. Platform resources
+now target `swedencentral`; Azure OpenAI remains in `westeurope`. This is a recovery from the
+partially failed westeurope foundation, where Azure SQL returned `ProvisioningDisabled` and
+Container Apps returned `AKSCapacityHeavyUsage`; Azure OpenAI model/quota readiness remains valid
+in westeurope. The read-only preflight evaluates policy, location, provider, naming, and general
+readiness against the platform location, and Azure OpenAI SKU, model, quota, and account discovery
+against `openAiLocation`. It records both locations, and deployment state rejects either location
+drifting. Do not delete the partial resource group or any partial OpenAI account: destructive
+cleanup is pending explicit approval. Retain the complete what-if review, no-delete requirement,
+and all separate approval gates.
+
 The provider approval cannot approve either Bicep what-if. Foundation deploys shared services and
 stable identities with `deployApplications=false`; application activation uses
 `deployApplications=true`, real Entra IDs, and immutable digests. Both deployments are

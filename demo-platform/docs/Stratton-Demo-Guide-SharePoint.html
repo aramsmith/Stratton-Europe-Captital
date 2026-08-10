@@ -957,9 +957,13 @@ node .\scripts\verify-demo.mjs</pre>
         <p class="section-intro">
           This development deployment is constrained to <strong>MoA-Sub2</strong>
           (<code>8364fb4d-2d36-4da5-908b-36cb8b808b8c</code>), tenant
-          <code>27140306-eea5-4e7f-91e9-4c9e86864b3a</code>, <code>westeurope</code>, and
-          <code>stratton-demo-rg</code>. It is a controlled development environment, not a
-          production-resilience claim.
+          <code>27140306-eea5-4e7f-91e9-4c9e86864b3a</code>, platform region
+          <code>swedencentral</code>, Azure OpenAI region <code>westeurope</code>, and
+          <code>stratton-demo-rg</code>. This split-region recovery follows the partial westeurope
+          foundation failure: Azure SQL returned <code>ProvisioningDisabled</code> and Container Apps
+          returned <code>AKSCapacityHeavyUsage</code>, while Azure OpenAI readiness remains valid in
+          westeurope. Cleanup approval is pending, so the complete what-if, no-delete rule, and
+          separate approval gates remain mandatory.
         </p>
       </div>
       <div class="requirements">

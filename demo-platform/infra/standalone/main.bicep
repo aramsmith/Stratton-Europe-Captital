@@ -69,6 +69,7 @@ param namePrefix string = 'stratton-demo'
 param tags object = {}
 
 var effectiveTags = union(tags, {
+  'hackathon-team': 'stratton-demo'
   'stratton.environment': environmentName
   'stratton.workload': 'demo-platform'
 })

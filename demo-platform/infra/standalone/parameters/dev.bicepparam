@@ -2,7 +2,7 @@ using '../main.bicep'
 
 param subscriptionId = '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
 param tenantId = '27140306-eea5-4e7f-91e9-4c9e86864b3a'
-param location = 'westeurope'
+param location = 'swedencentral'
 param resourceGroupName = 'stratton-demo-rg'
 param environmentName = 'dev'
 param openAiLocation = 'westeurope'

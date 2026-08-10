@@ -43,6 +43,11 @@ Describe 'Standalone deployment guides' {
       $document | Should -Match 'Azure SQL'
       $document | Should -Match 'Luna, Terra, and Sol'
       $document | Should -Match 'minimum-cost development'
+      $document | Should -Match 'swedencentral'
+      $document | Should -Match 'split-region recovery'
+      $document | Should -Match 'ProvisioningDisabled'
+      $document | Should -Match 'AKSCapacityHeavyUsage'
+      $document | Should -Match 'cleanup approval'
     }
   }
 

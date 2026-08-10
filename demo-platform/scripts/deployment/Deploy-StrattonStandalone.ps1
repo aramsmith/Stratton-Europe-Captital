@@ -26,7 +26,8 @@ $script:StandaloneTemplatePath = Join-Path $script:DemoPlatformRoot 'infra\stand
 $script:ApprovedSubscriptionId = '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
 $script:ApprovedTenantId = '27140306-eea5-4e7f-91e9-4c9e86864b3a'
 $script:ApprovedUser = 'aram@azurelab.nl'
-$script:Location = 'westeurope'
+$script:Location = 'swedencentral'
+$script:OpenAiLocation = 'westeurope'
 $script:ResourceGroupName = 'stratton-demo-rg'
 $script:ProvisionalRedirectUri = 'http://localhost:4173'
 
@@ -193,7 +194,11 @@ function Assert-DeploymentStateBinding {
     [string] $CommitSha,
 
     [Parameter(Mandatory)]
-    [string] $ParameterHash
+    [string] $ParameterHash,
+
+    [string] $Location = $script:Location,
+
+    [string] $OpenAiLocation = $script:OpenAiLocation
   )
 
   $matches = (
@@ -201,7 +206,9 @@ function Assert-DeploymentStateBinding {
     (Get-StrattonPropertyValue -InputObject $State -Name 'tenantId') -ceq $TenantId -and
     (Get-StrattonPropertyValue -InputObject $State -Name 'expectedUser') -ceq $ExpectedUser -and
     (Get-StrattonPropertyValue -InputObject $State -Name 'commitSha') -ceq $CommitSha -and
-    (Get-StrattonPropertyValue -InputObject $State -Name 'parameterHash') -ceq $ParameterHash
+    (Get-StrattonPropertyValue -InputObject $State -Name 'parameterHash') -ceq $ParameterHash -and
+    (Get-StrattonPropertyValue -InputObject $State -Name 'location') -ceq $Location -and
+    (Get-StrattonPropertyValue -InputObject $State -Name 'openAiLocation') -ceq $OpenAiLocation
   )
   if (-not $matches) {
     throw 'DEPLOYMENT_STATE_BINDING_MISMATCH'
@@ -408,11 +415,11 @@ function New-StrattonFoundationParameterValues {
   return [ordered]@{
     subscriptionId = $SubscriptionId
     tenantId = $TenantId
-    location = 'westeurope'
+    location = $script:Location
     resourceGroupName = 'stratton-demo-rg'
     environmentName = 'dev'
     deployApplications = $false
-    openAiLocation = 'westeurope'
+    openAiLocation = $script:OpenAiLocation
     lunaModelName = 'gpt-5.6-luna'
     lunaModelVersion = '2026-07-09'
     lunaModelCapacity = 1
@@ -443,6 +450,7 @@ function New-StrattonFoundationParameterValues {
       case = 'project-danube'
       owner = 'aram@azurelab.nl'
       managedBy = 'bicep'
+      'hackathon-team' = 'stratton-demo'
     }
   }
 }
@@ -916,6 +924,8 @@ function Invoke-StrattonStandalonePhase {
 
     [string] $Location = $script:Location,
 
+    [string] $OpenAiLocation = $script:OpenAiLocation,
+
     [scriptblock] $AzInvoker,
 
     [scriptblock] $ScriptInvoker
@@ -947,7 +957,9 @@ function Invoke-StrattonStandalonePhase {
         -TenantId $TenantId `
         -ExpectedUser $ExpectedUser `
         -CommitSha $commitSha `
-        -ParameterHash $parameterHash
+        -ParameterHash $parameterHash `
+        -Location $Location `
+        -OpenAiLocation $OpenAiLocation
       if ($existingState.phase -ne 'PREFLIGHT_COMPLETE') {
         throw 'DEPLOYMENT_ALREADY_ADVANCED'
       }
@@ -960,6 +972,7 @@ function Invoke-StrattonStandalonePhase {
         TenantId = $TenantId
         ExpectedUser = $ExpectedUser
         Location = $Location
+        OpenAiLocation = $OpenAiLocation
         OutFile = $script:PreflightArtifactPath
         AllowProviderRegistrationPending = $true
       } `
@@ -975,6 +988,8 @@ function Invoke-StrattonStandalonePhase {
       subscriptionId = $SubscriptionId
       tenantId = $TenantId
       expectedUser = $ExpectedUser
+      location = $Location
+      openAiLocation = $OpenAiLocation
       commitSha = $commitSha
       parameterHash = $parameterHash
       preflightArtifactHash = (Get-StrattonObjectHash -InputObject $preflight)
@@ -996,7 +1011,9 @@ function Invoke-StrattonStandalonePhase {
     -TenantId $TenantId `
     -ExpectedUser $ExpectedUser `
     -CommitSha $commitSha `
-    -ParameterHash $parameterHash
+    -ParameterHash $parameterHash `
+    -Location $Location `
+    -OpenAiLocation $OpenAiLocation
 
   if ($Phase -eq 'FoundationWhatIf') {
     if ($state.phase -eq 'PREFLIGHT_COMPLETE') {
@@ -1045,6 +1062,7 @@ function Invoke-StrattonStandalonePhase {
           TenantId = $TenantId
           ExpectedUser = $ExpectedUser
           Location = $Location
+          OpenAiLocation = $OpenAiLocation
           OutFile = $script:ProviderVerificationArtifactPath
         } `
         -ScriptInvoker $ScriptInvoker | Out-Null

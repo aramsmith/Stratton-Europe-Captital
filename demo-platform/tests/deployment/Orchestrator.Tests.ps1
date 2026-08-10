@@ -21,6 +21,8 @@ Describe 'Stratton standalone deployment orchestrator' {
         subscriptionId = '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
         tenantId = '27140306-eea5-4e7f-91e9-4c9e86864b3a'
         expectedUser = 'aram@azurelab.nl'
+        location = 'swedencentral'
+        openAiLocation = 'westeurope'
         commitSha = '0123456789abcdef0123456789abcdef01234567'
         parameterHash = ('a' * 64)
         foundationWhatIfApproved = $FoundationWhatIfApproved
@@ -157,6 +159,34 @@ Describe 'Stratton standalone deployment orchestrator' {
     }
   }
 
+  It 'fails closed when either split-region deployment location drifts' {
+    $state = New-TestDeploymentState
+
+    {
+      Assert-DeploymentStateBinding `
+        -State $state `
+        -SubscriptionId $state.subscriptionId `
+        -TenantId $state.tenantId `
+        -ExpectedUser $state.expectedUser `
+        -CommitSha $state.commitSha `
+        -ParameterHash $state.parameterHash `
+        -Location 'westeurope' `
+        -OpenAiLocation 'westeurope'
+    } | Should -Throw 'DEPLOYMENT_STATE_BINDING_MISMATCH'
+
+    {
+      Assert-DeploymentStateBinding `
+        -State $state `
+        -SubscriptionId $state.subscriptionId `
+        -TenantId $state.tenantId `
+        -ExpectedUser $state.expectedUser `
+        -CommitSha $state.commitSha `
+        -ParameterHash $state.parameterHash `
+        -Location 'swedencentral' `
+        -OpenAiLocation 'swedencentral'
+    } | Should -Throw 'DEPLOYMENT_STATE_BINDING_MISMATCH'
+  }
+
   It 'revalidates the bound Azure context before resumed operations' {
     $calls = [System.Collections.Generic.List[string]]::new()
     {
@@ -266,13 +296,15 @@ Describe 'Stratton standalone deployment orchestrator' {
       -TenantId '27140306-eea5-4e7f-91e9-4c9e86864b3a'
 
     $foundation.deployApplications | Should -BeFalse
-    $foundation.location | Should -Be 'westeurope'
+    $foundation.location | Should -Be 'swedencentral'
+    $foundation.openAiLocation | Should -Be 'westeurope'
     $foundation.resourceGroupName | Should -Be 'stratton-demo-rg'
     $foundation.tags.environment | Should -Be 'dev'
     $foundation.tags.workload | Should -Be 'stratton-demo'
     $foundation.tags.case | Should -Be 'project-danube'
     $foundation.tags.owner | Should -Be 'aram@azurelab.nl'
     $foundation.tags.managedBy | Should -Be 'bicep'
+    $foundation.tags.'hackathon-team' | Should -Be 'stratton-demo'
 
     $application = New-StrattonApplicationParameterValues `
       -FoundationParameters $foundation `

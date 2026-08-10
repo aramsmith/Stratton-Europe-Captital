@@ -86,6 +86,9 @@ Describe 'Stratton standalone platform foundation' {
       Should -Be 2
     (@($script:allResources | Where-Object type -eq 'Microsoft.CognitiveServices/accounts/deployments')).Count |
       Should -Be 3
+    $script:templateJson | Should -Match 'hackathon-team'
+    $script:templateJson | Should -Match 'stratton-demo'
+    $script:templateJson | Should -Match "union\(parameters\('tags'\)"
   }
 
   It 'uses the approved DataZoneStandard deployment type' {
