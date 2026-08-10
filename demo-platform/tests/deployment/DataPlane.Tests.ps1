@@ -17,6 +17,14 @@ Describe 'Stratton data-plane bootstrap' {
       Should -Be @('001_init.sql', '002_demo_authority.sql', 'demo-projection.sql')
   }
 
+  It 'binds image migrations to the current repository instead of stale deployment outputs' {
+    $script = Get-Content -LiteralPath $script:bootstrapScriptPath -Raw
+
+    $script | Should -Match 'Get-StrattonMigrationFiles'
+    $script | Should -Not -Match "Get-RequiredDeploymentOutput\s+-Outputs\s+\`$outputs\s+-Name\s+'sqlPhase5InitialMigrationSql'"
+    $script | Should -Not -Match "Get-RequiredDeploymentOutput\s+-Outputs\s+\`$outputs\s+-Name\s+'sqlPhase5AuthorityMigrationSql'"
+  }
+
   It 'defines exactly one approved record for each governed route' {
     $routes = Get-Content $script:routeEvidencePath -Raw | ConvertFrom-Json
 

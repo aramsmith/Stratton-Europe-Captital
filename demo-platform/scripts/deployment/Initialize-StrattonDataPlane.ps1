@@ -681,9 +681,14 @@ function Invoke-StrattonDataPlaneBootstrap {
     throw 'BOOTSTRAP_IMAGE_ARTIFACT_AMBIGUOUS'
   }
 
+  $migrationFiles = @(Get-StrattonMigrationFiles -RepositoryRoot $demoPlatformRoot)
   $migrationOutputs = [ordered]@{
-    '001_init.sql' = Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlPhase5InitialMigrationSql'
-    '002_demo_authority.sql' = Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlPhase5AuthorityMigrationSql'
+    '001_init.sql' = Get-Content -LiteralPath (
+      @($migrationFiles | Where-Object Name -eq '001_init.sql')[0].Path
+    ) -Raw
+    '002_demo_authority.sql' = Get-Content -LiteralPath (
+      @($migrationFiles | Where-Object Name -eq '002_demo_authority.sql')[0].Path
+    ) -Raw
     'demo-projection.sql' = Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlProjectionMigrationSql'
   }
   $migrationHashes = [ordered]@{}
