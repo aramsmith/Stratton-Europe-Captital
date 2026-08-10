@@ -35,6 +35,14 @@ function required(name: (typeof requiredEnvironmentNames)[number]): string {
   return value.trim();
 }
 
+function requiredRaw(name: (typeof requiredEnvironmentNames)[number]): string {
+  const value = process.env[name];
+  if (!value || value.trim().length === 0) {
+    throw new Error(`MISSING_REQUIRED_ENV:${name}`);
+  }
+  return value;
+}
+
 function assertSecretFreeEnvironment(env: NodeJS.ProcessEnv): void {
   for (const [name, value] of Object.entries(env)) {
     if (!value) {
@@ -75,7 +83,7 @@ function loadInput(): {
   const migrationDirectory = process.env.BOOTSTRAP_MIGRATIONS_DIR?.trim() || resolve(process.cwd(), "migrations");
   const initial = readFileSync(resolve(migrationDirectory, "001_init.sql"), "utf8");
   const authority = readFileSync(resolve(migrationDirectory, "002_demo_authority.sql"), "utf8");
-  const projection = required("BOOTSTRAP_PROJECTION_MIGRATION_SQL");
+  const projection = requiredRaw("BOOTSTRAP_PROJECTION_MIGRATION_SQL");
   const routes = parseJson<readonly RouteEvidenceInput[]>("BOOTSTRAP_ROUTES_JSON");
   const searchSchema = parseJson<SearchIndexDefinition>("BOOTSTRAP_SEARCH_SCHEMA_JSON");
   const input: BootstrapInput = {

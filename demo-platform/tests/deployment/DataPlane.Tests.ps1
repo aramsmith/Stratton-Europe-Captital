@@ -6,6 +6,7 @@ Describe 'Stratton data-plane bootstrap' {
     $modulePath = Join-Path $script:repoRoot 'scripts\deployment\Stratton.Deployment.psm1'
     $script:routeEvidencePath = Join-Path $script:repoRoot 'scripts\deployment\route-evidence.json'
     $script:bootstrapScriptPath = Join-Path $script:repoRoot 'scripts\deployment\Initialize-StrattonDataPlane.ps1'
+    $script:bootstrapMainPath = Join-Path $script:repoRoot '..\5-coding-r4\app\src\bootstrap-main.ts'
 
     Import-Module $modulePath -Force
     . $script:bootstrapScriptPath -LoadOnly
@@ -39,6 +40,12 @@ Describe 'Stratton data-plane bootstrap' {
 
     $script | Should -Match '-Now\s+\(\[datetimeoffset\]::UtcNow\)'
     $script | Should -Not -Match '-Now\s+\[datetimeoffset\]::UtcNow'
+  }
+
+  It 'preserves hash-bound projection SQL whitespace in the bootstrap image' {
+    $bootstrapMain = Get-Content -LiteralPath $script:bootstrapMainPath -Raw
+
+    $bootstrapMain | Should -Match 'const projection = requiredRaw\("BOOTSTRAP_PROJECTION_MIGRATION_SQL"\)'
   }
 
   It 'rejects any route definition sequence other than exact ordered LUNA TERRA SOL' {
