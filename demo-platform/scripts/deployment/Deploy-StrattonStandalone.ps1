@@ -80,6 +80,27 @@ function Get-StrattonPropertyValue {
   return $property.Value
 }
 
+function Test-StrattonPropertyExists {
+  [CmdletBinding()]
+  param(
+    [AllowNull()]
+    [object] $InputObject,
+
+    [Parameter(Mandatory)]
+    [string] $Name
+  )
+
+  if ($null -eq $InputObject) {
+    return $false
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    return $InputObject.Contains($Name)
+  }
+
+  return $null -ne $InputObject.PSObject.Properties[$Name]
+}
+
 function Copy-StrattonObject {
   [CmdletBinding()]
   param(
@@ -208,7 +229,7 @@ function Assert-StrattonDeploymentAzContext {
   if (
     (Get-StrattonPropertyValue -InputObject $account -Name 'id') -cne $SubscriptionId -or
     (Get-StrattonPropertyValue -InputObject $account -Name 'tenantId') -cne $TenantId -or
-    (Get-StrattonPropertyValue -InputObject $accountUser -Name 'name') -cne $ExpectedUser
+    (Get-StrattonPropertyValue -InputObject $accountUser -Name 'name') -ine $ExpectedUser
   ) {
     throw 'AZURE_CONTEXT_MISMATCH'
   }
@@ -606,12 +627,21 @@ function Get-StrattonWhatIfChanges {
     [object] $WhatIfResult
   )
 
-  $properties = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'properties'
-  $changes = Get-StrattonPropertyValue -InputObject $properties -Name 'changes'
-  if ($null -eq $changes) {
-    $changes = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'changes'
+  $status = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'status'
+  $errorResult = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'error'
+  if ($status -cne 'Succeeded' -or $null -ne $errorResult) {
+    throw 'WHAT_IF_NOT_SUCCEEDED'
   }
-  return @($changes)
+
+  $properties = Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'properties'
+  if (Test-StrattonPropertyExists -InputObject $properties -Name 'changes') {
+    return @(Get-StrattonPropertyValue -InputObject $properties -Name 'changes')
+  }
+  if (Test-StrattonPropertyExists -InputObject $WhatIfResult -Name 'changes') {
+    return @(Get-StrattonPropertyValue -InputObject $WhatIfResult -Name 'changes')
+  }
+
+  throw 'WHAT_IF_SHAPE_UNRECOGNIZED'
 }
 
 function Assert-StrattonWhatIfSafe {

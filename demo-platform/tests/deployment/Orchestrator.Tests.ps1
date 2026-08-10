@@ -179,6 +179,23 @@ Describe 'Stratton standalone deployment orchestrator' {
     )
   }
 
+  It 'accepts the expected Azure user regardless of UPN casing' {
+    {
+      Assert-StrattonDeploymentAzContext `
+        -SubscriptionId '8364fb4d-2d36-4da5-908b-36cb8b808b8c' `
+        -TenantId '27140306-eea5-4e7f-91e9-4c9e86864b3a' `
+        -ExpectedUser 'aram@azurelab.nl' `
+        -AzInvoker {
+          param([string[]] $Arguments)
+          [pscustomobject]@{
+            id = '8364fb4d-2d36-4da5-908b-36cb8b808b8c'
+            tenantId = '27140306-eea5-4e7f-91e9-4c9e86864b3a'
+            user = [pscustomobject]@{ name = 'Aram@AzureLab.nl' }
+          }
+        }
+    } | Should -Not -Throw
+  }
+
   It 'requires separate approval and registers only exact namespaces reported by preflight' {
     $preflight = [pscustomobject]@{
       resourceProviders = @(
@@ -314,6 +331,7 @@ Describe 'Stratton standalone deployment orchestrator' {
   It 'fails closed when a what-if contains a delete' {
     {
       Assert-StrattonWhatIfSafe -WhatIfResult ([pscustomobject]@{
+        status = 'Succeeded'
         properties = [pscustomobject]@{
           changes = @(
             [pscustomobject]@{
@@ -326,8 +344,28 @@ Describe 'Stratton standalone deployment orchestrator' {
     } | Should -Throw 'WHAT_IF_DELETE_PROHIBITED'
   }
 
+  It 'fails closed when a what-if result has no changes collection' {
+    {
+      Assert-StrattonWhatIfSafe -WhatIfResult ([pscustomobject]@{
+        status = 'Succeeded'
+        properties = [pscustomobject]@{}
+      })
+    } | Should -Throw 'WHAT_IF_SHAPE_UNRECOGNIZED'
+  }
+
+  It 'fails closed when a what-if result did not succeed' {
+    {
+      Assert-StrattonWhatIfSafe -WhatIfResult ([pscustomobject]@{
+        status = 'Failed'
+        error = [pscustomobject]@{ code = 'DeploymentWhatIfFailed' }
+        properties = [pscustomobject]@{ changes = @() }
+      })
+    } | Should -Throw 'WHAT_IF_NOT_SUCCEEDED'
+  }
+
   It 'rejects a changed what-if artifact before approval can deploy it' {
     $reviewed = [pscustomobject]@{
+      status = 'Succeeded'
       properties = [pscustomobject]@{
         changes = @(
           [pscustomobject]@{ changeType = 'Create'; resourceId = '/subscriptions/sub/resourceGroups/stratton-demo-rg' }
