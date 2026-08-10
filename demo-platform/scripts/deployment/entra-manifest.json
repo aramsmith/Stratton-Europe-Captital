@@ -1,5 +1,5 @@
 {
-  "identifierUriPrefix": "api://stratton-demo-",
+  "identifierUriPrefix": "api://27140306-eea5-4e7f-91e9-4c9e86864b3a/stratton-demo-",
   "webToBffScopeId": "2f6ce5c5-41cf-4b72-b68f-50ed84c16639",
   "bffToPhase5ScopeId": "3d79267d-cd71-47d2-8136-091c4e0184c8",
   "phase5CompletionRoleId": "647359fa-8313-475c-a34b-bdca05b1f329",
@@ -8,17 +8,17 @@
     {
       "key": "web",
       "displayName": "Stratton Demo Web - dev",
-      "identifierUri": "api://stratton-demo-web-dev"
+      "identifierUri": "api://27140306-eea5-4e7f-91e9-4c9e86864b3a/stratton-demo-web-dev"
     },
     {
       "key": "bff",
       "displayName": "Stratton Demo BFF - dev",
-      "identifierUri": "api://stratton-demo-bff-dev"
+      "identifierUri": "api://27140306-eea5-4e7f-91e9-4c9e86864b3a/stratton-demo-bff-dev"
     },
     {
       "key": "phase5",
       "displayName": "Stratton Phase 5 API - dev",
-      "identifierUri": "api://stratton-demo-phase5-dev"
+      "identifierUri": "api://27140306-eea5-4e7f-91e9-4c9e86864b3a/stratton-demo-phase5-dev"
     }
   ]
 }

@@ -19,7 +19,7 @@ Describe 'Stratton Entra reconciliation' {
         id = '11111111-1111-1111-1111-111111111111'
         appId = '22222222-2222-2222-2222-222222222222'
         displayName = 'Stratton Demo Web - dev'
-        identifierUris = @('api://stratton-demo-web-dev')
+        identifierUris = @('api://27140306-eea5-4e7f-91e9-4c9e86864b3a/stratton-demo-web-dev')
         passwordCredentials = @($PasswordCredentials)
         keyCredentials = @($KeyCredentials)
         web = [pscustomobject]@{
@@ -49,6 +49,17 @@ Describe 'Stratton Entra reconciliation' {
     $manifest.webToBffScopeId | Should -Be '2f6ce5c5-41cf-4b72-b68f-50ed84c16639'
     $manifest.bffToPhase5ScopeId | Should -Be '3d79267d-cd71-47d2-8136-091c4e0184c8'
     $manifest.phase5CompletionRoleId | Should -Be '647359fa-8313-475c-a34b-bdca05b1f329'
+  }
+
+  It 'uses tenant-scoped identifier URIs accepted by the Entra application policy' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $expectedPrefix = 'api://27140306-eea5-4e7f-91e9-4c9e86864b3a/stratton-demo-'
+
+    $manifest.identifierUriPrefix | Should -Be $expectedPrefix
+    @($manifest.applications.identifierUri).Count | Should -Be 3
+    @($manifest.applications.identifierUri | Where-Object {
+        -not $_.StartsWith($expectedPrefix, [System.StringComparison]::Ordinal)
+      }).Count | Should -Be 0
   }
 
   It 'uses the approved exact display names and Microsoft Graph v1.0' {
