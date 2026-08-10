@@ -16,7 +16,7 @@ Describe 'Stratton image build orchestration' {
     Test-ImageDigest 'latest' | Should -BeFalse
   }
 
-  It 'constrains Azure CLI build output to a single run ID' {
+  It 'queues ACR builds asynchronously without requesting an absent JSON body' {
     InModuleScope Stratton.Deployment {
       $arguments = New-StrattonAcrBuildArguments `
         -RegistryName 'strattondemoacr' `
@@ -24,30 +24,45 @@ Describe 'Stratton image build orchestration' {
         -BuildTag 'dev-12345678' `
         -DockerfileRelativePath 'apps\web\Dockerfile'
 
-      $queryIndex = [array]::IndexOf($arguments, '--query')
-      $queryIndex | Should -BeGreaterThan -1
-      $arguments[$queryIndex + 1] | Should -Be 'name'
+      $arguments | Should -Contain '--no-wait'
+      $arguments | Should -Not -Contain '--query'
       $arguments[-1] | Should -Be '.'
     }
   }
 
-  It 'normalizes a scalar Azure CLI run ID for fail-closed reconciliation' {
+  It 'parses exactly one Azure CLI queued-build receipt' {
     InModuleScope Stratton.Deployment {
-      $result = ConvertTo-StrattonAcrBuildResult -RunIdResult 'dt2' -Repository 'stratton/demo-web'
+      $result = ConvertFrom-StrattonAcrBuildQueueOutput `
+        -Output @(
+          'WARNING: Packing source code into tar to upload...'
+          'WARNING: Queued a build with ID: dt5'
+        ) `
+        -Repository 'stratton/demo-web'
 
       $result.PSObject.Properties.Name | Should -Be @('runId')
-      $result.runId | Should -Be 'dt2'
+      $result.runId | Should -Be 'dt5'
     }
   }
 
-  It 'rejects empty or repeated Azure CLI run IDs' {
+  It 'rejects missing or repeated Azure CLI queued-build receipts' {
     InModuleScope Stratton.Deployment {
       {
-        ConvertTo-StrattonAcrBuildResult -RunIdResult $null -Repository 'stratton/demo-web'
+        ConvertFrom-StrattonAcrBuildQueueOutput -Output @() -Repository 'stratton/demo-web'
       } | Should -Throw 'AMBIGUOUS_IMAGE_BUILD_ID:stratton/demo-web'
 
       {
-        ConvertTo-StrattonAcrBuildResult -RunIdResult @('dt2', 'dt2') -Repository 'stratton/demo-web'
+        ConvertFrom-StrattonAcrBuildQueueOutput `
+          -Output @(
+            'WARNING: Queued a build with ID: dt5'
+            'WARNING: Queued a build with ID: dt5'
+          ) `
+          -Repository 'stratton/demo-web'
+      } | Should -Throw 'AMBIGUOUS_IMAGE_BUILD_ID:stratton/demo-web'
+
+      {
+        ConvertFrom-StrattonAcrBuildQueueOutput `
+          -Output @('WARNING: diagnostic text Queued a build with ID: attacker-controlled') `
+          -Repository 'stratton/demo-web'
       } | Should -Throw 'AMBIGUOUS_IMAGE_BUILD_ID:stratton/demo-web'
     }
   }

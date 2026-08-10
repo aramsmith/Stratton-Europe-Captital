@@ -1246,25 +1246,28 @@ function New-StrattonAcrBuildArguments {
     '--image', "${Repository}:$BuildTag",
     '--file', $DockerfileRelativePath,
     '--no-wait',
-    '--query', 'name',
     '.'
   )
 }
 
-function ConvertTo-StrattonAcrBuildResult {
+function ConvertFrom-StrattonAcrBuildQueueOutput {
   [CmdletBinding()]
   param(
+    [AllowEmptyCollection()]
     [AllowNull()]
-    [object] $RunIdResult,
+    [object[]] $Output,
 
     [Parameter(Mandatory)]
     [string] $Repository
   )
 
   $runIds = @(
-    @($RunIdResult) |
-      ForEach-Object { [string] $_ } |
-      Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+    foreach ($line in @($Output)) {
+      $text = [string] $line
+      if ($text -match '^WARNING:\s+Queued a build with ID:\s*(?<runId>[A-Za-z0-9][A-Za-z0-9._-]*)\s*$') {
+        $Matches.runId
+      }
+    }
   )
   if ($runIds.Count -ne 1) {
     throw "AMBIGUOUS_IMAGE_BUILD_ID:${Repository}"
@@ -1273,6 +1276,25 @@ function ConvertTo-StrattonAcrBuildResult {
   return [pscustomobject]@{
     runId = $runIds[0]
   }
+}
+
+function Invoke-StrattonAcrBuildQueue {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)]
+    [string[]] $Arguments,
+
+    [Parameter(Mandatory)]
+    [string] $Repository
+  )
+
+  $output = & az @Arguments 2>&1
+  $exitCode = $LASTEXITCODE
+  if ($exitCode -ne 0) {
+    throw "AZURE_CLI_FAILED:$($Arguments -join ' '):$($output | Out-String)"
+  }
+
+  return ConvertFrom-StrattonAcrBuildQueueOutput -Output @($output) -Repository $Repository
 }
 
 function Invoke-StrattonImageBuilds {
@@ -1311,12 +1333,12 @@ function Invoke-StrattonImageBuilds {
 
       Push-Location -LiteralPath $Definition.sourceContextPath
       try {
-        ConvertTo-StrattonAcrBuildResult `
-          -RunIdResult (Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
-              -RegistryName $ResolvedRegistryName `
-              -Repository $Definition.repository `
-              -BuildTag $BuildTag `
-              -DockerfileRelativePath $Definition.dockerfileRelativePath)) `
+        Invoke-StrattonAcrBuildQueue `
+          -Arguments (New-StrattonAcrBuildArguments `
+            -RegistryName $ResolvedRegistryName `
+            -Repository $Definition.repository `
+            -BuildTag $BuildTag `
+            -DockerfileRelativePath $Definition.dockerfileRelativePath) `
           -Repository $Definition.repository
       }
       finally {
@@ -1497,12 +1519,12 @@ function Invoke-StrattonBootstrapImageBuild {
 
       Push-Location -LiteralPath $Definition.sourceContextPath
       try {
-        ConvertTo-StrattonAcrBuildResult `
-          -RunIdResult (Invoke-AzJson -Arguments (New-StrattonAcrBuildArguments `
-              -RegistryName $ResolvedRegistryName `
-              -Repository $Definition.repository `
-              -BuildTag $BuildTag `
-              -DockerfileRelativePath $Definition.dockerfileRelativePath)) `
+        Invoke-StrattonAcrBuildQueue `
+          -Arguments (New-StrattonAcrBuildArguments `
+            -RegistryName $ResolvedRegistryName `
+            -Repository $Definition.repository `
+            -BuildTag $BuildTag `
+            -DockerfileRelativePath $Definition.dockerfileRelativePath) `
           -Repository $Definition.repository
       }
       finally {
