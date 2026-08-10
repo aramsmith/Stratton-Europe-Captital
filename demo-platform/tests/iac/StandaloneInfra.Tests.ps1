@@ -104,6 +104,25 @@ Describe 'Stratton standalone platform foundation' {
     @($deployments.sku.name | Select-Object -Unique) | Should -Be @('DataZoneStandard')
   }
 
+  It 'serializes OpenAI deployment writes on the shared account' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $deployments = @(
+      $script:allResources |
+        Where-Object type -eq 'Microsoft.CognitiveServices/accounts/deployments'
+    )
+    $luna = @($deployments | Where-Object name -match 'luna-evidence-triage')[0]
+    $terra = @($deployments | Where-Object name -match 'terra-grounded-analysis')[0]
+    $sol = @($deployments | Where-Object name -match 'sol-thesis-challenge')[0]
+
+    @($luna.dependsOn).Count | Should -Be 1
+    (@($terra.dependsOn) -join ' ') | Should -Match 'luna-evidence-triage'
+    (@($sol.dependsOn) -join ' ') | Should -Match 'terra-grounded-analysis'
+  }
+
   It 'provisions cost-minimised operations resources and stable identities' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'

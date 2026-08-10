@@ -62,6 +62,9 @@ resource luna 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
 resource terra 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAi
   name: 'terra-grounded-analysis'
+  dependsOn: [
+    luna
+  ]
   sku: {
     name: 'DataZoneStandard'
     capacity: terraModelCapacity
@@ -78,6 +81,9 @@ resource terra 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
 resource sol 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAi
   name: 'sol-thesis-challenge'
+  dependsOn: [
+    terra
+  ]
   sku: {
     name: 'DataZoneStandard'
     capacity: solModelCapacity
