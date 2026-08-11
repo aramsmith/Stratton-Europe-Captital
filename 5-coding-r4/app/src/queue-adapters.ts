@@ -21,6 +21,19 @@ const approvedQueueNames: readonly ApprovedQueueName[] = [
   "q-audit-export"
 ] as const;
 
+type ServiceBusCredential = Pick<DefaultAzureCredential, "getToken">;
+type ServiceBusCredentialFactory = (
+  managedIdentityClientId?: string
+) => ServiceBusCredential;
+
+function createServiceBusCredential(
+  managedIdentityClientId?: string
+): ServiceBusCredential {
+  return new DefaultAzureCredential(
+    managedIdentityClientId ? { managedIdentityClientId } : {}
+  );
+}
+
 function asRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -166,13 +179,15 @@ export class AzureServiceBusQueueReceiver implements QueueReceiver {
 export class AzureServiceBusFactory {
   public static async connectRouting(
     fullyQualifiedNamespace: string,
-    queueNames: readonly ApprovedQueueName[] = approvedQueueNames
+    queueNames: readonly ApprovedQueueName[] = approvedQueueNames,
+    managedIdentityClientId?: string,
+    credentialFactory: ServiceBusCredentialFactory = createServiceBusCredential
   ): Promise<{
     producer: QueueProducer;
     createReceiver: (queueName: ApprovedQueueName) => QueueReceiver;
     close: () => Promise<void>;
   }> {
-    const credential = new DefaultAzureCredential();
+    const credential = credentialFactory(managedIdentityClientId);
     const client = new ServiceBusClient(fullyQualifiedNamespace, credential);
     const senders: Partial<Record<ApprovedQueueName, ServiceBusSender>> = {};
     for (const queueName of queueNames) {
@@ -188,12 +203,14 @@ export class AzureServiceBusFactory {
 
   public static async connectSender(
     fullyQualifiedNamespace: string,
-    queueNames: readonly ApprovedQueueName[]
+    queueNames: readonly ApprovedQueueName[],
+    managedIdentityClientId?: string,
+    credentialFactory: ServiceBusCredentialFactory = createServiceBusCredential
   ): Promise<{
     producer: QueueProducer;
     close: () => Promise<void>;
   }> {
-    const credential = new DefaultAzureCredential();
+    const credential = credentialFactory(managedIdentityClientId);
     const client = new ServiceBusClient(fullyQualifiedNamespace, credential);
     const senders: Partial<Record<ApprovedQueueName, ServiceBusSender>> = {};
     for (const queueName of queueNames) {
@@ -207,12 +224,14 @@ export class AzureServiceBusFactory {
 
   public static async connectReceiver(
     fullyQualifiedNamespace: string,
-    queueName: ApprovedQueueName
+    queueName: ApprovedQueueName,
+    managedIdentityClientId?: string,
+    credentialFactory: ServiceBusCredentialFactory = createServiceBusCredential
   ): Promise<{
     receiver: QueueReceiver;
     close: () => Promise<void>;
   }> {
-    const credential = new DefaultAzureCredential();
+    const credential = credentialFactory(managedIdentityClientId);
     const client = new ServiceBusClient(fullyQualifiedNamespace, credential);
     return {
       receiver: new AzureServiceBusQueueReceiver(client.createReceiver(queueName)),

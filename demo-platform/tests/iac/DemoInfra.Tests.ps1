@@ -136,6 +136,28 @@ Describe 'Stratton demo infrastructure' {
     $appsSource | Should -Match 'containerAppsEnvironment\.properties\.defaultDomain'
   }
 
+  It 'configures the BFF with the internal Phase 5 ingress hostname' {
+    if (-not $script:template) {
+      Set-ItResult -Skipped -Because 'Template did not compile.'
+      return
+    }
+
+    $bff = @(
+      $script:allResources |
+        Where-Object {
+          $_.type -eq 'Microsoft.App/containerApps' -and
+          $_.name -match 'bffAppName'
+        }
+    )
+    $bff.Count | Should -Be 1
+    $phase5BaseUrl = @(
+      $bff[0].properties.template.containers[0].env |
+        Where-Object name -eq 'PHASE5_API_BASE_URL'
+    )
+    $phase5BaseUrl.Count | Should -Be 1
+    $phase5BaseUrl[0].value | Should -Match '\.internal\.'
+  }
+
   It 'exposes only the web application publicly' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'

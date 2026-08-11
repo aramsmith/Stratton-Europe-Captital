@@ -116,12 +116,20 @@ async function run(): Promise<void> {
     );
     const repository = new SqlWorkloadRepository(sql);
     const idempotencyStore = new SqlIdempotencyStore(sql);
-    const bus = await AzureServiceBusFactory.connectReceiver(config.serviceBusFqdn, queueName);
+    const bus = await AzureServiceBusFactory.connectReceiver(
+      config.serviceBusFqdn,
+      queueName,
+      process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID
+    );
     const receiver = bus.receiver;
     let producer: QueueProducer = new InMemoryQueueRouter();
     let closeProducer = async (): Promise<void> => undefined;
     if (queueName === "q-extraction") {
-      const sender = await AzureServiceBusFactory.connectSender(config.serviceBusFqdn, ["q-indexing"]);
+      const sender = await AzureServiceBusFactory.connectSender(
+        config.serviceBusFqdn,
+        ["q-indexing"],
+        process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID
+      );
       producer = sender.producer;
       closeProducer = sender.close;
     }

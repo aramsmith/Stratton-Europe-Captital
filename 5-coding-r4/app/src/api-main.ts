@@ -68,7 +68,7 @@ async function run(): Promise<void> {
       "q-ingestion",
       "q-extraction",
       "q-indexing"
-    ]);
+    ], process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID);
     const repository = new SqlWorkloadRepository(sql);
     const idempotencyStore = new SqlIdempotencyStore(sql);
     if (
