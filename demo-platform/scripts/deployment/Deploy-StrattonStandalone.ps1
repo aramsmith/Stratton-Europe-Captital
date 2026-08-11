@@ -481,11 +481,27 @@ function New-StrattonApplicationParameterValues {
     [object] $EntraArtifact,
 
     [Parameter(Mandatory)]
+    [object] $FoundationOutputs,
+
+    [Parameter(Mandatory)]
     [object] $ImagesArtifact
   )
 
   foreach ($name in @('webClientId', 'bffClientId', 'phase5ClientId')) {
     Assert-StrattonGuid -Value ([string] (Get-StrattonPropertyValue -InputObject $EntraArtifact -Name $name)) -Name $name
+  }
+  foreach ($name in @(
+      'webIdentityClientId',
+      'webIdentityPrincipalId',
+      'bffIdentityClientId',
+      'bffIdentityPrincipalId',
+      'phase5IdentityClientId',
+      'phase5IdentityPrincipalId',
+      'verificationIdentityClientId',
+      'verificationIdentityPrincipalId'
+    )) {
+    $value = [string] (Get-StrattonPropertyValue -InputObject $FoundationOutputs -Name $name)
+    Assert-StrattonGuid -Value $value -Name $name
   }
 
   $images = @($ImagesArtifact.images)
@@ -504,6 +520,18 @@ function New-StrattonApplicationParameterValues {
   $values.webEntraClientId = [string] $EntraArtifact.webClientId
   $values.bffEntraClientId = [string] $EntraArtifact.bffClientId
   $values.phase5ApplicationId = [string] $EntraArtifact.phase5ClientId
+  foreach ($name in @(
+      'webIdentityClientId',
+      'webIdentityPrincipalId',
+      'bffIdentityClientId',
+      'bffIdentityPrincipalId',
+      'phase5IdentityClientId',
+      'phase5IdentityPrincipalId',
+      'verificationIdentityClientId',
+      'verificationIdentityPrincipalId'
+    )) {
+    $values[$name] = [string] (Get-StrattonPropertyValue -InputObject $FoundationOutputs -Name $name)
+  }
   $values.webDelegatedScope = "api://$($EntraArtifact.bffClientId)/access_as_user"
   $values.phase5DelegatedScope = "api://$($EntraArtifact.phase5ClientId)/access_as_user"
   $values.webImageDigest = [string] $resolvedImages['stratton/demo-web'].digest
@@ -1213,6 +1241,7 @@ function Invoke-StrattonStandalonePhase {
     $applicationValues = New-StrattonApplicationParameterValues `
       -FoundationParameters $foundationValues `
       -EntraArtifact $entraArtifact `
+      -FoundationOutputs $foundationOutputs `
       -ImagesArtifact $imagesArtifact
     $parametersPath = Join-Path $script:DeploymentArtifactRoot 'application.parameters.json'
     Write-DeploymentArtifact `
@@ -1259,6 +1288,7 @@ function Invoke-StrattonStandalonePhase {
       $applicationValues = New-StrattonApplicationParameterValues `
         -FoundationParameters $foundationValues `
         -EntraArtifact $entraArtifact `
+        -FoundationOutputs $foundationOutputs `
         -ImagesArtifact $imagesArtifact
       if (
         (Get-StrattonPropertyValue -InputObject $state -Name 'applicationParametersHash') -cne

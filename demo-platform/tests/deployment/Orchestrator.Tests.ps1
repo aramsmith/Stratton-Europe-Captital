@@ -313,6 +313,16 @@ Describe 'Stratton standalone deployment orchestrator' {
         bffClientId = '22222222-2222-2222-2222-222222222222'
         phase5ClientId = '33333333-3333-3333-3333-333333333333'
       }) `
+      -FoundationOutputs ([pscustomobject]@{
+        webIdentityClientId = '44444444-4444-4444-4444-444444444444'
+        webIdentityPrincipalId = '55555555-5555-5555-5555-555555555555'
+        bffIdentityClientId = '66666666-6666-6666-6666-666666666666'
+        bffIdentityPrincipalId = '77777777-7777-7777-7777-777777777777'
+        phase5IdentityClientId = '88888888-8888-8888-8888-888888888888'
+        phase5IdentityPrincipalId = '99999999-9999-9999-9999-999999999999'
+        verificationIdentityClientId = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+        verificationIdentityPrincipalId = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+      }) `
       -ImagesArtifact ([pscustomobject]@{
         images = @(
           [pscustomobject]@{ repository = 'stratton/demo-web'; digest = "sha256:$('a' * 64)" }
@@ -325,6 +335,10 @@ Describe 'Stratton standalone deployment orchestrator' {
     $application.webEntraClientId | Should -Be '11111111-1111-1111-1111-111111111111'
     $application.bffEntraClientId | Should -Be '22222222-2222-2222-2222-222222222222'
     $application.phase5ApplicationId | Should -Be '33333333-3333-3333-3333-333333333333'
+    $application.webIdentityClientId | Should -Be '44444444-4444-4444-4444-444444444444'
+    $application.bffIdentityPrincipalId | Should -Be '77777777-7777-7777-7777-777777777777'
+    $application.phase5IdentityClientId | Should -Be '88888888-8888-8888-8888-888888888888'
+    $application.verificationIdentityPrincipalId | Should -Be 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
     $application.webDelegatedScope | Should -Be 'api://22222222-2222-2222-2222-222222222222/access_as_user'
     $application.phase5DelegatedScope | Should -Be 'api://33333333-3333-3333-3333-333333333333/access_as_user'
     $application.webImageDigest | Should -Be "sha256:$('a' * 64)"

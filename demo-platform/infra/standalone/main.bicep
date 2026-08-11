@@ -65,6 +65,31 @@ param webEntraClientId string
 @maxLength(36)
 param bffEntraClientId string
 
+@minLength(36)
+@maxLength(36)
+param webIdentityClientId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param webIdentityPrincipalId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param bffIdentityClientId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param bffIdentityPrincipalId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param phase5IdentityClientId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param phase5IdentityPrincipalId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param verificationIdentityClientId string = '00000000-0000-0000-0000-000000000000'
+@minLength(36)
+@maxLength(36)
+param verificationIdentityPrincipalId string = '00000000-0000-0000-0000-000000000000'
+
 param namePrefix string = 'stratton-demo'
 param tags object = {}
 
@@ -240,17 +265,17 @@ module demoRuntimes '../main.bicep' = {
     webEntraClientId: webEntraClientId
     bffEntraClientId: bffEntraClientId
     webIdentityResourceId: webIdentityResourceId
-    webIdentityClientId: deployApplications ? operations.outputs.webIdentityClientId : emptyGuid
-    webIdentityPrincipalId: deployApplications ? operations.outputs.webIdentityPrincipalId : emptyGuid
+    webIdentityClientId: webIdentityClientId
+    webIdentityPrincipalId: webIdentityPrincipalId
     bffIdentityResourceId: bffIdentityResourceId
-    bffIdentityClientId: deployApplications ? operations.outputs.bffIdentityClientId : emptyGuid
-    bffIdentityPrincipalId: deployApplications ? operations.outputs.bffIdentityPrincipalId : emptyGuid
+    bffIdentityClientId: bffIdentityClientId
+    bffIdentityPrincipalId: bffIdentityPrincipalId
     phase5IdentityResourceId: phase5IdentityResourceId
-    phase5IdentityClientId: deployApplications ? operations.outputs.phase5IdentityClientId : emptyGuid
-    phase5IdentityPrincipalId: deployApplications ? operations.outputs.phase5IdentityPrincipalId : emptyGuid
+    phase5IdentityClientId: phase5IdentityClientId
+    phase5IdentityPrincipalId: phase5IdentityPrincipalId
     verificationIdentityResourceId: verificationIdentityResourceId
-    verificationIdentityClientId: deployApplications ? operations.outputs.verificationIdentityClientId : emptyGuid
-    verificationIdentityPrincipalId: deployApplications ? operations.outputs.verificationIdentityPrincipalId : emptyGuid
+    verificationIdentityClientId: verificationIdentityClientId
+    verificationIdentityPrincipalId: verificationIdentityPrincipalId
   }
 }
 
