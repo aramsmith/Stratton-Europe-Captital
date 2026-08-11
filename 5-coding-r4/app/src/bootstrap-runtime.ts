@@ -313,14 +313,14 @@ function sqlAuthentication(managedIdentityClientId: string): sql.config["authent
   };
 }
 
-function toIdempotentIdentitySql(source: string): string {
+export function toIdempotentIdentitySql(source: string): string {
   const marker = "-- BFF is deliberately limited to the demo projection table.";
   const markerIndex = source.indexOf(marker);
   const identitySql = (markerIndex >= 0 ? source.slice(markerIndex) : source).trim();
   const identityUsers = [
     ...identitySql.matchAll(/CREATE\s+USER\s+\[([A-Za-z0-9_-]+)\]\s+FROM\s+EXTERNAL\s+PROVIDER\s*;/gi)
   ];
-  if (identityUsers.length !== 2) {
+  if (identityUsers.length !== 3) {
     throw new Error("BOOTSTRAP_IDENTITY_SQL_INVALID");
   }
   return identitySql.replace(

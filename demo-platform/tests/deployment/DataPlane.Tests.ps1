@@ -50,6 +50,24 @@ Describe 'Stratton data-plane bootstrap' {
     $script | Should -Not -Match '-Now\s+\[datetimeoffset\]::UtcNow'
   }
 
+  It 'resolves all three managed identity placeholders before starting the job' {
+    $sql = @'
+-- BFF is deliberately limited to the demo projection table.
+CREATE USER [${bffIdentityName}] FROM EXTERNAL PROVIDER;
+CREATE USER [${phase5IdentityName}] FROM EXTERNAL PROVIDER;
+CREATE USER [${verificationIdentityName}] FROM EXTERNAL PROVIDER;
+'@
+
+    $resolved = Get-IdentityBootstrapSql `
+      -BootstrapSql $sql `
+      -BffIdentityName 'stratton-bff-mi' `
+      -Phase5IdentityName 'stratton-phase5-mi' `
+      -VerificationIdentityName 'stratton-verification-mi'
+
+    $resolved | Should -Not -Match '\$\{'
+    @([regex]::Matches($resolved, 'CREATE USER')).Count | Should -Be 3
+  }
+
   It 'preserves hash-bound projection SQL whitespace in the bootstrap image' {
     $bootstrapMain = Get-Content -LiteralPath $script:bootstrapMainPath -Raw
 

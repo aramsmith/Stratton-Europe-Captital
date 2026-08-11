@@ -147,7 +147,16 @@ function Get-IdentityBootstrapSql {
   [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
-    [string] $BootstrapSql
+    [string] $BootstrapSql,
+
+    [Parameter(Mandatory)]
+    [string] $BffIdentityName,
+
+    [Parameter(Mandatory)]
+    [string] $Phase5IdentityName,
+
+    [Parameter(Mandatory)]
+    [string] $VerificationIdentityName
   )
 
   $marker = '-- BFF is deliberately limited to the demo projection table.'
@@ -155,7 +164,10 @@ function Get-IdentityBootstrapSql {
   if ($markerIndex -lt 0) {
     throw 'IDENTITY_BOOTSTRAP_SQL_INVALID'
   }
-  return $BootstrapSql.Substring($markerIndex)
+  return $BootstrapSql.Substring($markerIndex).
+    Replace('${bffIdentityName}', $BffIdentityName).
+    Replace('${phase5IdentityName}', $Phase5IdentityName).
+    Replace('${verificationIdentityName}', $VerificationIdentityName)
 }
 
 function Assert-StrattonBootstrapJobPayload {
@@ -699,7 +711,16 @@ function Invoke-StrattonDataPlaneBootstrap {
   $searchSchema = Get-Content (Join-Path $PSScriptRoot 'search-index.json') -Raw | ConvertFrom-Json
   $identityBootstrapSql = Get-IdentityBootstrapSql -BootstrapSql (
     Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlBootstrapSql'
-  )
+  ) `
+    -BffIdentityName (
+      (Get-RequiredDeploymentOutput -Outputs $outputs -Name 'bffIdentityResourceId').Split('/')[-1]
+    ) `
+    -Phase5IdentityName (
+      (Get-RequiredDeploymentOutput -Outputs $outputs -Name 'phase5IdentityResourceId').Split('/')[-1]
+    ) `
+    -VerificationIdentityName (
+      (Get-RequiredDeploymentOutput -Outputs $outputs -Name 'verificationIdentityResourceId').Split('/')[-1]
+    )
   $environmentVariables = @(
     'BOOTSTRAP_TENANT_ID=27140306-eea5-4e7f-91e9-4c9e86864b3a',
     "AZURE_SQL_SERVER_FQDN=$(Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlServerFqdn')",

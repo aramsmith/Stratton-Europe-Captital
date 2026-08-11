@@ -6,6 +6,7 @@ import {
   migrationExecutionErrorCode,
   migrationRollbackErrorCode,
   requiresSqlAutocommit,
+  toIdempotentIdentitySql,
   reconcileRouteEvidenceValidity,
   runBootstrap,
   safeBootstrapErrorCode,
@@ -49,6 +50,17 @@ test("security policy DDL runs outside explicit transactions", () => {
   assert.equal(requiresSqlAutocommit("CREATE SECURITY POLICY dbo.policy ADD FILTER PREDICATE x(a) ON dbo.t;"), true);
   assert.equal(requiresSqlAutocommit("ALTER SECURITY POLICY dbo.policy WITH (STATE = OFF);"), true);
   assert.equal(requiresSqlAutocommit("CREATE TABLE dbo.example (id INT NOT NULL);"), false);
+});
+
+test("identity bootstrap requires and idempotently wraps all workload identities", () => {
+  const sql = toIdempotentIdentitySql(`
+-- BFF is deliberately limited to the demo projection table.
+CREATE USER [stratton-bff-mi] FROM EXTERNAL PROVIDER;
+CREATE USER [stratton-phase5-mi] FROM EXTERNAL PROVIDER;
+CREATE USER [stratton-verification-mi] FROM EXTERNAL PROVIDER;
+`);
+  assert.equal((sql.match(/IF NOT EXISTS/g) ?? []).length, 3);
+  assert.equal(sql.includes("CREATE USER [stratton-verification-mi] FROM EXTERNAL PROVIDER"), true);
 });
 
 const routes: readonly RouteEvidenceInput[] = [
