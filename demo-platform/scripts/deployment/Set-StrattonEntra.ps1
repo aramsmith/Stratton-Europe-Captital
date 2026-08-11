@@ -571,9 +571,11 @@ function Ensure-StrattonApplication {
 
   if ($ApplicationDefinition.key -in @('bff', 'phase5')) {
     $DesiredDefinition.identifierUris = @(
-      @($DesiredDefinition.identifierUris, "api://$($application.appId)") |
-        Select-Object -Unique
-    )
+      foreach ($identifierUri in @($DesiredDefinition.identifierUris)) {
+        [string] $identifierUri
+      }
+      "api://$($application.appId)"
+    ) | Select-Object -Unique
   }
 
   if (-not (Test-ApplicationMatches -Application $application -Definition $DesiredDefinition)) {

@@ -351,6 +351,11 @@ Describe 'Stratton Entra reconciliation' {
       $definition.identifierUri
       "api://$($existingApplication.appId)"
     )
+    $graphBody = $script:patchedDefinition |
+      ConvertTo-Json -Depth 50 |
+      ConvertFrom-Json -Depth 50
+    $graphBody.identifierUris[0].GetType().FullName | Should -Be 'System.String'
+    $graphBody.identifierUris[1].GetType().FullName | Should -Be 'System.String'
   }
 
   It 'rejects an existing matched application with password credentials' {
