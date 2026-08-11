@@ -1233,7 +1233,7 @@ function Invoke-StrattonStandalonePhase {
   }
 
   if ($Phase -eq 'ApplicationWhatIf') {
-    if ($state.phase -ne 'DATA_PLANE_READY') {
+    if ($state.phase -notin @('DATA_PLANE_READY', 'APPLICATION_WHAT_IF_READY')) {
       throw "DEPLOYMENT_PHASE_REQUIRED:DATA_PLANE_READY:$($state.phase)"
     }
     $outputsArtifact = Read-StrattonJsonArtifact -Path $script:OutputsArtifactPath

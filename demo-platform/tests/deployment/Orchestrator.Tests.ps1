@@ -360,6 +360,14 @@ Describe 'Stratton standalone deployment orchestrator' {
     )
   }
 
+  It 'can regenerate a stale application what-if after a failed deployment' {
+    $source = Get-Content -LiteralPath $script:orchestratorPath -Raw
+
+    $source | Should -Match (
+      "\`$state\.phase -notin @\('DATA_PLANE_READY', 'APPLICATION_WHAT_IF_READY'\)"
+    )
+  }
+
   It 'uses subscription-scope what-if and deployment commands without destructive mode' {
     $whatIfArguments = New-StrattonSubscriptionWhatIfArguments `
       -DeploymentName 'stratton-foundation-20260810-01234567' `

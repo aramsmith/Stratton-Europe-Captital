@@ -141,26 +141,6 @@ resource phase5AuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' =
   }
 }
 
-resource phase5Diagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: '${phase5AppName}-diagnostics'
-  scope: phase5App
-  properties: {
-    workspaceId: logAnalyticsWorkspaceId
-    logs: [
-      {
-        categoryGroup: 'allLogs'
-        enabled: true
-      }
-    ]
-    metrics: [
-      {
-        category: 'AllMetrics'
-        enabled: true
-      }
-    ]
-  }
-}
-
 output phase5AppName string = phase5App.name
 output phase5AppId string = phase5App.id
 output phase5ApiFqdn string = phase5App.properties.configuration.ingress.fqdn

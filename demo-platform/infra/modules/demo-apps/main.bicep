@@ -428,46 +428,6 @@ resource bffAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
   }
 }
 
-resource webDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: '${webAppName}-diagnostics'
-  scope: webApp
-  properties: {
-    workspaceId: logAnalyticsWorkspaceId
-    logs: [
-      {
-        categoryGroup: 'allLogs'
-        enabled: true
-      }
-    ]
-    metrics: [
-      {
-        category: 'AllMetrics'
-        enabled: true
-      }
-    ]
-  }
-}
-
-resource bffDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: '${bffAppName}-diagnostics'
-  scope: bffApp
-  properties: {
-    workspaceId: logAnalyticsWorkspaceId
-    logs: [
-      {
-        categoryGroup: 'allLogs'
-        enabled: true
-      }
-    ]
-    metrics: [
-      {
-        category: 'AllMetrics'
-        enabled: true
-      }
-    ]
-  }
-}
-
 output webAppName string = webApp.name
 output webAppId string = webApp.id
 output webAppFqdn string = webApp.properties.configuration.ingress.fqdn

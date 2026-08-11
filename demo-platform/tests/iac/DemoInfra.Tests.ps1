@@ -302,9 +302,19 @@ Describe 'Stratton demo infrastructure' {
     }
 
     $diagnosticSettings = @($script:allResources | Where-Object type -eq 'Microsoft.Insights/diagnosticSettings')
-    $diagnosticSettings.Count | Should -BeGreaterOrEqual 3
+    $diagnosticSettings.Count | Should -BeGreaterOrEqual 1
     foreach ($diagnosticSetting in $diagnosticSettings) {
       ($diagnosticSetting.properties.workspaceId | Out-String) | Should -Match 'logAnalyticsWorkspaceId'
+    }
+  }
+
+  It 'does not attach unsupported diagnostic settings directly to Container Apps' {
+    foreach ($relativePath in @(
+        'infra\modules\demo-apps\main.bicep',
+        'infra\standalone\modules\phase5\main.bicep'
+      )) {
+      $source = Get-Content -Path (Join-Path $script:repoRoot $relativePath) -Raw
+      $source | Should -Not -Match "Microsoft\.Insights/diagnosticSettings"
     }
   }
 
