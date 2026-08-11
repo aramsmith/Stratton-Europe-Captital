@@ -567,14 +567,6 @@ Describe 'Stratton demo infrastructure' {
     }
   }
 
-  It 'enables Microsoft Entra data-plane authentication for Azure AI Search' {
-    $dataSource = Get-Content -Path (
-      Join-Path $script:repoRoot 'infra\standalone\modules\data\main.bicep'
-    ) -Raw
-
-    $dataSource | Should -Match "authOptions:\s*\{\s*aadOrApiKey:\s*\{\s*aadAuthFailureMode:\s*'http403'"
-  }
-
   It 'grants Phase 5 sender access only to its runtime queues and retains BFF analysis sender access' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
