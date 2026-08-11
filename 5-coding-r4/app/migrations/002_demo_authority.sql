@@ -157,7 +157,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'FILTER'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundles'
   )
   BEGIN
@@ -170,7 +170,7 @@ BEGIN
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundles'
   )
   BEGIN
@@ -183,7 +183,7 @@ BEGIN
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER UPDATE'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundles'
   )
   BEGIN
@@ -196,7 +196,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'FILTER'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundle_evidence'
   )
   BEGIN
@@ -209,7 +209,7 @@ BEGIN
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundle_evidence'
   )
   BEGIN
@@ -222,7 +222,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'FILTER'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundle_reviews'
   )
   BEGIN
@@ -235,7 +235,7 @@ BEGIN
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'BLOCK'
       AND p.operation_desc = N'AFTER INSERT'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'analysis_bundle_reviews'
   )
   BEGIN
@@ -248,7 +248,7 @@ BEGIN
     FROM sys.security_predicates p
     JOIN sys.tables t ON t.object_id = p.target_object_id
     WHERE p.predicate_type_desc = N'FILTER'
-      AND p.security_policy_id = OBJECT_ID(N'dbo.stratton_rls_policy')
+      AND p.object_id = OBJECT_ID(N'dbo.stratton_rls_policy')
       AND t.name = N'approved_model_route_evidence'
   )
   BEGIN

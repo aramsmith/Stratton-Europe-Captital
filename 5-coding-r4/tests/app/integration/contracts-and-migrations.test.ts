@@ -340,7 +340,9 @@ test("queue outbox recovery SQL/RLS contract stays relay-scoped and autonomous",
   assert.equal(/alter security policy/i.test(migration), false);
   const authorityMigration = readFileSync(demoAuthorityMigrationPath, "utf8");
   assert.equal(/p\.type\s*=\s*N'(?:FILTER|BLOCK)'/i.test(authorityMigration), false);
+  assert.equal(/p\.security_policy_id/i.test(authorityMigration), false);
   assert.match(authorityMigration, /p\.predicate_type_desc\s*=\s*N'FILTER'/i);
+  assert.match(authorityMigration, /p\.object_id\s*=\s*OBJECT_ID\(N'dbo\.stratton_rls_policy'\)/i);
   assert.match(
     migration,
     /add block predicate rls\.fn_tenant_case\(tenant_id, case_id\) on dbo\.queue_outbox after insert/i
