@@ -1359,6 +1359,14 @@ function Invoke-StrattonStandalonePhase {
           provisionalRedirectRetained = $true
         }
     }
+    if (
+      $state.phase -eq 'APPLICATIONS_DEPLOYED' -and
+      (Get-StrattonPropertyValue -InputObject $state -Name 'deployedRedirectRegistered') -eq $true
+    ) {
+      $state = Save-StrattonDeploymentState `
+        -State $state `
+        -NextPhase 'ENTRA_REDIRECT_RECONCILED'
+    }
     return $state
   }
 

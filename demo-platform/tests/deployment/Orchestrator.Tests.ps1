@@ -368,6 +368,12 @@ Describe 'Stratton standalone deployment orchestrator' {
     )
   }
 
+  It 'advances after the deployed redirect has been reconciled' {
+    $source = Get-Content -LiteralPath $script:orchestratorPath -Raw
+
+    $source | Should -Match "-NextPhase 'ENTRA_REDIRECT_RECONCILED'"
+  }
+
   It 'uses subscription-scope what-if and deployment commands without destructive mode' {
     $whatIfArguments = New-StrattonSubscriptionWhatIfArguments `
       -DeploymentName 'stratton-foundation-20260810-01234567' `
