@@ -315,6 +315,44 @@ Describe 'Stratton Entra reconciliation' {
     @($plan | Where-Object action -eq 'Update application') | Should -HaveCount 1
   }
 
+  It 'adds the client-ID audience URI to API application registrations' {
+    $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+    $definition = Get-ManifestApplication -Manifest $manifest -Key phase5
+    $existingApplication = New-TestMatchedApplication
+    $existingApplication.displayName = $definition.displayName
+    $existingApplication.identifierUris = @($definition.identifierUri)
+    $plan = [System.Collections.Generic.List[object]]::new()
+    $script:patchedDefinition = $null
+
+    Ensure-StrattonApplication `
+      -Manifest $manifest `
+      -ApplicationDefinition $definition `
+      -DesiredDefinition (New-ApplicationDefinition `
+        -Manifest $manifest `
+        -Application $definition `
+        -WebRedirectUri 'http://localhost:4173') `
+      -Plan $plan `
+      -GraphInvoker {
+        param($Method, $Uri, $Body)
+
+        if ($Uri -match '/applications\?') {
+          return [pscustomobject]@{ value = @($existingApplication) }
+        }
+        if ($Method -eq 'GET') {
+          return $existingApplication
+        }
+        if ($Method -eq 'PATCH') {
+          $script:patchedDefinition = $Body
+          return $null
+        }
+      } | Out-Null
+
+    @($script:patchedDefinition.identifierUris) | Should -Be @(
+      $definition.identifierUri
+      "api://$($existingApplication.appId)"
+    )
+  }
+
   It 'rejects an existing matched application with password credentials' {
     $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
     $definition = Get-ManifestApplication -Manifest $manifest -Key web

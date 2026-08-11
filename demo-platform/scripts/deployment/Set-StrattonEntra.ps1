@@ -562,11 +562,18 @@ function Ensure-StrattonApplication {
       return $null
     }
 
-    return Invoke-Graph `
+    $application = Invoke-Graph `
       -Method POST `
       -Uri 'https://graph.microsoft.com/v1.0/applications' `
       -Body $DesiredDefinition `
       -GraphInvoker $GraphInvoker
+  }
+
+  if ($ApplicationDefinition.key -in @('bff', 'phase5')) {
+    $DesiredDefinition.identifierUris = @(
+      @($DesiredDefinition.identifierUris, "api://$($application.appId)") |
+        Select-Object -Unique
+    )
   }
 
   if (-not (Test-ApplicationMatches -Application $application -Definition $DesiredDefinition)) {
