@@ -13,7 +13,6 @@ param bffImageRepository string
 param bffImageDigest string
 param webContainerPort int
 param bffContainerPort int
-param phase5ApiBaseUrl string
 param webDelegatedScope string
 param bffRequiredDelegatedScope string
 param phase5ApplicationId string
@@ -65,10 +64,15 @@ param bffIdentityClientId string
 @maxLength(36)
 param bffIdentityPrincipalId string
 
+resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2024-03-01' existing = {
+  name: last(split(containerAppsEnvironmentId, '/'))
+}
+
 var webIdentityName = split(webIdentityResourceId, '/')[8]
 var bffIdentityName = split(bffIdentityResourceId, '/')[8]
 var webAppName = '${namePrefix}-web'
 var bffAppName = '${namePrefix}-bff'
+var phase5ApiBaseUrl = 'https://${namePrefix}-phase5.${containerAppsEnvironment.properties.defaultDomain}'
 var entraIssuer = '${environment().authentication.loginEndpoint}${tenantId}/v2.0'
 var webImage = '${containerRegistryServer}/${webImageRepository}@${webImageDigest}'
 var bffImage = '${containerRegistryServer}/${bffImageRepository}@${bffImageDigest}'

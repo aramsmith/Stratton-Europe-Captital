@@ -111,7 +111,6 @@ var logAnalyticsWorkspaceName = '${namePrefix}-log'
 var sqlDatabaseName = '${namePrefix}-db'
 var blobContainerName = 'admitted-evidence'
 var analysisQueueName = 'analysis-work'
-var emptyGuid = '00000000-0000-0000-0000-000000000000'
 var containerAppsEnvironmentId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.App/managedEnvironments', containerAppsEnvironmentName)
 var containerRegistryId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.ContainerRegistry/registries', registryName)
 var logAnalyticsWorkspaceId = resourceId(subscriptionId, resourceGroupName, 'Microsoft.OperationalInsights/workspaces', logAnalyticsWorkspaceName)

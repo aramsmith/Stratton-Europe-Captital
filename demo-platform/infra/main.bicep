@@ -298,7 +298,6 @@ module demoApps './modules/demo-apps/main.bicep' = if (deployApplications) {
     bffImageDigest: bffImageDigest
     webContainerPort: webContainerPort
     bffContainerPort: bffContainerPort
-    phase5ApiBaseUrl: deployApplications ? 'https://${phase5!.outputs.phase5ApiFqdn}' : ''
     webDelegatedScope: webDelegatedScope
     bffRequiredDelegatedScope: bffRequiredDelegatedScope
     phase5ApplicationId: phase5ApplicationId

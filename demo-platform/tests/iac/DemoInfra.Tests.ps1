@@ -114,7 +114,7 @@ Describe 'Stratton demo infrastructure' {
     Test-Path $script:compiledTemplatePath | Should -BeTrue
   }
 
-  It 'does not dereference the conditional Phase 5 module in foundation-only mode' {
+  It 'derives the Phase 5 URL inside the app module without a reference-bound parameter' {
     if (-not $script:template) {
       Set-ItResult -Skipped -Because 'Template did not compile.'
       return
@@ -128,8 +128,12 @@ Describe 'Stratton demo infrastructure' {
         }
     )
     $appsDeployment.Count | Should -Be 1
-    ($appsDeployment[0].properties.parameters.phase5ApiBaseUrl | ConvertTo-Json -Compress) |
-      Should -Match "if\(parameters\('deployApplications'\)"
+    $appsDeployment[0].properties.parameters.PSObject.Properties.Name |
+      Should -Not -Contain 'phase5ApiBaseUrl'
+    $appsSource = Get-Content -Path (
+      Join-Path $script:repoRoot 'infra\modules\demo-apps\main.bicep'
+    ) -Raw
+    $appsSource | Should -Match 'containerAppsEnvironment\.properties\.defaultDomain'
   }
 
   It 'exposes only the web application publicly' {
