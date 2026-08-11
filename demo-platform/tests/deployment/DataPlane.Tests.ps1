@@ -62,10 +62,15 @@ CREATE USER [${verificationIdentityName}] FROM EXTERNAL PROVIDER;
       -BootstrapSql $sql `
       -BffIdentityName 'stratton-bff-mi' `
       -Phase5IdentityName 'stratton-phase5-mi' `
-      -VerificationIdentityName 'stratton-verification-mi'
+      -VerificationIdentityName 'stratton-verification-mi' `
+      -BffIdentityClientId '65e534e7-0d9f-4202-b133-659e5181c267' `
+      -Phase5IdentityClientId '4e701dae-4bbc-4ff5-84af-69bad37524b2' `
+      -VerificationIdentityClientId 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
 
     $resolved | Should -Not -Match '\$\{'
     @([regex]::Matches($resolved, 'CREATE USER')).Count | Should -Be 3
+    $resolved | Should -Not -Match 'FROM EXTERNAL PROVIDER'
+    @([regex]::Matches($resolved, 'WITH SID = 0x[a-f0-9]{32}, TYPE = E')).Count | Should -Be 3
   }
 
   It 'preserves hash-bound projection SQL whitespace in the bootstrap image' {

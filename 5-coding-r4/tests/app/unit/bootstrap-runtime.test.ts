@@ -55,12 +55,17 @@ test("security policy DDL runs outside explicit transactions", () => {
 test("identity bootstrap requires and idempotently wraps all workload identities", () => {
   const sql = toIdempotentIdentitySql(`
 -- BFF is deliberately limited to the demo projection table.
-CREATE USER [stratton-bff-mi] FROM EXTERNAL PROVIDER;
-CREATE USER [stratton-phase5-mi] FROM EXTERNAL PROVIDER;
-CREATE USER [stratton-verification-mi] FROM EXTERNAL PROVIDER;
+CREATE USER [stratton-bff-mi] WITH SID = 0xe734e5659f0d0242b133659e5181c267, TYPE = E;
+CREATE USER [stratton-phase5-mi] WITH SID = 0xae1d704ebc4bf54f84af69bad37524b2, TYPE = E;
+CREATE USER [stratton-verification-mi] WITH SID = 0xaaaaaaaabbbbccccddddeeeeeeeeeeee, TYPE = E;
 `);
   assert.equal((sql.match(/IF NOT EXISTS/g) ?? []).length, 3);
-  assert.equal(sql.includes("CREATE USER [stratton-verification-mi] FROM EXTERNAL PROVIDER"), true);
+  assert.equal(
+    sql.includes(
+      "CREATE USER [stratton-verification-mi] WITH SID = 0xaaaaaaaabbbbccccddddeeeeeeeeeeee, TYPE = E"
+    ),
+    true
+  );
 });
 
 const routes: readonly RouteEvidenceInput[] = [

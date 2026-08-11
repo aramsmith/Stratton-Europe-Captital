@@ -318,15 +318,17 @@ export function toIdempotentIdentitySql(source: string): string {
   const markerIndex = source.indexOf(marker);
   const identitySql = (markerIndex >= 0 ? source.slice(markerIndex) : source).trim();
   const identityUsers = [
-    ...identitySql.matchAll(/CREATE\s+USER\s+\[([A-Za-z0-9_-]+)\]\s+FROM\s+EXTERNAL\s+PROVIDER\s*;/gi)
+    ...identitySql.matchAll(
+      /CREATE\s+USER\s+\[([A-Za-z0-9_-]+)\]\s+WITH\s+SID\s*=\s*(0x[A-Fa-f0-9]{32}),\s*TYPE\s*=\s*E\s*;/gi
+    )
   ];
   if (identityUsers.length !== 3) {
     throw new Error("BOOTSTRAP_IDENTITY_SQL_INVALID");
   }
   return identitySql.replace(
-    /CREATE\s+USER\s+\[([A-Za-z0-9_-]+)\]\s+FROM\s+EXTERNAL\s+PROVIDER\s*;/gi,
-    (_statement, name: string) =>
-      `IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'${name}') EXEC(N'CREATE USER [${name}] FROM EXTERNAL PROVIDER');`
+    /CREATE\s+USER\s+\[([A-Za-z0-9_-]+)\]\s+WITH\s+SID\s*=\s*(0x[A-Fa-f0-9]{32}),\s*TYPE\s*=\s*E\s*;/gi,
+    (_statement, name: string, sid: string) =>
+      `IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'${name}') EXEC(N'CREATE USER [${name}] WITH SID = ${sid}, TYPE = E');`
   );
 }
 

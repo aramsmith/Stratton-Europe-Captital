@@ -156,7 +156,16 @@ function Get-IdentityBootstrapSql {
     [string] $Phase5IdentityName,
 
     [Parameter(Mandatory)]
-    [string] $VerificationIdentityName
+    [string] $VerificationIdentityName,
+
+    [Parameter(Mandatory)]
+    [guid] $BffIdentityClientId,
+
+    [Parameter(Mandatory)]
+    [guid] $Phase5IdentityClientId,
+
+    [Parameter(Mandatory)]
+    [guid] $VerificationIdentityClientId
   )
 
   $marker = '-- BFF is deliberately limited to the demo projection table.'
@@ -164,10 +173,22 @@ function Get-IdentityBootstrapSql {
   if ($markerIndex -lt 0) {
     throw 'IDENTITY_BOOTSTRAP_SQL_INVALID'
   }
-  return $BootstrapSql.Substring($markerIndex).
+  $resolved = $BootstrapSql.Substring($markerIndex).
     Replace('${bffIdentityName}', $BffIdentityName).
     Replace('${phase5IdentityName}', $Phase5IdentityName).
     Replace('${verificationIdentityName}', $VerificationIdentityName)
+  foreach ($identity in @(
+      [pscustomobject]@{ Name = $BffIdentityName; ClientId = $BffIdentityClientId },
+      [pscustomobject]@{ Name = $Phase5IdentityName; ClientId = $Phase5IdentityClientId },
+      [pscustomobject]@{ Name = $VerificationIdentityName; ClientId = $VerificationIdentityClientId }
+    )) {
+    $sid = '0x' + (($identity.ClientId.ToByteArray() | ForEach-Object { $_.ToString('x2') }) -join '')
+    $resolved = $resolved.Replace(
+      "CREATE USER [$($identity.Name)] FROM EXTERNAL PROVIDER;",
+      "CREATE USER [$($identity.Name)] WITH SID = $sid, TYPE = E;"
+    )
+  }
+  return $resolved
 }
 
 function Assert-StrattonBootstrapJobPayload {
@@ -720,6 +741,15 @@ function Invoke-StrattonDataPlaneBootstrap {
     ) `
     -VerificationIdentityName (
       (Get-RequiredDeploymentOutput -Outputs $outputs -Name 'verificationIdentityResourceId').Split('/')[-1]
+    ) `
+    -BffIdentityClientId (
+      Get-RequiredDeploymentOutput -Outputs $outputs -Name 'bffIdentityClientId'
+    ) `
+    -Phase5IdentityClientId (
+      Get-RequiredDeploymentOutput -Outputs $outputs -Name 'phase5IdentityClientId'
+    ) `
+    -VerificationIdentityClientId (
+      Get-RequiredDeploymentOutput -Outputs $outputs -Name 'verificationIdentityClientId'
     )
   $environmentVariables = @(
     'BOOTSTRAP_TENANT_ID=27140306-eea5-4e7f-91e9-4c9e86864b3a',
