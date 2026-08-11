@@ -337,13 +337,7 @@ test("queue outbox recovery SQL/RLS contract stays relay-scoped and autonomous",
   assert.match(migration, /session_context\(n''allow_tenant_lookup''\)/i);
   assert.equal(/session_context\(n''outbox_relay''\)/i.test(migration), false);
   assert.match(migration, /add filter predicate rls\.fn_queue_outbox_access\(tenant_id, case_id\) on dbo\.queue_outbox/i);
-  assert.match(migration, /drop filter predicate on dbo\.queue_outbox/i);
-  assert.match(migration, /drop block predicate on dbo\.queue_outbox after insert/i);
-  assert.match(migration, /drop block predicate on dbo\.queue_outbox after update/i);
-  assert.equal(/drop (?:filter|block) predicate rls\./i.test(migration), false);
-  assert.match(migration, /p\.predicate_type_desc\s*=\s*N'FILTER'/i);
-  assert.match(migration, /p\.predicate_type_desc\s*=\s*N'BLOCK'/i);
-  assert.equal(/p\.type\s*=\s*N'(?:FILTER|BLOCK)'/i.test(migration), false);
+  assert.equal(/alter security policy/i.test(migration), false);
   assert.match(
     migration,
     /add block predicate rls\.fn_tenant_case\(tenant_id, case_id\) on dbo\.queue_outbox after insert/i
