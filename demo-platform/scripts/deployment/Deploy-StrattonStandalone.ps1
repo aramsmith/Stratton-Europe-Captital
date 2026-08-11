@@ -1236,6 +1236,8 @@ function Invoke-StrattonStandalonePhase {
     if ($state.phase -ne 'DATA_PLANE_READY') {
       throw "DEPLOYMENT_PHASE_REQUIRED:DATA_PLANE_READY:$($state.phase)"
     }
+    $outputsArtifact = Read-StrattonJsonArtifact -Path $script:OutputsArtifactPath
+    $foundationOutputs = Get-StrattonRequiredValue -InputObject $outputsArtifact -Name 'foundation'
     $entraArtifact = Read-StrattonJsonArtifact -Path (Join-Path $script:DeploymentArtifactRoot 'entra.json')
     $imagesArtifact = Read-StrattonJsonArtifact -Path (Join-Path $script:DeploymentArtifactRoot 'images.json')
     $applicationValues = New-StrattonApplicationParameterValues `
@@ -1278,6 +1280,8 @@ function Invoke-StrattonStandalonePhase {
     if ($remainingSteps.Count -eq 0) {
       return $state
     }
+    $outputsArtifact = Read-StrattonJsonArtifact -Path $script:OutputsArtifactPath
+    $foundationOutputs = Get-StrattonRequiredValue -InputObject $outputsArtifact -Name 'foundation'
 
     if ($state.phase -eq 'APPLICATION_WHAT_IF_READY') {
       if (-not $ApproveApplicationWhatIf) {

@@ -350,6 +350,16 @@ Describe 'Stratton standalone deployment orchestrator' {
     $serialized | Should -Not -Match '(?i)"(password|clientSecret|apiKey|connectionString|accessToken|refreshToken)"'
   }
 
+  It 'loads persisted foundation outputs before building application parameters' {
+    $source = Get-Content -LiteralPath $script:orchestratorPath -Raw
+
+    $source | Should -Match (
+      "if \(\`$Phase -eq 'ApplicationWhatIf'\)[\s\S]*" +
+      "Read-StrattonJsonArtifact -Path \`$script:OutputsArtifactPath[\s\S]*" +
+      "New-StrattonApplicationParameterValues"
+    )
+  }
+
   It 'uses subscription-scope what-if and deployment commands without destructive mode' {
     $whatIfArguments = New-StrattonSubscriptionWhatIfArguments `
       -DeploymentName 'stratton-foundation-20260810-01234567' `
