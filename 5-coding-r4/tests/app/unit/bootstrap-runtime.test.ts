@@ -5,6 +5,7 @@ import {
   assertSearchSchemaCompatible,
   migrationExecutionErrorCode,
   migrationRollbackErrorCode,
+  requiresSqlAutocommit,
   reconcileRouteEvidenceValidity,
   runBootstrap,
   safeBootstrapErrorCode,
@@ -42,6 +43,12 @@ test("migration rollback failures preserve both safe error codes", () => {
     ),
     "MIGRATION_ROLLBACK_FAILED:MIGRATION_EXECUTION_FAILED:001_INIT_SQL:BATCH83:N102:BOOTSTRAP_FAILED:TRANSACTIONERROR:EABORT:NUNKNOWN"
   );
+});
+
+test("security policy DDL runs outside explicit transactions", () => {
+  assert.equal(requiresSqlAutocommit("CREATE SECURITY POLICY dbo.policy ADD FILTER PREDICATE x(a) ON dbo.t;"), true);
+  assert.equal(requiresSqlAutocommit("ALTER SECURITY POLICY dbo.policy WITH (STATE = OFF);"), true);
+  assert.equal(requiresSqlAutocommit("CREATE TABLE dbo.example (id INT NOT NULL);"), false);
 });
 
 const routes: readonly RouteEvidenceInput[] = [

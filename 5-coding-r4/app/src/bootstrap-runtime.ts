@@ -300,6 +300,10 @@ function splitSqlBatches(source: string): readonly string[] {
   return batches;
 }
 
+export function requiresSqlAutocommit(batch: string): boolean {
+  return /\b(?:CREATE|ALTER)\s+SECURITY\s+POLICY\b/i.test(batch);
+}
+
 function sqlAuthentication(managedIdentityClientId: string): sql.config["authentication"] {
   return {
     type: "azure-active-directory-default",
@@ -354,7 +358,7 @@ export class AzureSqlMigrationRunner {
       authentication: sqlAuthentication(this.managedIdentityClientId)
     });
     let transactionStarted = false;
-    const transaction = new sql.Transaction(pool);
+    let transaction = new sql.Transaction(pool);
     try {
       await pool.connect();
       await transaction.begin(sql.ISOLATION_LEVEL.SERIALIZABLE);
@@ -390,7 +394,17 @@ WHERE migration_name = @migrationName;
         const batches = splitSqlBatches(migration.sql);
         for (let batchIndex = 0; batchIndex < batches.length; batchIndex += 1) {
           try {
-            await new sql.Request(transaction).batch(batches[batchIndex] ?? "");
+            const batch = batches[batchIndex] ?? "";
+            if (requiresSqlAutocommit(batch)) {
+              await transaction.commit();
+              transactionStarted = false;
+              await new sql.Request(pool).batch(batch);
+              transaction = new sql.Transaction(pool);
+              await transaction.begin(sql.ISOLATION_LEVEL.SERIALIZABLE);
+              transactionStarted = true;
+            } else {
+              await new sql.Request(transaction).batch(batch);
+            }
           } catch (error) {
             throw new Error(migrationExecutionErrorCode(migration.name, batchIndex, error));
           }
