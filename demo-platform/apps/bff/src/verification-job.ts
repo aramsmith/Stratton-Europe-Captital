@@ -1,7 +1,7 @@
 import { Buffer } from "node:buffer";
 import { lookup } from "node:dns/promises";
 import { pathToFileURL } from "node:url";
-import * as mssql from "mssql";
+import mssql from "mssql";
 import { createManagedIdentityCredential } from "./azure/managed-identity.js";
 
 const routeSequence = ["LUNA", "TERRA", "SOL"] as const;
