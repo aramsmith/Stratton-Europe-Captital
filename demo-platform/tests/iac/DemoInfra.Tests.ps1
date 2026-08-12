@@ -370,17 +370,21 @@ Describe 'Stratton demo infrastructure' {
     $bffAuth.properties.platform.enabled | Should -BeTrue
     $bffAuth.properties.globalValidation.unauthenticatedClientAction | Should -Be 'Return401'
     @($bffAuth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences).Count |
-      Should -Be 1
-    ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences[0] | Out-String) |
+      Should -Be 2
+    ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | ConvertTo-Json) |
       Should -Match 'bffEntraClientId'
+    ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | ConvertTo-Json) |
+      Should -Match 'api://'
     @($bffAuth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications).Count |
       Should -Be 1
     ($bffAuth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications[0] | Out-String) |
       Should -Match 'webEntraClientId'
     @($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences).Count |
-      Should -Be 1
-    ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences[0] | Out-String) |
+      Should -Be 2
+    ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | ConvertTo-Json) |
       Should -Match 'phase5ApplicationId'
+    ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.allowedAudiences | ConvertTo-Json) |
+      Should -Match 'api://'
     @($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications).Count |
       Should -Be 2
     ($phase5Auth.properties.identityProviders.azureActiveDirectory.validation.defaultAuthorizationPolicy.allowedApplications | ConvertTo-Json) |

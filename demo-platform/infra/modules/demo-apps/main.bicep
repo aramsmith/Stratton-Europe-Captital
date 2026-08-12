@@ -416,6 +416,7 @@ resource bffAuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' = {
         validation: {
           allowedAudiences: [
             bffEntraClientId
+            'api://${bffEntraClientId}'
           ]
           defaultAuthorizationPolicy: {
             allowedApplications: [

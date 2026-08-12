@@ -128,6 +128,7 @@ resource phase5AuthConfig 'Microsoft.App/containerApps/authConfigs@2024-03-01' =
         validation: {
           allowedAudiences: [
             phase5ApplicationId
+            'api://${phase5ApplicationId}'
           ]
           defaultAuthorizationPolicy: {
             allowedApplications: [
