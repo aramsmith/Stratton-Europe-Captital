@@ -2,7 +2,7 @@ import {
   scenarioStateSchema,
   type ScenarioState
 } from "@stratton/contracts";
-import * as mssql from "mssql";
+import mssql from "mssql";
 import { DemoHttpError } from "../errors.js";
 import type {
   ScenarioConcurrencyToken,
