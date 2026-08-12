@@ -148,6 +148,34 @@ test("SQL route evidence lookup uses the real tenant predicate and session conte
   assert.equal(executor.queryManyCalls[1]?.options?.context?.tenantId, "tenant-b");
 });
 
+test("SQL route evidence preserves Date values returned by the mssql driver", async () => {
+  const executor = new FakeSqlExecutor();
+  const validFrom = new Date("2026-08-01T00:00:00.000Z");
+  const validUntil = new Date("2026-09-01T00:00:00.000Z");
+  executor.nextQueryManyRows = [
+    {
+      tenant_id: "tenant-a",
+      evidence_id: "route-evidence-1",
+      status: "APPROVED",
+      resource_id:
+        "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.CognitiveServices/accounts/aoai",
+      deployment_id: "terra-grounded-analysis",
+      region: "westeurope",
+      route: "TERRA",
+      api_version: "2026-01-01",
+      evidence_version: "route-evidence-1:v1",
+      valid_from: validFrom,
+      valid_until: validUntil
+    }
+  ];
+  const repository = new SqlWorkloadRepository(executor);
+
+  const evidence = await repository.getApprovedModelRouteEvidence("tenant-a", "route-evidence-1");
+
+  assert.equal(evidence?.validFromIso, validFrom.toISOString());
+  assert.equal(evidence?.validUntilIso, validUntil.toISOString());
+});
+
 test("SQL completion uses an atomic null-subject update and accepts an identical race replay", async () => {
   const executor = new FakeSqlExecutor();
   executor.nextExecuteResult = { rowsAffected: 0 };

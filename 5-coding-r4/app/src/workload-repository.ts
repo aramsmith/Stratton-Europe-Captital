@@ -51,6 +51,9 @@ function toBool(value: unknown): boolean {
 }
 
 function toIso(value: unknown): string {
+  if (value instanceof Date && Number.isFinite(value.getTime())) {
+    return value.toISOString();
+  }
   if (typeof value === "string" && value.length > 0) {
     return value;
   }
@@ -2204,8 +2207,8 @@ ORDER BY decided_at, review_id;
       route: "LUNA" | "TERRA" | "SOL";
       api_version: string;
       evidence_version: string;
-      valid_from: string;
-      valid_until: string;
+      valid_from: string | Date;
+      valid_until: string | Date;
     }>(
       `
 SELECT tenant_id, evidence_id, status, resource_id, deployment_id, region, route, api_version, evidence_version,
