@@ -1,5 +1,6 @@
 import { createApiServer } from "./api-runtime.js";
 import { loadConfig } from "./config.js";
+import { createEntraBearerTokenVerifier } from "./entra-bearer-token-verifier.js";
 import { FileIdempotencyStore, InMemoryIdempotencyStore, SqlIdempotencyStore } from "./idempotency-store.js";
 import { StructuredLogger } from "./logger.js";
 import { AzureServiceBusFactory, InMemoryQueueRouter } from "./queue-adapters.js";
@@ -94,6 +95,14 @@ async function run(): Promise<void> {
       auditExportCapabilityEnabled,
       ...(config.demoAuthorityCompletionClientId
         ? { completionClientId: config.demoAuthorityCompletionClientId }
+        : {}),
+      ...(config.demoAuthorityBearerTenantId && config.demoAuthorityBearerAudience
+        ? {
+            bearerTokenVerifier: createEntraBearerTokenVerifier({
+              tenantId: config.demoAuthorityBearerTenantId,
+              audience: config.demoAuthorityBearerAudience
+            })
+          }
         : {})
     });
 
@@ -129,6 +138,14 @@ async function run(): Promise<void> {
     auditExportCapabilityEnabled,
     ...(config.demoAuthorityCompletionClientId
       ? { completionClientId: config.demoAuthorityCompletionClientId }
+      : {}),
+    ...(config.demoAuthorityBearerTenantId && config.demoAuthorityBearerAudience
+      ? {
+          bearerTokenVerifier: createEntraBearerTokenVerifier({
+            tenantId: config.demoAuthorityBearerTenantId,
+            audience: config.demoAuthorityBearerAudience
+          })
+        }
       : {})
   });
   await new Promise<void>((resolve) => server.listen(port, () => resolve()));

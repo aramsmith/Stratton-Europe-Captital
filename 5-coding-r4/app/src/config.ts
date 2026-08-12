@@ -5,6 +5,8 @@ export interface AppConfig {
   readonly modelProviderEvidenceId: string;
   readonly regionalDeploymentEvidenceId: string;
   readonly demoAuthorityCompletionClientId?: string;
+  readonly demoAuthorityBearerTenantId?: string;
+  readonly demoAuthorityBearerAudience?: string;
   readonly sqlServerFqdn?: string;
   readonly sqlDatabaseName?: string;
   readonly serviceBusFqdn?: string;
@@ -59,6 +61,11 @@ function assertSecretFreeReferences(env: NodeJS.ProcessEnv): void {
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   assertSecretFreeReferences(env);
+  const bearerTenantId = env.DEMO_AUTHORITY_BEARER_TENANT_ID?.trim();
+  const bearerAudience = env.DEMO_AUTHORITY_BEARER_AUDIENCE?.trim();
+  if ((bearerTenantId && !bearerAudience) || (!bearerTenantId && bearerAudience)) {
+    throw new Error("INCOMPLETE_DEMO_AUTHORITY_BEARER_CONFIG");
+  }
   return {
     appEnv: parseEnv(required(env, "APP_ENV")),
     rolloutAdmissionMax: parseRollout(required(env, "ROLLOUT_ADMISSION_MAX")),
@@ -67,6 +74,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     regionalDeploymentEvidenceId: required(env, "REGIONAL_DEPLOYMENT_EVIDENCE_ID"),
     ...(env.DEMO_AUTHORITY_COMPLETION_CLIENT_ID?.trim()
       ? { demoAuthorityCompletionClientId: env.DEMO_AUTHORITY_COMPLETION_CLIENT_ID.trim() }
+      : {}),
+    ...(bearerTenantId && bearerAudience
+      ? {
+          demoAuthorityBearerTenantId: bearerTenantId,
+          demoAuthorityBearerAudience: bearerAudience
+        }
       : {}),
     ...(env.AZURE_SQL_SERVER_FQDN?.trim()
       ? { sqlServerFqdn: env.AZURE_SQL_SERVER_FQDN.trim() }

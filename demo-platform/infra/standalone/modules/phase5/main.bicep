@@ -80,6 +80,8 @@ resource phase5App 'Microsoft.App/containerApps@2024-03-01' = {
             { name: 'ANALYSIS_CAPABILITY_ENABLED', value: 'false' }
             { name: 'AUDIT_EXPORT_CAPABILITY_ENABLED', value: 'false' }
             { name: 'DEMO_AUTHORITY_COMPLETION_CLIENT_ID', value: bffIdentityClientId }
+            { name: 'DEMO_AUTHORITY_BEARER_TENANT_ID', value: tenantId }
+            { name: 'DEMO_AUTHORITY_BEARER_AUDIENCE', value: phase5ApplicationId }
             { name: 'AZURE_MANAGED_IDENTITY_CLIENT_ID', value: phase5IdentityClientId }
             { name: 'AZURE_SQL_SERVER_FQDN', value: sqlServerFqdn }
             { name: 'MODEL_PROVIDER_EVIDENCE_ID', value: modelProviderEvidenceId }

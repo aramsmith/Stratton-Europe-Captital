@@ -553,6 +553,8 @@ Describe 'Stratton demo infrastructure' {
       'REGIONAL_DEPLOYMENT_EVIDENCE_ID'
       'PROMPT_GOVERNANCE_EVIDENCE_ID'
       'AZURE_SERVICEBUS_FQDN'
+      'DEMO_AUTHORITY_BEARER_TENANT_ID'
+      'DEMO_AUTHORITY_BEARER_AUDIENCE'
     )) {
       $phase5EnvNames | Should -Contain $requiredName
     }
@@ -568,6 +570,8 @@ Describe 'Stratton demo infrastructure' {
     $phase5EnvText | Should -Match 'modelProviderEvidenceId'
     $phase5EnvText | Should -Match 'regionalDeploymentEvidenceId'
     $phase5EnvText | Should -Match 'promptGovernanceEvidenceId'
+    $phase5EnvText | Should -Match 'tenantId'
+    $phase5EnvText | Should -Match 'phase5ApplicationId'
 
     $standaloneSource = Get-Content -Path (Join-Path $script:repoRoot 'infra\standalone\main.bicep') -Raw
     foreach ($evidenceSetting in @{

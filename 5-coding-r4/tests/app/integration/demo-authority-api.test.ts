@@ -72,6 +72,56 @@ test("demo authority routes reject application reviews and unconfigured completi
   }
 });
 
+test("demo authority accepts a validated managed identity bearer token without an Easy Auth principal header", async () => {
+  const repository = await createDemoAuthorityRepository();
+  const { server } = createApiServer({
+    repository,
+    idempotencyStore: new InMemoryIdempotencyStore(),
+    queueProducer: new InMemoryQueueRouter(),
+    logger: new StructuredLogger("test"),
+    requestBodyLimitBytes: 32_768,
+    modelProviderEvidenceId: "model-evidence",
+    regionalDeploymentEvidenceId: "region-evidence",
+    promptGovernanceEvidenceId: "prompt-evidence",
+    idempotencyLeaseDurationSeconds: 120,
+    analysisCapabilityEnabled: true,
+    auditExportCapabilityEnabled: true,
+    completionClientId: "demo-bff",
+    bearerTokenVerifier: {
+      verify: async (token) => {
+        assert.equal(token, "managed-identity-token");
+        return {
+          tenantId: "tenant-a",
+          subjectId: "service-a",
+          roles: ["Phase5.Complete"],
+          identityProvider: "https://login.microsoftonline.com/tenant-a/v2.0",
+          authType: "aad",
+          isHuman: false,
+          applicationId: "demo-bff"
+        };
+      }
+    }
+  });
+  await new Promise<void>((resolve) => server.listen(0, resolve));
+  const address = server.address();
+  assert.ok(address && typeof address !== "string");
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:${address.port}/v1/demo-authority/model-route-evidence/route-evidence-1?tenantId=tenant-a`,
+      { headers: { authorization: "Bearer managed-identity-token" } }
+    );
+    assert.equal(response.status, 200);
+
+    const spoofedHeader = await fetch(
+      `http://127.0.0.1:${address.port}/v1/demo-authority/model-route-evidence/route-evidence-1?tenantId=tenant-a`,
+      { headers: { "x-ms-client-principal": principalHeader("app", [], "demo-bff") } }
+    );
+    assert.equal(spoofedHeader.status, 401);
+  } finally {
+    await new Promise<void>((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())));
+  }
+});
+
 test("demo authority API completes the additive bundle lifecycle without Release 1 analysis rows", async () => {
   const repository = await createDemoAuthorityRepository();
   const { server } = createApiServer({

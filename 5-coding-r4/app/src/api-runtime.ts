@@ -2,6 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { createDemoAuthorityService, DemoAuthorityError } from "./demo-authority-service.js";
+import type { BearerTokenVerifier } from "./entra-bearer-token-verifier.js";
 import { health, readiness } from "./health.js";
 import { StructuredLogger } from "./logger.js";
 import { evaluateRolloutAdmission, policyInputHash } from "./policy-service.js";
@@ -97,6 +98,7 @@ export interface ApiRuntimeConfig {
   readonly analysisCapabilityEnabled: boolean;
   readonly auditExportCapabilityEnabled: boolean;
   readonly completionClientId?: string;
+  readonly bearerTokenVerifier?: BearerTokenVerifier;
 }
 
 export const implementedOperations: readonly {
@@ -289,12 +291,7 @@ function readHeader(request: IncomingMessage, name: string): string | undefined 
   return undefined;
 }
 
-function parsePrincipal(request: IncomingMessage): AuthenticatedPrincipal {
-  const encoded = readHeader(request, "x-ms-client-principal");
-  if (!encoded) {
-    throw new HttpError(401, "UNAUTHENTICATED");
-  }
-
+function parseEasyAuthPrincipal(encoded: string): AuthenticatedPrincipal {
   let parsed: unknown;
   try {
     parsed = JSON.parse(Buffer.from(encoded, "base64").toString("utf8"));
@@ -358,6 +355,30 @@ function parsePrincipal(request: IncomingMessage): AuthenticatedPrincipal {
     isHuman,
     ...(appId ? { applicationId: appId } : {})
   };
+}
+
+async function parsePrincipal(
+  request: IncomingMessage,
+  bearerTokenVerifier?: BearerTokenVerifier
+): Promise<AuthenticatedPrincipal> {
+  if (bearerTokenVerifier) {
+    const authorization = readHeader(request, "authorization");
+    const match = authorization?.match(/^Bearer ([^\s]+)$/i);
+    if (!match?.[1]) {
+      throw new HttpError(401, "UNAUTHENTICATED");
+    }
+    try {
+      return await bearerTokenVerifier.verify(match[1]);
+    } catch {
+      throw new HttpError(401, "UNAUTHENTICATED");
+    }
+  }
+
+  const encoded = readHeader(request, "x-ms-client-principal");
+  if (!encoded) {
+    throw new HttpError(401, "UNAUTHENTICATED");
+  }
+  return parseEasyAuthPrincipal(encoded);
 }
 
 function assertHumanPrincipal(principal: AuthenticatedPrincipal): void {
@@ -1831,7 +1852,7 @@ export function createApiServer(config: ApiRuntimeConfig): { server: Server } {
         throw new HttpError(400, "INVALID_CONTRACT");
       }
       const { route, match } = routeResult;
-      const principal = parsePrincipal(request);
+      const principal = await parsePrincipal(request, config.bearerTokenVerifier);
       if (!route.authenticatedOnly) {
         requireRole(principal, route.roles);
       }
