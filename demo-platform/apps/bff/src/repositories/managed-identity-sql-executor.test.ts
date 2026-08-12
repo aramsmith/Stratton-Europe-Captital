@@ -102,4 +102,25 @@ describe("createManagedIdentitySqlExecutor", () => {
     await vi.waitFor(() => expect(first.pool.close).toHaveBeenCalledTimes(1));
     expect(tokenProvider).toHaveBeenCalledTimes(2);
   });
+
+  it("binds session-context strings as bounded nvarchar and projection JSON as nvarchar max", async () => {
+    const active = createPool(async () => ({ recordset: [], rowsAffected: [1] }));
+    const executor = createManagedIdentitySqlExecutor({
+      server: "sql.example.test",
+      database: "stratton",
+      now: () => 1_000,
+      tokenProvider: async () => ({ token: "token-1", expiresOnTimestamp: 10_000 }),
+      poolFactory: () => active.pool
+    });
+
+    await executor.query("SELECT 1", [
+      { name: "tenantId", type: "nvarchar", value: "tenant-a" },
+      { name: "stateJson", type: "nvarcharMax", value: "{}" }
+    ]);
+
+    const boundedType = active.request.input.mock.calls[0]?.[1] as { length?: number };
+    const maxType = active.request.input.mock.calls[1]?.[1] as { length?: number };
+    expect(boundedType.length).toBe(4000);
+    expect(maxType.length).toBe(65535);
+  });
 });

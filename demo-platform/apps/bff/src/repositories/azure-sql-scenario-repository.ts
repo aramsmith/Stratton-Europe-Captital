@@ -13,7 +13,7 @@ import { createManagedIdentityCredential } from "../azure/managed-identity.js";
 
 export interface SqlParameter {
   readonly name: string;
-  readonly type: "nvarchar" | "bigint";
+  readonly type: "nvarchar" | "nvarcharMax" | "bigint";
   readonly value: string | number;
 }
 
@@ -219,6 +219,10 @@ export function createManagedIdentitySqlExecutor(
 
         for (const parameter of parameters) {
           if (parameter.type === "nvarchar") {
+            request.input(parameter.name, mssql.NVarChar(4000), parameter.value);
+            continue;
+          }
+          if (parameter.type === "nvarcharMax") {
             request.input(parameter.name, mssql.NVarChar(mssql.MAX), parameter.value);
             continue;
           }
@@ -298,7 +302,7 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
         ...this.createTenantCaseParameters(),
         {
           name: "stateJson",
-          type: "nvarchar",
+          type: "nvarcharMax",
           value: JSON.stringify(parsedState)
         },
         {
@@ -335,7 +339,7 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
         ...this.createTenantCaseParameters(),
         {
           name: "stateJson",
-          type: "nvarchar",
+          type: "nvarcharMax",
           value: JSON.stringify(parsedState)
         },
         {
@@ -368,7 +372,7 @@ export class AzureSqlScenarioRepository implements ScenarioRepository {
         ...this.createTenantCaseParameters(),
         {
           name: "stateJson",
-          type: "nvarchar",
+          type: "nvarcharMax",
           value: JSON.stringify(parsedState)
         }
       ]
