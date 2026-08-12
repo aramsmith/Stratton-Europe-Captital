@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE5_APPEND_ONLY_EVIDENCE_BINDING_REMEDIATION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "changeControlId": "STRATTON-CC-002",
+  "createdAt": "2026-08-09T17:30:00+02:00",
+  "source": {
+    "packageRoot": "5-coding-r5",
+    "manifestPath": "5-coding-r5/stratton-phase-5-hashes.json",
+    "manifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "fileCount": 162,
+    "immutable": true
+  },
+  "reviewTrigger": {
+    "reviewPath": "reviews/aff-a/5/round-5/stratton-aff-a-review.json",
+    "reviewSha256": "f614574bcc42529b26f32b1590ab690c121cfb15ec1aad10e7ace4bb367abfbe",
+    "findingId": "AFFA-P5-R5-MAJ-001",
+    "severity": "MAJOR",
+    "verdict": "DIVERGES"
+  },
+  "companionAssurance": {
+    "reviewPath": "reviews/aff-b/5/round-3/stratton-aff-b-review.json",
+    "reviewSha256": "63e422fa708fce1c30f1739b9d0a539d2b435110b7be9cb724dc5a799a1525a7",
+    "coveragePath": "reviews/aff-b/coverage/stratton-compliance-coverage-018.json",
+    "coverageSha256": "abe9b88504d5ca91dbd6297c6b1d09a35c346c87f9ec6295920d490076b1ae11"
+  },
+  "destination": {
+    "packageRoot": "5-coding-r6",
+    "canonicalManifestPath": "5-coding-r6/stratton-phase-5-hashes.json",
+    "status": "REMEDIATION_CANDIDATE_NOT_YET_APPROVED"
+  },
+  "remediation": {
+    "inputAggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "inputScope": [
+      "README.md",
+      "app/",
+      "infra/",
+      "tests/",
+      "validation/",
+      "deploy/",
+      "tooling/",
+      "release/"
+    ],
+    "excludedGeneratedScopes": [
+      "evidence/",
+      "node_modules/",
+      "dist/",
+      "out/",
+      "root release, report and canonical-manifest outputs"
+    ],
+    "requirements": [
+      "Compute the validation-input manifest before any validation step.",
+      "Bind every local step record and dependency summary to the same input aggregate.",
+      "Resolve validation, source-security and container evidence by explicit run ID and path.",
+      "Recompute the input aggregate during release generation and every external freeze step.",
+      "Reject any source/input mutation, mismatched evidence binding or filesystem-mtime decoy."
+    ]
+  },
+  "authorityBoundary": {
+    "humanApprovalClaimed": false,
+    "azureActivityOccurred": false,
+    "deploymentAuthorised": false,
+    "runtimeTestingAuthorised": false
+  }
+}

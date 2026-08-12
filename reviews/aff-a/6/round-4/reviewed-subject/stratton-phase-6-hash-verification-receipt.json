@@ -1,0 +1,1598 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phase": "Phase 6 — C-level Presentation",
+  "round": 4,
+  "reviewedAt": "2026-08-10T00:21:50.961+02:00",
+  "staticOnlyBoundary": true,
+  "canonicalManifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r4/stratton-phase-6-hashes.json",
+    "expectedSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "preReviewSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "postReviewSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "recomputedAgainSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "hashRemainedExpected": true,
+    "artifactCount": 154,
+    "matchedArtifactHashes": 154,
+    "allListedHashesMatched": true,
+    "duplicatePathCount": 0,
+    "ordinalSorted": true,
+    "safeRelativePaths": true,
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/reviewed-subject/stratton-phase-6-hashes.json",
+    "snapshotSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "snapshotByteIdentical": true
+  },
+  "modelPlanBinding": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "authorReceiptBinding": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r4/evidence/stratton-aff-6-model-receipt.json",
+    "sha256": "11e60ab661828550e46764d6ae7baf5787bdfa35e0b433d70d2cef522e36ed6a"
+  },
+  "artifactVerificationResults": [
+    {
+      "ordinal": 1,
+      "path": "deck/components.json",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "56fb1f308a8a7b2706cc9ed0600fc0be6dd5ec1db4ad6f10999b3d20be32290c",
+      "actualSha256": "56fb1f308a8a7b2706cc9ed0600fc0be6dd5ec1db4ad6f10999b3d20be32290c",
+      "matched": true
+    },
+    {
+      "ordinal": 2,
+      "path": "deck/deck.config.js",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "241e1887bad5ee87a9185c0f6926ed39557f31641f07fc1159d704bcfa9e03f4",
+      "actualSha256": "241e1887bad5ee87a9185c0f6926ed39557f31641f07fc1159d704bcfa9e03f4",
+      "matched": true
+    },
+    {
+      "ordinal": 3,
+      "path": "deck/deck.pdf",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "8c444c67b47528665bbdbefa277960fe7506cd23f7bcbdcf56f90b4c57a02da2",
+      "actualSha256": "8c444c67b47528665bbdbefa277960fe7506cd23f7bcbdcf56f90b4c57a02da2",
+      "matched": true
+    },
+    {
+      "ordinal": 4,
+      "path": "deck/dist/assets/EditableListSortable-xADwTBhf.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "371738d5ba215d719d607639a2895835eca74685447b6b6068e2445f2e20bd82",
+      "actualSha256": "371738d5ba215d719d607639a2895835eca74685447b6b6068e2445f2e20bd82",
+      "matched": true
+    },
+    {
+      "ordinal": 5,
+      "path": "deck/dist/assets/GitHubStarPrompt-BmZA2Huj.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "a381a876785406f71636a4be924d2b985ec31baedf33e226edb33a03a8b8087c",
+      "actualSha256": "a381a876785406f71636a4be924d2b985ec31baedf33e226edb33a03a8b8087c",
+      "matched": true
+    },
+    {
+      "ordinal": 6,
+      "path": "deck/dist/assets/GitHubStarPrompt-CwKkav8W.css",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "87b4d896b1ce2406f9e3c1fdf349362dd2b224e38bf409eb48adb5244827ae1a",
+      "actualSha256": "87b4d896b1ce2406f9e3c1fdf349362dd2b224e38bf409eb48adb5244827ae1a",
+      "matched": true
+    },
+    {
+      "ordinal": 7,
+      "path": "deck/dist/assets/cloud-adoption-framework-BiRcE-w9.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "bb74a0d03121795f58ad543eb3161ed2c8ee54e26632ee333585ca57a98e8942",
+      "actualSha256": "bb74a0d03121795f58ad543eb3161ed2c8ee54e26632ee333585ca57a98e8942",
+      "matched": true
+    },
+    {
+      "ordinal": 8,
+      "path": "deck/dist/assets/dist-VplG6Yi_.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "3b122dca94d848d15782f501570cafffa0218b077c77b65228a5277617044cad",
+      "actualSha256": "3b122dca94d848d15782f501570cafffa0218b077c77b65228a5277617044cad",
+      "matched": true
+    },
+    {
+      "ordinal": 9,
+      "path": "deck/dist/assets/github-copilot-pilot-Cyt9fTYI.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81",
+      "actualSha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81",
+      "matched": true
+    },
+    {
+      "ordinal": 10,
+      "path": "deck/dist/assets/html2canvas-DAwLCE-C.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "a806d78688821df1debeb86c63ef748dbae31b599144dba341f48842ede1a917",
+      "actualSha256": "a806d78688821df1debeb86c63ef748dbae31b599144dba341f48842ede1a917",
+      "matched": true
+    },
+    {
+      "ordinal": 11,
+      "path": "deck/dist/assets/index-Bfc7hZ96.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "71c678d73578c135a7f642d0b07ffbba085a443543a6c761ccd900a0c2e4e522",
+      "actualSha256": "71c678d73578c135a7f642d0b07ffbba085a443543a6c761ccd900a0c2e4e522",
+      "matched": true
+    },
+    {
+      "ordinal": 12,
+      "path": "deck/dist/assets/index-CPTvH39M.css",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "26daf0a68ce51d983c350c478126db7c690e6c26e5eda54319e46f3680e57748",
+      "actualSha256": "26daf0a68ce51d983c350c478126db7c690e6c26e5eda54319e46f3680e57748",
+      "matched": true
+    },
+    {
+      "ordinal": 13,
+      "path": "deck/dist/assets/index.es-8BvSYumO.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "3a6d08a16e14338814d99f69cb7a17b2b4ff37357a0b42caa6d67367b2f8562e",
+      "actualSha256": "3a6d08a16e14338814d99f69cb7a17b2b4ff37357a0b42caa6d67367b2f8562e",
+      "matched": true
+    },
+    {
+      "ordinal": 14,
+      "path": "deck/dist/assets/jspdf.es.min-CSPX5UZN.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "55e8a3351e4dcf938998dfb27d2294b624c9f119f652374061eec3ffd7807bc0",
+      "actualSha256": "55e8a3351e4dcf938998dfb27d2294b624c9f119f652374061eec3ffd7807bc0",
+      "matched": true
+    },
+    {
+      "ordinal": 15,
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "5face17e4a8aace4f3f78fb6eefdf38a2993b8d38b405bb1b91514b8b14f1b6f",
+      "actualSha256": "5face17e4a8aace4f3f78fb6eefdf38a2993b8d38b405bb1b91514b8b14f1b6f",
+      "matched": true
+    },
+    {
+      "ordinal": 16,
+      "path": "deck/dist/assets/purify.es-DuRL7t6i.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "72d32af2adb678c3647e3e6f88bbcae99d67df529bf9d8e0a5fdc25094dd6582",
+      "actualSha256": "72d32af2adb678c3647e3e6f88bbcae99d67df529bf9d8e0a5fdc25094dd6582",
+      "matched": true
+    },
+    {
+      "ordinal": 17,
+      "path": "deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149",
+      "actualSha256": "e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149",
+      "matched": true
+    },
+    {
+      "ordinal": 18,
+      "path": "deck/dist/assets/stratton-europe-capital-logo-O5FCJU5V.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901",
+      "actualSha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901",
+      "matched": true
+    },
+    {
+      "ordinal": 19,
+      "path": "deck/dist/assets/stratton-round-logo-DRxYk3w0.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb",
+      "actualSha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb",
+      "matched": true
+    },
+    {
+      "ordinal": 20,
+      "path": "deck/dist/assets/togaf-adm-SX4k0-bB.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c3a90574a79bcdbddb6853a7855c6519cf414fc8a0eae270e977bf0c3fd7608c",
+      "actualSha256": "c3a90574a79bcdbddb6853a7855c6519cf414fc8a0eae270e977bf0c3fd7608c",
+      "matched": true
+    },
+    {
+      "ordinal": 21,
+      "path": "deck/dist/assets/typeof-B5XbjTb1.js",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6",
+      "actualSha256": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6",
+      "matched": true
+    },
+    {
+      "ordinal": 22,
+      "path": "deck/dist/assets/well-architected-framework-e7MFdXpr.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "8dbe66c6bbd5f7323e1f325731964d8c6379cd7e72b43a71e64c61f75f9a0415",
+      "actualSha256": "8dbe66c6bbd5f7323e1f325731964d8c6379cd7e72b43a71e64c61f75f9a0415",
+      "matched": true
+    },
+    {
+      "ordinal": 23,
+      "path": "deck/dist/deckio.png",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479",
+      "actualSha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479",
+      "matched": true
+    },
+    {
+      "ordinal": 24,
+      "path": "deck/dist/index.html",
+      "role": "presentation-export",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ee90959d430b5ddb01fe81dce8dd6c0e58478cea9e6a8bb4b230f063ed733b73",
+      "actualSha256": "ee90959d430b5ddb01fe81dce8dd6c0e58478cea9e6a8bb4b230f063ed733b73",
+      "matched": true
+    },
+    {
+      "ordinal": 25,
+      "path": "deck/index.html",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "7df39d7e6d7c9336446594249f3ba058b4bc8952860253c5adeddedc29e0407b",
+      "actualSha256": "7df39d7e6d7c9336446594249f3ba058b4bc8952860253c5adeddedc29e0407b",
+      "matched": true
+    },
+    {
+      "ordinal": 26,
+      "path": "deck/jsconfig.json",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "cfb19d86b7b2104fe78687a4c3cae321dd238f88a6a62adf6e3a2451dbf4c221",
+      "actualSha256": "cfb19d86b7b2104fe78687a4c3cae321dd238f88a6a62adf6e3a2451dbf4c221",
+      "matched": true
+    },
+    {
+      "ordinal": 27,
+      "path": "deck/package-lock.json",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "33f222f745544b873425f4bad682dbb8a9695a2554af06ab5f141971f25c333e",
+      "actualSha256": "33f222f745544b873425f4bad682dbb8a9695a2554af06ab5f141971f25c333e",
+      "matched": true
+    },
+    {
+      "ordinal": 28,
+      "path": "deck/package.json",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ed67ae5a565f1458dc7ba557638c94228a770bc7038f31188f31e8946e5a85cb",
+      "actualSha256": "ed67ae5a565f1458dc7ba557638c94228a770bc7038f31188f31e8946e5a85cb",
+      "matched": true
+    },
+    {
+      "ordinal": 29,
+      "path": "deck/playwright.config.mjs",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "9996655dcf7fd51ee34cc7c874acc6781f3a5718b35ba399a0ce8c46c3738f7c",
+      "actualSha256": "9996655dcf7fd51ee34cc7c874acc6781f3a5718b35ba399a0ce8c46c3738f7c",
+      "matched": true
+    },
+    {
+      "ordinal": 30,
+      "path": "deck/public/deckio.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479",
+      "actualSha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479",
+      "matched": true
+    },
+    {
+      "ordinal": 31,
+      "path": "deck/src/App.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c911b28dde6f76dc8042035db233335c5874251a8ef8b5d59d045ef905611950",
+      "actualSha256": "c911b28dde6f76dc8042035db233335c5874251a8ef8b5d59d045ef905611950",
+      "matched": true
+    },
+    {
+      "ordinal": 32,
+      "path": "deck/src/components/presentation/AnimatedMetricValue.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "64ca39501bf62cc96b74c6484fc60cd54f32369d62fa8e71ef0e688f2a54caab",
+      "actualSha256": "64ca39501bf62cc96b74c6484fc60cd54f32369d62fa8e71ef0e688f2a54caab",
+      "matched": true
+    },
+    {
+      "ordinal": 33,
+      "path": "deck/src/components/presentation/CalloutAlert.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "f09a3c31cae7c767e6c5dc6bee7b6375e14c3e95b3869b873045416f2d7e0409",
+      "actualSha256": "f09a3c31cae7c767e6c5dc6bee7b6375e14c3e95b3869b873045416f2d7e0409",
+      "matched": true
+    },
+    {
+      "ordinal": 34,
+      "path": "deck/src/components/presentation/MetricCard.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "5b3eb2f96c2abd0a1482baaca1ed76c70e2d18e03f186cc0ebc0aa6465abbd48",
+      "actualSha256": "5b3eb2f96c2abd0a1482baaca1ed76c70e2d18e03f186cc0ebc0aa6465abbd48",
+      "matched": true
+    },
+    {
+      "ordinal": 35,
+      "path": "deck/src/components/presentation/PresentationStatus.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "e742c2ce3fdfb5fde78875a58bd424136a714643a8175b4e7953142e7c3633a4",
+      "actualSha256": "e742c2ce3fdfb5fde78875a58bd424136a714643a8175b4e7953142e7c3633a4",
+      "matched": true
+    },
+    {
+      "ordinal": 36,
+      "path": "deck/src/components/presentation/PresentationStatus.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "66d3ee87dbaf19af3325d3cfc9450d4d771bc5052f46e2816cb7e1acbda651ed",
+      "actualSha256": "66d3ee87dbaf19af3325d3cfc9450d4d771bc5052f46e2816cb7e1acbda651ed",
+      "matched": true
+    },
+    {
+      "ordinal": 37,
+      "path": "deck/src/components/presentation/SectionBadge.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "812a34ae6d596f1eb546c325b20dc70f74f8772fb06235371c219a71da054d94",
+      "actualSha256": "812a34ae6d596f1eb546c325b20dc70f74f8772fb06235371c219a71da054d94",
+      "matched": true
+    },
+    {
+      "ordinal": 38,
+      "path": "deck/src/components/presentation/StrattonBrandMark.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "8a268d97a7323d8d0dfed51476a78a75c60153fe0a4b05361a7dc175ed765f52",
+      "actualSha256": "8a268d97a7323d8d0dfed51476a78a75c60153fe0a4b05361a7dc175ed765f52",
+      "matched": true
+    },
+    {
+      "ordinal": 39,
+      "path": "deck/src/components/presentation/StrattonBrandMark.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "bcbee85c1675c861e255ca4c4bc9c99ca582cf044ec5bc402d613963cb00d838",
+      "actualSha256": "bcbee85c1675c861e255ca4c4bc9c99ca582cf044ec5bc402d613963cb00d838",
+      "matched": true
+    },
+    {
+      "ordinal": 40,
+      "path": "deck/src/components/theme-provider.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "dadfe7aacf655cc4de17d6a267b414183a41120c75c3d52138da5f49ed7735d9",
+      "actualSha256": "dadfe7aacf655cc4de17d6a267b414183a41120c75c3d52138da5f49ed7735d9",
+      "matched": true
+    },
+    {
+      "ordinal": 41,
+      "path": "deck/src/components/ui/alert.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "f11b25b560a3b13bd30453aa23f43d1955438339230823e747bf8fa6a61b5718",
+      "actualSha256": "f11b25b560a3b13bd30453aa23f43d1955438339230823e747bf8fa6a61b5718",
+      "matched": true
+    },
+    {
+      "ordinal": 42,
+      "path": "deck/src/components/ui/aurora.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "2df81fdc13c0e763f17aec359863d3d0ec8ef97e442788be47635882f480467d",
+      "actualSha256": "2df81fdc13c0e763f17aec359863d3d0ec8ef97e442788be47635882f480467d",
+      "matched": true
+    },
+    {
+      "ordinal": 43,
+      "path": "deck/src/components/ui/aurora.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "7c9fe8337e6c5a2e5db42b9596eb62ebc9b28a2ffff5e8473dc955f81039528d",
+      "actualSha256": "7c9fe8337e6c5a2e5db42b9596eb62ebc9b28a2ffff5e8473dc955f81039528d",
+      "matched": true
+    },
+    {
+      "ordinal": 44,
+      "path": "deck/src/components/ui/badge.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "84cf06bf47743969f13c547aa18d3b9af4bb85643456b05650f82f6dc72b06f1",
+      "actualSha256": "84cf06bf47743969f13c547aa18d3b9af4bb85643456b05650f82f6dc72b06f1",
+      "matched": true
+    },
+    {
+      "ordinal": 45,
+      "path": "deck/src/components/ui/blur-text.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "5e6f519103ca698abbe9013891e1a14f81fb06d4f6329f4bba6f618f86c1e4da",
+      "actualSha256": "5e6f519103ca698abbe9013891e1a14f81fb06d4f6329f4bba6f618f86c1e4da",
+      "matched": true
+    },
+    {
+      "ordinal": 46,
+      "path": "deck/src/components/ui/button.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "9cb085da59f2158ce7058fdcefc61d0bf4e1adf30e6701351cdc039ec472092c",
+      "actualSha256": "9cb085da59f2158ce7058fdcefc61d0bf4e1adf30e6701351cdc039ec472092c",
+      "matched": true
+    },
+    {
+      "ordinal": 47,
+      "path": "deck/src/components/ui/card.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "82ba08e2cbcca8200dba22598515efb561521524058dc1abed107c6034a3a109",
+      "actualSha256": "82ba08e2cbcca8200dba22598515efb561521524058dc1abed107c6034a3a109",
+      "matched": true
+    },
+    {
+      "ordinal": 48,
+      "path": "deck/src/components/ui/decrypted-text.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c31f63f14a7616ec375d2f65c1e75da85da2533bb05ea5f49980724693faf21b",
+      "actualSha256": "c31f63f14a7616ec375d2f65c1e75da85da2533bb05ea5f49980724693faf21b",
+      "matched": true
+    },
+    {
+      "ordinal": 49,
+      "path": "deck/src/components/ui/separator.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "e017da8aa4365c8fab962b230fc1f5e4596429a90ed13884bbbceda99b2e4421",
+      "actualSha256": "e017da8aa4365c8fab962b230fc1f5e4596429a90ed13884bbbceda99b2e4421",
+      "matched": true
+    },
+    {
+      "ordinal": 50,
+      "path": "deck/src/components/ui/shiny-text.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "47615f0b064585fd1e6dedb9f6704403638e81dd8b1113c365398c09b0f60431",
+      "actualSha256": "47615f0b064585fd1e6dedb9f6704403638e81dd8b1113c365398c09b0f60431",
+      "matched": true
+    },
+    {
+      "ordinal": 51,
+      "path": "deck/src/components/ui/spotlight-card.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ffae3cd1b899ae3e0e91048401e305ba8230d8a01bd3a9c3d80246f13ca06dba",
+      "actualSha256": "ffae3cd1b899ae3e0e91048401e305ba8230d8a01bd3a9c3d80246f13ca06dba",
+      "matched": true
+    },
+    {
+      "ordinal": 52,
+      "path": "deck/src/data/approach/cloud-adoption-framework.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "bb74a0d03121795f58ad543eb3161ed2c8ee54e26632ee333585ca57a98e8942",
+      "actualSha256": "bb74a0d03121795f58ad543eb3161ed2c8ee54e26632ee333585ca57a98e8942",
+      "matched": true
+    },
+    {
+      "ordinal": 53,
+      "path": "deck/src/data/approach/togaf-adm.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c3a90574a79bcdbddb6853a7855c6519cf414fc8a0eae270e977bf0c3fd7608c",
+      "actualSha256": "c3a90574a79bcdbddb6853a7855c6519cf414fc8a0eae270e977bf0c3fd7608c",
+      "matched": true
+    },
+    {
+      "ordinal": 54,
+      "path": "deck/src/data/approach/well-architected-framework.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "8dbe66c6bbd5f7323e1f325731964d8c6379cd7e72b43a71e64c61f75f9a0415",
+      "actualSha256": "8dbe66c6bbd5f7323e1f325731964d8c6379cd7e72b43a71e64c61f75f9a0415",
+      "matched": true
+    },
+    {
+      "ordinal": 55,
+      "path": "deck/src/data/azure-ai-foundry-logo.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "fab039a771f72780ae34e59065d61c66a02d3c347d50923ef2956f34912ea02c",
+      "actualSha256": "fab039a771f72780ae34e59065d61c66a02d3c347d50923ef2956f34912ea02c",
+      "matched": true
+    },
+    {
+      "ordinal": 56,
+      "path": "deck/src/data/azure-icons/ai-search.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "f7af1213ce089236593835cb5564d6d3f01358cba6488fe562aa8bbc8adc3b38",
+      "actualSha256": "f7af1213ce089236593835cb5564d6d3f01358cba6488fe562aa8bbc8adc3b38",
+      "matched": true
+    },
+    {
+      "ordinal": 57,
+      "path": "deck/src/data/azure-icons/api-management.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "cf794288575f2f7b080c50aa8319d42b02a2f2ae5351e4712c574353fc801f9a",
+      "actualSha256": "cf794288575f2f7b080c50aa8319d42b02a2f2ae5351e4712c574353fc801f9a",
+      "matched": true
+    },
+    {
+      "ordinal": 58,
+      "path": "deck/src/data/azure-icons/application-gateway.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "531e668e47cf61872b2811ec67dcc103cee2ecc1d272f07132d6196d68ba6c19",
+      "actualSha256": "531e668e47cf61872b2811ec67dcc103cee2ecc1d272f07132d6196d68ba6c19",
+      "matched": true
+    },
+    {
+      "ordinal": 59,
+      "path": "deck/src/data/azure-icons/application-insights.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "36c73dea8b1598fbfff84890a2b409600f1339eec8c1bf1a896439e9da8f9dca",
+      "actualSha256": "36c73dea8b1598fbfff84890a2b409600f1339eec8c1bf1a896439e9da8f9dca",
+      "matched": true
+    },
+    {
+      "ordinal": 60,
+      "path": "deck/src/data/azure-icons/azure-openai.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4859f2c78b6b81acbbaf94e7348cb7dcbe97955a038be903de01cf46a7206aad",
+      "actualSha256": "4859f2c78b6b81acbbaf94e7348cb7dcbe97955a038be903de01cf46a7206aad",
+      "matched": true
+    },
+    {
+      "ordinal": 61,
+      "path": "deck/src/data/azure-icons/container-apps.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "3cf4ba9242e31496f778a27e92c9c2b2a09664f105c58325d5e2dcb142d3c3b9",
+      "actualSha256": "3cf4ba9242e31496f778a27e92c9c2b2a09664f105c58325d5e2dcb142d3c3b9",
+      "matched": true
+    },
+    {
+      "ordinal": 62,
+      "path": "deck/src/data/azure-icons/container-registry.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c134b0a442f203a7eeeb6f99a1f02ed34e51373d7fca59f96c9f125874c9d7d4",
+      "actualSha256": "c134b0a442f203a7eeeb6f99a1f02ed34e51373d7fca59f96c9f125874c9d7d4",
+      "matched": true
+    },
+    {
+      "ordinal": 63,
+      "path": "deck/src/data/azure-icons/defender-cloud.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "23ab6fbba1cd0ac5ffdc6ee7084e7cac3029c402dc18b8896331626f135c9513",
+      "actualSha256": "23ab6fbba1cd0ac5ffdc6ee7084e7cac3029c402dc18b8896331626f135c9513",
+      "matched": true
+    },
+    {
+      "ordinal": 64,
+      "path": "deck/src/data/azure-icons/deployment-environments.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "e504c1f7ccc4b6a47bceb10db1c83e1675dcc4ed6e56a7b9af99fec9e6c34fa5",
+      "actualSha256": "e504c1f7ccc4b6a47bceb10db1c83e1675dcc4ed6e56a7b9af99fec9e6c34fa5",
+      "matched": true
+    },
+    {
+      "ordinal": 65,
+      "path": "deck/src/data/azure-icons/document-intelligence.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "196e5db33e32027349ee7250df79dfaf96b65e57a30a98662e6dd08d6d0c7360",
+      "actualSha256": "196e5db33e32027349ee7250df79dfaf96b65e57a30a98662e6dd08d6d0c7360",
+      "matched": true
+    },
+    {
+      "ordinal": 66,
+      "path": "deck/src/data/azure-icons/firewall.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "154c416cc15b95b7c6c1ab61a5ecb33f14845197b7d163bd9dc6f1968c14be1e",
+      "actualSha256": "154c416cc15b95b7c6c1ab61a5ecb33f14845197b7d163bd9dc6f1968c14be1e",
+      "matched": true
+    },
+    {
+      "ordinal": 67,
+      "path": "deck/src/data/azure-icons/key-vault.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "712b426f54f0fc50d0816dc79df709daa7ac5f93ccaf4e9b3527f627f6e9ad97",
+      "actualSha256": "712b426f54f0fc50d0816dc79df709daa7ac5f93ccaf4e9b3527f627f6e9ad97",
+      "matched": true
+    },
+    {
+      "ordinal": 68,
+      "path": "deck/src/data/azure-icons/load-testing.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "694b2e8d0d94b458ea322eb6267d786c5ca1e4b59d3b5726e308bebc433d5c8b",
+      "actualSha256": "694b2e8d0d94b458ea322eb6267d786c5ca1e4b59d3b5726e308bebc433d5c8b",
+      "matched": true
+    },
+    {
+      "ordinal": 69,
+      "path": "deck/src/data/azure-icons/log-analytics.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "7a244a8d7260e84be5c904185db7b04994fe6ed345e2b224163bc5f7e3d97ce0",
+      "actualSha256": "7a244a8d7260e84be5c904185db7b04994fe6ed345e2b224163bc5f7e3d97ce0",
+      "matched": true
+    },
+    {
+      "ordinal": 70,
+      "path": "deck/src/data/azure-icons/management-groups.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "d8371735319fa4971c01e682810d0b67207c2c901f4fd19c2374a80c3e328829",
+      "actualSha256": "d8371735319fa4971c01e682810d0b67207c2c901f4fd19c2374a80c3e328829",
+      "matched": true
+    },
+    {
+      "ordinal": 71,
+      "path": "deck/src/data/azure-icons/monitor.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "1396f59a7d8fd7505a423842b987c9b343a092263d1ab5c7b0d94d58d8b17448",
+      "actualSha256": "1396f59a7d8fd7505a423842b987c9b343a092263d1ab5c7b0d94d58d8b17448",
+      "matched": true
+    },
+    {
+      "ordinal": 72,
+      "path": "deck/src/data/azure-icons/policy.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c3dc70003e793bf73b497f8d8501cdc81f930ce1777fdbfe9b7450afe477771a",
+      "actualSha256": "c3dc70003e793bf73b497f8d8501cdc81f930ce1777fdbfe9b7450afe477771a",
+      "matched": true
+    },
+    {
+      "ordinal": 73,
+      "path": "deck/src/data/azure-icons/private-endpoint.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "96de0bb7f0aeb1220d0fd6d337578d5e93dca017d6ea7d42d887aa329b2fd90d",
+      "actualSha256": "96de0bb7f0aeb1220d0fd6d337578d5e93dca017d6ea7d42d887aa329b2fd90d",
+      "matched": true
+    },
+    {
+      "ordinal": 74,
+      "path": "deck/src/data/azure-icons/service-bus.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "eaf42cb87aedf608f60d40b601eb86491daaa71b8eab40a935e8e7fa2e62a2cf",
+      "actualSha256": "eaf42cb87aedf608f60d40b601eb86491daaa71b8eab40a935e8e7fa2e62a2cf",
+      "matched": true
+    },
+    {
+      "ordinal": 75,
+      "path": "deck/src/data/azure-icons/sql-database.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "a26124a2b188ccf910520c935c726f7364e0f5935d7a4319ebcab9c80a40e475",
+      "actualSha256": "a26124a2b188ccf910520c935c726f7364e0f5935d7a4319ebcab9c80a40e475",
+      "matched": true
+    },
+    {
+      "ordinal": 76,
+      "path": "deck/src/data/azure-icons/storage.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "7190d3bb14ce30ce74bd0af873915830fe821e8c5f6ef6f3149e6f7cfb2aa4f7",
+      "actualSha256": "7190d3bb14ce30ce74bd0af873915830fe821e8c5f6ef6f3149e6f7cfb2aa4f7",
+      "matched": true
+    },
+    {
+      "ordinal": 77,
+      "path": "deck/src/data/azure-icons/virtual-network.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "64a5e75ecef2f9f69067faa2eb131266cb8f2858706f8ab74bfea5ad0d98b14d",
+      "actualSha256": "64a5e75ecef2f9f69067faa2eb131266cb8f2858706f8ab74bfea5ad0d98b14d",
+      "matched": true
+    },
+    {
+      "ordinal": 78,
+      "path": "deck/src/data/azure-logo.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "2102890d12043ce3b1c05d8b9891920368bd7f768568b07b8de7c27216d743a5",
+      "actualSha256": "2102890d12043ce3b1c05d8b9891920368bd7f768568b07b8de7c27216d743a5",
+      "matched": true
+    },
+    {
+      "ordinal": 79,
+      "path": "deck/src/data/azurePricing.js",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "211b37d1055d9f72e4ee10a278ad7f2fd3c5fbf8490aae11591da16c8a005f3e",
+      "actualSha256": "211b37d1055d9f72e4ee10a278ad7f2fd3c5fbf8490aae11591da16c8a005f3e",
+      "matched": true
+    },
+    {
+      "ordinal": 80,
+      "path": "deck/src/data/diagrams/azure-landing-zone-topology.svg",
+      "role": "diagram",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "db3ecf23cd39038179f77c70b7a1beb598ce0ddd05445971516dcfc59a6c8868",
+      "actualSha256": "db3ecf23cd39038179f77c70b7a1beb598ce0ddd05445971516dcfc59a6c8868",
+      "matched": true
+    },
+    {
+      "ordinal": 81,
+      "path": "deck/src/data/diagrams/delivery-dependency-dag.svg",
+      "role": "diagram",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "db93b9743f69691a84870e5dae9ea0ec912124918afedb091c74946a0919d7d3",
+      "actualSha256": "db93b9743f69691a84870e5dae9ea0ec912124918afedb091c74946a0919d7d3",
+      "matched": true
+    },
+    {
+      "ordinal": 82,
+      "path": "deck/src/data/diagrams/target-application-architecture.svg",
+      "role": "diagram",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ed9d132132d2195d77fc5aba6461617ed6511330ae14b9608fb21cf40dabfc65",
+      "actualSha256": "ed9d132132d2195d77fc5aba6461617ed6511330ae14b9608fb21cf40dabfc65",
+      "matched": true
+    },
+    {
+      "ordinal": 83,
+      "path": "deck/src/data/github-copilot-pilot.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81",
+      "actualSha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81",
+      "matched": true
+    },
+    {
+      "ordinal": 84,
+      "path": "deck/src/data/inline-edits.json",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "f0567c265fbd6b202123d9e4a6811de7afd1b3accfab9f9f60df95d0abcf050e",
+      "actualSha256": "f0567c265fbd6b202123d9e4a6811de7afd1b3accfab9f9f60df95d0abcf050e",
+      "matched": true
+    },
+    {
+      "ordinal": 85,
+      "path": "deck/src/data/microsoft-copilot-logo.svg",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c5b0ad0fc0c6fd9c49131a972635e1aba4e65a0d0385c01d5be8735921d7ef8b",
+      "actualSha256": "c5b0ad0fc0c6fd9c49131a972635e1aba4e65a0d0385c01d5be8735921d7ef8b",
+      "matched": true
+    },
+    {
+      "ordinal": 86,
+      "path": "deck/src/data/stratton-europe-capital-logo.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901",
+      "actualSha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901",
+      "matched": true
+    },
+    {
+      "ordinal": 87,
+      "path": "deck/src/data/stratton-round-logo.png",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb",
+      "actualSha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb",
+      "matched": true
+    },
+    {
+      "ordinal": 88,
+      "path": "deck/src/index.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "3bf0f1e7e6465ec542236d6211e2f42910a109f42b91a2fcefcc44268a1ab20a",
+      "actualSha256": "3bf0f1e7e6465ec542236d6211e2f42910a109f42b91a2fcefcc44268a1ab20a",
+      "matched": true
+    },
+    {
+      "ordinal": 89,
+      "path": "deck/src/lib/utils.js",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ba252326d87fbe9144ec41063847d1a50c161c65c8134b1c12c909d1cc2eae5a",
+      "actualSha256": "ba252326d87fbe9144ec41063847d1a50c161c65c8134b1c12c909d1cc2eae5a",
+      "matched": true
+    },
+    {
+      "ordinal": 90,
+      "path": "deck/src/main.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4b4b864dbe45253425d0c925337180ec07e204295179f80f59551216f466f618",
+      "actualSha256": "4b4b864dbe45253425d0c925337180ec07e204295179f80f59551216f466f618",
+      "matched": true
+    },
+    {
+      "ordinal": 91,
+      "path": "deck/src/slides/AgenticArchitectureRingSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4df34597054c242f3a5ba69b56da490688260a1f5887cf835dadb154d7b67e47",
+      "actualSha256": "4df34597054c242f3a5ba69b56da490688260a1f5887cf835dadb154d7b67e47",
+      "matched": true
+    },
+    {
+      "ordinal": 92,
+      "path": "deck/src/slides/AgenticArchitectureRingSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "092db75b25e9bb7adf6063796efc582a751225b0de9d4c5fda5ee91f6886e7ce",
+      "actualSha256": "092db75b25e9bb7adf6063796efc582a751225b0de9d4c5fda5ee91f6886e7ce",
+      "matched": true
+    },
+    {
+      "ordinal": 93,
+      "path": "deck/src/slides/AgenticAssuranceRosterSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "e6908c145e5e20c4970bad31f219b3139140bc0f95b982de1173389d281f859b",
+      "actualSha256": "e6908c145e5e20c4970bad31f219b3139140bc0f95b982de1173389d281f859b",
+      "matched": true
+    },
+    {
+      "ordinal": 94,
+      "path": "deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "641c565f969b58a2ccf7715bd4f99a136081dd3c7253195bb844b8f3a9906239",
+      "actualSha256": "641c565f969b58a2ccf7715bd4f99a136081dd3c7253195bb844b8f3a9906239",
+      "matched": true
+    },
+    {
+      "ordinal": 95,
+      "path": "deck/src/slides/AzureDesignSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "bcd6fd30f639f6279b662860bff8d52dc4754499b4b68f5c2f6b34af5f084515",
+      "actualSha256": "bcd6fd30f639f6279b662860bff8d52dc4754499b4b68f5c2f6b34af5f084515",
+      "matched": true
+    },
+    {
+      "ordinal": 96,
+      "path": "deck/src/slides/AzureDesignSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "8af61ccf9cbf3e116cbcba911e8f239e40e4be387e6ad04cf2b759e0c2bbd962",
+      "actualSha256": "8af61ccf9cbf3e116cbcba911e8f239e40e4be387e6ad04cf2b759e0c2bbd962",
+      "matched": true
+    },
+    {
+      "ordinal": 97,
+      "path": "deck/src/slides/CodingSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "dc4eab7070eebdb21853f17e693f236ef5966f5d0bb98d30aade7a0ca549e5ca",
+      "actualSha256": "dc4eab7070eebdb21853f17e693f236ef5966f5d0bb98d30aade7a0ca549e5ca",
+      "matched": true
+    },
+    {
+      "ordinal": 98,
+      "path": "deck/src/slides/CodingSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4ade3ac0d30cbc404f8bd567ebdae63e90e8e48c645b5cb02965a88be342c6ef",
+      "actualSha256": "4ade3ac0d30cbc404f8bd567ebdae63e90e8e48c645b5cb02965a88be342c6ef",
+      "matched": true
+    },
+    {
+      "ordinal": 99,
+      "path": "deck/src/slides/CompanyProfileSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "f9efd6d113cc987497c5e1b80d6c740dc3633423a45d51ce859ed59fa0b47959",
+      "actualSha256": "f9efd6d113cc987497c5e1b80d6c740dc3633423a45d51ce859ed59fa0b47959",
+      "matched": true
+    },
+    {
+      "ordinal": 100,
+      "path": "deck/src/slides/CompanyProfileSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4fc65266575ef021498f1d7c45021bf0c3951d990a6d3f1d6ae1cc15907e9f04",
+      "actualSha256": "4fc65266575ef021498f1d7c45021bf0c3951d990a6d3f1d6ae1cc15907e9f04",
+      "matched": true
+    },
+    {
+      "ordinal": 101,
+      "path": "deck/src/slides/CostsBenefitsSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "f6e5a51402c663a24b3b82bbdef9c9259683e3a225267603b7eb9b2870e22621",
+      "actualSha256": "f6e5a51402c663a24b3b82bbdef9c9259683e3a225267603b7eb9b2870e22621",
+      "matched": true
+    },
+    {
+      "ordinal": 102,
+      "path": "deck/src/slides/CostsBenefitsSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "478ccca305885bd69b2fe2865a3ccd0c6cbbfa05013b8e3a55cb7e3ead69ba2e",
+      "actualSha256": "478ccca305885bd69b2fe2865a3ccd0c6cbbfa05013b8e3a55cb7e3ead69ba2e",
+      "matched": true
+    },
+    {
+      "ordinal": 103,
+      "path": "deck/src/slides/DeploymentSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ad9a02330e73ed469a75e00a1851514a10b5ea38f5ae4e33550784802ec020a9",
+      "actualSha256": "ad9a02330e73ed469a75e00a1851514a10b5ea38f5ae4e33550784802ec020a9",
+      "matched": true
+    },
+    {
+      "ordinal": 104,
+      "path": "deck/src/slides/DeploymentSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "e34db7e1fb0054b747644e4b152bbaae32b8c33f7dd157a3c8810581630126d0",
+      "actualSha256": "e34db7e1fb0054b747644e4b152bbaae32b8c33f7dd157a3c8810581630126d0",
+      "matched": true
+    },
+    {
+      "ordinal": 105,
+      "path": "deck/src/slides/FrontierSolutionTitleSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "2d72bbd2a82857d5e1c613cf000b1423c32536608a240b9d21cd13756d3eb36a",
+      "actualSha256": "2d72bbd2a82857d5e1c613cf000b1423c32536608a240b9d21cd13756d3eb36a",
+      "matched": true
+    },
+    {
+      "ordinal": 106,
+      "path": "deck/src/slides/FrontierSolutionTitleSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ed0511713a9c89d682e2f92783cea5b1947f4a7af7fa58f99d054ca8d1d91a93",
+      "actualSha256": "ed0511713a9c89d682e2f92783cea5b1947f4a7af7fa58f99d054ca8d1d91a93",
+      "matched": true
+    },
+    {
+      "ordinal": 107,
+      "path": "deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "6ea8ff725b394fc2d0a8151df731ffe5c396e5ec4e6c14a6c66a1efb69c2614a",
+      "actualSha256": "6ea8ff725b394fc2d0a8151df731ffe5c396e5ec4e6c14a6c66a1efb69c2614a",
+      "matched": true
+    },
+    {
+      "ordinal": 108,
+      "path": "deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "5270f18e566cb7bf23c94e6da8523ca989b0b7880b6e82b4f214c4adb3143bdd",
+      "actualSha256": "5270f18e566cb7bf23c94e6da8523ca989b0b7880b6e82b4f214c4adb3143bdd",
+      "matched": true
+    },
+    {
+      "ordinal": 109,
+      "path": "deck/src/slides/ImplementationPlanSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "65c2b98a86804e7905f5475c6eb14caa0fc4386a32228f6c8eb00f6a9c5ef6a3",
+      "actualSha256": "65c2b98a86804e7905f5475c6eb14caa0fc4386a32228f6c8eb00f6a9c5ef6a3",
+      "matched": true
+    },
+    {
+      "ordinal": 110,
+      "path": "deck/src/slides/ImplementationPlanSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "a4800aac06acecd2f084bbe9a0b8d41e3b2d1a82e96ace836d05daaa5ac8a48b",
+      "actualSha256": "a4800aac06acecd2f084bbe9a0b8d41e3b2d1a82e96ace836d05daaa5ac8a48b",
+      "matched": true
+    },
+    {
+      "ordinal": 111,
+      "path": "deck/src/slides/ModelPortfolioSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "c851578f2412a7cf394aa4a29dd180aa3568d4d06c09a9c0da755e39be2612c4",
+      "actualSha256": "c851578f2412a7cf394aa4a29dd180aa3568d4d06c09a9c0da755e39be2612c4",
+      "matched": true
+    },
+    {
+      "ordinal": 112,
+      "path": "deck/src/slides/ModelPortfolioSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "446b3c0d3c74e2add7cad281a48402d8f7dadd762b4e7afe14057d3e93e3620c",
+      "actualSha256": "446b3c0d3c74e2add7cad281a48402d8f7dadd762b4e7afe14057d3e93e3620c",
+      "matched": true
+    },
+    {
+      "ordinal": 113,
+      "path": "deck/src/slides/MyApproachSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "fb1d1266c310cc7bb177650372abb1521d3850a2ddf632ec70e7fe1e88bce08e",
+      "actualSha256": "fb1d1266c310cc7bb177650372abb1521d3850a2ddf632ec70e7fe1e88bce08e",
+      "matched": true
+    },
+    {
+      "ordinal": 114,
+      "path": "deck/src/slides/MyApproachSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "649ae1d44ebfe5fc240b025dd1e5766902f57ffe539077c1c01d4c06db84f244",
+      "actualSha256": "649ae1d44ebfe5fc240b025dd1e5766902f57ffe539077c1c01d4c06db84f244",
+      "matched": true
+    },
+    {
+      "ordinal": 115,
+      "path": "deck/src/slides/NextStepsSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "59ac8f6655d8371fdc92bb6767e4dfec16518b62f51f161d8128559bf5a81d8f",
+      "actualSha256": "59ac8f6655d8371fdc92bb6767e4dfec16518b62f51f161d8128559bf5a81d8f",
+      "matched": true
+    },
+    {
+      "ordinal": 116,
+      "path": "deck/src/slides/NextStepsSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "50bfdf562d47d5322d93170344034000bdf6c281892c1dcf0c41c6a0d12f7a54",
+      "actualSha256": "50bfdf562d47d5322d93170344034000bdf6c281892c1dcf0c41c6a0d12f7a54",
+      "matched": true
+    },
+    {
+      "ordinal": 117,
+      "path": "deck/src/slides/RequirementsInterviewSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "07fc18096e64aab391dadb247786a8cfce8d6215f86d662a2974c96bbf8b4425",
+      "actualSha256": "07fc18096e64aab391dadb247786a8cfce8d6215f86d662a2974c96bbf8b4425",
+      "matched": true
+    },
+    {
+      "ordinal": 118,
+      "path": "deck/src/slides/RequirementsInterviewSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "2c15cfadcbb44517142bbe4d9540b83ba126e0408bd655e81c211a73d7e106b7",
+      "actualSha256": "2c15cfadcbb44517142bbe4d9540b83ba126e0408bd655e81c211a73d7e106b7",
+      "matched": true
+    },
+    {
+      "ordinal": 119,
+      "path": "deck/src/slides/RisksMitigationsSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "9237937acd9afcbb2c0443631f2c5a64ca71a179ef9cdd48a323c9dde8db5de9",
+      "actualSha256": "9237937acd9afcbb2c0443631f2c5a64ca71a179ef9cdd48a323c9dde8db5de9",
+      "matched": true
+    },
+    {
+      "ordinal": 120,
+      "path": "deck/src/slides/RisksMitigationsSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "014072c544e730d21f2da0acda72b30c9214c74cf5a4fc053ba5d164a5caa179",
+      "actualSha256": "014072c544e730d21f2da0acda72b30c9214c74cf5a4fc053ba5d164a5caa179",
+      "matched": true
+    },
+    {
+      "ordinal": 121,
+      "path": "deck/src/slides/RunTestsSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "fbba51783c2381fa22b259968c0752f12e44d2939bf06a841c85074992b81b98",
+      "actualSha256": "fbba51783c2381fa22b259968c0752f12e44d2939bf06a841c85074992b81b98",
+      "matched": true
+    },
+    {
+      "ordinal": 122,
+      "path": "deck/src/slides/RunTestsSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "9ec6d0785a75e64505e7cab13105380e3b753a8e7c68dedc931a63f5f45ae0ba",
+      "actualSha256": "9ec6d0785a75e64505e7cab13105380e3b753a8e7c68dedc931a63f5f45ae0ba",
+      "matched": true
+    },
+    {
+      "ordinal": 123,
+      "path": "deck/src/slides/ThankYouSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "a3d306f7a61e0ae310caf5ecc697af03a2511bf9279d8d5b1165a87f8ffe5858",
+      "actualSha256": "a3d306f7a61e0ae310caf5ecc697af03a2511bf9279d8d5b1165a87f8ffe5858",
+      "matched": true
+    },
+    {
+      "ordinal": 124,
+      "path": "deck/src/slides/ThankYouSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "5917c556376a12b438bcd64913baba50a5d92b32d9cc072ed2e4fe6176856f99",
+      "actualSha256": "5917c556376a12b438bcd64913baba50a5d92b32d9cc072ed2e4fe6176856f99",
+      "matched": true
+    },
+    {
+      "ordinal": 125,
+      "path": "deck/src/slides/TitleSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "cb80dbeff6862aa76c44e2c9b2934b888e4abc6b19e5f8b6074c9e0e54eb46a3",
+      "actualSha256": "cb80dbeff6862aa76c44e2c9b2934b888e4abc6b19e5f8b6074c9e0e54eb46a3",
+      "matched": true
+    },
+    {
+      "ordinal": 126,
+      "path": "deck/src/slides/TitleSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "07243b04bba7c235a8a8db467651bde2d37f3405b10c944c74fe765e3b0de2de",
+      "actualSha256": "07243b04bba7c235a8a8db467651bde2d37f3405b10c944c74fe765e3b0de2de",
+      "matched": true
+    },
+    {
+      "ordinal": 127,
+      "path": "deck/src/slides/TogafArchitectureSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644",
+      "actualSha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644",
+      "matched": true
+    },
+    {
+      "ordinal": 128,
+      "path": "deck/src/slides/TogafArchitectureSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "24c4b739d15ff883787499abd51e5db2c5e814c170d653421e2c3b14c0b590e0",
+      "actualSha256": "24c4b739d15ff883787499abd51e5db2c5e814c170d653421e2c3b14c0b590e0",
+      "matched": true
+    },
+    {
+      "ordinal": 129,
+      "path": "deck/src/slides/TransformationAgendaSlide.jsx",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "d2457f2d65d9dd4a540ca37a40337dbbdb3ead26933693ef87d72356d68865f6",
+      "actualSha256": "d2457f2d65d9dd4a540ca37a40337dbbdb3ead26933693ef87d72356d68865f6",
+      "matched": true
+    },
+    {
+      "ordinal": 130,
+      "path": "deck/src/slides/TransformationAgendaSlide.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "96adb6d1e2bc53e84b68dd5389d4abdd70d0d9cc973501019169b89ab51bcd38",
+      "actualSha256": "96adb6d1e2bc53e84b68dd5389d4abdd70d0d9cc973501019169b89ab51bcd38",
+      "matched": true
+    },
+    {
+      "ordinal": 131,
+      "path": "deck/src/styles/PhaseSummarySlides.module.css",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "2e382b60d3a215c35e39ec2526925091ae85e9ee7396fa2db2b37e44599bc6d3",
+      "actualSha256": "2e382b60d3a215c35e39ec2526925091ae85e9ee7396fa2db2b37e44599bc6d3",
+      "matched": true
+    },
+    {
+      "ordinal": 132,
+      "path": "deck/tests/helpers/slide-5-browser-assurance.mjs",
+      "role": "test",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "1ba65e0e75c14c5de3310c34c33ce17d979c56ac1526c3238afd1ab4545eb6e1",
+      "actualSha256": "1ba65e0e75c14c5de3310c34c33ce17d979c56ac1526c3238afd1ab4545eb6e1",
+      "matched": true
+    },
+    {
+      "ordinal": 133,
+      "path": "deck/tests/slide-5-assurance.spec.mjs",
+      "role": "test",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "139c3f25e90f488d05d87dc32414b9ed305b512dd4186710f9431e84bbcf408d",
+      "actualSha256": "139c3f25e90f488d05d87dc32414b9ed305b512dd4186710f9431e84bbcf408d",
+      "matched": true
+    },
+    {
+      "ordinal": 134,
+      "path": "deck/tooling/build-portable-hardened.mjs",
+      "role": "tooling",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ec2cfb58b462e4a91012e9538942f8b87537d732584fb3e9da08fa3c6ee35aeb",
+      "actualSha256": "ec2cfb58b462e4a91012e9538942f8b87537d732584fb3e9da08fa3c6ee35aeb",
+      "matched": true
+    },
+    {
+      "ordinal": 135,
+      "path": "deck/vite.config.js",
+      "role": "presentation-source",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "596969a3b304ff929d3821cd48bf7ae264cd1cdf13c1af39140f071bb1a66c08",
+      "actualSha256": "596969a3b304ff929d3821cd48bf7ae264cd1cdf13c1af39140f071bb1a66c08",
+      "matched": true
+    },
+    {
+      "ordinal": 136,
+      "path": "evidence/asset-rights-inventory.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ecd8d100d3a18a42a39b638e6d4f224a1ed10112a971a431ee0ff0c491a70c10",
+      "actualSha256": "ecd8d100d3a18a42a39b638e6d4f224a1ed10112a971a431ee0ff0c491a70c10",
+      "matched": true
+    },
+    {
+      "ordinal": 137,
+      "path": "evidence/browser-assurance/browser-assurance.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ffdc95b6eb66a13618739f6d0723ef5cec63311d776516664d3c587c676514ea",
+      "actualSha256": "ffdc95b6eb66a13618739f6d0723ef5cec63311d776516664d3c587c676514ea",
+      "matched": true
+    },
+    {
+      "ordinal": 138,
+      "path": "evidence/browser-assurance/slide-11-final.png",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "250d2d755c4d1515a62fd9ba45e19fc6066d34fc837ecaff2250fb5ce0f181e2",
+      "actualSha256": "250d2d755c4d1515a62fd9ba45e19fc6066d34fc837ecaff2250fb5ce0f181e2",
+      "matched": true
+    },
+    {
+      "ordinal": 139,
+      "path": "evidence/browser-assurance/slide-11-normal.png",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "b1ebf4a9617012dc3b0c17c985625a255e669ba315d3bee23a77b2e93c687ea1",
+      "actualSha256": "b1ebf4a9617012dc3b0c17c985625a255e669ba315d3bee23a77b2e93c687ea1",
+      "matched": true
+    },
+    {
+      "ordinal": 140,
+      "path": "evidence/browser-assurance/slide-11-reduced-motion.png",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "ee858ed3b05b460e0f1574f87f493e7f6687efbd6935c848aafc77089b56f4b4",
+      "actualSha256": "ee858ed3b05b460e0f1574f87f493e7f6687efbd6935c848aafc77089b56f4b4",
+      "matched": true
+    },
+    {
+      "ordinal": 141,
+      "path": "evidence/browser-assurance/slide-12-azure.png",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "657ef1c06cd12286d358efb2e8e02c8f984c2a0893b9665408c484976b964bf0",
+      "actualSha256": "657ef1c06cd12286d358efb2e8e02c8f984c2a0893b9665408c484976b964bf0",
+      "matched": true
+    },
+    {
+      "ordinal": 142,
+      "path": "evidence/browser-determinism-receipt.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "8f7a86728c4a6df53cd17a42cac61c8c35b6d456b8bbc52e1074369b0823db3d",
+      "actualSha256": "8f7a86728c4a6df53cd17a42cac61c8c35b6d456b8bbc52e1074369b0823db3d",
+      "matched": true
+    },
+    {
+      "ordinal": 143,
+      "path": "evidence/claim-source-validation.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "b18ae8986c858f172df9c658882c73002ede15db71083302c0e0872f6e44f7eb",
+      "actualSha256": "b18ae8986c858f172df9c658882c73002ede15db71083302c0e0872f6e44f7eb",
+      "matched": true
+    },
+    {
+      "ordinal": 144,
+      "path": "evidence/contract-validation.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "5b1c6f544a5dfa6c33fb249ae2060a8065ec2a63fc1da33e60a78b5e9eda7e46",
+      "actualSha256": "5b1c6f544a5dfa6c33fb249ae2060a8065ec2a63fc1da33e60a78b5e9eda7e46",
+      "matched": true
+    },
+    {
+      "ordinal": 145,
+      "path": "evidence/deck-build-hardening.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "7e7cd1a3aacd66955cc02b743296d23b4ca5b1176acb7e039f395f3d3eca9dc2",
+      "actualSha256": "7e7cd1a3aacd66955cc02b743296d23b4ca5b1176acb7e039f395f3d3eca9dc2",
+      "matched": true
+    },
+    {
+      "ordinal": 146,
+      "path": "evidence/evidence-disclosure-scan.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "171b3a98d760b6eeb5191fc57d38d0db69bd63414b8e8f247c00b8ff04eff6d5",
+      "actualSha256": "171b3a98d760b6eeb5191fc57d38d0db69bd63414b8e8f247c00b8ff04eff6d5",
+      "matched": true
+    },
+    {
+      "ordinal": 147,
+      "path": "evidence/pdf-export-receipt.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "1869754af1dc29cca7b2a3de43f468561241d2dd93c3d3c9070f509ca59eb930",
+      "actualSha256": "1869754af1dc29cca7b2a3de43f468561241d2dd93c3d3c9070f509ca59eb930",
+      "matched": true
+    },
+    {
+      "ordinal": 148,
+      "path": "evidence/phase-validation.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "6cbc8739598b39b7c0afa13e6d568fd2bf97e423218599c255ae572d188595bf",
+      "actualSha256": "6cbc8739598b39b7c0afa13e6d568fd2bf97e423218599c255ae572d188595bf",
+      "matched": true
+    },
+    {
+      "ordinal": 149,
+      "path": "evidence/recursive-static-asset-scan.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "4ad1f517272056a632f8df86291191e9c6257e2b586e30403f71c82e9c026ca1",
+      "actualSha256": "4ad1f517272056a632f8df86291191e9c6257e2b586e30403f71c82e9c026ca1",
+      "matched": true
+    },
+    {
+      "ordinal": 150,
+      "path": "evidence/runtime-network-receipt.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "03744d4836e5b849c6df946dcacaf36b547836931fbab0c0f4812c714f3f90ce",
+      "actualSha256": "03744d4836e5b849c6df946dcacaf36b547836931fbab0c0f4812c714f3f90ce",
+      "matched": true
+    },
+    {
+      "ordinal": 151,
+      "path": "evidence/stratton-aff-6-model-receipt.json",
+      "role": "evidence",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "11e60ab661828550e46764d6ae7baf5787bdfa35e0b433d70d2cef522e36ed6a",
+      "actualSha256": "11e60ab661828550e46764d6ae7baf5787bdfa35e0b433d70d2cef522e36ed6a",
+      "matched": true
+    },
+    {
+      "ordinal": 152,
+      "path": "stratton-claim-catalogue.json",
+      "role": "catalogue",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "aa9db7f068333745413642be2c2b0764c1842d636a218d4150d7e61264ca3989",
+      "actualSha256": "aa9db7f068333745413642be2c2b0764c1842d636a218d4150d7e61264ca3989",
+      "matched": true
+    },
+    {
+      "ordinal": 153,
+      "path": "stratton-presentation.html",
+      "role": "rendered-html",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "acf87b993899fcc62c5d542bee091080e2b70b8329ce004334b9ca57740a5c1d",
+      "actualSha256": "acf87b993899fcc62c5d542bee091080e2b70b8329ce004334b9ca57740a5c1d",
+      "matched": true
+    },
+    {
+      "ordinal": 154,
+      "path": "stratton-presentation.md",
+      "role": "authoritative-markdown",
+      "safeRelativePath": true,
+      "exists": true,
+      "expectedSha256": "7650c7b4824d8815fcb23821e2472c442e0d275a55388aadf0f9c62ac0895fe4",
+      "actualSha256": "7650c7b4824d8815fcb23821e2472c442e0d275a55388aadf0f9c62ac0895fe4",
+      "matched": true
+    }
+  ],
+  "generatedReviewPackageArtifactHashes": {
+    "markdown": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-review.md",
+      "sha256": "b772b16377a9dc510decdeb7926a8e45450222207141973ce7a0de0cd14a6ec7"
+    },
+    "html": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-review.html",
+      "sha256": "f038ad94b4bc3273ea429b80ca1ed3271037c3723ee75e6c2168a8f8bb234c6c"
+    },
+    "modelReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-model-receipt.json",
+      "sha256": "ca80b819d710df19e7ce2bd878dde0644c5f91e0630f6f779b1d4c4937d1b0ce"
+    },
+    "reviewJson": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-review.json",
+      "sha256": "3753d03eda88801519988029266ce24be7fa6ca3dd94d2cdf8d460b29fe98cd1"
+    },
+    "hashVerificationReceipt": "SELF_HASH_NOT_INCLUDED_TO_AVOID_CIRCULARITY"
+  },
+  "subjectUnchanged": true,
+  "nonApprovalStatement": "This receipt proves byte/hash verification only. It does not approve Phase 6 or authorise later phases."
+}

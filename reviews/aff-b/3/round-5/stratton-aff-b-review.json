@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "phaseName": "Phase 3 — Azure Design",
+  "formalReviewRound": 5,
+  "changeControlId": "STRATTON-CC-002",
+  "reviewTime": "2026-08-06T08:50:09.460+02:00",
+  "subjectModificationPerformed": false,
+  "reviewer": {"id": "AFF-B", "displayName": "Security and Compliance Reviewer", "selectedExactModelId": "gpt-5.6-terra", "actualRuntimeModelId": "gpt-5.6-terra"},
+  "author": {"agent": "AFF-3", "actualRuntimeModelId": "gpt-5.6-sol"},
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {"path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json", "revision": "111", "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"},
+  "subjectManifest": {"path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json", "sha256BeforeReview": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a", "sha256AfterReview": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a", "status": "UNCHANGED", "artifactCount": 10, "candidateFileCount": 11},
+  "coverage": {"path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-012.json", "sha256": "d835b1f6a2d7b0679fa32a04c6237022ce3c320a193cac300b5baf7291ed8458", "status": "ACTIVE"},
+  "hashVerificationReceipt": {"path": "cases/Stratton-Europe-Captital/reviews/aff-b/3/round-5/reviewed-subject/stratton-phase-3-hash-verification-receipt.json", "sha256": "e0e497e06a1c05bccc8fadb7ae7992681a8e53248a82a9a18f0b2a0f730bc885"},
+  "confirmedControls": [
+    "EU Data Zone semantics state prompts/outputs in the zone, data at rest in designated EU geography, Microsoft-selected processing region and no specific-region promise.",
+    "Global Standard prohibition, NoAutoUpgrade, fixed route/model/version/API bindings, no direct alias, no silent fallback and blocked promotion are specified.",
+    "Private networking, managed identity, public-network denial where supported, evidence admission, injection defences, citation/factual validation and human decision authority are specified as design controls."
+  ],
+  "applicability": [
+    {"instrument": "GDPR", "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE", "status": "ACTIVE_OWNER_EVIDENCE_OPEN", "humanConfirmation": "DPO and General Counsel"},
+    {"instrument": "EU AI Act", "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE", "status": "NO_RISK_CLASSIFICATION_INFERRED", "humanConfirmation": "General Counsel and Head of AI Governance"},
+    {"instrument": "DORA", "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN", "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION", "humanConfirmation": "General Counsel"}
+  ],
+  "findings": [
+    {"id": "AFFB-CC002-MAJ-001", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "title": "EU Data Zone and two-region recovery semantics are not concretely bound", "evidence": ["amendment sections 3, 4 and 12", "portfolio sovereignty", "catalogue CC002-OI-001"], "owner": "AFF-3, Azure Platform, General Counsel, DPO, CISO and AI Governance", "remediation": "Bind primary/recovery resource allow-lists, DataZoneStandard evidence for every route, data/log/index/backup failover, provider-region boundary and missing-evidence deny/queue behaviour.", "residualRisk": "Recovery may violate the stated boundary or use an unverified substitute."},
+    {"id": "AFFB-CC002-MAJ-002", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "title": "Security-negative scenarios lack explicit blocking promotion criteria", "evidence": ["evaluation securityEvaluationScenarios", "evaluation promotionGates", "security promptInjectionControls"], "owner": "AFF-3, Security Owner and AI Governance", "remediation": "Give every hostile-evidence, routing-misuse and authority-abuse scenario a required pass result, immutable evidence ID and fail-closed promotion disposition.", "residualRisk": "Promotion could occur without demonstrated resistance to hostile evidence or routing abuse."},
+    {"id": "AFFB-CC002-MAJ-003", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "title": "Claim-bound provenance, licence and provider-use evidence is absent", "evidence": ["portfolio sources", "security sources", "security evidenceAdmission and providerDataUse"], "owner": "AFF-3, General Counsel, DPO, AI Governance and Source Owners", "remediation": "Bind every material claim to an official source section, retrieval date and excerpt/hash; bind source licence/AI-use permission, owner, expiry and provider no-training/use disposition.", "residualRisk": "Material provider/security/privacy assertions cannot be independently audited."},
+    {"id": "AFFB-CC002-MAJ-004", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "title": "Privacy lifecycle, telemetry immutability and operational ownership are underspecified", "evidence": ["security dataProtection and loggingAndMonitoring", "evaluation evidenceRetention", "amendment section 9"], "owner": "DPO, Records Owner, Security Operations and AFF-3", "remediation": "Bind minimisation, retention, deletion/disposition, legal hold, DSR, redaction, immutable telemetry storage, recovery restoration and owners for prompts, outputs, vectors, benchmarks and route logs.", "residualRisk": "New inference and telemetry flows lack an enforceable lifecycle and privacy-operational boundary."},
+    {"id": "AFFB-CC002-MIN-001", "severity": "MINOR", "status": "OPEN_SUBJECT_DEFECT", "title": "Markdown/HTML parity omits substantive anomaly-governance rows", "evidence": ["amendment Markdown section 6", "amendment HTML section 6"], "owner": "AFF-3", "remediation": "Regenerate the HTML companion without merging or omitting substantive Markdown conditions.", "residualRisk": "Rendered assurance view omits meaningful scope detail."}
+  ],
+  "findingCounts": {"BLOCKER": 0, "MAJOR": 4, "MINOR": 1},
+  "verdict": "DIVERGES",
+  "verdictRationale": "Four unresolved MAJOR defects prevent a conforming verdict. The candidate is byte-stable but cannot proceed to approval, promotion, deployment or runtime work unchanged.",
+  "finalRoundStatus": false,
+  "requiredAction": "Preserve this review and reviewed subject. Create an append-only remediation candidate and manifest, then repeat complete AFF-A/AFF-B review before a human decision.",
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "companionHashes": {"markdownSha256": "61d3ec14f2e651e641c74c63e5aa724521eccd064643844a48d403a04e0d5eaa", "htmlSha256": "f85e8f0e8887d13bfa4d16b838886fd7e38e0a4c08aa3316a5960d371a211df9", "modelReceiptSha256": "ed04ce0d7228cde2b78e243248f564143749391fe1efdd114f51e84bfeba7f34"},
+  "concerns": ["EU Data Zone recovery", "blocking security evaluation", "source provenance and licences", "privacy lifecycle and telemetry", "Markdown/HTML parity"]
+}

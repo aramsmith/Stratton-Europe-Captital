@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="reviewer-model" content="gpt-5.6-terra">
+  <meta name="manifest-sha256" content="e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4">
+  <title>Stratton AFF-B Review — Phase 6 r11 Round 7</title>
+  <style>
+    :root { color-scheme: light; --ink: #172033; --muted: #526070; --line: #cbd5e1; --panel: #f8fafc; --good: #166534; --warn: #9a3412; --accent: #0f4c81; }
+    * { box-sizing: border-box; }
+    body { max-width: 1080px; margin: 0 auto; padding: 32px 22px; background: #eef2f7; color: var(--ink); font: 15px/1.55 system-ui, "Segoe UI", sans-serif; }
+    main { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 38px; box-shadow: 0 12px 32px rgb(15 23 42 / 10%); }
+    h1, h2 { color: #102a43; line-height: 1.2; }
+    h1 { margin: 0 0 .35rem; font-size: 2rem; }
+    h2 { margin: 2rem 0 .75rem; border-bottom: 2px solid #dbe5ef; padding-bottom: .35rem; font-size: 1.2rem; }
+    p, li { max-width: 92ch; }
+    code { overflow-wrap: anywhere; background: #eaf1f8; border-radius: 4px; padding: .08rem .28rem; }
+    .verdict { margin: 1rem 0; border-left: 5px solid var(--good); background: #f0fdf4; padding: .9rem 1rem; font-size: 1.15rem; font-weight: 700; color: var(--good); }
+    .boundary { border-left: 5px solid var(--warn); background: #fff7ed; padding: .9rem 1rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid var(--line); padding: .65rem; text-align: left; vertical-align: top; }
+    th { background: var(--panel); }
+    .counts td:nth-child(2) { text-align: right; }
+    .muted { color: var(--muted); }
+    @media (max-width: 720px) { body { padding: 0; } main { border-radius: 0; border: 0; padding: 24px 18px; } table { display: block; overflow-x: auto; } }
+    @media print { body { background: #fff; padding: 0; } main { border: 0; box-shadow: none; padding: 0; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Stratton AFF-B Review — Phase 6 r11, Round 7</h1>
+    <p class="muted">Security and Compliance Reviewer · fresh independent read-only assurance</p>
+    <div class="verdict">Verdict: CONFORMS-WITH-GAPS</div>
+
+    <h2>Binding and independence</h2>
+    <ul>
+      <li><strong>Actual runtime model:</strong> <code>gpt-5.6-terra</code>; author <code>gpt-5.6-sol</code>; AFF-A <code>gpt-5.6-luna</code>. The fresh AFF-B context and all actual model IDs are distinct.</li>
+      <li><strong>Authorisation:</strong> <code>stratton-phase-6-r11-aff-b-round-7-invocation-authorization.json</code> — <code>34036a22b936a32afb9b13aef8d4a00d5594fcfb4463b13ae6994f4fa2b562a7</code>.</li>
+      <li><strong>Manifest:</strong> <code>stratton-phase-6-hashes.json</code> — <code>e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4</code>.</li>
+      <li><strong>Scope:</strong> 173 artifacts, 175 files, 20 slides, 38 claims and 69 references; tree SHA-256 <code>8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a</code>.</li>
+      <li><strong>AFF-A prerequisite:</strong> same-manifest <code>CONFORMS-WITH-GAPS</code>, zero findings, review SHA-256 <code>05699c6498e309f7eff1e9a1b1cf034c6d67ceabecab429c2b36595c12ba23d3</code>.</li>
+    </ul>
+
+    <h2>Independent assessment</h2>
+    <p>Raw-byte verification matched the manifest, all 173 artifact hashes, ordinal ordering, exact filesystem boundary and 175-file aggregate before and after review. The reviewed-subject snapshot is byte-identical to the frozen manifest.</p>
+    <p>The presentation accurately frames private networking, Entra RBAC/PIM, managed identities, Key Vault, encryption baseline, logging, monitoring, incident response, rollback and recovery as approved design intent or planned gates. It does not claim deployment, control operation, Azure target validation, compliance certification or runtime proof.</p>
+    <p>All 38 claims and 69 source references resolve to present sources. Classifications retain the boundary between source fact, approved design intent, local static validation, hypothesis and untested runtime behaviour. The USD 200,000 comparator remains a human-owned hypothesis.</p>
+    <p>Static supply-chain and presentation evidence is bounded: lockfile-bound build, deterministic browser/PDF evidence, 600/600 local successful requests with zero external requests, no active external SVG constructs and zero disclosure-scan findings. Point-in-time licence review, release identity and transparency-log publication remain open controls, not passed facts.</p>
+
+    <h2>Distribution controls and residual gates</h2>
+    <div class="boundary">
+      <strong>External distribution remains blocked pending accountable owner rights confirmation or asset replacement.</strong>
+      <br><code>externalDistributionBlocked: true</code> · <code>externalDistributionAllowed: false</code>
+      <br><code>BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT</code>
+    </div>
+    <table>
+      <thead><tr><th>Gate</th><th>Status</th><th>Owner</th><th>Boundary</th></tr></thead>
+      <tbody>
+        <tr><td><code>P6-R11-V17</code></td><td>OPEN_FAIL_CLOSED</td><td>Accountable asset-rights owner</td><td>No rights, licence, copyright, trademark or redistribution conclusion is made.</td></tr>
+        <tr><td><code>P6-R9-OWNER-001</code></td><td>OPEN_FAIL_CLOSED</td><td>Accountable platform, privacy, records, legal, compliance and commercial owners</td><td>Regions, capacity, provider terms, source permissions, licence compatibility, privacy lifecycle, retention/legal hold, release identity and runtime evidence remain owner-dependent.</td></tr>
+        <tr><td><code>P6-R9-BOUNDARY-001</code></td><td>OPEN_FAIL_CLOSED</td><td>Human architect and accountable owners</td><td>No Azure activity, inference, deployment, operating-effectiveness, certification, legal conclusion, production-readiness evidence or optional-phase execution exists.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Findings</h2>
+    <table class="counts">
+      <thead><tr><th>Severity</th><th>Count</th><th>Finding IDs</th></tr></thead>
+      <tbody>
+        <tr><td>BLOCKER</td><td>0</td><td>None</td></tr>
+        <tr><td>MAJOR</td><td>0</td><td>None</td></tr>
+        <tr><td>MINOR</td><td>0</td><td>None</td></tr>
+        <tr><th>Total</th><th>0</th><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Decision boundary</h2>
+    <p>Phase 6 r11 remains <code>PENDING_HUMAN_DECISION</code>; Phases 7 and 8 remain <code>NOT_INVOKED</code>. This review performed no Azure sign-in, query, what-if, deployment, runtime inference or runtime testing.</p>
+    <p>This is architecture assurance only. It approves nothing, waives nothing, provides no legal advice or certification, authorises no distribution or Azure activity, and does not invoke an optional phase.</p>
+  </main>
+</body>
+</html>

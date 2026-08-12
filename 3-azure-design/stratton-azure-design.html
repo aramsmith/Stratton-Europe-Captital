@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Phase 3 Azure Design candidate for Stratton Release 1">
+  <meta name="aff-phase" content="3">
+  <meta name="aff-model-plan-revision" content="4">
+  <meta name="aff-source" content="3-azure-design/stratton-azure-design.md">
+  <title>Phase 3 — Azure Design: Stratton Release 1</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font: 15px/1.55 "Segoe UI", Aptos, Calibri, sans-serif; }
+    a { color: var(--cp-link); }
+    a:hover { color: var(--cp-accent-hover); }
+    a:focus, summary:focus { outline: 3px solid var(--cp-warning); outline-offset: 2px; }
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 1rem; top: 1rem; z-index: 5; background: var(--cp-surface); color: var(--cp-text); padding: .7rem; }
+    header { background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border); padding: 2rem max(1rem, calc((100% - 1180px)/2)); }
+    header p { max-width: 80rem; margin: .45rem 0; }
+    .status { display: inline-block; padding: .28rem .7rem; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-accent-soft); color: var(--cp-warning); font-weight: 750; }
+    nav { position: sticky; top: 0; z-index: 3; overflow: auto; white-space: nowrap; padding: .55rem max(1rem, calc((100% - 1180px)/2)); background: var(--cp-surface); border-bottom: 1px solid var(--cp-border); }
+    nav a { margin-right: 1rem; text-decoration: none; font-weight: 650; }
+    main { max-width: 1180px; margin: auto; padding: 1.3rem 1rem 4rem; }
+    section { margin: 2rem 0; scroll-margin-top: 4rem; }
+    h1, h2, h3 { line-height: 1.2; }
+    h2 { padding-bottom: .35rem; border-bottom: 2px solid var(--cp-border); }
+    h3 { color: var(--cp-accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 1rem; }
+    .card { padding: 1rem; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); box-shadow: 0 1px 3px var(--cp-border); }
+    .metric { font-size: 1.6rem; font-weight: 800; color: var(--cp-success); }
+    .warn { color: var(--cp-warning); font-weight: 750; }
+    .danger { color: var(--cp-danger); font-weight: 750; }
+    .muted { color: var(--cp-text-muted); }
+    .table-wrap { overflow: auto; margin: .7rem 0; border: 1px solid var(--cp-border); border-radius: .625rem; }
+    table { width: 100%; min-width: 700px; border-collapse: collapse; }
+    th, td { padding: .58rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--cp-border); }
+    th { background: var(--cp-surface-soft); }
+    tr:last-child td { border-bottom: 0; }
+    code { font-family: Consolas, "Courier New", monospace; background: var(--cp-surface-soft); color: var(--cp-text); }
+    details { margin: .7rem 0; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface); }
+    summary { cursor: pointer; padding: .7rem; font-weight: 700; background: var(--cp-surface-soft); }
+    details > div { padding: .8rem; }
+    .diagram { overflow: auto; padding: .7rem; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); }
+    .diagram svg { min-width: 900px; width: 100%; height: auto; }
+    .d-bound { fill: var(--cp-bg-elevated); stroke: var(--cp-link); stroke-width: 3; }
+    .d-box { fill: var(--cp-surface); stroke: var(--cp-border-strong); stroke-width: 2; }
+    .d-accent { fill: var(--cp-accent-soft); stroke: var(--cp-accent); stroke-width: 2; }
+    .d-text { fill: var(--cp-text); font: 15px "Segoe UI", sans-serif; }
+    .d-head { fill: var(--cp-text); font: 700 18px "Segoe UI", sans-serif; }
+    .d-line { fill: none; stroke: var(--cp-link); stroke-width: 2; }
+    .d-risk { fill: var(--cp-accent-soft); stroke: var(--cp-danger); stroke-width: 2; }
+    footer { padding: 1rem; color: var(--cp-text-muted); border-top: 1px solid var(--cp-border); }
+    @media print { nav,.skip{display:none} body{font-size:10pt} header{padding:0;background:var(--cp-surface)} main{max-width:none}.card,.diagram{break-inside:avoid} }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <h1>Phase 3 — Azure Design: Stratton Release 1</h1>
+  <p><span class="status">Complete candidate — hashing and assurance pending</span></p>
+  <p>Private Azure design preserving human authority, governed evidence, source authority, fail-closed controls and Internal Audit independence.</p>
+  <p class="muted">Model-plan revision 4 · authoritative source: <code>3-azure-design/stratton-azure-design.md</code></p>
+</header>
+<nav aria-label="Contents">
+  <a href="#p3-summary">Summary</a><a href="#p3-topology">Topology</a><a href="#p3-network">Network</a>
+  <a href="#p3-services">Services</a><a href="#p3-security">Security/data</a><a href="#p3-operations">Operations</a>
+  <a href="#p3-waf">WAF/cost</a><a href="#p3-trace">Traceability</a><a href="#p3-handoff">AFF-4</a>
+</nav>
+<main id="main">
+  <section id="p3-summary">
+    <h2>Executive summary</h2>
+    <p>Authorised users reach private Application Gateway and API Management endpoints. Internal Container Apps implement the case, workflow, policy and event-driven analysis paths. Private SQL, Blob and Search services hold governed state and evidence; regional Azure OpenAI and Document Intelligence provide assistive processing only. Immutable evidence is submitted to a separate Internal Audit boundary.</p>
+    <div class="grid">
+      <article class="card"><div class="metric">31 / 31</div><p>Approved Must requirements mapped</p></article>
+      <article class="card"><div class="metric">19 / 19</div><p>Architecture Building Blocks mapped</p></article>
+      <article class="card"><div class="metric">10 / 10</div><p>Approved decisions preserved</p></article>
+      <article class="card"><div class="metric">7 / 7</div><p>Governed controls retained</p></article>
+    </div>
+    <p class="danger">Database public access is disabled in development, test and production.</p>
+    <p>Confirmed: a new AI-focused landing zone named <strong>Citadel</strong>, separate platform/workload subscriptions, two approved regions, enterprise hub-connected spokes and evidence-led elastic sizing.</p>
+    <p class="warn">Exact tenant parent, subscription IDs, region names, CIDRs/DNS targets and measured capacity caps remain fail-closed parameters.</p>
+  </section>
+
+  <section id="p3-topology">
+    <h2>Citadel solution and landing-zone topology</h2>
+    <p>Citadel composes the <a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/?tabs=conceptual">Microsoft Azure Landing Zone enterprise-scale reference architecture</a>, the <a href="https://github.com/Azure-Samples/foundry-citadel-platform">Azure-Samples Foundry Citadel Platform</a> layered AI-governance architecture, and <a href="https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/public/design-sovereign-policies">Sovereign Landing Zone policy</a> overlays. Foundry Citadel is not a standalone Microsoft product or an ALZ replacement.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 1100 500" role="img" aria-labelledby="lz-title lz-desc">
+        <title id="lz-title">Citadel landing-zone topology</title><desc id="lz-desc">Citadel has separate management, connectivity and AI-governance subscriptions, separate Stratton non-production and production subscriptions, and an Internal Audit assurance subscription. Production has primary and recovery regional spokes.</desc>
+        <rect class="d-bound" x="15" y="35" width="1070" height="440" rx="14"/><text class="d-head" x="35" y="66">Citadel — ALZ foundation + Foundry Citadel governance + sovereign policy overlays</text>
+        <rect class="d-box" x="40" y="95" width="250" height="325" rx="10"/><text class="d-head" x="60" y="125">mg-citadel-platform</text><text class="d-text" x="60" y="165">sub-citadel-management</text><text class="d-text" x="60" y="195">sub-citadel-connectivity</text><text class="d-text" x="60" y="225">Primary + recovery hubs</text><text class="d-text" x="60" y="255">Central DNS / Firewall</text><text class="d-text" x="60" y="285">sub-citadel-ai-governance</text><text class="d-text" x="60" y="315">No production inference</text>
+        <rect class="d-box" x="320" y="95" width="210" height="325" rx="10"/><text class="d-head" x="340" y="125">Non-production</text><text class="d-text" x="340" y="165">Citadel workload sub</text><text class="d-text" x="340" y="195">Development spoke</text><text class="d-text" x="340" y="225">Test spoke</text><text class="d-text" x="340" y="255">Synthetic data only</text>
+        <rect class="d-accent" x="560" y="95" width="285" height="325" rx="10"/><text class="d-head" x="580" y="125">Production workload</text><text class="d-text" x="580" y="165">Primary regional spoke</text><text class="d-text" x="580" y="195">Warm recovery regional spoke</text><text class="d-text" x="580" y="225">Private apps / data / AI</text><text class="d-text" x="580" y="255">Regional AI only</text><text class="d-text" x="580" y="285">Global/DataZone denied</text>
+        <rect class="d-box" x="875" y="95" width="180" height="325" rx="10"/><text class="d-head" x="895" y="125">Internal Audit</text><text class="d-text" x="895" y="165">Assurance subscription</text><text class="d-text" x="895" y="195">Regional immutable</text><text class="d-text" x="895" y="225">evidence + verdict</text><text class="d-text" x="895" y="255">No delivery write</text>
+        <path class="d-line" d="M845 320H875"/>
+      </svg>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>Decision</th><th>Confirmed pattern</th><th>Remaining parameter</th></tr></thead><tbody>
+      <tr><td>HD-001</td><td>New Citadel ALZ/AI-governance/sovereignty composition</td><td>Tenant parent, subscription IDs, policy versions</td></tr>
+      <tr><td>HD-002</td><td>Three platform and three workload subscriptions</td><td>IDs, billing and owner groups</td></tr>
+      <tr><td>HD-003</td><td>Two regions; regional AI only</td><td>Exact signed-approved region names</td></tr>
+      <tr><td>HD-004</td><td>Regional hubs, central DNS and enterprise IPAM</td><td>CIDRs, WAN IDs and DNS targets</td></tr>
+      <tr><td>HD-005</td><td>Evidence-led elastic sizing</td><td>Measured caps and quotas</td></tr>
+    </tbody></table></div>
+    <p><a href="evidence/stratton-human-decision-register.json">Human decision register</a> · <a href="evidence/stratton-citadel-landing-zone-contract.json">Citadel landing-zone contract</a> · <a href="diagrams/stratton-solution-lz-topology.drawio">Editable draw.io</a> · <a href="diagrams/stratton-solution-lz-topology.svg">Standalone SVG</a></p>
+  </section>
+
+  <section id="p3-network">
+    <h2>Private network and trust boundaries</h2>
+    <div class="diagram">
+      <svg viewBox="0 0 1100 430" role="img" aria-labelledby="net-title net-desc">
+        <title id="net-title">Citadel private regional network</title><desc id="net-desc">Enterprise networks connect to Citadel primary and recovery hubs with central firewalls and DNS. Production primary and warm recovery spokes contain only private services. Exact addresses are enterprise IPAM inputs.</desc>
+        <rect class="d-box" x="20" y="65" width="165" height="75" rx="9"/><text class="d-text" x="40" y="97">Enterprise network</text><text class="d-text" x="40" y="122">and IPAM</text>
+        <rect class="d-bound" x="215" y="25" width="860" height="365" rx="14"/><text class="d-head" x="235" y="57">sub-citadel-connectivity — central DNS and regional hubs</text>
+        <rect class="d-accent" x="245" y="85" width="215" height="90" rx="9"/><text class="d-text" x="265" y="117">Primary regional hub</text><text class="d-text" x="265" y="142">Firewall / DNS Resolver</text>
+        <rect class="d-accent" x="245" y="235" width="215" height="90" rx="9"/><text class="d-text" x="265" y="267">Recovery regional hub</text><text class="d-text" x="265" y="292">Firewall / DNS Resolver</text>
+        <rect class="d-box" x="520" y="75" width="240" height="115" rx="9"/><text class="d-text" x="540" y="107">Primary production spoke</text><text class="d-text" x="540" y="132">Private WAF / APIM public off</text><text class="d-text" x="540" y="157">SQL / data / regional AI</text>
+        <rect class="d-box" x="520" y="225" width="240" height="115" rx="9"/><text class="d-text" x="540" y="257">Warm recovery spoke</text><text class="d-text" x="540" y="282">Private recovery endpoints</text><text class="d-text" x="540" y="307">Regional AI only</text>
+        <rect class="d-risk" x="810" y="115" width="235" height="170" rx="9"/><text class="d-text" x="830" y="147">DENY</text><text class="d-text" x="830" y="177">Public DB/data/AI/APIM</text><text class="d-text" x="830" y="207">Global/DataZone AI</text><text class="d-text" x="830" y="237">Direct Internet/DNS</text><text class="d-text" x="830" y="267">Unapproved region/CIDR</text>
+        <path class="d-line" d="M185 103H245M460 130H520M460 280H520M760 132H810M760 282H810"/>
+      </svg>
+    </div>
+    <p>The hub-spoke pattern, central DNS and enterprise IPAM are confirmed. Exact CIDRs, WAN connection IDs and DNS forwarding targets remain Network Lead fail-closed inputs. Private ingress also fails closed until <code>Microsoft.Network/EnableApplicationGatewayNetworkIsolation</code> is proven registered in every target subscription; no public frontend fallback is allowed. No environment peering is allowed. Egress requires owner, licence, purpose, jurisdiction and expiry evidence.</p>
+    <p><a href="evidence/stratton-network-security-contract.json">Network/security contract</a> · <a href="diagrams/stratton-network-security-boundaries.drawio">Editable draw.io</a> · <a href="diagrams/stratton-network-security-boundaries.svg">Standalone SVG</a></p>
+  </section>
+
+  <section id="p3-services">
+    <h2>Azure services, SKUs and environment</h2>
+    <div class="table-wrap"><table><thead><tr><th>Concern</th><th>Selected Azure SBB</th><th>Production starting position</th></tr></thead><tbody>
+      <tr><td>Citadel platform</td><td>ALZ management groups; management, connectivity and AI-governance subscriptions; sovereign policy overlays</td><td>Separate from workload and assurance subscriptions</td></tr>
+      <tr><td>Ingress/API</td><td>Application Gateway WAF_v2; API Management Standard v2</td><td>Private frontend after feature-registration evidence; APIM public gateway disabled after private endpoint/DNS proof</td></tr>
+      <tr><td>Application/work</td><td>Internal Container Apps; event-driven Jobs</td><td>At least two interactive replicas; job cap from HD-005</td></tr>
+      <tr><td>Messaging</td><td>Service Bus Premium</td><td>One messaging unit hypothesis; sessions, dedupe, DLQ</td></tr>
+      <tr><td>Transactions</td><td>Azure SQL Database</td><td>Regional BC Gen5 2-vCore hypothesis and failover group; public disabled; Local/Zone backup redundancy only</td></tr>
+      <tr><td>Evidence/audit</td><td>Blob Storage</td><td>Regional ZRS; controlled replication; separate quarantine/work/evidence/audit/verdict</td></tr>
+      <tr><td>Retrieval</td><td>Azure AI Search S1</td><td>Three replicas / one partition hypothesis</td></tr>
+      <tr><td>AI</td><td>Regional Azure OpenAI; Document Intelligence S0</td><td>Private; model/version/quota unresolved; no fine-tuning</td></tr>
+      <tr><td>Identity/secrets</td><td>Entra ID/PIM; managed identities; Key Vault Standard</td><td>No shared secrets or SQL auth</td></tr>
+      <tr><td>Operations</td><td>Azure Monitor, App Insights, Log Analytics, Defender</td><td>Retention and action endpoints are owner inputs</td></tr>
+    </tbody></table></div>
+    <p>Development/test use synthetic data and lower elastic capacity. Production uses separate trust boundaries. One parameterised Bicep codebase serves all environments. Exact resource patterns and pinned AVM candidates are in the <a href="stratton-design-catalogue.json">design catalogue</a>.</p>
+  </section>
+
+  <section id="p3-security">
+    <h2>Security, data, AI and integration</h2>
+    <div class="grid">
+      <article class="card"><h3>Identity</h3><p>Stratton-controlled Entra identities, Conditional Access, PIM, separate workload managed identities and Entra-only SQL. Internal Audit alone controls verdict writes.</p></article>
+      <article class="card"><h3>Evidence</h3><p>A mandatory envelope binds source, owner, timestamp, licence, purpose, classification, quality, hash and admission state. Incomplete evidence cannot reach analysis.</p></article>
+      <article class="card"><h3>AI boundary</h3><p>Regional private inference in the approved pair, draft output only, no autonomous tools, no fine-tuning and no foundation-model training with Stratton data. Global/DataZone deployments are denied.</p></article>
+      <article class="card"><h3>Legal boundary</h3><p>Location and transfer allow-lists have no production default. No DORA compliance or AI Act classification claim is made while evidence remains open.</p></article>
+    </div>
+    <h3>End-to-end flow</h3>
+    <div class="diagram">
+      <svg viewBox="0 0 1100 360" role="img" aria-labelledby="flow-title flow-desc">
+        <title id="flow-title">Citadel-governed regional data flow</title><desc id="flow-desc">Read-only evidence goes through quarantine and Citadel ALZ, AI-governance and sovereign policy overlays, then private regional analysis. Human review produces a draft and regional immutable evidence is independently retained.</desc>
+        <rect class="d-box" x="15" y="60" width="135" height="70" rx="8"/><text class="d-text" x="35" y="90">Read-only / licensed</text><text class="d-text" x="35" y="115">sources</text>
+        <rect class="d-risk" x="175" y="60" width="125" height="70" rx="8"/><text class="d-text" x="195" y="90">Private</text><text class="d-text" x="195" y="115">quarantine</text>
+        <rect class="d-accent" x="325" y="60" width="135" height="70" rx="8"/><text class="d-text" x="345" y="90">Citadel</text><text class="d-text" x="345" y="115">fail-closed policy</text>
+        <rect class="d-box" x="485" y="60" width="135" height="70" rx="8"/><text class="d-text" x="505" y="90">Admitted</text><text class="d-text" x="505" y="115">evidence</text>
+        <rect class="d-box" x="645" y="60" width="135" height="70" rx="8"/><text class="d-text" x="665" y="90">Regional search</text><text class="d-text" x="665" y="115">and analysis</text>
+        <rect class="d-box" x="805" y="60" width="125" height="70" rx="8"/><text class="d-text" x="825" y="90">Cited</text><text class="d-text" x="825" y="115">draft</text>
+        <rect class="d-accent" x="955" y="60" width="125" height="70" rx="8"/><text class="d-text" x="975" y="90">Human</text><text class="d-text" x="975" y="115">review</text>
+        <path class="d-line" d="M150 95H175M300 95H325M460 95H485M620 95H645M780 95H805M930 95H955"/>
+        <rect class="d-box" x="385" y="235" width="255" height="75" rx="8"/><text class="d-text" x="405" y="265">Regional immutable audit evidence</text><text class="d-text" x="405" y="290">approved-pair replication</text>
+        <rect class="d-accent" x="730" y="235" width="285" height="75" rx="8"/><text class="d-text" x="750" y="265">Internal Audit assurance boundary</text><text class="d-text" x="750" y="290">independent immutable verdict</text>
+        <path class="d-line" d="M392 130V235M640 273H730"/>
+      </svg>
+    </div>
+    <p><a href="evidence/stratton-identity-rbac-contract.json">Identity/RBAC contract</a> · <a href="evidence/stratton-data-api-contracts.json">Data/API contracts</a> · <a href="diagrams/stratton-end-to-end-data-flow.svg">Standalone data-flow SVG</a></p>
+  </section>
+
+  <section id="p3-operations">
+    <h2>Reliability, observability and operations</h2>
+    <div class="table-wrap"><table><thead><tr><th>Objective</th><th>Design response</th><th>Boundary</th></tr></thead><tbody>
+      <tr><td>99.9% in approved business hours</td><td>Zones, minimum replicas, managed HA and dependency health</td><td>Business hours remain VAL-002</td></tr>
+      <tr><td>RTO ≤4h / RPO ≤1h</td><td>Warm recovery, SQL failover, in-region Local/Zone STR/LTR backups, regional ZRS/versions, recovery manifests and index rebuild</td><td>Exact signed-approved regions remain VAL-005 inputs</td></tr>
+      <tr><td>p95 &lt;5s / pack ≤30m</td><td>Separate interactive and queued job paths</td><td>Representative profile remains HD-005/VAL-004</td></tr>
+      <tr><td>8x5 support</td><td>Action Groups, named owners, critical runbooks</td><td>Window/critical criteria remain VAL-002</td></tr>
+    </tbody></table></div>
+    <p>Every SQL database requires explicit <code>requestedBackupStorageRedundancy</code>: production has no default, permits only <code>Local</code> or <code>Zone</code> after regional capability evidence, and denies <code>Geo</code>/<code>GeoZone</code> implicit paired-region replication. OpenTelemetry and Azure diagnostics correlate case, work, evidence, analysis, policy and review IDs. Document, prompt and completion bodies, secrets and tokens are prohibited in telemetry. No achieved runtime objective is claimed.</p>
+    <p><a href="evidence/stratton-operations-reliability-contract.json">Operations and reliability contract</a></p>
+  </section>
+
+  <section id="p3-waf">
+    <h2>WAF, environment and cost</h2>
+    <div class="table-wrap"><table><thead><tr><th>Pillar</th><th>Response</th><th>Trade-off</th></tr></thead><tbody>
+      <tr><td>Reliability</td><td>Zonal primary, warm recovery, durable work and recovery manifests</td><td>Duplicate regional capacity and recovery rehearsal</td></tr>
+      <tr><td>Security</td><td>Citadel ALZ/AI/sovereign policies, private paths, PIM and assurance isolation</td><td>More subscriptions and fixed network cost</td></tr>
+      <tr><td>Cost Optimisation</td><td>Evidence-led sizing, elastic jobs and rebuildable index</td><td>Two hubs and warm recovery remain material fixed cost</td></tr>
+      <tr><td>Operational Excellence</td><td>One Bicep codebase, pinned AVM/Foundry Citadel inputs, telemetry and runbooks</td><td>Upstream architecture/version governance</td></tr>
+      <tr><td>Performance Efficiency</td><td>Interactive/job separation, regional inference and tested caps</td><td>Measured caps remain pending</td></tr>
+    </tbody></table></div>
+    <p>No price or currency is asserted. Main drivers are two Citadel hubs/firewalls/resolvers, warm recovery, model quota, Search replicas, SQL tier, gateways, immutable storage and log retention. AFF-4 must estimate after exact regions, IPAM and benchmark inputs.</p>
+    <p><a href="evidence/stratton-waf-cost-environment-matrix.json">WAF/cost/environment matrix</a></p>
+  </section>
+
+  <section id="p3-trace">
+    <h2>Traceability and governed controls</h2>
+    <p>All 31 Must requirements, 19 ABBs and AD-001 through AD-010 have concrete Azure mappings. Human authority, source authority, production isolation, no-training use, sovereignty, legal-jurisdiction controls and Internal Audit independence remain intact.</p>
+    <details><summary>Seven controls carried in formal evidence</summary><div><ul>
+      <li>VAL-001 — entity-specific DORA evidence before a formal claim.</li>
+      <li>VAL-002 — business hours, typical pack and critical alerts before acceptance.</li>
+      <li>VAL-003 — eligibility, benchmark, field, severity and exception definitions before validation.</li>
+      <li>VAL-004 — exact source, schedule, volume and remediation mapping before production ingestion.</li>
+      <li>VAL-005 — approved locations and transfer process before production acceptance.</li>
+      <li>AFFB-RES-001 — AI Act role/use-case classification before production or a claim.</li>
+      <li>AFFB-RES-002 — official citations, dates and article mappings before formal representation.</li>
+    </ul></div></details>
+    <p><a href="evidence/stratton-traceability-matrix.json">Complete traceability matrix</a> · <a href="evidence/stratton-source-register.json">Microsoft source register and reuse notes</a></p>
+  </section>
+
+  <section id="p3-handoff">
+    <h2>Deployment approach and AFF-4 handoff</h2>
+    <p>Plan one modular Bicep codebase: Citadel management groups/subscriptions → ALZ, AI-governance and sovereign policies → two regional hubs/central DNS → identities/management → workload spokes → regional workload services → assurance → diagnostics. Pin and review the Foundry Citadel source revision; it remains an adapted architecture, not a product dependency.</p>
+    <p>Patterns are confirmed. Exact tenant parent, subscription IDs, both region names, CIDRs/WAN/DNS, owners, retention, source register, measured caps, model/quota, provider evidence and assurance groups have no defaults. Deployment uses human-interactive Azure sign-in or a separately approved runtime managed identity. GitHub OIDC and stored credentials are prohibited.</p>
+    <p><a href="evidence/stratton-aff4-handoff.json">AFF-4 handoff contract</a> · <a href="evidence/stratton-candidate-validation.json">Candidate validation record</a></p>
+    <p class="warn">Phase 3 performed no coding, deployment, Azure what-if or runtime tests. The parent session owns final hashes and reviewer invocation.</p>
+  </section>
+</main>
+<footer>Generated view of the authoritative Phase 3 Markdown and structured catalogues. No external runtime dependencies.</footer>
+</body>
+</html>

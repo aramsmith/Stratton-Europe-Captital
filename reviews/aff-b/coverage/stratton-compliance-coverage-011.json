@@ -1,0 +1,1246 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF-B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "011",
+  "changeControlId": "STRATTON-CC-001",
+  "phaseIds": [
+    "3",
+    "4",
+    "5",
+    "6"
+  ],
+  "createdAt": "2026-08-03T12:03:05.127+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_PHASE6_REVISION3_CONVERGED_AFF_B_ROUND2_HUMAN_GATE_PENDING",
+  "supersedesCoverageSequence": "010",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+    "sha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+    "overwrite": false
+  },
+  "supersessionReason": "Sequence 011 preserves coverage 010 by exact hash, all confirmed and inferred applicability, requirement/control mappings, owners and residual statuses. It binds the immutable Phase 6 revision-3 subject and final AFF-A/AFF-B review attributes, records both prior Phase 6 findings as resolved without waiver, and activates presentation-specific controls without claiming runtime operating effectiveness, legal certification, licensing clearance, waiver, approval or deployment authorisation.",
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "modelPlanRevision": "18",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-18.json",
+    "modelPlanSha256": "33ea20c25a88079a7d99cfa118d9882cd0142deef4b892a81daf5372360b07ca",
+    "independence": "SAME_EXACT_MODEL_ID_AS_PHASE_AUTHOR_WITH_SEPARATE_AFF_B_SPECIALIST_CONTEXT_AND_WRITE_BOUNDARY; NO MODEL_ID_INDEPENDENCE_CLAIM"
+  },
+  "canonicalSubjectBindings": [
+    {
+      "phaseId": "3",
+      "manifestPath": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+      "manifestSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-5/stratton-aff-a-review.json",
+      "finalAffASha256": "1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539",
+      "subjectManifest": {
+        "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "computedSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "hashStatus": "MATCH",
+        "modelPlanRevisionInManifest": "9"
+      },
+      "finalAffARecord": {
+        "path": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-5/stratton-aff-a-review.json",
+        "sha256": "1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539",
+        "computedSha256": "1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539",
+        "hashStatus": "MATCH",
+        "round": 5,
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 2,
+          "unresolvedMajor": 0
+        }
+      },
+      "formalAffBRound": 4,
+      "invoker": "AFF-3"
+    },
+    {
+      "phaseId": "4",
+      "manifestPath": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+      "manifestSha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+      "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-6/stratton-aff-a-review.json",
+      "finalAffASha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+      "subjectManifest": {
+        "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+        "sha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+        "computedSha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+        "hashStatus": "MATCH",
+        "modelPlanRevisionInManifest": "10"
+      },
+      "finalAffARecord": {
+        "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-6/stratton-aff-a-review.json",
+        "sha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+        "computedSha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+        "hashStatus": "MATCH",
+        "round": 6,
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 4,
+          "unresolvedMajor": 0
+        }
+      },
+      "formalAffBRound": 3,
+      "invoker": "AFF-4",
+      "exactPhase3Binding": {
+        "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "status": "MATCH"
+      }
+    },
+    {
+      "phaseId": "5",
+      "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+      "manifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+      "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+      "finalAffASha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+      "subjectManifest": {
+        "path": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+        "sha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+        "computedSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+        "hashStatus": "MATCH_UNCHANGED_PRE_POST",
+        "modelPlanRevisionInManifest": "15",
+        "artifactCount": 155
+      },
+      "finalAffARecord": {
+        "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+        "sha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+        "computedSha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+        "hashStatus": "MATCH",
+        "round": 4,
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 0,
+          "unresolvedMajor": 0
+        }
+      },
+      "formalAffBRound": 2,
+      "formalAffBVerdict": "CONFORMS-WITH-GAPS",
+      "formalAffBPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+      "invoker": "AFF-5"
+    },
+    {
+      "phaseId": "6",
+      "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r3/stratton-phase-6-hashes.json",
+      "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+      "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-3/stratton-aff-a-review.json",
+      "finalAffASha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+      "subjectManifest": {
+        "path": "cases/Stratton-Europe-Captital/6-presentation-r3/stratton-phase-6-hashes.json",
+        "sha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+        "computedSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+        "hashStatus": "MATCH_UNCHANGED_PRE_POST",
+        "modelPlanRevisionInManifest": "18",
+        "artifactCount": 95
+      },
+      "finalAffARecord": {
+        "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-3/stratton-aff-a-review.json",
+        "sha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+        "computedSha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+        "hashStatus": "MATCH",
+        "round": 3,
+        "verdict": "CONFORMS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 0,
+          "unresolvedMajor": 0
+        }
+      },
+      "formalAffBRound": 2,
+      "formalAffBVerdict": "CONFORMS-WITH-GAPS",
+      "formalAffBPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-2/stratton-aff-b-review.json",
+      "formalAffBFindingSummary": {
+        "BLOCKER": 0,
+        "MAJOR": 0,
+        "MINOR": 0,
+        "unresolvedMajor": 0
+      },
+      "formalAffBHashBinding": "PATH_ROUND_VERDICT_FINDING_SUMMARY_AND_EXACT_SUBJECT_BOUND; HASH_OMITTED_TO_AVOID_SELF_REFERENTIAL_COVERAGE_REVIEW_HASH_CYCLE",
+      "invoker": "AFF-6"
+    }
+  ],
+  "approvedEvidenceBoundary": {
+    "phase1Approval": {
+      "path": "cases/Stratton-Europe-Captital/approvals/1/stratton-phase-1-approval-1.json",
+      "sha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a"
+    },
+    "phase1Manifest": {
+      "path": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+      "sha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a"
+    },
+    "phase2Approval": {
+      "path": "cases/Stratton-Europe-Captital/approvals/2/stratton-phase-2-approval-1.json",
+      "sha256": "61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3"
+    },
+    "phase2Manifest": {
+      "path": "cases/Stratton-Europe-Captital/2-togaf-architecture/stratton-phase-2-hashes.json",
+      "sha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9"
+    },
+    "revision8HistoricalSubjects": [
+      {
+        "phaseId": "3",
+        "sha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+        "immutable": true
+      },
+      {
+        "phaseId": "4",
+        "sha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8",
+        "immutable": true
+      }
+    ]
+  },
+  "sourceAndConfidenceBoundary": {
+    "requirementsSource": "cases/Stratton-Europe-Captital/1-requirements/stratton-requirements-catalogue.json",
+    "architectureSource": "cases/Stratton-Europe-Captital/2-togaf-architecture/stratton-architecture-catalogue.json",
+    "regulatoryRegister": "cases/Stratton-Europe-Captital/stratton-regulatory-register.md revision 002",
+    "priorCoverage": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+    "officialSourceDetailStatus": "OPEN_OWNER_BOUND_UNDER_AFFB-RES-002",
+    "boundary": "No new legal instrument, obligation, jurisdiction, risk class, requirement, owner or applicability conclusion is introduced by Phase 6 coverage sequence 011. Existing confirmed and inferred applicability remains unchanged and human-confirmation-dependent where already recorded."
+  },
+  "applicabilityBoundary": {
+    "GDPR": {
+      "confidence": "CONFIRMED_BY_HUMAN_INPUT",
+      "status": "DETAILED_OFFICIAL_CITATIONS_OPEN_AFFB-RES-002"
+    },
+    "EU_AI_Act": {
+      "confidence": "CONFIRMED_GOVERNANCE_FRAMEWORK_BOUNDARY",
+      "classificationClaim": "NONE",
+      "status": "ROLE_AND_USE_CASE_CLASSIFICATION_OPEN_AFFB-RES-001"
+    },
+    "SFDR": {
+      "confidence": "HUMAN_CONFIRMED_CONDITIONAL",
+      "trigger": "Where ESG output supports regulated disclosures"
+    },
+    "AIFMD": {
+      "confidence": "HUMAN_CONFIRMED_CONDITIONAL",
+      "trigger": "Where a Luxembourg AIF vehicle uses the workflow"
+    },
+    "DORA": {
+      "confidence": "INFERRED_CONDITIONAL",
+      "trigger": "Relevant entity is an in-scope financial entity",
+      "humanConfirmationBoundary": "General Counsel applicability or exemption remains open under VAL-001"
+    },
+    "otherInstruments": "No applicability conclusion introduced."
+  },
+  "preservedCoverage": {
+    "confirmedObligationClusters": [
+      "Data minimisation",
+      "Purpose limitation",
+      "Documented lawful basis",
+      "Data-subject handling",
+      "DPIA screening",
+      "Processor controls",
+      "Transfer governance",
+      "Data lineage",
+      "Data quality",
+      "Reproducibility",
+      "Accountable review",
+      "Audit evidence",
+      "Governed risk records",
+      "Governed documentation records",
+      "Applicable retention",
+      "AI literacy",
+      "Transparency",
+      "Human oversight",
+      "Logging",
+      "Risk management",
+      "Documented role and use-case classification"
+    ],
+    "conditionalObligationClusters": [
+      "ICT risk-management evidence",
+      "Incident evidence",
+      "Resilience testing",
+      "Third-party and cloud oversight"
+    ],
+    "totalObligationClusterCount": 25,
+    "activeRequirementCount": 31,
+    "activeRequirementIds": [
+      "BR-001",
+      "BR-002",
+      "FR-001",
+      "FR-002",
+      "AR-001",
+      "AR-002",
+      "DR-001",
+      "DR-002",
+      "DR-003",
+      "DR-004",
+      "DR-005",
+      "DR-006",
+      "DR-007",
+      "SR-001",
+      "SR-002",
+      "SR-003",
+      "SR-004",
+      "SR-005",
+      "SR-006",
+      "SR-007",
+      "SR-008",
+      "SR-009",
+      "SR-010",
+      "IR-001",
+      "TR-001",
+      "TR-002",
+      "TR-003",
+      "TR-004",
+      "NR-001",
+      "NR-002",
+      "NR-003"
+    ],
+    "architectureBuildingBlockCount": 19,
+    "architectureBuildingBlockIds": [
+      "ABB-01",
+      "ABB-02",
+      "ABB-03",
+      "ABB-04",
+      "ABB-05",
+      "ABB-06",
+      "ABB-07",
+      "ABB-08",
+      "ABB-09",
+      "ABB-10",
+      "ABB-11",
+      "ABB-12",
+      "ABB-13",
+      "ABB-14",
+      "ABB-15",
+      "ABB-16",
+      "ABB-17",
+      "ABB-18",
+      "ABB-19"
+    ],
+    "architectureDecisionCount": 10,
+    "architectureDecisionIds": [
+      "AD-001",
+      "AD-002",
+      "AD-003",
+      "AD-004",
+      "AD-005",
+      "AD-006",
+      "AD-007",
+      "AD-008",
+      "AD-009",
+      "AD-010"
+    ],
+    "requirementsModifiedByCoverageRevision": false,
+    "newLegalObligationsAdded": false
+  },
+  "changeControlCoverageDomains": [
+    {
+      "id": "CC1-COV-01",
+      "domain": "Authority separation and no workload verdict authority",
+      "requirements": [
+        "FR-002",
+        "SR-007",
+        "SR-008",
+        "NR-002"
+      ],
+      "architectureControls": [
+        "ABB-07",
+        "ABB-08",
+        "ABB-11",
+        "ABB-12",
+        "ABB-16",
+        "AD-009"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-001-r2-proposed.json authorityMatrix/separationOfDuties",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json identityMappings"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-02",
+      "domain": "Internal Audit repository/build/sign/ACR/deploy/operate supply chain",
+      "requirements": [
+        "SR-007",
+        "SR-008",
+        "TR-002",
+        "NR-002"
+      ],
+      "architectureControls": [
+        "ABB-11",
+        "ABB-12",
+        "ABB-16",
+        "AD-009"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json internalAuditSourceRepositoryBoundary",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json WP-05/softwarePackageAcceptance/identityMappings/activationSequence"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-03",
+      "domain": "Private exact-version Blob pull/copy, anti-SSRF, scan and WORM",
+      "requirements": [
+        "DR-001",
+        "DR-004",
+        "DR-005",
+        "SR-003",
+        "SR-004",
+        "SR-005",
+        "SR-010"
+      ],
+      "architectureControls": [
+        "ABB-02",
+        "ABB-03",
+        "ABB-04",
+        "ABB-09",
+        "ABB-10"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json assuranceVerdictBoundary.pullAndCopy"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-04",
+      "domain": "Purpose-specific signing-time trust snapshots and historical verification",
+      "requirements": [
+        "DR-005",
+        "SR-004",
+        "SR-007",
+        "SR-008",
+        "TR-003"
+      ],
+      "architectureControls": [
+        "ABB-09",
+        "ABB-11",
+        "ABB-12",
+        "ABB-14",
+        "ABB-16"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json trustVerificationSnapshot/canonicalCryptographicContract/signatureAndProducerTrust",
+        "3-azure-design/evidence/stratton-trust-verification-test-vectors-cc-001-r2.json"
+      ],
+      "status": "COVERED_WITH_MINOR_HELPER_FIELD_CONSISTENCY_GAP"
+    },
+    {
+      "id": "CC1-COV-05",
+      "domain": "Evaluator sandbox and untrusted artifact handling",
+      "requirements": [
+        "SR-003",
+        "SR-008",
+        "NR-001",
+        "NR-002"
+      ],
+      "architectureControls": [
+        "ABB-03",
+        "ABB-10",
+        "ABB-16"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json assuranceVerdictBoundary.sandbox"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-06",
+      "domain": "Prompt injection, instruction/data separation, retrieval isolation and recovery",
+      "requirements": [
+        "AR-001",
+        "AR-002",
+        "DR-004",
+        "DR-006",
+        "SR-006",
+        "NR-001",
+        "NR-002"
+      ],
+      "architectureControls": [
+        "ABB-04",
+        "ABB-05",
+        "ABB-06",
+        "ABB-08",
+        "ABB-10",
+        "ABB-16"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json analysisAndVectorizationBoundary"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-07",
+      "domain": "Regional private AI and retained human authority",
+      "requirements": [
+        "FR-002",
+        "AR-001",
+        "AR-002",
+        "SR-001",
+        "SR-006",
+        "SR-010"
+      ],
+      "architectureControls": [
+        "ABB-07",
+        "ABB-08",
+        "ABB-10",
+        "ABB-15",
+        "ABB-18"
+      ],
+      "evidence": [
+        "3-azure-design/stratton-cc-001-r2-phase-3-amendment.md",
+        "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-r2-proposed.json regionalDecision"
+      ],
+      "status": "COVERED_WITH_VAL-005_AND_AFFB-RES-001_OPEN"
+    },
+    {
+      "id": "CC1-COV-08",
+      "domain": "Producer-signed audit, stream continuity, receipt trust and material guard",
+      "requirements": [
+        "FR-002",
+        "SR-004",
+        "SR-008",
+        "TR-003",
+        "TR-004",
+        "NR-002"
+      ],
+      "architectureControls": [
+        "ABB-07",
+        "ABB-12",
+        "ABB-13",
+        "ABB-14",
+        "ABB-16"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json auditExportPushContract",
+        "3-azure-design/evidence/stratton-trust-verification-test-vectors-cc-001-r2.json TV-AUDIT-001/TV-RECEIPT-001"
+      ],
+      "status": "COVERED_WITH_MINOR_HELPER_FIELD_CONSISTENCY_GAP"
+    },
+    {
+      "id": "CC1-COV-09",
+      "domain": "Queue limits, retention, recovery, rollback and secure activation",
+      "requirements": [
+        "DR-005",
+        "SR-005",
+        "SR-009",
+        "TR-003",
+        "TR-004",
+        "NR-001",
+        "NR-002"
+      ],
+      "architectureControls": [
+        "ABB-09",
+        "ABB-12",
+        "ABB-13",
+        "ABB-14",
+        "ABB-16"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-r2-proposed.json contractOperations/verificationAddendum",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json activationSequence/DU-16.rollback"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    }
+  ],
+  "priorMajorFindingMappings": [
+    {
+      "findingId": "AFFB-CC001-MAJ-001",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN_SUBJECT_REMEDIATION_REQUIRED",
+      "priorReviewPaths": [
+        "cases/Stratton-Europe-Captital/reviews/aff-b/3/round-3/stratton-aff-b-review.json",
+        "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-2/stratton-aff-b-review.json"
+      ],
+      "coverageDomains": [
+        "CC1-COV-01",
+        "CC1-COV-02",
+        "CC1-COV-09"
+      ],
+      "round2Evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json internalAuditSourceRepositoryBoundary",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-001-r2-proposed.json separationOfDuties/supplyChainProtection",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json WP-05/softwarePackageAcceptance/identityMappings/activationSequence"
+      ],
+      "coverage007Status": "REMEDIATION_EVIDENCE_MAPPED_FORMAL_DISPOSITION_PENDING",
+      "coverageStatus": "REMEDIATION_EVIDENCE_MAPPED_FOR_INDEPENDENT_FORMAL_RETEST"
+    },
+    {
+      "findingId": "AFFB-CC001-MAJ-002",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN_SUBJECT_REMEDIATION_REQUIRED",
+      "priorReviewPaths": [
+        "cases/Stratton-Europe-Captital/reviews/aff-b/3/round-3/stratton-aff-b-review.json",
+        "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-2/stratton-aff-b-review.json"
+      ],
+      "coverageDomains": [
+        "CC1-COV-04",
+        "CC1-COV-08",
+        "CC1-COV-09"
+      ],
+      "round2Evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-r2-proposed.json trustVerificationSnapshot/canonicalCryptographicContract",
+        "3-azure-design/evidence/stratton-trust-verification-test-vectors-cc-001-r2.json",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json signed-record parameters/assertions/validations"
+      ],
+      "coverage007Status": "REMEDIATION_EVIDENCE_MAPPED_FORMAL_DISPOSITION_PENDING",
+      "coverageStatus": "REMEDIATION_EVIDENCE_MAPPED_FOR_INDEPENDENT_FORMAL_RETEST"
+    }
+  ],
+  "priorControlTraceability": {
+    "coverageDomainIdsPreserved": [
+      "CC1-COV-01",
+      "CC1-COV-02",
+      "CC1-COV-03",
+      "CC1-COV-04",
+      "CC1-COV-05",
+      "CC1-COV-06",
+      "CC1-COV-07",
+      "CC1-COV-08",
+      "CC1-COV-09"
+    ],
+    "preliminaryFindingIdsPreserved": [
+      "PF-01",
+      "PF-02",
+      "PF-03",
+      "PF-04",
+      "PF-05",
+      "PF-06",
+      "PF-07",
+      "PF-08",
+      "PF-09",
+      "PF-10",
+      "PF-11",
+      "PF-12",
+      "PF-13",
+      "PF-14",
+      "PF-15",
+      "PF-16",
+      "PF-17",
+      "PF-18",
+      "PF-19"
+    ],
+    "priorOwnerControlIdsPreserved": [
+      "VAL-001",
+      "VAL-002",
+      "VAL-003",
+      "VAL-004",
+      "VAL-005",
+      "AFFB-RES-001",
+      "AFFB-RES-002",
+      "CC1-OWN-001",
+      "CC1-OWN-002",
+      "CC1-OWN-003",
+      "CC1-OWN-004",
+      "CC1-OWN-005"
+    ],
+    "newCandidateOwnerControlIds": [
+      "CC1-OWN-006",
+      "CC1-OWN-007"
+    ],
+    "remediationAssessments": [
+      {
+        "id": "PF-01",
+        "name": "Canonical preimages",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-02",
+        "name": "Purpose-specific cryptographic trust",
+        "coverageStatus": "CONFORMS-WITH-MINOR-CONSISTENCY-GAP"
+      },
+      {
+        "id": "PF-03",
+        "name": "Verdict uniqueness and exact read",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-04",
+        "name": "Private exact-version evidence transfer",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-05",
+        "name": "Independent evaluator inputs",
+        "coverageStatus": "CONFORMS-WITH-OWNER-GATES"
+      },
+      {
+        "id": "PF-06",
+        "name": "Internal Audit assurance package and supply chain",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-07",
+        "name": "Untrusted artifact sandbox",
+        "coverageStatus": "CONFORMS-WITH-OWNER-GATES"
+      },
+      {
+        "id": "PF-08",
+        "name": "Analysis binding and instruction/data separation",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-09",
+        "name": "Vector provenance and isolation",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-10",
+        "name": "Hostile retrieval and poisoned-index recovery",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-11",
+        "name": "Audit producer authenticity and receipt binding",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-12",
+        "name": "Audit stream conflict and continuity",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-13",
+        "name": "Role-separated material guard",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-14",
+        "name": "Queue limits and ordering",
+        "coverageStatus": "CONFORMS-WITH-OWNER-GATES"
+      },
+      {
+        "id": "PF-15",
+        "name": "Phase 4 reconciliation",
+        "coverageStatus": "CONFORMS-WITH-OWNER-GATES"
+      },
+      {
+        "id": "PF-16",
+        "name": "Secure activation sequence",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-17",
+        "name": "Authority-flow overlay",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-18",
+        "name": "Clawpilot HTML contract",
+        "coverageStatus": "CONFORMS"
+      },
+      {
+        "id": "PF-19",
+        "name": "Change-control evidence",
+        "coverageStatus": "CONFORMS"
+      }
+    ]
+  },
+  "residualControls": [
+    {
+      "id": "VAL-001",
+      "owner": "General Counsel",
+      "requiredBefore": "Before any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "owner": "Chief Investment Officer and Service Operations",
+      "requiredBefore": "Before service/performance acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "owner": "Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "requiredBefore": "Before Internal Audit validation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "owner": "Source and records owners",
+      "requiredBefore": "Before production ingestion",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "owner": "General Counsel",
+      "requiredBefore": "Before production location/transfer acceptance and regional deployment",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "owner": "General Counsel and Head of AI Governance",
+      "requiredBefore": "Before production AI use or classification claim",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "owner": "Legal and compliance owners",
+      "requiredBefore": "Before formal representation relying on the regulatory register",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-001",
+      "owner": "Internal Audit, Identity Lead and Workload Security Owner",
+      "requiredBefore": "Before any assurance submission/audit/receipt/verdict signature activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-002",
+      "owner": "Internal Audit, Source Storage Owner, Network Lead and Records Owner",
+      "requiredBefore": "Before evidence pull/copy acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-003",
+      "owner": "Internal Audit Software Owner, Release Authority, Security Operations and Business Continuity",
+      "requiredBefore": "Before WP-05 acceptance, DU-16 deployment or evaluation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-004",
+      "owner": "Head of AI Governance, Data Owner, Application Engineering and Service Operations",
+      "requiredBefore": "Before analysis/vectorisation or index alias activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-005",
+      "owner": "Internal Audit, Application Owner and Service Operations",
+      "requiredBefore": "Before audit sender/receiver/receipt guard activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-006",
+      "owner": "Internal Audit Repository Owner, Security Owner, Identity Lead and Release Authority",
+      "requiredBefore": "Before authoritative source acceptance, build/sign/publish/deploy or operations",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-007",
+      "owner": "Internal Audit Cryptographic Evidence Owner, Workload Security Owner, Records Owner and Business Continuity",
+      "requiredBefore": "Before any submission/audit/receipt/verdict signature or historical trust acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    }
+  ],
+  "coverageSummary": {
+    "obligationClustersPreserved": 25,
+    "activeRequirementsPreserved": 31,
+    "architectureBuildingBlocksTraced": 19,
+    "architectureDecisionsTraced": 10,
+    "changeControlCoverageDomains": 9,
+    "priorControlIdsPreserved": 40,
+    "openOwnerBoundResidualControls": 14,
+    "priorMajorFindingsMapped": 2,
+    "formalComplianceClaims": 0,
+    "certificationOrAttestationClaims": 0,
+    "deploymentClaims": 0,
+    "runtimeClaims": 0,
+    "modelPlanRevision": "18",
+    "finalSubjectSet": "PHASE_3_R2_PHASE_4_R3_PHASE_5_R4_AND_PHASE_6_REVISION3",
+    "finalAffARecordsBound": 4,
+    "humanApprovalStatus": "PHASE6_PENDING_NOT_GRANTED",
+    "phase5FormalAffBRound": 2,
+    "phase5FormalAffBVerdict": "CONFORMS-WITH-GAPS",
+    "phase5PriorMajorFindingsResolved": 6,
+    "retainedAffBMinorGapCount": 2,
+    "presentationCoverageDomains": 8,
+    "phase6FormalAffBRound": 2,
+    "phase6FormalAffBVerdict": "CONFORMS-WITH-GAPS",
+    "phase6NewMajorFindings": 0,
+    "phase6NewMinorFindings": 0,
+    "phase6HumanGateStatus": "ELIGIBLE_FOR_PRESENTATION_PENDING_EXPLICIT_HUMAN_DECISION",
+    "phase6PriorFindingsResolved": 2
+  },
+  "assuranceBoundary": "Independent architecture security/compliance coverage; not legal advice, certification, attestation, waiver, approval, deployment authorisation, Azure validation, runtime evidence or operating-effectiveness evidence.",
+  "limitations": [
+    "Owner-bound values and evidence remain unresolved and fail closed.",
+    "DORA applicability, EU AI Act role/use-case classification and detailed official legal citations remain accountable human/legal decisions.",
+    "Data residency, provider evidence, production values, retention finalisation, target behaviour and operating effectiveness remain unestablished.",
+    "Coverage and reviews do not approve Phase 6, finalise Phase 5 authority, authorise deployment, Azure operations or runtime testing.",
+    "The browser runtime receipt is manifest-bound presentation evidence; this review did not execute the subject and does not establish production runtime operating effectiveness.",
+    "Source, package, favicon and branding rights clearance remains with accountable human owners; no licensing conclusion is made.",
+    "Explicit human Phase 6 approval or rejection remains pending; Phases 7 and 8 remain unauthorised."
+  ],
+  "formalisedAt": "2026-08-03T12:03:05.127+02:00",
+  "draftReplacement": false,
+  "historicalImmutableSubjects": {
+    "revision8Phase3Sha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+    "revision8Phase4Sha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8",
+    "phase4R2Path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json",
+    "phase4R2Sha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+    "phase4R2Status": "SUPERSEDED_IMMUTABLE"
+  },
+  "phase5ImplementationCoverage": [
+    {
+      "id": "P5-COV-01",
+      "domain": "Private platform and database controls",
+      "status": "CONFORMS_WITH_OWNER_BOUND_VALUES",
+      "evidence": "Core services remain private and local authentication is disabled where supported; workload NSGs have service-specific allows and explicit deny-all rules, default egress routes target the corresponding regional firewall, reserved subnets are excluded and private-endpoint network policies are enabled."
+    },
+    {
+      "id": "P5-COV-02",
+      "domain": "API identity, tenant isolation and SQL RLS",
+      "status": "CONFORMS_WITH_OWNER_BOUND_ENTRA_VALUES",
+      "evidence": "APIM and Container Apps bind matching tenant, client and audience values; APIM strips spoofable platform headers and validates the preserved human bearer token; Container Apps revalidates; application role, human-principal, case-access and tenant/case SQL RLS controls fail closed."
+    },
+    {
+      "id": "P5-COV-03",
+      "domain": "Source, licence and privacy gates",
+      "status": "COVERED_FAIL_CLOSED",
+      "evidence": "Source status, current licence, purpose, privacy lawful-basis, evidence-admission and special-category gates fail closed, including queued-analysis authority recheck immediately before provider invocation."
+    },
+    {
+      "id": "P5-COV-04",
+      "domain": "Queue, idempotency and audit",
+      "status": "CONFORMS",
+      "evidence": "Active Service Bus producers and consumers have exact queue-scoped sender/receiver assignments; blocked queues have no active workers or RBAC; transactional idempotency, claim fencing, durable outbox, dead-letter paths and audit hash sequencing are retained."
+    },
+    {
+      "id": "P5-COV-05",
+      "domain": "Dependency, container and release provenance",
+      "status": "COVERED_WITH_OWNER_GATES",
+      "evidence": "Dependencies and AVM references are pinned, SBOMs and retained scans are bound, container digests are fixed, containers run non-root, and local signing is explicitly non-production. Release identity and licence acceptance remain governed owner gates."
+    },
+    {
+      "id": "P5-COV-06",
+      "domain": "Assurance pull/copy and WORM",
+      "status": "CONFORMS_WITH_POST_DEPLOYMENT_OWNER_GATES",
+      "evidence": "Delivery write authority is removed; the separately controlled Internal Audit evidence reader-copier has exact evidence-container write scope. Source read acceptance remains under CC1-OWN-002. Data admission stays blocked until separately authorised observed immutability lock and legal-hold evidence is bound."
+    },
+    {
+      "id": "P5-COV-07",
+      "domain": "Retention, observability and rollback",
+      "status": "CONFORMS_WITH_OWNER_GATES",
+      "evidence": "Retention finalisation requires explicit Phase 7 authorisation, ETag locking, legal-hold setting and observed-state verification. Diagnostics, alerts, rollback restrictions and evidence preservation are represented; no runtime operating-effectiveness claim is made."
+    },
+    {
+      "id": "P5-COV-08",
+      "domain": "Release disclosure and traceability",
+      "status": "CONFORMS_WITH_DISCLOSED_RESIDUAL_GAPS",
+      "evidence": "Schema, release manifest, build report and verifier disclose exactly three authority conflicts, fourteen owner-bound residual controls and two retained AFF-B minor gaps."
+    }
+  ],
+  "phase5Findings": [
+    {
+      "id": "AFFB-P5-R1-MAJ-001",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_WITH_CC1_OWN_002_RETAINED",
+      "title": "Direct delivery write access violates the assurance pull/copy boundary",
+      "owner": [
+        "AFF-5",
+        "Internal Audit",
+        "Identity Lead"
+      ],
+      "coverageDomains": [
+        "CC1-COV-01",
+        "CC1-COV-03"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/modules/assurance/main.bicep evidenceReaderCopierWriteAssignment is scoped to evidenceContainer.",
+        "5-coding-r4/infra/parameters/prd.bicepparam binds evidenceReaderCopierAuthority to Internal Audit and contains no deliveryPrincipalId.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1 rejects deliveryPrincipalId and enforces the exact copier role and separate principal."
+      ]
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-002",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_BY_FAIL_CLOSED_SEPARATELY_AUTHORISED_FINALISATION",
+      "title": "Declared locked immutability and legal hold are not implemented",
+      "owner": [
+        "AFF-5",
+        "Internal Audit Records Owner",
+        "Business Continuity"
+      ],
+      "coverageDomains": [
+        "CC1-COV-04",
+        "CC1-COV-08",
+        "CC1-COV-09"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/parameters/prd.bicepparam keeps retentionFinalization blocked and dataAdmissionEnabled false.",
+        "5-coding-r4/deploy/Invoke-AssuranceRetentionFinalization.ps1 requires -Execute, a hashed Phase 7 authorisation, policy ETags, observed Locked state and legal-hold tags.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1 ASR-19 rejects admission without observed evidence IDs and hashes."
+      ]
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-003",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED",
+      "title": "Workload NSGs and routes retain fail-open Azure defaults",
+      "owner": [
+        "Network Lead",
+        "CISO",
+        "AFF-5"
+      ],
+      "coverageDomains": [],
+      "directEvidence": [
+        "5-coding-r4/infra/parameters/prd.bicepparam defines service-specific workload allows, explicit deny-all rules and 0.0.0.0/0 firewall routes.",
+        "5-coding-r4/infra/modules/network/main.bicep excludes Azure-reserved subnets and attaches NSGs/routes to workload subnets.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1 rejects empty controls, route mismatch and disabled private-endpoint policies."
+      ]
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-004",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED",
+      "title": "Service Bus RBAC is over-broad and incompatible with the runtime",
+      "owner": [
+        "AFF-5",
+        "Integration Lead",
+        "Identity Lead"
+      ],
+      "coverageDomains": [
+        "CC1-COV-09"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/modules/integration/main.bicep assigns sender/receiver roles at Microsoft.ServiceBus/namespaces/queues scope.",
+        "5-coding-r4/infra/modules/application-platform/main.bicep deploys only ingestion, extraction and indexing workers.",
+        "5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1 validates the exact seven-path map and blocks analysis/audit-export workers."
+      ]
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-005",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED",
+      "title": "Container Apps authentication is not bound to an Entra tenant and audience",
+      "owner": [
+        "AFF-5",
+        "Identity Lead",
+        "API Owner"
+      ],
+      "coverageDomains": [
+        "CC1-COV-01"
+      ],
+      "directEvidence": [
+        "5-coding-r4/infra/modules/application-platform/main.bicep configures HTTPS, Return401, no excluded paths and tenant/client/audience validation.",
+        "5-coding-r4/infra/modules/apim-lockdown/main.bicep deletes spoofable platform identity/token headers, validates Authorization bearer JWT and does not use authentication-managed-identity.",
+        "5-coding-r4/app/src/api-runtime.ts requires AAD claims, tenant-consistent issuer, roles and human idtyp for human-only operations."
+      ]
+    },
+    {
+      "id": "AFFB-P5-R1-MAJ-006",
+      "priorSeverity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_WITH_DISCLOSED_GAPS_RETAINED",
+      "title": "Release evidence suppresses open authority conflicts and residual controls",
+      "owner": [
+        "AFF-5"
+      ],
+      "coverageDomains": [
+        "CC1-COV-01",
+        "CC1-COV-02",
+        "CC1-COV-03",
+        "CC1-COV-04",
+        "CC1-COV-05",
+        "CC1-COV-06",
+        "CC1-COV-07",
+        "CC1-COV-08",
+        "CC1-COV-09"
+      ],
+      "directEvidence": [
+        "5-coding-r4/stratton-release-manifest.json records three authorityConflicts, fourteen unresolvedControls and two retainedMinorGaps.",
+        "5-coding-r4/release/release-manifest.schema.json fixes the exact ordered disclosure.",
+        "5-coding-r4/validation/Test-ReleaseEvidence.ps1 and stratton-build-report.md verify and render the same disclosure."
+      ]
+    }
+  ],
+  "phase5ReviewBoundary": {
+    "subjectManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "finalAffAReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+    "finalAffAReviewSha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+    "affBRound": 2,
+    "affBReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-2/stratton-aff-b-review.json",
+    "affBVerdict": "CONFORMS-WITH-GAPS",
+    "affBFindingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0,
+      "unresolvedMajor": 0
+    },
+    "humanGateStatus": "ELIGIBLE_PENDING_EXPLICIT_HUMAN_APPROVAL",
+    "requirementsModifiedByCoverageRevision": false,
+    "newLegalObligationsAdded": false,
+    "coverage008PreservedByHash": "622f9da4552c86d48f166493769b92db314a71960deab6996e1f30360b7c97e3"
+  },
+  "retainedReviewGaps": [
+    "AFFB-CC001-R2-MIN-001",
+    "AFFB-CC001-R3-MIN-002"
+  ],
+  "activeConvergedRevision": {
+    "active": true,
+    "phaseId": "6",
+    "revision": 3,
+    "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "affARound": 3,
+    "affBRound": 2,
+    "affAVerdict": "CONFORMS",
+    "affBVerdict": "CONFORMS-WITH-GAPS",
+    "blockerCount": 0,
+    "majorCount": 0,
+    "humanApprovalStillRequired": true
+  },
+  "officialAzureSourcesVerified": [
+    "https://learn.microsoft.com/en-us/azure/container-apps/authentication",
+    "https://learn.microsoft.com/en-us/azure/container-apps/authentication-entra",
+    "https://learn.microsoft.com/en-us/azure/api-management/validate-jwt-policy",
+    "https://learn.microsoft.com/en-us/azure/api-management/set-header-policy",
+    "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-policy-configure-container-scope",
+    "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview",
+    "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-managed-service-identity",
+    "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+    "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview",
+    "https://learn.microsoft.com/en-us/azure/private-link/disable-private-endpoint-network-policy"
+  ],
+  "phase6PresentationCoverage": [
+    {
+      "id": "P6-COV-01",
+      "domain": "Claim classification, caveats and approved evidence boundary",
+      "status": "COVERED",
+      "evidence": "32 claims and 66 existing case-local references retain approved classifications and caveats; security, compliance and runtime boundaries trace to approved Phase 1-5 evidence."
+    },
+    {
+      "id": "P6-COV-02",
+      "domain": "Anonymous browser source and governed catalogue separation",
+      "status": "COVERED",
+      "evidence": "Audience source and production JavaScript contain no customer identity or governed upstream paths; the complete claim catalogue remains outside the browser bundle and candidate-wide disclosure scanning found zero findings."
+    },
+    {
+      "id": "P6-COV-03",
+      "domain": "Source, imagery and branding rights boundary",
+      "status": "COVERED_WITH_OWNER_LICENCE_GATES",
+      "evidence": "No customer logo or external imagery was found. DECKIO/favicon/Azure branding and @deckio/deck-engine rights clearance remain human-owner matters; no licensing conclusion is made."
+    },
+    {
+      "id": "P6-COV-04",
+      "domain": "Financial evidence boundary",
+      "status": "COVERED",
+      "evidence": "No fabricated ROI, Azure price, rate, cost total or realised benefit is asserted; three hypotheses remain explicit, owner-bound and require dated validation evidence."
+    },
+    {
+      "id": "P6-COV-05",
+      "domain": "No-certification, no-waiver and no-deployment portrayal",
+      "status": "COVERED",
+      "evidence": "Three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps remain open, unwaived and fail closed; certification, attestation, legal advice, deployment, runtime and operating-effectiveness claims are excluded."
+    },
+    {
+      "id": "P6-COV-06",
+      "domain": "Zero external browser runtime calls",
+      "status": "COVERED_BY_MANIFEST_BOUND_EVIDENCE_NOT_OPERATING_EFFECTIVENESS",
+      "evidence": "The nested runtime receipt covers all ten slides and records eight successful local requests, zero external requests and zero failed requests. Static engine/library URL strings are expressly distinguished from observed runtime calls."
+    },
+    {
+      "id": "P6-COV-07",
+      "domain": "Recursive browser package inspection and reproducible hardening",
+      "status": "COVERED",
+      "evidence": "The system-font override and build-portable-hardened.mjs workflow require no dependency, engine or node_modules change; final CSS has zero external @import/url() dependencies and the recursive scan covers 18 production files with zero external dependencies or source maps."
+    },
+    {
+      "id": "P6-COV-08",
+      "domain": "Case-relative export evidence and PDF metadata sanitisation",
+      "status": "COVERED",
+      "evidence": "Export evidence uses case-relative paths; the ten-page PDF hash is 7871128d05df9e5d78a8552d44f9bad475cd467f40759cbd2d79eaaf1ef0faf0 with no Info/XMP or local/platform/path values. The sanitiser derives local checks dynamically, retains no pre-metadata values and the 121-file disclosure scan records zero findings."
+    }
+  ],
+  "phase6Findings": [
+    {
+      "id": "AFFB-P6-R1-MAJ-001",
+      "severity": "MAJOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_IN_REVISION_3_WITHOUT_WAIVER",
+      "title": "Browser package makes an undeclared external Google Fonts request",
+      "owner": [
+        "AFF-6",
+        "Presentation Engineering"
+      ],
+      "coverageDomains": [
+        "P6-COV-02",
+        "P6-COV-03",
+        "P6-COV-06",
+        "P6-COV-07"
+      ],
+      "resolutionEvidence": [
+        "system-font source override",
+        "reproducible build-portable-hardened.mjs",
+        "zero external CSS dependencies",
+        "recursive 18-file package scan",
+        "ten-slide runtime receipt with eight local successes, zero external and zero failed requests"
+      ],
+      "waiverStatus": "NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-P6-R1-MIN-001",
+      "severity": "MINOR",
+      "priorStatus": "OPEN",
+      "status": "RESOLVED",
+      "disposition": "RESOLVED_IN_REVISION_3_WITHOUT_WAIVER",
+      "title": "Export evidence and PDF metadata disclose local-system details",
+      "owner": [
+        "AFF-6"
+      ],
+      "coverageDomains": [
+        "P6-COV-02",
+        "P6-COV-08"
+      ],
+      "resolutionEvidence": [
+        "case-relative export evidence",
+        "ten-page PDF at 7871128d05df9e5d78a8552d44f9bad475cd467f40759cbd2d79eaaf1ef0faf0",
+        "no Info/XMP or local/platform/path markers",
+        "dynamic sanitisation checks without retained pre-values",
+        "121-file disclosure scan with zero findings"
+      ],
+      "waiverStatus": "NOT_WAIVED"
+    }
+  ],
+  "phase6ReviewBoundary": {
+    "subjectManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "finalAffAReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-3/stratton-aff-a-review.json",
+    "finalAffAReviewSha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+    "affBRound": 2,
+    "affBReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-2/stratton-aff-b-review.json",
+    "affBVerdict": "CONFORMS-WITH-GAPS",
+    "affBFindingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0,
+      "unresolvedMajor": 0
+    },
+    "affBHashBinding": "EXACT_PATH_ROUND_VERDICT_FINDING_SUMMARY_AND_SUBJECT_BOUND; REVIEW_HASH_OMITTED_TO_AVOID_SELF_REFERENCE",
+    "humanGateStatus": "ELIGIBLE_FOR_PRESENTATION_PENDING_EXPLICIT_HUMAN_DECISION",
+    "requirementsModifiedByCoverageRevision": false,
+    "newLegalObligationsAdded": false,
+    "coverage010PreservedByHash": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+    "runtimeOperatingEffectivenessEstablished": false
+  },
+  "activePhase6Review": {
+    "active": true,
+    "phaseId": "6",
+    "revision": 3,
+    "manifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "affARound": 3,
+    "affBRound": 2,
+    "affAVerdict": "CONFORMS",
+    "affBVerdict": "CONFORMS-WITH-GAPS",
+    "blockerCount": 0,
+    "majorCount": 0,
+    "minorCount": 0,
+    "priorFindingsResolved": 2,
+    "humanApprovalStillRequired": true,
+    "humanGateMayBePresented": true
+  },
+  "phase6OfficialSourceActivity": "NONE; no new law, official source, legal mapping, mandatory control or Azure control conclusion was introduced for this presentation review."
+}

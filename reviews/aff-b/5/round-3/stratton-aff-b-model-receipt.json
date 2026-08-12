@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "phaseName": "Phase 5 ΓÇö Coding",
+  "round": 3,
+  "invokedBy": "AFF-5",
+  "formalisedAt": "2026-08-09T17:18:42.729+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-terra",
+  "actualRuntimeModelId": "gpt-5.6-terra",
+  "actualRuntimeEvidence": "The current invocation explicitly identifies its actual runtime model as gpt-5.6-terra.",
+  "selectionRationale": "The explicit AFF-5 round-3 assignment selects terra for independent specialist assurance; the approved AFF-B default remains gpt-5.6-sol.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "phaseAuthorAndFinalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "sha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "fileCount": 162,
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-3/reviewed-subject/stratton-phase-5-hashes.json",
+    "snapshotSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f"
+  },
+  "independence": {
+    "reviewerRoleSeparate": true,
+    "reviewerContextSeparate": true,
+    "writeBoundary": "Only AFF-B round-3 records, the reviewed-subject snapshot, and coverage sequence 018 were written.",
+    "authorModelDistinct": true,
+    "authorAndFinalisationModel": "gpt-5.6-sol",
+    "reviewerModel": "gpt-5.6-terra",
+    "status": "ESTABLISHED_SEPARATE_ROLE_CONTEXT_AND_ISOLATED_WRITE_BOUNDARY"
+  },
+  "noUnauthorisedExecution": "Only static reads/searches and SHA-256/file-byte inspection were used; no subject code, test, package manager, Bicep, container, scanner, Azure, login, provider, inference, promotion, retention-finalisation, deployment or runtime action was executed.",
+  "subjectModificationPerformed": false,
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, attest, deploy, authorise Azure activity or provide operating-effectiveness evidence."
+}

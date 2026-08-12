@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "50",
+  "createdAt": "2026-08-03T21:43:35.7882109+02:00",
+  "revisionReason": "Standardize the shared top-right Stratton brand mark at 112 by 112 pixels for all current and future content slides.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-49.json",
+    "sha256": "931831d65a799d7554ea4e085f4b0a46c79fb813e1d0389e376fcc5cc7c3c8e2",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "scope": "All post-title content slides and future slides using StrattonBrandMark",
+    "brandMarkSizePx": 112
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "round": 6,
+  "recordedAt": "2026-08-10T23:50:21.473+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116.json",
+    "revision": "116",
+    "sha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164"
+  },
+  "scopeAmendment": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116-scope-amendment-1.json",
+    "sequence": "1",
+    "sha256": "25bf34c80e36ede34f69440e8141e5f972fe00968759751ffc8229fb0061d5ec"
+  },
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r9-aff-b-round-6-invocation-authorization.json",
+    "sha256": "eb1878d5eefe27d210e0f67ebcb833bd2a092c87a3865948a599b1990ef07f8c",
+    "journalEventId": "EVT-0222"
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "availability": "ACTIVE",
+    "selectionRationale": "The explicit Phase-0 authorisation selects Terra for independent security and compliance assurance of the frozen r9 subject."
+  },
+  "separation": {
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "affBActualRuntimeModelId": "gpt-5.6-terra",
+    "freshAffBReviewerContext": true,
+    "actualModelIdsDistinct": true,
+    "status": "VERIFIED"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r9/stratton-phase-6-hashes.json",
+    "manifestSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "artifactCount": 163,
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69
+  },
+  "reviewBoundary": {
+    "readOnly": true,
+    "subjectModified": false,
+    "approvalGranted": false,
+    "waiverGranted": false,
+    "legalOrRegulatoryCertificationProvided": false,
+    "azureActivityPerformed": false,
+    "runtimeInferencePerformed": false,
+    "phase7Invoked": false,
+    "phase8Invoked": false
+  },
+  "nonApprovalStatement": "This receipt records model provenance for AFF-B round 6 only. It does not approve Phase 6 r9, resolve owner gates, authorise distribution, make a legal conclusion, certify compliance, waive a requirement, or invoke Phase 7 or Phase 8."
+}

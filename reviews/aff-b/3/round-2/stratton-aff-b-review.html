@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AFF-B Phase 3 round 2 security and compliance review for Stratton">
+  <meta name="aff-phase" content="3">
+  <meta name="aff-reviewer" content="AFF-B">
+  <meta name="aff-round" content="2">
+  <meta name="aff-model-plan-revision" content="4">
+  <title>AFF-B Phase 3 Round 2 Review — Stratton</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font: 15px/1.55 "Segoe UI", Aptos, Calibri, sans-serif; }
+    a { color: var(--cp-link); }
+    a:hover { color: var(--cp-accent-hover); }
+    a:focus, summary:focus { outline: 3px solid var(--cp-warning); outline-offset: 2px; }
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 1rem; top: 1rem; z-index: 5; background: var(--cp-surface); color: var(--cp-text); padding: .7rem; }
+    header { background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border); padding: 2rem max(1rem, calc((100% - 1180px)/2)); }
+    header p { max-width: 80rem; margin: .45rem 0; }
+    .status { display: inline-block; padding: .28rem .7rem; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-accent-soft); color: var(--cp-warning); font-weight: 750; }
+    nav { position: sticky; top: 0; z-index: 3; overflow: auto; white-space: nowrap; padding: .55rem max(1rem, calc((100% - 1180px)/2)); background: var(--cp-surface); border-bottom: 1px solid var(--cp-border); }
+    nav a { margin-right: 1rem; text-decoration: none; font-weight: 650; }
+    main { max-width: 1180px; margin: auto; padding: 1.3rem 1rem 4rem; }
+    section { margin: 2rem 0; scroll-margin-top: 4rem; }
+    h1, h2, h3 { line-height: 1.2; }
+    h2 { padding-bottom: .35rem; border-bottom: 2px solid var(--cp-border); }
+    h3 { color: var(--cp-accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap: 1rem; }
+    .card { padding: 1rem; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); box-shadow: 0 1px 3px var(--cp-border); }
+    .metric { font-size: 1.6rem; font-weight: 800; color: var(--cp-success); }
+    .good { color: var(--cp-success); font-weight: 750; }
+    .warn { color: var(--cp-warning); font-weight: 750; }
+    .danger { color: var(--cp-danger); font-weight: 750; }
+    .muted { color: var(--cp-text-muted); }
+    .soft { color: var(--cp-text-soft); }
+    .table-wrap { overflow: auto; margin: .7rem 0; border: 1px solid var(--cp-border); border-radius: .625rem; box-shadow: var(--cp-shadow); }
+    table { width: 100%; min-width: 760px; border-collapse: collapse; background: var(--cp-panel-strong); }
+    th, td { padding: .58rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--cp-border); }
+    th { background: var(--cp-surface-soft); }
+    tr:last-child td { border-bottom: 0; }
+    code { font-family: Consolas, "Courier New", monospace; background: var(--cp-surface-soft); color: var(--cp-text); overflow-wrap: anywhere; }
+    details { margin: .7rem 0; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-panel); }
+    summary { cursor: pointer; padding: .7rem; font-weight: 700; background: var(--cp-surface-soft); }
+    details > div { padding: .8rem; }
+    .banner { padding: 1rem; border: 1px solid var(--cp-border-strong); border-radius: 1rem; background: var(--cp-highlight); }
+    .boundary { padding: .8rem; border-left: .35rem solid var(--cp-accent); background: var(--cp-overlay); }
+    footer { padding: 1rem; color: var(--cp-text-muted); border-top: 1px solid var(--cp-border); background: var(--cp-bg-elevated); }
+    @media print { nav,.skip{display:none} body{font-size:10pt} header{padding:0;background:var(--cp-surface)} main{max-width:none}.card,.banner{break-inside:avoid}.table-wrap{box-shadow:none} }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <h1>AFF-B Phase 3 Round 2 Review — Stratton</h1>
+  <p><span class="status">CONFORMS-WITH-GAPS · final for exact manifest</span></p>
+  <p>Security and compliance architecture assurance over the complete unchanged frozen Phase 3 subject.</p>
+  <p class="muted">AFF-B actual runtime <code>gpt-5.6-sol</code> · model-plan revision 4 · independent role/write scope · 24/24 artifact hashes matched.</p>
+</header>
+<nav aria-label="Contents">
+  <a href="#summary">Summary</a><a href="#resolved">Resolved findings</a><a href="#assessment">Assessment</a>
+  <a href="#residuals">Residual controls</a><a href="#hashes">Hashes</a><a href="#actions">Actions</a>
+</nav>
+<main id="main">
+  <section id="summary">
+    <h2>Verdict and convergence</h2>
+    <div class="grid">
+      <article class="card"><div class="metric">24 / 24</div><p>Frozen artifact hashes independently matched</p></article>
+      <article class="card"><div class="metric">0</div><p>BLOCKER / MAJOR / MINOR findings</p></article>
+      <article class="card"><div class="metric">2 / 2</div><p>Prior AFF-B MAJOR findings resolved</p></article>
+      <article class="card"><div class="metric">7 / 7</div><p>Formal residual controls open and unwaived</p></article>
+    </div>
+    <div class="banner">
+      <p><strong>Finality:</strong> final AFF-B result only for manifest <code>78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945</code> and model-plan revision 4.</p>
+      <p><strong>Convergence:</strong> AFF-A round 3 and AFF-B round 2 both return <strong>CONFORMS-WITH-GAPS</strong>, with no findings, over the same unchanged manifest. The subject is converged for the human gate, not approved.</p>
+    </div>
+    <p class="boundary">Architecture assurance only: not legal advice, certification, formal attestation, waiver, approval, deployment evidence or runtime evidence.</p>
+  </section>
+
+  <section id="resolved">
+    <h2>Round-1 MAJOR findings</h2>
+    <article class="card">
+      <h3>AFFB-P3-R1-MAJ-001 — resolved</h3>
+      <p>Every SQL database requires explicit <code>requestedBackupStorageRedundancy</code>. Production has no default; only <code>Local</code> or <code>Zone</code> is admitted after regional capability evidence. <code>Geo</code>/<code>GeoZone</code> is denied unless a later approved design proves the Azure paired region is signed-approved. The choice applies to STR/LTR and future backups, rendered-template inspection and restore evidence. The approved SQL failover group supplies cross-region recovery.</p>
+    </article>
+    <article class="card">
+      <h3>AFFB-P3-R1-MAJ-002 — resolved</h3>
+      <p>API Management uses an approved inbound private endpoint and central private DNS before <code>publicNetworkAccess=Disabled</code>. APIM-specific policy, assertion, rendered-template and negative acceptance checks are explicit. The public gateway is never a temporary, troubleshooting or recovery fallback. App Configuration public access is explicitly disabled.</p>
+    </article>
+  </section>
+
+  <section id="assessment">
+    <h2>Complete security and compliance assessment</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Focus</th><th>Status</th><th>Conclusion</th></tr></thead>
+      <tbody>
+        <tr><td>Identity, privilege and assurance separation</td><td class="good">CONFORMS</td><td>PIM, phishing-resistant MFA, separate managed identities, Entra-only SQL, role-assignment separation and Internal Audit ownership avoid standing privilege and circular self-assignment.</td></tr>
+        <tr><td>Private networking and egress</td><td class="good">CONFORMS</td><td>Private ingress, central DNS, explicit APIM/App Configuration denial, hub routing, firewall/NSG controls and evidence-gated egress have no public fallback.</td></tr>
+        <tr><td>Source, licence, purpose, privacy and records</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Admission, minimisation, lineage, retention, legal hold, disposition and WORM controls are concrete; exact mappings remain VAL-004/AFFB-RES-002 work.</td></tr>
+        <tr><td>Regional AI and human authority</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Regional private inference is assistive and draft-only; training, fine-tuning and autonomous tools are denied. AI Act role/use-case evidence remains open.</td></tr>
+        <tr><td>Sovereignty and transfer</td><td class="warn">CONFORMS-WITH-GAPS</td><td>No implicit geo-pair, Global/DataZone AI or unapproved transfer is allowed. Exact approved locations and exception evidence remain VAL-005.</td></tr>
+        <tr><td>DORA and AI Act claims</td><td class="warn">CONFORMS-WITH-GAPS</td><td>No formal DORA compliance or high-risk/non-high-risk AI Act classification is claimed.</td></tr>
+        <tr><td>Backup, recovery and immutability</td><td class="good">CONFORMS</td><td>Explicit SQL backup redundancy, failover groups, controlled replication, replay/rebuild, restore checks, WORM and hash-chain verification are coherent.</td></tr>
+        <tr><td>Supply chain</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Exact candidates and mandatory validation are present; registry, digest, lock, image and regional capability evidence remains later work.</td></tr>
+        <tr><td>Fail-closed unknowns</td><td class="good">CONFORMS</td><td>No tenant, subscription, region, CIDR, DNS, retention, capacity, model, quota or legal production default is invented.</td></tr>
+        <tr><td>Traceability</td><td class="good">CONFORMS</td><td>31/31 Must requirements, 19/19 ABBs, 10/10 decisions, 23 SBBs and seven governed controls are complete.</td></tr>
+        <tr><td>Phase 3 boundary</td><td class="good">CONFORMS</td><td>No code, deployment, what-if, runtime test, price, certification, residency guarantee or achieved service objective is claimed.</td></tr>
+        <tr><td>Record and rendering safety</td><td class="good">CONFORMS</td><td>JSON/XML parse, schemas pass, HTML is self-contained and SVGs contain no script, foreign object or external resource.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="residuals">
+    <h2>Seven formal residual controls</h2>
+    <p>All remain open, owner-bound and unwaived. Independent string inspection confirms they are omitted only from <code>phase-status-dashboard.html</code> and remain present in formal Phase 3 evidence.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Owner/control</th><th>Required before</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>VAL-001</td><td>General Counsel — entity-specific DORA applicability/exemption and obligations</td><td>Formal DORA claim or scope change</td><td>OPEN / NOT WAIVED</td></tr>
+        <tr><td>VAL-002</td><td>CIO and Service Operations — business hours, typical pack and critical alerts</td><td>Service/performance acceptance</td><td>OPEN / NOT WAIVED</td></tr>
+        <tr><td>VAL-003</td><td>Deal Operations, AI Governance, Legal, Compliance and CIO — validation definitions</td><td>Internal Audit validation</td><td>OPEN / NOT WAIVED</td></tr>
+        <tr><td>VAL-004</td><td>Source and records owners — exact sources, schedules, volumes and remediation</td><td>Production ingestion</td><td>OPEN / NOT WAIVED</td></tr>
+        <tr><td>VAL-005</td><td>General Counsel — approved locations and sovereignty exception evidence</td><td>Production location/transfer acceptance</td><td>OPEN / NOT WAIVED</td></tr>
+        <tr><td>AFFB-RES-001</td><td>General Counsel and Head of AI Governance — AI Act role/use-case classification</td><td>Production or classification claim</td><td>OPEN / NOT WAIVED</td></tr>
+        <tr><td>AFFB-RES-002</td><td>Legal/compliance owners and AFF-0 custodian — official citations, dates and article mappings</td><td>Formal regulatory representation</td><td>OPEN / NOT WAIVED</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="hashes">
+    <h2>Evidence hashes</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Record</th><th>SHA-256</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Phase 3 canonical manifest</td><td><code>78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945</code></td><td>24/24 match</td></tr>
+        <tr><td>Independent verification receipt</td><td><code>77e1cc3caa9de075cea23fc548135337d00939a379a180a14b24346bd2942fe8</code></td><td>Retained and consistent</td></tr>
+        <tr><td>AFF-A final round 3 JSON</td><td><code>a705a102085ac0fe856882ddf99390a3ed9de04912ca89323d9b8fd2743d7c2b</code></td><td>Same manifest</td></tr>
+        <tr><td>AFF-B round 1 JSON</td><td><code>4ab3f6b11b17897da8a5f14edd54f211fefafeaec93644326d82bb0919278a29</code></td><td>Prior findings retained</td></tr>
+        <tr><td>Compliance coverage 004</td><td><code>aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe</code></td><td>Active retained context</td></tr>
+      </tbody>
+    </table></div>
+    <details><summary>All 24 artifact hashes</summary><div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Artifact</th><th>SHA-256</th></tr></thead>
+        <tbody>
+          <tr><td>stratton-azure-design.md</td><td><code>2c908793c6dd93f22a1f27370699957629968ad25d7802fcb25e80bfabbec0fe</code></td></tr>
+          <tr><td>stratton-azure-design.html</td><td><code>23e90b259539f3fc297614537428831ebdb94f9a9c257004e0a533745a7c9b75</code></td></tr>
+          <tr><td>stratton-design-catalogue.json</td><td><code>8d17e387f8dae3359132d49d50ccdf6881600816735c55f880726d572c3edd1f</code></td></tr>
+          <tr><td>solution-lz-topology.drawio</td><td><code>c68ecac7ab16d9ca41a81c8fea9a341ebad79cb30be2699126bf8e1fd0b72f73</code></td></tr>
+          <tr><td>solution-lz-topology.svg</td><td><code>c408af1d7d762cd06b39cf071c5f7b39247ab68be05de09d7946edba5f1e1abc</code></td></tr>
+          <tr><td>network-security-boundaries.drawio</td><td><code>689e8b428efc454aea1bc24e09d07544b24d32b726f2ffb0c69588fb8b25dbfc</code></td></tr>
+          <tr><td>network-security-boundaries.svg</td><td><code>5432b22f71944c150f8dd9cd8ce77ba5e5d3a74f5b6e20ecc438ed541162026a</code></td></tr>
+          <tr><td>end-to-end-data-flow.drawio</td><td><code>45516c0867bea48c8415ed3ed9fec485843c3412329a2e76017261a364eb9d1e</code></td></tr>
+          <tr><td>end-to-end-data-flow.svg</td><td><code>5427ebe55477d3f922a739b0637fdbd89ee475584314ea228f7fcf9f0ad03358</code></td></tr>
+          <tr><td>stratton-aff4-handoff.json</td><td><code>3641311c51f23abfbbf1830d590e7e9af7ce5627269d4f3eb42eb4f8698e2afc</code></td></tr>
+          <tr><td>stratton-candidate-validation.json</td><td><code>65aaea58e653f516f8be37bfe6791a556c3f03546474a2bde76bbf8e292e72a4</code></td></tr>
+          <tr><td>stratton-citadel-landing-zone-contract.json</td><td><code>64f7992ab54f9e8dd6ace2751468206ed6a0200f452fe30fc2a93660bdb7854e</code></td></tr>
+          <tr><td>stratton-data-api-contracts.json</td><td><code>16fbff5164cb574c815e8171edc5091fb308d8f7d016e68fcabc0f33c29441fe</code></td></tr>
+          <tr><td>stratton-human-decision-register.json</td><td><code>a5c9d614981f237054c464e3390adeb88b7484b9bf2c51e4694d94f51168da6f</code></td></tr>
+          <tr><td>stratton-identity-rbac-contract.json</td><td><code>06dc4700a33f78bf8e378264dd2c232516125d9f5a0b77f9cc832f50242dd443</code></td></tr>
+          <tr><td>stratton-network-security-contract.json</td><td><code>c48b4902c22e6053a8c0248a1b2912655b92f932b4113b1b2a8f09971f816443</code></td></tr>
+          <tr><td>stratton-operations-reliability-contract.json</td><td><code>b4765cd93ffd8f15ea5fb11d0d668717dda533e572cbb1d66843c197924790af</code></td></tr>
+          <tr><td>stratton-source-register.json</td><td><code>47d1374a69bdca91f3988ac6a5599db480e73b01b5879fa206198ffa152d9cb3</code></td></tr>
+          <tr><td>stratton-traceability-matrix.json</td><td><code>7414a9f6dc3524eb134c7214bbe2c1409fa56b607cd7c500edc9513c1fd91931</code></td></tr>
+          <tr><td>stratton-waf-cost-environment-matrix.json</td><td><code>bf2dacb017c6f3ac0d9db65233282fac4b61496233299d5fd931e51e530f4342</code></td></tr>
+          <tr><td>stratton-parent-validation-receipt.json</td><td><code>65b3c051bbd7ca98eb6c938aa813e8367e8f422d6e41f77742746f0df28ef99f</code></td></tr>
+          <tr><td>stratton-model-plan-revision-4.json</td><td><code>51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f</code></td></tr>
+          <tr><td>iac/docs/architecture.md</td><td><code>ef656d1b2a8b827457d24e5eca91699e72dfabb4f032c4f4dff679c88a2ec939</code></td></tr>
+          <tr><td>stratton-phase-3-hash-generation-evidence.json</td><td><code>63ab4f874e4d1469d3b82d4f5116f830f1fe873d07b50f45ba65b01029c42d86</code></td></tr>
+        </tbody>
+      </table></div>
+    </div></details>
+  </section>
+
+  <section id="actions">
+    <h2>Required actions</h2>
+    <ol>
+      <li>AFF-3 may present the exact unchanged subject and converged final reviews to the accountable human Phase 3 gate; this review is not approval.</li>
+      <li>Carry all seven residual controls into AFF-4 and later accountable-owner decisions without closure or waiver.</li>
+      <li>AFF-4/5 must implement and locally validate the explicit SQL, APIM, App Configuration, identity, private-network and supply-chain controls.</li>
+      <li>Any material subject change invalidates both final reviews and requires a new manifest and complete re-review.</li>
+      <li>Do not use this record as legal advice, certification, attestation, waiver, deployment authorisation or runtime validation.</li>
+    </ol>
+    <p class="soft">The final JSON and HTML hashes are computed after serialisation and returned outside these records to avoid self-reference.</p>
+  </section>
+</main>
+<footer>Generated by AFF-B Security and Compliance Reviewer for the exact frozen manifest only.</footer>
+</body>
+</html>

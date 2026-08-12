@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "45",
+  "createdAt": "2026-08-03T18:36:07.7522817+02:00",
+  "revisionReason": "Add a subtle staggered lift-and-glow reveal to the four company metric boxes on slide 2.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-44.json",
+    "sha256": "88663e41c1138b30f53e1fd01aaea013af0b987524368b559936e6562d688a64",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "target": "Company metric boxes",
+    "motion": {
+      "type": "Staggered lift, scale and glow",
+      "durationMs": 900,
+      "staggerMs": 120
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

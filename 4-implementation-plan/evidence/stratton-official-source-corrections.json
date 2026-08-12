@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE_4_OFFICIAL_SOURCE_CORRECTIONS",
+  "caseName": "Stratton-Europe-Captital",
+  "modelPlanRevision": "5",
+  "recordedAt": "2026-08-02T03:50:50.346+02:00",
+  "provenance": "An independent read-only research agent performed official-source research. AFF-4 incorporated that research result and did not itself run registry operations or Azure execution.",
+  "avmInventory": {
+    "phase3DistinctReferences": 24,
+    "publishedOlderPins": 21,
+    "publishedOlderPinsStatus": "PUBLISHED_CANDIDATES_REQUIRING_INTERFACE_AND_CHANGELOG_REVIEW; NOT_CURRENT_CLAIMS",
+    "invalidPins": [
+      {
+        "reference": "br/public:avm/res/app-configuration/configuration-store:0.7.1",
+        "reason": "No such tag.",
+        "replacementCandidate": "br/public:avm/res/app-configuration/configuration-store:0.10.0",
+        "tagList": "https://mcr.microsoft.com/v2/bicep/avm/res/app-configuration/configuration-store/tags/list"
+      },
+      {
+        "reference": "br/public:avm/res/insights/action-group:0.5.1",
+        "reason": "No such tag.",
+        "replacementCandidate": "br/public:avm/res/insights/action-group:0.8.0",
+        "tagList": "https://mcr.microsoft.com/v2/bicep/avm/res/insights/action-group/tags/list"
+      },
+      {
+        "reference": "br/public:avm/res/insights/diagnostic-setting:0.7.2",
+        "reason": "Tags stop at 0.1.4, and the module configures subscription Activity Logs rather than arbitrary per-resource diagnostics.",
+        "replacementCandidate": "NONE_GENERIC; use a proven parent diagnosticSettings interface or hand-written Microsoft.Insights/diagnosticSettings extension resource.",
+        "tagList": "https://mcr.microsoft.com/v2/bicep/avm/res/insights/diagnostic-setting/tags/list"
+      }
+    ],
+    "allPhase3References": [
+      {"proposedReference":"br/public:avm/res/operational-insights/workspace:0.12.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.16.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/operational-insights/workspace/tags/list"},
+      {"proposedReference":"br/public:avm/res/storage/storage-account:0.25.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.33.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/storage/storage-account/tags/list"},
+      {"proposedReference":"br/public:avm/res/app-configuration/configuration-store:0.7.1","evidenceStatus":"INVALID_NO_SUCH_TAG","latestObservedOfficialTag":"0.10.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/app-configuration/configuration-store/tags/list"},
+      {"proposedReference":"br/public:avm/res/resources/resource-group:0.4.1","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.4.3","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/resources/resource-group/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/virtual-network:0.7.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.10.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/virtual-network/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/network-security-group:0.5.1","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.5.3","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/network-security-group/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/route-table:0.4.1","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.5.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/route-table/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/azure-firewall:0.5.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.11.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/azure-firewall/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/application-gateway:0.6.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.10.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/application-gateway/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/private-dns-zone:0.7.1","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.8.1","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/private-dns-zone/tags/list"},
+      {"proposedReference":"br/public:avm/res/network/private-endpoint:0.11.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.12.1","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/network/private-endpoint/tags/list"},
+      {"proposedReference":"br/public:avm/res/api-management/service:0.11.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.14.4","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/api-management/service/tags/list"},
+      {"proposedReference":"br/public:avm/res/app/managed-environment:0.8.1","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.15.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/app/managed-environment/tags/list"},
+      {"proposedReference":"br/public:avm/res/app/container-app:0.11.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.23.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/app/container-app/tags/list"},
+      {"proposedReference":"br/public:avm/res/container-registry/registry:0.8.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.12.1","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/container-registry/registry/tags/list"},
+      {"proposedReference":"br/public:avm/res/service-bus/namespace:0.11.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.17.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/service-bus/namespace/tags/list"},
+      {"proposedReference":"br/public:avm/res/sql/server:0.17.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.22.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/sql/server/tags/list"},
+      {"proposedReference":"br/public:avm/res/search/search-service:0.11.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.13.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/search/search-service/tags/list"},
+      {"proposedReference":"br/public:avm/res/cognitive-services/account:0.12.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.17.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/cognitive-services/account/tags/list"},
+      {"proposedReference":"br/public:avm/res/key-vault/vault:0.13.3","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.14.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/key-vault/vault/tags/list"},
+      {"proposedReference":"br/public:avm/res/insights/component:0.6.0","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.8.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/insights/component/tags/list"},
+      {"proposedReference":"br/public:avm/res/insights/action-group:0.5.1","evidenceStatus":"INVALID_NO_SUCH_TAG","latestObservedOfficialTag":"0.8.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/insights/action-group/tags/list"},
+      {"proposedReference":"br/public:avm/res/managed-identity/user-assigned-identity:0.4.1","evidenceStatus":"PUBLISHED_EXACT_PIN_OLDER","latestObservedOfficialTag":"0.6.0","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/managed-identity/user-assigned-identity/tags/list"},
+      {"proposedReference":"br/public:avm/res/insights/diagnostic-setting:0.7.2","evidenceStatus":"INVALID_NO_SUCH_TAG_AND_WRONG_SCOPE","latestObservedOfficialTag":"0.1.4","tagListUrl":"https://mcr.microsoft.com/v2/bicep/avm/res/insights/diagnostic-setting/tags/list"}
+    ],
+    "referenceCoverage": {
+      "phase3DistinctReferences": 24,
+      "explicitlyListed": 24,
+      "publishedOlder": 21,
+      "invalid": 3,
+      "latestObservedTagsRecorded": 24,
+      "latestObservedTagsNotTransmittedToAff4": 0
+    },
+    "additionalPublishedCandidatesSubjectToFitReview": [
+      "br/public:avm/res/management/management-group:0.2.0",
+      "br/public:avm/ptn/lz/sub-vending:0.8.0",
+      "br/public:avm/res/app/job:0.7.2",
+      "br/public:avm/res/network/application-gateway-web-application-firewall-policy:0.3.0",
+      "br/public:avm/res/authorization/policy-assignment/mg-scope:0.1.0",
+      "br/public:avm/res/sql/server/database:0.3.0"
+    ],
+    "source": "https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/"
+  },
+  "implementationCorrections": [
+    {
+      "topic": "Bicep restore and OCI evidence",
+      "correction": "Restore creates a tag-keyed local cache and no lock/digest. Digest capture is a separate MCR Distribution manifest procedure recording Docker-Content-Digest.",
+      "source": "https://learn.microsoft.com/azure/azure-resource-manager/bicep/bicep-cli"
+    },
+    {
+      "topic": "SQL databases",
+      "correction": "Use sql/server:0.17.0 once with databases input or sql/server/database:0.3.0; do not imply a second server module deploys only a database.",
+      "source": "https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/"
+    },
+    {
+      "topic": "Azure SQL backup storage redundancy",
+      "correction": "Azure accepts Geo, GeoZone, Local and Zone. Stratton production policy permits only explicit Local/Zone after capability evidence. It applies to STR/LTR, affects future backups, can take up to 48 hours and removes geo-restore; approved failover groups provide cross-region recovery.",
+      "source": "https://learn.microsoft.com/azure/azure-sql/database/automated-backups-overview?view=azuresql"
+    },
+    {
+      "topic": "API Management lockdown",
+      "correction": "Existing instance, Gateway private endpoint, connection approval, privatelink.azure-api.net zone/link, private resolution/path proof, then publicNetworkAccess Disabled. Tier/network interface must be reviewed; no universal CLI mode is asserted.",
+      "source": "https://learn.microsoft.com/azure/api-management/private-endpoint"
+    },
+    {
+      "topic": "Private Application Gateway",
+      "correction": "Delegate its subnet to Microsoft.Network/applicationGateways and require per-target-subscription EnableApplicationGatewayNetworkIsolation=Registered evidence.",
+      "source": "https://learn.microsoft.com/azure/application-gateway/application-gateway-private-deployment"
+    },
+    {
+      "topic": "Local versus Azure validation",
+      "correction": "Format/stdout comparison, lint, restore, build, build-params, PSRule and hashing are local. ARM validate, provider/feature/quota checks and what-if require Azure identity and target-scope permission.",
+      "sources": [
+        "https://learn.microsoft.com/azure/azure-resource-manager/bicep/bicep-cli",
+        "https://learn.microsoft.com/azure/azure-resource-manager/templates/deploy-what-if"
+      ]
+    },
+    {
+      "topic": "Private endpoint DNS",
+      "correction": "Group IDs, zones, records, VNet links, resolver endpoints/rulesets and enterprise forwarders are explicit parameters/outputs; topology is not inferred.",
+      "source": "https://learn.microsoft.com/azure/private-link/private-endpoint-dns"
+    }
+  ],
+  "executionStatement": "No registry restore, OCI digest retrieval, Azure validation, what-if, deployment or runtime test was performed in Phase 4."
+}

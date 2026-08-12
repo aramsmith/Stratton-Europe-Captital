@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0",
+  "planRevision": "115",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "status": "EFFECTIVE_FOR_PHASE_6_R8_SLIDE11_VISUAL_REMEDIATION",
+  "recordedAt": "2026-08-10T13:42:36.5436150+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-114.json",
+    "sha256": "1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc",
+    "preservation": "Revision 114, approved r7, its reviews, coverage and approval remain unchanged historical evidence."
+  },
+  "trigger": {
+    "type": "HUMAN_REQUESTED_SLIDE11_VISUAL_REMEDIATION_AFTER_R7_APPROVAL",
+    "approvalPath": "approvals/6/stratton-phase-6-approval-1.json",
+    "approvalSha256": "f93ced2eb5811dbfc9a792ff2fc37bc888c441cf67af7f675a872d131198723f",
+    "designPath": "docs/superpowers/specs/2026-08-10-stratton-slide-11-model-portfolio-r8-design.md",
+    "designSha256": "5165b8221719320b437ed51fe93b7d47362784692680d93e9b5f7e1c7212f802",
+    "designCommit": "2922c7d5ac1fc549ca6122a8d1ede5674b93afe6",
+    "reason": "Brighten Slide 11, enlarge all meaningful text, add Moon/Earth/Sun model identities and animate only the three model cards."
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r8",
+    "instruction": "Preserve approved r7 unchanged; create a narrow append-only r8 Slide 11 visual remediation with brighter surfaces, larger text, semantic model icons and reduced-motion-safe model-card animation.",
+    "phase6R7ApprovalState": "APPROVED_IMMUTABLE",
+    "phase6R8ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "presentation": {
+    "registeredSlides": 20,
+    "candidateStatus": "TWENTY_SLIDE_SLIDE11_VISUAL_REMEDIATION_CANDIDATE",
+    "frozenDesignInputs": {
+      "targetAzureFootprint": "Proposed Azure deployment design for later validation only",
+      "apiManagementTier": "PremiumV2",
+      "phase5RepositoryInventoryFiles": 124,
+      "implementationPlan": "5 work packages plus 8 conditional gates",
+      "pricingBasis": "Dated 2026-08-10 West Europe Azure Retail Prices API snapshot plus stated Azure Price Calculator proxies",
+      "monthlyEstimateUsd": 7985.55,
+      "annualEstimateUsd": 95826.6
+    },
+    "slide11VisualRemediation": {
+      "slide": 11,
+      "sourceFiles": [
+        "deck/src/slides/ModelPortfolioSlide.jsx",
+        "deck/src/slides/ModelPortfolioSlide.module.css"
+      ],
+      "changes": [
+        "Remove presenter-controlled dimming",
+        "Increase complete type hierarchy",
+        "Add Moon, Earth and Sun icon badges",
+        "Animate Luna, Terra and Sol at 0ms, 160ms and 320ms over 520ms",
+        "Disable entrance and glow under reduced motion"
+      ],
+      "contentChangeAllowed": false,
+      "slide13ChangeAllowed": false
+    }
+  },
+  "modelAssignments": {
+    "AFF-6-presentation": {
+      "model": "gpt-5.6-sol",
+      "role": "AUTHOR_AND_SLIDE11_VISUAL_REMEDIATOR",
+      "rationale": "Sol preserves the approved narrative while correcting model-governance presentation and regenerating deterministic assurance."
+    },
+    "AFF-A-rubber-duck": {
+      "model": "gpt-5.6-luna",
+      "role": "INDEPENDENT_PRESENTATION_REVIEWER",
+      "rationale": "Luna remains model-opposite to the Sol author and rechecks the corrected immutable candidate."
+    },
+    "AFF-B-security-compliance": {
+      "model": "gpt-5.6-terra",
+      "role": "INDEPENDENT_SECURITY_COMPLIANCE_REVIEWER",
+      "rationale": "Terra rechecks reviewer-governance truthfulness, security/compliance boundaries and residual owner gates after AFF-A."
+    }
+  },
+  "modelPortfolio": {
+    "version": "2026-07-09",
+    "allowedModels": [
+      "gpt-5.6-luna",
+      "gpt-5.6-terra",
+      "gpt-5.6-sol"
+    ],
+    "dataZone": "DataZoneStandard",
+    "versionUpgradePolicy": "NoAutoUpgrade",
+    "globalStandardAllowed": false
+  },
+  "reviewSequence": [
+    "Freeze and independently verify the r8 manifest.",
+    "Invoke AFF-A round 8 with gpt-5.6-luna.",
+    "If AFF-A has no unresolved material finding, invoke AFF-B round 5 with gpt-5.6-terra against the identical manifest.",
+    "Append compliance coverage sequence 023 without changing sequence 022.",
+    "Return the unchanged candidate and both final reviews to the human architect for explicit in-tool approval or rejection."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, provider query, target validation, what-if, deployment or promotion occurred.",
+    "No runtime inference, retention finalisation or Phase 8 runtime testing occurred.",
+    "The dated pricing snapshot is evidence for planning, not a future-price guarantee.",
+    "The presentation remains a proposed architecture and reviewed deployment package, not an as-built runtime or compliance attestation."
+  ]
+}

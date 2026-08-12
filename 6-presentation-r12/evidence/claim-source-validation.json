@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_CLAIM_SOURCE_VALIDATION",
+  "generatedAt": "2026-08-12T01:47:23.105Z",
+  "cataloguePath": "stratton-claim-catalogue.json",
+  "slideCount": 20,
+  "claimCount": 38,
+  "sourceReferenceCount": 69,
+  "classificationCounts": {
+    "APPROVED_DESIGN_INTENT": 14,
+    "HUMAN_OWNED_HYPOTHESIS": 4,
+    "IMPLEMENTED_AND_STATICALLY_VALIDATED": 5,
+    "SOURCE_FACT": 12,
+    "UNTESTED_RUNTIME_BEHAVIOUR": 3
+  },
+  "humanOwnedComparator": {
+    "claimId": "P6-C033",
+    "annualUsd": 200000,
+    "classification": "HUMAN_OWNED_HYPOTHESIS",
+    "quoteOrValidatedBaseline": false
+  },
+  "missingSourceCount": 0,
+  "missingSources": [],
+  "phase6Boundary": {
+    "approvalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "productionInferenceClaimed": false,
+    "productionReadinessClaimed": false,
+    "achievedBenefitsClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "overallStatus": "PASS",
+  "boundary": "File-existence, catalogue-shape, classification and execution-boundary validation only; it does not independently certify source meaning, legal applicability or operating effectiveness."
+}

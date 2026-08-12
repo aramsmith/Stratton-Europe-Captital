@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewId": "stratton-aff-a-review-r10",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseRevision": "10",
+  "reviewRound": 10,
+  "reviewer": "AFF-A",
+  "reviewerDisplayName": "Rubber Duck Reviewer",
+  "reviewerModelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/stratton-aff-a-model-receipt.json",
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r10-aff-a-round-10-invocation-authorization.json",
+    "sha256": "de6c5e2c0f589b960b5b46ab578e84a2e7539a96cef9c6db2a4e630aa7dde2e8"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-117.json",
+    "revision": "117",
+    "sha256": "45b991274d3dc90f8e507cd07100780107ad54488b09afa709b972c7ef52afae",
+    "authorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-luna"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r10/stratton-phase-6-hashes.json",
+    "manifestSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "expectedManifestSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "artifactCount": 172,
+    "fullCandidateFileCount": 174,
+    "fullCandidateTreeSha256": "4d0eaf63d7f76b34ffd718375692669e4d2907a32a499dfe897b8801b66fce3c",
+    "expectedFullCandidateTreeSha256": "4d0eaf63d7f76b34ffd718375692669e4d2907a32a499dfe897b8801b66fce3c",
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "predecessor": {
+    "r9ManifestSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "r9AffARound9Sha256": "fc6c92259a5a213692dd6e44ea08f94cb1d325c298e8f594eeb4e170325ec237",
+    "r9AffBRound6Sha256": "0a6ccda407acb535201f98c5f202c1b436e82b673ae9fbae9dece2f0389bfb81",
+    "coverage024Sha256": "a3ba25fb1fb884f690ce79d121e85389d7203c4bf5f9ca43267e1ee929cd0380",
+    "contract": "PASS"
+  },
+  "confirmedChecks": {
+    "authorizationHash": "PASS",
+    "manifestAnd172Artifacts": "PASS",
+    "safePathsOrdinalExclusionsRoleCounts": "PASS",
+    "filesystemBoundary": "PASS",
+    "full174TreeAggregate": "PASS",
+    "modelPlanDesignAndCommitAnchors": "PASS",
+    "r9ImmutableAnchors": "PASS",
+    "r9FrozenContract": "PASS",
+    "completeCanonicalSubjectInspection": "PASS",
+    "canonicalScreenshotsInspected": 17,
+    "browserAssurance": "PASS 60/60 records, 107 assertions, 0 failures",
+    "browserDeterminism": "PASS 17/17 across 3 runs",
+    "runtimeNetworkReceipt": "PASS 600/600 local, 0 external",
+    "pdf": "PASS 20 pages, 960x600, 18462614 bytes, blank document info, 0 XMP, 0 attachments",
+    "disclosureStaticClaimSourcePhaseValidation": "PASS",
+    "contractSuite": "5 r10/r9 contracts PASS; metadata contract FAIL on current governed status",
+    "prePostSubjectUnchanged": "PASS"
+  },
+  "designItemResults": [
+    {
+      "area": "Timer",
+      "result": "PASS",
+      "evidence": "PresentationStatus.jsx: 40-minute duration; start after Slide 1, fullscreen pause and 40:00 initial state retained."
+    },
+    {
+      "area": "Slide 2",
+      "result": "PASS",
+      "evidence": "CompanyProfileSlide CSS/source and screenshot show red challenge treatment; wording, five blocks and bindings retained."
+    },
+    {
+      "area": "Slide 5",
+      "result": "PASS",
+      "evidence": "AgenticArchitectureRingSlide source/screenshot show ARB Presentation; reviewer orbit and reduced-motion fallback retained."
+    },
+    {
+      "area": "Slide 6",
+      "result": "PASS",
+      "evidence": "Roster source/CSS/screenshot show Architecture Review Board naming, quote and hover light-up."
+    },
+    {
+      "area": "Slide 10",
+      "result": "PASS",
+      "evidence": "Operating-model source/CSS/screenshot show semantic icons, structured handoff, alignment, larger Copilot marks, hover and retained metadata boundary."
+    },
+    {
+      "area": "Slide 11",
+      "result": "PASS",
+      "evidence": "Portfolio source/CSS/screenshot show removed Specialist Foundation, merged Scope, no Fail closed, equalised guardrails and retained model identities."
+    },
+    {
+      "area": "Slide 12",
+      "result": "PASS",
+      "evidence": "Azure source/CSS normal and reduced screenshots show exact removals, hover/spinning border, reduced-motion disable and preserved topology."
+    },
+    {
+      "area": "Slide 13",
+      "result": "PASS",
+      "evidence": "ImplementationPlanSlide source/screenshot remove only the approved subtitle clause."
+    },
+    {
+      "area": "Slide 14",
+      "result": "PASS",
+      "evidence": "Coding source/CSS/screenshot show requested rebalance, removed owner-decision block, wider supply-chain evidence and retained values."
+    },
+    {
+      "area": "Slide 15",
+      "result": "PASS",
+      "evidence": "Deployment source/CSS/screenshot show exact authorised-attempt sentence, six hoverable steps, larger controls and no execution claim."
+    },
+    {
+      "area": "Slide 16",
+      "result": "PASS",
+      "evidence": "RunTests source/CSS/screenshot explain Pester/PSRule and format six planned gates as Method, Threshold and Release consequence."
+    },
+    {
+      "area": "Slide 17",
+      "result": "PASS",
+      "evidence": "CostsBenefits source, pricing data and screenshot show USD 200,000, +109%, illustrative wording and removed visible realised-benefit caveat."
+    },
+    {
+      "area": "Slide 18",
+      "result": "PASS",
+      "evidence": "Risks source/CSS normal and reduced screenshots show five ordered pairs, connector animation and static reduced-motion state."
+    },
+    {
+      "area": "Slide 19",
+      "result": "PASS",
+      "evidence": "NextSteps source/CSS/screenshot show four hoverable boxes, Proceed condition and mockup/human-decision disclosure."
+    },
+    {
+      "area": "Cross-cutting claim boundary",
+      "result": "PASS",
+      "evidence": "Claim catalogue, deck config, Markdown/HTML and phase validation retain metadata for Slides 10, 12 and 17 boundary removals."
+    }
+  ],
+  "findings": [
+    {
+      "id": "AFF-A-R10-MAJOR-001",
+      "severity": "MAJOR",
+      "title": "Required r10 metadata contract fails against the current governed status",
+      "evidence": [
+        "r10-metadata-contract.mjs requires R10_CONTENT_COMPLETE_INTEGRATED_VALIDATION_PENDING in phase-status-dashboard.html and solution-overview.html.",
+        "Current phase-status-dashboard.html records R10_FROZEN_AFF_A_PENDING.",
+        "Current solution-overview.html records R10_FROZEN_AFF_A_PENDING.",
+        "r10 evidence records six-of-six/P6-R10-V01 PASS, but a fresh read-only execution failed the metadata assertion."
+      ],
+      "owner": "AFF-0-coordinator",
+      "requiredAction": "Reconcile controller/dashboard/overview status in a new immutable revision, regenerate affected evidence and rerun the complete same-manifest assurance sequence.",
+      "impact": "The recorded validation PASS is not reproducible against the current governed status, so status/traceability evidence is contradictory."
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 0,
+    "total": 1
+  },
+  "residualOwnerGates": [
+    {
+      "gate": "Human Phase 6 r10 approval",
+      "status": "PENDING_HUMAN_DECISION",
+      "owner": "Human architect"
+    },
+    {
+      "gate": "Asset rights",
+      "status": "OWNER_GATE",
+      "owner": "Accountable asset-rights owner",
+      "evidence": "External distribution blocked pending rights confirmation or asset replacement."
+    },
+    {
+      "gate": "Azure owner inputs",
+      "status": "OPEN_OWNER_INPUTS",
+      "owner": "Architecture/deployment owners"
+    },
+    {
+      "gate": "Optional execution",
+      "status": "NOT_INVOKED",
+      "owner": "Human architect"
+    }
+  ],
+  "nonApprovalFlags": {
+    "phase6R10Approved": false,
+    "approvalAllowed": false,
+    "waiverAllowed": false,
+    "legalCertificationAllowed": false,
+    "externalDistributionAllowed": false,
+    "azureActivityAllowed": false,
+    "runtimeInferenceAllowed": false,
+    "phase7": "NOT_INVOKED",
+    "phase8": "NOT_INVOKED"
+  },
+  "verdict": "DIVERGES",
+  "rationale": "The canonical r10 subject and requested slide changes are materially conformant and hash-bound, but the required metadata contract is not reproducible against the current governed status while the candidate evidence records it as passing. This unresolved traceability contradiction is MAJOR and blocks progression. The explicit asset-rights owner gate remains open independently.",
+  "nextAction": "Do not advance to AFF-B or human approval from this review. Reconcile the governed status records in a new immutable revision, rerun all required contracts and same-manifest reviews, and retain the asset-rights owner gate.",
+  "outputIntegrityPaths": {
+    "reviewMarkdown": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/stratton-aff-a-review.md",
+    "reviewHtml": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/stratton-aff-a-review.html",
+    "reviewJson": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/stratton-aff-a-review.json",
+    "modelReceipt": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/stratton-aff-a-model-receipt.json",
+    "manifestSnapshot": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/reviewed-subject/stratton-phase-6-hashes.json",
+    "verificationReceipt": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  },
+  "finalRoundForManifest": true,
+  "supersedes": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/stratton-aff-a-review.json"
+}

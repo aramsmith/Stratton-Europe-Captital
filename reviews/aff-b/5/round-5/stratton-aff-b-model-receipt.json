@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "5",
+  "round": 5,
+  "createdAt": "2026-08-09T18:37:15.294+02:00",
+  "appendOnly": true,
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "phaseAuthorAndFinalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "independence": {
+    "separateRole": true,
+    "separateContext": true,
+    "isolatedWriteBoundary": true,
+    "authorModelDistinct": true,
+    "statement": "GPT-5.6 Terra performed AFF-B round 5; Phase 5 implementation/finalisation used GPT-5.6 Sol. AFF-B wrote only its round-5 records, manifest snapshot and coverage 020."
+  }
+}

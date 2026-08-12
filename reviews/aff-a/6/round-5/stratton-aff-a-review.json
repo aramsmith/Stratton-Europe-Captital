@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 5,
+  "reviewedAt": "2026-08-10T00:54:49.790+02:00",
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "The r5 subject is hash-integrity valid and resolves all three round-4 findings. One bounded source/export parity gap remains: stale live-rate wording in deck metadata. The gap does not alter the displayed dated Premium v2 cost basis, but requires a new candidate if corrected. This review is final for the unchanged r5 manifest; it is not Phase 6 approval.",
+  "finalRoundForManifest": true,
+  "subjectModificationPerformed": false,
+  "staticOnlyBoundary": true,
+  "reviewedSubject": {
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r5/stratton-phase-6-hashes.json",
+    "expectedManifestSha256": "84c3d53a711137b8fbd934d0fd9fcc2f3803a8b3d3144467326ff49091c01ba1",
+    "preReviewManifestSha256": "84c3d53a711137b8fbd934d0fd9fcc2f3803a8b3d3144467326ff49091c01ba1",
+    "postReviewManifestSha256": "84c3d53a711137b8fbd934d0fd9fcc2f3803a8b3d3144467326ff49091c01ba1",
+    "recomputedArtifactCount": 155,
+    "matchedArtifactHashes": 155,
+    "allListedHashesMatched": true,
+    "duplicatePathCount": 0,
+    "safeRelativePaths": true,
+    "ordinalSorted": true,
+    "manifestEntriesHaveExplicitOrdinalField": false,
+    "manifestOrderInterpretation": "Canonical array order is lexically sorted and is the ordinal order used by this manifest.",
+    "roleCounts": {
+      "presentation-source": 107,
+      "presentation-export": 22,
+      "diagram": 3,
+      "test": 2,
+      "tooling": 1,
+      "evidence": 17,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "modelPlanRevision": "112",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-112.json",
+    "modelPlanSha256": "09634cb3c5a152b65c8a5f4e97835e6f9ab1bb5cee8b039ad2398260b5ae6c7d",
+    "authorReceiptPath": "cases/Stratton-Europe-Captital/6-presentation-r5/evidence/stratton-aff-6-model-receipt.json",
+    "authorReceiptSha256": "11d11a8d06bf3795b6fd361490abda8b8ce73fb07eabade9dc1ccb8141cb3797",
+    "phase5ApprovalPath": "cases/Stratton-Europe-Captital/approvals/5/stratton-phase-5-cc-002-approval-1.json",
+    "phase5ApprovalSha256": "ca419c4f84f8928156912a32ac0db29e57fa097b9785e20ecf87fa2edc2b4e4c",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/reviewed-subject/stratton-phase-6-hashes.json",
+    "snapshotSha256": "84c3d53a711137b8fbd934d0fd9fcc2f3803a8b3d3144467326ff49091c01ba1",
+    "snapshotByteIdentical": true,
+    "unlistedSubjectFiles": [
+      "stratton-phase-6-hashes.json",
+      "deck/src/data/.gitkeep"
+    ]
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/stratton-aff-a-model-receipt.json"
+  },
+  "supersession": {
+    "supersedesRound": 4,
+    "supersededReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-review.json",
+    "supersededReviewSha256": "3753d03eda88801519988029266ce24be7fa6ca3dd94d2cdf8d460b29fe98cd1",
+    "supersededManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r4/stratton-phase-6-hashes.json",
+    "supersededManifestSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "historyByteIdentical": true
+  },
+  "round4Dispositions": [
+    {
+      "findingId": "AFFA-P6-R4-BLK-001",
+      "severity": "BLOCKER",
+      "disposition": "RESOLVED",
+      "evidence": [
+        "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-112.json",
+        "cases/Stratton-Europe-Captital/6-presentation-r5/stratton-phase-6-hashes.json",
+        "cases/Stratton-Europe-Captital/6-presentation-r5/evidence/stratton-aff-6-model-receipt.json"
+      ]
+    },
+    {
+      "findingId": "AFFA-P6-R4-MAJ-001",
+      "severity": "MAJOR",
+      "disposition": "RESOLVED",
+      "evidence": [
+        "cases/Stratton-Europe-Captital/5-coding-r7/infra/parameters/dev.bicepparam",
+        "cases/Stratton-Europe-Captital/5-coding-r7/infra/parameters/tst.bicepparam",
+        "cases/Stratton-Europe-Captital/5-coding-r7/infra/parameters/prd.bicepparam",
+        "cases/Stratton-Europe-Captital/6-presentation-r5/evidence/azure-retail-pricing-snapshot.json"
+      ]
+    },
+    {
+      "findingId": "AFFA-P6-R4-MIN-001",
+      "severity": "MINOR",
+      "disposition": "RESOLVED",
+      "evidence": [
+        "cases/Stratton-Europe-Captital/6-presentation-r5/evidence/pdf-export-receipt.json",
+        "cases/Stratton-Europe-Captital/6-presentation-r5/deck/deck.pdf"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "findingId": "AFFA-P6-R5-MIN-001",
+      "severity": "MINOR",
+      "status": "OPEN_BOUNDED",
+      "title": "Stale live-rate wording remains in deck metadata",
+      "evidence": [
+        {
+          "path": "cases/Stratton-Europe-Captital/6-presentation-r5/deck/deck.config.js",
+          "selector": "meta.evidenceBoundary",
+          "text": "slide-17 combines live Azure Retail Prices API rates"
+        },
+        {
+          "path": "cases/Stratton-Europe-Captital/6-presentation-r5/deck/dist/assets/index-v7cT-W1l.js",
+          "selector": "bundled deck metadata string",
+          "text": "slide-17 combines live Azure Retail Prices API rates"
+        },
+        {
+          "path": "cases/Stratton-Europe-Captital/6-presentation-r5/deck/src/slides/CostsBenefitsSlide.jsx",
+          "selector": "costs-benefits.azure.api",
+          "text": "DATED API SNAPSHOT"
+        },
+        {
+          "path": "cases/Stratton-Europe-Captital/6-presentation-r5/evidence/azure-retail-pricing-snapshot.json",
+          "selector": "generatedAt, apimPremiumV2, reconciliation",
+          "text": "dated static snapshot; Premium v2 primary meter"
+        }
+      ],
+      "impact": "Source/export metadata is inconsistent with the frozen dated pricing evidence and could misstate the nature of the financial input to a metadata consumer.",
+      "owner": "AFF-6 with AFF-0 coordination",
+      "requiredAction": "Replace the stale metadata phrase with truthful dated-snapshot wording, regenerate the affected dist files and manifest, and obtain a new same-hash review round; do not edit immutable r5."
+    }
+  ],
+  "subjectReview": {
+    "slideCount": 20,
+    "materialClaimCount": 38,
+    "sourceReferenceCount": 69,
+    "claimClassCounts": {
+      "SOURCE_FACT": 12,
+      "HUMAN_OWNED_HYPOTHESIS": 4,
+      "APPROVED_DESIGN_INTENT": 14,
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED": 5,
+      "UNTESTED_RUNTIME_BEHAVIOUR": 3
+    },
+    "sourcePathsResolved": true,
+    "deckOrderMatchesCatalogue": true,
+    "markdownHtmlCatalogueParity": "PASS_WITH_METADATA_GAP",
+    "phase5Package": {
+      "deployableSourceFiles": 124,
+      "implementationUnits": 17,
+      "localValidationSteps": "10/10",
+      "workPackages": "5 + 8"
+    },
+    "costBasis": {
+      "sku": "Premium v2",
+      "capacity": 1,
+      "region": "West Europe",
+      "meterRateUsdPerHour": 3.83562,
+      "monthlyHours": 730,
+      "monthlyUsd": 7985.55,
+      "annualUsd": 95826.6,
+      "annualComparatorGapUsd": 17157.77,
+      "standardV2Disposition": "Explicit upstream variance only"
+    },
+    "browserEvidence": {
+      "slides": 20,
+      "modes": 3,
+      "combinations": 60,
+      "zeroFindingEntries": true,
+      "determinismRuns": 3
+    },
+    "networkStaticEvidence": {
+      "externalRequests": 0,
+      "failedRequests": 0,
+      "productionFiles": 21,
+      "sourceMaps": 0,
+      "externalCssDependencies": 0,
+      "missingLocalDependencies": 0
+    },
+    "pdfEvidence": {
+      "pages": 20,
+      "sizePoints": [
+        960.0,
+        600.0
+      ],
+      "blankParsedFields": true,
+      "xmpLength": 0,
+      "embeddedFiles": 0,
+      "producerMarker": "MuPDF 1.29.0",
+      "producerDisclosed": true,
+      "localIdentityMarkers": 0,
+      "deterministicAssemblyRuns": 2
+    },
+    "assetRightsGate": "BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT"
+  },
+  "confirmedControls": [
+    "Revision 112 binds the 20-slide candidate and explicitly keeps Phase 6 unapproved.",
+    "All 155 listed artifact hashes matched; canonical manifest SHA-256 is unchanged.",
+    "The r4 manifest and r4 AFF-A review remain byte-identical historical records.",
+    "The visible pricing wording is dated-snapshot language and the Premium v2 basis is consistent across r5 evidence.",
+    "PDF producer marker is disclosed with blank/null metadata, zero XMP and zero attachments.",
+    "The narrative distinguishes source facts, hypotheses, approved design intent, static evidence and untested runtime behaviour.",
+    "External distribution is blocked pending the accountable asset-rights owner gate."
+  ],
+  "residualGaps": [
+    "AFFA-P6-R5-MIN-001 remains open on immutable r5 metadata and requires a new candidate if corrected.",
+    "AFF-B review and human Phase 6 approval are absent; AFF-A does not substitute for either.",
+    "Owner-bound Azure regions, IDs, quota/capacity, recovery, retention, privacy, licences, regulatory classification and benchmark evidence remain fail closed.",
+    "No deployment, inference, promotion, achieved benefit, compliance certification or production-readiness evidence exists."
+  ],
+  "nonApprovalStatement": "AFF-A does not approve Phase 6, waive the minor finding, certify compliance, provide legal advice or formal attestation, authorise Azure activity, authorise Phase 7/8, or invoke AFF-B.",
+  "outputIntegrity": {
+    "reviewMarkdownPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/stratton-aff-a-review.md",
+    "reviewMarkdownSha256": "4e4e5394c63f18ea41220e3030f10744b673a822dc61da9c2198cf6a8a662d1c",
+    "reviewHtmlPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/stratton-aff-a-review.html",
+    "reviewHtmlSha256": "70156c4ae91a798b412b169e9614d535de9be1984a4dd2946b46ae6386cfc2ce",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/stratton-aff-a-model-receipt.json",
+    "modelReceiptSha256": "3af4132f41a89d9417221fc78b2490fca5a70eb94cc346e221a65829eb860725",
+    "reviewedSubjectSnapshotSha256": "84c3d53a711137b8fbd934d0fd9fcc2f3803a8b3d3144467326ff49091c01ba1",
+    "reviewJsonSelfHashRecordedExternally": true,
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  }
+}

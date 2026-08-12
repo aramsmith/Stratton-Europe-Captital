@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AFF-B Phase 3 round 1 security and compliance review for Stratton">
+  <meta name="reviewer" content="AFF-B Security and Compliance Reviewer">
+  <meta name="phase-id" content="3">
+  <meta name="round" content="1">
+  <meta name="model-plan-revision" content="4">
+  <meta name="canonical-manifest-sha256" content="a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f">
+  <meta name="review-json-sha256" content="4ab3f6b11b17897da8a5f14edd54f211fefafeaec93644326d82bb0919278a29">
+  <title>AFF-B Review — Phase 3 Round 1 — Stratton</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font: 15px/1.55 "Segoe UI", Aptos, Calibri, sans-serif; }
+    a { color: var(--cp-link); }
+    a:hover { color: var(--cp-accent-hover); }
+    a:focus, summary:focus { outline: 3px solid var(--cp-warning); outline-offset: 2px; }
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 1rem; top: 1rem; z-index: 5; background: var(--cp-surface); color: var(--cp-text); padding: .7rem; }
+    header { background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border); padding: 2rem max(1rem, calc((100% - 1180px)/2)); }
+    main, footer { max-width: 1180px; margin: auto; padding: 1rem; }
+    h1 { margin: .35rem 0; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.08; }
+    h2 { margin-top: 2rem; padding-bottom: .35rem; border-bottom: 2px solid var(--cp-border); }
+    h3 { color: var(--cp-accent); }
+    code { font-family: Consolas, "Courier New", monospace; background: var(--cp-surface-soft); color: var(--cp-text); overflow-wrap: anywhere; }
+    .eyebrow, .badge { display: inline-block; padding: .28rem .7rem; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-accent-soft); color: var(--cp-accent); font-weight: 750; }
+    .badge-danger { color: var(--cp-danger); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; margin: 1rem 0; }
+    .card { padding: 1rem; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); box-shadow: 0 1px 3px var(--cp-border); }
+    .callout { padding: 1rem; border-left: 5px solid var(--cp-danger); border-radius: 1rem; background: var(--cp-surface); box-shadow: 0 1px 3px var(--cp-border); }
+    .ok { color: var(--cp-success); font-weight: 750; }
+    .warn { color: var(--cp-warning); font-weight: 750; }
+    .danger { color: var(--cp-danger); font-weight: 750; }
+    .muted { color: var(--cp-text-muted); }
+    .table-wrap { overflow: auto; margin: .7rem 0; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); box-shadow: 0 1px 3px var(--cp-border); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .65rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--cp-border); }
+    th { background: var(--cp-surface-soft); }
+    tr:last-child td { border-bottom: 0; }
+    details { margin: .7rem 0; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); box-shadow: 0 1px 3px var(--cp-border); }
+    summary { cursor: pointer; padding: .8rem; font-weight: 700; background: var(--cp-surface-soft); border-radius: 1rem; }
+    details > div { padding: 0 1rem 1rem; }
+    footer { color: var(--cp-text-muted); border-top: 1px solid var(--cp-border); }
+    @media print { .skip{display:none} body{font-size:10pt} header{padding:0;background:var(--cp-surface)} main{max-width:none}.card,.callout,details{box-shadow:none;break-inside:avoid} }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header>
+  <span class="eyebrow">AFF-B Security and Compliance Reviewer</span>
+  <h1>Phase 3 — Azure Design review</h1>
+  <p>Stratton Release 1 · Round 1 · final AFF-B result for exact manifest <code>a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f</code></p>
+  <div class="grid">
+    <article class="card"><strong>Verdict</strong><br><span class="badge badge-danger">DIVERGES</span></article>
+    <article class="card"><strong>Findings</strong><br><span class="danger">2 MAJOR</span> · 0 BLOCKER · 0 MINOR</article>
+    <article class="card"><strong>Runtime model</strong><br><code>gpt-5.6-sol</code> · plan revision <code>4</code></article>
+    <article class="card"><strong>Hash verification</strong><br><span class="ok">24/24 artifacts match</span></article>
+    <article class="card"><strong>AFF-A</strong><br>Round 2 · CONFORMS-WITH-GAPS · same manifest</article>
+    <article class="card"><strong>Gate state</strong><br><span class="danger">Not converged</span></article>
+  </div>
+</header>
+
+<main id="main">
+  <section>
+    <h2>Verdict rationale</h2>
+    <div class="callout">
+      <p><strong>DIVERGES.</strong> The design has complete requirements/ABB/decision traceability, strong identity and assurance separation, bounded AI use and explicit inherited controls. Two security/compliance implementation defects remain: Azure SQL backup redundancy is not constrained against the default paired-region replication, and APIM private endpoint creation is not coupled to explicit public gateway disablement.</p>
+      <p>Both are MAJOR because they undermine approved sovereignty and private-ingress boundaries. This is architecture assurance, not approval, waiver, legal advice, certification or formal attestation.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+    <article class="card">
+      <h3>AFFB-P3-R1-MAJ-001 — Azure SQL backup storage redundancy is not bound to the signed region pair</h3>
+      <p><span class="danger">MAJOR</span> · Manifest regeneration required</p>
+      <p><strong>Evidence.</strong> The reliability contract and AFF-4 handoff require PITR/LTR and failover groups but omit SQL backup-storage redundancy. The Citadel contract rejects implicit Azure geo-pairs. Current Microsoft Learn states new Azure SQL databases default to GRS backup storage replicated to a paired region; LRS or ZRS is required to keep STR/LTR backups in-region.</p>
+      <p><strong>Risk.</strong> Highly confidential backups can silently replicate outside the signed-approved pair, breaching SR-001, HD-003 and VAL-005 before runtime detection.</p>
+      <p><strong>Bounded remediation.</strong> Add a no-default STR/LTR backup-redundancy parameter and assertion; require LRS/ZRS after capability and location evidence; allow GRS/GZRS only through a later explicit decision proving the paired location is approved. Validate rendered and deployed configuration before data admission.</p>
+      <p><strong>Owners.</strong> AFF-3, General Counsel, DPO, CISO and AFF-4.</p>
+    </article>
+    <article class="card">
+      <h3>AFFB-P3-R1-MAJ-002 — APIM private endpoint is not coupled to explicit public gateway disablement</h3>
+      <p><span class="danger">MAJOR</span> · Manifest regeneration required</p>
+      <p><strong>Evidence.</strong> SRC-AZ-019 says APIM public access is disabled after private DNS validation, but the network policy list omits APIM and the handoff outputs only its private endpoint. Microsoft Learn states public network access must be disabled separately after private endpoint configuration.</p>
+      <p><strong>Risk.</strong> The public APIM gateway can remain reachable and bypass the private Application Gateway WAF and enterprise ingress path.</p>
+      <p><strong>Bounded remediation.</strong> Require APIM <code>publicNetworkAccess=Disabled</code> in every environment after private endpoint approval and DNS proof; add APIM-specific policy, compile, PSRule and reachability evidence; prohibit public recovery fallback. Include App Configuration in the same explicit public-access review.</p>
+      <p><strong>Owners.</strong> AFF-3, Network Lead, CISO, API platform owner and AFF-4.</p>
+    </article>
+  </section>
+
+  <section>
+    <h2>Evidence-based assessment</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Focus</th><th>Status</th><th>Conclusion</th></tr></thead>
+        <tbody>
+          <tr><td>31 requirements, 19 ABBs, AD-001–AD-010 and 23 SBBs</td><td class="ok">CONFORMS</td><td>All approved IDs map to valid SBBs; no missing or dangling reference was found.</td></tr>
+          <tr><td>Citadel composition and claims</td><td class="ok">CONFORMS</td><td>ALZ, Azure-Samples guidance and sovereign overlays are accurately differentiated; no product or certification claim.</td></tr>
+          <tr><td>Identity, privilege and Internal Audit independence</td><td class="ok">CONFORMS</td><td>PIM, phishing-resistant MFA, managed identities, Entra-only SQL, role-assignment separation and assurance ownership are coherent.</td></tr>
+          <tr><td>Private ingress and public-network denial</td><td class="danger">DIVERGES</td><td>Application Gateway is correctly gated; APIM public-network disablement is not enforceably bound.</td></tr>
+          <tr><td>Sovereignty, backup location and transfer</td><td class="danger">DIVERGES</td><td>SQL STR/LTR backup storage can inherit the paired-region GRS default.</td></tr>
+          <tr><td>Admission, privacy, records and audit</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Concrete controls exist; exact sources, schedules and legal mappings remain owner-bound.</td></tr>
+          <tr><td>Regional AI and human authority</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Regional, private, assistive and non-training boundaries are strong; classification remains open.</td></tr>
+          <tr><td>DORA and EU AI Act conditionality</td><td class="warn">CONFORMS-WITH-GAPS</td><td>No formal compliance or unsupported classification claim; VAL-001 and AFFB-RES-001/002 remain open.</td></tr>
+          <tr><td>Resilience and records obligations</td><td class="danger">DIVERGES</td><td>Recovery responsibilities are coherent except for the unbound SQL backup location.</td></tr>
+          <tr><td>Supply chain and Phase 4/5 handoff</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Pinned candidates and scans are defined; exact digest, lock and capability evidence remains mandatory downstream.</td></tr>
+          <tr><td>Unknown values and Phase 3 boundary</td><td class="ok">CONFORMS</td><td>No tenant, subscription, region, CIDR, DNS, capacity, retention or legal value is invented; no code, deployment, what-if or runtime claim.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Seven retained residual controls</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Owner</th><th>Required control</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>VAL-001</td><td>General Counsel</td><td>Entity-specific DORA applicability/exemption and obligations before any formal claim.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+          <tr><td>VAL-002</td><td>CIO and Service Operations</td><td>Business hours, typical pack and critical-alert definitions before acceptance.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+          <tr><td>VAL-003</td><td>Business, AI, Legal and Compliance owners</td><td>Eligibility, benchmark, critical-field, severity and exception definitions before validation.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+          <tr><td>VAL-004</td><td>Source and records owners</td><td>Exact sources, schedules, volumes and remediation before production ingestion.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+          <tr><td>VAL-005</td><td>General Counsel</td><td>Approved locations and transfer-exception evidence before production acceptance.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+          <tr><td>AFFB-RES-001</td><td>General Counsel and Head of AI Governance</td><td>EU AI Act role/use-case classification evidence before production or any claim.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+          <tr><td>AFFB-RES-002</td><td>Legal/compliance; AFF-0 custodian</td><td>Official citations, dates and article mappings before formal representation.</td><td class="warn">OPEN, NOT WAIVED</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Authoritative source challenge</h2>
+    <ul>
+      <li><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/automated-backups-overview?view=azuresql">Azure SQL automated backups</a> — default GRS and paired-region replication; LRS/ZRS keep STR/LTR in-region.</li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/api-management/private-endpoint">APIM inbound private endpoint</a> — public network access is disabled separately after private endpoint configuration.</li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/application-gateway/application-gateway-private-deployment">Private Application Gateway deployment</a> — validates the registered private-only feature gate.</li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy">Foundry model data privacy</a> — supports provider evidence, no-training and regional-vs-Global/DataZone boundaries.</li>
+      <li><a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj">DORA official text</a> and <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">EU AI Act official text</a> — exact applicability, classification and article mapping remain accountable-owner work.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Hash and convergence evidence</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><th>Canonical Phase 3 manifest</th><td><code>a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f</code></td></tr>
+          <tr><th>Manifest artifacts</th><td><span class="ok">24/24 independently recomputed and matched</span></td></tr>
+          <tr><th>AFF-A final round 2 JSON</th><td><code>0941110ee0ee36b54c8544e65f5618c7f8ecb94c78a5ea5c3142215bd92e50ee</code></td></tr>
+          <tr><th>Retained coverage 004</th><td><code>aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe</code></td></tr>
+          <tr><th>AFF-B review JSON</th><td><code>4ab3f6b11b17897da8a5f14edd54f211fefafeaec93644326d82bb0919278a29</code></td></tr>
+          <tr><th>Final for exact manifest</th><td>Yes; <span class="danger">not gate-converged</span> because two MAJOR findings remain.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <details>
+      <summary>Artifact verification detail</summary>
+      <div>
+        <p>All 24 paths and recomputed values are recorded in the matching JSON review. The independent receipt also reports <code>allManifestEntriesMatch=true</code>.</p>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Required actions</h2>
+    <ol>
+      <li>AFF-3 must disposition both MAJOR findings without changing approved upstream baselines.</li>
+      <li>Accepted material remediation requires a regenerated Phase 3 manifest and independent receipt.</li>
+      <li>Re-invoke AFF-A and AFF-B on the complete new unchanged manifest.</li>
+      <li>Do not present this exact manifest for Phase 3 human approval.</li>
+      <li>Keep VAL-001–VAL-005 and AFFB-RES-001/002 explicit and unwaived.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Non-approval statement</h2>
+    <p>AFF-B did not modify, approve, waive, certify, deploy or test the frozen subject. This review is final only for the exact manifest identified above.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Self-contained Clawpilot-themed AFF-B review. JSON source: <code>reviews/aff-b/3/round-1/stratton-aff-b-review.json</code>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-4-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-02T11:27:02.145+02:00",
+  "modelPlanRevision": "5",
+  "subjectHashManifest": {
+    "path": "4-implementation-plan/stratton-phase-4-hashes.json",
+    "sha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/4/round-3/stratton-aff-a-review.json",
+    "sha256": "45cb61449c22261c4835eb15cef9bc4f050b807a1f2c239e6539c80a49d0f989"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/4/round-1/stratton-aff-b-review.json",
+    "sha256": "32c54efacc74f54216e24ea99ee12cb7f89ec0eb578ec3a6e0cf5cb3875d7020"
+  },
+  "residualGaps": [
+    "VAL-001: General Counsel must record entity-specific DORA applicability or exemption and resulting obligations before any formal DORA claim or scope-changing obligation.",
+    "VAL-002: The Chief Investment Officer and Service Operations must approve business hours, typical document-pack characteristics and critical-alert criteria before service and performance acceptance tests.",
+    "VAL-003: Deal Operations, AI Governance, General Counsel, Compliance and the Chief Investment Officer must approve eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions before Internal Audit validation.",
+    "VAL-004: Source and records owners must map exact source instances, retention schedules, volumes and production data-quality remediation procedures before production ingestion.",
+    "VAL-005: General Counsel must confirm approved EU/EEA locations and the sovereignty exception evidence process before production location and transfer acceptance.",
+    "AFFB-RES-001: General Counsel and the Head of AI Governance must provide EU AI Act role and use-case classification evidence before production or any classification claim.",
+    "AFFB-RES-002: Legal and compliance owners must add official-source citations, publication and effective dates, and article-level obligation mappings before any formal representation relying on the regulatory register."
+  ],
+  "constraints": [
+    "Approval accepts the frozen Phase 4 implementation plan manifest as the Phase 5 coding baseline.",
+    "Approval accepts no waiver, closure or solved status for any residual gap.",
+    "All seven residual gaps remain mandatory, owner-bound and fail-closed implementation, acceptance or claim controls.",
+    "AFF-5 must preserve the approved sequencing, private-network boundaries, identity separation, source quarantine, release integrity, rollback restrictions and evidence requirements.",
+    "Every production parameter without approved owner evidence remains blocked; AFF-5 may not invent tenant, subscription, region, network, identity, retention, model, quota, source or legal values.",
+    "Approval makes Phase 5 eligible but does not invoke or start Phase 5.",
+    "No Azure deployment, Azure what-if, runtime test, compliance certification or later phase is approved or invoked by this decision.",
+    "Any implementation infeasibility, weakened control or changed requirement intent must return through governed change control."
+  ]
+}

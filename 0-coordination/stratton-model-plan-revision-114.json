@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0",
+  "planRevision": "114",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "status": "EFFECTIVE_FOR_PHASE_6_R7_ROSTER_GOVERNANCE_REMEDIATION",
+  "recordedAt": "2026-08-10T01:36:41.1996653+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-113.json",
+    "sha256": "fde28bb18b4ac993522e4c795daa04800bf6cf8d564f5358b4f36b808dabfffe",
+    "preservation": "Revision 113, the immutable r6 subject and all r6 review records remain unchanged historical evidence."
+  },
+  "trigger": {
+    "type": "AFF_B_ROUND_3_MAJOR_FINDING_REMEDIATION",
+    "reviewPath": "reviews/aff-b/6/round-3/stratton-aff-b-review.json",
+    "reviewSha256": "6f4df3362b7f77fbd6cefc703608cc4540ab001d78a786cb42e9ffc2a8327c43",
+    "coveragePath": "reviews/aff-b/coverage/stratton-compliance-coverage-021.json",
+    "coverageSha256": "2ddfeae4e7c7190f080d0b6d6e4c306535743c2518d845a5d685c8e033bd590e",
+    "findingId": "AFFB-P6-R3-MAJ-001",
+    "reason": "The r6 assurance roster visibly showed legacy reviewer and phase-model defaults that conflicted with revision-113 Luna/Terra assignments and the approved Luna/Terra/Sol case portfolio."
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r7",
+    "instruction": "Preserve r6 and its reviews unchanged; create a narrow append-only r7 candidate that presents evidence-bound model routing and the active Phase 6 Luna/Terra reviewer assignments, then complete fresh AFF-A and AFF-B review against one frozen manifest before returning to the human approval gate.",
+    "phase6ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "presentation": {
+    "registeredSlides": 20,
+    "candidateStatus": "TWENTY_SLIDE_ROSTER_GOVERNANCE_REMEDIATION_CANDIDATE",
+    "rosterCorrection": {
+      "legacyValuesRemoved": [
+        "gpt-5.4",
+        "gpt-5.3-codex",
+        "AFF-B gpt-5.6-sol"
+      ],
+      "activePhase6Assignments": {
+        "AFF-6": "gpt-5.6-sol",
+        "AFF-A": "gpt-5.6-luna",
+        "AFF-B": "gpt-5.6-terra"
+      },
+      "otherPhaseDisplay": "Evidence-bound model routing; actual runtime models remain in each phase receipt.",
+      "scope": "Slide 6 roster source, compiled output, speaker note, claim P6-C007 and candidate-governance metadata only. Architecture, costs, implementation evidence and execution boundaries remain unchanged."
+    },
+    "frozenDesignInputs": {
+      "targetAzureFootprint": "Proposed Azure deployment design for later validation only",
+      "apiManagementTier": "PremiumV2",
+      "phase5RepositoryInventoryFiles": 124,
+      "implementationPlan": "5 work packages plus 8 conditional gates",
+      "pricingBasis": "Dated 2026-08-10 West Europe Azure Retail Prices API snapshot plus stated Azure Price Calculator proxies",
+      "monthlyEstimateUsd": 7985.55,
+      "annualEstimateUsd": 95826.6
+    }
+  },
+  "modelAssignments": {
+    "AFF-6-presentation": {
+      "model": "gpt-5.6-sol",
+      "role": "AUTHOR_AND_ROSTER_GOVERNANCE_REMEDIATOR",
+      "rationale": "Sol preserves the approved narrative while correcting model-governance presentation and regenerating deterministic assurance."
+    },
+    "AFF-A-rubber-duck": {
+      "model": "gpt-5.6-luna",
+      "role": "INDEPENDENT_PRESENTATION_REVIEWER",
+      "rationale": "Luna remains model-opposite to the Sol author and rechecks the corrected immutable candidate."
+    },
+    "AFF-B-security-compliance": {
+      "model": "gpt-5.6-terra",
+      "role": "INDEPENDENT_SECURITY_COMPLIANCE_REVIEWER",
+      "rationale": "Terra rechecks reviewer-governance truthfulness, security/compliance boundaries and residual owner gates after AFF-A."
+    }
+  },
+  "modelPortfolio": {
+    "version": "2026-07-09",
+    "allowedModels": [
+      "gpt-5.6-luna",
+      "gpt-5.6-terra",
+      "gpt-5.6-sol"
+    ],
+    "dataZone": "DataZoneStandard",
+    "versionUpgradePolicy": "NoAutoUpgrade",
+    "globalStandardAllowed": false
+  },
+  "reviewSequence": [
+    "Freeze and independently verify the r7 manifest.",
+    "Invoke AFF-A round 7 with gpt-5.6-luna.",
+    "If AFF-A has no unresolved material finding, invoke AFF-B round 4 with gpt-5.6-terra against the identical manifest.",
+    "Append compliance coverage sequence 022 without changing sequence 021.",
+    "Return the unchanged candidate and both final reviews to the human architect for explicit in-tool approval or rejection."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, provider query, target validation, what-if, deployment or promotion occurred.",
+    "No runtime inference, retention finalisation or Phase 8 runtime testing occurred.",
+    "The dated pricing snapshot is evidence for planning, not a future-price guarantee.",
+    "The presentation remains a proposed architecture and reviewed deployment package, not an as-built runtime or compliance attestation."
+  ]
+}

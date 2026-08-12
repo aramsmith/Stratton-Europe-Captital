@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewId": "stratton-aff-a-review-r11",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseRevision": "11",
+  "reviewRound": 11,
+  "reviewer": "AFF-A",
+  "reviewerDisplayName": "Rubber Duck Reviewer",
+  "reviewerModelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-model-receipt.json",
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r11-aff-a-round-11-invocation-authorization.json",
+    "sha256": "0aecc69c1ed1888d374d512be6646a04addef87cefec6cce469eb27803e549ca"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-118.json",
+    "revision": "118",
+    "sha256": "66b61e6f9b6aef557cc36e088d36a7f40d49651bbdad4ca01a5afe1927767ac7",
+    "authorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-luna"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "manifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "expectedManifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "artifactCount": 173,
+    "fullCandidateFileCount": 175,
+    "fullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "expectedFullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "predecessor": {
+    "r9ManifestSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "r9AffARound9Sha256": "fc6c92259a5a213692dd6e44ea08f94cb1d325c298e8f594eeb4e170325ec237",
+    "r9AffBRound6Sha256": "0a6ccda407acb535201f98c5f202c1b436e82b673ae9fbae9dece2f0389bfb81",
+    "coverage024Sha256": "a3ba25fb1fb884f690ce79d121e85389d7203c4bf5f9ca43267e1ee929cd0380",
+    "r10ManifestSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "r10CandidateTreeSha256": "4d0eaf63d7f76b34ffd718375692669e4d2907a32a499dfe897b8801b66fce3c",
+    "r10AffARound10AuthorizationSha256": "de6c5e2c0f589b960b5b46ab578e84a2e7539a96cef9c6db2a4e630aa7dde2e8",
+    "r10AffARound10ReviewSha256": "c47eed6e9f1e1dcd8b467f319fab94ba6097c5b586c7252f158358368d0cfbbc",
+    "contract": "PASS"
+  },
+  "confirmedChecks": {
+    "authorizationHash": "PASS",
+    "manifestAnd173Artifacts": "PASS",
+    "safePathsOrdinalExclusionsRoleCounts": "PASS",
+    "filesystemBoundary": "PASS",
+    "full175TreeAggregate": "PASS",
+    "modelPlan118Binding": "PASS",
+    "approvedDesignAndCommitAnchors": "PASS",
+    "r9ImmutableAnchors": "PASS",
+    "r10ImmutableAnchorsAndRound10History": "PASS",
+    "completeCanonicalSubjectInspection": "PASS",
+    "canonicalScreenshotsInspected": 16,
+    "browserAssurance": "PASS 60/60 records, 107 assertions, 0 failures, 0 external requests",
+    "browserDeterminism": "PASS 17/17 artifacts across 3 runs",
+    "runtimeNetworkReceipt": "PASS 600/600 loopback, 0 failed, 0 external",
+    "pdf": "PASS 20 pages, 960x600 points, 18462614 bytes, blank metadata, 0 XMP, 0 attachments",
+    "claimParity": "PASS 20/38/69; USD 200000 HUMAN_OWNED_HYPOTHESIS",
+    "approvedSlideAndTimerChanges": "PASS; all r11 source contracts and retained regressions pass",
+    "r10R11Parity": "PASS; deck/src 103/103, screenshots 16/16 and PDF byte-identical",
+    "immutableCandidateLifecycleSeparation": "PASS; candidate-local metadata contract excludes mutable dashboard, overview, journal and review presence",
+    "lifecycleAndPreviewContracts": "PASS; stage-aware lifecycle, fail-closed preview and terminal-decision tests pass",
+    "preAssuranceManifestVerification": "PASS 173/173; exact boundary and assurance records absent",
+    "postAssuranceVerification": "EXPECTED_FAIL_CLOSED; AFF-A round 11, AFF-B round 7, coverage 025 and final-review state are absent",
+    "candidateFolderGovernance": "PASS; append-only revisioned sibling and no overwrite path are contract-bound",
+    "approvalAndExecutionBoundary": "PASS; Phase 6 unapproved, Phase 7/8 NOT_INVOKED",
+    "lifecycleCurrentAuthorizationBoundary": "EXPECTED_FAIL_CLOSED after the AFF-A authorization event; no supported assurance stage is asserted before the review outcome"
+  },
+  "designItemResults": [
+    {
+      "area": "Timer",
+      "result": "PASS",
+      "evidence": "PresentationStatus retains the approved 40-minute duration, start-after-Slide-1 behavior, fullscreen pause and 40:00 initial state."
+    },
+    {
+      "area": "Slide 2",
+      "result": "PASS",
+      "evidence": "Red challenge treatment is present with wording, five blocks and bindings retained."
+    },
+    {
+      "area": "Slide 5",
+      "result": "PASS",
+      "evidence": "ARB Presentation naming, reviewer orbit and reduced-motion fallback are retained."
+    },
+    {
+      "area": "Slide 6",
+      "result": "PASS",
+      "evidence": "Architecture Review Board naming, quote and local roster hover treatment are present."
+    },
+    {
+      "area": "Slide 10",
+      "result": "PASS",
+      "evidence": "Semantic icons, structured evidence handoff, aligned blocks, enlarged Copilot marks and retained metadata boundary are present."
+    },
+    {
+      "area": "Slide 11",
+      "result": "PASS",
+      "evidence": "Specialist Foundation removal, merged Scope, guardrail changes and Luna/Terra/Sol identities are present."
+    },
+    {
+      "area": "Slide 12",
+      "result": "PASS",
+      "evidence": "Approved visible removals, architecture-block hover/spinning border, reduced-motion disable and topology are present."
+    },
+    {
+      "area": "Slide 13",
+      "result": "PASS",
+      "evidence": "Only the approved subtitle clause is removed."
+    },
+    {
+      "area": "Slide 14",
+      "result": "PASS",
+      "evidence": "Approved rebalance, owner-decision block removal, supply-chain widening and retained evidence are present."
+    },
+    {
+      "area": "Slide 15",
+      "result": "PASS",
+      "evidence": "Exact authorised-attempt sentence, six hoverable steps, larger controls and no execution claim are present."
+    },
+    {
+      "area": "Slide 16",
+      "result": "PASS",
+      "evidence": "Pester/PSRule explanations and Method/Threshold/Release consequence gate format are present; runtime tests remain unexecuted."
+    },
+    {
+      "area": "Slide 17",
+      "result": "PASS",
+      "evidence": "USD 200,000 comparator and +109% illustrative treatment remain human-owned; no realised-benefit claim is made."
+    },
+    {
+      "area": "Slide 18",
+      "result": "PASS",
+      "evidence": "Five ordered risk pairs, connectors and reduced-motion static state are retained."
+    },
+    {
+      "area": "Slide 19",
+      "result": "PASS",
+      "evidence": "Four hoverable boxes, Proceed condition and mockup/human-decision disclosure are retained."
+    },
+    {
+      "area": "Cross-cutting r11 remediation",
+      "result": "PASS",
+      "evidence": "Governance/evidence-only revision; no slide source or visual output change."
+    }
+  ],
+  "findings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "total": 0
+  },
+  "residualOwnerGates": [
+    {
+      "gate": "Human Phase 6 r11 approval",
+      "status": "PENDING_HUMAN_DECISION",
+      "owner": "Human architect"
+    },
+    {
+      "gate": "Asset rights",
+      "status": "OWNER_GATE",
+      "owner": "Accountable asset-rights owner",
+      "evidence": "External distribution blocked pending rights confirmation or asset replacement."
+    },
+    {
+      "gate": "Azure owner inputs",
+      "status": "OPEN_OWNER_INPUTS",
+      "owner": "Architecture, platform, privacy, records, legal, compliance and commercial owners"
+    },
+    {
+      "gate": "Optional execution",
+      "status": "NOT_INVOKED",
+      "owner": "Human architect"
+    }
+  ],
+  "nonApprovalFlags": {
+    "phase6R11Approved": false,
+    "approvalAllowed": false,
+    "waiverAllowed": false,
+    "externalDistributionAllowed": false,
+    "azureActivityAllowed": false,
+    "runtimeInferenceAllowed": false,
+    "phase7": "NOT_INVOKED",
+    "phase8": "NOT_INVOKED"
+  },
+  "verdict": "CONFORMS-WITH-GAPS",
+  "rationale": "The immutable r11 candidate, all 173 artifact hashes, exact 175-file boundary, historical anchors, approved presentation changes, parity evidence and assurance-reproducibility separation are independently conformant. No current BLOCKER, MAJOR or MINOR finding remains. The human approval gate, asset-rights owner gate, Azure owner inputs and optional execution boundaries remain open and are not findings.",
+  "nextAction": "Preserve the r11 subject unchanged and unapproved. Do not waive owner gates, authorise external distribution or invoke Phase 7/8. Any later AFF-B assurance must use separate authorization against this identical manifest.",
+  "outputIntegrityPaths": {
+    "reviewMarkdown": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.md",
+    "reviewHtml": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.html",
+    "reviewJson": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.json",
+    "modelReceipt": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-model-receipt.json",
+    "manifestSnapshot": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hashes.json",
+    "verificationReceipt": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  },
+  "subjectModificationPerformed": false,
+  "finalRoundForManifest": true,
+  "supersedes": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-10/stratton-aff-a-review.json",
+  "reviewerModelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-model-receipt.json",
+    "sha256": "acbe7a3a4fea2fc9362fbc613983612fd7827c5d05bd0084e096881a15b0457a"
+  },
+  "reviewedSubjectSnapshot": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hashes.json",
+    "sha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "sha256": "22fd08dd61aca0c4ab219ce9dac7eadb97d874a934d4502bb4aad186a2256a93"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "42",
+  "createdAt": "2026-08-03T18:23:38.8615689+02:00",
+  "revisionReason": "Group slide numbering directly left of the timer on every slide, move the timer tighter into the lower-right corner and restore slide 3 bottom-bar clearance.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-41.json",
+    "sha256": "597a0ea5ecee10c89795a77ab5c1a19a52ea0864deb0f11f0a633da30921fa58",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlides": [
+      1,
+      2,
+      3
+    ],
+    "statusLayout": {
+      "slideNumberPosition": "Immediately left of timer",
+      "timerPosition": "Lower-right corner with 8px right inset"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

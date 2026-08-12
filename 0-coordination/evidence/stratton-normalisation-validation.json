@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "sourcePath": "0-coordination/input/Case-Study-18.pdf",
+  "normalisedPath": "0-coordination/input/Case-Study-18.normalised.md",
+  "validatedAt": "2026-08-01T20:01:46.9103357+02:00",
+  "validationPerformedBy": "AFF-0",
+  "tools": {
+    "python": "3.13.14",
+    "pypdf": "6.14.2",
+    "pdfplumber": "0.11.10",
+    "PyMuPDF": "1.28.0"
+  },
+  "automatedObservations": {
+    "pageCount": 2,
+    "selectableTextCharactersByPage": [
+      2000,
+      495
+    ],
+    "tablesByPage": [
+      {
+        "page": 1,
+        "tableCount": 3,
+        "rowCounts": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "page": 2,
+        "tableCount": 0,
+        "rowCounts": []
+      }
+    ],
+    "ocrRequired": false
+  },
+  "visualComparison": {
+    "method": "Both pages were rendered locally at 1.5x and compared with the extracted text and tables.",
+    "checks": [
+      {
+        "item": "Title, case-profile values, section headings, prose, and lists",
+        "result": "MATCH"
+      },
+      {
+        "item": "Azure Services entries and trailing empty cell",
+        "result": "MATCH"
+      },
+      {
+        "item": "Page 2 AI Infusion Point text and apparent source typographical errors",
+        "result": "MATCH"
+      },
+      {
+        "item": "Decorative presentation",
+        "result": "INTENTIONALLY_NOT_RETAINED"
+      }
+    ],
+    "renderedPageImagesRetainedInCase": false,
+    "reasonImagesNotRetained": "The governed PDF is the visual source of truth; duplicate page images would reproduce the full confidential source without adding authoritative content."
+  },
+  "result": "PASS_WITH_DECLARED_PRESENTATION_LOSSES"
+}

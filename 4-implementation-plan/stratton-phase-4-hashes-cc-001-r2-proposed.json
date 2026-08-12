@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "modelPlanRevision": "9",
+  "generatedAt": "2026-08-02T15:47:29.395+02:00",
+  "hashAlgorithm": "SHA-256",
+  "artifacts": [
+    {
+      "path": "4-implementation-plan/stratton-cc-001-r2-phase-4-amendment.md",
+      "role": "authoritative-markdown",
+      "sha256": "76b0144df68c14d9b8fa77ccd6f335429e1abcafeb3624a1fa04a58db9e91fba"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-001-r2-phase-4-amendment.html",
+      "role": "rendered-html",
+      "sha256": "71ca5d27890c9f09514ec22fecf59e7a0fc45abafcbf98124a5df6d883349ad8"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue-cc-001-r2-proposed.json",
+      "role": "catalogue",
+      "sha256": "cc8ce351b55d07ad99679e6b396789f9e50b0ba451e6f47a38b444b03da14990"
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag-cc-001-r2-proposed.svg",
+      "role": "diagram",
+      "sha256": "12a17604088c9bf4397bca03fb7c64130e4fb992cc7cdf3c9f938b9a7180e412"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-001-r2-change-control-evidence.json",
+      "role": "evidence",
+      "sha256": "e0d44b8940b3477662a225da1b6550b45e30271a2349d5ea03ca532ced53c16b"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-001-r2-candidate-validation.json",
+      "role": "evidence",
+      "sha256": "bafda180e76c8971597c02cd50db92d83e95fb44d3425da963107da3bc051a34"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-9.json",
+      "role": "catalogue",
+      "sha256": "f89c71fd12821781c5ddf3c266b2351003563c9a2b1794e579feeb556f04ddf9"
+    },
+    {
+      "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+      "role": "evidence",
+      "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54"
+    },
+    {
+      "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json",
+      "role": "evidence",
+      "sha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8"
+    },
+    {
+      "path": "reviews/aff-a/4/round-4/stratton-aff-a-review.json",
+      "role": "evidence",
+      "sha256": "73656e7433c9af192d385115b91ac6d8e952b1eb3fa3d683ea6daf360c03b0a9"
+    },
+    {
+      "path": "reviews/aff-b/4/round-2/stratton-aff-b-review.json",
+      "role": "evidence",
+      "sha256": "83d78067bd8b7100cd37c69138a6039585e662e92239ed1afb334e7c25ced438"
+    },
+    {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-006.json",
+      "role": "evidence",
+      "sha256": "d85823693aebed0f790a81377d9e79e785db97c7f2322d0c904dfbf36deec78b"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-001-r2-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "ec71043e3c7cfefe6aab9beed6db9836084b4286b688a576195618ee8f867ed2"
+    }
+  ]
+}

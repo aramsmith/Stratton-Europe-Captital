@@ -1,0 +1,163 @@
+[1/3] STEP 1/6: FROM mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc AS build
+[1/3] STEP 2/6: WORKDIR /workspace
+--> Using cache 198ebad656ecd35084c3d447723da83238903ad5d60072f861c65e35581f7a52
+--> 198ebad656ec
+[1/3] STEP 3/6: COPY package.json package-lock.json tsconfig.json tsconfig.build.json ./
+--> Using cache 18b9dda8d613d423b41fafaa2ede9ce9767cce05ffae248ace3841b1241cfbc8
+--> 18b9dda8d613
+[1/3] STEP 4/6: COPY src ./src
+--> Using cache 2827d84332d747e8b10df32fc358658bf48666832d26ee6d126045b94161467f
+--> 2827d84332d7
+[1/3] STEP 5/6: RUN npm ci --ignore-scripts --cache /tmp/npm-cache
+--> Using cache 7e9c773860dc9610f55ed829f8f8e57203a9adc45b8012e2ec474de2a330c944
+--> 7e9c773860dc
+[1/3] STEP 6/6: RUN npm run build
+--> Using cache 1c40488b4712e48d7527c41a85004dfb0bdad509b48cf675d5490dd3f76128c9
+--> 1c40488b4712
+[2/3] STEP 1/4: FROM mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc AS production-dependencies
+[2/3] STEP 2/4: WORKDIR /workspace
+--> Using cache 198ebad656ecd35084c3d447723da83238903ad5d60072f861c65e35581f7a52
+--> 198ebad656ec
+[2/3] STEP 3/4: COPY package.json package-lock.json ./
+--> Using cache 76bfbdad43e69c17c49178107880cd50205864f20c88438c6872a1fd1be03df8
+--> 76bfbdad43e6
+[2/3] STEP 4/4: RUN npm ci --ignore-scripts --omit=dev --cache /tmp/npm-cache     && rm -rf /tmp/npm-cache /root/.npm
+--> Using cache b4868669705da58b6aca9e18640f623a0fbafa331996cec61fff01dee74bba52
+--> b4868669705d
+[3/3] STEP 1/8: FROM mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc AS runtime
+[3/3] STEP 2/8: WORKDIR /app
+--> Using cache d4050425a25eeaa5a2b94cc4ff59ba5e3ef9e7d7969f62e3207a60000f769878
+--> d4050425a25e
+[3/3] STEP 3/8: ENV NODE_ENV=production
+--> Using cache 96d9b506b1c696f2846f8c28d249ea99a4921eef98fb020e137a7936c88899e8
+--> 96d9b506b1c6
+[3/3] STEP 4/8: RUN tdnf upgrade -y libarchive-3.7.7-7.azl3     && tdnf clean all     && rm -rf /usr/lib/node_modules /usr/bin/npm /usr/bin/npx /usr/bin/corepack /root/.npm
+--> Using cache 5e924eddd62a5eede7d97578afee18be1f95f672723ba96737ef43a595ce0234
+--> 5e924eddd62a
+[3/3] STEP 5/8: COPY --from=production-dependencies --chown=65532:65532 /workspace/node_modules ./node_modules
+--> Using cache 3dce94759e335c679be88fdd9008fa395a86a2b04bba146db5dd7b2b022c88ec
+--> 3dce94759e33
+[3/3] STEP 6/8: COPY --from=build --chown=65532:65532 /workspace/dist ./dist
+--> Using cache 89e1cc4858f38305d17f9e4c5263c4a7cca5b80b9bfb060106d409bcac04edc4
+--> 89e1cc4858f3
+[3/3] STEP 7/8: USER 65532:65532
+--> Using cache 27b79cf371bbacf0d723481e60ff1955bcf7d2f9566714ef8b538379a8f206c0
+--> 27b79cf371bb
+[3/3] STEP 8/8: CMD ["node", "dist/api-main.js"]
+--> Using cache 57ea4b9569a5fed00cf6319a24cb93c150ec301d47b65d03c0ed86936540d492
+[3/3] COMMIT localhost/stratton-api:20260809T161802421Z
+--> 57ea4b9569a5
+Successfully tagged localhost/stratton-api:20260809T161802421Z
+Successfully tagged localhost/stratton-api:20260809T154227203Z
+Successfully tagged localhost/stratton-api:20260809T151143476Z
+Successfully tagged localhost/stratton-api:20260809T145442330Z
+Successfully tagged localhost/stratton-api:20260809T143421683Z
+57ea4b9569a5fed00cf6319a24cb93c150ec301d47b65d03c0ed86936540d492
+Copying blob sha256:1cb5d0697688119a7829be8e581d1669fd3aaa2a7b5595dbf49d55b844d3b1a4
+Copying blob sha256:9d484ba0a861541699af56e2771e01c5706c47994d7fc7052ebfa8edb85fb583
+Copying blob sha256:e07f6f4618a1f9ce7c88ccc1925c7bc9f703b856c1a69a7e56bd4ff2f9ff0456
+Copying blob sha256:a14791a2ff92f22a15921fe456342073082c0a6f10e8035727c970c95434a2bc
+Copying blob sha256:3fca3d4088df3e54194c865655f550f226369ba9d3e9ec15abdd3e88e5331e4b
+Copying blob sha256:91123ffdc4ce8a72697be9e6bfb301d7b1a022d07d92b9f95181d205d9b55c84
+Copying config sha256:57ea4b9569a5fed00cf6319a24cb93c150ec301d47b65d03c0ed86936540d492
+Writing manifest to image destination
+2026-08-09T18:33:21+02:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-08-09T18:33:21+02:00	INFO	[secret] Secret scanning is enabled
+2026-08-09T18:33:21+02:00	INFO	[secret] If your scanning is slow, please try '--scanners vuln,license' to disable secret scanning
+2026-08-09T18:33:21+02:00	INFO	[secret] Please see https://trivy.dev/docs/v0.72/guide/scanner/secret#recommendation for faster secret detection
+2026-08-09T18:33:21+02:00	INFO	[license] License scanning is enabled
+2026-08-09T18:33:34+02:00	INFO	Detected OS	family="azurelinux" version="3.0"
+2026-08-09T18:33:34+02:00	INFO	[azurelinux] Detecting vulnerabilities...	os_version="3.0" pkg_num=85
+2026-08-09T18:33:34+02:00	INFO	Number of language-specific files	num=1
+2026-08-09T18:33:34+02:00	INFO	[node-pkg] Detecting vulnerabilities...
+
+📣 [34mNotices:[0m
+  - Version 0.73.0 of Trivy is now available, current version is 0.72.0
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+
+[1/3] STEP 1/6: FROM mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc AS build
+[1/3] STEP 2/6: WORKDIR /workspace
+--> Using cache 198ebad656ecd35084c3d447723da83238903ad5d60072f861c65e35581f7a52
+--> 198ebad656ec
+[1/3] STEP 3/6: COPY package.json package-lock.json tsconfig.json tsconfig.build.json ./
+--> Using cache 18b9dda8d613d423b41fafaa2ede9ce9767cce05ffae248ace3841b1241cfbc8
+--> 18b9dda8d613
+[1/3] STEP 4/6: COPY src ./src
+--> Using cache 2827d84332d747e8b10df32fc358658bf48666832d26ee6d126045b94161467f
+--> 2827d84332d7
+[1/3] STEP 5/6: RUN npm ci --ignore-scripts --cache /tmp/npm-cache
+--> Using cache 7e9c773860dc9610f55ed829f8f8e57203a9adc45b8012e2ec474de2a330c944
+--> 7e9c773860dc
+[1/3] STEP 6/6: RUN npm run build
+--> Using cache 1c40488b4712e48d7527c41a85004dfb0bdad509b48cf675d5490dd3f76128c9
+--> 1c40488b4712
+[2/3] STEP 1/4: FROM mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc AS production-dependencies
+[2/3] STEP 2/4: WORKDIR /workspace
+--> Using cache 198ebad656ecd35084c3d447723da83238903ad5d60072f861c65e35581f7a52
+--> 198ebad656ec
+[2/3] STEP 3/4: COPY package.json package-lock.json ./
+--> Using cache 76bfbdad43e69c17c49178107880cd50205864f20c88438c6872a1fd1be03df8
+--> 76bfbdad43e6
+[2/3] STEP 4/4: RUN npm ci --ignore-scripts --omit=dev --cache /tmp/npm-cache     && rm -rf /tmp/npm-cache /root/.npm
+--> Using cache b4868669705da58b6aca9e18640f623a0fbafa331996cec61fff01dee74bba52
+--> b4868669705d
+[3/3] STEP 1/8: FROM mcr.microsoft.com/azurelinux/base/nodejs:24@sha256:6523505968bf37b0f97975cedfd202a3dbaee44ed653d17890d36deead3828cc AS runtime
+[3/3] STEP 2/8: WORKDIR /app
+--> Using cache d4050425a25eeaa5a2b94cc4ff59ba5e3ef9e7d7969f62e3207a60000f769878
+--> d4050425a25e
+[3/3] STEP 3/8: ENV NODE_ENV=production
+--> Using cache 96d9b506b1c696f2846f8c28d249ea99a4921eef98fb020e137a7936c88899e8
+--> 96d9b506b1c6
+[3/3] STEP 4/8: RUN tdnf upgrade -y libarchive-3.7.7-7.azl3     && tdnf clean all     && rm -rf /usr/lib/node_modules /usr/bin/npm /usr/bin/npx /usr/bin/corepack /root/.npm
+--> Using cache 5e924eddd62a5eede7d97578afee18be1f95f672723ba96737ef43a595ce0234
+--> 5e924eddd62a
+[3/3] STEP 5/8: COPY --from=production-dependencies --chown=65532:65532 /workspace/node_modules ./node_modules
+--> Using cache 3dce94759e335c679be88fdd9008fa395a86a2b04bba146db5dd7b2b022c88ec
+--> 3dce94759e33
+[3/3] STEP 6/8: COPY --from=build --chown=65532:65532 /workspace/dist ./dist
+--> Using cache 89e1cc4858f38305d17f9e4c5263c4a7cca5b80b9bfb060106d409bcac04edc4
+--> 89e1cc4858f3
+[3/3] STEP 7/8: USER 65532:65532
+--> Using cache 27b79cf371bbacf0d723481e60ff1955bcf7d2f9566714ef8b538379a8f206c0
+--> 27b79cf371bb
+[3/3] STEP 8/8: CMD ["node", "dist/worker-main.js"]
+--> Using cache a47c0f6ff0f0fe04a7382a11d9afbdd66c84cb6f8b5a38ff0aac99aac6b2a115
+[3/3] COMMIT localhost/stratton-worker:20260809T161802421Z
+--> a47c0f6ff0f0
+Successfully tagged localhost/stratton-worker:20260809T161802421Z
+Successfully tagged localhost/stratton-worker:20260809T154227203Z
+Successfully tagged localhost/stratton-worker:20260809T151143476Z
+Successfully tagged localhost/stratton-worker:20260809T145442330Z
+Successfully tagged localhost/stratton-worker:20260809T143421683Z
+a47c0f6ff0f0fe04a7382a11d9afbdd66c84cb6f8b5a38ff0aac99aac6b2a115
+Copying blob sha256:1cb5d0697688119a7829be8e581d1669fd3aaa2a7b5595dbf49d55b844d3b1a4
+Copying blob sha256:9d484ba0a861541699af56e2771e01c5706c47994d7fc7052ebfa8edb85fb583
+Copying blob sha256:e07f6f4618a1f9ce7c88ccc1925c7bc9f703b856c1a69a7e56bd4ff2f9ff0456
+Copying blob sha256:a14791a2ff92f22a15921fe456342073082c0a6f10e8035727c970c95434a2bc
+Copying blob sha256:3fca3d4088df3e54194c865655f550f226369ba9d3e9ec15abdd3e88e5331e4b
+Copying blob sha256:91123ffdc4ce8a72697be9e6bfb301d7b1a022d07d92b9f95181d205d9b55c84
+Copying config sha256:a47c0f6ff0f0fe04a7382a11d9afbdd66c84cb6f8b5a38ff0aac99aac6b2a115
+Writing manifest to image destination
+2026-08-09T18:33:48+02:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-08-09T18:33:48+02:00	INFO	[secret] Secret scanning is enabled
+2026-08-09T18:33:48+02:00	INFO	[secret] If your scanning is slow, please try '--scanners vuln,license' to disable secret scanning
+2026-08-09T18:33:48+02:00	INFO	[secret] Please see https://trivy.dev/docs/v0.72/guide/scanner/secret#recommendation for faster secret detection
+2026-08-09T18:33:48+02:00	INFO	[license] License scanning is enabled
+2026-08-09T18:34:01+02:00	INFO	Detected OS	family="azurelinux" version="3.0"
+2026-08-09T18:34:01+02:00	INFO	[azurelinux] Detecting vulnerabilities...	os_version="3.0" pkg_num=85
+2026-08-09T18:34:01+02:00	INFO	Number of language-specific files	num=1
+2026-08-09T18:34:01+02:00	INFO	[node-pkg] Detecting vulnerabilities...
+
+📣 [34mNotices:[0m
+  - Version 0.73.0 of Trivy is now available, current version is 0.72.0
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+
+Private key written to /tmp/stratton-phase5-signing-20260809T161802421Z/phase5.key
+Public key written to /tmp/stratton-phase5-signing-20260809T161802421Z/phase5.pub
+Using payload from: /mnt/c/Users/arsmith/Projects/Agentic-Architecture-v2/cases/Stratton-Europe-Captital/5-coding-r7/evidence/containers/20260809T161802421Z/container-digests.json
+Wrote signature to file /mnt/c/Users/arsmith/Projects/Agentic-Architecture-v2/cases/Stratton-Europe-Captital/5-coding-r7/evidence/containers/20260809T161802421Z/container-digests.sig
+WARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.
+Verified OK
+Container validation passed. Evidence: <PACKAGE_ROOT>\evidence\containers\20260809T161802421Z\summary.json

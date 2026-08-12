@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-5-CC-002-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-09T21:38:30.416+02:00",
+  "modelPlanRevision": "111",
+  "subjectHashManifest": {
+    "path": "5-coding-r7/stratton-phase-5-hashes.json",
+    "sha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/5/round-7/stratton-aff-a-review.json",
+    "sha256": "69c910e8012ea25728301794a44b949a8075e3e3294d74ea669f823815303420"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/5/round-5/stratton-aff-b-review.json",
+    "sha256": "5e275e6a7187900206e180a45a3da70ff0dc5ae142befa5a4083cc777f0eeaf1"
+  },
+  "residualGaps": [
+    "Exact Azure regions, resources and deployment IDs remain owner-bound and absent.",
+    "Model capability, quota and positive capacity evidence remains owner-bound and absent.",
+    "Embedding configuration and rebuild evidence remains owner-bound and absent.",
+    "Recovery and failover operating evidence remains owner-bound and absent.",
+    "Provider terms, licence compatibility and source permissions remain accountable-owner decisions.",
+    "Retention, legal hold, privacy lifecycle and deletion evidence remains owner-bound and absent.",
+    "Regulatory applicability and classification remain accountable-human decisions.",
+    "Observed benchmark metrics and promotion evidence remain absent; promotion stays blocked.",
+    "A deployable registry release identity and Azure operating-effectiveness evidence remain absent."
+  ],
+  "constraints": [
+    "Exact decision: approve Phase 5 r7.",
+    "Approver authority type: HUMAN_ARCHITECT_ACTIVE_AI_INTERACTION.",
+    "Approval evidence in the active Copilot CLI interaction: User input: \"I approve phase 5 r7\".",
+    "Approval accepts only the frozen r7 Phase 5 manifest 93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519 and its 168 hash-bound artifacts.",
+    "AFF-A round 7 used gpt-5.6-luna, returned CONFORMS-WITH-GAPS, finalRoundForManifest true, resolved AFFA-P5-R6-MAJ-001, retained AFFA-P5-R5-MAJ-001 as resolved, and recorded zero BLOCKER, MAJOR or MINOR findings.",
+    "AFF-B round 5 used gpt-5.6-terra, returned CONFORMS-WITH-GAPS, finalRoundForManifest true, and recorded zero BLOCKER, MAJOR or MINOR findings.",
+    "AFF-B compliance coverage 020 is reviews/aff-b/coverage/stratton-compliance-coverage-020.json with SHA-256 4e0583cce517560501898d865adca0739f54b41c167a922a832c07347e923ad5.",
+    "The active model plan is revision 111 at 0-coordination/stratton-model-plan-revision-111.json with SHA-256 64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7.",
+    "Approval makes Phase 6 presentation work eligible and permits Tasks 13 and 14 to proceed, but it does not itself approve the Phase 6 presentation.",
+    "Presentation claims must distinguish implemented and locally validated code from untested Azure runtime behaviour.",
+    "All residual gaps remain open, unwaived and fail closed; no legal conclusion, certification, owner input or operating-effectiveness result is inferred.",
+    "The prior Phase 5 r4 approval remains immutable historical evidence. This append-only CC-002 approval supersedes r4 only as the active model-portfolio Phase 5 baseline.",
+    "Any material change to r7 requires a new sibling candidate, new converged AFF-A and AFF-B reviews, and a new explicit human decision.",
+    "No Azure sign-in, provider or subscription query, target validation, what-if, deployment, model inference, promotion, retention finalisation, Azure network call, runtime testing, Phase 7 authority or Phase 8 authority is granted."
+  ]
+}

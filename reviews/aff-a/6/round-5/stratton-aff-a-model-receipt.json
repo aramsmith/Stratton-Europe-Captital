@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 5,
+  "reviewedAt": "2026-08-10T00:54:49.790+02:00",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "selectionRationale": "The human-approved gpt-5.6-luna route is retained exactly for independent review and is recorded against model-plan revision 112.",
+  "availability": "ACTIVE_AND_VERIFIED",
+  "phaseAuthor": {
+    "agent": "AFF-6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "receiptPath": "cases/Stratton-Europe-Captital/6-presentation-r5/evidence/stratton-aff-6-model-receipt.json",
+    "receiptSha256": "11d11a8d06bf3795b6fd361490abda8b8ce73fb07eabade9dc1ccb8141cb3797"
+  },
+  "modelSeparation": {
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "reviewerActual": "gpt-5.6-luna",
+    "authorActual": "gpt-5.6-sol",
+    "exactSeparation": "gpt-5.6-luna != gpt-5.6-sol"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-112.json",
+    "revision": "112",
+    "sha256": "09634cb3c5a152b65c8a5f4e97835e6f9ab1bb5cee8b039ad2398260b5ae6c7d",
+    "affASelection": {
+      "agent": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.6-luna",
+      "plannedActualRuntimeModelId": "gpt-5.6-luna",
+      "availability": "ACTIVE",
+      "selectionRationale": "Luna provides a separate GPT-5.6 reasoning route and remains opposite to the Sol author actual model.",
+      "mustDifferFromAuthorActualModel": true,
+      "selectionChanged": false,
+      "additionalHumanModelApprovalRequired": false
+    },
+    "scope": "20-slide r5 remediation candidate; Phase 6 approval not claimed"
+  },
+  "nonApprovalStatement": "This receipt records reviewer model provenance and separation only. It does not approve Phase 6, waive findings, certify compliance, authorise Azure activity, authorise Phase 7 or Phase 8, or invoke AFF-B."
+}

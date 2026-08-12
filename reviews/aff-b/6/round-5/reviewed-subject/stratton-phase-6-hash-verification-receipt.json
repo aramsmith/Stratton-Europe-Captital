@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_REVIEWED_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 5,
+  "reviewedAt": "2026-08-10T21:32:42.490+02:00",
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r8/stratton-phase-6-hashes.json",
+    "expectedSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae",
+    "preWriteSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae",
+    "postWriteSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae",
+    "unchanged": true,
+    "artifactCountExpected": 157,
+    "artifactCountRecomputed": 157,
+    "artifactHashesMatched": 157,
+    "allListedArtifactHashesMatched": true,
+    "duplicatePathCount": 0,
+    "safeRelativePaths": true,
+    "trueUtf16OrdinalOrder": true,
+    "manifestSelfExcluded": true,
+    "excludedTrees": [
+      "deck/node_modules",
+      "deck/.vite",
+      "deck/.github",
+      "deck/.vscode",
+      "deck/test-results",
+      "deck/playwright-report"
+    ],
+    "excludedScaffoldDocuments": [
+      "deck/AGENTS.md",
+      "deck/MCP-GUIDE.md",
+      "deck/README.md",
+      "deck/src/data/.gitkeep"
+    ],
+    "listedExcludedPathCount": 0,
+    "unlistedOutsideExactExclusions": 0,
+    "roleCounts": {
+      "presentation-source": 111,
+      "presentation-export": 22,
+      "evidence": 18,
+      "authoritative-markdown": 1,
+      "rendered-html": 1,
+      "catalogue": 1,
+      "test": 2,
+      "tooling": 1
+    }
+  },
+  "modelBinding": {
+    "modelPlanRevision": "115",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-115.json",
+    "modelPlanSha256": "97b34470fbb6077e701f267af01d1fc77a2b6b87f45d372a2f8f0b83508c58d1",
+    "authorActualModel": "gpt-5.6-sol",
+    "affAActualModel": "gpt-5.6-luna",
+    "reviewerDefaultModel": "gpt-5.6-sol",
+    "reviewerSelectedModel": "gpt-5.6-terra",
+    "reviewerActualModel": "gpt-5.6-terra",
+    "actualModelSeparation": true
+  },
+  "r7Preservation": {
+    "r7ManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r7/stratton-phase-6-hashes.json",
+    "r7ManifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "r7ApprovalPath": "cases/Stratton-Europe-Captital/approvals/6/stratton-phase-6-approval-1.json",
+    "r7ApprovalSha256": "f93ced2eb5811dbfc9a792ff2fc37bc888c441cf67af7f675a872d131198723f",
+    "preserved": true
+  },
+  "finalAffA": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-8/stratton-aff-a-review.json",
+    "sha256": "129fb558c76e2f53afef1b33bfaa12135d5954ab0bb108416c42b68e3065880b",
+    "verdict": "CONFORMS-WITH-GAPS",
+    "sameManifestBinding": true,
+    "blockerCount": 0,
+    "majorCount": 0
+  },
+  "reviewOutputs": {
+    "reviewMarkdownSha256": "611b0ce7773afef1e369930540e36dda3ce5a4e088016d20d8ec6de516fc6094",
+    "reviewHtmlSha256": "6add0b3c0ff6e34fe2379f887232af76edbfde2d94a4760893b93aad840e0534",
+    "reviewJsonSha256": "e03cb144f8fe108d2f8b854475ad7e113d7b6df10c8db4d007de666e610fa961",
+    "modelReceiptSha256": "dc5d83686e614952b62c91d8ab896fd4ea3dde77b6969c96032b5883a9eed40d",
+    "reviewedSubjectSnapshotSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae"
+  },
+  "scope": "Fresh-process SHA-256 and structural verification only; no subject execution, rebuild, deployment, inference, runtime testing or mutation.",
+  "nonApprovalStatement": "This receipt verifies the reviewed subject and output hashes. It does not approve Phase 6, waive gates, certify compliance, authorise Azure activity or invoke Phase 7 or Phase 8."
+}

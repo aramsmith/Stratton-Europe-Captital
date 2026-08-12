@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "round": 7,
+  "reviewedAt": "2026-08-09T18:52:20.357+02:00",
+  "canonicalSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r7",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-phase-5-hashes.json",
+    "expectedSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "preReviewSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "postReviewSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "prePostStatus": "UNCHANGED",
+    "entryCount": 168,
+    "recomputedEntryCount": 168,
+    "matchedFileCount": 168,
+    "missingFiles": [],
+    "hashMismatches": [],
+    "duplicatePaths": [],
+    "ordinalPathOrdering": true,
+    "pathShapeViolations": [],
+    "missingRoles": [],
+    "utf8Bom": false,
+    "trailingNewline": false
+  },
+  "releaseManifest": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-release-manifest.json",
+    "expectedSha256": "5616e9ef980d3ea458f7a8735e7d1b916036bc3515a6e8fc3288aae5b13fab1d",
+    "actualSha256": "5616e9ef980d3ea458f7a8735e7d1b916036bc3515a6e8fc3288aae5b13fab1d"
+  },
+  "priorHistory": {
+    "approvedR4ManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "reviewedR5ManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "reviewedR6ManifestSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "relationship": "r4/r5/r6 references are immutable non-operational provenance; none is a current selector."
+  },
+  "snapshot": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-7/reviewed-subject/stratton-phase-5-hashes.json",
+    "sha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "byteIdenticalToCanonical": true
+  },
+  "subjectModificationPerformed": false,
+  "staticOnlyBoundary": "No package code, tests, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, inference, promotion, retention finalisation, Azure network call or runtime tests were executed."
+}

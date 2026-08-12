@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stratton AFF-A review Phase 5 round 3</title>
+  <script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+  </script>
+  <style>
+  :root {
+    color-scheme: light;
+    --cp-bg: #f7f4ef;
+    --cp-bg-elevated: #fcfbf8;
+    --cp-surface: #ffffff;
+    --cp-surface-soft: #f5f5f5;
+    --cp-border: #dedede;
+    --cp-border-strong: #919191;
+    --cp-text: #242424;
+    --cp-text-muted: #5c5c5c;
+    --cp-text-soft: #6f6f6f;
+    --cp-accent: #b11f4b;
+    --cp-accent-hover: #9a1a41;
+    --cp-accent-soft: rgba(177, 31, 75, 0.08);
+    --cp-accent-fg: #ffffff;
+    --cp-success: #16a34a;
+    --cp-danger: #dc2626;
+    --cp-warning: #f59e0b;
+    --cp-link: #0078d4;
+    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+    --cp-overlay: rgba(255, 255, 255, 0.8);
+    --cp-panel: rgba(255, 255, 255, 0.86);
+    --cp-panel-strong: rgba(255, 255, 255, 0.96);
+    --cp-sheen: rgba(255, 255, 255, 0.55);
+    --cp-highlight: rgba(177, 31, 75, 0.12);
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --cp-bg: #3d3b3a;
+    --cp-bg-elevated: #343231;
+    --cp-surface: #292929;
+    --cp-surface-soft: #2e2e2e;
+    --cp-border: #474747;
+    --cp-border-strong: #5f5f5f;
+    --cp-text: #dedede;
+    --cp-text-muted: #919191;
+    --cp-text-soft: #b0b0b0;
+    --cp-accent: #fd8ea1;
+    --cp-accent-hover: #fb7b91;
+    --cp-accent-soft: rgba(253, 142, 161, 0.14);
+    --cp-accent-fg: #1a1a1a;
+    --cp-success: #4ade80;
+    --cp-danger: #f87171;
+    --cp-warning: #fbbf24;
+    --cp-link: #4da6ff;
+    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+    --cp-overlay: rgba(41, 41, 41, 0.88);
+    --cp-panel: rgba(41, 41, 41, 0.72);
+    --cp-panel-strong: rgba(41, 41, 41, 0.96);
+    --cp-sheen: rgba(255, 255, 255, 0.04);
+    --cp-highlight: rgba(253, 142, 161, 0.12);
+  }
+  body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}
+  main{max-width:1180px;margin:0 auto;padding:2rem}
+  .card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border);padding:1.5rem;margin:1rem 0}
+  h1,h2,h3{line-height:1.25}
+  .ok{color:var(--cp-success);font-weight:700}
+  .warn{color:var(--cp-warning);font-weight:700}
+  .bad{color:var(--cp-danger);font-weight:800}
+  .muted{color:var(--cp-text-muted)}
+  code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.08rem .25rem;overflow-wrap:anywhere}
+  .table-wrap{overflow:auto}
+  table{border-collapse:collapse;width:100%;margin:.75rem 0}
+  th,td{border:1px solid var(--cp-border);padding:.55rem;text-align:left;vertical-align:top}
+  th{background:var(--cp-accent-soft)}
+  a{color:var(--cp-link)}
+  @media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}.card{box-shadow:none}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="card">
+    <p class="muted">Agentic Architecture Factory · AFF-A Rubber Duck Reviewer</p>
+    <h1>Stratton AFF-A review — Phase 5 — Coding round 3</h1>
+    <p><strong>Verdict:</strong> <span class="warn">CONFORMS-WITH-GAPS</span></p>
+    <p><strong>Review time:</strong> <code>2026-08-03T03:41:52.9129705+02:00</code></p>
+    <p><strong>Reviewer runtime:</strong> <code>gpt-5.5</code>; author runtimes <code>gpt-5.3-codex</code>, <code>gpt-5.6-sol</code></p>
+    <p><strong>Independence:</strong> <code>VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS</code></p>
+    <p><strong>Subject modification performed:</strong> <code>false</code>; <strong>final round for manifest:</strong> <code>true</code></p>
+  </section>
+  <section class="card">
+    <h2>Summary</h2>
+    <p>Revision 3 is integrity-valid, preserves both earlier reviewed subjects, resolves <code>AFFA-P5-R2-MAJ-001</code>, and presents no new material AFF-A finding. Bounded residual controls and AFF-B specialist assurance remain outstanding.</p>
+  </section>
+  <section class="card">
+    <h2>Independent verification</h2>
+    <ul>
+      <li>Manifest SHA-256: <code>cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886</code> (<span class="ok">MATCH</span>).</li>
+      <li>Post-review SHA-256: <code>cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886</code> (<span class="ok">UNCHANGED</span>).</li>
+      <li>File count: <code>154</code>; all listed hashes matched.</li>
+      <li>Revision 1 remains <code>412e573e…13e9b</code> with <code>153/153</code> entries matched; revision 2 remains <code>3effddfd…74ef</code> with <code>154/154</code> entries matched.</li>
+      <li>Snapshot: <code>cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886</code>; hash receipt: <code>b514825898f07af9198b89e21691447bbab09d69db70fc59ea9c4d2cd630b748</code>; model receipt: <code>02606e5d7cfdf4c696bd0dd5b988cc847d61f19f09efe8e6b0901f54fa3fce5e</code>.</li>
+    </ul>
+  </section>
+  <section class="card">
+    <h2>Prior finding dispositions</h2>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Severity</th><th>Disposition</th><th>Evidence</th></tr></thead><tbody><tr><td><code>AFFA-P5-R1-MAJ-001</code></td><td>MAJOR</td><td class="ok">RESOLVED_AND_RETAINED</td><td>5-coding-r3/infra/modules/ingress/main.bicep retains Registered feature evidence alignment. 5-coding-r3/tests/iac/Remediation.Tests.ps1 retains positive and fail-closed DU-15 coverage.</td></tr><tr><td><code>AFFA-P5-R1-MAJ-002</code></td><td>MAJOR</td><td class="ok">RESOLVED_AND_RETAINED</td><td>5-coding-r3/tests/iac/Invoke-DeploymentPreflight.ps1 retains selected-stage and selected-environment sentinel scoping. 5-coding-r3/tests/iac/Remediation.Tests.ps1 retains selected and non-selected environment regression coverage.</td></tr><tr><td><code>AFFA-P5-R1-MIN-001</code></td><td>MINOR</td><td class="ok">RESOLVED_AND_RETAINED</td><td>5-coding-r3/tooling/tool-versions.json retains FROZEN_FOR_ASSURANCE. 5-coding-r3/tests/package/Test-PackageIntegrity.ps1 retains enforcement.</td></tr><tr><td><code>AFFA-P5-R1-MIN-002</code></td><td>MINOR</td><td class="ok">RESOLVED_AND_RETAINED</td><td>5-coding-r3/README.md and stratton-build-report.md retain the release-manifest-only validation boundary. 5-coding-r3/validation/Test-ReleaseEvidence.ps1 verifies the external freeze sequence.</td></tr><tr><td><code>AFFA-P5-R2-MAJ-001</code></td><td>MAJOR</td><td class="ok">RESOLVED</td><td>5-coding-r3/app/src/worker-runtime.ts:68-92 defines stable fail-closed reasons for missing/inactive source, absent/invalid/expired licence and AI-analysis denial. 5-coding-r3/app/src/worker-runtime.ts:426-477 re-reads current source and latest licence, persists BLOCKED_MISSING_EVIDENCE, and appends deterministic redacted denial evidence before provider execution. 5-coding-r3/app/src/worker-runtime.ts:482-489 invokes the provider only after the authority recheck succeeds. 5-coding-r3/tests/app/unit/worker-runtime-transactions.test.ts:536-636 covers source suspension, missing licence, expired licence and AI-analysis denial, zero provider calls, stable blocked state, dead-letter behaviour and audit deduplication.</td></tr></tbody></table></div>
+  </section>
+  <section class="card">
+    <h2>Findings</h2>
+    <p class="ok">No blocker, major or minor AFF-A finding remains open for this manifest.</p>
+  </section>
+  <section class="card">
+    <h2>Review area results</h2>
+    <div class="table-wrap"><table><thead><tr><th>Area</th><th>Status</th><th>Evidence</th></tr></thead><tbody><tr><td>Canonical integrity</td><td class="ok">CONFORMS</td><td>Revision-3 manifest SHA-256 matched expected; 154/154 file hashes matched; ordinal ordering, artifact roles, revision-14 binding, UTF-8/no-BOM and no trailing newline on the canonical manifest were verified; pre/post manifest hash was unchanged.</td></tr><tr><td>Prior subject immutability</td><td class="ok">CONFORMS</td><td>Revision 1 remains 412e573e287bb1056217f6a29475df596d280543fcbeae875ce020e73dc13e9b with 153/153 entries matched; revision 2 remains 3effddfdc036578bc0ade0135002daedfdad0322fe6165279da2f43bbc0d74ef with 154/154 entries matched.</td></tr><tr><td>Model independence</td><td class="ok">CONFORMS</td><td>AFF-A actual runtime gpt-5.5 differs from Phase 5 author actual runtimes gpt-5.3-codex and gpt-5.6-sol.</td></tr><tr><td>Upstream binding</td><td class="ok">CONFORMS</td><td>The release manifest binds approved Phase 4, STRATTON-CC-001 approval and subjects, active coverage, and model-plan revision 14; all referenced hashes recomputed.</td></tr><tr><td>Prior remediation chain</td><td class="ok">CONFORMS</td><td>All four round-1 findings remain resolved, and AFFA-P5-R2-MAJ-001 is resolved in revision 3.</td></tr><tr><td>IaC and deployment procedure</td><td class="ok">CONFORMS</td><td>The complete retained package preserves DU-15 Registered evidence, selected-stage/environment preflight semantics, one-codebase parameterisation and the no-deployment Phase 5 boundary.</td></tr><tr><td>Application runtime, state, queue and idempotency logic</td><td class="ok">CONFORMS</td><td>Queued analysis now performs a current authority check before provider execution, persists deterministic blocked state, avoids provider calls after denial, and retains non-retryable dead-letter and audit deduplication behaviour.</td></tr><tr><td>Validation and release evidence</td><td class="warn">CONFORMS-WITH-GAPS</td><td>Retained full local validation run 20260803T011756396Z reports PASS and the external freeze sequence recomputes. AFF-B specialist review and owner-bound residual controls remain pending.</td></tr><tr><td>Markdown/HTML consistency</td><td class="ok">CONFORMS</td><td>The build-report Markdown and HTML carry materially equivalent outcomes, validation, security, traceability, residual controls and limitations.</td></tr><tr><td>Phase boundary</td><td class="ok">CONFORMS</td><td>The subject records no Azure authentication, target validation, what-if, deployment or cloud runtime testing, and AFF-A executed none.</td></tr></tbody></table></div>
+  </section>
+  <section class="card">
+    <h2>Residual gaps and required action</h2>
+    <p>VAL-001, VAL-002, VAL-003, VAL-004, VAL-005, AFFB-RES-001, AFFB-RES-002, AFFB-CC001-R2-MIN-001, AFFB-CC001-R3-MIN-002 remain open and unwaived. AFF-B security and compliance assurance remains pending.</p>
+    <p>AFF-5 may invoke AFF-B against this exact unchanged revision-3 manifest. Any material remediation requires a new sibling candidate and new final reviews. The human Phase 5 gate remains locked. This review does not approve Phase 5, waive any gap, certify compliance or authorise Azure activity.</p>
+  </section>
+</main>
+</body>
+</html>

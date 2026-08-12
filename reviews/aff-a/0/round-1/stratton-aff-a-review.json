@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1.0.0",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "selectedModelRationale": "Approved independent reasoning challenger remains the best fit for Phase 0 correctness, traceability, boundary and omission review. gpt-5.6-sol is the Phase 0 author model and cannot be used for independent AFF-A review; gpt-5.3-codex is more implementation/testing oriented.",
+    "runtimeIdentityEvidence": "Active task launcher binding explicitly and exactly enforced gpt-5.5 for this review invocation."
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "0",
+    "phaseName": "Phase 0 \u2014 Coordinate",
+    "owner": "AFF-0"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-01T20:06:27.754+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan.json",
+    "revision": "1",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "runScopedOverrideRequired": false
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-0-hashes.json",
+    "sha256": "8cd64963807398f3a8e9ba9b392f5ca98c7ebf5c1a4e89cb34d79e51e98899ac",
+    "modelPlanRevision": "1",
+    "hashAlgorithm": "SHA-256",
+    "artifactCount": 9,
+    "hashVerificationStatus": "BLOCKED_NOT_INDEPENDENTLY_RECOMPUTED_IN_REVIEW_RUNTIME"
+  },
+  "artifactsReviewed": [
+    {
+      "path": "0-coordination/stratton-coordination.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "4b85f345526e056024337db58043e524a39df63c754b4f2a7f40cecbb3ab0bbd",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "0-coordination/stratton-coordination.html",
+      "role": "rendered-html",
+      "manifestSha256": "39771d27d918347a238ca9d5492d96e8d1d72a576daf620f00887ce4b467c51e",
+      "inspectionStatus": "SAFE_HTML_AND_MARKDOWN_CONSISTENCY_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "0-coordination/stratton-input-inventory.json",
+      "role": "catalogue",
+      "manifestSha256": "bfb4d2c40c154994f7025bd70ae593e0c31b2ac0bffe6db0c520c325b260e1f0",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "role": "catalogue",
+      "manifestSha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+      "inspectionStatus": "CONTENT_REVIEWED_FOR_INDEPENDENCE",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.pdf",
+      "role": "evidence",
+      "manifestSha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "inspectionStatus": "BINARY_EXISTS_HEADER_AND_TWO_PAGE_TREE_OBSERVED_FULL_CONTENT_NOT_VIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "role": "evidence",
+      "manifestSha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "stratton-decisions.md",
+      "role": "catalogue",
+      "manifestSha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "manifestSha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "manifestSha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+      "inspectionStatus": "CONTENT_REVIEWED",
+      "hashVerificationStatus": "NOT_RECOMPUTED"
+    }
+  ],
+  "confirmedItems": [
+    "Governing files reviewed: AFF operating contract, lifecycle, AFF-A profile, active model plan, and canonical Phase 0 hash manifest.",
+    "Reviewer and author actual model IDs differ: reviewer gpt-5.5; author gpt-5.6-sol.",
+    "Phase 0 content stays within coordination and does not assert approved requirements, architecture, Azure service selection, legal obligation, deployment, test result, or human approval.",
+    "Evidence-backed known facts are traceable to the normalised source and framed as source statements rather than approved requirements.",
+    "Rendered HTML is self-contained, uses inline CSS, has no external scripts or CDNs, links large evidence rather than embedding it, and materially matches the authoritative Markdown.",
+    "Shared decision, risk, and regulatory records are concise and align with Phase 0 boundaries."
+  ],
+  "findings": [
+    {
+      "id": "A0-R1-BLOCKER-001",
+      "severity": "BLOCKER",
+      "title": "Listed SHA-256 hashes were not independently verifiable in this review runtime",
+      "evidence": [
+        "Canonical manifest lists nine SHA-256 values and invocation supplies manifest SHA-256 8cd64963807398f3a8e9ba9b392f5ca98c7ebf5c1a4e89cb34d79e51e98899ac.",
+        "Available read-only review tooling exposed file content but no byte-level checksum operation.",
+        "PDF evidence is compressed binary and was only partially viewable."
+      ],
+      "impact": "AFF-A cannot truthfully confirm that the reviewed bytes exactly match every listed SHA-256 or the supplied canonical manifest hash; the phase gate depends on hash-bound final reviews over unchanged subject artifacts.",
+      "owner": "AFF-0 / review orchestration",
+      "requiredAction": "Re-invoke review in a context where AFF-A can independently verify each artifact and manifest SHA-256, or add retained, reviewable hash-generation evidence and regenerate the canonical manifest as needed.",
+      "status": "OPEN"
+    },
+    {
+      "id": "A0-R1-MAJOR-001",
+      "severity": "MAJOR",
+      "title": "Active run journal is cited but omitted from the canonical reviewed hash set",
+      "evidence": [
+        "0-coordination/stratton-coordination.md lists ../stratton-run-journal.jsonl as an active shared record and append-only Phase 0 lifecycle evidence.",
+        "0-coordination/stratton-coordination.html links the same record.",
+        "stratton-run-journal.jsonl exists and records case identity, phase entry, source ingestion, normalisation, and model-plan creation events.",
+        "0-coordination/stratton-phase-0-hashes.json does not include stratton-run-journal.jsonl."
+      ],
+      "impact": "Lifecycle evidence used by the Phase 0 artifact is outside the hash-bound review set, so the review cannot bind that cited evidence to an unchanged hash.",
+      "owner": "AFF-0",
+      "requiredAction": "Include stratton-run-journal.jsonl in the canonical Phase 0 hash manifest, or remove/correct the Phase 0 artifact's reliance on it. Regenerate affected artifacts and hashes, then re-invoke review.",
+      "status": "OPEN"
+    },
+    {
+      "id": "A0-R1-MINOR-001",
+      "severity": "MINOR",
+      "title": "Normalisation method claim lacks retained validation evidence",
+      "evidence": [
+        "stratton-input-inventory.json states that selectable text and tables were extracted programmatically and checked against rendered page images.",
+        "The manifest retains the PDF and normalised Markdown but no conversion log or rendered-page comparison evidence."
+      ],
+      "impact": "The normalised text is usable for Phase 0, but the process-quality claim is stronger than the retained evidence independently demonstrates.",
+      "owner": "AFF-0",
+      "requiredAction": "Either qualify the method statement as an AFF-0 assertion or retain concise conversion/check evidence in a reviewed artifact if that claim remains material.",
+      "status": "OPEN"
+    }
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "The Phase 0 narrative is generally disciplined and boundary-safe, but the gate cannot open because hash verification is incomplete and a cited active lifecycle record is outside the canonical hash set.",
+  "residualGaps": [],
+  "finalRoundForManifest": false,
+  "requiredAction": "AFF-0 should remediate the hash and evidence issues, regenerate the affected canonical hash manifest and any affected rendered artifacts, then directly re-invoke AFF-A for round 2.",
+  "supersededRound": null
+}

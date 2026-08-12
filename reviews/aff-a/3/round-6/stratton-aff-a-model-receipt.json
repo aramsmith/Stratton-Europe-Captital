@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "formalReviewRound": 6,
+  "changeControlId": "STRATTON-CC-002",
+  "createdAt": "2026-08-06T08:48:55.629+02:00",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "selectedModelRationale": "The task brief explicitly selects gpt-5.6-luna for the independent Phase 3 CC-002 review; it provides a different actual GPT model ID from the gpt-5.6-sol author while supporting complete artefact and traceability review.",
+    "runScopedOverrideRequired": true,
+    "selectionEvidence": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-3-brief.md"
+  },
+  "author": {
+    "agent": "AFF-3",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "invocation": {
+    "invokedBy": "AFF-3",
+    "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a"
+  },
+  "reviewedSubjectHashReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-6/reviewed-subject/stratton-phase-3-hash-verification-receipt.json",
+    "sha256": "7f36600c88768e26ae50ca8be201c6e1c3959b15b623fdd66d0f391133279a06"
+  }
+}

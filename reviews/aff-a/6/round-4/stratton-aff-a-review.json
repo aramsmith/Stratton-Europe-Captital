@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 4,
+  "reviewedAt": "2026-08-10T00:21:50.961+02:00",
+  "verdict": "DIVERGES",
+  "verdictRationale": "The immutable subject is hash-integrity valid and evidence-rich, but model-plan revision 111 is a 19-slide unfrozen predecessor while the canonical manifest binds a 20-slide candidate. A material APIM Standard v2 versus PremiumV2 cost-input contradiction also remains. The blocker and unresolved major prevent approval.",
+  "finalRoundForManifest": false,
+  "subjectModificationPerformed": false,
+  "staticOnlyBoundary": true,
+  "reviewedSubject": {
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r4/stratton-phase-6-hashes.json",
+    "expectedManifestSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "preReviewManifestSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "postReviewManifestSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "recomputedArtifactCount": 154,
+    "matchedArtifactHashes": 154,
+    "allListedHashesMatched": true,
+    "duplicatePathCount": 0,
+    "ordinalSorted": true,
+    "safeRelativePaths": true,
+    "roleCounts": {
+      "presentation-source": 107,
+      "presentation-export": 22,
+      "diagram": 3,
+      "test": 2,
+      "tooling": 1,
+      "evidence": 16,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "authorReceiptPath": "cases/Stratton-Europe-Captital/6-presentation-r4/evidence/stratton-aff-6-model-receipt.json",
+    "authorReceiptSha256": "11e60ab661828550e46764d6ae7baf5787bdfa35e0b433d70d2cef522e36ed6a",
+    "phase5ApprovalPath": "cases/Stratton-Europe-Captital/approvals/5/stratton-phase-5-cc-002-approval-1.json",
+    "phase5ApprovalSha256": "ca419c4f84f8928156912a32ac0db29e57fa097b9785e20ecf87fa2edc2b4e4c",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/reviewed-subject/stratton-phase-6-hashes.json",
+    "snapshotSha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106",
+    "snapshotByteIdentical": true
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-model-receipt.json"
+  },
+  "subjectReview": {
+    "slideCount": 20,
+    "materialClaimCount": 38,
+    "sourceReferenceCount": 68,
+    "claimClassCounts": {
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED": 5,
+      "SOURCE_FACT": 12,
+      "APPROVED_DESIGN_INTENT": 14,
+      "HUMAN_OWNED_HYPOTHESIS": 4,
+      "UNTESTED_RUNTIME_BEHAVIOUR": 3
+    },
+    "parity": {
+      "markdownSha256": "7650c7b4824d8815fcb23821e2472c442e0d275a55388aadf0f9c62ac0895fe4",
+      "htmlSha256": "acf87b993899fcc62c5d542bee091080e2b70b8329ce004334b9ca57740a5c1d",
+      "allSlideAndClaimTokensPresent": true,
+      "htmlExternalRuntimeReferenceCount": 0,
+      "relativeCatalogueLinkPresent": true,
+      "claimCount": 38,
+      "sourceReferenceCount": 68,
+      "missingSourceCount": 0,
+      "claimClassCounts": {
+        "IMPLEMENTED_AND_STATICALLY_VALIDATED": 5,
+        "SOURCE_FACT": 12,
+        "APPROVED_DESIGN_INTENT": 14,
+        "HUMAN_OWNED_HYPOTHESIS": 4,
+        "UNTESTED_RUNTIME_BEHAVIOUR": 3
+      },
+      "deckConfigSlideCount": 20,
+      "catalogueSlideCount": 20,
+      "deckOrderMatchesCatalogue": true,
+      "slideInventoryParity": "PASS",
+      "claimRangeParity": "PASS; HTML and Markdown use the same range-compressed claim notation",
+      "boundaryLanguageParity": "PASS"
+    },
+    "browserEvidence": {
+      "registeredSlideCount": 20,
+      "modeCount": 3,
+      "entryCount": 60,
+      "allEntriesZeroFindings": true
+    },
+    "networkEvidence": {
+      "slideCount": 20,
+      "allSlideStatuses200": true,
+      "failedRequestCount": 0,
+      "externalRequestCount": 0,
+      "localOnly": true
+    },
+    "staticEvidence": {
+      "productionFileCount": 21,
+      "sourceMapCount": 0,
+      "externalCssDependencyCount": 0,
+      "externalHtmlDependencyCount": 0,
+      "missingLocalReferenceCount": 0
+    },
+    "determinismEvidence": {
+      "schemaVersion": "1.0.0",
+      "recordType": "AFF_PHASE_6_BROWSER_DETERMINISM_RECEIPT",
+      "generatedAt": "2026-08-09T23:16:28.7590683+02:00",
+      "assuranceRuns": 3,
+      "allRunHashesMatched": true,
+      "sourceRunArtifacts": {
+        "browser-assurance.json": "807751081a12bc79cacf60e06703e47484cbdfe34a21c5b37ac317b55db55d25",
+        "slide-11-normal.png": "b1ebf4a9617012dc3b0c17c985625a255e669ba315d3bee23a77b2e93c687ea1",
+        "slide-11-final.png": "250d2d755c4d1515a62fd9ba45e19fc6066d34fc837ecaff2250fb5ce0f181e2",
+        "slide-11-reduced-motion.png": "ee858ed3b05b460e0f1574f87f493e7f6687efbd6935c848aafc77089b56f4b4",
+        "slide-12-azure.png": "657ef1c06cd12286d358efb2e8e02c8f984c2a0893b9665408c484976b964bf0"
+      },
+      "caseLocalEvidence": {
+        "browser-assurance.json": "ffdc95b6eb66a13618739f6d0723ef5cec63311d776516664d3c587c676514ea",
+        "slide-11-normal.png": "b1ebf4a9617012dc3b0c17c985625a255e669ba315d3bee23a77b2e93c687ea1",
+        "slide-11-final.png": "250d2d755c4d1515a62fd9ba45e19fc6066d34fc837ecaff2250fb5ce0f181e2",
+        "slide-11-reduced-motion.png": "ee858ed3b05b460e0f1574f87f493e7f6687efbd6935c848aafc77089b56f4b4",
+        "slide-12-azure.png": "657ef1c06cd12286d358efb2e8e02c8f984c2a0893b9665408c484976b964bf0"
+      },
+      "caseLocalReportDifference": "The case-local report rewrites screenshot paths from .superpowers to evidence/browser-assurance; measured records and screenshot bytes are unchanged.",
+      "renderMatrix": {
+        "slides": 20,
+        "modes": [
+          "reference-mono",
+          "system",
+          "reduced-motion"
+        ],
+        "combinations": 60
+      },
+      "result": "PASS",
+      "boundary": "Canonical screenshots exclude DECKIO navigation, export, progress, font-toggle and timer chrome so evidence captures only the slide subject."
+    },
+    "pdfEvidence": {
+      "schemaVersion": "1.0.0",
+      "recordType": "AFF_PHASE_6_CANONICAL_PDF_EXPORT_EVIDENCE",
+      "generatedAt": "2026-08-09T23:16:28.7590683+02:00",
+      "canonicalPath": "deck/deck.pdf",
+      "canonicalSha256": "8c444c67b47528665bbdbefa277960fe7506cd23f7bcbdcf56f90b4c57a02da2",
+      "canonicalBytes": 18084137,
+      "pageCount": 20,
+      "pageSizePoints": [
+        960.0,
+        600.0
+      ],
+      "startsWithPdfHeader": true,
+      "endsWithEof": true,
+      "documentInfoFields": {
+        "title": "",
+        "author": "",
+        "subject": "",
+        "keywords": "",
+        "creator": "",
+        "producer": "",
+        "creationDate": "",
+        "modDate": "",
+        "trapped": ""
+      },
+      "documentInfoFieldsBlank": true,
+      "xmpMetadataLength": 0,
+      "embeddedFileCount": 0,
+      "encrypted": false,
+      "exportMethod": "Playwright capture of the current production deck at 1440x900 with deviceScaleFactor 2, then deterministic image-only PyMuPDF assembly at 960x600 points.",
+      "sanitisationMethod": "Explicit blank document-info fields, deleted XMP, no embedded files, no generated document ID, garbage collection and compressed object streams.",
+      "determinism": {
+        "assemblyRuns": 2,
+        "hashesMatched": true,
+        "sha256": "8c444c67b47528665bbdbefa277960fe7506cd23f7bcbdcf56f90b4c57a02da2"
+      },
+      "packagedExporterBoundary": "The DECKIO packaged exporter was not used because its undeclared Puppeteer dependency was absent. Existing Playwright and PyMuPDF dependencies were used without changing package manifests.",
+      "intermediatePresentInCandidate": false,
+      "overallStatus": "PASS",
+      "boundary": "Presentation export evidence only; not deployment, runtime-testing or production-readiness evidence.",
+      "readOnlyByteInspection": {
+        "sha256": "8c444c67b47528665bbdbefa277960fe7506cd23f7bcbdcf56f90b4c57a02da2",
+        "bytes": 18084137,
+        "startsWithPdfHeader": true,
+        "endsWithEof": true,
+        "infoMarkerPresent": true,
+        "metadataMarkerPresent": false,
+        "embeddedFileCount": 0,
+        "nonBlankProducerMarker": true,
+        "localIdentityMarkers": false
+      }
+    },
+    "assetRightsEvidence": {
+      "schemaVersion": "1.0.0",
+      "recordType": "AFF_PHASE_6_ASSET_RIGHTS_INVENTORY",
+      "generatedAt": "2026-08-09T23:16:28.7590683+02:00",
+      "assetGroups": [
+        {
+          "path": "deck/src/data/stratton-europe-capital-logo.png",
+          "classification": "CASE_LOCAL_FICTITIOUS_BRAND_ASSET",
+          "usage": "Deck branding",
+          "rightsStatus": "HUMAN_OWNER_CONFIRMATION_REQUIRED_BEFORE_EXTERNAL_DISTRIBUTION"
+        },
+        {
+          "path": "deck/src/data/stratton-round-logo.png",
+          "classification": "CASE_LOCAL_FICTITIOUS_BRAND_ASSET",
+          "usage": "Deck branding",
+          "rightsStatus": "HUMAN_OWNER_CONFIRMATION_REQUIRED_BEFORE_EXTERNAL_DISTRIBUTION"
+        },
+        {
+          "path": "deck/src/data/approach/togaf-adm.png",
+          "classification": "REFERENCE_ILLUSTRATION",
+          "usage": "Architecture-method reference",
+          "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+        },
+        {
+          "path": "deck/src/data/approach/cloud-adoption-framework.png",
+          "classification": "REFERENCE_ILLUSTRATION",
+          "usage": "Microsoft Cloud Adoption Framework reference",
+          "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+        },
+        {
+          "path": "deck/src/data/approach/well-architected-framework.png",
+          "classification": "REFERENCE_ILLUSTRATION",
+          "usage": "Microsoft Well-Architected Framework reference",
+          "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+        },
+        {
+          "path": "deck/src/data/github-copilot-pilot.png",
+          "classification": "PRODUCT_ILLUSTRATION",
+          "usage": "Agentic architecture method reference",
+          "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+        },
+        {
+          "path": "deck/src/data/microsoft-copilot-logo.svg",
+          "classification": "MICROSOFT_PRODUCT_MARK",
+          "usage": "Human-AI operating model",
+          "rightsStatus": "OFFICIAL_MARK_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+        },
+        {
+          "path": "deck/src/data/azure-logo.svg",
+          "classification": "MICROSOFT_PRODUCT_MARK",
+          "usage": "Azure architecture identification",
+          "rightsStatus": "OFFICIAL_MARK_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+        },
+        {
+          "path": "deck/src/data/azure-ai-foundry-logo.svg",
+          "classification": "MICROSOFT_PRODUCT_MARK",
+          "usage": "AI service identification",
+          "rightsStatus": "OFFICIAL_MARK_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+        },
+        {
+          "path": "deck/src/data/azure-icons/*.svg",
+          "classification": "MICROSOFT_PRODUCT_ICONS",
+          "usage": "Azure service identification",
+          "rightsStatus": "OFFICIAL_ICON_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+        }
+      ],
+      "externalDistributionState": "BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT",
+      "licensingConclusionMade": false,
+      "customerBrandClaimed": false,
+      "findingBoundary": "The inventory records an owner gate and makes no copyright, trademark, licence or redistribution conclusion."
+    },
+    "phaseBoundary": {
+      "candidateStatus": "TWENTY_SLIDE_ASSURANCE_CANDIDATE",
+      "registeredSlides": 20,
+      "materialClaims": 38,
+      "phase5ApprovalPath": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+      "phase5ApprovalSha256": "ca419c4f84f8928156912a32ac0db29e57fa097b9785e20ecf87fa2edc2b4e4c",
+      "phase6Approved": false,
+      "azureDeploymentExecuted": false,
+      "phase8RuntimeTestingExecuted": false,
+      "productionReadinessClaimed": false,
+      "externalDistributionBlockedPendingAssetRightsOwnerGate": true
+    },
+    "phaseValidationOverallStatus": "PASS_WITH_OWNER_GATES",
+    "claimSourceValidationOverallStatus": "PASS"
+  },
+  "priorRoundSupersession": {
+    "priorAffARound3Path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-3/stratton-aff-a-review.json",
+    "priorAffARound3Sha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+    "priorAffARound3HashMatched": true,
+    "status": "SUPERSEDED_FOR_R4_GATE; REVISION_3_10_SLIDE_SUBJECT_ONLY",
+    "priorAffBRound2Status": "NOT_TREATED_AS_R4_ASSURANCE; REVISION_3_ONLY"
+  },
+  "findingSummary": {
+    "BLOCKER": 1,
+    "MAJOR": 1,
+    "MINOR": 1
+  },
+  "findings": [
+    {
+      "findingId": "AFFA-P6-R4-BLK-001",
+      "severity": "BLOCKER",
+      "title": "Active model-plan revision 111 does not govern the bound 20-slide candidate",
+      "status": "OPEN",
+      "evidence": [
+        "0-coordination/stratton-model-plan-revision-111.json:50-61 records registeredSlides=19 and browserRenderCount=24.",
+        "0-coordination/stratton-model-plan-revision-111.json:249-250 records WORKING_DRAFT_NOT_FROZEN and canonicalManifestCreated=false.",
+        "6-presentation-r4/stratton-phase-6-hashes.json:7,33,819-820 binds revision 111 to 154 artifacts, 20 slides and 38 claims.",
+        "6-presentation-r4/evidence/stratton-aff-6-model-receipt.json binds the same revision 111 to a 20-slide author candidate."
+      ],
+      "whyMaterial": "Revision 111 is a truthful 19-slide working predecessor, not an active governing plan for the immutable 20-slide subject. The review cannot be finalised against a governing record whose scope and freeze state contradict the canonical candidate.",
+      "owner": "AFF-6 / AFF-0 coordination",
+      "action": "Create a new append-only model-plan binding that explicitly governs the 20-slide r4 candidate and records the human direction/approval for the expanded storyline. Do not edit revision 111 or the immutable subject."
+    },
+    {
+      "findingId": "AFFA-P6-R4-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Illustrative cost shape uses an APIM tier inconsistent with the displayed current package",
+      "status": "OPEN",
+      "evidence": [
+        "6-presentation-r4/deck/src/data/azurePricing.js:16 prices APIM Standard v2.",
+        "6-presentation-r4/deck/src/slides/CodingSlide.jsx:77-80 labels current evidence as APIM PremiumV2, capacity 1, with reconciliation required against the Phase 3 Standard v2 hypothesis.",
+        "6-presentation-r4/deck/src/slides/CostsBenefitsSlide.jsx:96,137 labels LIVE API RATES and shows a dated snapshot while the Markdown describes the values as the approved-design cost shape."
+      ],
+      "whyMaterial": "The approximately $5.9K/month and $70.6K/year figure is not reproducibly tied to one declared current SKU set. The illustrative caveat and GPT-4o mini public-rate proxy boundary limit decision weight but do not remove the contradiction.",
+      "owner": "AFF-6 with AFF-4/AFF-5 baseline owners",
+      "action": "Reconcile the pricing inputs to current/approved SKU evidence, or label the figure as a separate Standard v2 scenario and show the PremiumV2 variance. Replace the candidate and rehash before approval."
+    },
+    {
+      "findingId": "AFFA-P6-R4-MIN-001",
+      "severity": "MINOR",
+      "title": "PDF sanitisation evidence does not disclose a retained MuPDF producer marker",
+      "status": "OPEN",
+      "evidence": [
+        "6-presentation-r4/evidence/pdf-export-receipt.json:15-31 records blank document-info fields, zero XMP and zero attachments.",
+        "Read-only inspection of immutable deck/deck.pdf (SHA-256 8c444c67b47528665bbdbefa277960fe7506cd23f7bcbdcf56f90b4c57a02da2) found /Info and /Producer(MuPDF 1.29.0); no local identity marker was found."
+      ],
+      "whyMaterial": "The marker is not a customer or local-user disclosure, but the receipt is incomplete about remaining producer metadata and cannot support an unqualified sanitisation interpretation.",
+      "owner": "AFF-6",
+      "action": "Append a truthful marker result and accepted disclosure rationale, or remove it in a new PDF/candidate. Do not alter this subject."
+    }
+  ],
+  "confirmedItems": [
+    "Canonical manifest hash matched 2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106 before and after review.",
+    "All 154 listed artifacts existed and recomputed hashes matched; paths were safe, duplicate-free and ordinal sorted.",
+    "Manifest role counts matched: 107 presentation-source, 22 presentation-export, 3 diagram, 2 test, 1 tooling, 16 evidence, 1 catalogue, 1 rendered HTML and 1 authoritative Markdown.",
+    "The reviewed-subject manifest snapshot is byte-identical to the canonical manifest.",
+    "Author receipt hash matched 11e60ab661828550e46764d6ae7baf5787bdfa35e0b433d70d2cef522e36ed6a; author actual model is gpt-5.6-sol.",
+    "AFF-A default is gpt-5.5; selected and actual reviewer model is gpt-5.6-luna; actual author model is gpt-5.6-sol; separation is verified.",
+    "The r4 catalogue contains 20 slides, 38 distinct material claims and 68 source references with zero missing source paths; deck order matches the catalogue.",
+    "Markdown and HTML carry the 20-slide inventory, claim IDs and execution-boundary language; no external runtime reference was found in the HTML.",
+    "The narrative distinguishes source fact, hypothesis, design intent, static evidence and untested runtime behaviour; GPT-4o mini is explicitly a public-rate proxy rather than an approved GPT-5.6 route cost.",
+    "Phase 5 r7 wording is bounded: 124 deployable source files, 17 implementation units, ten local validation steps and 5 + 8 work-package wording; no Azure execution or runtime claim is made.",
+    "Browser/determinism/network/static evidence is present and locally bounded; this review did not execute any of it.",
+    "Asset-rights evidence blocks external distribution pending accountable owner confirmation or asset replacement.",
+    "Prior AFF-A round 3 hash matched 8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb and is superseded because it covered revision 3, not r4.",
+    "No subject file was edited, rebuilt, executed, exported, deployed, inferred against or runtime-tested; AFF-B was not invoked."
+  ],
+  "residualGaps": [
+    "Model-plan mismatch, cost/SKU reconciliation and PDF producer disclosure remain open.",
+    "External distribution remains blocked by the explicit asset-rights owner gate.",
+    "Phase 5 owner-bound regions, quota/capacity, recovery, retention, licence/source permissions, regulatory classification and benchmark evidence remain open and fail closed.",
+    "AFF-B specialist review for r4 and human Phase 6 approval are absent; AFF-A does not substitute for either."
+  ],
+  "finalRoundStatusForThisManifest": "NOT_FINAL_DUE_TO_DIVERGENCE_AND_OPEN_BLOCKER_MAJOR",
+  "requiredAction": "Create a new append-only model-plan revision governing the 20-slide r4 candidate, reconcile APIM cost inputs/label, address PDF producer disclosure in a new candidate, then obtain same-hash AFF-A/AFF-B convergence and human Phase 6 decision.",
+  "nonApprovalStatement": "AFF-A does not approve Phase 6, waive residual gaps, certify compliance, provide legal advice or formal attestation, authorise Azure activity, authorise Phase 7 or Phase 8, invoke AFF-B, or substitute for human approval.",
+  "generatedReviewPackageArtifactHashes": {
+    "markdown": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-review.md",
+      "sha256": "b772b16377a9dc510decdeb7926a8e45450222207141973ce7a0de0cd14a6ec7"
+    },
+    "html": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-review.html",
+      "sha256": "f038ad94b4bc3273ea429b80ca1ed3271037c3723ee75e6c2168a8f8bb234c6c"
+    },
+    "modelReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-4/stratton-aff-a-model-receipt.json",
+      "sha256": "ca80b819d710df19e7ce2bd878dde0644c5f91e0630f6f779b1d4c4937d1b0ce"
+    },
+    "reviewJson": "SELF_HASH_REPORTED_OUTSIDE_RECORD_TO_AVOID_CIRCULARITY",
+    "hashVerificationReceipt": "RECORDED_IN_RECEIPT_ONLY_TO_AVOID_CIRCULARITY"
+  }
+}

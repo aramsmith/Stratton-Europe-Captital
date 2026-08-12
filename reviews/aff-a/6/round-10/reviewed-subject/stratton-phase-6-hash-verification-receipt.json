@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_6_R10_HASH_VERIFICATION_RECEIPT",
+  "reviewer": "AFF-A",
+  "reviewRound": 10,
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r10-aff-a-round-10-invocation-authorization.json",
+    "sha256": "de6c5e2c0f589b960b5b46ab578e84a2e7539a96cef9c6db2a4e630aa7dde2e8"
+  },
+  "manifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r10/stratton-phase-6-hashes.json",
+    "expectedSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "actualSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "artifactCount": 172,
+    "matchedArtifactCount": 172,
+    "uniqueSafeOrdinalExclusionsRoleCounts": "PASS",
+    "filesystemListedBoundary": "PASS",
+    "fullCandidateFileCount": 174,
+    "fullCandidateTreeSha256": "4d0eaf63d7f76b34ffd718375692669e4d2907a32a499dfe897b8801b66fce3c",
+    "expectedFullCandidateTreeSha256": "4d0eaf63d7f76b34ffd718375692669e4d2907a32a499dfe897b8801b66fce3c",
+    "preReviewManifestSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "postReviewManifestSha256": "3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe",
+    "prePostSubjectUnchanged": true
+  },
+  "anchors": {
+    "modelPlan": "PASS",
+    "designAndCommit": "PASS",
+    "r9ImmutableAnchors": "PASS",
+    "r9FrozenContract": "PASS"
+  },
+  "subjectInspection": {
+    "completeCanonicalSubject": true,
+    "screenshotsInspected": 17,
+    "browserAssurance": "PASS 60/60, 107 assertions, 0 failures",
+    "browserDeterminism": "PASS 17/17 across 3 runs",
+    "runtimeNetwork": "PASS 600/600 successful, 0 external",
+    "pdf": "PASS 20 pages, 960x600, 18462614 bytes, blank metadata, 0 XMP, 0 attachments",
+    "claimParity": "PASS 20/38/69"
+  },
+  "contracts": {
+    "r9": "PASS",
+    "slides020506": "PASS",
+    "slides1012": "PASS",
+    "slides1316": "PASS",
+    "slides1719": "PASS",
+    "metadata": "FAIL fresh rerun: expected R10_CONTENT_COMPLETE_INTEGRATED_VALIDATION_PENDING, observed R10_FROZEN_AFF_A_PENDING",
+    "recordedEvidence": "CONTRADICTORY PASS"
+  },
+  "verdict": "DIVERGES",
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 0
+  },
+  "outputs": "Six formal records written only beneath reviews/aff-a/6/round-10; candidate unchanged"
+}

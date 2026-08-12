@@ -1,0 +1,19 @@
+flowchart LR
+  U[Authorised users] --> CASE[Case and eligibility service]
+  CASE --> FLOW[Review and approval workflow]
+  CONN[Read-only source connectors] --> ING[Controlled ingestion]
+  LIC[External-data licence gate] --> ING
+  ING --> META[Evidence and provenance service]
+  META --> ANA[Assistive analysis service]
+  ANA --> CITE[Grounding and citation service]
+  CITE --> FLOW
+  POL[Policy decision service] --> CASE
+  POL --> ING
+  POL --> ANA
+  POL --> FLOW
+  FLOW --> DRAFT[Draft recommendation service]
+  CASE --> AUD[Audit evidence service]
+  ING --> AUD
+  ANA --> AUD
+  FLOW --> AUD
+  DRAFT -. no automated investment decision .-> IC[Investment Committee record]

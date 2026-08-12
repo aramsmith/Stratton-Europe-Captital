@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_INVOCATION_AUTHORIZATION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseRevision": "11",
+  "reviewRound": 7,
+  "recordedAt": "2026-08-11T11:53:46.7423404+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "status": "AUTHORIZED_PENDING_EXECUTION",
+  "authorizationScope": "Invoke AFF-B round 7 in a fresh distinct context for a bounded read-only security, privacy, sovereignty and compliance review of the complete frozen Phase 6 r11 subject after successful AFF-A round 11 closure.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-118.json",
+    "revision": "118",
+    "sha256": "66b61e6f9b6aef557cc36e088d36a7f40d49651bbdad4ca01a5afe1927767ac7"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "sha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "artifactCount": 173,
+    "roleCounts": {
+      "authoritative-markdown": 1,
+      "catalogue": 1,
+      "evidence": 32,
+      "presentation-export": 22,
+      "presentation-source": 111,
+      "rendered-html": 1,
+      "test": 4,
+      "tooling": 1
+    },
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "fullCandidateFileCount": 175,
+    "fullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "affAPrerequisite": {
+    "reviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.json",
+    "reviewSha256": "05699c6498e309f7eff1e9a1b1cf034c6d67ceabecab429c2b36595c12ba23d3",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-model-receipt.json",
+    "modelReceiptSha256": "acbe7a3a4fea2fc9362fbc613983612fd7827c5d05bd0084e096881a15b0457a",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hashes.json",
+    "snapshotSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "verificationReceiptSha256": "22fd08dd61aca0c4ab219ce9dac7eadb97d874a934d4502bb4aad186a2256a93",
+    "verdict": "CONFORMS-WITH-GAPS",
+    "findings": [],
+    "findingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0,
+      "total": 0
+    },
+    "finalRoundForManifest": true,
+    "sameManifestBinding": true,
+    "independentRecordReview": "APPROVED",
+    "authorizationConditionMet": true
+  },
+  "modelAuthorization": {
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "requiredActualRuntimeModelId": "gpt-5.6-terra",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "freshAffBReviewerContextRequired": true,
+    "actualModelIdsMustRemainDistinct": true,
+    "requiredSeparation": "Terra must run in a fresh distinct reviewer context and remain separate from both the Sol author and Luna AFF-A reviewer."
+  },
+  "requiredOutputs": {
+    "directory": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7",
+    "reviewMarkdown": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.md",
+    "reviewHtml": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.html",
+    "reviewJson": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.json",
+    "modelReceipt": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-model-receipt.json",
+    "manifestSnapshot": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/reviewed-subject/stratton-phase-6-hashes.json",
+    "verificationReceipt": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "plannedCoveragePath": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-025.json",
+    "plannedCoverageSequence": "025"
+  },
+  "boundaries": {
+    "subjectMutationAllowed": false,
+    "candidateMutationAllowed": false,
+    "approvalAllowed": false,
+    "waiverAllowed": false,
+    "legalOrRegulatoryCertificationAllowed": false,
+    "azureActivityAllowed": false,
+    "azureSignInAllowed": false,
+    "azureQueryAllowed": false,
+    "deploymentAllowed": false,
+    "runtimeInferenceAllowed": false,
+    "runtimeTestingAllowed": false,
+    "phase7InvocationAllowed": false,
+    "phase8InvocationAllowed": false,
+    "externalDistributionAllowed": false
+  },
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "nextAction": "Run only AFF-B round 7 with actual model gpt-5.6-terra in a fresh distinct context against the unchanged frozen r11 manifest. Write only the six required AFF-B records. Coverage 025 remains planned and absent until the review is complete.",
+  "nonApprovalStatement": "This coordination record authorizes only the bounded read-only AFF-B round 7 review. It does not perform the review, create coverage 025, approve Phase 6 r11, resolve or waive owner gates, certify compliance, authorize external distribution or Azure/runtime activity, mutate the candidate, or invoke Phase 7 or Phase 8."
+}

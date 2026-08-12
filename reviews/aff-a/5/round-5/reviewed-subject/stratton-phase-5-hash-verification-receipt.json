@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "round": 5,
+  "reviewedAt": "2026-08-09T17:18:42.697+02:00",
+  "canonicalSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r5",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "expectedSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "preReviewSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "entryCount": 162,
+    "recomputedEntryCount": 162,
+    "missingFiles": [],
+    "hashMismatches": [],
+    "duplicatePaths": [],
+    "ordinalPathOrdering": true,
+    "pathShapeViolations": [],
+    "missingRoles": [],
+    "utf8Bom": false,
+    "trailingNewline": false
+  },
+  "releaseManifest": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-release-manifest.json",
+    "expectedSha256": "154543da6430cfbbdd91352b011ceef723a370e718540413dd10a456386bf49f",
+    "actualSha256": "154543da6430cfbbdd91352b011ceef723a370e718540413dd10a456386bf49f"
+  },
+  "approvedR4": {
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+    "expectedSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "actualSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "entryCount": 155,
+    "recomputedMissingCount": 0,
+    "recomputedMismatchCount": 0
+  },
+  "snapshot": {
+    "path": "reviews/aff-a/5/round-5/reviewed-subject/stratton-phase-5-hashes.json",
+    "sha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "byteIdenticalToCanonical": true
+  },
+  "subjectModificationPerformed": false,
+  "staticOnlyBoundary": "No package code, tests, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, inference, promotion, retention finalisation, or runtime tests were executed."
+}

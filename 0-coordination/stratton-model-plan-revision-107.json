@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "107",
+  "createdAt": "2026-08-05T03:05:04.4399053+02:00",
+  "revisionReason": "Apply the approved Slide 9 Investment Committee pulse and readability redesign while preserving TOGAF evidence and authority boundaries.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-106.json",
+    "sha256": "f08448db673bd0433db9f1a4ad34e6460c8eb8966a849478a43d9de651036b7f",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 9,
+    "request": "Implement the approved Slide 9 Investment Committee pulse/readability redesign."
+  },
+  "contentChange": {
+    "summary": [
+      "Slide 9 CSS now uses the approved 502px stage, 320px authority rail, larger local text roles and brighter dark-theme surfaces.",
+      "The Investment Committee authority hub has three restrained staggered rings using a 5400ms cycle gated by the active slide and revealed hub state.",
+      "Reduced-motion mode disables animation and keeps static inner, middle and outer rings visible at the approved opacities.",
+      "The Slide 9 JSX, editable copy, metrics, authority boundary and disclosure sequence remain unchanged."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false,
+    "autonomousInvestmentDecisionClaimed": false,
+    "sourceSystemWriteBackClaimed": false
+  },
+  "quality": {
+    "readabilityContract": "pass",
+    "pulseContract": "pass",
+    "contentRegression": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 16,
+    "renderedSlide": 9,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "pulseRingCount": 3,
+    "pulseCycleMs": 5400,
+    "pulseDelaysMs": [
+      0,
+      720,
+      1440
+    ],
+    "coreBreathMs": 4200,
+    "noTextClipping": true,
+    "jsxUnchanged": true
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.jsx",
+      "sha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.module.css",
+      "sha256": "24c4b739d15ff883787499abd51e5db2c5e814c170d653421e2c3b14c0b590e0"
+    }
+  },
+  "verificationArtifacts": {
+    "readabilityContract": {
+      "repositoryPath": ".superpowers/sdd/2026-08-05-slide-9-investment-committee-pulse/slide-9-readability-contract.mjs",
+      "sha256": "689c5b0a2b319c08a5336bc96d009fb4802166daad5d717f2bcd8bb6faa6a0f0"
+    },
+    "pulseContract": {
+      "repositoryPath": ".superpowers/sdd/2026-08-05-slide-9-investment-committee-pulse/slide-9-pulse-contract.mjs",
+      "sha256": "abc1049df67fa5c5fdf7f48a43b4c9a663b8b4e8b9c8afa7b3f2e75194c329ac"
+    },
+    "report": {
+      "repositoryPath": ".superpowers/sdd/2026-08-05-slide-9-investment-committee-pulse/task-3-report.md",
+      "sha256": "9cdc2e998c91309629d3644667bb20d89b2d08ca42db80a80e0f164c4ee17666"
+    },
+    "baselineDiff": {
+      "repositoryPath": ".superpowers/sdd/2026-08-05-slide-9-investment-committee-pulse/final-css.diff",
+      "sha256": "7d6ac03741f94cabb263a48eb9678d2be50fc9be26f0302748b00158b9a13bb7"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 16,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

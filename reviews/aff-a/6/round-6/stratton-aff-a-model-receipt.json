@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 6,
+  "reviewedAt": "2026-08-10T01:26:54.6112844+02:00",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "selectionRationale": "The human-approved gpt-5.6-luna route is retained exactly for independent model-opposite review of the Sol-authored r6 subject and is recorded against model-plan revision 113.",
+  "availability": "ACTIVE_AND_VERIFIED",
+  "phaseAuthor": {
+    "agent": "AFF-6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "receiptPath": "cases/Stratton-Europe-Captital/6-presentation-r6/evidence/stratton-aff-6-model-receipt.json",
+    "receiptSha256": "19c2235ce32b0e6407d6e71e15108de27706de4d7d0bdedb3184921b3c15f49e"
+  },
+  "modelSeparation": {
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "reviewerActual": "gpt-5.6-luna",
+    "authorActual": "gpt-5.6-sol",
+    "exactSeparation": "gpt-5.6-luna != gpt-5.6-sol"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-113.json",
+    "revision": "113",
+    "sha256": "fde28bb18b4ac993522e4c795daa04800bf6cf8d564f5358b4f36b808dabfffe",
+    "affASelection": {
+      "agent": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.6-luna",
+      "actualRuntimeModelId": "gpt-5.6-luna",
+      "availability": "ACTIVE",
+      "mustDifferFromAuthorActualModel": true,
+      "selectionChanged": false,
+      "additionalHumanModelApprovalRequired": false
+    },
+    "scope": "20-slide r6 metadata-remediation candidate; Phase 6 approval not claimed"
+  },
+  "nonApprovalStatement": "This receipt records reviewer model provenance and separation only. It does not approve Phase 6, waive owner gates, certify compliance, authorise Azure activity, authorise Phase 7 or Phase 8, or invoke AFF-B."
+}

@@ -1,0 +1,607 @@
+.frontierSolutionTitle {
+  background: var(--background);
+  padding: 0 0 44px 0;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 570px;
+  height: 570px;
+  top: -190px;
+  right: -120px;
+  background: radial-gradient(
+    circle at 42% 42%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 28%, transparent) 52%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 470px;
+  height: 470px;
+  bottom: -160px;
+  left: 130px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 22%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  align-items: center;
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+.composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  align-items: center;
+  gap: 40px;
+  min-width: 0;
+}
+
+.copy {
+  display: grid;
+  gap: 28px;
+  min-width: 0;
+}
+
+.title {
+  max-width: 930px;
+  color: var(--foreground);
+  font-size: clamp(48px, 4vw, 52px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.subtitle {
+  max-width: 900px;
+  color: var(--secondary-foreground);
+  font-size: 22px;
+  line-height: 1.46;
+  text-wrap: balance;
+}
+
+.definition {
+  display: flex;
+  max-width: 850px;
+  align-items: center;
+  gap: 15px;
+}
+
+.definitionRule {
+  width: 72px;
+  height: 2px;
+  flex: none;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--cyan) 34%, transparent);
+}
+
+.definition p {
+  color: var(--muted-foreground);
+  font-size: 15.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.025em;
+  line-height: 1.35;
+}
+
+.visualColumn {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.frontierVisual {
+  --flyer-orbit-duration: 18s;
+
+  position: relative;
+  width: min(100%, 390px);
+  aspect-ratio: 1;
+  isolation: isolate;
+}
+
+.frontierVisual::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  z-index: -2;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--cyan) 17%, transparent),
+      color-mix(in srgb, var(--purple) 12%, transparent) 48%,
+      transparent 72%
+    );
+  filter: blur(20px);
+}
+
+.orbitRing {
+  --orbit-accent: var(--cyan);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 12deg,
+      transparent 0 13%,
+      color-mix(in srgb, var(--orbit-accent) 78%, transparent) 19%,
+      transparent 25% 51%,
+      color-mix(in srgb, var(--purple) 70%, transparent) 58%,
+      transparent 66% 84%,
+      color-mix(in srgb, white 42%, transparent) 90%,
+      transparent 96%
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--orbit-accent) 18%, var(--border)),
+    0 0 18px color-mix(in srgb, var(--orbit-accent) 8%, transparent);
+  transform: translate(-50%, -50%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+}
+
+.orbitOuter {
+  width: 100%;
+  height: 100%;
+}
+
+.orbitMiddle {
+  --orbit-accent: var(--purple);
+
+  width: 76%;
+  height: 76%;
+}
+
+.orbitInner {
+  --orbit-accent: var(--pink);
+
+  width: 52%;
+  height: 52%;
+}
+
+.frontierCore {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 164px;
+  height: 164px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 52%, var(--border));
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 30% 24%,
+      rgba(255, 255, 255, 0.28),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 40% 34%,
+      color-mix(in srgb, var(--cyan) 28%, var(--secondary)),
+      color-mix(in srgb, var(--purple-deep) 62%, var(--background)) 70%,
+      var(--background) 100%
+    );
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.42),
+    inset 10px 9px 18px rgba(255, 255, 255, 0.04),
+    inset -18px -20px 28px rgba(0, 0, 0, 0.5),
+    0 0 34px color-mix(in srgb, var(--cyan) 18%, transparent),
+    0 0 62px color-mix(in srgb, var(--purple) 14%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.frontierLogo {
+  display: block;
+  width: 142px;
+  height: 142px;
+  border: 1px solid color-mix(in srgb, #c5a45d 74%, white);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 16px rgba(255, 255, 255, 0.12),
+    0 0 18px color-mix(in srgb, #c5a45d 30%, transparent),
+    0 0 30px color-mix(in srgb, var(--cyan) 22%, transparent);
+  object-fit: cover;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.42));
+}
+
+.horizon {
+  position: absolute;
+  z-index: -1;
+  right: 4%;
+  bottom: 7%;
+  left: 4%;
+  height: 38%;
+  border-top: 1.5px solid color-mix(in srgb, var(--cyan) 55%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 -7px 22px color-mix(in srgb, var(--cyan) 13%, transparent);
+  transform: perspective(260px) rotateX(64deg);
+}
+
+.flyerOrbit {
+  --orbit-delay: -15s;
+  --orbit-duration: var(--flyer-orbit-duration);
+  --orbit-offset: -154px;
+  --orbit-static-angle: 300deg;
+  --orbit-static-counter-angle: -300deg;
+
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  transform: rotate(var(--orbit-static-angle));
+  transform-origin: center;
+  will-change: transform;
+}
+
+.flyerAnchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translateY(var(--orbit-offset));
+  transform-origin: center;
+}
+
+.flyerPose {
+  position: relative;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--orbit-static-counter-angle));
+  transform-origin: center;
+  will-change: transform;
+}
+
+.githubOrbit {
+  --orbit-delay: -15.75s;
+  --orbit-static-angle: 315deg;
+  --orbit-static-counter-angle: -315deg;
+}
+
+.microsoftOrbit {
+  --orbit-delay: -2.25s;
+  --orbit-static-angle: 45deg;
+  --orbit-static-counter-angle: -45deg;
+}
+
+.foundryOrbit {
+  --orbit-delay: -6.75s;
+  --orbit-static-angle: 135deg;
+  --orbit-static-counter-angle: -135deg;
+}
+
+.azurePlatformOrbit {
+  --orbit-delay: -11.25s;
+  --orbit-static-angle: 225deg;
+  --orbit-static-counter-angle: -225deg;
+}
+
+.githubPilot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 142px;
+  opacity: 0.96;
+  transform: translate(-50%, -50%) rotateZ(-4deg) scale(0.92);
+  transform-style: preserve-3d;
+  will-change: opacity, transform;
+}
+
+.githubPilot::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 58%;
+  right: 70%;
+  width: 82px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cyan) 74%, white));
+  filter: blur(2px) drop-shadow(0 0 8px color-mix(in srgb, var(--cyan) 68%, transparent));
+  opacity: 0.64;
+  transform: rotate(-10deg);
+  transform-origin: right center;
+}
+
+.githubPilot img {
+  display: block;
+  width: 100%;
+  filter:
+    drop-shadow(0 16px 18px rgba(0, 0, 0, 0.44))
+    drop-shadow(0 0 18px color-mix(in srgb, var(--purple) 28%, transparent));
+  transform: perspective(520px) rotateY(-10deg) rotateZ(-4deg);
+}
+
+.logoObject {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 84px;
+  height: 84px;
+  opacity: 0.94;
+  perspective: 520px;
+  transform: translate(-50%, -50%) scale(0.92);
+  transform-style: preserve-3d;
+  will-change: opacity, transform;
+}
+
+.logoObject::before {
+  content: '';
+  position: absolute;
+  inset: 9px -8px -8px 9px;
+  z-index: -1;
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--purple-deep) 72%, var(--background));
+  box-shadow: 0 18px 24px rgba(0, 0, 0, 0.42);
+  transform: translateZ(-18px);
+}
+
+.logoPlate {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, white 48%, var(--border));
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82) 54%, rgba(222, 228, 246, 0.76) 100%);
+  box-shadow:
+    inset 8px 7px 14px rgba(255, 255, 255, 0.6),
+    inset -10px -12px 18px rgba(51, 41, 104, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.36),
+    0 0 18px color-mix(in srgb, var(--cyan) 14%, transparent);
+  transform: rotateX(10deg) rotateY(-16deg);
+  transform-style: preserve-3d;
+}
+
+.logoPlate img {
+  display: block;
+  width: 59%;
+  height: 59%;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 8px rgba(34, 27, 88, 0.24));
+  transform: translateZ(18px);
+}
+
+.azureFoundry .logoPlate {
+  border-color: color-mix(in srgb, #8e8ff4 58%, white);
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.98), rgba(235, 235, 255, 0.88) 52%, rgba(181, 180, 246, 0.72) 100%);
+  box-shadow:
+    inset 8px 7px 14px rgba(255, 255, 255, 0.62),
+    inset -10px -12px 18px rgba(48, 46, 201, 0.2),
+    0 12px 26px rgba(0, 0, 0, 0.38),
+    0 0 20px color-mix(in srgb, #8e8ff4 24%, transparent);
+}
+
+.azurePlatform .logoPlate {
+  border-color: color-mix(in srgb, #2892df 68%, white);
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.98), rgba(227, 246, 255, 0.9) 52%, rgba(126, 205, 244, 0.76) 100%);
+  box-shadow:
+    inset 8px 7px 14px rgba(255, 255, 255, 0.68),
+    inset -10px -12px 18px rgba(6, 105, 188, 0.2),
+    0 12px 26px rgba(0, 0, 0, 0.38),
+    0 0 22px color-mix(in srgb, #2892df 34%, transparent);
+}
+
+.visualCaption {
+  color: var(--muted-foreground);
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.frontierSolutionTitle:global(.active) .title,
+.frontierSolutionTitle:global(.active) .subtitle,
+.frontierSolutionTitle:global(.active) .definition,
+.frontierSolutionTitle:global(.active) .visualColumn {
+  opacity: 0;
+}
+
+.frontierSolutionTitle:global(.active) .title {
+  animation: frontierTitleIn 720ms cubic-bezier(.16, 1, .3, 1) 90ms both;
+}
+
+.frontierSolutionTitle:global(.active) .subtitle {
+  animation: frontierCopyIn 760ms cubic-bezier(.16, 1, .3, 1) 300ms both;
+}
+
+.frontierSolutionTitle:global(.active) .definition {
+  animation: frontierCopyIn 700ms cubic-bezier(.16, 1, .3, 1) 520ms both;
+}
+
+.frontierSolutionTitle:global(.active) .visualColumn {
+  animation: frontierVisualIn 1050ms cubic-bezier(.16, 1, .3, 1) 380ms both;
+}
+
+.frontierSolutionTitle:global(.active) .orbitOuter {
+  animation: frontierOrbitSpin 28s linear 1200ms infinite;
+}
+
+.frontierSolutionTitle:global(.active) .orbitMiddle {
+  animation: frontierOrbitSpinReverse 22s linear 1200ms infinite;
+}
+
+.frontierSolutionTitle:global(.active) .orbitInner {
+  animation: frontierOrbitSpin 16s linear 1200ms infinite;
+}
+
+.frontierSolutionTitle:global(.active) .flyerOrbit {
+  animation: frontierFlyerOrbit var(--orbit-duration) linear var(--orbit-delay) infinite;
+}
+
+.frontierSolutionTitle:global(.active) .flyerPose {
+  animation: frontierFlyerCounterOrbit var(--orbit-duration) linear var(--orbit-delay) infinite;
+}
+
+.frontierSolutionTitle:global(.active) .githubPilot {
+  animation: githubPilotDepth var(--orbit-duration) linear var(--orbit-delay) infinite;
+}
+
+.frontierSolutionTitle:global(.active) .logoObject {
+  animation: frontierLogoDepth var(--orbit-duration) linear var(--orbit-delay) infinite;
+}
+
+@keyframes frontierTitleIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(0, -16px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes frontierCopyIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes frontierVisualIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(28px, 0, 0) scale(.9);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes frontierOrbitSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes frontierOrbitSpinReverse {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes frontierFlyerOrbit {
+  0% {
+    z-index: 2;
+    transform: rotate(0deg);
+  }
+  24% {
+    z-index: 6;
+  }
+  50% {
+    z-index: 9;
+  }
+  76% {
+    z-index: 6;
+  }
+  100% {
+    z-index: 2;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes frontierFlyerCounterOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes githubPilotDepth {
+  0%,
+  100% {
+    opacity: 0.76;
+    transform: translate(-50%, -50%) translateZ(-18px) rotateZ(-5deg) scale(0.84);
+  }
+  25% {
+    opacity: 0.96;
+    transform: translate(-50%, -50%) translateZ(8px) rotateZ(2deg) scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateZ(34px) rotateZ(5deg) scale(1.08);
+  }
+  75% {
+    opacity: 0.96;
+    transform: translate(-50%, -50%) translateZ(8px) rotateZ(-1deg) scale(0.98);
+  }
+}
+
+@keyframes frontierLogoDepth {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) translateZ(-16px) rotateZ(-3deg) scale(0.82);
+  }
+  25% {
+    opacity: 0.94;
+    transform: translate(-50%, -50%) translateZ(8px) rotateZ(2deg) scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateZ(28px) rotateZ(4deg) scale(1.08);
+  }
+  75% {
+    opacity: 0.94;
+    transform: translate(-50%, -50%) translateZ(8px) rotateZ(-2deg) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frontierSolutionTitle:global(.active) .title,
+  .frontierSolutionTitle:global(.active) .subtitle,
+  .frontierSolutionTitle:global(.active) .definition,
+  .frontierSolutionTitle:global(.active) .visualColumn {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    transform: none;
+  }
+
+  .frontierSolutionTitle:global(.active) .orbitOuter,
+  .frontierSolutionTitle:global(.active) .orbitMiddle,
+  .frontierSolutionTitle:global(.active) .orbitInner,
+  .frontierSolutionTitle:global(.active) .flyerOrbit,
+  .frontierSolutionTitle:global(.active) .flyerPose,
+  .frontierSolutionTitle:global(.active) .githubPilot,
+  .frontierSolutionTitle:global(.active) .logoObject {
+    animation: none;
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "024",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "PHASE6_R9",
+  "phaseIds": [
+    "5",
+    "6"
+  ],
+  "createdAt": "2026-08-11T00:02:21.2267492+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_P6_R9_AFFA_R9_AFFB_R6_CONFORMS_WITH_GAPS_FINAL_VISUAL_REVIEW_PENDING",
+  "active": true,
+  "currentCoverage": true,
+  "supersedesCoverageSequence": "023",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-023.json",
+    "sha256": "fa24e3d2be76ab2a102a6a83ee8db072176dbec9256bf20a45b197c0741ba85d",
+    "overwrite": false,
+    "preservation": "Coverage 023 remains immutable inactive evidence for reviewed, superseded and unapproved r8."
+  },
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "authorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "modelPlanRevision": "116",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116.json",
+    "modelPlanSha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164",
+    "scopeAmendmentPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116-scope-amendment-1.json",
+    "scopeAmendmentSha256": "25bf34c80e36ede34f69440e8141e5f972fe00968759751ffc8229fb0061d5ec",
+    "invocationAuthorizationPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r9-aff-b-round-6-invocation-authorization.json",
+    "invocationAuthorizationSha256": "eb1878d5eefe27d210e0f67ebcb833bd2a092c87a3865948a599b1990ef07f8c",
+    "independence": "VERIFIED_DISTINCT_ACTUAL_SOL_LUNA_TERRA_MODEL_IDS_AND_SEPARATE_REVIEW_CONTEXTS"
+  },
+  "phase5Baseline": {
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-phase-5-hashes.json",
+    "manifestSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "approvalPath": "cases/Stratton-Europe-Captital/approvals/5/stratton-phase-5-cc-002-approval-1.json",
+    "approvalSha256": "ca419c4f84f8928156912a32ac0db29e57fa097b9785e20ecf87fa2edc2b4e4c",
+    "coverage020RetainedWithoutRewrite": true
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r9/stratton-phase-6-hashes.json",
+    "sha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "expectedSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "artifactCount": 163,
+    "roleCounts": {
+      "presentation-source": 111,
+      "presentation-export": 22,
+      "test": 4,
+      "tooling": 1,
+      "evidence": 22,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "slideCount": 20,
+    "claimCount": 38,
+    "sourceReferenceCount": 69,
+    "hashStatus": "MATCHED_BEFORE_AND_AFTER_BOTH_FINAL_REVIEWS"
+  },
+  "reviewBindings": {
+    "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/stratton-aff-a-review.json",
+    "finalAffASha256": "fc6c92259a5a213692dd6e44ea08f94cb1d325c298e8f594eeb4e170325ec237",
+    "finalAffAVerdict": "CONFORMS-WITH-GAPS",
+    "finalAffAFindingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "finalAffBPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/stratton-aff-b-review.json",
+    "finalAffBSha256": "0a6ccda407acb535201f98c5f202c1b436e82b673ae9fbae9dece2f0389bfb81",
+    "finalAffBVerdict": "CONFORMS-WITH-GAPS",
+    "finalAffBFindingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "sameExactSubject": true,
+    "subjectUnchangedAcrossReviews": true,
+    "independentRecordReviews": "AFF_A_APPROVED_AND_AFF_B_APPROVED"
+  },
+  "evidenceReceipts": {
+    "affAReviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/reviewed-subject/stratton-phase-6-hashes.json",
+    "affAReviewedSubjectSnapshotSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "affAModelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/stratton-aff-a-model-receipt.json",
+    "affAModelReceiptSha256": "1fe54f6b7fb3ff53ad6a5ca10194d212c3e6191909f77c3af7716835fa7701cd",
+    "affAHashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "affAHashReceiptSha256": "e0d4d788e6122a0188372ab5ad10cbae5287caee6686fefdf03bf5be03dfb610",
+    "affBReviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/reviewed-subject/stratton-phase-6-hashes.json",
+    "affBReviewedSubjectSnapshotSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "affBModelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/stratton-aff-b-model-receipt.json",
+    "affBModelReceiptSha256": "d5818cde1708087020a39962748c14550d52b2bec7c66242e59c5ea7a7ac9fbf",
+    "affBHashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "affBHashReceiptSha256": "dc5f597af33a1973abee802e4e4cde2b7ff7fbe0b4ea0a5a64abb83e5a591ef5"
+  },
+  "historicalPreservation": {
+    "r7ManifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "r7ApprovalSha256": "f93ced2eb5811dbfc9a792ff2fc37bc888c441cf67af7f675a872d131198723f",
+    "r7Status": "APPROVED_IMMUTABLE_HISTORICAL_BASELINE",
+    "r8ManifestSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae",
+    "r8AffARound8Sha256": "129fb558c76e2f53afef1b33bfaa12135d5954ab0bb108416c42b68e3065880b",
+    "r8AffBRound5Sha256": "e03cb144f8fe108d2f8b854475ad7e113d7b6df10c8db4d007de666e610fa961",
+    "r8Status": "REVIEWED_SUPERSEDED_UNAPPROVED_IMMUTABLE_HISTORICAL_CONTEXT"
+  },
+  "coverageRows": [
+    {
+      "id": "CC002-P6-R9-COV-001",
+      "control": "Approved Phase 5 r7 security/compliance coverage, owner gates and human approval retained by immutable reference",
+      "status": "COVERED_BY_APPEND_ONLY_BASELINE",
+      "owner": "Existing accountable Phase 5 owners"
+    },
+    {
+      "id": "CC002-P6-R9-COV-002",
+      "control": "Canonical r9 integrity, 163-artifact verification, exact filesystem boundary and final AFF-A/AFF-B same-manifest bindings",
+      "status": "COVERED_STATIC_AND_HASH_VERIFIED",
+      "owner": "AFF-6, AFF-A and AFF-B"
+    },
+    {
+      "id": "CC002-P6-R9-COV-003",
+      "control": "Slide 5 DeckIO late sortable-wrapper activation regression, root-cause correction and development-mode RED/GREEN/final browser evidence",
+      "status": "COVERED_BY_ROOT_CAUSE_FIX_AND_REGRESSION_EVIDENCE",
+      "owner": "AFF-6 with AFF-0 coordination"
+    },
+    {
+      "id": "CC002-P6-R9-COV-004",
+      "control": "Slide 9 complete retained-human-authority panel removal, five-layer reflow and unchanged 20-slide/38-claim/69-reference architecture boundary",
+      "status": "COVERED_BY_SOURCE_TEST_AND_CATALOGUE_EVIDENCE",
+      "owner": "AFF-6"
+    },
+    {
+      "id": "CC002-P6-R9-COV-005",
+      "control": "Preservation of Slide 11 brightness, typography, Luna/Terra/Sol Moon/Earth/Sun identity, staggered entrance and reduced-motion behavior",
+      "status": "COVERED_BY_PRESERVATION_CONTRACT_AND_BROWSER_EVIDENCE",
+      "owner": "AFF-6"
+    },
+    {
+      "id": "CC002-P6-R9-COV-006",
+      "control": "Hardened static build, local-only browser/network assurance, disclosure scan, deterministic PDF, claim-source parity and dated illustrative financial evidence",
+      "status": "COVERED_STATIC_AND_RECEIPT_BOUND_WITH_NO_RUNTIME_OR_REALISATION_CLAIM",
+      "owner": "AFF-6 and accountable privacy, security and commercial owners"
+    },
+    {
+      "id": "CC002-P6-R9-COV-007",
+      "control": "Asset, source and branding rights plus external-distribution gate P6-R9-V14",
+      "status": "OPEN_FAIL_CLOSED_UNWAIVED",
+      "owner": "Accountable asset-rights owner"
+    },
+    {
+      "id": "CC002-P6-R9-COV-008",
+      "control": "Regions and identifiers, capacity, embeddings and benchmarks, recovery/failover, provider terms, source permissions, privacy lifecycle, retention/legal hold, classification, release identity and future Azure/runtime evidence under P6-R9-OWNER-001",
+      "status": "OPEN_FAIL_CLOSED_UNWAIVED",
+      "owner": "Accountable platform, privacy, records, legal, compliance and commercial owners"
+    },
+    {
+      "id": "CC002-P6-R9-COV-009",
+      "control": "No Azure/deployment/runtime/achieved-benefit/operating-effectiveness/production-readiness/certification inference under P6-R9-BOUNDARY-001",
+      "status": "OPEN_FAIL_CLOSED_NOT_EVIDENCED_NOT_INFERRED",
+      "owner": "Human architect and accountable owners"
+    },
+    {
+      "id": "CC002-P6-R9-COV-010",
+      "control": "GDPR, EU AI Act, DORA, SFDR and AIFMD applicability boundaries remain conditional and owner-confirmed where governed evidence requires",
+      "status": "COVERED_STATIC_WITHOUT_NEW_LEGAL_OR_REGULATORY_CONCLUSION",
+      "owner": "Accountable legal, compliance, privacy and records owners"
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "resolvedFindings": [],
+  "openFindings": [],
+  "residualOwnerGates": [
+    {
+      "gateId": "P6-R9-V14",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Accountable asset-rights owner",
+      "waived": false
+    },
+    {
+      "gateId": "P6-R9-OWNER-001",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Accountable platform, privacy, records, legal, compliance and commercial owners",
+      "waived": false
+    },
+    {
+      "gateId": "P6-R9-BOUNDARY-001",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Human architect and accountable owners",
+      "waived": false
+    }
+  ],
+  "residualGaps": [
+    "P6-R9-V14 blocks external distribution pending accountable asset-rights confirmation or replacement.",
+    "P6-R9-OWNER-001 keeps all unresolved platform, privacy, records, legal, compliance, commercial and future Azure/runtime owner decisions fail closed.",
+    "P6-R9-BOUNDARY-001 records that no Azure validation, deployment, inference, achieved benefit, operating effectiveness, production-readiness evidence or optional-phase execution exists.",
+    "No legal applicability, licensing, certification, waiver or formal-attestation conclusion is made."
+  ],
+  "freezeAndAuthorizationEvents": [
+    "EVT-0220",
+    "EVT-0221",
+    "EVT-0222"
+  ],
+  "residualGatesUnwaived": true,
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "humanGateStatus": "READY_FOR_FINAL_VISUAL_REVIEW_THEN_EXPLICIT_HUMAN_DECISION",
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "nextAction": "Preserve r9, AFF-A round 9, AFF-B round 6 and coverage 024 unchanged. Present the governed r9 deck for the human architect's final visual review, then request a separate explicit in-tool Phase 6 r9 approval or rejection decision. Keep external distribution blocked and do not invoke Phase 7 or Phase 8 automatically.",
+  "nonApprovalStatement": "Coverage 024 completes same-manifest assurance bookkeeping only. It does not approve Phase 6 r9, waive or resolve any residual gate, certify compliance, provide legal advice or formal attestation, authorise distribution or Azure activity, or invoke Phase 7 or Phase 8."
+}

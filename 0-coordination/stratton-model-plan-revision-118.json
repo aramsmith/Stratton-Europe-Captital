@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "1.0",
+  "planRevision": "118",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "status": "EFFECTIVE_FOR_PHASE_6_R11_ASSURANCE_REPRODUCIBILITY_REMEDIATION",
+  "recordedAt": "2026-08-11T02:49:46.541Z",
+  "recordedBy": "AFF-0-coordinator",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-117.json",
+    "sha256": "45b991274d3dc90f8e507cd07100780107ad54488b09afa709b972c7ef52afae",
+    "preservation": "Frozen r10, its canonical manifest, AFF-A round 10 authorization and all AFF-A round 10 review evidence remain byte-identical and immutable."
+  },
+  "trigger": {
+    "type": "AFF_A_ROUND_10_MATERIAL_FINDING_REMEDIATION",
+    "findingId": "AFF-A-R10-MAJOR-001",
+    "reviewPath": "reviews/aff-a/6/round-10/stratton-aff-a-review.json",
+    "reviewSha256": "c47eed6e9f1e1dcd8b467f319fab94ba6097c5b586c7252f158358368d0cfbbc",
+    "instruction": "Create an append-only r11 sibling that separates immutable candidate validation from explicit mutable lifecycle verification without changing slide source or visual output."
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r11",
+    "instruction": "Apply assurance-reproducibility remediation only. Preserve r10 deck/src byte-for-byte and change no slide source or visual output.",
+    "phase6R10State": "FROZEN_REVIEWED_DIVERGED_UNAPPROVED_IMMUTABLE",
+    "phase6R11ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "presentation": {
+    "registeredSlides": 20,
+    "candidateStatus": "FROZEN_TWENTY_SLIDE_R11_ASSURANCE_REPRODUCIBILITY_CANDIDATE",
+    "frozenDesignInputs": {
+      "targetAzureFootprint": "Proposed Azure deployment design for later validation only",
+      "apiManagementTier": "PremiumV2",
+      "phase5RepositoryInventoryFiles": 124,
+      "implementationPlan": "5 work packages plus 8 conditional gates",
+      "pricingBasis": "Dated 2026-08-10 West Europe Azure Retail Prices API snapshot plus stated Azure Price Calculator proxies",
+      "monthlyEstimateUsd": 7985.55,
+      "annualEstimateUsd": 95826.6
+    },
+    "slide11VisualRemediation": {
+      "slide": 11,
+      "sourceFiles": [
+        "deck/src/slides/ModelPortfolioSlide.jsx",
+        "deck/src/slides/ModelPortfolioSlide.module.css"
+      ],
+      "changes": [
+        "Remove presenter-controlled dimming",
+        "Increase complete type hierarchy",
+        "Add Moon, Earth and Sun icon badges",
+        "Animate Luna, Terra and Sol at 0ms, 160ms and 320ms over 520ms",
+        "Disable entrance and glow under reduced motion"
+      ],
+      "contentChangeAllowed": false,
+      "slide13ChangeAllowed": false
+    },
+    "slide5DevPreviewRegressionRemediation": {
+      "slide": 5,
+      "scope": "SLIDE_5_DEV_PREVIEW_REGRESSION_REMEDIATION",
+      "sourceFiles": [
+        "deck/tests/helpers/slide-5-browser-assurance.mjs",
+        "deck/src/slides/AgenticArchitectureRingSlide.module.css"
+      ],
+      "changes": [
+        "Wait for at least nine deckio-list-item wrappers after font setup before evaluating Slide 5.",
+        "Force direct phase and reviewer shells to position: static !important."
+      ],
+      "contentChangeAllowed": false,
+      "claimChangeAllowed": false,
+      "architectureChangeAllowed": false,
+      "packageOrDependencyChangeAllowed": false
+    },
+    "finalHumanSlideReview": {
+      "affectedSlides": [
+        2,
+        5,
+        6,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "timerMinutes": 40,
+      "annualOnPremComparatorUsd": 200000,
+      "comparatorClassification": "HUMAN_OWNED_HYPOTHESIS",
+      "visibleBoundaryRemovalsPreserveMetadata": true
+    },
+    "assuranceReproducibilityRemediation": {
+      "scope": "ASSURANCE_REPRODUCIBILITY_REMEDIATION_ONLY",
+      "sourceCandidate": "6-presentation-r10",
+      "targetCandidate": "6-presentation-r11",
+      "deckSrcMustRemainByteIdentical": true,
+      "visualOutputMustRemainByteIdentical": true,
+      "immutableCandidateContractExcludes": [
+        "phase-status-dashboard.html",
+        "solution-overview.html",
+        "latest journal event",
+        "assurance review record presence"
+      ],
+      "explicitLifecycleStages": [
+        "pre-assurance",
+        "aff-a-diverged",
+        "post-assurance-final-review-pending"
+      ],
+      "manifestModes": [
+        "pre-assurance",
+        "post-assurance"
+      ]
+    }
+  },
+  "modelAssignments": {
+    "AFF-6-presentation": {
+      "model": "gpt-5.6-sol",
+      "role": "AUTHOR_AND_ASSURANCE_REPRODUCIBILITY_REMEDIATION_IMPLEMENTER",
+      "rationale": "Sol authors only r11 governance and evidence reproducibility remediation while preserving r10 slide source and visual output byte-for-byte.",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol"
+    },
+    "AFF-A-rubber-duck": {
+      "model": "gpt-5.6-luna",
+      "role": "PLANNED_INDEPENDENT_R11_ASSURANCE_REPRODUCIBILITY_REVIEWER",
+      "rationale": "Luna remains model-opposite to the Sol author and may review only the later exact frozen r11 manifest after this remediation task.",
+      "plannedExactGptModelId": "gpt-5.6-luna"
+    },
+    "AFF-B-security-compliance": {
+      "model": "gpt-5.6-terra",
+      "role": "PLANNED_INDEPENDENT_R11_SECURITY_COMPLIANCE_REVIEWER",
+      "rationale": "Terra may review only after a later Luna AFF-A round 11 has no unresolved material finding, against the identical r11 manifest.",
+      "plannedExactGptModelId": "gpt-5.6-terra"
+    }
+  },
+  "modelPortfolio": {
+    "version": "2026-07-09",
+    "allowedModels": [
+      "gpt-5.6-luna",
+      "gpt-5.6-terra",
+      "gpt-5.6-sol"
+    ],
+    "dataZone": "DataZoneStandard",
+    "versionUpgradePolicy": "NoAutoUpgrade",
+    "globalStandardAllowed": false
+  },
+  "reviewSequence": [
+    "Freeze and independently verify the r11 manifest in explicit pre-assurance mode.",
+    "Invoke AFF-A round 11 with gpt-5.6-luna only in the separate assurance task.",
+    "If AFF-A has no unresolved material finding, invoke AFF-B round 7 with gpt-5.6-terra against the identical manifest.",
+    "Append compliance coverage sequence 025 without modifying sequence 024.",
+    "Run explicit post-assurance manifest and lifecycle verification, then return the unchanged r11 candidate for explicit human approval or rejection."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, provider query, target validation, what-if, deployment or promotion occurred.",
+    "No runtime inference, retention finalisation or Phase 8 runtime testing occurred.",
+    "The dated pricing snapshot is evidence for planning, not a future-price guarantee.",
+    "The presentation remains a proposed architecture and reviewed deployment package, not an as-built runtime or compliance attestation."
+  ]
+}

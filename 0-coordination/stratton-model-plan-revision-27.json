@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "27",
+  "createdAt": "2026-08-03T17:34:24.2678460+02:00",
+  "revisionReason": "Double the dimensions of the reusable top-right Stratton logo on every slide after slide 1.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-26.json",
+    "sha256": "c0891ced4694ac4e24319a3276e58e2b56c0c8d1a9cb3fcd738e4f59baaec0e2",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "brandRule": "EVERY_SLIDE_AFTER_PHYSICAL_SLIDE_1_SHOWS_A_136_BY_136_PIXEL_STRATTON_LOGO_AT_TOP_RIGHT"
+  },
+  "implementationContract": {
+    "component": "StrattonBrandMark",
+    "previousDimensionsCssPixels": {
+      "width": 68,
+      "height": 68
+    },
+    "newDimensionsCssPixels": {
+      "width": 136,
+      "height": 136
+    },
+    "requirements": [
+      "Keep the mark in the top-right corner.",
+      "Reserve sufficient header space on slides 2 and 3.",
+      "Preserve slide fit at 1280×720."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

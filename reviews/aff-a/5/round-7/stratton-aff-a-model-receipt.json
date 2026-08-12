@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "phaseOwnerInvoker": "AFF-5",
+  "round": 7,
+  "reviewedAt": "2026-08-09T18:52:20.357+02:00",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "phaseAuthorActualRuntimeModelIds": [
+    "gpt-5.6-sol"
+  ],
+  "authorFinalisationModelId": "gpt-5.6-sol",
+  "independenceRequirement": "AFF-A actual model must differ from the Phase 5 implementation/finalisation author actual model.",
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "exactSeparation": [
+    {
+      "reviewerActualRuntimeModelId": "gpt-5.6-luna",
+      "authorActualRuntimeModelId": "gpt-5.6-sol",
+      "differs": true
+    }
+  ],
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewedSubject": {
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-phase-5-hashes.json",
+    "canonicalManifestSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "manifestFileCount": 168,
+    "listedFilesMatched": 168
+  },
+  "subjectModificationPerformed": false,
+  "noUnauthorisedExecution": "AFF-A performed static reads, search and SHA-256/file-byte inspection only; no reviewed tests, package code, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, model inference, promotion, retention finalisation or runtime tests were executed."
+}

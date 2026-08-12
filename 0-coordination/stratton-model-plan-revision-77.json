@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "77",
+  "createdAt": "2026-08-04T02:24:58+02:00",
+  "revisionReason": "Add two executive slides that recreate the Agentic Architecture v2 operating model, animated architecture ring, assurance gate, and complete agent roster.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-76.json",
+    "sha256": "d2458a4080d46939b9a9709dd0e386fc26d56be7f49b1459d863142d13612383",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "requestedSlide": 5,
+    "implementedSlides": [
+      5,
+      6
+    ],
+    "source": "https://aramsmith.github.io/agentic-architecture-v2/agentic-architecture-v2.html",
+    "change": "Recreate the Agentic Architecture v2 experience in the deck, including the human-centred narrative, animated architecture picture, adjacent principle blocks, phase assurance and approval sequence, and agent roster. Exclude the whole-sequence section."
+  },
+  "implementation": {
+    "slide5": {
+      "component": "AgenticArchitectureRingSlide",
+      "title": "Architecture is a conversation, not a conveyor belt.",
+      "phaseNodes": 9,
+      "reviewerNodes": 2,
+      "humanArchitectAtCentre": true,
+      "adjacentPrincipleBlocks": 5,
+      "animation": {
+        "fieldEmergence": true,
+        "ringResolution": true,
+        "continuousAssuranceOrbit": true,
+        "humanCoreEmergence": true,
+        "reviewerConvergence": true,
+        "staggeredPhaseArrival": true,
+        "reducedMotionSupported": true
+      }
+    },
+    "slide6": {
+      "component": "AgenticAssuranceRosterSlide",
+      "assuranceSteps": 7,
+      "humanApprovalHighlighted": true,
+      "agentRoster": {
+        "standardAgents": 7,
+        "optionalAgents": 2,
+        "independentReviewers": 2,
+        "totalAgents": 11
+      }
+    },
+    "excluded": {
+      "wholeSequenceSection": true
+    },
+    "deck": {
+      "registeredSlideCount": 6,
+      "theme": "dark",
+      "designSystem": "default",
+      "inlineEditingPreserved": true
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "slide5Overflow": false,
+      "slide6Overflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "descriptorValidation": "pass",
+      "requiredContentValidation": "pass",
+      "gitDiffCheck": "pass"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

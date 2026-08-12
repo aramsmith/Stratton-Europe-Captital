@@ -1,0 +1,14 @@
+flowchart LR
+  A[Open proposed deal] --> B{Deal and jurisdiction eligible?}
+  B -- No --> X[Reject from Release 1]
+  B -- Yes --> C[Register governed sources and permissions]
+  C --> D[Ingest and classify evidence]
+  D --> E[Retrieve, extract, compare and analyse]
+  E --> F[Ground material claims in cited evidence]
+  F --> G[Deal-professional review]
+  G --> H{Specialist conclusion?}
+  H -- Yes --> I[Legal and Compliance approval]
+  H -- No --> J[Prepare committee-ready draft]
+  I --> J
+  J --> K[Independent acceptance evidence]
+  J --> L[Investment Committee decision outside solution authority]

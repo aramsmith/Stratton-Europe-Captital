@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "runtimeIdentityEvidence": "The task launcher exactly binds this invocation to actual model gpt-5.6-sol.",
+    "complexityReassessment": {
+      "regulatoryComplexity": "HIGH",
+      "securityComplexity": "HIGH",
+      "evidenceComplexity": "MODERATE_TO_HIGH",
+      "contextComplexity": "TRACTABLE",
+      "rationale": "The case combines cross-border financial services, AI, privacy, sovereignty and regulatory-readiness questions across 12 canonical artifacts plus assurance context. The approved default remains best suited to this architecture-assurance synthesis."
+    },
+    "runScopedOverrideRequired": false
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "0",
+    "phaseName": "Phase 0 — Coordinate",
+    "owner": "AFF-0"
+  },
+  "round": 2,
+  "reviewTime": "2026-08-01T20:18:07.818+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan.json",
+    "revision": "1",
+    "manifestSha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+    "changedForThisReview": false
+  },
+  "scope": [
+    "Source classification",
+    "Retention and local handling",
+    "Untrusted input treatment",
+    "Regulatory readiness",
+    "Privacy, security and sovereignty framing",
+    "Phase 0 boundaries",
+    "Complete 12-artifact canonical subject",
+    "AFF-A final round 2 convergence",
+    "Active append-only compliance coverage revision"
+  ],
+  "context": {
+    "industrySourceStatement": "Financial Services (Investment Management)",
+    "locationSourceStatements": [
+      "Austria",
+      "Germany",
+      "Switzerland",
+      "Czech Republic",
+      "Hungary",
+      "Luxembourg-based fund vehicles"
+    ],
+    "applicabilityStartingPosition": "No regulation assumed applicable.",
+    "assuranceLimit": "Architecture assurance only; not legal advice, certification, attestation, waiver or approval.",
+    "subjectChangeSinceRound1": false,
+    "round2Purpose": "Correct review-record completeness by recording the active coverage path, sequence and exact SHA-256 in the canonical reviewed evidence context."
+  },
+  "canonicalReviewedEvidenceContext": {
+    "canonicalSubjectManifest": {
+      "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-0-hashes.json",
+      "sha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec",
+      "modelPlanRevision": "1",
+      "hashAlgorithm": "SHA-256",
+      "artifactCount": 12,
+      "hashStatus": "INVOCATION_STATES_ALL_LISTED_HASHES_CURRENTLY_MATCH"
+    },
+    "activeCoverageRevision": {
+      "sequence": "001",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-001.json",
+      "sha256": "e40486cc167759c93868283c10a0c55d096d989282da492ce9a75981955ef2f3",
+      "status": "ACTIVE",
+      "appendOnly": true,
+      "changedForThisReview": false,
+      "insideCanonicalSubjectManifest": false,
+      "role": "REVIEW_EVIDENCE_CONTEXT"
+    },
+    "affAFinalReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/0/round-2/stratton-aff-a-review.json",
+      "round": 2,
+      "verdict": "CONFORMS",
+      "finalRoundForManifest": true,
+      "canonicalManifestSha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec",
+      "modelPlanRevision": "1"
+    },
+    "supersededAffBReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/0/round-1/stratton-aff-b-review.json",
+      "round": 1,
+      "verdict": "CONFORMS-WITH-GAPS",
+      "supersessionReason": "Review-record completeness correction only; no subject, manifest, model-plan, coverage or verdict change."
+    }
+  },
+  "artifactsReviewed": [
+    {
+      "path": "0-coordination/stratton-coordination.md",
+      "role": "authoritative-markdown",
+      "manifestSha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0",
+      "inspection": "CONTENT_AND_PHASE_BOUNDARY_REVIEWED"
+    },
+    {
+      "path": "0-coordination/stratton-coordination.html",
+      "role": "rendered-html",
+      "manifestSha256": "0934a429cb999889667b3111e61456d2f1f92f348e3c35f0f887ff1275a8432b",
+      "inspection": "SELF_CONTAINED_SAFETY_AND_MARKDOWN_CONSISTENCY_REVIEWED"
+    },
+    {
+      "path": "0-coordination/stratton-input-inventory.json",
+      "role": "catalogue",
+      "manifestSha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d",
+      "inspection": "CLASSIFICATION_HANDLING_PROVENANCE_AND_VALIDATION_LINK_REVIEWED"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "role": "catalogue",
+      "manifestSha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+      "inspection": "ACTIVE_REVISION_AND_AFF_B_ASSIGNMENT_REVIEWED"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.pdf",
+      "role": "evidence",
+      "manifestSha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "inspection": "GOVERNED_BINARY_BINDING_REVIEWED_THROUGH_INVENTORY_NORMALISED_COUNTERPART_AND_RETAINED_VALIDATION"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "role": "evidence",
+      "manifestSha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "inspection": "COMPLETE_CONTENT_REVIEWED"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-normalisation-validation.json",
+      "role": "evidence",
+      "manifestSha256": "eef070843f2a93349b584f4ea48f1c4f7bb8601c4a00db7a880f11b0b94be24d",
+      "inspection": "EXTRACTION_AND_LOCAL_VISUAL_COMPARISON_EVIDENCE_REVIEWED"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-run-journal-phase-0-candidate.jsonl",
+      "role": "evidence",
+      "manifestSha256": "2c317160032f7063551f8fbd743de1b34647ad47e0f9f42179393939627c9647",
+      "inspection": "IMMUTABLE_CANDIDATE_LIFECYCLE_SNAPSHOT_REVIEWED"
+    },
+    {
+      "path": "stratton-decisions.md",
+      "role": "catalogue",
+      "manifestSha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca",
+      "inspection": "CONFIRMED_DECISIONS_AND_ABSENCE_OF_ARCHITECTURE_OR_REGULATORY_APPROVAL_REVIEWED"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "role": "catalogue",
+      "manifestSha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f",
+      "inspection": "SIX_OPEN_RISKS_OWNERSHIP_AND_TREATMENTS_REVIEWED"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "role": "catalogue",
+      "manifestSha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+      "inspection": "FIVE_INFERRED_ENTRIES_AND_CONFIRMATION_BOUNDARIES_REVIEWED"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-hash-generation-evidence.json",
+      "role": "evidence",
+      "manifestSha256": "f13efaad00fb0260d3e4d369e1723500b546aaff6cce9ea7e90f33f49eb3e40f",
+      "inspection": "HASH_GENERATION_SCOPE_AND_VALUES_REVIEWED"
+    }
+  ],
+  "assessment": [
+    {
+      "focus": "SOURCE_CLASSIFICATION",
+      "status": "CONFORMS",
+      "evidence": "BUSINESS-CONFIDENTIAL has a case-specific basis. The absence of observed secrets, direct personal data and regulated records is limited to the supplied document."
+    },
+    {
+      "focus": "LOCAL_HANDLING",
+      "status": "CONFORMS",
+      "evidence": "The inventory requires case-local storage, no commit or push for this real case, and limited reproduction."
+    },
+    {
+      "focus": "RETENTION",
+      "status": "GAP_RECORDED",
+      "evidence": "No enterprise period, disposal trigger or records owner is supplied. RISK-0003 and the Phase 1 agenda carry the question without inventing a rule."
+    },
+    {
+      "focus": "UNTRUSTED_INPUT",
+      "status": "CONFORMS",
+      "evidence": "Source errors and incomplete wording are preserved; source statements are not promoted to approved facts or requirements; validation evidence is retained."
+    },
+    {
+      "focus": "REGULATORY_READINESS",
+      "status": "CONFORMS_WITH_GAPS",
+      "evidence": "Five source-stated leads remain INFERRED; official sources, dates, obligations, requirements and controls are not asserted. Human legal/compliance confirmation is required."
+    },
+    {
+      "focus": "PRIVACY_AND_SECURITY",
+      "status": "CONFORMS_FOR_PHASE_0",
+      "evidence": "Unknown data classes, personal-data scope, legal roles, access, threats, audit, retention, locations and transfers are explicit Phase 1 discovery items."
+    },
+    {
+      "focus": "SOVEREIGNTY",
+      "status": "CONFORMS_FOR_PHASE_0",
+      "evidence": "The source phrase is not converted into residency, tenancy, jurisdiction or named Azure control conclusions."
+    },
+    {
+      "focus": "PHASE_BOUNDARY",
+      "status": "CONFORMS",
+      "evidence": "No requirement, architecture, service selection, legal obligation, control, approval, deployment, test or runtime outcome is asserted."
+    },
+    {
+      "focus": "HTML_SAFETY",
+      "status": "CONFORMS",
+      "evidence": "The subject HTML is self-contained, uses inline CSS, contains no scripts or external content dependencies, and materially matches the authoritative Markdown."
+    }
+  ],
+  "confirmedObligations": [],
+  "confirmedSecurityPrivacyComplianceRequirements": [],
+  "confirmedControls": [],
+  "confirmedObligationRequirementControlMappings": [],
+  "coverageSummary": {
+    "activeSequence": "001",
+    "confirmedObligationCount": 0,
+    "confirmedRequirementCount": 0,
+    "confirmedControlCount": 0,
+    "confirmedCoverageMappingCount": 0
+  },
+  "inferredApplicability": [
+    {
+      "registerEntryId": "REG-0001",
+      "instrument": "GDPR",
+      "confidence": "INFERRED",
+      "basis": "Named in the source; processing roles and personal-data scope are not described.",
+      "humanLegalComplianceConfirmation": "REQUIRED"
+    },
+    {
+      "registerEntryId": "REG-0002",
+      "instrument": "EU AI Act",
+      "confidence": "INFERRED",
+      "basis": "Named in the source; provider/deployer role, classification and use-case scope are not established.",
+      "humanLegalComplianceConfirmation": "REQUIRED"
+    },
+    {
+      "registerEntryId": "REG-0003",
+      "instrument": "EU SFDR",
+      "confidence": "INFERRED",
+      "basis": "The source states ESG reporting obligations; entity and product scope are not established.",
+      "humanLegalComplianceConfirmation": "REQUIRED"
+    },
+    {
+      "registerEntryId": "REG-0004",
+      "instrument": "AIFMD",
+      "confidence": "INFERRED",
+      "basis": "The source states reporting for Luxembourg-based fund vehicles; vehicle and manager scope are not established.",
+      "humanLegalComplianceConfirmation": "REQUIRED"
+    },
+    {
+      "registerEntryId": "REG-0005",
+      "instrument": "Sector-specific EU Directives",
+      "confidence": "INFERRED",
+      "basis": "The generic source phrase provides no identified instrument or exact trigger.",
+      "humanLegalComplianceConfirmation": "REQUIRED"
+    }
+  ],
+  "findings": [],
+  "residualRisk": [
+    {
+      "gap": "Retention period, disposal trigger and records owner are unknown for case inputs and future datasets.",
+      "owner": "AFF-0 for handoff; accountable records/privacy owner for confirmation",
+      "proposal": "Carry the existing gap to AFF-1 and confirm the enterprise handling rule before broader ingestion.",
+      "status": "OPEN_NOT_ACCEPTED_OR_WAIVED"
+    },
+    {
+      "gap": "Data classes, personal-data scope, legal roles, processing locations and transfers are unknown.",
+      "owner": "Accountable data, privacy and security owners",
+      "proposal": "Provide evidence before AFF-1 confirms requirements.",
+      "status": "OPEN_NOT_ACCEPTED_OR_WAIVED"
+    },
+    {
+      "gap": "All five regulatory leads remain inferred.",
+      "owner": "AFF-0 register custodian and accountable legal/compliance owner",
+      "proposal": "Record only approved evidence-backed register updates after official-source research and human confirmation; AFF-1 should derive requirements only from confirmed obligations.",
+      "status": "OPEN_NOT_ACCEPTED_OR_WAIVED"
+    },
+    {
+      "gap": "Sovereignty remains undefined.",
+      "owner": "Human architect with accountable legal, compliance, security and platform owners",
+      "proposal": "Define outcomes and constraints before design or named-control selection.",
+      "status": "OPEN_NOT_ACCEPTED_OR_WAIVED"
+    }
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "No demonstrable Phase 0 security defect, breach of a confirmed obligation or approved requirement, or unsupported control claim was found. Classification, local handling, untrusted-source treatment, regulatory caution, privacy/security/sovereignty framing and the phase boundary conform, while material discovery gaps remain explicit. There is no blocker or unresolved major.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_FOR_UNCHANGED_MANIFEST",
+  "nextAction": "The phase owner may present AFF-A final round 2, this AFF-B final review and the visible residual gaps for the explicit human Phase 0 decision. This review does not approve, waive, certify or attest the phase and is not legal advice. Any material subject change invalidates the hash-bound final reviews and requires complete AFF-A and AFF-B re-review."
+}

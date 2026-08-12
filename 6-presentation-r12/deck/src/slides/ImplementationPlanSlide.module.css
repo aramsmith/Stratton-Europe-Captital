@@ -1,0 +1,100 @@
+.implementationPlanSlide {
+  padding: 0 0 44px;
+}
+
+
+/* Task 7 browser-assurance remediation: prevent map and gate overlap. */
+.deliveryMap {
+  gap: 10px;
+  padding-block: 14px;
+}
+
+.deliveryBand {
+  gap: 5px;
+  padding: 11px 12px;
+}
+
+.implementationPlanSlide .deliveryBand > strong {
+  font-size: 17px;
+}
+
+.implementationPlanSlide .deliveryBand p {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.implementationPlanSlide .deliveryBand [class*='bandUnits'] {
+  font-size: 13px;
+  line-height: 1.12;
+}
+
+.planPrinciple {
+  align-items: center;
+  padding-block: 8px;
+}
+
+.implementationPlanSlide .planPrinciple strong {
+  font-size: 15px;
+}
+
+.implementationPlanSlide .planPrinciple span {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.planBottom,
+.releaseGates,
+.releaseGates > * {
+  min-height: 0;
+}
+
+.releaseGate {
+  min-height: 0;
+  gap: 6px;
+  padding: 10px 12px;
+}
+
+.implementationPlanSlide .releaseGate strong {
+  font-size: 17px;
+  line-height: 1.14;
+}
+
+.implementationPlanSlide .releaseGate p {
+  font-size: 14px;
+  line-height: 1.24;
+}
+
+
+.planBottom > * {
+  height: 100%;
+  min-height: 0;
+}
+
+.releaseGates {
+  height: 100%;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.planBottom [class*='planMetrics'] {
+  height: 100%;
+  min-height: 0;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.planBottom [class*='planMetricShell'] {
+  min-height: 0;
+}
+
+.planBottom [class*='planMetric'] {
+  min-height: 0;
+  padding: 8px 10px;
+}
+
+.implementationPlanSlide .planBottom [class*='planMetric'] strong {
+  font-size: 32px;
+}
+
+.implementationPlanSlide .planBottom [class*='planMetric'] span {
+  font-size: 13.5px;
+  line-height: 1.18;
+}

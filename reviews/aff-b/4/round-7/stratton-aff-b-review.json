@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "formalReviewRound": 7,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R3",
+  "reviewTime": "2026-08-06T13:08:05.100+02:00",
+  "subjectModificationPerformed": false,
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "selectedExactModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "status": "MATCHED"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r3-proposed.json",
+    "sha256BeforeReview": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "sha256AfterReview": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "expectedSha256": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "status": "UNCHANGED",
+    "schemaValidationStatus": "PASS",
+    "artifactCount": 6,
+    "candidateFileCount": 7
+  },
+  "originalSubjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+    "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "status": "UNCHANGED_AND_MATCHED"
+  },
+  "immutablePredecessors": {
+    "r2Manifest": "1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a",
+    "affARound8": "5c4805f3423543188526b7d45436f17b109b8263e0713544bf8bc13bc69708c8",
+    "affBRound6": "8a5ad98cdccaf6836451376bfd8f04d5043ae167ba43a0a95797d11c63b2ac97",
+    "coverage015": "fff5dd7056506480badb8e1478dc3709cd7b6ba559237a757daa444be5dcecfa",
+    "status": "ALL_MATCHED_UNCHANGED"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-7/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "061d0794a2c1df47363c7b7de6b732e6969490411022bd5851020733468f8b64",
+    "status": "PASS"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-7/stratton-aff-b-model-receipt.json",
+    "sha256": "1036e9264f386a576a26e3442c504654ad5e08e27929e163ca2d8e7915660588",
+    "status": "PASS"
+  },
+  "verification": {
+    "manifestEntriesDeclared": 6,
+    "manifestEntriesHashValuesRecorded": 6,
+    "rawByteSha256Recomputation": "PASS",
+    "originalAndR2PredecessorRawByteIntegrity": "PASS",
+    "reviewedSubjectSnapshots": "PASS_BYTE_IDENTICAL",
+    "affPhaseHashSchema": "PASS",
+    "originalContract": {
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-contract.mjs'",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "originalSelfTest": {
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-contract.mjs' --self-test",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "r2Contract": {
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r2-contract.mjs'",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "r2SelfTest": {
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r2-contract.mjs' --self-test",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "r3Contract": {
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r3-contract.mjs'",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "r3SelfTest": {
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r3-contract.mjs' --self-test",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "markdownHtmlParity": "PASS",
+    "r3CandidateFileCountExact": true,
+    "inventoryUnion": "PASS",
+    "evidenceChronology": "PASS",
+    "hashGenerationScope": "PASS",
+    "noAzureExecution": "CONFIRMED_NOT_AUTHORISED_OR_CLAIMED"
+  },
+  "confirmedControls": [
+    "MP-01 through MP-08 use the required local validation runner with exact work-package and evidence bindings; MP-01 includes the required Bicep parameter and JSON output switches.",
+    "The typed 47-file implementation inventory is complete, uniquely assigned and equal to the work-package union, including the previously missing application, migration, API, IaC, governance, fixture, benchmark, validation and presentation surfaces.",
+    "Evidence envelopes require command, working directory, runtime versions, input/output hashes, signer, timestamp, accountable owner, disposition, retention and legal-hold references; writer and verifier must differ.",
+    "R3 evidence binds the R3 catalogue, finalises evidence before the manifest, uses strictly monotonic timestamps and excludes self-hashing and manifest hashing from hash-generation evidence.",
+    "EU Data Zone Standard, NoAutoUpgrade, deterministic routing, route parity, EVAL-001..010, all twelve security promotion gates and text-embedding-3-large parity remain preserved from R2.",
+    "Rollback remains stop/disable plus append-only forward correction; destructive cleanup requires separate explicit Phase 7 human authorisation.",
+    "The runner and all work packages prohibit Azure sign-in, what-if, deployment and model invocation; no secret-bearing identity mechanism is introduced.",
+    "MP-08 remains a truthful pending Phase 5 approval gate and the non-deployment boundary is unchanged."
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-001",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Work-package validation commands did not produce executable evidence",
+      "evidence": "R3 MP-01..MP-08 invoke the required validation runner with exact IDs/evidence outputs; MP-01 supplies -BicepParamFile and -OutputJson."
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-002",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Implementation-file propagation was incomplete and MP-05 mispathing existed",
+      "evidence": "R3 contains the exact typed 47-file inventory, correct app/migrations/002_model_routing.sql and package union equality."
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-003",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Candidate evidence was circular, chronologically invalid and bound the wrong subject",
+      "evidence": "R3 evidence binds the R3 catalogue, includes concrete envelope fields, is strictly timestamped and hash-generation excludes itself and the manifest."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-001",
+      "severity": "MAJOR",
+      "status": "PRESERVED_ADDRESSED",
+      "title": "Legal, privacy and source-use accountability",
+      "evidence": "Typed owner groups and all-applicable approval procedures remain unresolved and fail closed."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-002",
+      "severity": "MAJOR",
+      "status": "PRESERVED_ADDRESSED",
+      "title": "Audit evidence custody and tamper protection",
+      "evidence": "Immutable append-only hash-bound envelopes, retention/legal hold and independent verifier separation remain required."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-003",
+      "severity": "MAJOR",
+      "status": "PRESERVED_ADDRESSED",
+      "title": "Rollback boundary",
+      "evidence": "Stop/disable and append-only forward correction remain mandatory; destructive cleanup is separately authorised Phase 7 only."
+    }
+  ],
+  "applicability": [
+    {
+      "instrument": "GDPR",
+      "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE",
+      "status": "OWNER_EVIDENCE_OPEN_FAIL_CLOSED_FOR_ENABLEMENT",
+      "humanConfirmation": "DPO and General Counsel",
+      "boundary": "No lawful basis, DPIA outcome, processor/transfer conclusion or detailed retention/data-subject conclusion is inferred."
+    },
+    {
+      "instrument": "EU AI Act",
+      "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE",
+      "status": "NO_ROLE_OR_RISK_CLASSIFICATION_INFERRED",
+      "humanConfirmation": "General Counsel, Head of AI Governance and Compliance",
+      "boundary": "Provider/deployer roles, use-case class, obligations and human-oversight acceptance remain owner evidence."
+    },
+    {
+      "instrument": "DORA",
+      "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN",
+      "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION",
+      "humanConfirmation": "General Counsel and Compliance",
+      "boundary": "Entity-specific applicability or exemption is not established by this review."
+    }
+  ],
+  "findings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "residualGaps": [
+    "Azure region pair, exact resources, quota/capacity, deployment IDs, embedding version/dimensions/chunking and recovery evidence remain accountable-owner inputs; absence denies enablement.",
+    "Provider terms, source AI-use permissions, privacy lifecycle evidence and EU AI Act role/use-case classification remain pending owner confirmation.",
+    "No benchmark, security-gate, failover, Azure, runtime or operating-effectiveness result exists; all promotion gates remain blocked pending observed immutable evidence.",
+    "MP-08 remains blocked until the approved Phase 5 approval record exists and its hash is populated from that immutable record.",
+    "AFF-A round 9 review and explicit human approval remain required; this review is not approval or convergence evidence."
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "The complete immutable R3 candidate addresses the prior executable-evidence, propagation and evidence-provenance MAJOR findings without weakening the converged security, privacy, sovereignty, custody, rollback or non-deployment controls. Remaining owner evidence and human gates are explicit, unresolved and fail closed; no legal, readiness, runtime, deployment or approval claim is made.",
+  "finalRoundStatus": true,
+  "finalRound": true,
+  "requiredAction": "Preserve exact R3 bytes, obtain AFF-A round 9 review against the same unchanged manifest, then present both reviews and residual fail-closed gaps for explicit human decision. Do not approve, promote, deploy, test or enter Phase 7 on the basis of this review.",
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nonDeploymentStatement": "AFF-B does not approve, waive, certify, attest, authorise Azure sign-in, what-if, deployment, route promotion, production inference, destructive rollback, Phase 7 or runtime testing.",
+  "companionArtifacts": {
+    "markdownPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-7/stratton-aff-b-review.md",
+    "htmlPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-7/stratton-aff-b-review.html",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-7/stratton-aff-b-model-receipt.json",
+    "hashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-7/reviewed-subject/stratton-phase-4-hash-verification-receipt.json"
+  }
+}

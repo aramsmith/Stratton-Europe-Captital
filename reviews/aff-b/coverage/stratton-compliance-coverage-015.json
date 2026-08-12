@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "015",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseIds": ["4"],
+  "createdAt": "2026-08-06T12:01:43.970+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_CC002_R2_AFFB_ROUND6_CONFORMS_WITH_GAPS",
+  "supersedesCoverageSequence": "014",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-014.json",
+    "sha256": "59a1905965689026937a87856332aa5a83324f1aba5f8dd10bce711d1629541a",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "authorActualRuntimeModelId": "gpt-5.6-terra",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "independence": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r2-proposed.json",
+    "sha256": "1b61e2c30f0db7b3960aece1c5c28bc0462789a9cdbea6f8b1d3b8e08f08ca4a",
+    "artifactCount": 6,
+    "candidateFileCount": 7,
+    "hashStatus": "MATCHED_BEFORE_AND_AFTER_AFFB_REVIEW"
+  },
+  "reviewBinding": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-6/stratton-aff-b-review.json",
+    "formalReviewRound": 6,
+    "verdict": "CONFORMS-WITH-GAPS",
+    "finalRoundStatus": true
+  },
+  "coverageRows": [
+    {
+      "id": "CC002-P4-R2-COV-001",
+      "control": "AFF manifest schema, six roles, raw-byte integrity and unchanged original subject",
+      "status": "COVERED_STATIC_AND_HASH_VERIFIED",
+      "evidence": [
+        "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r2-proposed.json",
+        "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-6/reviewed-subject/stratton-phase-4-r2-hash-verification-receipt.json"
+      ],
+      "owner": "AFF-4 and AFF-B"
+    },
+    {
+      "id": "CC002-P4-R2-COV-002",
+      "control": "Legal, privacy, provider-use, source-use and EU AI Act accountability",
+      "status": "DESIGN_COVERED_OWNER_EVIDENCE_PENDING_FAIL_CLOSED",
+      "evidence": [
+        "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-cc-002-r2-phase-4-amendment.md",
+        "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-implementation-catalogue-cc-002-r2-proposed.json"
+      ],
+      "owner": "General Counsel, DPO, CISO, AI Governance, Compliance, Head of AI Governance, Source Owners and Azure Platform"
+    },
+    {
+      "id": "CC002-P4-R2-COV-003",
+      "control": "Immutable append-only evidence envelopes, retention/legal hold and independent verifier separation",
+      "status": "DESIGN_COVERED_VERIFICATION_PENDING_FAIL_CLOSED",
+      "evidence": [
+        "R2 work-package evidenceEnvelopeContract and globalEvidenceEnvelopeContract",
+        "R2 evidence records and independent verifier attestation"
+      ],
+      "owner": "Accountable work-package owners, Internal Audit and Security Assurance"
+    },
+    {
+      "id": "CC002-P4-R2-COV-004",
+      "control": "Stop/disable, append-only forward correction and separately authorised destructive actions",
+      "status": "COVERED_DESIGN_ONLY_PHASE_7_AUTHORITY_REQUIRED",
+      "evidence": [
+        "R2 work-package rollbackContract and globalRollbackContract"
+      ],
+      "owner": "AFF-4, Records Owner, Internal Audit and AFF-7"
+    },
+    {
+      "id": "CC002-P4-R2-COV-005",
+      "control": "Evaluation, route parity, security promotion and embedding propagation",
+      "status": "DESIGN_COVERED_PROMOTION_BLOCKED_PENDING_OBSERVED_EVIDENCE",
+      "evidence": [
+        "R2 MP-07 phase3SourceBindings, evaluationRoutes, routingRoutes, promotionGates and securityPromotionGates",
+        "Approved Phase 3 evaluation, routing, portfolio and security contracts"
+      ],
+      "owner": "Model Evaluation and Validation, Security, AI Governance, Azure Platform and Service Operations"
+    },
+    {
+      "id": "CC002-P4-R2-COV-006",
+      "control": "Truthful Phase 5 approval gate and strict non-deployment boundary",
+      "status": "COVERED_PENDING_APPROVAL_FAIL_CLOSED",
+      "evidence": [
+        "R2 MP-08 phase5ApprovalGate",
+        "R2 nonDeploymentBoundary"
+      ],
+      "owner": "AFF-5, human approver and AFF-7"
+    }
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-001",
+      "status": "ADDRESSED",
+      "evidence": "Typed owner groups and all-applicable-approval requirement replace the single technically scoped owner."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-002",
+      "status": "ADDRESSED",
+      "evidence": "Every work package binds immutable append-only evidence custody, retention/legal hold and independent verification."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-003",
+      "status": "ADDRESSED",
+      "evidence": "Rollback is non-destructive forward correction; destructive cleanup is separately authorised Phase 7 only."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MIN-001",
+      "status": "ADDRESSED",
+      "evidence": "Literal working directories, path boundaries and no-Azure guards are present for MP-01..MP-08."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MIN-002",
+      "status": "ADDRESSED",
+      "evidence": "R2 manifest has complete AFF metadata and allowed artifact roles."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MIN-003",
+      "status": "ADDRESSED",
+      "evidence": "Independent hash, schema, original-contract, R2-contract and self-test verification is recorded as PASS."
+    }
+  ],
+  "applicability": [
+    {
+      "instrument": "GDPR",
+      "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE",
+      "status": "OWNER_EVIDENCE_OPEN_FAIL_CLOSED_FOR_ENABLEMENT",
+      "humanConfirmation": "DPO and General Counsel",
+      "boundary": "No detailed legal conclusion is inferred."
+    },
+    {
+      "instrument": "EU AI Act",
+      "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE",
+      "status": "NO_ROLE_OR_RISK_CLASSIFICATION_INFERRED",
+      "humanConfirmation": "General Counsel, Head of AI Governance and Compliance",
+      "boundary": "Classification and obligations remain owner evidence."
+    },
+    {
+      "instrument": "DORA",
+      "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN",
+      "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION",
+      "humanConfirmation": "General Counsel and Compliance",
+      "boundary": "Applicability or exemption is not established."
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "residualGaps": [
+    "Owner evidence for exact resources, regions, quota, capacity, deployment IDs, provider terms, source permissions, privacy lifecycle and EU AI Act classification remains absent and fail closed.",
+    "No benchmark, security-gate, failover, Azure or runtime operating-effectiveness evidence exists; promotion remains blocked.",
+    "MP-08 remains PENDING_BLOCKED until the approved Phase 5 record exists and is hash-bound.",
+    "AFF-A review and human approval remain required; this record is not approval or certification."
+  ],
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nextAction": "Preserve the R2 bytes, obtain AFF-A review against the same manifest and present converged reviews and fail-closed residual gates to the human approver.",
+  "active": true
+}

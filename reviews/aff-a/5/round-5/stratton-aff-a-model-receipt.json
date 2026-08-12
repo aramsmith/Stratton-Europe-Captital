@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "phaseOwnerInvoker": "AFF-5",
+  "round": 5,
+  "reviewedAt": "2026-08-09T17:18:42.697+02:00",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "selectionRationale": "The operating contract approves gpt-5.5 as the AFF-A default. The Task 11 pre-review assignment selects gpt-5.6-luna for this round; the actual runtime ID is exposed and recorded exactly, and it provides an independent GPT model from the Phase 5 author/finalisation model.",
+  "phaseAuthorActualRuntimeModelIds": [
+    "gpt-5.6-sol"
+  ],
+  "authorFinalisationModelId": "gpt-5.6-sol",
+  "independenceRequirement": "AFF-A actual model must differ from the Phase 5 implementation/finalisation author actual model.",
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "exactSeparation": [
+    {
+      "reviewerActualRuntimeModelId": "gpt-5.6-luna",
+      "authorActualRuntimeModelId": "gpt-5.6-sol",
+      "differs": true
+    }
+  ],
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewedSubject": {
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "canonicalManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "manifestFileCount": 162,
+    "listedFilesMatched": 162
+  },
+  "subjectModificationPerformed": false,
+  "noUnauthorisedExecution": "AFF-A performed static reads, search and SHA-256/file-byte inspection only; no reviewed tests, package code, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, model inference, promotion, retention finalisation or runtime tests were executed."
+}

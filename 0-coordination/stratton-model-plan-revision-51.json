@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "51",
+  "createdAt": "2026-08-03T21:45:12.0809037+02:00",
+  "revisionReason": "Increase the visual gap between slide 2's subtitle and first content panel while retaining bottom-bar clearance.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-50.json",
+    "sha256": "41a6129bccbcda03efd16a0c35f99936be686d134ece6a7206f17b1000c1670e",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "subtitleToFirstPanelAdditionalGapPx": 6
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

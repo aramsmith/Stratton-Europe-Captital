@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "025",
+  "remediationRevision": "PHASE6_R11",
+  "phaseIds": [
+    "6"
+  ],
+  "createdAt": "2026-08-11T12:09:48.093+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_P6_R11_AFFA_R11_AFFB_R7_CONFORMS_WITH_GAPS_FINAL_VISUAL_REVIEW_PENDING",
+  "active": true,
+  "currentCoverage": true,
+  "supersedesCoverageSequence": "024",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-024.json",
+    "sha256": "a3ba25fb1fb884f690ce79d121e85389d7203c4bf5f9ca43267e1ee929cd0380",
+    "overwrite": false,
+    "preservation": "Coverage 024 remains immutable evidence for the earlier r9 subject."
+  },
+  "modelBinding": {
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "authorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "modelPlanRevision": "118",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-118.json",
+    "modelPlanSha256": "66b61e6f9b6aef557cc36e088d36a7f40d49651bbdad4ca01a5afe1927767ac7"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "sha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "expectedSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "artifactCount": 173,
+    "hashStatus": "MATCHED_BEFORE_AND_AFTER_BOTH_FINAL_REVIEWS"
+  },
+  "reviewBindings": {
+    "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.json",
+    "finalAffASha256": "05699c6498e309f7eff1e9a1b1cf034c6d67ceabecab429c2b36595c12ba23d3",
+    "finalAffAVerdict": "CONFORMS-WITH-GAPS",
+    "finalAffAFindingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0,
+      "total": 0
+    },
+    "finalAffBPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.json",
+    "finalAffBSha256": "0d20fb5edb095db8c43e7bd57d5d749c0e2c8cacc78983435561618fffd05a2c",
+    "finalAffBVerdict": "CONFORMS-WITH-GAPS",
+    "finalAffBFindingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0,
+      "total": 0
+    },
+    "sameExactSubject": true,
+    "subjectUnchangedAcrossReviews": true
+  },
+  "evidenceReceipts": {
+    "affAReviewMarkdownPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.md",
+    "affAReviewMarkdownSha256": "341630ad089c61e8c5a075b4bfa7b03337c62513f6bb1af0c923c539aae7caba",
+    "affAReviewHtmlPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.html",
+    "affAReviewHtmlSha256": "34dd4a441f608074ff3cd42af489f4a57d630fa51ba4a1f1ad60cba0d62e7f23",
+    "affAModelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-model-receipt.json",
+    "affAModelReceiptSha256": "acbe7a3a4fea2fc9362fbc613983612fd7827c5d05bd0084e096881a15b0457a",
+    "affAReviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hashes.json",
+    "affAReviewedSubjectSnapshotSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "affAHashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "affAHashReceiptSha256": "22fd08dd61aca0c4ab219ce9dac7eadb97d874a934d4502bb4aad186a2256a93",
+    "affBReviewMarkdownPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.md",
+    "affBReviewMarkdownSha256": "c6faff61f713c6940ce771c9a2c5b2974cb91f69d7e1c62aea91cee8e9d6443e",
+    "affBReviewHtmlPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.html",
+    "affBReviewHtmlSha256": "b9feb16ee7201cb233dee871921aa67f6d3412ee36b0b1c3a2347482d4cd390b",
+    "affBModelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-model-receipt.json",
+    "affBModelReceiptSha256": "f580350f72bb0dfb3a1cbe881b23aa6b3f7d48324c705a8c4b2c6130a2af2f7a",
+    "affBReviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/reviewed-subject/stratton-phase-6-hashes.json",
+    "affBReviewedSubjectSnapshotSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "affBHashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "affBHashReceiptSha256": "142c1beca1218e996e2589b3428c969ce52ef4d9ce3033c8d0a0da597a4c10aa"
+  },
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "total": 0
+  },
+  "residualOwnerGates": [
+    {
+      "gateId": "P6-R11-V17",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Accountable asset-rights owner",
+      "waived": false
+    },
+    {
+      "gateId": "P6-R9-OWNER-001",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Accountable platform, privacy, records, legal, compliance and commercial owners",
+      "waived": false
+    },
+    {
+      "gateId": "P6-R9-BOUNDARY-001",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Human architect and accountable owners",
+      "waived": false
+    }
+  ],
+  "residualGaps": [
+    "P6-R11-V17 remains open and fail closed pending accountable asset-rights confirmation or asset replacement.",
+    "P6-R9-OWNER-001 keeps unresolved owner decisions fail closed.",
+    "P6-R9-BOUNDARY-001 records that no Azure validation, deployment, runtime evidence, approval, waiver or optional-phase execution exists."
+  ],
+  "residualGatesUnwaived": true,
+  "externalDistributionBlocked": true,
+  "externalDistributionAllowed": false,
+  "externalDistributionStatus": "BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT",
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "humanGateStatus": "READY_FOR_FINAL_VISUAL_REVIEW_THEN_EXPLICIT_HUMAN_DECISION",
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "nextAction": "Preserve r11 and both final reviews unchanged. Start a separately governed loopback preview before final visual review, then request an explicit in-tool Phase 6 r11 approval or rejection decision. Keep external distribution blocked and do not invoke Phase 7 or Phase 8.",
+  "nonApprovalStatement": "Coverage 025 records same-manifest assurance only. It does not approve or reject Phase 6 r11, waive or resolve a residual gate, certify compliance, provide legal advice or formal attestation, authorise external distribution or Azure activity, start preview, or invoke Phase 7 or Phase 8."
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="reviewer-model" content="gpt-5.6-terra">
+  <meta name="manifest-sha256" content="888d1619a5c085dad0abfd47c34d478c8580ced876377c2291e34f28e2094d0c">
+  <title>Stratton AFF-B Review — Phase 6 r12 Round 8</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#526070; --line:#cbd5e1; --panel:#f8fafc; --good:#166534; --warn:#9a3412; }
+    * { box-sizing:border-box; } body { max-width:1080px; margin:0 auto; padding:32px 22px; background:#eef2f7; color:var(--ink); font:15px/1.55 system-ui,"Segoe UI",sans-serif; } main { background:#fff; border:1px solid var(--line); border-radius:14px; padding:38px; box-shadow:0 12px 32px rgb(15 23 42 / 10%); } h1,h2 { line-height:1.2; } h1 { margin:0 0 .35rem; } h2 { margin:2rem 0 .75rem; border-bottom:2px solid #dbe5ef; padding-bottom:.35rem; font-size:1.2rem; } p,li { max-width:92ch; } code { overflow-wrap:anywhere; background:#eaf1f8; border-radius:4px; padding:.08rem .28rem; } .verdict { margin:1rem 0; border-left:5px solid var(--good); background:#f0fdf4; padding:.9rem 1rem; font-size:1.15rem; font-weight:700; color:var(--good); } .boundary { border-left:5px solid var(--warn); background:#fff7ed; padding:.9rem 1rem; } table { width:100%; border-collapse:collapse; margin:1rem 0; } th,td { border:1px solid var(--line); padding:.65rem; text-align:left; vertical-align:top; } th { background:var(--panel); } .counts td:nth-child(2) { text-align:right; } .muted { color:var(--muted); } @media (max-width:720px) { body { padding:0; } main { border-radius:0; border:0; padding:24px 18px; } table { display:block; overflow-x:auto; } } @media print { body { background:#fff; padding:0; } main { border:0; box-shadow:none; padding:0; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Stratton AFF-B Review — Phase 6 r12, Round 8</h1>
+    <p class="muted">Security and Compliance Reviewer · fresh independent read-only assurance</p>
+    <div class="verdict">Verdict: CONFORMS-WITH-GAPS</div>
+    <h2>Binding and independence</h2>
+    <ul>
+      <li><strong>Actual runtime model:</strong> <code>gpt-5.6-terra</code>; author <code>gpt-5.6-sol</code>; AFF-A <code>gpt-5.6-luna</code>. The fresh AFF-B context and all actual model IDs are distinct.</li>
+      <li><strong>Authorisation:</strong> <code>stratton-phase-6-r12-aff-b-round-8-invocation-authorization.json</code> — <code>441a2b92bc4a6a15ee4957ce27433a025af493ea55cc7f79b690808f20cf637a</code>.</li>
+      <li><strong>Manifest:</strong> <code>stratton-phase-6-hashes.json</code> — <code>888d1619a5c085dad0abfd47c34d478c8580ced876377c2291e34f28e2094d0c</code>.</li>
+      <li><strong>Scope:</strong> 180 artifacts, 181 files, 20 slides, 38 claims and 69 references; tree SHA-256 <code>b0ce24ac5f2c36058f27fdae01eafee0d16d0bbe4b801e765c0a57373bda9245</code>.</li>
+      <li><strong>AFF-A prerequisite:</strong> same-manifest <code>CONFORMS-WITH-GAPS</code>, zero findings, review SHA-256 <code>686e7cfbad68bf6b7b69d893110606102481e0b51e96bfb83ab0855adf9233ba</code>.</li>
+    </ul>
+    <h2>Independent assessment</h2>
+    <p>Raw-byte verification matched the manifest, all 180 artifact hashes, ordinal ordering, the exact filesystem boundary and the 181-file aggregate before and after review. The reviewed-subject snapshot is byte-identical.</p>
+    <p>Private networking, Entra RBAC/PIM, managed identities, Key Vault, monitoring, continuity, rollback and recovery are design intent, packaged baseline or planned acceptance evidence—not deployed or operating controls. The presentation makes no Azure target, runtime, approval, certification or legal conclusion.</p>
+    <p>All 38 claims and 69 sources resolve to present paths. The USD 200000 comparator remains a human-owned hypothesis. The requested visual remediation preserves claims, sources, values and security/compliance boundaries.</p>
+    <p>Hash-bound local/static evidence records lockfile-bound build, deterministic browser/PDF evidence, 600/600 local requests with zero external requests and zero disclosure findings. Provider terms, rights, privacy lifecycle, retention/legal hold/deletion, classification, GDPR, EU AI Act and DORA remain accountable-owner work.</p>
+    <h2>Distribution controls and residual gates</h2>
+    <div class="boundary"><strong>External distribution remains blocked pending accountable owner rights confirmation or asset replacement.</strong><br><code>externalDistributionBlocked: true</code> · <code>externalDistributionAllowed: false</code><br><code>BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT</code></div>
+    <table><thead><tr><th>Gate</th><th>Status</th><th>Owner</th><th>Boundary</th></tr></thead><tbody>
+      <tr><td><code>P6-R11-V17</code></td><td>OPEN_FAIL_CLOSED</td><td>Accountable asset-rights owner</td><td>Rights confirmation or asset replacement is required before external distribution.</td></tr>
+      <tr><td><code>P6-R9-OWNER-001</code></td><td>OPEN_FAIL_CLOSED</td><td>Accountable platform, privacy, records, legal, compliance and commercial owners</td><td>Owner evidence on regions, provider terms, rights, privacy, records and regulatory detail remains open.</td></tr>
+      <tr><td><code>P6-R9-BOUNDARY-001</code></td><td>OPEN_FAIL_CLOSED</td><td>Human architect and accountable owners</td><td>No Azure activity, deployment, runtime, operating-effectiveness, certification, legal conclusion, production-readiness or optional-phase evidence exists.</td></tr>
+    </tbody></table>
+    <h2>Findings</h2>
+    <table class="counts"><thead><tr><th>Severity</th><th>Count</th><th>Finding IDs</th></tr></thead><tbody><tr><td>BLOCKER</td><td>0</td><td>None</td></tr><tr><td>MAJOR</td><td>0</td><td>None</td></tr><tr><td>MINOR</td><td>0</td><td>None</td></tr><tr><th>Total</th><th>0</th><td>—</td></tr></tbody></table>
+    <h2>Decision boundary</h2>
+    <p>Phase 6 r12 remains <code>PENDING_HUMAN_DECISION</code>; Phases 7 and 8 remain <code>NOT_INVOKED</code>. This review approves nothing, waives nothing, certifies nothing, authorises no distribution or Azure activity, and invokes no optional phase.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,204 @@
+
+> stratton-phase5-app@1.0.0 validate
+> npm run format:check && npm run lint && npm run typecheck && npm run build && npm run test && npm run check:openapi && npm run check:migrations && npm run check:docker
+
+
+> stratton-phase5-app@1.0.0 format:check
+> node ./scripts/check-format.mjs
+
+format check passed
+
+> stratton-phase5-app@1.0.0 lint
+> node ./scripts/check-lint.mjs
+
+lint checks passed
+
+> stratton-phase5-app@1.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> stratton-phase5-app@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> stratton-phase5-app@1.0.0 test
+> npm run test:unit && npm run test:integration
+
+
+> stratton-phase5-app@1.0.0 test:unit
+> node --import tsx --test ../tests/app/unit/**/*.test.ts
+
+(node:38228) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ benchmark rejects route evidence below the required sample, latency, and pack thresholds (1.6364ms)
+✔ benchmark fails closed for blank identity and non-positive or non-finite token or cost evidence (0.1248ms)
+✔ benchmark composes per-route controls with citation and unsupported-claim gates (0.0863ms)
+✔ benchmark accepts the exact route evidence boundaries for every approved route (0.1024ms)
+✔ benchmark rejects model evidence that does not exactly match its route and version (0.0759ms)
+✔ benchmark rejects an untrusted invalid route and missing identity fields deterministically (0.1001ms)
+✔ benchmark rejects zero, negative, fractional, non-finite, and missing route measurements (0.1497ms)
+✔ benchmark maps invalid inherited evidence to existing gates before route failures (0.0857ms)
+(node:35452) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ idempotency store replays identical complete request (1.0324ms)
+✔ idempotency key conflict on different fingerprint (0.1183ms)
+✔ failed lease can be reclaimed and restarted (0.1458ms)
+✔ in-progress duplicate does not restart execution (0.1116ms)
+✔ complete requires active lease claim (0.3708ms)
+✔ old claim token is rejected after reclaim (0.179ms)
+(node:7964) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ citation assessment treats empty output as incomplete (0.8009ms)
+✔ citation assessment requires citations for material claims (0.1405ms)
+✔ logger redacts sensitive nested fields (0.931ms)
+(node:37644) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ selectModelRoute assigns every task class to its deterministic base tier and effort (0.8514ms)
+✔ selectModelRoute applies the approved escalation examples without caller deployment selection (0.1737ms)
+(node:39716) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ policy denies missing evidence instead of success defaults (0.8864ms)
+✔ policy denies special category data in release 1 (0.1108ms)
+✔ policy allows analysis when model residency evidence is present (2.0218ms)
+✔ policy denies analysis when model residency evidence is missing (0.1383ms)
+✔ state machine excludes final approval states (0.1032ms)
+✔ state machine blocks unsupported transitions (0.0694ms)
+✔ rollout admission hard limit is 20 (0.067ms)
+(node:37708) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ malformed service-bus message is dead-lettered safely (0.6855ms)
+(node:37928) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ queue consumer dead-letters unsupported operation (8.1433ms)
+✔ queue consumer replays idempotent duplicate without re-execute (0.9471ms)
+✔ queue consumer abandons retryable errors until max attempts (0.569ms)
+✔ audit hash chain is stable and verifiable (0.1917ms)
+✔ queue outbox dispatcher drains pending scopes autonomously (0.5209ms)
+✔ queue outbox dispatcher applies the long delay to non-retryable errors containing a digit 5 (0.3238ms)
+✔ queue outbox dispatcher applies the short delay to HTTP 5xx errors (0.1611ms)
+(node:8344) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ source adapter forbids write-back (1.0538ms)
+✔ read-only connector reads seeded object (0.1679ms)
+✔ blob provider exposes deterministic inspection metadata (0.1717ms)
+✔ azure blob provider enforces account/container/path and URL boundaries (0.4688ms)
+✔ azure blob inspection streams SHA-256 and parses defender clean tag (27.6455ms)
+✔ azure blob inspection marks malicious/missing/error defender tags fail-closed (1.3637ms)
+✔ azure blob inspection rejects missing length and oversized payload (0.4059ms)
+✔ azure blob inspection fails closed on etag/version drift and oversize stream (0.8278ms)
+(node:1040) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ SQL binding uses BIGINT for lease epoch and large size integers (0.8597ms)
+✔ SqlIdempotencyStore begin/complete/fail include claim fencing and scoped context (0.8295ms)
+(node:35304) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ sql outbox scope enumeration uses relay-only context (1.0477ms)
+✔ sql outbox pending message read remains tenant/case scoped (0.1552ms)
+✔ generic sql session context exposes no relay bypass key (0.4629ms)
+(node:36676) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ Document Intelligence uses the prebuilt-layout 2024-11-30 analyze URL (26.3257ms)
+✔ ingestion blocked decision persists even when message dead-letters (7.7379ms)
+✔ ingestion replay after crash before queue finalization does not duplicate version/decision/audit (1.184ms)
+✔ analysis blocked state persists after handler failure result (0.8066ms)
+▶ analysis execution rechecks current source and licence authority before provider invocation
+  ✔ source becomes suspended (1.0469ms)
+  ✔ latest licence is missing (0.6985ms)
+  ✔ latest licence is expired (0.8073ms)
+  ✔ latest licence disallows AI analysis (0.7478ms)
+✔ analysis execution rechecks current source and licence authority before provider invocation (3.7531ms)
+✔ extraction completion enqueues indexing deterministically (1.6385ms)
+✔ indexing provider fail-closed does not mark chunks indexed or completed (0.4419ms)
+✔ queue completion finalization and idempotency share one transaction scope (0.2272ms)
+✔ queue consumer retries transient error and dead-letters exhausted attempts (0.1631ms)
+ℹ tests 60
+ℹ suites 0
+ℹ pass 60
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8332.6074
+
+> stratton-phase5-app@1.0.0 test:integration
+> node --import tsx --test ../tests/app/integration/**/*.test.ts
+
+(node:39944) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ createCase enforces idempotency fingerprint (54.1466ms)
+✔ strict enum validation rejects unknown review values (7.5971ms)
+✔ strict enum validation rejects unknown source interface type (4.3766ms)
+✔ COMPLIANCE review requires ComplianceApprover (4.2242ms)
+✔ review flow accepts three approvals for same immutable version and draft prepares (14.1815ms)
+✔ human-only review decisions reject workload principals (4.3919ms)
+✔ admitEvidence is DataSteward-only and legal role is denied (3.2588ms)
+✔ ingestion denies special-category data before persist when source is active (3.0549ms)
+✔ expired external licence denies analysis (3.4241ms)
+✔ getAnalysisStatus resolves case by run and enforces access (4.1237ms)
+✔ analysis request requires extraction and indexing completion (4.6009ms)
+✔ analysis requests persist the application-selected deterministic route (6.4678ms)
+✔ analysis requests reject every caller-selected deployment or model field as INVALID_CONTRACT (6.5415ms)
+✔ DealContributor has no escalation authority (12.9301ms)
+✔ ValidationProducer may use validation-derived escalation reasons only (11.7242ms)
+✔ human reviewers may request only authorised human escalation and persist selected evidence (6.7208ms)
+✔ human reviewers reject every validation-derived escalation reason (26.5925ms)
+✔ issuer host validation rejects substring spoofing and malformed auth (3.5577ms)
+✔ arbitrary trusted role headers are ignored (2.0419ms)
+✔ workload runtime denies recordVerdict (1.9694ms)
+✔ requestAnalysis and exportValidationEvidence fail closed when capability is blocked (7.3885ms)
+✔ missing idtyp claim fails closed on human-only route (2.6933ms)
+✔ queue-send failure still commits durable state and replays without duplication (3.4743ms)
+✔ failed idempotency completion rolls back and retry emits only one message (3.1498ms)
+✔ durable outbox dispatch recovers pending message without client retry (2.2071ms)
+(node:39980) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ api runtime operation path-role parity matches phase 3 contract (4.5724ms)
+✔ openapi contains exact approved operations and role sets (1.1734ms)
+✔ migration and repository SQL contract is schema-consistent (19.9815ms)
+✔ model routing migration preserves historic route evidence and adds every routing column (11.6119ms)
+✔ routing migration historical DROP COLUMN protection recognises quoted and multi-column drops (0.3137ms)
+✔ analysis run repository SQL persists and retrieves application-owned route evidence (30.4284ms)
+✔ SQL analysis mapping omits nullable observations until provider metadata exists (0.3738ms)
+✔ routing persistence parser rejects cross-wired SQL parameter and row-property mappings (2.7232ms)
+✔ routing migration parser ignores SQL decoys and reads every valid ALTER TABLE ADD column (1.418ms)
+✔ role grant matrix satisfies repository operations with least privilege (1.4164ms)
+✔ queue outbox recovery SQL/RLS contract stays relay-scoped and autonomous (2.5745ms)
+(node:40288) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ runtime routing contract rejects active legacy global residency setting (9.5621ms)
+✔ routing configuration parses all approved deployments and policy residency evidence (0.3294ms)
+✔ routing configuration rejects unsupported routing policy versions (0.2603ms)
+✔ runtime wiring rejects dead-code and decoy routing configuration (25.7663ms)
+✔ api test mode requires application-owned routing deployment configuration (91.3315ms)
+✔ worker test mode requires application-owned routing deployment configuration (88.9523ms)
+▶ api production mode fails closed without Azure config
+  ✔ api production mode rejects blocked capability overrides (3311.9274ms)
+✔ api production mode fails closed without Azure config (3321.7059ms)
+▶ worker production mode fails closed without Azure config
+  ✔ worker production mode blocks unapproved analysis/vectorization/export queues (1548.1521ms)
+✔ worker production mode fails closed without Azure config (1554.698ms)
+✔ api test mode serves readiness and health (533.0521ms)
+✔ worker test mode processes configured queue file (481.81ms)
+ℹ tests 48
+ℹ suites 0
+ℹ pass 48
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6758.2135
+
+> stratton-phase5-app@1.0.0 check:openapi
+> node ./scripts/check-openapi.mjs
+
+openapi checks passed
+
+> stratton-phase5-app@1.0.0 check:migrations
+> node ./scripts/check-migrations.mjs
+
+migration checks passed
+
+> stratton-phase5-app@1.0.0 check:docker
+> node ./scripts/check-docker-digest.mjs
+
+docker digest checks passed

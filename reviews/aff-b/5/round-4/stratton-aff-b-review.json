@@ -1,0 +1,219 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_SECURITY_AND_COMPLIANCE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "phaseName": "Phase 5 — Coding",
+  "round": 4,
+  "invokedBy": "AFF-5",
+  "reviewedAt": "2026-08-09T18:02:21.542+02:00",
+  "appendOnly": true,
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "supersedes": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-3",
+    "relationship": "Round 3 covered sibling r5; round 4 independently reassesses r6 evidence-binding remediation.",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "phaseAuthorAndFinalisationModelId": "gpt-5.6-sol",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "independence": {
+      "separateRole": true,
+      "separateContext": true,
+      "isolatedWriteBoundary": true,
+      "authorModelDistinct": true,
+      "statement": "AFF-B wrote only its round-4 records, snapshot and coverage 019."
+    }
+  },
+  "subject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r6",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-phase-5-hashes.json",
+    "expectedSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "preReviewSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "postReview": {
+      "manifestSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+      "entryCount": 166,
+      "manifestFileCount": 166,
+      "listedFilesMatched": 166,
+      "missingFiles": 0,
+      "mismatchedFiles": 0,
+      "duplicatePaths": 0,
+      "ordinalPathOrder": true,
+      "invalidPathCount": 0,
+      "encoding": "UTF-8 without BOM",
+      "trailingNewline": false
+    },
+    "releaseManifestSha256": "88f41e40e0b1c2f7f699bd92b89d36e8d91589895012c86c4912c7247e3b9e28",
+    "approvedR4ManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "approvedR4EntryCount": 155,
+    "reviewedR5ManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "reviewedR5EntryCount": 162
+  },
+  "handoff": {
+    "preReviewPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-11-pre-review.md",
+    "preReviewSha256": "ad806f8231772c82e32279da14635e1b1ae1cdb66265532e9b2d9dead2304423",
+    "reportPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-11-report.md",
+    "reportSha256": "cdc88d901a5c0e0b8de867c850d91f288c3dd3fff0cf6416a529b5dbc94d430c",
+    "priorAffBRound3Sha256": "63e422fa708fce1c30f1739b9d0a539d2b435110b7be9cb724dc5a799a1525a7",
+    "priorCoverage018Sha256": "abe9b88504d5ca91dbd6297c6b1d09a35c346c87f9ec6295920d490076b1ae11"
+  },
+  "reviewArtifacts": {
+    "markdown": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/stratton-aff-b-review.md",
+      "sha256": "b1f08478f5c3c15036b1e49eea2a71a7add813003f48265d91ef5ff24bd6c5b8"
+    },
+    "html": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/stratton-aff-b-review.html",
+      "sha256": "5884981c65407b564576f6fed48555100eb24a64007f5aef1ce85b7230bd09af"
+    },
+    "modelReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/stratton-aff-b-model-receipt.json",
+      "sha256": "7f183b02e1a014695ff5077e692a0b14cf20526becde2ed2e7c7a5e3a89b35ff"
+    },
+    "hashReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/reviewed-subject/stratton-phase-5-hash-verification-receipt.json",
+      "sha256": "4ef92a9b83a0483e5b0afba6027563e98314d14de4c89a33df0733463c28a298"
+    },
+    "snapshot": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/reviewed-subject/stratton-phase-5-hashes.json",
+      "sha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33"
+    },
+    "coverage": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-019.json",
+      "sha256": "4d4511baafaf2db61018cd0b2e604f1db46534409249086e5ac43eb0ac22bc68"
+    }
+  },
+  "evidenceChain": {
+    "findingDisposition": "NO_SECURITY_OR_COMPLIANCE_FINDING_INTRODUCED_OR_REMAINING",
+    "runId": "20260809T154227203Z",
+    "validationInputPath": "evidence/local-validation/20260809T154227203Z/validation-input.json",
+    "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "aggregateSha256": "17a15d2e4d42763e98087e80c2a1be4f91bf2c3c5ec17d4ed7adb0d0c78a9d8c",
+    "inputFileCount": 123,
+    "inputEntryMismatches": 0,
+    "releaseInventoryFileCount": 123,
+    "releaseInventoryMismatches": 0,
+    "boundRecordsChecked": 14,
+    "bindingMismatches": 0,
+    "preValidationInputManifest": true,
+    "mutationRejected": true,
+    "exactRunAndPathSelection": true,
+    "filesystemMtimeSelectorAbsent": true,
+    "behaviouralRegressionCoverage": [
+      "deterministic input hashing",
+      "input mutation rejection",
+      "newer mtime decoy resistance",
+      "mismatched dependency-record rejection"
+    ],
+    "conclusion": "No security or compliance evidence-chain finding is raised."
+  },
+  "confirmedControls": [
+    {
+      "area": "Bicep and application security",
+      "status": "CONFORMS",
+      "evidence": [
+        "app/src/config.ts",
+        "infra/modules/application-platform/main.bicep",
+        "infra/modules/identity-rbac/main.bicep",
+        "infra/modules/regional-ai/main.bicep",
+        "infra/modules/private-endpoints/main.bicep"
+      ]
+    },
+    {
+      "area": "Tenant/case isolation, data flow and logging",
+      "status": "CONFORMS",
+      "evidence": [
+        "app/migrations/001_init.sql",
+        "app/src/policy-service.ts",
+        "app/src/logger.ts"
+      ]
+    },
+    {
+      "area": "Routing, residency intent and human authority",
+      "status": "CONFORMS-WITH-GAPS",
+      "evidence": [
+        "app/src/model-routing-policy.ts",
+        "app/src/api-runtime.ts",
+        "app/src/worker-main.ts",
+        "evidence/model-portfolio/model-portfolio-benchmark-template.json"
+      ]
+    },
+    {
+      "area": "Release integrity and supply chain",
+      "status": "CONFORMS-WITH-GAPS",
+      "evidence": [
+        "stratton-release-manifest.json",
+        "evidence/dependency-evidence.json",
+        "evidence/source-security/20260809T154227203Z/summary.json",
+        "evidence/containers/20260809T154227203Z/summary.json"
+      ]
+    },
+    {
+      "area": "Evidence-chain remediation",
+      "status": "CONFORMS",
+      "evidence": [
+        "validation/ValidationEvidence.psm1",
+        "validation/New-ReleaseManifest.ps1",
+        "validation/New-BuildReport.ps1",
+        "validation/New-Phase5Hashes.ps1",
+        "validation/Test-ReleaseEvidence.ps1",
+        "tests/iac/ValidationEvidenceBinding.Tests.ps1"
+      ]
+    }
+  ],
+  "findings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "residualOwnerBoundGaps": [
+    {
+      "owner": "Existing accountable owners named in governed records",
+      "impact": "No target-specific, residency, legal applicability or operating-effectiveness conclusion is available.",
+      "requiredRemediation": "Provide separately authorised owner evidence for regions/resources, quota/capability, embedding, recovery/failover, provider, source/licence, privacy, retention/legal-hold, classification and benchmark gates before later activity.",
+      "evidence": [
+        "stratton-build-report.md",
+        "evidence/model-portfolio/model-portfolio-benchmark-template.json",
+        "deploy/README.md"
+      ]
+    },
+    {
+      "owner": "Existing release-identity owner",
+      "impact": "Local container signatures do not establish deployable registry provenance.",
+      "requiredRemediation": "Use the already-required approved release identity before any deployable registry artefact is admitted.",
+      "evidence": [
+        "evidence/containers/20260809T154227203Z/summary.json"
+      ]
+    }
+  ],
+  "inferredApplicability": {
+    "status": "UNCHANGED_AND_UNKNOWN_WHERE_UNCONFIRMED",
+    "statement": "No legal applicability conclusion, owner value, requirement, waiver or certification is introduced; existing governed applicability and accountable human decisions remain authoritative."
+  },
+  "operatingEffectivenessEvidence": {
+    "status": "NOT_PRESENT",
+    "statement": "No Azure, target, inference, promotion, retention-finalisation or runtime evidence was executed or claimed."
+  },
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "No blocker or unresolved major exists; the r6 evidence chain is bound and regression-covered, while owner-bound gaps remain explicit and fail closed.",
+  "finalRoundForManifest": true,
+  "coverageSupersession": {
+    "activeCoverageSequence": "019",
+    "supersedes": "018",
+    "activeCoverageSha256": "4d4511baafaf2db61018cd0b2e604f1db46534409249086e5ac43eb0ac22bc68"
+  },
+  "nextAction": "Preserve unchanged r6 bytes and present this review, coverage 019, companion final assurance and residual gates to the explicit human gate.",
+  "assuranceBoundary": "Architecture assurance only; not legal advice, legal/regulatory certification, formal attestation, waiver or approval. AFF-B does not approve Phase 5 or authorise Azure activity.",
+  "noUnauthorisedExecution": "Only static reads, searches and SHA-256/file-byte inspection were used; no subject code or Azure-related activity was executed."
+}

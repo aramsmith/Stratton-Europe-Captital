@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "112",
+  "createdAt": "2026-08-10T00:36:00.2283808+02:00",
+  "revisionReason": "Bind the approved 20-slide Phase 6 storyline to an append-only remediation candidate after AFF-A round 4 identified a stale governing revision, an APIM cost-basis mismatch and incomplete PDF producer-marker disclosure.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-111.json",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r5",
+    "source": {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-13-brief.md",
+      "sha256": "22b1e24f5c3dfcd55fa30118e2d11511b2c160ddf9639a927bdbe069c203f2ec"
+    },
+    "request": "Continue the approved 20-slide narrative and Task 14 finalisation while remediating the hash-bound AFF-A round-4 findings in a new sibling candidate.",
+    "phase6ApprovalClaimed": false
+  },
+  "models": {
+    "phaseAuthor": {
+      "agent": "AFF-6",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "selectionRationale": "Sol remains the best approved GPT option for executive evidence synthesis, DECKIO remediation, deterministic assurance and architecture communication.",
+      "selectionChanged": false,
+      "additionalHumanModelApprovalRequired": false
+    },
+    "affA": {
+      "agent": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.6-luna",
+      "plannedActualRuntimeModelId": "gpt-5.6-luna",
+      "availability": "ACTIVE",
+      "selectionRationale": "Luna provides a separate GPT-5.6 reasoning route and remains opposite to the Sol author actual model.",
+      "mustDifferFromAuthorActualModel": true,
+      "selectionChanged": false,
+      "additionalHumanModelApprovalRequired": false
+    },
+    "affB": {
+      "agent": "AFF-B",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-terra",
+      "plannedActualRuntimeModelId": "gpt-5.6-terra",
+      "availability": "ACTIVE",
+      "selectionRationale": "Terra remains the approved specialist route for evidence-rich security, compliance, financial and source-rights assurance.",
+      "selectionChanged": false,
+      "additionalHumanModelApprovalRequired": false
+    }
+  },
+  "presentation": {
+    "phaseFolder": "6-presentation-r5",
+    "registeredSlides": 20,
+    "candidateStatus": "TWENTY_SLIDE_REMEDIATION_CANDIDATE",
+    "storyline": "human authority -> model selection -> Azure design",
+    "canonicalManifestPath": "6-presentation-r5/stratton-phase-6-hashes.json",
+    "manifestRequirement": "The final manifest must bind this exact revision and all r5 source, exports and evidence before formal review."
+  },
+  "remediation": {
+    "sourceReview": {
+      "path": "reviews/aff-a/6/round-4/stratton-aff-a-review.json",
+      "sha256": "3753d03eda88801519988029266ce24be7fa6ca3dd94d2cdf8d460b29fe98cd1",
+      "verdict": "DIVERGES"
+    },
+    "requiredOutcomes": [
+      "Use the approved Phase 5 PremiumV2 APIM package as the dated public-retail cost basis.",
+      "Disclose any remaining non-sensitive PDF library producer marker truthfully.",
+      "Regenerate source, exports, evidence and the canonical manifest without mutating r4."
+    ]
+  },
+  "immutableHistory": {
+    "r4Manifest": {
+      "path": "6-presentation-r4/stratton-phase-6-hashes.json",
+      "sha256": "2b7636177aaebcc3aada661860598db36e1fe888517b7a4ec17154353bdce106"
+    },
+    "affARound4": {
+      "path": "reviews/aff-a/6/round-4/stratton-aff-a-review.json",
+      "sha256": "3753d03eda88801519988029266ce24be7fa6ca3dd94d2cdf8d460b29fe98cd1"
+    }
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_AFF_A_AFF_B_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "inferenceClaimed": false,
+    "promotionClaimed": false,
+    "complianceCertificationClaimed": false,
+    "achievedBenefitsClaimed": false,
+    "productionReadinessClaimed": false
+  },
+  "updatedAt": "2026-08-10T00:36:00.2283808+02:00"
+}

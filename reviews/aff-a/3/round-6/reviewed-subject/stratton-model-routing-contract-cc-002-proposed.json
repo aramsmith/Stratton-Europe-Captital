@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_DETERMINISTIC_MODEL_ROUTING_CONTRACT",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "policyVersion": "stratton-model-routing-v1",
+  "routingMode": "deterministic workflow routing",
+  "initialSelectionAuthority": "APPLICATION_POLICY_FROM_WORKFLOW_STEP_AND_TASK_CLASS",
+  "baseRoutes": {
+    "EVIDENCE_TRIAGE": "LUNA",
+    "QUERY_REWRITE": "LUNA",
+    "FIRST_PASS_SUMMARY": "LUNA",
+    "GROUNDED_ANALYSIS": "TERRA",
+    "CROSS_DOCUMENT_COMPARISON": "TERRA",
+    "ESG_NORMALISATION": "TERRA",
+    "COMPLEX_RISK_SYNTHESIS": "SOL",
+    "INVESTMENT_THESIS_CHALLENGE": "SOL"
+  },
+  "escalationReasons": [
+    "VALIDATION_FAILURE",
+    "LOW_CONFIDENCE",
+    "CONFLICTING_MATERIAL_EVIDENCE",
+    "HIGH_RISK_SPECIALIST_CONCLUSION",
+    "AUTHORISED_HUMAN_REQUEST"
+  ],
+  "routes": [
+    {
+      "taskClass": "EVIDENCE_TRIAGE",
+      "initialTier": "LUNA",
+      "allowedNext": [
+        "TERRA",
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "validated triage classification and evidence metadata"
+    },
+    {
+      "taskClass": "QUERY_REWRITE",
+      "initialTier": "LUNA",
+      "allowedNext": [
+        "TERRA",
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "validated retrieval query retaining case and policy constraints"
+    },
+    {
+      "taskClass": "FIRST_PASS_SUMMARY",
+      "initialTier": "LUNA",
+      "allowedNext": [
+        "TERRA",
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "validated first-pass summary with evidence references"
+    },
+    {
+      "taskClass": "GROUNDED_ANALYSIS",
+      "initialTier": "TERRA",
+      "allowedNext": [
+        "SOL",
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "grounded professional draft with accessible citations"
+    },
+    {
+      "taskClass": "CROSS_DOCUMENT_COMPARISON",
+      "initialTier": "TERRA",
+      "allowedNext": [
+        "SOL",
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "cited comparison with conflicts and missing evidence identified"
+    },
+    {
+      "taskClass": "ESG_NORMALISATION",
+      "initialTier": "TERRA",
+      "allowedNext": [
+        "SOL",
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "deterministically checked normalisation and draft narrative"
+    },
+    {
+      "taskClass": "COMPLEX_RISK_SYNTHESIS",
+      "initialTier": "SOL",
+      "allowedNext": [
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "supported complex-risk draft for specialist and human review"
+    },
+    {
+      "taskClass": "INVESTMENT_THESIS_CHALLENGE",
+      "initialTier": "SOL",
+      "allowedNext": [
+        "HUMAN_STOP"
+      ],
+      "requiredOutput": "supported counter-analysis without an authoritative investment decision"
+    }
+  ],
+  "orderedEscalationEvaluation": [
+    {
+      "order": 1,
+      "reason": "VALIDATION_FAILURE",
+      "condition": "Schema, structured output, citation or factual-consistency validation fails.",
+      "action": "Escalate one tier only where the route permits; otherwise stop."
+    },
+    {
+      "order": 2,
+      "reason": "LOW_CONFIDENCE",
+      "condition": "The result is below an owner-approved benchmarked confidence threshold.",
+      "action": "Escalate one tier only where the route permits; missing threshold stops."
+    },
+    {
+      "order": 3,
+      "reason": "CONFLICTING_MATERIAL_EVIDENCE",
+      "condition": "Admitted material evidence conflicts and cannot be reconciled by the current tier.",
+      "action": "Move from Luna to Terra or Terra to Sol; Sol stops for human resolution."
+    },
+    {
+      "order": 4,
+      "reason": "HIGH_RISK_SPECIALIST_CONCLUSION",
+      "condition": "The task requires a material legal, compliance, risk or ESG specialist conclusion.",
+      "action": "Move to the governed stronger tier and retain specialist/human authority."
+    },
+    {
+      "order": 5,
+      "reason": "AUTHORISED_HUMAN_REQUEST",
+      "condition": "An authorised reviewer records a reasoned request.",
+      "action": "Escalate within the allow-list and record reviewer identity and evidence."
+    }
+  ],
+  "validationSequence": [
+    {
+      "order": 1,
+      "gate": "structured output validation",
+      "failure": "VALIDATION_FAILURE"
+    },
+    {
+      "order": 2,
+      "gate": "schema validation",
+      "failure": "VALIDATION_FAILURE"
+    },
+    {
+      "order": 3,
+      "gate": "citation validation",
+      "failure": "VALIDATION_FAILURE"
+    },
+    {
+      "order": 4,
+      "gate": "factual consistency validation",
+      "failure": "VALIDATION_FAILURE"
+    },
+    {
+      "order": 5,
+      "gate": "human validation",
+      "failure": "HUMAN_STOP"
+    }
+  ],
+  "deploymentBindings": {
+    "LUNA": {
+      "configurationReference": "ai.deployments.luna.deploymentId",
+      "expectedModelId": "gpt-5.6-luna",
+      "expectedVersion": "2026-07-09",
+      "expectedInterface": "Chat Completions",
+      "expectedApiVersion": "2024-12-01-preview"
+    },
+    "TERRA": {
+      "configurationReference": "ai.deployments.terra.deploymentId",
+      "expectedModelId": "gpt-5.6-terra",
+      "expectedVersion": "2026-07-09",
+      "expectedInterface": "Responses",
+      "expectedApiVersion": "2025-04-01-preview"
+    },
+    "SOL": {
+      "configurationReference": "ai.deployments.sol.deploymentId",
+      "expectedModelId": "gpt-5.6-sol",
+      "expectedVersion": "2026-07-09",
+      "expectedInterface": "Responses",
+      "expectedApiVersion": "2025-04-01-preview"
+    }
+  },
+  "routeEvidenceEnvelope": {
+    "requiredFields": [
+      "caseId",
+      "workItemId",
+      "taskClass",
+      "routePolicyVersion",
+      "routingReason",
+      "selectedTier",
+      "deploymentId",
+      "modelId",
+      "modelVersion",
+      "apiInterface",
+      "apiVersion",
+      "reasoningEffort",
+      "promptTemplateVersion",
+      "policyVersion",
+      "contentFilterVersion",
+      "retrievalManifestHash",
+      "evidenceManifestHash",
+      "structuredOutputValidationResult",
+      "schemaValidationResult",
+      "citationValidationResult",
+      "factualConsistencyValidationResult",
+      "escalationEvents",
+      "humanReviewEvents",
+      "inputTokens",
+      "outputTokens",
+      "latencyMilliseconds",
+      "costMeasurementReference",
+      "occurredAt"
+    ],
+    "sensitiveBodiesAllowed": false,
+    "immutability": "APPEND_ONLY_ROUTE_AND_ESCALATION_EVENTS"
+  },
+  "fallbackPolicy": {
+    "silentFallbackAllowed": false,
+    "unrecordedSubstitutionAllowed": false,
+    "tierDowngradeAllowed": false,
+    "deploymentUnavailableAction": "QUEUE_OR_FAIL_CLOSED",
+    "unsupportedSolResultAction": "HUMAN_STOP",
+    "configurationMismatchAction": "DENY_AND_ALERT"
+  },
+  "productionRouterPosition": {
+    "state": "PROHIBITED_FOR_RELEASE_1_PRODUCTION",
+    "statement": "Microsoft Foundry Model Router is deferred.",
+    "futureEvaluationConditions": [
+      "same representative Stratton benchmark",
+      "underlying model allow-list evidence",
+      "underlying model/version route evidence",
+      "quality and latency gates",
+      "human-authority controls",
+      "separate change control"
+    ]
+  },
+  "authority": {
+    "modelCanSelectInitialRoute": false,
+    "modelCanPromoteRoute": false,
+    "modelCanApproveMaterialOutput": false,
+    "accountableHumanDecisionRequired": true
+  },
+  "changeInvalidation": [
+    "route-policy version",
+    "base-route mapping",
+    "escalation ordering or condition",
+    "deployment name or ID",
+    "model or version",
+    "API interface or version",
+    "reasoning effort",
+    "prompt template",
+    "validation policy"
+  ]
+}

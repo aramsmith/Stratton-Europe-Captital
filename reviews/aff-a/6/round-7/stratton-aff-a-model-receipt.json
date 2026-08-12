@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 7,
+  "reviewedAt": "2026-08-10T01:53:53.6009222+02:00",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "selectionRationale": "Luna remains the revision-114 model-opposite route for independent review of the Sol-authored r7 roster-governance remediation.",
+  "availability": "ACTIVE_AND_VERIFIED",
+  "phaseAuthor": {
+    "agent": "AFF-6",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "receiptPath": "cases/Stratton-Europe-Captital/6-presentation-r7/evidence/stratton-aff-6-model-receipt.json",
+    "receiptSha256": "f92e432777308e7419fd6b9ddbff32fa635273e5901da033c35ea05d04fda001"
+  },
+  "modelSeparation": {
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "reviewerActual": "gpt-5.6-luna",
+    "authorActual": "gpt-5.6-sol",
+    "exactSeparation": "gpt-5.6-luna != gpt-5.6-sol"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-114.json",
+    "revision": "114",
+    "sha256": "1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc",
+    "scope": "20-slide r7 roster-governance remediation candidate; Phase 6 approval not claimed"
+  },
+  "nonApprovalStatement": "This receipt records reviewer model provenance and separation only. It does not approve Phase 6, waive owner gates, certify compliance, authorise Azure activity, authorise Phase 7 or Phase 8, or invoke AFF-B."
+}

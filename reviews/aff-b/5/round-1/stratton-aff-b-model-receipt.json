@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "5",
+  "phaseName": "Phase 5 — Coding",
+  "round": 1,
+  "invokedBy": "AFF-5",
+  "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER",
+  "formalisedAt": "2026-08-03T03:54:38.7348869+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-sol",
+  "actualRuntimeModelId": "gpt-5.6-sol",
+  "actualRuntimeEvidence": "Task runtime was explicitly selected and bound as gpt-5.6-sol.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-14.json",
+    "revision": "14",
+    "sha256": "a4af30ebc44cb985c1881d2508eb2bdb8680e480c0262682fe34de2ebb40638b",
+    "subjectManifestModelPlanRevision": "14",
+    "phaseAuthorActualRuntimeModelIds": [
+      "gpt-5.3-codex",
+      "gpt-5.6-sol"
+    ],
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r3/stratton-phase-5-hashes.json",
+    "sha256": "cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886"
+  },
+  "finalAffARecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-3/stratton-aff-a-review.json",
+    "sha256": "bcb5f8ad241cdd82a3ea290002584e91cd0a394806d6db09083c26cffe7339e8"
+  },
+  "activeCoverage": {
+    "sequence": "008",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-008.json",
+    "sha256": "622f9da4552c86d48f166493769b92db314a71960deab6996e1f30360b7c97e3",
+    "status": "FROZEN_FORMAL_PHASE5_ROUND1_DIVERGES_NOT_GATE_ACTIVE"
+  },
+  "separation": {
+    "authorModelDifferenceRequired": false,
+    "relationshipStatus": "ALLOWED_SAME_EXACT_MODEL",
+    "independenceBasis": [
+      "separate AFF-B reviewer role",
+      "separate invocation and agent context from Phase 5 authoring",
+      "write scope restricted to AFF-B coverage and review outputs",
+      "subject and AFF-A artifacts remained immutable"
+    ],
+    "status": "ESTABLISHED_SEPARATE_ROLE_CONTEXT_AND_WRITE_BOUNDARY"
+  },
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, deploy or provide runtime evidence."
+}

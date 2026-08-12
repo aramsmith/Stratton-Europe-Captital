@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "36",
+  "createdAt": "2026-08-03T18:09:45.4304767+02:00",
+  "revisionReason": "Enlarge slide 2's primary panels and internal typography, use a four-column current-position layout for breathing room and further smooth the horizontal entrances.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-35.json",
+    "sha256": "ab3bbae5345a5963b3ec89b42128407f3021bfe7ab565de9524533727f960724",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "changes": [
+      "Increase panel padding, section labels, narrative copy, metrics and current-position typography.",
+      "Arrange the four current-position details in one spacious row.",
+      "Extend fly-ins to 1200ms, reduce travel distance and use a softer ease-out curve."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

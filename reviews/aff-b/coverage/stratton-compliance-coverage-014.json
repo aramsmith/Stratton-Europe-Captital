@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "014",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseIds": ["4"],
+  "createdAt": "2026-08-06T10:48:38.686+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_CC002_PHASE4_AFFB_ROUND5_DIVERGES_REMEDIATION_REQUIRED",
+  "supersedesCoverageSequence": "013",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-013.json",
+    "sha256": "c81ae6f0f73265b2d2295a2fbecefb8b03b563279a95ab78e545d0e9c17c64cd",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "authorActualRuntimeModelId": "gpt-5.6-terra",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "independence": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-proposed.json",
+    "sha256": "07d9c07ecdf78285dab13f8e83972fc4268aad7c7cde546b2cea9e76782c5154",
+    "artifactCount": 6,
+    "candidateFileCount": 7,
+    "hashStatus": "BOUND_AS_REQUESTED_INDEPENDENT_EXECUTION_NOT_AVAILABLE"
+  },
+  "reviewBinding": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-5/stratton-aff-b-review.json",
+    "formalReviewRound": 5,
+    "verdict": "DIVERGES",
+    "finalRoundStatus": true
+  },
+  "confirmedControls": [
+    "EU_DATA_ZONE, DataZoneStandard, NoAutoUpgrade and fixed model version are stated.",
+    "Global Standard and production Model Router are prohibited.",
+    "Deterministic routing and the 100-case benchmark/promotion gate are specified.",
+    "Provider-use, EU AI Act classification, capability/quota and deployment evidence remain fail closed.",
+    "MP-08 remains blocked on APPROVED_PHASE_5_EVIDENCE.",
+    "No deployment, promotion or Phase 7 authority is granted."
+  ],
+  "coverageRows": [
+    {
+      "id": "CC002-P4-COV-001",
+      "control": "EU Data Zone, fixed version, NoAutoUpgrade and deterministic routing",
+      "status": "DESIGN_ONLY_OWNER_EVIDENCE_PENDING_FAIL_CLOSED",
+      "evidence": [
+        "4-implementation-plan/stratton-cc-002-phase-4-amendment.md",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-002-proposed.json"
+      ],
+      "owner": "Azure Platform and Application Routing Owner"
+    },
+    {
+      "id": "CC002-P4-COV-002",
+      "control": "Capability/quota, deployment identity, provider data-use and EU AI Act evidence",
+      "status": "MISSING_OWNER_EVIDENCE_FAIL_CLOSED; ACCOUNTABILITY DEFECT OPEN",
+      "evidence": [
+        "requiredOwnerInputs in stratton-implementation-catalogue-cc-002-proposed.json"
+      ],
+      "owner": "Split across Azure Platform, DPO, General Counsel, AI Governance, Compliance and Source Owners"
+    },
+    {
+      "id": "CC002-P4-COV-003",
+      "control": "Benchmark and promotion gate",
+      "status": "DESIGN_ONLY_PROMOTION_BLOCKED_PENDING_OBSERVED_EVIDENCE",
+      "evidence": [
+        "MP-07-MODEL-BENCHMARK-GATE"
+      ],
+      "owner": "Model Evaluation and Validation Owner"
+    },
+    {
+      "id": "CC002-P4-COV-004",
+      "control": "Audit custody and rollback integrity",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "evidence": [
+        "MP-01 through MP-08 evidenceOutput and rollbackMethod records"
+      ],
+      "owner": "Internal Audit, Records Owner, Security Operations and AFF-7"
+    }
+  ],
+  "findings": [
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-001",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "remediation": "Split legal, privacy, source-use and AI Act accountability into typed owner and approval records."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-002",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "remediation": "Bind immutable signed evidence custody and independent read/write authority."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-003",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "remediation": "Use append-only forward correction and separately authorised destructive actions."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MIN-001",
+      "severity": "MINOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "remediation": "Bind safe working directories and literal command paths."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MIN-002",
+      "severity": "MINOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "remediation": "Add required AFF metadata to a new manifest revision."
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MIN-003",
+      "severity": "MINOR",
+      "status": "OPEN_REVIEW_LIMITATION",
+      "remediation": "Run independent hash and contract verification in a capable review runtime."
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 3,
+    "MINOR": 3
+  },
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nextAction": "Preserve the exact candidate bytes, do not approve or deploy, create an append-only remediation candidate and obtain fresh AFF-A and AFF-B reviews.",
+  "active": true
+}

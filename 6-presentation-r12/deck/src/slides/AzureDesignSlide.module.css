@@ -1,0 +1,79 @@
+.azureDesignSlide {
+  padding: 0 0 44px;
+}
+
+.interactiveArchitectureBlock {
+  position: relative;
+  isolation: isolate;
+  transition:
+    filter 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.interactiveArchitectureBlock::after {
+  content: '';
+  position: absolute;
+  z-index: 5;
+  inset: -2px;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 8%,
+    color-mix(in srgb, var(--cyan) 54%, transparent) 30%,
+    color-mix(in srgb, var(--cyan) 96%, white) 44%,
+    white 51%,
+    color-mix(in srgb, var(--purple) 94%, white) 61%,
+    color-mix(in srgb, var(--purple) 52%, transparent) 76%,
+    transparent 92%
+  );
+  background-position: 120% 0;
+  background-size: 220% 100%;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.interactiveArchitectureBlock:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--cyan) 22%, transparent);
+}
+
+.interactiveArchitectureBlock:hover::after,
+.interactiveArchitectureBlock:focus-within::after {
+  animation: architectureBorderSweep 1800ms cubic-bezier(.37, 0, .63, 1) infinite;
+}
+
+.interactiveArchitectureBlock:hover::after,
+.interactiveArchitectureBlock:focus-within::after {
+  opacity: 1;
+}
+
+@keyframes architectureBorderSweep {
+  0% { opacity: 0; background-position: 120% 0; }
+  18% { opacity: .85; }
+  58% { opacity: 1; }
+  100% { opacity: 0; background-position: -120% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactiveArchitectureBlock {
+    transition: none;
+  }
+
+  .interactiveArchitectureBlock:hover {
+    transform: none;
+  }
+
+  .interactiveArchitectureBlock:hover::after,
+  .interactiveArchitectureBlock:focus-within::after {
+    animation: none;
+  }
+}

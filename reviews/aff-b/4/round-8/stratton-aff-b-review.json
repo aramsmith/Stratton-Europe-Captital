@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "phaseName": "Phase 4 \u2014 Implementation Plan",
+  "formalReviewRound": 8,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R4",
+  "reviewTime": "2026-08-06T13:41:22.135+02:00",
+  "subjectModificationPerformed": false,
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "selectedExactModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "status": "MATCHED"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r4-proposed.json",
+    "sha256BeforeReview": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "sha256AfterReview": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "expectedSha256": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "status": "UNCHANGED",
+    "schemaValidationStatus": "PASS",
+    "artifactCount": 6,
+    "candidateFileCount": 7
+  },
+  "immutablePredecessors": {
+    "r3Manifest": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "affARound9": "d2294ed23b43470b7ce021f46f0b205bc28419ec2c974c3398bb04e67d69ad90",
+    "affBRound7": "393649f2a5027e2ee81a0a3b2ea022bceb4555941c7b42a09b664a243a4edb85",
+    "coverage016": "42d8b4564e739d20236977f01f7aa4561de79e80101187144c9aab8c2fe7d336",
+    "status": "ALL_MATCHED_UNCHANGED"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-8/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "fdd719e68399e8354f74dd3e9426947a6fcb3db5b27c368bf4a746265a887ca9",
+    "status": "PASS"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-8/stratton-aff-b-model-receipt.json",
+    "sha256": "de4f3a9a0e2d5b48f8e33cc3baa93087ba4338400de25cf173252ed901d42226",
+    "status": "PASS"
+  },
+  "verification": {
+    "rawByteSha256Recomputation": "PASS",
+    "predecessorIntegrity": "PASS",
+    "reviewedSubjectSnapshots": "PASS_BYTE_IDENTICAL",
+    "inventoryModeIntegrity": "PASS",
+    "evidenceChronology": "PASS",
+    "runtimeProvenance": "PASS_EXACT_AUTHOR_AND_REVIEWER_MODEL_BINDINGS",
+    "retentionLegalHoldGovernance": "PASS_EXPLICIT_UNRESOLVED_FAIL_CLOSED",
+    "originalR2R3R4ContractsAndSelfTests": "PASS",
+    "r4StagedValidations": "PASS",
+    "noAzureExecution": "CONFIRMED_NOT_AUTHORISED_OR_CLAIMED"
+  },
+  "confirmedControls": [
+    "R4 exact manifest and seven byte-identical subject snapshots; R3 and declared immutable predecessors unchanged.",
+    "Exact author signer/runtime and reviewer model separation with Node/PowerShell versions; truthful monotonic chronology matches file metadata.",
+    "Unique 47-file inventory exactly equals work-package union; all absent inventory paths are explicitly CREATE and MODIFY paths are present.",
+    "Retention/legal-hold governance remains explicitly unresolved, owner-accountable and fail closed.",
+    "Immutable append-only hash-bound custody, distinct writer/verifier roles and non-circular hash generation remain required.",
+    "EU Data Zone Standard, NoAutoUpgrade, deterministic routing, privacy/sovereignty, embedding parity, evaluation/security gates and blocked promotion remain preserved.",
+    "Stop/disable plus append-only rollback and strict Phase 5 non-deployment boundaries remain unchanged."
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-001",
+      "status": "PRESERVED_ADDRESSED"
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-002",
+      "status": "PRESERVED_ADDRESSED"
+    },
+    {
+      "id": "AFFB-CC002-P4-R5-MAJ-003",
+      "status": "PRESERVED_ADDRESSED"
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-001",
+      "status": "PRESERVED_ADDRESSED"
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-002",
+      "status": "PRESERVED_ADDRESSED"
+    },
+    {
+      "id": "AFFA-CC002-P4-R8-MAJ-003",
+      "status": "PRESERVED_ADDRESSED"
+    }
+  ],
+  "applicability": [
+    {
+      "instrument": "GDPR",
+      "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE",
+      "status": "OWNER_EVIDENCE_OPEN_FAIL_CLOSED_FOR_ENABLEMENT",
+      "humanConfirmation": "DPO and General Counsel"
+    },
+    {
+      "instrument": "EU AI Act",
+      "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE",
+      "status": "NO_ROLE_OR_RISK_CLASSIFICATION_INFERRED",
+      "humanConfirmation": "General Counsel, Head of AI Governance and Compliance"
+    },
+    {
+      "instrument": "DORA",
+      "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN",
+      "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION",
+      "humanConfirmation": "General Counsel and Compliance"
+    }
+  ],
+  "findings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "residualGaps": [
+    "Region pair, resources, quota/capacity, deployment IDs, embedding version/dimensions/chunking, recovery evidence, provider terms, source permissions, privacy lifecycle and EU AI Act classification remain owner inputs; absence denies enablement.",
+    "No benchmark, security-gate, failover, Azure, runtime or operating-effectiveness result exists; promotion remains blocked.",
+    "Independent verifier fields in author evidence remain PENDING until the responsible verifier records its result; this review does not edit subject records."
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "R4 truthfully records runtime provenance and chronology, preserves inventory/change modes, and keeps privacy, sovereignty, custody, rollback, retention/legal-hold and non-deployment controls fail closed. No blocker or major defect remains; owner evidence and operating-effectiveness gates remain open.",
+  "finalRoundStatus": true,
+  "finalRound": true,
+  "requiredAction": "Preserve exact R4 bytes and present this review, any companion AFF-A review, owner evidence and residual fail-closed gaps for explicit human decision. Do not approve, promote, deploy, test or enter Phase 7/8 on this review.",
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nonDeploymentStatement": "AFF-B does not approve, waive, certify, attest, authorise Azure sign-in, what-if, deployment, route promotion, production inference, destructive rollback, Phase 7 or Phase 8.",
+  "companionArtifacts": {
+    "markdownPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-8/stratton-aff-b-review.md",
+    "htmlPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-8/stratton-aff-b-review.html",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-8/stratton-aff-b-model-receipt.json",
+    "hashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-8/reviewed-subject/stratton-phase-4-hash-verification-receipt.json"
+  }
+}

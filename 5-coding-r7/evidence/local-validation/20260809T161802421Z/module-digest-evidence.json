@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "stepId": "module-digest-evidence",
+  "scope": "Bicep",
+  "status": "PASS",
+  "command": "pwsh -NoProfile -File validation/Capture-OciDigestEvidence.ps1",
+  "workingDirectory": "<PACKAGE_ROOT>",
+  "startedAt": "2026-08-09T16:32:22.7131139Z",
+  "endedAt": "2026-08-09T16:32:24.3696154Z",
+  "durationMilliseconds": 1657.0,
+  "exitCode": 0,
+  "redactedLog": "evidence/local-validation/20260809T161802421Z/module-digest-evidence.log",
+  "validationInput": {
+    "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+    "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+    "fileCount": 124
+  }
+}

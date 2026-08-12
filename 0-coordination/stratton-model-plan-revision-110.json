@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "110",
+  "createdAt": "2026-08-05T14:42:39.7823518+02:00",
+  "revisionReason": "Add Microsoft Copilot support markers to the Deal Professional and Legal and Compliance human-authority cards on Slide 10.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-109.json",
+    "sha256": "68787586c1f47d1058575de392425363a6473c820c7e019db57be20f0199d936",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slides": [
+      10
+    ],
+    "request": "Add Microsoft Copilot support markers to the Deal Professional and Legal and Compliance human-authority cards on Slide 10."
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "complianceCertificationClaimed": false,
+    "achievedBenefitsClaimed": false,
+    "productionReadinessClaimed": false,
+    "approvalClaimed": false,
+    "freezeClaimed": false
+  },
+  "quality": {
+    "slide10Contract": "pass",
+    "viteBuild": "pass",
+    "registeredSlides": 19,
+    "renderedSlides": [
+      10
+    ],
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "consoleClean": "pass",
+    "noTextClipping": true,
+    "evidenceBoundary": "pass",
+    "copilotMarkers": 2,
+    "investmentCommitteeMarker": false
+  },
+  "artifacts": {
+    "deckConfig": {
+      "path": "6-presentation-r4/deck/deck.config.js",
+      "sha256": "1d930b632a2a2c681cccd6a2a01d148b68fcc809ae5c141d643708c1587c273c"
+    },
+    "slide10Jsx": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "sha256": "6ea8ff725b394fc2d0a8151df731ffe5c396e5ec4e6c14a6c66a1efb69c2614a"
+    },
+    "slide10Css": {
+      "path": "6-presentation-r4/deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "sha256": "5270f18e566cb7bf23c94e6da8523ca989b0b7880b6e82b4f214c4adb3143bdd"
+    },
+    "sharedStyles": {
+      "path": "6-presentation-r4/deck/src/styles/PhaseSummarySlides.module.css",
+      "sha256": "e16fd3d85bebf0f04e5f5f3cf870725cdbdc486df7262cdb600b27809e685cb3"
+    }
+  },
+  "verificationArtifacts": {
+    "contract": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slide-10-copilot-support-markers\\slide-10-copilot-contract.mjs",
+      "sha256": "0d8f7ab25189653bda5386b697c3bf066b5845717d430ddab33e9313845b955e"
+    },
+    "task1Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slide-10-copilot-support-markers\\task-1-report.md",
+      "sha256": "c48e01e9c176c332b14cfbeab76fdd1b6c090461284dc40ace57515770d97978"
+    },
+    "task2Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slide-10-copilot-support-markers\\task-2-report.md",
+      "sha256": "62c03309883b2764f23e61262af7ab5206e1770be7e8d282a3bd1a003b11884b"
+    },
+    "task3Report": {
+      "repositoryPath": ".superpowers\\sdd\\2026-08-05-slide-10-copilot-support-markers\\task-3-final-report.md",
+      "sha256": "53230a350621be253cc04c37875bb1da5211028832e010a60d86cdd200c35d97"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 19,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  },
+  "updatedAt": "2026-08-05T14:42:39.7823518+02:00"
+}

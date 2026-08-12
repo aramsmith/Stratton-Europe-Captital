@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "86",
+  "createdAt": "2026-08-04T03:05:25+02:00",
+  "revisionReason": "Increase the visual separation between resting and active assurance steps and slow the sequential border sweep.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-85.json",
+    "sha256": "9b3e799c9eefbfaab43ba049030739a83e3868bb167dd180798c03b404c3c91f",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 6,
+    "change": "Dim the resting assurance borders, make the active animation brighter and slower, and ensure a visibly clear 1 through 7 sequence."
+  },
+  "implementation": {
+    "restingState": {
+      "borderWidthPx": 1,
+      "borderIntensity": "dimmed",
+      "ambientGlow": "reduced"
+    },
+    "activeState": {
+      "animatedBorderWidthPx": 3,
+      "cyanPurpleGlow": "strengthened",
+      "stepWindowMs": 2200
+    },
+    "sequence": {
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "loopDurationMs": 15400,
+      "simultaneousHighlightsObserved": 1,
+      "returnsToStep1": true,
+      "strictSequenceObserved": true
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "visualInspection": "pass",
+      "cssWhitespaceCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "sha256": "8cf04422286c0e9fe3a7a1a4a67f5dec811601a9869268892256b4a8e801e76e"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

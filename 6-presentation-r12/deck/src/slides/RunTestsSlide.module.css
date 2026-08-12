@@ -1,0 +1,75 @@
+.runTestsSlide {
+  padding: 0 0 44px;
+}
+
+.interactiveActualCheck,
+.interactivePlannedGate {
+  transition: filter 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.interactiveActualCheck:hover,
+.interactiveActualCheck:focus-within {
+  border-color: color-mix(in srgb, var(--green) 72%, var(--border));
+  box-shadow: 0 0 26px color-mix(in srgb, var(--green) 28%, transparent);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.interactivePlannedGate:hover,
+.interactivePlannedGate:focus-within {
+  border-color: color-mix(in srgb, var(--cyan) 72%, var(--border));
+  box-shadow: 0 0 26px color-mix(in srgb, var(--cyan) 26%, transparent);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactiveActualCheck,
+  .interactivePlannedGate {
+    transition: none;
+  }
+
+  .interactiveActualCheck:hover,
+  .interactiveActualCheck:focus-within,
+  .interactivePlannedGate:hover,
+  .interactivePlannedGate:focus-within {
+    transform: none;
+  }
+}
+
+.actualCheckDetail {
+  margin-top: 4px;
+  color: var(--secondary-foreground);
+  font-size: 12.5px;
+  line-height: 1.25;
+}
+
+.gateBulletList {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted-foreground);
+  font-size: 13.5px;
+  line-height: 1.2;
+}
+
+.gateBulletList li::marker {
+  color: var(--cyan);
+}
+
+.gateBulletList strong {
+  display: inline;
+  color: color-mix(in srgb, var(--cyan) 82%, white);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.gateBulletList p {
+  display: inline;
+  margin-left: 5px;
+  color: var(--secondary-foreground);
+  font-size: 13.5px;
+  line-height: 1.2;
+}

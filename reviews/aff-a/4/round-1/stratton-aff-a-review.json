@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "selectedModelRationale": "The approved default remains the best independent reasoning model for implementation-plan correctness and differs from the Phase 4 author runtime.",
+    "runScopedOverrideRequired": false
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "4",
+    "phaseName": "Phase 4 — Implementation Plan",
+    "owner": "AFF-4"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-02T04:04:38.918+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-5.json",
+    "revision": "5",
+    "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.5",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS"
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes.json",
+    "sha256": "4ba4fd61ba2c7f38407ed696726cb3272b53a6c641ad0024082d951f4a129690",
+    "modelPlanRevision": "5",
+    "artifactCount": 8,
+    "hashVerificationStatus": "ALL_EIGHT_MANIFEST_ENTRIES_RECOMPUTED_AND_MATCHED",
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-phase-4-hash-verification-receipt.json",
+    "verificationReceiptSha256": "862fb68a5a025e68bcdd943812fe8ed9a1eed2d18835a149bc782ecd843603a0"
+  },
+  "scope": [
+    "Complete eight-artifact Phase 4 implementation-plan candidate and independent hash receipt",
+    "Approved Phase 3 design, AFF-4 handoff, traceability and human approval binding",
+    "Deployment DAG, implementation units, non-deployable work, Bicep and AVM strategy",
+    "Phase 5 commands, release hashing, validation boundaries, rollback and evidence",
+    "Requirement, ABB, decision, SBB and resource-inventory traceability",
+    "HTML, SVG, JSON, links, hashes and phase-boundary consistency"
+  ],
+  "confirmedItems": [
+    "Exact model independence is satisfied: gpt-5.5 differs from author runtime gpt-5.6-sol.",
+    "The manifest hash, all eight artifact hashes and the independent receipt hash match.",
+    "The 17-node, 44-edge deployment graph is acyclic.",
+    "The candidate preserves the Phase 4 boundary and makes no coding, deployment, what-if or runtime claim.",
+    "The candidate carries the seven owner-bound controls without waiver."
+  ],
+  "findings": [
+    {
+      "id": "AFFA-P4-R1-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Release content-hash command is self-referential on rerun",
+      "status": "OPEN",
+      "evidence": [
+        "4-implementation-plan/stratton-implementation-plan.md:236-247"
+      ],
+      "description": "The Phase 5 command enumerates all files under iac except the out folder, then writes iac/release/content-hashes.json. A rerun can hash the prior content-hashes.json before overwriting it, so the claimed recomputation is not deterministic or safely reproducible.",
+      "impact": "Phase 5 release evidence can become stale or self-referential and fail release-manifest validation.",
+      "owner": "AFF-4",
+      "requiredRemediation": "Explicitly exclude iac/release/content-hashes.json from the hashed file set, or generate it outside the hashed tree and define the non-self-hashing rule.",
+      "manifestRegenerationRequired": true
+    },
+    {
+      "id": "AFFA-P4-R1-MAJ-002",
+      "severity": "MAJOR",
+      "title": "ABB-17 is absent from explicit Phase 4 implementation coverage",
+      "status": "OPEN",
+      "evidence": [
+        "2-togaf-architecture/stratton-architecture-catalogue.json:273-278",
+        "2-togaf-architecture/stratton-architecture-catalogue.json:590-594",
+        "4-implementation-plan/stratton-implementation-plan.md:66-69",
+        "4-implementation-plan/stratton-implementation-catalogue.json:438-466"
+      ],
+      "description": "The candidate claims 19/19 ABB coverage, but ABB-17 is not present in any deployable-unit or work-package abbIds. AD-010 and DR-002 reference quarantine semantics, but the Architecture Building Block itself is not explicitly mapped.",
+      "impact": "The 19/19 ABB traceability claim and candidate-validation PASS are not auditable.",
+      "owner": "AFF-4",
+      "requiredRemediation": "Map ABB-17 to the external-data quarantine implementation work, update traceability and validation evidence, and regenerate all affected artifacts and hashes.",
+      "manifestRegenerationRequired": true
+    }
+  ],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 2,
+    "MINOR": 0,
+    "unresolvedMajor": 2
+  },
+  "residualGaps": [
+    "VAL-001",
+    "VAL-002",
+    "VAL-003",
+    "VAL-004",
+    "VAL-005",
+    "AFFB-RES-001",
+    "AFFB-RES-002"
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "Two unresolved MAJOR correctness findings invalidate release-hash reproducibility and the claimed complete ABB traceability.",
+  "finalRoundForManifest": false,
+  "requiredActions": [
+    "AFF-4 must remediate both findings and regenerate the candidate and canonical manifest.",
+    "AFF-A must review the complete regenerated subject before AFF-B or the human gate.",
+    "Do not treat this review as approval, waiver, certification, deployment authorisation or runtime validation."
+  ],
+  "subjectModificationPerformed": false,
+  "recordSerialization": "The independent gpt-5.5 reviewer returned the complete verdict and findings but its task runtime prohibited direct file output. AFF-4 orchestration serialized the returned review without changing its verdict or findings.",
+  "nonApprovalStatement": "AFF-A does not approve, waive, certify, fix, deploy, test or modify the reviewed Phase 4 subject."
+}

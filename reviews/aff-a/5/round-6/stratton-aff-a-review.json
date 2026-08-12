@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "phaseOwnerInvoker": "AFF-5",
+  "round": 6,
+  "reviewedAt": "2026-08-09T18:09:19.702+02:00",
+  "verdict": "DIVERGES",
+  "verdictRationale": "AFFA-P5-R5-MAJ-001 is RESOLVED: r6 binds deterministic pre-validation input aggregation and explicit run/path evidence selection across the 123/123 validation-input files and retained evidence. The complete r6 subject nevertheless diverges on one MAJOR governance/operational-reference finding because three executable or approval-facing selectors still name superseded r5.",
+  "finalRoundForManifest": false,
+  "subjectModificationPerformed": false,
+  "reviewInputs": {
+    "preReview": {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-11-pre-review.md",
+      "sha256": "ad806f8231772c82e32279da14635e1b1ae1cdb66265532e9b2d9dead2304423"
+    },
+    "task11Report": {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-11-report.md",
+      "sha256": "cdc88d901a5c0e0b8de867c850d91f288c3dd3fff0cf6416a529b5dbc94d430c"
+    },
+    "priorRoundReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/stratton-aff-a-review.json",
+      "sha256": "f614574bcc42529b26f32b1590ab690c121cfb15ec1aad10e7ace4bb367abfbe"
+    }
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "phaseAuthorActualRuntimeModelIds": [
+      "gpt-5.6-sol"
+    ],
+    "authorFinalisationModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "selectionRationale": "The approved AFF-A default is gpt-5.5; Task 11 assigns gpt-5.6-luna and the actual runtime ID differs from the gpt-5.6-sol Phase 5 author/finalisation model."
+  },
+  "reviewedSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r6",
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-phase-5-hashes.json",
+    "expectedManifestSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "preReviewManifestSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "postReviewManifestSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "prePostStatus": "UNCHANGED",
+    "manifestFileCount": 166,
+    "recomputedFileCount": 166,
+    "matchedFileCount": 166,
+    "missingFileCount": 0,
+    "hashMismatchCount": 0,
+    "duplicatePathCount": 0,
+    "ordinalPathOrdering": true,
+    "pathShapeViolationCount": 0,
+    "roleMissingCount": 0,
+    "manifestUtf8Bom": false,
+    "manifestTrailingNewline": false,
+    "releaseManifestPath": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-release-manifest.json",
+    "releaseManifestSha256": "88f41e40e0b1c2f7f699bd92b89d36e8d91589895012c86c4912c7247e3b9e28",
+    "validationInputAggregateSha256": "17a15d2e4d42763e98087e80c2a1be4f91bf2c3c5ec17d4ed7adb0d0c78a9d8c",
+    "validationInputFileCount": 123,
+    "priorR5ManifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "priorR5ManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "priorR5EntryCount": 162,
+    "priorR5RecomputedMatched": 162
+  },
+  "priorRoundSupersession": {
+    "supersedesReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/stratton-aff-a-review.json",
+    "supersedesReviewSha256": "f614574bcc42529b26f32b1590ab690c121cfb15ec1aad10e7ace4bb367abfbe",
+    "priorRound": 5,
+    "priorSubjectManifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "priorSubjectManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "relationship": "Round 5 covers the superseded r5 sibling; round 6 covers the append-only r6 remediation sibling. Round 5 is not modified."
+  },
+  "priorFindingDisposition": {
+    "id": "AFFA-P5-R5-MAJ-001",
+    "disposition": "RESOLVED",
+    "resolutionEvidence": [
+      "pre-validation validation-input.json created before any gate",
+      "deterministic SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1 aggregate over 123 inputs",
+      "123/123 input/release bindings verified",
+      "propagation through step, dependency, source-security, container and release evidence",
+      "source/input mutation rejection",
+      "explicit run/path selection resistant to newer decoy",
+      "no LastWriteTimeUtc selector in freeze tooling",
+      "behavioural Pester tests present"
+    ]
+  },
+  "receipts": {
+    "modelReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-6/stratton-aff-a-model-receipt.json",
+      "sha256": "f0e0d69c7b087f0a105b97d86c8b6156c8452e9659b5652fa3471c8304e64b5e"
+    },
+    "hashVerificationReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-6/reviewed-subject/stratton-phase-5-hash-verification-receipt.json",
+      "sha256": "ab4a37953001ff412ac55e9ab0b15a634207ed757b895192b7713c4561d2d25e"
+    },
+    "reviewedSubjectSnapshot": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-6/reviewed-subject/stratton-phase-5-hashes.json",
+      "sha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33"
+    },
+    "reviewMarkdown": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-6/stratton-aff-a-review.md",
+      "sha256": "b634a0c79b82ace1225b7977fff3f25e27478ed7d90c8f1c588a634ec041c0b5"
+    },
+    "reviewHtml": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-6/stratton-aff-a-review.html",
+      "sha256": "750318e4c3bde7c07832c9ce19355ca956c8a64efeec8696c1a2f84f191551ae"
+    }
+  },
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 0,
+    "CONFORMS": 0
+  },
+  "findings": [
+    {
+      "id": "AFFA-P5-R6-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Operational references still select the superseded r5 subject",
+      "evidencePaths": [
+        "5-coding-r6/README.md:90",
+        "5-coding-r6/deploy/README.md:11",
+        "5-coding-r6/tests/iac/README.md:6"
+      ],
+      "confirmedSelectors": [
+        {
+          "location": "5-coding-r6/README.md:90",
+          "text": "This r5 package",
+          "risk": "The candidate self-description identifies the immutable r6 package as r5."
+        },
+        {
+          "location": "5-coding-r6/deploy/README.md:11",
+          "text": "new explicit human approval for the exact r5 Phase 5 hash manifest",
+          "risk": "Phase 7 admission can request approval of the superseded r5 manifest instead of the r6 manifest."
+        },
+        {
+          "location": "5-coding-r6/tests/iac/README.md:6",
+          "text": ".\\cases\\Stratton-Europe-Captital\\5-coding-r5\\tests\\iac\\Invoke-IaCTests.ps1",
+          "risk": "The executable test instruction targets the superseded r5 subject."
+        }
+      ],
+      "owner": "AFF-5; accountable package documentation/procedure owner to be designated through the existing governance route",
+      "impact": "These stale operational references can direct candidate assurance, approval or test execution to superseded 5-coding-r5 rather than immutable 5-coding-r6. The r6 bytes and evidence chain are otherwise bound to the r6 manifest.",
+      "requiredRemediation": "Replace each operational selector with the exact 5-coding-r6 candidate path and r6 manifest reference; update the affected procedure and test instruction without changing the immutable subject during review; re-scan all operational references for superseded selectors, regenerate any affected release/report evidence if required, and obtain fresh convergent AFF-A/AFF-B reviews against unchanged manifest da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33.",
+      "status": "OPEN"
+    }
+  ],
+  "reviewAreas": [
+    {
+      "area": "Canonical integrity and complete-subject reassessment",
+      "status": "CONFORMS",
+      "evidence": "166/166 listed hashes recomputed and matched; no missing, duplicate or mismatched entries; ordinal ordering, roles and UTF-8/no-trailing-newline manifest checks passed; no higher-severity contradictory finding identified."
+    },
+    {
+      "area": "Prior finding AFFA-P5-R5-MAJ-001",
+      "status": "RESOLVED",
+      "evidence": "Deterministic pre-validation aggregate, 123/123 input/release bindings, propagation through all retained evidence layers, mutation rejection, explicit run/path selection, no mtime selector and behavioural tests are present and bound."
+    },
+    {
+      "area": "Model independence",
+      "status": "CONFORMS",
+      "evidence": "Actual gpt-5.6-luna differs from the gpt-5.6-sol Phase 5 author/finalisation model."
+    },
+    {
+      "area": "Routing and model controls",
+      "status": "CONFORMS",
+      "evidence": "Caller model/deployment selection is prohibited; deterministic application-owned fail-closed routing, DataZoneStandard, GlobalStandard rejection, 2026-07-09 and NoAutoUpgrade are represented."
+    },
+    {
+      "area": "Blocked capabilities and authority",
+      "status": "CONFORMS",
+      "evidence": "BlockedAnalysisProvider, null benchmark observations, blocked promotion, no autonomous decision authority, retained authority conflicts and owner-bound gaps are disclosed."
+    },
+    {
+      "area": "Operational references and governance selectors",
+      "status": "DIVERGES",
+      "evidence": "MAJOR finding AFFA-P5-R6-MAJ-001 confirms r5 selectors in the r6 README, deployment admission procedure and IaC test instruction."
+    },
+    {
+      "area": "Phase boundary",
+      "status": "CONFORMS",
+      "evidence": "No Azure sign-in/query, target validation, what-if, deployment, inference, promotion, retention finalisation, Azure network call or runtime test is claimed or performed."
+    }
+  ],
+  "residualGaps": [
+    "Exact Azure regions, resources and deployment IDs",
+    "Model capability, quota and positive capacity evidence",
+    "Embedding version, dimensions, chunking and rebuild evidence",
+    "Recovery/failover operating evidence",
+    "Provider terms, licences and source permissions",
+    "Retention, legal hold, privacy lifecycle and deletion evidence",
+    "GDPR, EU AI Act and DORA owner classification",
+    "Observed benchmark metrics",
+    "AFF-B specialist licence/compliance review and any remaining owner-bound controls"
+  ],
+  "requiredAction": "AFF-5 must remediate AFFA-P5-R6-MAJ-001 by correcting the three operational selectors and obtain new convergent AFF-A/AFF-B reviews against the unchanged r6 manifest. The human Phase 5 gate remains locked.",
+  "nonApprovalStatement": "AFF-A does not approve Phase 5, waive gaps, certify compliance, authorise Azure activity, authorise retention finalisation, authorise deployment or runtime testing, or provide human approval.",
+  "staticOnlyBoundary": "AFF-A performed static reads, search and SHA-256/file-byte inspection only; no reviewed tests, package code, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, model inference, promotion, retention finalisation or runtime tests were executed."
+}

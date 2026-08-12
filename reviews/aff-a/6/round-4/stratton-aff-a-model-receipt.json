@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "round": 4,
+  "reviewedAt": "2026-08-10T00:21:50.961+02:00",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "selectionRationale": "The human-approved run-scoped reviewer selection gpt-5.6-luna is retained exactly as bound by the case work.",
+  "availability": "ACTIVE_AND_VERIFIED",
+  "phaseAuthor": {
+    "agent": "AFF-6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "receiptPath": "cases/Stratton-Europe-Captital/6-presentation-r4/evidence/stratton-aff-6-model-receipt.json",
+    "receiptSha256": "11e60ab661828550e46764d6ae7baf5787bdfa35e0b433d70d2cef522e36ed6a"
+  },
+  "modelSeparation": {
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "reviewerActual": "gpt-5.6-luna",
+    "authorActual": "gpt-5.6-sol"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "scopeObservation": "Revision 111 is a 19-slide working predecessor with canonicalManifestCreated=false; it does not accurately govern the current 20-slide r4 candidate."
+  },
+  "nonApprovalStatement": "This receipt records reviewer model provenance and separation only. It does not approve Phase 6, waive findings, certify compliance, authorise Azure activity, authorise Phase 7 or Phase 8, or invoke AFF-B."
+}

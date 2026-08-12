@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "8",
+  "supersedesRevision": "7",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-7.json",
+  "generatedAt": "2026-08-02T14:14:55.496+02:00",
+  "changeReason": "Append-only pre-remediation STRATTON-CC-001 reassessment recording advisory preliminary DIVERGES outcomes, supersession of the preliminary subject hashes, retained model assignments, and pending next canonical candidate manifests without prospective hash binding.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefault": "gpt-5.3-codex",
+    "selectedExactGptModelId": "gpt-5.3-codex",
+    "actualRuntimeModelId": "gpt-5.3-codex",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved coding default remains best suited to the active Phase 5 implementation and local validation work.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "ACTIVE_PHASE_5_PRESERVED_AUTHORITY_INTERFACE_FINALISATION_GATED"
+  },
+  "changeControl": {
+    "changeControlId": "STRATTON-CC-001",
+    "status": "REMEDIATION_IN_PROGRESS",
+    "affectedPhaseIds": [
+      "3",
+      "4"
+    ],
+    "approvedBaselinesPreserved": true,
+    "proposalApprovalGranted": false,
+    "phase5State": "ACTIVE",
+    "phase5Gate": "Authority-interface finalisation remains fail-closed pending remediated canonical candidates, formal hash-bound AFF-A/AFF-B convergence and explicit human approval.",
+    "preliminarySubjectDisposition": [
+      {
+        "phaseId": "3",
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+        "sha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61",
+        "status": "SUPERSEDED_FOR_REMEDIATION",
+        "canonicalCandidate": false
+      },
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json",
+        "sha256": "07e7ed846de55a4dc9f3a0685d87989ed0f9d36852aea78f2720749c3b7d7b7d",
+        "status": "SUPERSEDED_FOR_REMEDIATION",
+        "canonicalCandidate": false
+      }
+    ],
+    "nextCanonicalCandidateManifests": [
+      {
+        "phaseId": "3",
+        "status": "PENDING_AFTER_REMEDIATION",
+        "hashRecorded": false
+      },
+      {
+        "phaseId": "4",
+        "status": "PENDING_AFTER_REMEDIATION",
+        "hashRecorded": false
+      }
+    ],
+    "bindingRule": "Revision 8 intentionally records no prospective or final candidate manifest hash. Remediation must complete and the next candidate manifests must be generated independently before their hashes are recorded in later append-only evidence, avoiding a circular manifest-to-model-plan binding."
+  },
+  "remediationAuthoringAssignments": [
+    {
+      "agent": "AFF-3",
+      "phaseId": "3",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The approved architecture default remains best suited to remediate authority, cryptographic binding, evidence transfer, producer trust, vector provenance and retrieval-safety contract defects.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "assignmentStatus": "REMEDIATION_STARTED"
+    },
+    {
+      "agent": "AFF-4",
+      "phaseId": "4",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The approved implementation-planning default remains best suited to remediate manifest conformance, Internal Audit-owned package scope, trust controls, dependencies, verification and recovery work.",
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained.",
+      "assignmentStatus": "REMEDIATION_STARTED"
+    }
+  ],
+  "preliminaryReviews": {
+    "reviewNature": "ADVISORY_ONLY",
+    "formalReviewArtifactsCreated": false,
+    "formalHashBoundGateReviewSatisfied": false,
+    "overallOutcome": "DIVERGES",
+    "affA": {
+      "agent": "AFF-A",
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "actualRuntimeModelId": "gpt-5.5",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The dedicated independent reasoning default remains best suited to challenge correctness, determinism, traceability, provenance and trust boundaries.",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+      "verdict": "DIVERGES",
+      "findings": [
+        "Circular hash preimages.",
+        "Verdict uniqueness ambiguity.",
+        "Incomplete evidence transfer and trust.",
+        "Vector provenance gaps."
+      ],
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained."
+    },
+    "affB": {
+      "agent": "AFF-B",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE",
+      "taskFitRationale": "The approved assurance default remains best suited to identify security, compliance, ownership, authenticity and hostile-content recovery gaps.",
+      "mustDifferFromPhaseAuthor": false,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationStatus": "INDEPENDENT_AGENT_ROLE_MODEL_DIFFERENCE_NOT_REQUIRED",
+      "verdict": "DIVERGES",
+      "findings": [
+        "Non-schema-conformant manifests.",
+        "Missing Internal Audit-owned implementation package.",
+        "Audit producer authenticity gap.",
+        "Prompt-injection and retrieval-poison recovery gaps."
+      ],
+      "overrideRequired": false,
+      "humanDecision": "Not required; approved default retained."
+    },
+    "subjectSeparation": {
+      "phase3RemediationOwner": "AFF-3",
+      "phase4RemediationOwner": "AFF-4",
+      "coordinatorRole": "AFF-0 records lifecycle and shared-state bookkeeping only.",
+      "reviewersMayAuthorOrApprove": false,
+      "formalReviewsRequiredAfterRemediation": true,
+      "humanApprovalPending": true
+    }
+  },
+  "constraints": [
+    "The approved Phase 3 and Phase 4 baselines, approvals and historical hashes remain unchanged.",
+    "The advisory preliminary DIVERGES outcomes are not formal review artifacts and do not satisfy the review gate.",
+    "The preliminary subject hashes are superseded for remediation and must not be presented as the next canonical candidate.",
+    "Revision 8 must not contain any prospective or final remediated candidate manifest hash.",
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every subsequent STRATTON-CC-001 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every subsequent STRATTON-CC-001 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "Phase 5 remains active, but authority-interface finalisation stays fail-closed until remediated formal review convergence and explicit human approval.",
+    "No Azure operation, deployment, what-if or runtime test is authorised by this change-control record."
+  ]
+}

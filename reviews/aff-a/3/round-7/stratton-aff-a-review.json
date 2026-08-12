@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "phaseName": "Phase 3 — Azure Design",
+  "formalReviewRound": 7,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "reviewTime": "2026-08-06T09:16:48.855+02:00",
+  "invokedBy": "AFF-3",
+  "subjectModificationPerformed": false,
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "selectedExactModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna"
+  },
+  "author": {
+    "agent": "AFF-3",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+    "sha256BeforeReview": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "sha256AfterReview": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "status": "UNCHANGED",
+    "artifactCount": 11,
+    "candidateFileCount": 12
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-7/reviewed-subject/stratton-phase-3-hash-verification-receipt.json",
+    "sha256": "6a44e9c62064ea4f0b45f343fa15571f20802384571bff1b090941e58c343842"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-7/stratton-aff-a-model-receipt.json",
+    "sha256": "c3394ed6c84b33f4948342b282238f939d0aa9f7247f1ee5c54c95f4641cc8a7"
+  },
+  "confirmedItems": [
+    "R2 manifest SHA-256 recomputed as 357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e before and after review; original manifest remains 2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a.",
+    "All eleven declared R2 entries match raw bytes and all twelve R2 candidate files were copied byte-identically to reviewed-subject.",
+    "All ten R2 JSON documents parse; the HTML parses, is self-contained and has no external script source.",
+    "Model-plan revision 111 matches 64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7; author and reviewer actual model IDs are gpt-5.6-sol and gpt-5.6-luna.",
+    "All eleven original candidate files remain byte-identical to both prior reviewed-subject snapshots.",
+    "Security gate parity, recovery semantics, source bindings and Markdown/HTML parity independently conform."
+  ],
+  "findings": [
+    {
+      "id": "AFFA-P3-R6-MAJ-001",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Security evaluation scenarios are explicit blocking promotion criteria",
+      "evidence": [
+        "evaluation/routing/security `securityPromotionGates` each contain the same 12 IDs; every record has `blocking: true`, `immutableEvidenceRequired: true`, `passCriteria`, `evidenceIds`, `owner` and `failClosedOutcome`; exact cross-contract parity recomputed."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3 / AI Governance / Security owner",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFA-P3-R6-MAJ-002",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "EU Data Zone and two-region recovery semantics are concretely bound",
+      "evidence": [
+        "portfolio `routeDeploymentSemantics` defines LUNA, TERRA, SOL and EMBEDDING primary/recovery resources, IDs, EU geography/allow-list/DataZoneStandard evidence, failover authority, missing-evidence deny/queue action and prompt/output/data-at-rest/vector/index/log/backup boundaries; `recoveryGlobalRules` and amendment sections 4, 7 and 11 agree."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3 / Azure Platform / General Counsel / DPO / CISO / AI Governance",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFA-P3-R6-MAJ-003",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Material source claims have precise claim-bound traceability",
+      "evidence": [
+        "source-binding record contains 12 official sources and 16 claims. Each source has publisher, official URL, section title, retrieval date, evidence excerpt, licence/use disposition, owner and review/expiry condition; every claim binds valid `sourceIds`; catalogue, change-control evidence, hash evidence and outer manifest bind the record."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3 / AI Governance / General Counsel / DPO / CISO",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFA-P3-R6-MIN-001",
+      "severity": "MINOR",
+      "status": "ADDRESSED",
+      "title": "HTML reproduces substantive Markdown tables and decisions",
+      "evidence": [
+        "Independent parse found 13 Markdown H2 headings and 13 HTML H2 headings, 67 Markdown table rows and 67 HTML table rows with zero normalized row differences; section 6 retains separate anomaly-challenger and supervised-prediction rows."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-001",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "EU Data Zone recovery boundary is bound",
+      "evidence": [
+        "Same route-level primary/recovery and data-boundary evidence above; security contract and catalogue retain the same fail-closed recovery controls."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3 / Azure Platform / General Counsel / DPO / CISO / AI Governance",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-002",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Hostile-evidence scenarios are blocking gates",
+      "evidence": [
+        "Same 12 exact-parity security gates carry immutable evidence, pass criteria and fail-closed outcomes across evaluation, routing and security contracts."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3 / Security Owner / AI Governance",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-003",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Claim-bound provenance, licence and provider-use evidence is bound",
+      "evidence": [
+        "The 12-source/16-claim record includes official URLs/sections, dates, excerpts, licence/use dispositions, owners and expiry conditions; provider terms/no-training and source-use rights remain explicit owner inputs and fail closed."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3 / General Counsel / DPO / AI Governance / Source Owners",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-004",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Privacy lifecycle, telemetry integrity and operational ownership are specified",
+      "evidence": [
+        "Amendment section 9 and security `privacyLifecycle`/`loggingAndMonitoring` bind minimisation, classification, retention, deletion, legal hold, DSR, redaction, immutable integrity, EU recovery and owners for prompt/output, vector/index, benchmark, route-log and telemetry classes."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "DPO / Records Owner / Security Operations / AFF-3",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    },
+    {
+      "id": "AFFB-CC002-MIN-001",
+      "severity": "MINOR",
+      "status": "ADDRESSED",
+      "title": "Markdown/HTML anomaly-governance parity is restored",
+      "evidence": [
+        "Independent normalized table comparison is exact: 13 headings and 67/67 table rows, including separate Explainable anomaly challenger and Supervised prediction governance."
+      ],
+      "impact": "Prior finding is remediated in the unchanged R2 subject.",
+      "owner": "AFF-3",
+      "requiredAction": "Retain the addressed control and preserve the exact R2 bytes."
+    }
+  ],
+  "priorFindingStatuses": [
+    {
+      "id": "AFFA-P3-R6-MAJ-001",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "evaluation/routing/security `securityPromotionGates` each contain the same 12 IDs; every record has `blocking: true`, `immutableEvidenceRequired: true`, `passCriteria`, `evidenceIds`, `owner` and `failClosedOutcome`; exact cross-contract parity recomputed."
+    },
+    {
+      "id": "AFFA-P3-R6-MAJ-002",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "portfolio `routeDeploymentSemantics` defines LUNA, TERRA, SOL and EMBEDDING primary/recovery resources, IDs, EU geography/allow-list/DataZoneStandard evidence, failover authority, missing-evidence deny/queue action and prompt/output/data-at-rest/vector/index/log/backup boundaries; `recoveryGlobalRules` and amendment sections 4, 7 and 11 agree."
+    },
+    {
+      "id": "AFFA-P3-R6-MAJ-003",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "source-binding record contains 12 official sources and 16 claims. Each source has publisher, official URL, section title, retrieval date, evidence excerpt, licence/use disposition, owner and review/expiry condition; every claim binds valid `sourceIds`; catalogue, change-control evidence, hash evidence and outer manifest bind the record."
+    },
+    {
+      "id": "AFFA-P3-R6-MIN-001",
+      "severity": "MINOR",
+      "status": "ADDRESSED",
+      "evidence": "Independent parse found 13 Markdown H2 headings and 13 HTML H2 headings, 67 Markdown table rows and 67 HTML table rows with zero normalized row differences; section 6 retains separate anomaly-challenger and supervised-prediction rows."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-001",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "Same route-level primary/recovery and data-boundary evidence above; security contract and catalogue retain the same fail-closed recovery controls."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-002",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "Same 12 exact-parity security gates carry immutable evidence, pass criteria and fail-closed outcomes across evaluation, routing and security contracts."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-003",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "The 12-source/16-claim record includes official URLs/sections, dates, excerpts, licence/use dispositions, owners and expiry conditions; provider terms/no-training and source-use rights remain explicit owner inputs and fail closed."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-004",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "evidence": "Amendment section 9 and security `privacyLifecycle`/`loggingAndMonitoring` bind minimisation, classification, retention, deletion, legal hold, DSR, redaction, immutable integrity, EU recovery and owners for prompt/output, vector/index, benchmark, route-log and telemetry classes."
+    },
+    {
+      "id": "AFFB-CC002-MIN-001",
+      "severity": "MINOR",
+      "status": "ADDRESSED",
+      "evidence": "Independent normalized table comparison is exact: 13 headings and 67/67 table rows, including separate Explainable anomaly challenger and Supervised prediction governance."
+    }
+  ],
+  "newFindings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "All prior AFF-A round-6 and AFF-B round-5 findings are addressed in unchanged R2 bytes. Residual owner-bound evidence and pending AFF-B/human gates are explicit, bounded and fail closed; no new material defect was found.",
+  "residualGaps": [
+    "Exact Azure resources, regions, deployment IDs, quota/capacity and recovery operating evidence remain owner-bound and absent by design.",
+    "Time-sensitive official-source, API-version, provider-terms, licence/use, privacy and legal-classification evidence requires owner re-fetch/disposition before enablement.",
+    "AFF-B round 6 and explicit human approval remain pending."
+  ],
+  "finalRoundStatus": true,
+  "requiredAction": "Preserve the exact R2 candidate, this review and the reviewed-subject snapshot. Do not approve, promote, deploy or test on this review alone; complete AFF-B round 6 against the unchanged manifest and obtain the human decision. Fill all owner-bound evidence before promotion.",
+  "nonApprovalStatement": "AFF-A does not approve, certify, waive, deploy, perform Azure validation, perform runtime testing or substitute for the human architect.",
+  "concerns": [
+    "AFF-B round 6 and explicit human approval pending",
+    "Owner-bound Azure and recovery evidence remains fail closed",
+    "Official-source and provider/privacy evidence requires re-fetch and owner disposition"
+  ],
+  "supersedesRound": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-6/stratton-aff-a-review.json",
+  "companionHashes": {
+    "markdownSha256": "6145a090b4f3616402ac12257a49b6147ef1d35e6f5b338581a780e9ca6cd0d2",
+    "htmlSha256": "ff5737c821bc72233d23b8c53fd0766557e3ec718eca89fb073452824a518944",
+    "modelReceiptSha256": "c3394ed6c84b33f4948342b282238f939d0aa9f7247f1ee5c54c95f4641cc8a7",
+    "hashReceiptSha256": "6a44e9c62064ea4f0b45f343fa15571f20802384571bff1b090941e58c343842"
+  }
+}

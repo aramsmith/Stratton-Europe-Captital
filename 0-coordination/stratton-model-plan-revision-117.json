@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1.0",
+  "planRevision": "117",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "status": "EFFECTIVE_FOR_PHASE_6_R10_FINAL_HUMAN_SLIDE_REVIEW",
+  "recordedAt": "2026-08-11T01:00:05.8822490+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-116.json",
+    "sha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164",
+    "preservation": "Frozen r9, AFF-A round 9, AFF-B round 6 and coverage 024 remain byte-identical reviewed-but-unapproved evidence."
+  },
+  "trigger": {
+    "type": "HUMAN_APPROVED_FINAL_SLIDE_REVIEW_CHANGE_SET",
+    "humanDecision": "i approve all changes to be made",
+    "designPath": "docs/superpowers/specs/2026-08-11-stratton-phase-6-final-slide-review-design.md",
+    "designSha256": "412886681fa1399c37649092d090a7ca8fbd34651a5bb5e7c1272251f87c1d92",
+    "designCommit": "48de2d2cf1d6b6f1aac3054e541a5c7557f01962"
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r10",
+    "instruction": "Apply only the approved final review list to Slides 2, 5, 6 and 10 through 19, plus the 40-minute presentation timer.",
+    "phase6R9State": "FROZEN_REVIEWED_UNAPPROVED_IMMUTABLE",
+    "phase6R10ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "presentation": {
+    "registeredSlides": 20,
+    "candidateStatus": "TWENTY_SLIDE_FINAL_HUMAN_REVIEW_R10_CANDIDATE",
+    "frozenDesignInputs": {
+      "targetAzureFootprint": "Proposed Azure deployment design for later validation only",
+      "apiManagementTier": "PremiumV2",
+      "phase5RepositoryInventoryFiles": 124,
+      "implementationPlan": "5 work packages plus 8 conditional gates",
+      "pricingBasis": "Dated 2026-08-10 West Europe Azure Retail Prices API snapshot plus stated Azure Price Calculator proxies",
+      "monthlyEstimateUsd": 7985.55,
+      "annualEstimateUsd": 95826.6
+    },
+    "slide11VisualRemediation": {
+      "slide": 11,
+      "sourceFiles": [
+        "deck/src/slides/ModelPortfolioSlide.jsx",
+        "deck/src/slides/ModelPortfolioSlide.module.css"
+      ],
+      "changes": [
+        "Remove presenter-controlled dimming",
+        "Increase complete type hierarchy",
+        "Add Moon, Earth and Sun icon badges",
+        "Animate Luna, Terra and Sol at 0ms, 160ms and 320ms over 520ms",
+        "Disable entrance and glow under reduced motion"
+      ],
+      "contentChangeAllowed": false,
+      "slide13ChangeAllowed": false
+    },
+    "slide5DevPreviewRegressionRemediation": {
+      "slide": 5,
+      "scope": "SLIDE_5_DEV_PREVIEW_REGRESSION_REMEDIATION",
+      "sourceFiles": [
+        "deck/tests/helpers/slide-5-browser-assurance.mjs",
+        "deck/src/slides/AgenticArchitectureRingSlide.module.css"
+      ],
+      "changes": [
+        "Wait for at least nine deckio-list-item wrappers after font setup before evaluating Slide 5.",
+        "Force direct phase and reviewer shells to position: static !important."
+      ],
+      "contentChangeAllowed": false,
+      "claimChangeAllowed": false,
+      "architectureChangeAllowed": false,
+      "packageOrDependencyChangeAllowed": false
+    },
+    "finalHumanSlideReview": {
+      "affectedSlides": [
+        2,
+        5,
+        6,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "timerMinutes": 40,
+      "annualOnPremComparatorUsd": 200000,
+      "comparatorClassification": "HUMAN_OWNED_HYPOTHESIS",
+      "visibleBoundaryRemovalsPreserveMetadata": true
+    }
+  },
+  "modelAssignments": {
+    "AFF-6-presentation": {
+      "model": "gpt-5.6-sol",
+      "role": "AUTHOR_AND_FINAL_SLIDE_REVIEW_IMPLEMENTER",
+      "rationale": "Sol authors the approved r10 final human slide-review changes while preserving frozen r9 as immutable reviewed-but-unapproved evidence.",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol"
+    },
+    "AFF-A-rubber-duck": {
+      "model": "gpt-5.6-luna",
+      "role": "PLANNED_INDEPENDENT_FINAL_PRESENTATION_REVIEWER",
+      "rationale": "Luna remains model-opposite to the Sol author and will independently review the frozen r10 final-human-review candidate after canonical manifest freeze.",
+      "plannedExactGptModelId": "gpt-5.6-luna"
+    },
+    "AFF-B-security-compliance": {
+      "model": "gpt-5.6-terra",
+      "role": "PLANNED_INDEPENDENT_SECURITY_COMPLIANCE_REVIEWER",
+      "rationale": "Terra will independently verify retained security/compliance boundaries and same-manifest assurance after AFF-A.",
+      "plannedExactGptModelId": "gpt-5.6-terra"
+    }
+  },
+  "modelPortfolio": {
+    "version": "2026-07-09",
+    "allowedModels": [
+      "gpt-5.6-luna",
+      "gpt-5.6-terra",
+      "gpt-5.6-sol"
+    ],
+    "dataZone": "DataZoneStandard",
+    "versionUpgradePolicy": "NoAutoUpgrade",
+    "globalStandardAllowed": false
+  },
+  "reviewSequence": [
+    "Freeze and independently verify the r10 manifest.",
+    "Invoke AFF-A round 10 with gpt-5.6-luna.",
+    "If AFF-A has no unresolved material finding, invoke AFF-B round 7 with gpt-5.6-terra against the identical manifest.",
+    "Append compliance coverage sequence 025 without modifying sequence 024.",
+    "Return the unchanged r10 candidate and both final reviews to the human architect for explicit in-tool approval or rejection."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, provider query, target validation, what-if, deployment or promotion occurred.",
+    "No runtime inference, retention finalisation or Phase 8 runtime testing occurred.",
+    "The dated pricing snapshot is evidence for planning, not a future-price guarantee.",
+    "The presentation remains a proposed architecture and reviewed deployment package, not an as-built runtime or compliance attestation."
+  ]
+}

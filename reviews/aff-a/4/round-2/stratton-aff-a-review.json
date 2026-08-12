@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "profile": ".github/agents/AFF-A-rubber-duck.agent.md",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedModelId": "gpt-5.5",
+    "actualRuntimeModelId": "gpt-5.5",
+    "selectedModelRationale": "The approved default remains the best independent implementation-plan correctness reviewer and differs from the Phase 4 author runtime.",
+    "runScopedOverrideRequired": false
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "4",
+    "phaseName": "Phase 4 — Implementation Plan",
+    "owner": "AFF-4"
+  },
+  "round": 2,
+  "reviewTime": "2026-08-02T10:16:36.970+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-5.json",
+    "revision": "5",
+    "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.5",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS"
+  },
+  "canonicalHashManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes.json",
+    "sha256": "b5ea093651b32627ff5ecee9ebeabd8f9c95e00856ee43da153869690e95b159",
+    "modelPlanRevision": "5",
+    "artifactCount": 8,
+    "hashVerificationStatus": "ALL_EIGHT_MANIFEST_ENTRIES_RECOMPUTED_AND_MATCHED",
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/4-implementation-plan/evidence/stratton-phase-4-hash-verification-receipt.json",
+    "verificationReceiptSha256": "fe2caaac76df76327fbffcece7f9c3baca81b0e0e812fa4d8014c458b5d76945"
+  },
+  "scope": [
+    "Complete revised eight-artifact Phase 4 subject and independent hash receipt",
+    "Approved Phase 3 design, AFF-4 handoff, traceability and approval binding",
+    "Deployment DAG, implementation units, Bicep and AVM planning",
+    "Phase 5 release hashing, validation, rollback and evidence reproducibility",
+    "Requirement, ABB, decision, SBB and resource-inventory traceability",
+    "Round-1 finding dispositions, HTML rendering, links and hashes"
+  ],
+  "confirmedItems": [
+    "Exact model independence is satisfied: reviewer gpt-5.5 differs from author runtime gpt-5.6-sol.",
+    "The manifest hash, all eight artifact hashes and the independent receipt hash match.",
+    "The Phase 3 approval and design manifest bindings match their independently recomputed hashes.",
+    "Requirements 31/31, ABBs 19/19, SBBs 23/23, architecture decisions 10/10 and resource inventory entries 44/44 are mapped with no missing or extra identifiers.",
+    "The 17-node, 44-edge deployable-unit graph is acyclic.",
+    "The HTML embedded source hashes and local links match the revised subject.",
+    "The seven owner-bound residual controls remain open without waiver."
+  ],
+  "priorFindingDispositions": [
+    {
+      "id": "AFFA-P4-R1-MAJ-001",
+      "disposition": "RESOLVED",
+      "evidence": [
+        "4-implementation-plan/stratton-implementation-plan.md:236-251",
+        "4-implementation-plan/evidence/stratton-candidate-validation.json:P4-CHK-016",
+        "4-implementation-plan/stratton-implementation-plan.html:345"
+      ],
+      "rationale": "The release hash input set now explicitly excludes iac/release/content-hashes.json itself."
+    },
+    {
+      "id": "AFFA-P4-R1-MAJ-002",
+      "disposition": "RESOLVED",
+      "evidence": [
+        "4-implementation-plan/stratton-implementation-catalogue.json:WP-01",
+        "4-implementation-plan/evidence/stratton-candidate-validation.json:P4-CHK-007",
+        "4-implementation-plan/stratton-implementation-plan.html:287-290"
+      ],
+      "rationale": "WP-01 explicitly maps ABB-17 to external-data quarantine state/index and permission-gated promotion tests."
+    }
+  ],
+  "findings": [
+    {
+      "id": "AFFA-P4-R2-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Release content-hash output is path-dependent and not portable across checkouts",
+      "status": "OPEN",
+      "evidence": [
+        "4-implementation-plan/stratton-implementation-plan.md:236-246",
+        "4-implementation-plan/stratton-implementation-catalogue.json:phase5ValidationMatrix Release manifest/content hashes"
+      ],
+      "description": "The revised command correctly excludes the generated hash manifest, but it sorts by FullName and writes path=$_.FullName. The resulting evidence therefore contains absolute machine-specific checkout paths.",
+      "impact": "Byte-identical source trees in different workspace paths produce different content-hashes.json output, weakening portability and release reproducibility and potentially exposing local path or user information.",
+      "owner": "AFF-4",
+      "requiredRemediation": "Hash resolved full paths but sort and serialize consistently normalised repository- or case-relative paths.",
+      "manifestRegenerationRequired": true
+    }
+  ],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 0,
+    "unresolvedMajor": 1
+  },
+  "residualGaps": [
+    "VAL-001",
+    "VAL-002",
+    "VAL-003",
+    "VAL-004",
+    "VAL-005",
+    "AFFB-RES-001",
+    "AFFB-RES-002"
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "One unresolved MAJOR correctness finding remains because the release content-hash output is tied to the local absolute checkout path.",
+  "finalRoundForManifest": false,
+  "requiredActions": [
+    "AFF-4 must serialize stable normalised relative paths while hashing resolved full paths.",
+    "Regenerate the affected candidate artifacts and canonical manifest.",
+    "AFF-A must review the complete regenerated subject before AFF-B or the human gate."
+  ],
+  "subjectModificationPerformed": false,
+  "recordSerialization": "The independent gpt-5.5 reviewer returned the complete verdict and findings. AFF-4 orchestration serialized the returned review without changing its verdict or findings.",
+  "nonApprovalStatement": "AFF-A does not approve, waive, certify, fix, deploy, test or modify the reviewed Phase 4 subject."
+}

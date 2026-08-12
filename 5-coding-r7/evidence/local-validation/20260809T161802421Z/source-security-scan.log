@@ -1,0 +1,19 @@
+2026-08-09T18:32:30+02:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-08-09T18:32:30+02:00	INFO	[misconfig] Misconfiguration scanning is enabled
+2026-08-09T18:32:30+02:00	INFO	[checks-client] Using existing checks from cache	path="/root/.cache/trivy/policy/content"
+2026-08-09T18:32:31+02:00	INFO	[secret] Secret scanning is enabled
+2026-08-09T18:32:31+02:00	INFO	[secret] If your scanning is slow, please try '--scanners vuln,misconfig,license' to disable secret scanning
+2026-08-09T18:32:31+02:00	INFO	[secret] Please see https://trivy.dev/docs/v0.72/guide/scanner/secret#recommendation for faster secret detection
+2026-08-09T18:32:31+02:00	INFO	[license] License scanning is enabled
+2026-08-09T18:32:32+02:00	INFO	[npm] Run "npm install" to collect the license information of packages	dir="app/node_modules"
+2026-08-09T18:32:32+02:00	INFO	Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
+2026-08-09T18:32:32+02:00	INFO	Number of language-specific files	num=1
+2026-08-09T18:32:32+02:00	INFO	[npm] Detecting vulnerabilities...
+2026-08-09T18:32:32+02:00	INFO	Detected config files	num=2
+
+📣 [34mNotices:[0m
+  - Version 0.73.0 of Trivy is now available, current version is 0.72.0
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+
+Source-security validation passed. Evidence: <PACKAGE_ROOT>\evidence\source-security\20260809T161802421Z\summary.json

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0",
+  "planRevision": "116",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "status": "EFFECTIVE_FOR_PHASE_6_R9_SLIDE5_DEV_PREVIEW_REGRESSION_REMEDIATION",
+  "recordedAt": "2026-08-10T21:59:14.872912+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-115.json",
+    "sha256": "97b34470fbb6077e701f267af01d1fc77a2b6b87f45d372a2f8f0b83508c58d1",
+    "preservation": "Revision 115, the frozen r8 subject, AFF-A round 8 and AFF-B round 5 remain byte-identical historical evidence. R8 was never approved and is superseded only for remediation."
+  },
+  "trigger": {
+    "type": "HUMAN_DISCOVERED_MATERIAL_SLIDE5_DEV_PREVIEW_DEFECT_AFTER_R8_FREEZE_AND_REVIEWS",
+    "discoveryContext": "LIVE_VITE_DEV_PREVIEW",
+    "reviewedManifestPath": "6-presentation-r8/stratton-phase-6-hashes.json",
+    "reviewedManifestSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae",
+    "affAReviewPath": "reviews/aff-a/6/round-8/stratton-aff-a-review.json",
+    "affAReviewSha256": "129fb558c76e2f53afef1b33bfaa12135d5954ab0bb108416c42b68e3065880b",
+    "affBReviewPath": "reviews/aff-b/6/round-5/stratton-aff-b-review.json",
+    "affBReviewSha256": "e03cb144f8fe108d2f8b854475ad7e113d7b6df10c8db4d007de666e610fa961",
+    "reason": "Slide 5 phase and reviewer nodes were positioned against zero-height DeckIO sortable wrappers in the live Vite development preview.",
+    "rootCause": "DeckIO EditableListSortable applies inline position: relative to deckio-list-item wrappers, making them containing blocks for absolute phase and reviewer orbit nodes.",
+    "testTimingGap": "The previous browser assurance evaluated before the development-only sortable wrappers activated and therefore missed the regression."
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r9",
+    "instruction": "Preserve approved r7 and reviewed r8 unchanged; preserve every r8 Slide 11 visual improvement and remediate only the Slide 5 development-preview sortable-wrapper containing-block regression plus its browser-test timing gap.",
+    "phase6R7ApprovalState": "APPROVED_IMMUTABLE",
+    "phase6R8ApprovalState": "SUPERSEDED_UNAPPROVED_IMMUTABLE",
+    "phase6R9ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "presentation": {
+    "registeredSlides": 20,
+    "candidateStatus": "TWENTY_SLIDE_SLIDE11_VISUAL_AND_SLIDE5_DEV_PREVIEW_REMEDIATION_CANDIDATE",
+    "frozenDesignInputs": {
+      "targetAzureFootprint": "Proposed Azure deployment design for later validation only",
+      "apiManagementTier": "PremiumV2",
+      "phase5RepositoryInventoryFiles": 124,
+      "implementationPlan": "5 work packages plus 8 conditional gates",
+      "pricingBasis": "Dated 2026-08-10 West Europe Azure Retail Prices API snapshot plus stated Azure Price Calculator proxies",
+      "monthlyEstimateUsd": 7985.55,
+      "annualEstimateUsd": 95826.6
+    },
+    "slide11VisualRemediation": {
+      "slide": 11,
+      "sourceFiles": [
+        "deck/src/slides/ModelPortfolioSlide.jsx",
+        "deck/src/slides/ModelPortfolioSlide.module.css"
+      ],
+      "changes": [
+        "Remove presenter-controlled dimming",
+        "Increase complete type hierarchy",
+        "Add Moon, Earth and Sun icon badges",
+        "Animate Luna, Terra and Sol at 0ms, 160ms and 320ms over 520ms",
+        "Disable entrance and glow under reduced motion"
+      ],
+      "contentChangeAllowed": false,
+      "slide13ChangeAllowed": false
+    },
+    "slide5DevPreviewRegressionRemediation": {
+      "slide": 5,
+      "scope": "SLIDE_5_DEV_PREVIEW_REGRESSION_REMEDIATION",
+      "sourceFiles": [
+        "deck/tests/helpers/slide-5-browser-assurance.mjs",
+        "deck/src/slides/AgenticArchitectureRingSlide.module.css"
+      ],
+      "changes": [
+        "Wait for at least nine deckio-list-item wrappers after font setup before evaluating Slide 5.",
+        "Force direct phase and reviewer shells to position: static !important."
+      ],
+      "contentChangeAllowed": false,
+      "claimChangeAllowed": false,
+      "architectureChangeAllowed": false,
+      "packageOrDependencyChangeAllowed": false
+    }
+  },
+  "modelAssignments": {
+    "AFF-6-presentation": {
+      "model": "gpt-5.6-sol",
+      "role": "AUTHOR_AND_SLIDE5_DEV_PREVIEW_REMEDIATOR",
+      "rationale": "Sol preserves the complete reviewed r8 presentation while applying and evidencing the narrow Slide 5 development-preview regression remediation.",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol"
+    },
+    "AFF-A-rubber-duck": {
+      "model": "gpt-5.6-luna",
+      "role": "PLANNED_INDEPENDENT_PRESENTATION_REVIEWER",
+      "rationale": "Luna remains model-opposite to the Sol author and rechecks the corrected immutable candidate.",
+      "plannedExactGptModelId": "gpt-5.6-luna"
+    },
+    "AFF-B-security-compliance": {
+      "model": "gpt-5.6-terra",
+      "role": "PLANNED_INDEPENDENT_SECURITY_COMPLIANCE_REVIEWER",
+      "rationale": "Terra rechecks reviewer-governance truthfulness, security/compliance boundaries and residual owner gates after AFF-A.",
+      "plannedExactGptModelId": "gpt-5.6-terra"
+    }
+  },
+  "modelPortfolio": {
+    "version": "2026-07-09",
+    "allowedModels": [
+      "gpt-5.6-luna",
+      "gpt-5.6-terra",
+      "gpt-5.6-sol"
+    ],
+    "dataZone": "DataZoneStandard",
+    "versionUpgradePolicy": "NoAutoUpgrade",
+    "globalStandardAllowed": false
+  },
+  "reviewSequence": [
+    "Freeze and independently verify the r9 manifest.",
+    "Invoke AFF-A round 9 with gpt-5.6-luna.",
+    "If AFF-A has no unresolved material finding, invoke AFF-B round 6 with gpt-5.6-terra against the identical manifest.",
+    "Return the unchanged r9 candidate and both fresh reviews to the human architect for explicit in-tool approval or rejection."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, provider query, target validation, what-if, deployment or promotion occurred.",
+    "No runtime inference, retention finalisation or Phase 8 runtime testing occurred.",
+    "The dated pricing snapshot is evidence for planning, not a future-price guarantee.",
+    "The presentation remains a proposed architecture and reviewed deployment package, not an as-built runtime or compliance attestation."
+  ]
+}

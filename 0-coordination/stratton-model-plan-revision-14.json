@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "14",
+  "createdAt": "2026-08-03T03:01:29.4830775+02:00",
+  "revisionReason": "Preserve the AFF-A-reviewed Phase 5 revision-2 package byte-identically and govern a sibling revision-3 candidate that closes the queued-analysis source and licence authority gap found in AFF-A round 2.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-13.json",
+    "sha256": "9c18ca9fadea478470a2f23e7bd50a68b276b55f3fe9accdc299b82c7ad0284a",
+    "overwrite": false
+  },
+  "reviewedPhase5Subjects": [
+    {
+      "revision": "1",
+      "path": "5-coding/stratton-phase-5-hashes.json",
+      "sha256": "412e573e287bb1056217f6a29475df596d280543fcbeae875ce020e73dc13e9b",
+      "state": "IMMUTABLE_AFF_A_ROUND_1_SUBJECT"
+    },
+    {
+      "revision": "2",
+      "path": "5-coding-r2/stratton-phase-5-hashes.json",
+      "sha256": "3effddfdc036578bc0ade0135002daedfdad0322fe6165279da2f43bbc0d74ef",
+      "state": "IMMUTABLE_AFF_A_ROUND_2_SUBJECT",
+      "reviewPath": "reviews/aff-a/5/round-2/stratton-aff-a-review.json",
+      "reviewSha256": "67567c86848fa68bddf15c45271ae56bdad598aebe9868d97bfee7539980b1b4",
+      "verdict": "DIVERGES",
+      "findingSummary": {
+        "BLOCKER": 0,
+        "MAJOR": 1,
+        "MINOR": 0
+      }
+    }
+  ],
+  "revisionedCandidate": {
+    "packageRoot": "5-coding-r3",
+    "manifestPath": "5-coding-r3/stratton-phase-5-hashes.json",
+    "state": "REMEDIATION_IN_PROGRESS",
+    "sourcePackageRoot": "5-coding-r2",
+    "sourcePackageMustRemainByteIdentical": true,
+    "requiredFindingIds": [
+      "AFFA-P5-R2-MAJ-001"
+    ],
+    "requiredBehaviour": [
+      "Immediately before queued analysis provider invocation, re-read current source and latest licence authority.",
+      "Deny when the source is inactive, the licence is absent or expired, or AI analysis is not allowed.",
+      "Do not invoke the analysis provider after authority denial.",
+      "Record a deterministic blocked analysis-run transition and audit evidence without weakening retry or idempotency guarantees."
+    ]
+  },
+  "phase5Assignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefaultModelId": "gpt-5.3-codex",
+    "initialAuthorActualRuntimeModelId": "gpt-5.3-codex",
+    "finalisationSelectedExactGptModelId": "gpt-5.6-sol",
+    "finalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "runScopedOverrideDecision": "APPROVED_IN_REVISION_12",
+    "modelSelectionChangedByRevision14": false,
+    "additionalHumanModelApprovalRequired": false
+  },
+  "reviewAssignments": {
+    "affA": {
+      "reviewer": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromAllPhaseAuthorActualRuntimeModelIds": true,
+      "nextRound": 3
+    },
+    "affB": {
+      "reviewer": "AFF-B",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "state": "HELD_UNTIL_AFF_A_ACCEPTS_THE_REVISION3_CANDIDATE"
+    }
+  },
+  "authorityBinding": {
+    "changeControlId": "STRATTON-CC-001",
+    "approvalPath": "approvals/change-control/stratton-cc-001-approval-1.json",
+    "approvalSha256": "ec2ddad8bc9c38993d5266985db5c9e9f12358034ba3aad9c61cd93465d8b21d",
+    "approvalModelPlanRevision": "11",
+    "interpretation": "Revision 14 changes only local queued-analysis enforcement and the Phase 5 review subject. It does not alter the approved authority amendment."
+  },
+  "releaseScopeDecision": {
+    "decisionId": "DEC-0006",
+    "decision": "The two assessed Microsoft accelerators remain deferred to a governed future release.",
+    "release1CandidateImpact": "NONE"
+  },
+  "constraints": [
+    "Do not modify any file beneath 5-coding or 5-coding-r2 because those packages are bound by formal AFF-A reviews.",
+    "No Azure authentication, target validation, what-if, deployment or cloud runtime testing is authorised.",
+    "No owner-bound value may be invented, inferred, waived or enabled.",
+    "The three unimplemented STRATTON-CC-001 authority-provisioning flags remain false.",
+    "The revision-3 candidate must receive complete local validation and AFF-A round 3 before AFF-B is invoked.",
+    "Phase 6 remains locked until final AFF-A and AFF-B convergence and explicit human Phase 5 approval."
+  ]
+}

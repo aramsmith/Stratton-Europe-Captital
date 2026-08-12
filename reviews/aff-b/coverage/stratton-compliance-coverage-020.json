@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "020",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R7",
+  "phaseIds": [
+    "5"
+  ],
+  "createdAt": "2026-08-09T18:37:15.294+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_CC002_R7_AFFB_ROUND5_CONFORMS_WITH_GAPS",
+  "supersedesCoverageSequence": "019",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-019.json",
+    "sha256": "4d4511baafaf2db61018cd0b2e604f1db46534409249086e5ac43eb0ac22bc68",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "authorAndFinalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "independence": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS_AND_SEPARATE_AFFB_CONTEXT"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-phase-5-hashes.json",
+    "sha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "expectedSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "artifactCount": 168,
+    "hashStatus": "MATCHED_BEFORE_AFFB_REVIEW_AND_RECHECKED_AFTER_AFFB_OUTPUT"
+  },
+  "evidenceReceipts": {
+    "reviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-5/reviewed-subject/stratton-phase-5-hashes.json",
+    "reviewedSubjectSnapshotSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-5/stratton-aff-b-model-receipt.json",
+    "hashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-5/reviewed-subject/stratton-phase-5-hash-verification-receipt.json"
+  },
+  "coverageRows": [
+    {
+      "id": "CC002-P5-R7-COV-001",
+      "control": "Canonical r7 integrity, immutable snapshot, ordinal manifest, release package and preservation of r4/r5/r6 history",
+      "status": "COVERED_STATIC_AND_HASH_VERIFIED",
+      "owner": "AFF-5 and AFF-B"
+    },
+    {
+      "id": "CC002-P5-R7-COV-002",
+      "control": "Secret-free managed-identity configuration, private exposure, Entra-only SQL, scoped RBAC and redacted logging",
+      "status": "COVERED_STATIC_AND_RETAINED_EVIDENCE_REVIEWED",
+      "owner": "Existing accountable platform and identity owners"
+    },
+    {
+      "id": "CC002-P5-R7-COV-003",
+      "control": "Tenant/case RLS, source/licence/privacy/special-category admission, read-only source access and human authority boundaries",
+      "status": "COVERED_STATIC_FAIL_CLOSED",
+      "owner": "Existing accountable source, data, privacy, legal and compliance owners"
+    },
+    {
+      "id": "CC002-P5-R7-COV-004",
+      "control": "Application-owned deterministic routing, DataZoneStandard, rejected GlobalStandard, GPT-5.6 2026-07-09 and NoAutoUpgrade, blocked analysis and promotion",
+      "status": "COVERED_STATIC_FAIL_CLOSED",
+      "owner": "Existing accountable model, AI governance and platform owners"
+    },
+    {
+      "id": "CC002-P5-R7-COV-005",
+      "control": "Release integrity, SBOM/scan evidence, local-signing limitation, explicit r7 operational selectors and future deployment/retention gates",
+      "status": "COVERED_STATIC_WITH_OWNER_GATES",
+      "owner": "Existing accountable release, Internal Audit and records owners"
+    },
+    {
+      "id": "CC002-P5-R7-COV-006",
+      "control": "Pre-validation deterministic 124-file input inventory, aggregate propagation, mutation rejection, exact run/path selection and mtime-decoy resistance",
+      "status": "COVERED_STATIC_AND_BEHAVIOURALLY_REGRESSION_TESTED",
+      "owner": "AFF-5; later release activity remains owner-authorised"
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "residualGaps": [
+    "Owner-bound regions, resource identifiers, quota/capability, positive capacities, embedding configuration, recovery/failover, provider terms, licences/source permissions, privacy lifecycle, retention/legal hold and legal/compliance classification remain unresolved and fail closed.",
+    "Source and container licence findings remain PENDING_AFF_B_REVIEW in retained scan evidence; no licence compatibility or legal applicability conclusion is made by this assurance record.",
+    "No Azure, target, inference, promotion, retention-finalisation or runtime operating-effectiveness evidence exists; those activities remain separately authorised and blocked.",
+    "Local signing is integrity evidence only; an approved release identity remains required for any deployable registry artefact."
+  ],
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nextAction": "Preserve unchanged r7 bytes and present this review, coverage 020, companion final assurance and residual owner gaps to the explicit human gate.",
+  "active": true
+}

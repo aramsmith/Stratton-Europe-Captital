@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "94",
+  "createdAt": "2026-08-04T13:11:45.0000000+02:00",
+  "revisionReason": "integrate all five approved TOGAF views into Slide 9 using the approved layered architecture and human-authority hub",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-93.json",
+    "sha256": "9ccaab1e43850aa060ccd1890fe697815c1cbfdcc24d63c076a1e5227e8c7109",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 9,
+    "request": "combine the five Mermaid views into one presentation-style architecture and combine the approved A and C concepts"
+  },
+  "contentChange": {
+    "summary": [
+      "Slide 9 unifies the five approved TOGAF views into one layered architecture with a retained-human-authority hub.",
+      "The muted disclosure state remains fixed at opacity 0.55 and filter saturate(0.78) for legibility."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentOrRuntimeClaimed": false
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "registeredSlides": 15,
+    "renderedSlide": 9,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "impeccableFindings": 0,
+    "mutedStateOpacity": 0.55,
+    "mutedStateFilter": "saturate(0.78)"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.jsx",
+      "sha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.module.css",
+      "sha256": "8670b55ba901663cf2874f2e17d1ca8c354a9417bb6dc8687ff665c27d195277"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 15,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

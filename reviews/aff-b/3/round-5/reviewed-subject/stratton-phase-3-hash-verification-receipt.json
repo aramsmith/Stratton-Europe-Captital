@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_REVIEWED_SUBJECT_HASH_VERIFICATION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "formalReviewRound": 5,
+  "changeControlId": "STRATTON-CC-002",
+  "verifiedAt": "2026-08-06T08:50:09.460+02:00",
+  "algorithm": "SHA-256",
+  "rawByteMethod": "Get-FileHash over original candidate bytes, then copied reviewed-subject bytes; no normalisation.",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "preReviewSha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "postReviewSha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "reviewedCopySha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "status": "UNCHANGED",
+    "artifactCount": 10,
+    "candidateFileCount": 11
+  },
+  "externalBindings": [
+    {"path": "docs/superpowers/specs/2026-08-06-stratton-gpt-5-6-model-portfolio-design.md", "sha256": "f714e995129c68b295cd30b98281619579dae1f2fb8a9e6fb6e3efc793212c86", "status": "MATCHED"},
+    {"path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json", "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7", "status": "MATCHED"}
+  ],
+  "coverageBinding": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-012.json",
+    "sha256": "d835b1f6a2d7b0679fa32a04c6237022ce3c320a193cac300b5baf7291ed8458",
+    "status": "MATCHED"
+  },
+  "artifacts": [
+    {"path": "3-azure-design/evidence/stratton-cc-002-candidate-validation.json", "sha256": "9ddca2e19b33c2f5966c3832205cd2ac295589f1fd816c5ebff3f9a0e554212d", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/evidence/stratton-cc-002-change-control-evidence.json", "sha256": "ef8c51dbd855557bbdbc923974e48bfb9a8771c10be2290e1fb4a720be3e0ca5", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/evidence/stratton-cc-002-hash-generation-evidence.json", "sha256": "24adfe8c6e213e6b11c42d79a09462bb3112274a8192c8b63af8376796157233", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-proposed.json", "sha256": "04ca5af6fec1d2aa198a6bafb736ded6fb88161046a10b8f5162619f86325205", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-proposed.json", "sha256": "12035f866fce6667598e17c6bd6fea186f52548c2faffbf4b8901e0d89d00d91", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/evidence/stratton-model-routing-contract-cc-002-proposed.json", "sha256": "d1e090923a24fe3ffd396623d776e77b4e9a49da524f98e06ae075d552943ad2", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-proposed.json", "sha256": "f51242de7bc63a77ec07ce22af5ea851807f1fb0f5d102d170fd0b116d24b1d0", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/stratton-cc-002-phase-3-amendment.html", "sha256": "b377b86ea45fae3e1069834316b43832b29db52f5c39b2153a0bf462addaab23", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/stratton-cc-002-phase-3-amendment.md", "sha256": "74e65b3414d6b17a990af7be54c81bafdf8b6099e518a7b5a21d40258b63160d", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"},
+    {"path": "3-azure-design/stratton-design-catalogue-cc-002-proposed.json", "sha256": "d8374650f58e2b2cec5164f876493e4ac7c5dc678875fef550cb1051b96dde92", "preReview": "MATCH", "postReview": "MATCH", "reviewedCopy": "MATCH"}
+  ],
+  "result": "ALL_11_CANDIDATE_FILES_BYTE_IDENTICAL_PRE_POST_AND_IN_REVIEWED_SUBJECT"
+}

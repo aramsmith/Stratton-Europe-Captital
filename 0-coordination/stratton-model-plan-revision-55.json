@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "55",
+  "createdAt": "2026-08-03T22:48:06+02:00",
+  "revisionReason": "Add a larger, slower one-time border glow to the four briefing-scope blocks on slide 1 while preserving their existing fly-ins.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-54.json",
+    "sha256": "94c67d58c2b686a1d502b8390bb16a1b26a89d251ea8bd789e60cc654982d0fd",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Animate the borders of the four slide 1 briefing-scope blocks with a one-time glow.",
+      "Make the glow larger and the animation slower.",
+      "Keep the existing block fly-ins unchanged."
+    ]
+  },
+  "implementation": {
+    "target": "slide-1-briefing-scope-blocks",
+    "motionThesis": "A single cyan-to-purple light sweep passes across the four briefing pillars after they enter.",
+    "technique": "CSS masked gradient border sweep with a bounded outer glow",
+    "durationMs": 1600,
+    "initialDelayMs": 1510,
+    "staggerMs": 180,
+    "borderOutsetPx": 2,
+    "maximumGlowRadiusPx": 22,
+    "repeat": "once-per-slide-activation",
+    "reducedMotion": "decorative glow disabled"
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

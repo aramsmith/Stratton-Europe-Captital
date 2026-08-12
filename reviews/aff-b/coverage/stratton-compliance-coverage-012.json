@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "012",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseIds": ["3"],
+  "createdAt": "2026-08-06T08:50:09.460+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_CC002_AFFB_ROUND5_DIVERGES_REMEDIATION_REQUIRED",
+  "supersedesCoverageSequence": "011",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-011.json",
+    "sha256": "8936b09ba1bbb0277479ee7f1b3127c7372227a98fa6856697a461e77b83e264",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "artifactCount": 10,
+    "candidateFileCount": 11,
+    "hashStatus": "MATCHED_PRE_REVIEW"
+  },
+  "applicability": [
+    {
+      "instrument": "GDPR",
+      "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE",
+      "basis": "Current regulatory register REG-0001: Release 1 processes EU personal data.",
+      "humanConfirmation": "DPO and General Counsel",
+      "boundary": "This record neither supplies legal advice nor changes the confirmed boundary. Detailed official citation, lawful-purpose, minimisation, DPIA disposition, processor/transfer, retention/deletion/legal-hold and data-subject procedure evidence remain owner work.",
+      "status": "ACTIVE_OWNER_EVIDENCE_OPEN_FAIL_CLOSED_FOR_CC002_ENABLEMENT"
+    },
+    {
+      "instrument": "EU AI Act",
+      "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE",
+      "basis": "Current regulatory register REG-0002: AI-governance framework applies.",
+      "humanConfirmation": "General Counsel and Head of AI Governance",
+      "boundary": "No high-risk or other risk classification is inferred or claimed. Provider/deployer role, use-case classification, obligation map and human-oversight acceptance require explicit accountable-human evidence.",
+      "status": "ACTIVE_CLASSIFICATION_EVIDENCE_OPEN_FAIL_CLOSED_FOR_CC002_ENABLEMENT"
+    },
+    {
+      "instrument": "DORA",
+      "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN",
+      "basis": "Current regulatory register REG-0006.",
+      "humanConfirmation": "General Counsel",
+      "boundary": "Entity-specific applicability or exemption is not established by this review.",
+      "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION"
+    }
+  ],
+  "confirmedControls": [
+    {
+      "id": "CC002-COV-001",
+      "control": "Fixed model/version/API bindings, NoAutoUpgrade, deployment-name-or-resource-ID binding, no direct alias and no silent downgrade are specified.",
+      "evidence": ["3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-proposed.json", "3-azure-design/evidence/stratton-model-routing-contract-cc-002-proposed.json"],
+      "owner": "AI Governance, Azure Platform and Service Operations",
+      "status": "COVERED_DESIGN_ONLY_PROMOTION_BLOCKED"
+    },
+    {
+      "id": "CC002-COV-002",
+      "control": "Private paths, managed identity, public-network denial where supported, evidence admission, instruction/data separation, retrieval filters, citation checks and accountable-human authority are specified.",
+      "evidence": ["3-azure-design/evidence/stratton-security-compliance-contract-cc-002-proposed.json"],
+      "owner": "CISO, Data Owners, Application Engineering and Service Operations",
+      "status": "COVERED_DESIGN_ONLY_OPERATING_EFFECTIVENESS_NOT_CLAIMED"
+    },
+    {
+      "id": "CC002-COV-003",
+      "control": "The candidate correctly states EU Data Zone prompts/outputs, EU-geography at-rest data, Microsoft-selected processing region, no specific-region promise and Global Standard prohibition.",
+      "evidence": ["3-azure-design/stratton-cc-002-phase-3-amendment.md section 4", "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-proposed.json sovereignty"],
+      "owner": "General Counsel, DPO, CISO and Azure Platform",
+      "status": "SEMANTICS_STATED_RECOVERY_BINDING_OPEN"
+    }
+  ],
+  "findings": [
+    {"id": "AFFB-CC002-MAJ-001", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "owner": "AFF-3, Azure Platform, General Counsel, DPO, CISO and AI Governance", "remediation": "Bind primary and recovery EU resource allow-lists, DataZoneStandard deployment evidence for every GPT/embedding route, data/log/index/backup failover handling, provider-selected-region boundary and deny/queue behaviour when recovery evidence is absent.", "residualRisk": "Recovery may violate the stated boundary or use an unverified substitute."},
+    {"id": "AFFB-CC002-MAJ-002", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "owner": "AFF-3, Security Owner and AI Governance", "remediation": "Make every injection, poisoned-evidence, cross-case, filter-override, citation-spoofing, model-mismatch, fallback and autonomous-authority scenario an explicit blocking pass criterion with immutable evidence and fail-closed disposition.", "residualRisk": "Promotion could occur without demonstrated resistance to hostile evidence or routing abuse."},
+    {"id": "AFFB-CC002-MAJ-003", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "owner": "AFF-3, General Counsel, DPO, AI Governance and Source Owners", "remediation": "Add claim-bound source/provenance and licence evidence: source ID, exact official section, retrieval date, excerpt/hash, claim, owner, expiry and provider no-training/use disposition.", "residualRisk": "Material model, Data Zone, privacy, networking and provider-use assertions cannot be independently audited."},
+    {"id": "AFFB-CC002-MAJ-004", "severity": "MAJOR", "status": "OPEN_SUBJECT_DEFECT", "owner": "DPO, Records Owner, Security Operations and AFF-3", "remediation": "Bind minimisation, retention, deletion/disposition, legal hold, data-subject procedure, redaction, immutable telemetry storage, recovery restoration and operational ownership for prompts, outputs, vectors, benchmark artefacts and route logs.", "residualRisk": "New inference and telemetry data flows lack an enforceable lifecycle and privacy-operational boundary."},
+    {"id": "AFFB-CC002-MIN-001", "severity": "MINOR", "status": "OPEN_SUBJECT_DEFECT", "owner": "AFF-3", "remediation": "Regenerate HTML with every substantive Markdown section-6 row and governance condition.", "residualRisk": "Rendered assurance view omits meaningful scope detail."}
+  ],
+  "findingCounts": {"BLOCKER": 0, "MAJOR": 4, "MINOR": 1},
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, attestation, waiver, approval, Azure deployment, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nextAction": "Preserve the reviewed bytes. Create a new append-only CC-002 remediation candidate and manifest; obtain complete AFF-A and AFF-B re-reviews before any human approval.",
+  "active": true
+}

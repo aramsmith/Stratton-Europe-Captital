@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "phaseName": "Phase 3 — Azure Design",
+  "formalReviewRound": 6,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "reviewTime": "2026-08-06T09:16:48.797+02:00",
+  "subjectModificationPerformed": false,
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "author": {
+    "agent": "AFF-3",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "status": "MATCHED"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+    "sha256BeforeReview": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "sha256AfterReview": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "status": "UNCHANGED",
+    "artifactCount": 11,
+    "candidateFileCount": 12
+  },
+  "originalSubjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "artifactCount": 10,
+    "candidateFileCount": 11,
+    "status": "UNCHANGED_AND_MATCHED_AFF_A_ROUND_6_AND_AFF_B_ROUND_5_SNAPSHOTS"
+  },
+  "coverage": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-013.json",
+    "sha256": "c81ae6f0f73265b2d2295a2fbecefb8b03b563279a95ab78e545d0e9c17c64cd",
+    "status": "ACTIVE"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/3/round-6/reviewed-subject/stratton-phase-3-hash-verification-receipt.json",
+    "sha256": "90f4c1de19913b817e908b2ed8eb632a12ba0064d7cbb187e9ff874c19bd08b6",
+    "status": "PASS"
+  },
+  "confirmedControls": [
+    "All twelve R2 candidate files are copied byte-identically; all eleven R2 manifest entries and the R2 manifest hash match before and after review.",
+    "The original manifest remains 2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a; all ten original entries and eleven original live files match both prior AFF-A round-6 and AFF-B round-5 snapshots.",
+    "Luna, Terra, Sol and embedding routes bind independent primary/recovery EU resources, allow-list and DataZoneStandard evidence, failover authority, data/log/index/backup boundaries and deny/queue behaviour when evidence is absent.",
+    "Twelve hostile-evidence, routing-misuse, deployment-failure and authority-abuse gates are identical across evaluation, routing and security contracts, and each has explicit pass criteria, immutable evidence IDs, an owner and a fail-closed outcome.",
+    "Twelve official-source records bind sixteen material claims with exact URL and section, retrieval date, evidence excerpt, licence/use disposition, owner and review/expiry condition; provider terms and source AI-use permissions remain explicit pre-enablement owner evidence.",
+    "The five lifecycle classes bind minimisation, classification, retention, deletion, legal hold, DSR, redaction, integrity, recovery and named operational owners.",
+    "Markdown and HTML have exact thirteen-heading parity, preserve separate explainable-anomaly and supervised-prediction governance rows, and HTML has no external script source."
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "AFFB-CC002-MAJ-001",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "EU Data Zone primary/recovery boundaries, evidence, authority and deny/queue semantics",
+      "evidence": [
+        "stratton-model-portfolio-contract-cc-002-r2-proposed.json: routeDeploymentSemantics and recoveryGlobalRules",
+        "stratton-model-routing-contract-cc-002-r2-proposed.json: recoveryRouting",
+        "stratton-security-compliance-contract-cc-002-r2-proposed.json: sovereignty and compliance evidence gate CC002-R2-COMP-001"
+      ],
+      "residualRisk": "Exact resource, region, allow-list, deployment, capacity and recovery evidence remains owner-bound; missing, expired or mismatched evidence fails closed."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-002",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Immutable hostile-evidence and security promotion gates",
+      "evidence": [
+        "stratton-model-evaluation-contract-cc-002-r2-proposed.json: securityPromotionGates and securityGateAggregation",
+        "stratton-model-routing-contract-cc-002-r2-proposed.json: securityPromotionGates and securityGateEnforcement",
+        "stratton-security-compliance-contract-cc-002-r2-proposed.json: securityPromotionGates and securityGateContract"
+      ],
+      "residualRisk": "No gate has executed evidence; promotion remains blocked pending immutable results and accountable authority."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-003",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Claim-bound provenance, licence and provider-use evidence",
+      "evidence": [
+        "stratton-model-source-binding-cc-002-r2-proposed.json: 12 sources, 16 claims and licenceAndUseBoundary",
+        "stratton-security-compliance-contract-cc-002-r2-proposed.json: providerDataUse and evidenceAdmission"
+      ],
+      "residualRisk": "Provider terms, source AI-use permissions and time-sensitive official-source rechecks remain accountable-owner prerequisites that deny enablement if absent."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-004",
+      "severity": "MAJOR",
+      "status": "ADDRESSED",
+      "title": "Privacy lifecycle, telemetry integrity, recovery and operational ownership",
+      "evidence": [
+        "stratton-security-compliance-contract-cc-002-r2-proposed.json: privacyLifecycle, privacyLifecycleGlobalRules and loggingAndMonitoring",
+        "stratton-model-evaluation-contract-cc-002-r2-proposed.json: evidenceRetention",
+        "stratton-model-routing-contract-cc-002-r2-proposed.json: routeEvidenceEnvelope"
+      ],
+      "residualRisk": "Detailed classification, retention, deletion, legal hold and DSR procedures require accountable owner evidence; stateful features remain disabled without it."
+    },
+    {
+      "id": "AFFB-CC002-MIN-001",
+      "severity": "MINOR",
+      "status": "ADDRESSED",
+      "title": "Markdown/HTML parity",
+      "evidence": [
+        "stratton-cc-002-r2-phase-3-amendment.md and .html: 13/13 heading parity",
+        "independent static HTML inspection: no external script source"
+      ],
+      "residualRisk": "None identified for the rendered companion."
+    }
+  ],
+  "applicability": [
+    {
+      "instrument": "GDPR",
+      "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE",
+      "status": "OWNER_EVIDENCE_OPEN_FAIL_CLOSED_FOR_ENABLEMENT",
+      "humanConfirmation": "DPO and General Counsel",
+      "boundary": "This review does not infer lawful basis, DPIA outcome, processor/transfer conclusion or detailed retention and data-subject procedure."
+    },
+    {
+      "instrument": "EU AI Act",
+      "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE",
+      "status": "NO_ROLE_OR_RISK_CLASSIFICATION_INFERRED",
+      "humanConfirmation": "General Counsel and Head of AI Governance",
+      "boundary": "Provider/deployer roles, use-case class, obligations and human-oversight acceptance remain owner evidence."
+    },
+    {
+      "instrument": "DORA",
+      "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN",
+      "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION",
+      "humanConfirmation": "General Counsel and Compliance",
+      "boundary": "Entity-specific applicability or exemption is not established by this review."
+    }
+  ],
+  "findings": [],
+  "findingCounts": {"BLOCKER": 0, "MAJOR": 0, "MINOR": 0},
+  "residualGaps": [
+    "No Azure sign-in, Azure validation, failover activation, security-gate execution, deployment, runtime test or operating-effectiveness assessment occurred.",
+    "Exact primary/recovery resources, regions, allow-lists, deployments, quota, capacity, provider terms, source AI-use permissions and retention schedules remain owner-bound prerequisites.",
+    "GDPR detailed evidence, EU AI Act role/use-case classification and DORA applicability remain pending accountable-human confirmation.",
+    "AFF-A round 7 has not yet reviewed the exact R2 manifest, so reviewer convergence and any human decision remain pending."
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "All four prior MAJOR findings and the prior MINOR finding are addressed in the unchanged R2 bytes, and no new material breakage was detected. The remaining gaps are explicitly owner-bound, fail-closed and outside architecture-review operating-effectiveness evidence; they prevent a legal/compliance or production conclusion but do not leave an unresolved subject MAJOR.",
+  "finalRoundStatus": true,
+  "requiredAction": "Preserve the exact R2 reviewed bytes. Obtain AFF-A round 7 on the same manifest, then present converged AFF-A/AFF-B reviews and residual gaps for an explicit human decision. Do not approve, promote, deploy or test before that decision.",
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "concerns": [
+    "Owner-bound EU resource and recovery evidence",
+    "Unexecuted security and recovery gates",
+    "Provider/source-use evidence renewal",
+    "GDPR detailed evidence",
+    "EU AI Act role and use-case classification",
+    "DORA applicability",
+    "Pending AFF-A round-7 convergence"
+  ],
+  "companionHashes": {
+    "markdownSha256": "370fb8335e93fd6410938ac1fbbc2ebe8d63c5df86a9c8869896f3f5cb9b5734",
+    "htmlSha256": "824f8d25d8d60188bee365e4b75ddd9535e613471f7ca87c3d1e29a4f5a790f1",
+    "modelReceiptSha256": "1589817c92881df647bc0f6e1622790c2d14806bb488793a6bdc520437f4cb86",
+    "hashReceiptSha256": "90f4c1de19913b817e908b2ed8eb632a12ba0064d7cbb187e9ff874c19bd08b6"
+  }
+}

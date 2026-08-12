@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "formalReviewRound": 10,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R4",
+  "reviewTime": "2026-08-06T11:53:05.860Z",
+  "invokedBy": "AFF-4",
+  "subjectModificationPerformed": false,
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r4-proposed.json",
+    "sha256BeforeReview": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "sha256AfterReview": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "expectedSha256": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "status": "UNCHANGED",
+    "artifactCount": 6,
+    "candidateFileCount": 7,
+    "schemaValidationStatus": "PASS"
+  },
+  "immutablePredecessors": {
+    "r3Manifest": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "affARound9": "d2294ed23b43470b7ce021f46f0b205bc28419ec2c974c3398bb04e67d69ad90",
+    "affBRound7": "393649f2a5027e2ee81a0a3b2ea022bceb4555941c7b42a09b664a243a4edb85",
+    "coverage016": "42d8b4564e739d20236977f01f7aa4561de79e80101187144c9aab8c2fe7d336",
+    "status": "ALL_MATCHED_UNCHANGED"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "fc164ffd41814172d5b839355c5f5c1a5382882be5b304cc625ea1834232a9ae",
+    "status": "PASS"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/stratton-aff-a-model-receipt.json",
+    "sha256": "e97d7aff01bbb8f662fefe5f8511f2208c7a53c26c76319359221affa968d4c9",
+    "status": "PASS"
+  },
+  "verification": {
+    "rawByteSha256Recomputation": "PASS",
+    "reviewedSubjectSnapshots": "PASS_BYTE_IDENTICAL",
+    "originalR2R3R4ContractsAndSelfTests": "PASS",
+    "targetedRemediationMutationTests": "PASS",
+    "filesystemChronology": "MATCH",
+    "runtimeProvenance": "PASS_EXACT_POWERSHELL_7_6_4",
+    "recordsGovernance": "PASS_EXPLICIT_UNRESOLVED_FAIL_CLOSED",
+    "inventoryBaselineInconsistencies": 0,
+    "noAzureExecution": "CONFIRMED_NOT_AUTHORISED_OR_CLAIMED"
+  },
+  "confirmedItems": [
+    "The immutable R4 manifest matches before and after review; all six artifact hashes and seven reviewed snapshots match raw bytes.",
+    "The original, R2, R3 and R4 contracts, self-tests and staged validations pass.",
+    "All three AFF-A round-9 MAJOR findings are closed by test-covered append-only remediation.",
+    "EU Data Zone Standard, NoAutoUpgrade, deterministic routing, fail-closed owner gates, append-only custody and the non-deployment boundary remain intact."
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "AFFA-CC002-P4-R9-MAJ-001",
+      "status": "CLOSED",
+      "closureBasis": "Truthful chronology is bound to captured timestamps and independently observed filesystem metadata; negative mutations pass."
+    },
+    {
+      "id": "AFFA-CC002-P4-R9-MAJ-002",
+      "status": "CLOSED",
+      "closureBasis": "PowerShell 7.6.4 is exact and records-governance owner evidence remains explicit, null-hash, unresolved and fail closed."
+    },
+    {
+      "id": "AFFA-CC002-P4-R9-MAJ-003",
+      "status": "CLOSED",
+      "closureBasis": "Inventory modes match the live baseline and regression mutations reject all three prior inconsistencies."
+    }
+  ],
+  "findings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "residualGaps": [
+    "Retention and legal-hold owner evidence remains explicitly unresolved and fail closed.",
+    "Azure capacity, deployment, embedding, provider-use and regulatory owner inputs remain unresolved and fail closed.",
+    "No deployment, promotion, runtime, benchmark or operating-effectiveness result is claimed."
+  ],
+  "verdict": "CONFORMS-WITH-GAPS",
+  "verdictRationale": "R4 closes all three round-9 MAJOR defects with truthful chronology, exact runtime and fail-closed governance evidence, and baseline-consistent inventory modes. Remaining gaps are explicit owner or operating-effectiveness evidence and do not constitute an architecture-plan defect.",
+  "finalRoundStatus": true,
+  "finalRound": true,
+  "requiredAction": "Preserve exact R4 and round-10 bytes and present them with the companion AFF-B review for explicit human approval. Do not deploy, promote, test in Azure or enter Phase 7/8 on this review.",
+  "nonDeploymentStatement": "AFF-A does not approve, waive, certify or authorise Azure sign-in, what-if, deployment, model invocation, route promotion, production inference, destructive rollback, Phase 7 or runtime testing.",
+  "companionArtifacts": {
+    "markdownPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/stratton-aff-a-review.md",
+    "htmlPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/stratton-aff-a-review.html",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/stratton-aff-a-model-receipt.json",
+    "hashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/reviewed-subject/stratton-phase-4-hash-verification-receipt.json"
+  }
+}

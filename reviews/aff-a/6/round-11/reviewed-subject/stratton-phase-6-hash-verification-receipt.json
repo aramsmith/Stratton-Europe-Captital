@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_6_R11_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "reviewer": "AFF-A",
+  "reviewRound": 11,
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r11-aff-a-round-11-invocation-authorization.json",
+    "sha256": "0aecc69c1ed1888d374d512be6646a04addef87cefec6cce469eb27803e549ca"
+  },
+  "manifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "expectedSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "actualSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "artifactCount": 173,
+    "matchedArtifactCount": 173,
+    "uniqueSafeOrdinalExclusionsRoleCounts": "PASS",
+    "filesystemListedBoundary": "PASS",
+    "fullCandidateFileCount": 175,
+    "fullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "expectedFullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "preReviewManifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "postReviewManifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "prePostSubjectUnchanged": true,
+    "roleCounts": {
+      "authoritative-markdown": 1,
+      "catalogue": 1,
+      "evidence": 32,
+      "presentation-export": 22,
+      "presentation-source": 111,
+      "rendered-html": 1,
+      "test": 4,
+      "tooling": 1
+    },
+    "preReviewMatchedArtifactCount": 173,
+    "postReviewMatchedArtifactCount": 173,
+    "preReviewFullCandidateFileCount": 175,
+    "postReviewFullCandidateFileCount": 175,
+    "preReviewFullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "postReviewFullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "preReviewFilesystemExact": true,
+    "postReviewFilesystemExact": true,
+    "prePostFullCandidateTreeUnchanged": true
+  },
+  "anchors": {
+    "authorization": "PASS",
+    "modelPlan118": "PASS",
+    "designAndCommit": "PASS",
+    "r9ImmutableAnchors": "PASS",
+    "r10ImmutableAnchorsAndRound10": "PASS",
+    "r9FrozenContract": "PASS"
+  },
+  "subjectInspection": {
+    "completeCanonicalSubject": true,
+    "screenshotsInspected": 16,
+    "browserAssurance": "PASS 60/60, 107 assertions, 0 failures, 0 external requests",
+    "browserDeterminism": "PASS 17/17 across 3 runs",
+    "runtimeNetwork": "PASS 600/600 successful, 0 external",
+    "pdf": "PASS 20 pages, 960x600, 18462614 bytes, blank metadata, 0 XMP, 0 attachments",
+    "claimParity": "PASS 20/38/69; USD 200000 HUMAN_OWNED_HYPOTHESIS",
+    "sourceVisualParity": "PASS deck/src 103/103, screenshots 16/16, PDF byte-identical to r10"
+  },
+  "contracts": {
+    "r9FrozenBaseline": "PASS",
+    "slides020506Timer": "PASS",
+    "slides1012": "PASS",
+    "slides1316": "PASS",
+    "slides1719": "PASS",
+    "r11Metadata": "PASS",
+    "r11GovernancePath": "PASS",
+    "r11LifecycleProjection": "PASS",
+    "r11PreviewReadiness": "PASS",
+    "r11ValidationArchitecture": "PASS",
+    "r11VerifierHardening": "PASS",
+    "preAssuranceManifest": "PASS 173/173",
+    "postAssuranceManifest": "EXPECTED_FAIL_CLOSED_MISSING_AFF_A_ROUND11",
+    "postAssuranceLifecycle": "EXPECTED_FAIL_CLOSED_MISSING_LATER_RECORDS_AND_FINAL_STAGE"
+  },
+  "verdict": "CONFORMS-WITH-GAPS",
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "total": 0
+  },
+  "findings": [],
+  "outputs": "Six formal records written only beneath reviews/aff-a/6/round-11; candidate, controller, journal, authorization and approval surfaces unchanged."
+}

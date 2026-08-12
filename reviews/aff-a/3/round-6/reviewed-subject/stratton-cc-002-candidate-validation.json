@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_PHASE_3_CANDIDATE_VALIDATION",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "validationOutcome": "PASS",
+  "generatedAt": "2026-08-06T08:36:07.6267943+02:00",
+  "generatedAtUtc": "2026-08-06T06:36:07.6290105+00:00",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "method": "Command-enabled local inspection, independent JSON parsing, raw-byte hashing, immutable-baseline comparison and executable contract validation.",
+  "checks": [
+    {
+      "id": "CC002-P3-VAL-001",
+      "check": "Exactly eleven required append-only candidate paths are present and no CC-002 review or approval artifact exists.",
+      "command": "Get-ChildItem 'cases\\Stratton-Europe-Captital\\3-azure-design' -Recurse -File | Where-Object Name -Like '*cc-002*'; Test-Path the two round-6 review paths and two CC-002 approval paths",
+      "result": "PASS",
+      "observed": {
+        "candidateFiles": 11,
+        "prohibitedReviewOrApprovalArtifacts": 0
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-002",
+      "check": "Markdown contains the thirteen required H2 sections and exact three-row model-role table.",
+      "command": "$md=Get-Content -Raw <amendment.md>; [regex]::Matches($md,'(?m)^## ').Count",
+      "result": "PASS",
+      "observed": {
+        "h2Sections": 13,
+        "modelRows": 3,
+        "substantiveContent": true
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-003",
+      "check": "HTML is self-contained, reproduces thirteen sections and tables, and includes responsive and print CSS.",
+      "command": "$html=Get-Content -Raw <amendment.html>; count <h2>; detect external script src; detect responsive and print media rules",
+      "result": "PASS",
+      "observed": {
+        "h2Sections": 13,
+        "externalScripts": 0,
+        "responsiveCss": true,
+        "printCss": true,
+        "substantiveContent": true
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-004",
+      "check": "Every candidate JSON parses independently to an object.",
+      "command": "Get-ChildItem 'cases\\Stratton-Europe-Captital\\3-azure-design' -Recurse -File | Where-Object Name -Like '*cc-002*.json' | ForEach-Object { Get-Content -Raw -LiteralPath $_.FullName | ConvertFrom-Json -Depth 100 }",
+      "result": "PASS",
+      "observed": {
+        "parsedJsonObjects": 9,
+        "candidateJsonFiles": 9
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-005",
+      "check": "Portfolio contains typed deployment, capability, API, specialist and owner-bound records without token-dump shortcuts.",
+      "command": "PowerShell ConvertFrom-Json typed-property assertions over the portfolio contract",
+      "result": "PASS",
+      "observed": {
+        "gptDeploymentRecords": 3,
+        "completeCapabilityRecords": 3,
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "embeddingMaximumInputTokens": 8191,
+        "embeddingMaximumDimensions": 3072
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-006",
+      "check": "Routing contract contains exactly eight fixed routes and five ordered escalation reasons.",
+      "command": "PowerShell typed-property counts plus Phase 3 contract",
+      "result": "PASS",
+      "observed": {
+        "baseRoutes": 8,
+        "orderedEscalationReasons": 5
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-007",
+      "check": "Evaluation contract encodes the exact benchmark and all approved quality and performance thresholds.",
+      "command": "PowerShell typed-property counts plus Phase 3 contract",
+      "result": "PASS",
+      "observed": {
+        "promotionGates": 10,
+        "benchmarkMinimum": "100 representative generative cases per promoted route"
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-008",
+      "check": "Security contract retains private networking, managed identity, provider no-training use, prompt-injection controls, citation validation, fail-closed fallback and human authority.",
+      "command": "PowerShell typed-property assertions plus Phase 3 contract",
+      "result": "PASS",
+      "observed": {
+        "privateNetworkingStatements": 7,
+        "promptInjectionControls": 6,
+        "securityControls": 6
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-009",
+      "check": "All ten non-manifest candidate digests match exact raw bytes and manifest paths are repository-relative ordinal sorted.",
+      "command": "$manifest=Get-Content -Raw <manifest>|ConvertFrom-Json -Depth 100; compare each sha256 with Get-FileHash -Algorithm SHA256 and compare path order",
+      "result": "PASS",
+      "observed": {
+        "matchedDigests": 10,
+        "manifestArtifacts": 10,
+        "ordinalPathOrder": true,
+        "manifestSelfHashExcluded": true
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-010",
+      "check": "Five immutable Phase 3 sources match Task 1 baseline bytes and SHA-256 evidence.",
+      "command": "Compare live and baseline Get-FileHash SHA256 values from task-01-manifest.json",
+      "result": "PASS",
+      "observed": {
+        "immutableSourcesMatched": 5,
+        "immutableSourcesExpected": 5
+      }
+    },
+    {
+      "id": "CC002-P3-VAL-011",
+      "check": "Phase 3 CC-002 contract exits zero.",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-3-cc-002-contract.mjs'",
+      "result": "PASS",
+      "observed": {
+        "exitCode": 0,
+        "output": "PASS: Phase 3 CC-002 contract satisfied."
+      }
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "No Azure sign-in, Azure validation, what-if, deployment or runtime test was performed.",
+    "No AFF-A or AFF-B record and no approval record was created.",
+    "The candidate remains mutable until formal hash-bound review starts."
+  ]
+}

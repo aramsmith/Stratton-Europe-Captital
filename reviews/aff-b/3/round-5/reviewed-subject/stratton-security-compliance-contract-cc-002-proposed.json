@@ -1,0 +1,315 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_SECURITY_PRIVACY_AND_COMPLIANCE_CONTRACT",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "securityPosition": "PRIVATE_FAIL_CLOSED_ASSISTIVE_AI_WITH_ACCOUNTABLE_HUMAN_AUTHORITY",
+  "sovereignty": {
+    "deploymentType": "EU Data Zone Standard",
+    "deploymentSkuName": "DataZoneStandard",
+    "promptAndOutputBoundary": "Prompts and outputs remain within the EU Data Zone.",
+    "dataAtRestBoundary": "Data at rest remains in the designated EU geography.",
+    "processingRegionSelection": "Microsoft selects the processing region within that zone.",
+    "specificProcessingRegionClaim": false,
+    "exactAzureResourceRegions": "REQUIRED_OWNER_INPUT",
+    "policyStatement": "Global Standard prohibited",
+    "versionUpgradeOption": "NoAutoUpgrade"
+  },
+  "privateNetworking": [
+    "Azure OpenAI accounts use approved private endpoints and central private DNS.",
+    "Azure AI Document Intelligence uses approved private endpoints and central private DNS.",
+    "Azure AI Search, SQL, Storage, Service Bus, Key Vault and App Configuration retain private paths.",
+    "Public network access is disabled where the selected Azure resource provider supports denial.",
+    "Every database has public access disabled in development, test and production.",
+    "Default-deny Azure Firewall and NSG policy permits only owner-approved dependencies.",
+    "No public endpoint is introduced as an availability or emergency fallback."
+  ],
+  "identityAndAccess": {
+    "workloadAuthentication": "SEPARATE_USER_ASSIGNED_MANAGED_IDENTITY_PER_COMPONENT_AND_ENVIRONMENT",
+    "humanAuthentication": "MICROSOFT_ENTRA_CONDITIONAL_ACCESS_AND_PIM",
+    "authorisation": "LEAST_PRIVILEGE_RBAC_PLUS_CASE_PURPOSE_POLICY",
+    "sharedKeys": "PROHIBITED",
+    "storedCredentials": "PROHIBITED",
+    "sqlAuthentication": "MICROSOFT_ENTRA_ONLY",
+    "deploymentReference": "OWNER_SUPPLIED_AZURE_DEPLOYMENT_NAME_OR_RESOURCE_ID",
+    "directModelAlias": "PROHIBITED"
+  },
+  "dataProtection": [
+    "TLS 1.2 or later is required in transit.",
+    "Platform-managed encryption at rest remains the baseline unless a separate CMK decision exists.",
+    "Production source and derived evidence remains highly confidential.",
+    "Development and test use synthetic data.",
+    "Document, prompt and completion bodies are excluded from operational telemetry.",
+    "Retention schedule and legal hold are required owner inputs.",
+    "Search vectors and chunks remain derived, security-filtered and rebuildable.",
+    "Embedding dimension or chunking change requires complete index rebuild evidence."
+  ],
+  "providerDataUse": {
+    "statement": "No model training on Stratton content.",
+    "fineTuningWithStrattonData": "OUT_OF_SCOPE",
+    "foundationModelTrainingDatasetCreation": "PROHIBITED",
+    "providerTermsEvidence": "REQUIRED_OWNER_INPUT_BEFORE_ENABLEMENT",
+    "providerConfigurationEvidence": "REQUIRED_OWNER_INPUT_BEFORE_ENABLEMENT",
+    "changeResponse": "SUSPEND_INFERENCE_AND_REVIEW"
+  },
+  "evidenceAdmission": {
+    "requiredBeforeAnalysis": [
+      "authoritative source registration",
+      "read-only permission evidence",
+      "purpose",
+      "classification",
+      "source licence and AI-use permission",
+      "retention schedule",
+      "malware and active-content scan",
+      "content hash",
+      "admission decision"
+    ],
+    "missingOrExpiredEvidence": "DENY",
+    "sourceWriteBack": "PROHIBITED"
+  },
+  "promptInjectionControls": [
+    {
+      "id": "CC002-SEC-PI-001",
+      "control": "Instruction and evidence content are separated in versioned prompt templates.",
+      "failure": "DENY_OUTPUT_AND_RECORD_VALIDATION_FAILURE"
+    },
+    {
+      "id": "CC002-SEC-PI-002",
+      "control": "Retrieved instructions are treated as untrusted evidence, never system authority.",
+      "failure": "QUARANTINE_OR_EXCLUDE_EVIDENCE"
+    },
+    {
+      "id": "CC002-SEC-PI-003",
+      "control": "Server code injects case, classification, admission, licence and evidence-version filters.",
+      "failure": "DENY_QUERY"
+    },
+    {
+      "id": "CC002-SEC-PI-004",
+      "control": "Caller-defined Search security filters and cross-case retrieval are rejected.",
+      "failure": "DENY_AND_SECURITY_ALERT"
+    },
+    {
+      "id": "CC002-SEC-PI-005",
+      "control": "Direct and indirect prompt-injection, citation-spoofing and poisoned-index tests are promotion gates.",
+      "failure": "BLOCK_ROUTE_PROMOTION"
+    },
+    {
+      "id": "CC002-SEC-PI-006",
+      "control": "Release 1 autonomous tool execution is disabled despite service capability.",
+      "failure": "DENY_TOOL_REQUEST"
+    }
+  ],
+  "outputIntegrity": {
+    "requiredSequence": [
+      "structured output validation",
+      "schema validation",
+      "citation validation",
+      "factual consistency validation",
+      "human validation"
+    ],
+    "materialCitationCoverageGate": "100%",
+    "citationAccessibilityRequired": true,
+    "unsupportedOrInaccessibleMaterialClaim": "BLOCK_REVIEWABLE_DRAFT",
+    "detectorAuthority": "AN_LLM_EXPLANATION_CANNOT_OVERRIDE_A_DETERMINISTIC_OR_CLASSICAL_ANOMALY_RESULT"
+  },
+  "fallbackAndFailure": {
+    "silentFallbackAllowed": false,
+    "unrecordedModelSubstitutionAllowed": false,
+    "tierDowngradeAllowed": false,
+    "deploymentUnavailable": "QUEUE_OR_FAIL_CLOSED",
+    "providerEvidenceUnavailable": "DENY",
+    "citationUnavailable": "BLOCK_MATERIAL_NARRATIVE",
+    "unsupportedSolOutput": "STOP_FOR_HUMAN_RESOLUTION",
+    "modelRouterProductionState": "PROHIBITED"
+  },
+  "humanAuthority": {
+    "modelCanApproveSpecialistConclusion": false,
+    "modelCanIssueAuthoritativeInvestmentRecommendation": false,
+    "modelCanExecuteTransaction": false,
+    "modelCanPromoteItself": false,
+    "materialOutputRequiresHumanReview": true,
+    "investmentAndApprovalAuthority": "ACCOUNTABLE_AUTHORISED_HUMANS_ONLY"
+  },
+  "loggingAndMonitoring": {
+    "allowedOperationalFields": [
+      "caseId",
+      "workItemId",
+      "taskClass",
+      "routePolicyVersion",
+      "routingReason",
+      "tier",
+      "deploymentId",
+      "modelId",
+      "modelVersion",
+      "apiVersion",
+      "reasoningEffort",
+      "promptTemplateVersion",
+      "evidenceManifestHash",
+      "validator results",
+      "escalation event",
+      "human review event",
+      "token counts",
+      "latency",
+      "cost reference"
+    ],
+    "prohibitedBodies": [
+      "document body",
+      "prompt body",
+      "completion body",
+      "access token",
+      "secret",
+      "full personal identifier unless separately justified"
+    ],
+    "retention": "REQUIRED_OWNER_INPUT",
+    "alerts": [
+      "public access enabled",
+      "model, version, deployment or route-policy change",
+      "provider data-use evidence change",
+      "validation gate failure",
+      "attempted fallback or direct alias",
+      "cross-case retrieval",
+      "prompt-injection detection",
+      "unapproved egress"
+    ]
+  },
+  "complianceEvidenceGates": [
+    {
+      "id": "CC002-COMP-001",
+      "subject": "EU Data Boundary and provider processing",
+      "owners": [
+        "General Counsel",
+        "DPO",
+        "CISO"
+      ],
+      "requiredEvidence": [
+        "EU Data Zone deployment-type support",
+        "designated EU geography for data at rest",
+        "provider processing and support terms",
+        "transfer and support-access assessment"
+      ],
+      "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+    },
+    {
+      "id": "CC002-COMP-002",
+      "subject": "GDPR purpose, minimisation and data-subject controls",
+      "owners": [
+        "DPO",
+        "Data Owners",
+        "Records Owner"
+      ],
+      "requiredEvidence": [
+        "lawful-purpose mapping",
+        "DPIA or owner disposition",
+        "minimisation rules",
+        "retention and legal hold",
+        "data-subject request procedure"
+      ],
+      "state": "OPEN_NO_COMPLIANCE_CONCLUSION"
+    },
+    {
+      "id": "CC002-COMP-003",
+      "subject": "EU AI Act role and use-case classification",
+      "owners": [
+        "General Counsel",
+        "Head of AI Governance"
+      ],
+      "requiredEvidence": [
+        "provider and deployer role mapping",
+        "use-case classification",
+        "applicable obligation mapping",
+        "human-oversight design acceptance"
+      ],
+      "state": "REQUIRED_OWNER_INPUT_NO_CLASSIFICATION_CLAIM"
+    },
+    {
+      "id": "CC002-COMP-004",
+      "subject": "DORA applicability",
+      "owners": [
+        "General Counsel",
+        "Compliance"
+      ],
+      "requiredEvidence": [
+        "entity-specific applicability or exemption",
+        "resulting ICT and provider obligations"
+      ],
+      "state": "OPEN_NO_COMPLIANCE_CONCLUSION"
+    },
+    {
+      "id": "CC002-COMP-005",
+      "subject": "Source licences and provider use",
+      "owners": [
+        "General Counsel",
+        "Source Owners",
+        "AI Governance"
+      ],
+      "requiredEvidence": [
+        "source licence",
+        "AI-assisted retrieval permission",
+        "AI-assisted analysis permission",
+        "purpose",
+        "expiry",
+        "provider no-training-use evidence"
+      ],
+      "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+    }
+  ],
+  "controls": [
+    {
+      "id": "CC002-SEC-001",
+      "control": "EU Data Zone Standard is the only target inference deployment type.",
+      "verification": "Inspect account deployment SKU and deny any mismatch."
+    },
+    {
+      "id": "CC002-SEC-002",
+      "control": "Global Standard prohibited",
+      "verification": "Policy and preflight deny the prohibited deployment type."
+    },
+    {
+      "id": "CC002-SEC-003",
+      "control": "NoAutoUpgrade preserves explicit model-version change control.",
+      "verification": "Inspect every GPT deployment versionUpgradeOption."
+    },
+    {
+      "id": "CC002-SEC-004",
+      "control": "Managed identities and private endpoints are required.",
+      "verification": "Positive private-path test plus negative public and key-auth tests."
+    },
+    {
+      "id": "CC002-SEC-005",
+      "control": "Fixed routes and validation prevent silent substitution.",
+      "verification": "Mutation tests reject wrong route, deployment, model, version, API and downgrade."
+    },
+    {
+      "id": "CC002-SEC-006",
+      "control": "Human authority remains outside every model.",
+      "verification": "RBAC and application-state tests deny model identities any approval or transaction transition."
+    }
+  ],
+  "assuranceBoundary": {
+    "affBRole": "ARCHITECTURE_SECURITY_AND_COMPLIANCE_ASSURANCE_ONLY",
+    "legalAdvice": false,
+    "certification": false,
+    "formalAttestation": false,
+    "waiver": false,
+    "humanDecisionSubstitute": false
+  },
+  "sources": [
+    "https://learn.microsoft.com/azure/foundry/foundry-models/concepts/deployment-types",
+    "https://learn.microsoft.com/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure-region-availability#data-zone-standard",
+    "https://learn.microsoft.com/legal/cognitive-services/openai/data-privacy",
+    "https://learn.microsoft.com/azure/ai-foundry/openai/how-to/network",
+    "https://learn.microsoft.com/azure/ai-foundry/openai/how-to/managed-identity"
+  ],
+  "nonClaims": {
+    "azureDeployment": false,
+    "runtimeControlEffectiveness": false,
+    "quotaAvailability": false,
+    "specificProcessingRegion": false,
+    "certification": false,
+    "regulatoryClassification": false,
+    "reviewerAcceptance": false,
+    "phaseApproval": false,
+    "productionPromotion": false
+  }
+}

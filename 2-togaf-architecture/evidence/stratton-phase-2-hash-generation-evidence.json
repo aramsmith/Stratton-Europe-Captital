@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "2",
+  "modelPlanRevision": "3",
+  "generatedAt": "2026-08-01T21:54:56.175+02:00",
+  "generatedBy": "AFF-2 orchestration using PowerShell Get-FileHash",
+  "algorithm": "SHA-256",
+  "commandPattern": "Get-FileHash -Algorithm SHA256 -LiteralPath <resolved-case-path>",
+  "evidenceScope": "All canonical subjects existing before this evidence record; this record and the subsequently generated manifest are independently verified by a separate Python hashlib receipt.",
+  "verifiedArtifacts": [
+    {
+      "path": "2-togaf-architecture/stratton-architecture.md",
+      "sizeBytes": 37603,
+      "sha256": "f18698f74694e5f4ce8fac1b0056502977497a6a10be0846361e15806cc7f0ac"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-architecture.html",
+      "sizeBytes": 39965,
+      "sha256": "bf204d7b0ebc71b7b8671b582b11ef1ce19ffe5f03c414b525218793701cc4e3"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-architecture-catalogue.json",
+      "sizeBytes": 36830,
+      "sha256": "3b84d0aabe70870a4dd324a5b4e91f6c93c8883cdcf4e8a1869fbdd87975440f"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-01-context.mmd",
+      "sizeBytes": 678,
+      "sha256": "556aea9e73eeb3397f3b233800f6b2cff1d48003b024baa31787ff5c8bf26bff"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-02-business.mmd",
+      "sizeBytes": 617,
+      "sha256": "425f9fa91d426bc4dff5af47403cba3e82593a00b2d5d595a88404d40d914d65"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-03-application.mmd",
+      "sizeBytes": 693,
+      "sha256": "f67096fc449dd6d64d55bae5f330e457c3ce3da8fff761dd2b2139fe9afa351a"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-04-data.mmd",
+      "sizeBytes": 659,
+      "sha256": "713b558033deac34785fa172a7f450d3d894e4b3e51b68da8c3fc38ba4b589cf"
+    },
+    {
+      "path": "2-togaf-architecture/stratton-view-05-technology.mmd",
+      "sizeBytes": 894,
+      "sha256": "178da18ae584bd7efec16337d6ddc91e76c95d8942fd45ee8d40d7fa28108f2d"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-3.json",
+      "sizeBytes": 2958,
+      "sha256": "38ad370fc2418cffb3be2821d062a1b91884fc5b132f14de0ab44beabcf849fe"
+    }
+  ]
+}

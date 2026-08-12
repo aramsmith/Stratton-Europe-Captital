@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "83",
+  "createdAt": "2026-08-04T02:57:12+02:00",
+  "revisionReason": "Align the slide 6 Independent assurance route block with the reviewer sphere material from slide 5.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-82.json",
+    "sha256": "507a16b3f2d7efc76d85a740d56bd90f1a8d8f0e225fee2fb10a1c4ecafe0b53",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 6,
+    "change": "Give the Independent assurance block the same fill as the reviewer spheres on slide 5."
+  },
+  "implementation": {
+    "independentAssuranceBlock": {
+      "sourceMaterial": "slide 5 reviewer sphere",
+      "pinkPurpleRadialFill": true,
+      "directionalHighlight": true,
+      "insetDepthShadows": true,
+      "pinkOuterGlow": true,
+      "reviewerCardsChanged": false
+    },
+    "fit": {
+      "textOverflow": false,
+      "visualContrast": "pass"
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "visualInspection": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "sha256": "318180a54e04f68574d2910dac14d1165d427998d864805ae9890235414dc7d8"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

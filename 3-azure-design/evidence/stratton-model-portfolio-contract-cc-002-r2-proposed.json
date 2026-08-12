@@ -1,0 +1,446 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_MODEL_PORTFOLIO_CONTRACT",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "supersedesCandidateManifest": {
+    "path": "3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "immutable": true,
+    "verdicts": [
+      "AFF-A_ROUND_6_DIVERGES",
+      "AFF-B_ROUND_5_DIVERGES"
+    ]
+  },
+  "deploymentType": "EU Data Zone Standard",
+  "deploymentSkuName": "DataZoneStandard",
+  "versionUpgradeOption": "NoAutoUpgrade",
+  "modelSelectionPrinciple": "Use the smallest governed model that meets the evidence threshold.",
+  "productionPromotionState": "BLOCKED_PENDING_OWNER_EVIDENCE_COMPLETE_SECURITY_GATES_REVIEWS_AND_HUMAN_DECISION",
+  "sourceBindingRecord": {
+    "path": "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json",
+    "state": "BOUND_IN_R2_MANIFEST"
+  },
+  "sovereignty": {
+    "promptAndOutputBoundary": "Prompts and outputs remain within the EU Data Zone.",
+    "dataAtRestBoundary": "Data at rest remains in the designated EU geography.",
+    "processingRegionSelection": "Microsoft selects the processing region within that zone.",
+    "specificProcessingRegionPromise": false,
+    "approvedEuGeographyEvidence": "REQUIRED_OWNER_INPUT_FAIL_CLOSED",
+    "approvedResourceAllowListEvidence": "REQUIRED_OWNER_INPUT_FAIL_CLOSED",
+    "policyStatement": "Global Standard prohibited",
+    "recoveryConstraint": "Both primary and recovery resources must independently satisfy the approved EU geography, resource allow-list and DataZoneStandard evidence gates."
+  },
+  "applicationBinding": {
+    "referenceType": "PER_ROUTE_AZURE_DEPLOYMENT_ID",
+    "directModelAliasAllowed": false,
+    "primaryAndRecoveryDeploymentIdsRequired": true,
+    "resolutionFailure": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+    "evidenceRequired": [
+      "approved EU geography evidence",
+      "approved Azure resource allow-list evidence",
+      "primary deployment ID",
+      "recovery deployment ID",
+      "model ID and version",
+      "DataZoneStandard evidence",
+      "API interface and version",
+      "capacity and quota evidence",
+      "private endpoint and managed identity evidence",
+      "failover trigger and authority evidence"
+    ]
+  },
+  "gptDeployments": [
+    {
+      "tier": "LUNA",
+      "modelId": "gpt-5.6-luna",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "azureDeploymentInterface": "Chat Completions",
+      "apiVersion": "2024-12-01-preview",
+      "primaryConfigurationReference": "ai.deployments.luna.primaryDeploymentId",
+      "recoveryConfigurationReference": "ai.deployments.luna.recoveryDeploymentId",
+      "reasoningEffort": "REQUIRED_OWNER_INPUT_AFTER_ROUTE_BENCHMARK",
+      "allowedTaskClasses": [
+        "EVIDENCE_TRIAGE",
+        "QUERY_REWRITE",
+        "FIRST_PASS_SUMMARY"
+      ],
+      "purpose": "High-volume triage, query rewrite, first-pass summary",
+      "promotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_SECURITY_RECOVERY_AND_OWNER_EVIDENCE",
+      "ownerBoundCapacity": {
+        "state": "REQUIRED_OWNER_INPUT",
+        "primaryCapacityUnits": null,
+        "recoveryCapacityUnits": null,
+        "primaryQuotaEvidenceId": null,
+        "recoveryQuotaEvidenceId": null,
+        "owners": [
+          "AI Governance",
+          "Azure Platform",
+          "Service Operations"
+        ]
+      },
+      "capabilities": {
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "supportsTextInput": true,
+        "supportsImageInput": true,
+        "supportsStructuredOutputs": true,
+        "supportsTools": true
+      },
+      "release1ToolPolicy": "AUTONOMOUS_TOOL_EXECUTION_DISABLED",
+      "materialConclusionPolicy": "ROUTE_TO_TERRA_OR_HUMAN_AFTER_VALIDATION_FAILURE"
+    },
+    {
+      "tier": "TERRA",
+      "modelId": "gpt-5.6-terra",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "azureDeploymentInterface": "Responses",
+      "apiVersion": "2025-04-01-preview",
+      "primaryConfigurationReference": "ai.deployments.terra.primaryDeploymentId",
+      "recoveryConfigurationReference": "ai.deployments.terra.recoveryDeploymentId",
+      "reasoningEffort": "REQUIRED_OWNER_INPUT_AFTER_ROUTE_BENCHMARK",
+      "allowedTaskClasses": [
+        "GROUNDED_ANALYSIS",
+        "CROSS_DOCUMENT_COMPARISON",
+        "ESG_NORMALISATION"
+      ],
+      "purpose": "Default grounded professional analysis",
+      "promotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_SECURITY_RECOVERY_AND_OWNER_EVIDENCE",
+      "ownerBoundCapacity": {
+        "state": "REQUIRED_OWNER_INPUT",
+        "primaryCapacityUnits": null,
+        "recoveryCapacityUnits": null,
+        "primaryQuotaEvidenceId": null,
+        "recoveryQuotaEvidenceId": null,
+        "owners": [
+          "AI Governance",
+          "Azure Platform",
+          "Service Operations"
+        ]
+      },
+      "capabilities": {
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "supportsTextInput": true,
+        "supportsImageInput": true,
+        "supportsStructuredOutputs": true,
+        "supportsTools": true
+      },
+      "release1ToolPolicy": "AUTONOMOUS_TOOL_EXECUTION_DISABLED",
+      "statefulFeatures": "DISABLED_UNLESS_OWNER_APPROVED_LIFECYCLE_EVIDENCE_EXISTS",
+      "materialConclusionPolicy": "CITATIONS_AND_HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "tier": "SOL",
+      "modelId": "gpt-5.6-sol",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "azureDeploymentInterface": "Responses",
+      "apiVersion": "2025-04-01-preview",
+      "primaryConfigurationReference": "ai.deployments.sol.primaryDeploymentId",
+      "recoveryConfigurationReference": "ai.deployments.sol.recoveryDeploymentId",
+      "reasoningEffort": "REQUIRED_OWNER_INPUT_AFTER_ROUTE_BENCHMARK",
+      "allowedTaskClasses": [
+        "COMPLEX_RISK_SYNTHESIS",
+        "INVESTMENT_THESIS_CHALLENGE"
+      ],
+      "purpose": "Gated complex and high-consequence reasoning",
+      "promotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_SECURITY_RECOVERY_AND_OWNER_EVIDENCE",
+      "ownerBoundCapacity": {
+        "state": "REQUIRED_OWNER_INPUT",
+        "primaryCapacityUnits": null,
+        "recoveryCapacityUnits": null,
+        "primaryQuotaEvidenceId": null,
+        "recoveryQuotaEvidenceId": null,
+        "owners": [
+          "AI Governance",
+          "Azure Platform",
+          "Service Operations"
+        ]
+      },
+      "capabilities": {
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "supportsTextInput": true,
+        "supportsImageInput": true,
+        "supportsStructuredOutputs": true,
+        "supportsTools": true
+      },
+      "release1ToolPolicy": "AUTONOMOUS_TOOL_EXECUTION_DISABLED",
+      "statefulFeatures": "DISABLED_UNLESS_OWNER_APPROVED_LIFECYCLE_EVIDENCE_EXISTS",
+      "materialConclusionPolicy": "SUPPORTED_DRAFT_ONLY_THEN_ACCOUNTABLE_HUMAN"
+    }
+  ],
+  "specialistFoundation": {
+    "documentIntelligence": {
+      "service": "Azure AI Document Intelligence",
+      "modelId": "prebuilt-layout",
+      "purpose": [
+        "text extraction",
+        "table extraction",
+        "selection-mark extraction",
+        "paragraph extraction",
+        "coordinate extraction"
+      ],
+      "customModelState": "BLOCKED_UNTIL_LABELLED_BENCHMARK_EVIDENCE"
+    },
+    "embeddings": {
+      "service": "Azure OpenAI",
+      "modelId": "text-embedding-3-large",
+      "deploymentSku": "DataZoneStandard",
+      "primaryConfigurationReference": "ai.deployments.embedding.primaryDeploymentId",
+      "recoveryConfigurationReference": "ai.deployments.embedding.recoveryDeploymentId",
+      "modelMaximumInputTokens": 8191,
+      "azureSearchEmbeddingSkillMaximumInputTokens": 8000,
+      "maximumDimensions": 3072,
+      "promotedDimensions": "REQUIRED_OWNER_INPUT_AFTER_BENCHMARK",
+      "chunkingPolicy": "REQUIRED_OWNER_INPUT_AFTER_BENCHMARK",
+      "changeRule": "DIMENSION_OR_CHUNKING_CHANGE_INVALIDATES_EVALUATION_AND_REQUIRES_COMPLETE_INDEX_REBUILD"
+    },
+    "retrieval": {
+      "service": "Azure AI Search",
+      "methods": [
+        "hybrid retrieval",
+        "semantic ranking"
+      ],
+      "authority": "DERIVED_REBUILDABLE_STATE_NOT_A_SOURCE_OF_RECORD",
+      "securityFilters": "SERVER_INJECTED_CASE_CLASSIFICATION_ADMISSION_AND_LICENCE_FILTERS"
+    },
+    "anomalyDetection": {
+      "release1Primary": [
+        "deterministic controls",
+        "statistical checks"
+      ],
+      "futureExplainableChallenger": "Isolation Forest or separately governed equivalent",
+      "futureSupervisedChallenger": "governed gradient-boosted challenger after sufficient labelled outcomes",
+      "llmBoundary": "EXPLAINS_EVIDENCE_BUT_CANNOT_OVERRIDE_DETECTOR_OR_CREATE_AUTHORITATIVE_FINANCIAL_CONCLUSION"
+    }
+  },
+  "routeDeploymentSemantics": [
+    {
+      "routeId": "CC002-R2-ROUTE-LUNA",
+      "tier": "LUNA",
+      "modelId": "gpt-5.6-luna",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "providerProcessingRegionBoundary": "MICROSOFT_SELECTED_WITHIN_EU_DATA_ZONE_NO_SPECIFIC_REGION_PROMISE",
+      "primary": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_PRIMARY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_PRIMARY_LUNA_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "recovery": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_DIFFERENT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_RECOVERY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_RECOVERY_LUNA_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "failover": {
+        "triggerEvidenceId": "REQUIRED_OWNER_INPUT_HEALTH_AND_SERVICE_IMPAIRMENT_EVIDENCE",
+        "authority": "SERVICE_OPERATIONS_INCIDENT_COMMANDER_WITH_AZURE_PLATFORM_AND_AI_GOVERNANCE_POLICY",
+        "requiredActivationEvidenceIds": [
+          "PRIMARY_IMPAIRMENT_EVIDENCE_ID",
+          "RECOVERY_ALLOW_LIST_EVIDENCE_ID",
+          "RECOVERY_DATA_ZONE_STANDARD_EVIDENCE_ID",
+          "RECOVERY_ROUTE_BENCHMARK_EVIDENCE_ID"
+        ],
+        "silentSubstitutionAllowed": false,
+        "missingRecoveryEvidenceAction": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+        "returnToPrimary": "OWNER_AUTHORISED_AFTER_PRIMARY_HEALTH_AND_ROUTE_EVIDENCE_REVALIDATION"
+      },
+      "dataBoundaries": {
+        "prompt": "Process only within the EU Data Zone; no durable application copy beyond owner-approved lifecycle.",
+        "output": "Process only within the EU Data Zone; material output remains draft until human review.",
+        "dataAtRest": "Store only in owner-approved resources in the designated EU geography.",
+        "vector": "No vector is generated by Luna; any referenced vectors remain in the approved EU Search boundary.",
+        "index": "Search index remains derived, security-filtered and resident in approved EU resources.",
+        "log": "Route metadata only; prompt, output and document bodies are excluded.",
+        "backup": "Backups remain in the designated EU geography and require owner-approved recovery evidence before restore."
+      }
+    },
+    {
+      "routeId": "CC002-R2-ROUTE-TERRA",
+      "tier": "TERRA",
+      "modelId": "gpt-5.6-terra",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "providerProcessingRegionBoundary": "MICROSOFT_SELECTED_WITHIN_EU_DATA_ZONE_NO_SPECIFIC_REGION_PROMISE",
+      "primary": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_PRIMARY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_PRIMARY_TERRA_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "recovery": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_DIFFERENT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_RECOVERY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_RECOVERY_TERRA_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "failover": {
+        "triggerEvidenceId": "REQUIRED_OWNER_INPUT_HEALTH_AND_SERVICE_IMPAIRMENT_EVIDENCE",
+        "authority": "SERVICE_OPERATIONS_INCIDENT_COMMANDER_WITH_AZURE_PLATFORM_AND_AI_GOVERNANCE_POLICY",
+        "requiredActivationEvidenceIds": [
+          "PRIMARY_IMPAIRMENT_EVIDENCE_ID",
+          "RECOVERY_ALLOW_LIST_EVIDENCE_ID",
+          "RECOVERY_DATA_ZONE_STANDARD_EVIDENCE_ID",
+          "RECOVERY_ROUTE_BENCHMARK_EVIDENCE_ID"
+        ],
+        "silentSubstitutionAllowed": false,
+        "missingRecoveryEvidenceAction": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+        "returnToPrimary": "OWNER_AUTHORISED_AFTER_PRIMARY_HEALTH_AND_ROUTE_EVIDENCE_REVALIDATION"
+      },
+      "dataBoundaries": {
+        "prompt": "Process only within the EU Data Zone; Responses state is disabled unless separately approved.",
+        "output": "Process only within the EU Data Zone; cited draft remains subject to human validation.",
+        "dataAtRest": "Store only in owner-approved resources in the designated EU geography.",
+        "vector": "Retrieved vectors remain derived evidence in approved EU Search resources.",
+        "index": "Index and alias recovery require immutable manifest/hash and security-filter parity.",
+        "log": "Route and validator metadata only; prompt, output and evidence bodies are excluded.",
+        "backup": "Restore only owner-approved EU backups with index, alias, retention and integrity evidence."
+      }
+    },
+    {
+      "routeId": "CC002-R2-ROUTE-SOL",
+      "tier": "SOL",
+      "modelId": "gpt-5.6-sol",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "providerProcessingRegionBoundary": "MICROSOFT_SELECTED_WITHIN_EU_DATA_ZONE_NO_SPECIFIC_REGION_PROMISE",
+      "primary": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_PRIMARY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_PRIMARY_SOL_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "recovery": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_DIFFERENT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_RECOVERY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_RECOVERY_SOL_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "failover": {
+        "triggerEvidenceId": "REQUIRED_OWNER_INPUT_HEALTH_AND_SERVICE_IMPAIRMENT_EVIDENCE",
+        "authority": "SERVICE_OPERATIONS_INCIDENT_COMMANDER_WITH_AZURE_PLATFORM_AND_AI_GOVERNANCE_POLICY",
+        "requiredActivationEvidenceIds": [
+          "PRIMARY_IMPAIRMENT_EVIDENCE_ID",
+          "RECOVERY_ALLOW_LIST_EVIDENCE_ID",
+          "RECOVERY_DATA_ZONE_STANDARD_EVIDENCE_ID",
+          "RECOVERY_ROUTE_BENCHMARK_EVIDENCE_ID"
+        ],
+        "silentSubstitutionAllowed": false,
+        "missingRecoveryEvidenceAction": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+        "returnToPrimary": "OWNER_AUTHORISED_AFTER_PRIMARY_HEALTH_AND_ROUTE_EVIDENCE_REVALIDATION"
+      },
+      "dataBoundaries": {
+        "prompt": "Process only within the EU Data Zone; Responses state is disabled unless separately approved.",
+        "output": "Process only within the EU Data Zone; unsupported results stop for accountable human resolution.",
+        "dataAtRest": "Store only in owner-approved resources in the designated EU geography.",
+        "vector": "Retrieved vectors remain derived evidence in approved EU Search resources.",
+        "index": "Index and alias recovery require immutable manifest/hash and security-filter parity.",
+        "log": "Route and validator metadata only; prompt, output and evidence bodies are excluded.",
+        "backup": "Restore only owner-approved EU backups with index, alias, retention and integrity evidence."
+      }
+    },
+    {
+      "routeId": "CC002-R2-ROUTE-EMBEDDING",
+      "tier": "EMBEDDING",
+      "modelId": "text-embedding-3-large",
+      "modelVersion": "REQUIRED_OWNER_INPUT_SUPPORTED_VERSION",
+      "deploymentSku": "DataZoneStandard",
+      "providerProcessingRegionBoundary": "MICROSOFT_SELECTED_WITHIN_EU_DATA_ZONE_NO_SPECIFIC_REGION_PROMISE",
+      "primary": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_PRIMARY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_PRIMARY_EMBEDDING_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "recovery": {
+        "azureResourceRegion": "REQUIRED_OWNER_INPUT_DIFFERENT_APPROVED_EU_RESOURCE_REGION",
+        "azureResourceId": "REQUIRED_OWNER_INPUT_RECOVERY_AZURE_OPENAI_RESOURCE_ID",
+        "deploymentId": "REQUIRED_OWNER_INPUT_RECOVERY_EMBEDDING_DEPLOYMENT_ID",
+        "approvedEuGeographyEvidenceId": "REQUIRED_OWNER_INPUT",
+        "approvedResourceAllowListEvidenceId": "REQUIRED_OWNER_INPUT",
+        "dataZoneStandardEvidenceId": "REQUIRED_OWNER_INPUT",
+        "state": "REQUIRED_OWNER_INPUT_FAIL_CLOSED"
+      },
+      "failover": {
+        "triggerEvidenceId": "REQUIRED_OWNER_INPUT_HEALTH_AND_SERVICE_IMPAIRMENT_EVIDENCE",
+        "authority": "SERVICE_OPERATIONS_INCIDENT_COMMANDER_WITH_DATA_OWNER_AZURE_PLATFORM_AND_AI_GOVERNANCE_POLICY",
+        "requiredActivationEvidenceIds": [
+          "PRIMARY_IMPAIRMENT_EVIDENCE_ID",
+          "RECOVERY_ALLOW_LIST_EVIDENCE_ID",
+          "RECOVERY_DATA_ZONE_STANDARD_EVIDENCE_ID",
+          "EMBEDDING_DIMENSION_CHUNKING_PARITY_EVIDENCE_ID",
+          "RECOVERY_INDEX_REBUILD_OR_VALIDATED_RESTORE_EVIDENCE_ID"
+        ],
+        "silentSubstitutionAllowed": false,
+        "missingRecoveryEvidenceAction": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+        "returnToPrimary": "OWNER_AUTHORISED_AFTER_PRIMARY_HEALTH_AND_INDEX_PARITY_EVIDENCE_REVALIDATION"
+      },
+      "dataBoundaries": {
+        "prompt": "Only admitted, minimised chunks are sent for embedding within the EU Data Zone.",
+        "output": "Embedding vectors are derived data and remain within approved EU resources.",
+        "dataAtRest": "Chunks, vectors and indexes remain in owner-approved resources in the designated EU geography.",
+        "vector": "Vector dimensions, provenance, classification and source hashes remain bound and security-filtered.",
+        "index": "Recovery uses validated rebuild or owner-approved restore with alias, schema and security-filter parity.",
+        "log": "Operational metadata excludes chunk text and vector values unless separately justified and approved.",
+        "backup": "Backups remain in the designated EU geography and restore requires integrity, retention and deletion parity evidence."
+      }
+    }
+  ],
+  "recoveryGlobalRules": {
+    "primaryAndRecoveryMustBeDifferentApprovedResources": true,
+    "bothSidesRequireIndependentDataZoneStandardEvidence": true,
+    "bothSidesRequireIndependentRouteBenchmarkEvidence": true,
+    "providerSelectedProcessingRegionIsNotAResourceFailoverTarget": true,
+    "specificProcessingRegionPromise": false,
+    "missingAnyRecoveryEvidence": "DENY_NEW_WORK_AND_QUEUE_ELIGIBLE_WORK_OR_CONTROLLED_FAILURE",
+    "noRegionQuotaOrAvailabilityInvented": true
+  },
+  "failClosedRules": [
+    "Missing primary or recovery deployment reference denies the request or keeps recovery inactive.",
+    "Model, version, SKU, API, geography, allow-list or deployment mismatch denies the route.",
+    "Missing capability, quota, capacity, security-gate or recovery evidence blocks promotion.",
+    "Unavailable deployment queues eligible work or returns a controlled failure.",
+    "No lower-capability or alternate-region deployment silently replaces the selected route.",
+    "A route cannot become production-promoted without benchmark, security, privacy, recovery, reviewer and human authority evidence."
+  ],
+  "nonClaims": {
+    "quotaAvailability": false,
+    "deployedResources": false,
+    "runtimeValidation": false,
+    "specificProcessingRegion": false,
+    "specificResourceRegionSelected": false,
+    "productionPromotion": false,
+    "legalClassification": false
+  }
+}

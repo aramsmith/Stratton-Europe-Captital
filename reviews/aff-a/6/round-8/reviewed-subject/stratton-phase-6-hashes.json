@@ -1,0 +1,853 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_HASH_MANIFEST",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "modelPlanRevision": "115",
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-115.json",
+    "sha256": "97b34470fbb6077e701f267af01d1fc77a2b6b87f45d372a2f8f0b83508c58d1"
+  },
+  "generatedAt": "2026-08-10T18:36:56.6716331+00:00",
+  "hashAlgorithm": "SHA-256",
+  "canonicalization": {
+    "hashRoot": "6-presentation-r8",
+    "pathSeparator": "/",
+    "sort": "ordinal",
+    "encoding": "source bytes",
+    "manifestSelfExcluded": true,
+    "excludedTrees": [
+      "deck/node_modules",
+      "deck/.vite",
+      "deck/.github",
+      "deck/.vscode",
+      "deck/test-results",
+      "deck/playwright-report"
+    ],
+    "excludedScaffoldDocuments": [
+      "deck/AGENTS.md",
+      "deck/MCP-GUIDE.md",
+      "deck/README.md",
+      "deck/src/data/.gitkeep"
+    ]
+  },
+  "artifactCount": 157,
+  "roleCounts": {
+    "authoritative-markdown": 1,
+    "catalogue": 1,
+    "evidence": 18,
+    "presentation-export": 22,
+    "presentation-source": 111,
+    "rendered-html": 1,
+    "test": 2,
+    "tooling": 1
+  },
+  "artifacts": [
+    {
+      "path": "deck/components.json",
+      "role": "presentation-source",
+      "sha256": "56fb1f308a8a7b2706cc9ed0600fc0be6dd5ec1db4ad6f10999b3d20be32290c"
+    },
+    {
+      "path": "deck/deck.config.js",
+      "role": "presentation-source",
+      "sha256": "ac150277119ed392ab217ae1ada978cbaa8d183881ed50923a79bb152c153e84"
+    },
+    {
+      "path": "deck/deck.pdf",
+      "role": "presentation-export",
+      "sha256": "bb345aab8ddc637ffcdf1833c5aabaefe57e71b21c9a6dcad7798d294a6999e1"
+    },
+    {
+      "path": "deck/dist/assets/EditableListSortable-BbPpWph0.js",
+      "role": "presentation-export",
+      "sha256": "71451caa1945bb4a95d20d4f6fc21951a2adb4522bfef5a22781496d1570d4c3"
+    },
+    {
+      "path": "deck/dist/assets/GitHubStarPrompt-CwKkav8W.css",
+      "role": "presentation-export",
+      "sha256": "87b4d896b1ce2406f9e3c1fdf349362dd2b224e38bf409eb48adb5244827ae1a"
+    },
+    {
+      "path": "deck/dist/assets/GitHubStarPrompt-DfWkaJzp.js",
+      "role": "presentation-export",
+      "sha256": "a2701eaef42b5bfaccc7ab76a67c85a5878b81ad06ae163fbd8326648fe4ae1d"
+    },
+    {
+      "path": "deck/dist/assets/cloud-adoption-framework-BiRcE-w9.png",
+      "role": "presentation-export",
+      "sha256": "bb74a0d03121795f58ad543eb3161ed2c8ee54e26632ee333585ca57a98e8942"
+    },
+    {
+      "path": "deck/dist/assets/dist-VplG6Yi_.js",
+      "role": "presentation-export",
+      "sha256": "3b122dca94d848d15782f501570cafffa0218b077c77b65228a5277617044cad"
+    },
+    {
+      "path": "deck/dist/assets/github-copilot-pilot-Cyt9fTYI.png",
+      "role": "presentation-export",
+      "sha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81"
+    },
+    {
+      "path": "deck/dist/assets/html2canvas-DAwLCE-C.js",
+      "role": "presentation-export",
+      "sha256": "a806d78688821df1debeb86c63ef748dbae31b599144dba341f48842ede1a917"
+    },
+    {
+      "path": "deck/dist/assets/index-D7vJSPxU.css",
+      "role": "presentation-export",
+      "sha256": "69fb06c2089f4ef7ff2ee5c9c04e0bda57d1d1f24b99f334cc78ca86d78fca86"
+    },
+    {
+      "path": "deck/dist/assets/index-VrS1Q2uB.js",
+      "role": "presentation-export",
+      "sha256": "10fd692b002c5312e142e8ce66cfaa3e8aa4c3177509a4f6269b51eeadabeca9"
+    },
+    {
+      "path": "deck/dist/assets/index.es-8BvSYumO.js",
+      "role": "presentation-export",
+      "sha256": "3a6d08a16e14338814d99f69cb7a17b2b4ff37357a0b42caa6d67367b2f8562e"
+    },
+    {
+      "path": "deck/dist/assets/jspdf.es.min-Nvak1M4W.js",
+      "role": "presentation-export",
+      "sha256": "2eec5d57d115a49e98583d5e6cfa2d660ea4d051bbe7e1c504e9efdf79879eb5"
+    },
+    {
+      "path": "deck/dist/assets/pptxgen.es-CnESGdOm.js",
+      "role": "presentation-export",
+      "sha256": "5face17e4a8aace4f3f78fb6eefdf38a2993b8d38b405bb1b91514b8b14f1b6f"
+    },
+    {
+      "path": "deck/dist/assets/purify.es-DuRL7t6i.js",
+      "role": "presentation-export",
+      "sha256": "72d32af2adb678c3647e3e6f88bbcae99d67df529bf9d8e0a5fdc25094dd6582"
+    },
+    {
+      "path": "deck/dist/assets/rolldown-runtime-BHe-jwch.js",
+      "role": "presentation-export",
+      "sha256": "e17cabe5e25f3c66777c529f01df0ae562f11671a8506eb583d8799eaceeb149"
+    },
+    {
+      "path": "deck/dist/assets/stratton-europe-capital-logo-O5FCJU5V.png",
+      "role": "presentation-export",
+      "sha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901"
+    },
+    {
+      "path": "deck/dist/assets/stratton-round-logo-DRxYk3w0.png",
+      "role": "presentation-export",
+      "sha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb"
+    },
+    {
+      "path": "deck/dist/assets/togaf-adm-SX4k0-bB.png",
+      "role": "presentation-export",
+      "sha256": "c3a90574a79bcdbddb6853a7855c6519cf414fc8a0eae270e977bf0c3fd7608c"
+    },
+    {
+      "path": "deck/dist/assets/typeof-B5XbjTb1.js",
+      "role": "presentation-export",
+      "sha256": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6"
+    },
+    {
+      "path": "deck/dist/assets/well-architected-framework-e7MFdXpr.png",
+      "role": "presentation-export",
+      "sha256": "8dbe66c6bbd5f7323e1f325731964d8c6379cd7e72b43a71e64c61f75f9a0415"
+    },
+    {
+      "path": "deck/dist/deckio.png",
+      "role": "presentation-export",
+      "sha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479"
+    },
+    {
+      "path": "deck/dist/index.html",
+      "role": "presentation-export",
+      "sha256": "51948b732a195e13e26c99c12fe6bfbb37920f322a043f6e9cc92b60eaf37130"
+    },
+    {
+      "path": "deck/index.html",
+      "role": "presentation-source",
+      "sha256": "7df39d7e6d7c9336446594249f3ba058b4bc8952860253c5adeddedc29e0407b"
+    },
+    {
+      "path": "deck/jsconfig.json",
+      "role": "presentation-source",
+      "sha256": "cfb19d86b7b2104fe78687a4c3cae321dd238f88a6a62adf6e3a2451dbf4c221"
+    },
+    {
+      "path": "deck/package-lock.json",
+      "role": "presentation-source",
+      "sha256": "33f222f745544b873425f4bad682dbb8a9695a2554af06ab5f141971f25c333e"
+    },
+    {
+      "path": "deck/package.json",
+      "role": "presentation-source",
+      "sha256": "ed67ae5a565f1458dc7ba557638c94228a770bc7038f31188f31e8946e5a85cb"
+    },
+    {
+      "path": "deck/playwright.config.mjs",
+      "role": "presentation-source",
+      "sha256": "9996655dcf7fd51ee34cc7c874acc6781f3a5718b35ba399a0ce8c46c3738f7c"
+    },
+    {
+      "path": "deck/public/deckio.png",
+      "role": "presentation-source",
+      "sha256": "1f6de1f47f630bd4db6b62ef7f6741caae02255af1650158ad962ae147017479"
+    },
+    {
+      "path": "deck/src/App.jsx",
+      "role": "presentation-source",
+      "sha256": "c911b28dde6f76dc8042035db233335c5874251a8ef8b5d59d045ef905611950"
+    },
+    {
+      "path": "deck/src/components/presentation/AnimatedMetricValue.jsx",
+      "role": "presentation-source",
+      "sha256": "64ca39501bf62cc96b74c6484fc60cd54f32369d62fa8e71ef0e688f2a54caab"
+    },
+    {
+      "path": "deck/src/components/presentation/CalloutAlert.jsx",
+      "role": "presentation-source",
+      "sha256": "f09a3c31cae7c767e6c5dc6bee7b6375e14c3e95b3869b873045416f2d7e0409"
+    },
+    {
+      "path": "deck/src/components/presentation/MetricCard.jsx",
+      "role": "presentation-source",
+      "sha256": "5b3eb2f96c2abd0a1482baaca1ed76c70e2d18e03f186cc0ebc0aa6465abbd48"
+    },
+    {
+      "path": "deck/src/components/presentation/PresentationStatus.jsx",
+      "role": "presentation-source",
+      "sha256": "e742c2ce3fdfb5fde78875a58bd424136a714643a8175b4e7953142e7c3633a4"
+    },
+    {
+      "path": "deck/src/components/presentation/PresentationStatus.module.css",
+      "role": "presentation-source",
+      "sha256": "66d3ee87dbaf19af3325d3cfc9450d4d771bc5052f46e2816cb7e1acbda651ed"
+    },
+    {
+      "path": "deck/src/components/presentation/SectionBadge.jsx",
+      "role": "presentation-source",
+      "sha256": "812a34ae6d596f1eb546c325b20dc70f74f8772fb06235371c219a71da054d94"
+    },
+    {
+      "path": "deck/src/components/presentation/StrattonBrandMark.jsx",
+      "role": "presentation-source",
+      "sha256": "8a268d97a7323d8d0dfed51476a78a75c60153fe0a4b05361a7dc175ed765f52"
+    },
+    {
+      "path": "deck/src/components/presentation/StrattonBrandMark.module.css",
+      "role": "presentation-source",
+      "sha256": "bcbee85c1675c861e255ca4c4bc9c99ca582cf044ec5bc402d613963cb00d838"
+    },
+    {
+      "path": "deck/src/components/theme-provider.jsx",
+      "role": "presentation-source",
+      "sha256": "dadfe7aacf655cc4de17d6a267b414183a41120c75c3d52138da5f49ed7735d9"
+    },
+    {
+      "path": "deck/src/components/ui/alert.jsx",
+      "role": "presentation-source",
+      "sha256": "f11b25b560a3b13bd30453aa23f43d1955438339230823e747bf8fa6a61b5718"
+    },
+    {
+      "path": "deck/src/components/ui/aurora.css",
+      "role": "presentation-source",
+      "sha256": "2df81fdc13c0e763f17aec359863d3d0ec8ef97e442788be47635882f480467d"
+    },
+    {
+      "path": "deck/src/components/ui/aurora.jsx",
+      "role": "presentation-source",
+      "sha256": "7c9fe8337e6c5a2e5db42b9596eb62ebc9b28a2ffff5e8473dc955f81039528d"
+    },
+    {
+      "path": "deck/src/components/ui/badge.jsx",
+      "role": "presentation-source",
+      "sha256": "84cf06bf47743969f13c547aa18d3b9af4bb85643456b05650f82f6dc72b06f1"
+    },
+    {
+      "path": "deck/src/components/ui/blur-text.jsx",
+      "role": "presentation-source",
+      "sha256": "5e6f519103ca698abbe9013891e1a14f81fb06d4f6329f4bba6f618f86c1e4da"
+    },
+    {
+      "path": "deck/src/components/ui/button.jsx",
+      "role": "presentation-source",
+      "sha256": "9cb085da59f2158ce7058fdcefc61d0bf4e1adf30e6701351cdc039ec472092c"
+    },
+    {
+      "path": "deck/src/components/ui/card.jsx",
+      "role": "presentation-source",
+      "sha256": "82ba08e2cbcca8200dba22598515efb561521524058dc1abed107c6034a3a109"
+    },
+    {
+      "path": "deck/src/components/ui/decrypted-text.jsx",
+      "role": "presentation-source",
+      "sha256": "c31f63f14a7616ec375d2f65c1e75da85da2533bb05ea5f49980724693faf21b"
+    },
+    {
+      "path": "deck/src/components/ui/separator.jsx",
+      "role": "presentation-source",
+      "sha256": "e017da8aa4365c8fab962b230fc1f5e4596429a90ed13884bbbceda99b2e4421"
+    },
+    {
+      "path": "deck/src/components/ui/shiny-text.jsx",
+      "role": "presentation-source",
+      "sha256": "47615f0b064585fd1e6dedb9f6704403638e81dd8b1113c365398c09b0f60431"
+    },
+    {
+      "path": "deck/src/components/ui/spotlight-card.jsx",
+      "role": "presentation-source",
+      "sha256": "ffae3cd1b899ae3e0e91048401e305ba8230d8a01bd3a9c3d80246f13ca06dba"
+    },
+    {
+      "path": "deck/src/data/approach/cloud-adoption-framework.png",
+      "role": "presentation-source",
+      "sha256": "bb74a0d03121795f58ad543eb3161ed2c8ee54e26632ee333585ca57a98e8942"
+    },
+    {
+      "path": "deck/src/data/approach/togaf-adm.png",
+      "role": "presentation-source",
+      "sha256": "c3a90574a79bcdbddb6853a7855c6519cf414fc8a0eae270e977bf0c3fd7608c"
+    },
+    {
+      "path": "deck/src/data/approach/well-architected-framework.png",
+      "role": "presentation-source",
+      "sha256": "8dbe66c6bbd5f7323e1f325731964d8c6379cd7e72b43a71e64c61f75f9a0415"
+    },
+    {
+      "path": "deck/src/data/azure-ai-foundry-logo.svg",
+      "role": "presentation-source",
+      "sha256": "fab039a771f72780ae34e59065d61c66a02d3c347d50923ef2956f34912ea02c"
+    },
+    {
+      "path": "deck/src/data/azure-icons/ai-search.svg",
+      "role": "presentation-source",
+      "sha256": "f7af1213ce089236593835cb5564d6d3f01358cba6488fe562aa8bbc8adc3b38"
+    },
+    {
+      "path": "deck/src/data/azure-icons/api-management.svg",
+      "role": "presentation-source",
+      "sha256": "cf794288575f2f7b080c50aa8319d42b02a2f2ae5351e4712c574353fc801f9a"
+    },
+    {
+      "path": "deck/src/data/azure-icons/application-gateway.svg",
+      "role": "presentation-source",
+      "sha256": "531e668e47cf61872b2811ec67dcc103cee2ecc1d272f07132d6196d68ba6c19"
+    },
+    {
+      "path": "deck/src/data/azure-icons/application-insights.svg",
+      "role": "presentation-source",
+      "sha256": "36c73dea8b1598fbfff84890a2b409600f1339eec8c1bf1a896439e9da8f9dca"
+    },
+    {
+      "path": "deck/src/data/azure-icons/azure-openai.svg",
+      "role": "presentation-source",
+      "sha256": "4859f2c78b6b81acbbaf94e7348cb7dcbe97955a038be903de01cf46a7206aad"
+    },
+    {
+      "path": "deck/src/data/azure-icons/container-apps.svg",
+      "role": "presentation-source",
+      "sha256": "3cf4ba9242e31496f778a27e92c9c2b2a09664f105c58325d5e2dcb142d3c3b9"
+    },
+    {
+      "path": "deck/src/data/azure-icons/container-registry.svg",
+      "role": "presentation-source",
+      "sha256": "c134b0a442f203a7eeeb6f99a1f02ed34e51373d7fca59f96c9f125874c9d7d4"
+    },
+    {
+      "path": "deck/src/data/azure-icons/defender-cloud.svg",
+      "role": "presentation-source",
+      "sha256": "23ab6fbba1cd0ac5ffdc6ee7084e7cac3029c402dc18b8896331626f135c9513"
+    },
+    {
+      "path": "deck/src/data/azure-icons/deployment-environments.svg",
+      "role": "presentation-source",
+      "sha256": "e504c1f7ccc4b6a47bceb10db1c83e1675dcc4ed6e56a7b9af99fec9e6c34fa5"
+    },
+    {
+      "path": "deck/src/data/azure-icons/document-intelligence.svg",
+      "role": "presentation-source",
+      "sha256": "196e5db33e32027349ee7250df79dfaf96b65e57a30a98662e6dd08d6d0c7360"
+    },
+    {
+      "path": "deck/src/data/azure-icons/firewall.svg",
+      "role": "presentation-source",
+      "sha256": "154c416cc15b95b7c6c1ab61a5ecb33f14845197b7d163bd9dc6f1968c14be1e"
+    },
+    {
+      "path": "deck/src/data/azure-icons/key-vault.svg",
+      "role": "presentation-source",
+      "sha256": "712b426f54f0fc50d0816dc79df709daa7ac5f93ccaf4e9b3527f627f6e9ad97"
+    },
+    {
+      "path": "deck/src/data/azure-icons/load-testing.svg",
+      "role": "presentation-source",
+      "sha256": "694b2e8d0d94b458ea322eb6267d786c5ca1e4b59d3b5726e308bebc433d5c8b"
+    },
+    {
+      "path": "deck/src/data/azure-icons/log-analytics.svg",
+      "role": "presentation-source",
+      "sha256": "7a244a8d7260e84be5c904185db7b04994fe6ed345e2b224163bc5f7e3d97ce0"
+    },
+    {
+      "path": "deck/src/data/azure-icons/management-groups.svg",
+      "role": "presentation-source",
+      "sha256": "d8371735319fa4971c01e682810d0b67207c2c901f4fd19c2374a80c3e328829"
+    },
+    {
+      "path": "deck/src/data/azure-icons/monitor.svg",
+      "role": "presentation-source",
+      "sha256": "1396f59a7d8fd7505a423842b987c9b343a092263d1ab5c7b0d94d58d8b17448"
+    },
+    {
+      "path": "deck/src/data/azure-icons/policy.svg",
+      "role": "presentation-source",
+      "sha256": "c3dc70003e793bf73b497f8d8501cdc81f930ce1777fdbfe9b7450afe477771a"
+    },
+    {
+      "path": "deck/src/data/azure-icons/private-endpoint.svg",
+      "role": "presentation-source",
+      "sha256": "96de0bb7f0aeb1220d0fd6d337578d5e93dca017d6ea7d42d887aa329b2fd90d"
+    },
+    {
+      "path": "deck/src/data/azure-icons/service-bus.svg",
+      "role": "presentation-source",
+      "sha256": "eaf42cb87aedf608f60d40b601eb86491daaa71b8eab40a935e8e7fa2e62a2cf"
+    },
+    {
+      "path": "deck/src/data/azure-icons/sql-database.svg",
+      "role": "presentation-source",
+      "sha256": "a26124a2b188ccf910520c935c726f7364e0f5935d7a4319ebcab9c80a40e475"
+    },
+    {
+      "path": "deck/src/data/azure-icons/storage.svg",
+      "role": "presentation-source",
+      "sha256": "7190d3bb14ce30ce74bd0af873915830fe821e8c5f6ef6f3149e6f7cfb2aa4f7"
+    },
+    {
+      "path": "deck/src/data/azure-icons/virtual-network.svg",
+      "role": "presentation-source",
+      "sha256": "64a5e75ecef2f9f69067faa2eb131266cb8f2858706f8ab74bfea5ad0d98b14d"
+    },
+    {
+      "path": "deck/src/data/azure-logo.svg",
+      "role": "presentation-source",
+      "sha256": "2102890d12043ce3b1c05d8b9891920368bd7f768568b07b8de7c27216d743a5"
+    },
+    {
+      "path": "deck/src/data/azurePricing.js",
+      "role": "presentation-source",
+      "sha256": "87ab2f2ad15d133df4d6c7806dcbd2cd2b1e2ab086456e0814c959880d01dc19"
+    },
+    {
+      "path": "deck/src/data/diagrams/azure-landing-zone-topology.svg",
+      "role": "presentation-source",
+      "sha256": "db3ecf23cd39038179f77c70b7a1beb598ce0ddd05445971516dcfc59a6c8868"
+    },
+    {
+      "path": "deck/src/data/diagrams/delivery-dependency-dag.svg",
+      "role": "presentation-source",
+      "sha256": "db93b9743f69691a84870e5dae9ea0ec912124918afedb091c74946a0919d7d3"
+    },
+    {
+      "path": "deck/src/data/diagrams/target-application-architecture.svg",
+      "role": "presentation-source",
+      "sha256": "ed9d132132d2195d77fc5aba6461617ed6511330ae14b9608fb21cf40dabfc65"
+    },
+    {
+      "path": "deck/src/data/github-copilot-pilot.png",
+      "role": "presentation-source",
+      "sha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81"
+    },
+    {
+      "path": "deck/src/data/inline-edits.json",
+      "role": "presentation-source",
+      "sha256": "f0567c265fbd6b202123d9e4a6811de7afd1b3accfab9f9f60df95d0abcf050e"
+    },
+    {
+      "path": "deck/src/data/microsoft-copilot-logo.svg",
+      "role": "presentation-source",
+      "sha256": "c5b0ad0fc0c6fd9c49131a972635e1aba4e65a0d0385c01d5be8735921d7ef8b"
+    },
+    {
+      "path": "deck/src/data/stratton-europe-capital-logo.png",
+      "role": "presentation-source",
+      "sha256": "9f17d3812b4854ca0894577c88864e92663899e6957f8565bc0c16104b5c6901"
+    },
+    {
+      "path": "deck/src/data/stratton-round-logo.png",
+      "role": "presentation-source",
+      "sha256": "4b7cec83e95d3a4f6747742c4c3ef31aff757d9eb843a7097e5d8796d1776ddb"
+    },
+    {
+      "path": "deck/src/index.css",
+      "role": "presentation-source",
+      "sha256": "17cb532f58ed95092d830fc9ed1b3a00225a30f590e7083dfd9bec7275fec196"
+    },
+    {
+      "path": "deck/src/lib/utils.js",
+      "role": "presentation-source",
+      "sha256": "ba252326d87fbe9144ec41063847d1a50c161c65c8134b1c12c909d1cc2eae5a"
+    },
+    {
+      "path": "deck/src/main.jsx",
+      "role": "presentation-source",
+      "sha256": "4b4b864dbe45253425d0c925337180ec07e204295179f80f59551216f466f618"
+    },
+    {
+      "path": "deck/src/slides/AgenticArchitectureRingSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "4df34597054c242f3a5ba69b56da490688260a1f5887cf835dadb154d7b67e47"
+    },
+    {
+      "path": "deck/src/slides/AgenticArchitectureRingSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "092db75b25e9bb7adf6063796efc582a751225b0de9d4c5fda5ee91f6886e7ce"
+    },
+    {
+      "path": "deck/src/slides/AgenticAssuranceRosterSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "af4162f6086824a930e4b3ab80a477a1149863bd596ff2b34144ef2eb8b02fc7"
+    },
+    {
+      "path": "deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "641c565f969b58a2ccf7715bd4f99a136081dd3c7253195bb844b8f3a9906239"
+    },
+    {
+      "path": "deck/src/slides/AzureDesignSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "bcd6fd30f639f6279b662860bff8d52dc4754499b4b68f5c2f6b34af5f084515"
+    },
+    {
+      "path": "deck/src/slides/AzureDesignSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "8af61ccf9cbf3e116cbcba911e8f239e40e4be387e6ad04cf2b759e0c2bbd962"
+    },
+    {
+      "path": "deck/src/slides/CodingSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "3d1bc180d92a96d39aeb893075ee657a7ba2f0a837b1f1246e460b21eafdfeaf"
+    },
+    {
+      "path": "deck/src/slides/CodingSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "4ade3ac0d30cbc404f8bd567ebdae63e90e8e48c645b5cb02965a88be342c6ef"
+    },
+    {
+      "path": "deck/src/slides/CompanyProfileSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "f9efd6d113cc987497c5e1b80d6c740dc3633423a45d51ce859ed59fa0b47959"
+    },
+    {
+      "path": "deck/src/slides/CompanyProfileSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "4fc65266575ef021498f1d7c45021bf0c3951d990a6d3f1d6ae1cc15907e9f04"
+    },
+    {
+      "path": "deck/src/slides/CostsBenefitsSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "6195efeab0a6843851ca732a0233209ebaef4945e3b73093491b6b29f8fe782a"
+    },
+    {
+      "path": "deck/src/slides/CostsBenefitsSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "478ccca305885bd69b2fe2865a3ccd0c6cbbfa05013b8e3a55cb7e3ead69ba2e"
+    },
+    {
+      "path": "deck/src/slides/DeploymentSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "ad9a02330e73ed469a75e00a1851514a10b5ea38f5ae4e33550784802ec020a9"
+    },
+    {
+      "path": "deck/src/slides/DeploymentSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "e34db7e1fb0054b747644e4b152bbaae32b8c33f7dd157a3c8810581630126d0"
+    },
+    {
+      "path": "deck/src/slides/FrontierSolutionTitleSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "2d72bbd2a82857d5e1c613cf000b1423c32536608a240b9d21cd13756d3eb36a"
+    },
+    {
+      "path": "deck/src/slides/FrontierSolutionTitleSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "ed0511713a9c89d682e2f92783cea5b1947f4a7af7fa58f99d054ca8d1d91a93"
+    },
+    {
+      "path": "deck/src/slides/HumanAiOperatingModelSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "6ea8ff725b394fc2d0a8151df731ffe5c396e5ec4e6c14a6c66a1efb69c2614a"
+    },
+    {
+      "path": "deck/src/slides/HumanAiOperatingModelSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "5270f18e566cb7bf23c94e6da8523ca989b0b7880b6e82b4f214c4adb3143bdd"
+    },
+    {
+      "path": "deck/src/slides/ImplementationPlanSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "65c2b98a86804e7905f5475c6eb14caa0fc4386a32228f6c8eb00f6a9c5ef6a3"
+    },
+    {
+      "path": "deck/src/slides/ImplementationPlanSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "a4800aac06acecd2f084bbe9a0b8d41e3b2d1a82e96ace836d05daaa5ac8a48b"
+    },
+    {
+      "path": "deck/src/slides/ModelPortfolioSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "23bb407443b844c238d11c34c0978d55e9079e2a79bdd1fbb3e3eed879cbb755"
+    },
+    {
+      "path": "deck/src/slides/ModelPortfolioSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "0b6a9cc7d34c884b267f37e26aa02971b6c15b842b9e8ced0726948b212e9d83"
+    },
+    {
+      "path": "deck/src/slides/MyApproachSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "fb1d1266c310cc7bb177650372abb1521d3850a2ddf632ec70e7fe1e88bce08e"
+    },
+    {
+      "path": "deck/src/slides/MyApproachSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "649ae1d44ebfe5fc240b025dd1e5766902f57ffe539077c1c01d4c06db84f244"
+    },
+    {
+      "path": "deck/src/slides/NextStepsSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "59ac8f6655d8371fdc92bb6767e4dfec16518b62f51f161d8128559bf5a81d8f"
+    },
+    {
+      "path": "deck/src/slides/NextStepsSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "50bfdf562d47d5322d93170344034000bdf6c281892c1dcf0c41c6a0d12f7a54"
+    },
+    {
+      "path": "deck/src/slides/RequirementsInterviewSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "07fc18096e64aab391dadb247786a8cfce8d6215f86d662a2974c96bbf8b4425"
+    },
+    {
+      "path": "deck/src/slides/RequirementsInterviewSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "2c15cfadcbb44517142bbe4d9540b83ba126e0408bd655e81c211a73d7e106b7"
+    },
+    {
+      "path": "deck/src/slides/RisksMitigationsSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "9237937acd9afcbb2c0443631f2c5a64ca71a179ef9cdd48a323c9dde8db5de9"
+    },
+    {
+      "path": "deck/src/slides/RisksMitigationsSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "014072c544e730d21f2da0acda72b30c9214c74cf5a4fc053ba5d164a5caa179"
+    },
+    {
+      "path": "deck/src/slides/RunTestsSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "fbba51783c2381fa22b259968c0752f12e44d2939bf06a841c85074992b81b98"
+    },
+    {
+      "path": "deck/src/slides/RunTestsSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "9ec6d0785a75e64505e7cab13105380e3b753a8e7c68dedc931a63f5f45ae0ba"
+    },
+    {
+      "path": "deck/src/slides/ThankYouSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "a3d306f7a61e0ae310caf5ecc697af03a2511bf9279d8d5b1165a87f8ffe5858"
+    },
+    {
+      "path": "deck/src/slides/ThankYouSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "5917c556376a12b438bcd64913baba50a5d92b32d9cc072ed2e4fe6176856f99"
+    },
+    {
+      "path": "deck/src/slides/TitleSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "cb80dbeff6862aa76c44e2c9b2934b888e4abc6b19e5f8b6074c9e0e54eb46a3"
+    },
+    {
+      "path": "deck/src/slides/TitleSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "07243b04bba7c235a8a8db467651bde2d37f3405b10c944c74fe765e3b0de2de"
+    },
+    {
+      "path": "deck/src/slides/TogafArchitectureSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644"
+    },
+    {
+      "path": "deck/src/slides/TogafArchitectureSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "24c4b739d15ff883787499abd51e5db2c5e814c170d653421e2c3b14c0b590e0"
+    },
+    {
+      "path": "deck/src/slides/TransformationAgendaSlide.jsx",
+      "role": "presentation-source",
+      "sha256": "d2457f2d65d9dd4a540ca37a40337dbbdb3ead26933693ef87d72356d68865f6"
+    },
+    {
+      "path": "deck/src/slides/TransformationAgendaSlide.module.css",
+      "role": "presentation-source",
+      "sha256": "96adb6d1e2bc53e84b68dd5389d4abdd70d0d9cc973501019169b89ab51bcd38"
+    },
+    {
+      "path": "deck/src/styles/PhaseSummarySlides.module.css",
+      "role": "presentation-source",
+      "sha256": "2e382b60d3a215c35e39ec2526925091ae85e9ee7396fa2db2b37e44599bc6d3"
+    },
+    {
+      "path": "deck/src/vendor/deck-engine-global.local.css",
+      "role": "presentation-source",
+      "sha256": "cd5e10729f143bd31988b864bf576c0cbdd6319eff4325f158505e35d5052c23"
+    },
+    {
+      "path": "deck/tests/helpers/slide-5-browser-assurance.mjs",
+      "role": "test",
+      "sha256": "1ba65e0e75c14c5de3310c34c33ce17d979c56ac1526c3238afd1ab4545eb6e1"
+    },
+    {
+      "path": "deck/tests/slide-5-assurance.spec.mjs",
+      "role": "test",
+      "sha256": "139c3f25e90f488d05d87dc32414b9ed305b512dd4186710f9431e84bbcf408d"
+    },
+    {
+      "path": "deck/tooling/build-portable-hardened.mjs",
+      "role": "tooling",
+      "sha256": "ec2cfb58b462e4a91012e9538942f8b87537d732584fb3e9da08fa3c6ee35aeb"
+    },
+    {
+      "path": "deck/vite.config.js",
+      "role": "presentation-source",
+      "sha256": "c7bd9d74b72220c8e05ef18f6f7d2af607443517210f539da69ff8b31d4cfe4d"
+    },
+    {
+      "path": "evidence/asset-rights-inventory.json",
+      "role": "evidence",
+      "sha256": "96e7b6b28b74cdc881e21f35cf124b5c5a5d11805413aa913f7ee501a18c3433"
+    },
+    {
+      "path": "evidence/azure-retail-pricing-snapshot.json",
+      "role": "evidence",
+      "sha256": "c9a1532aed425a643e3a91c0d49b7e359e1a78aac236bea33314a7039c8cec8f"
+    },
+    {
+      "path": "evidence/browser-assurance/browser-assurance.json",
+      "role": "evidence",
+      "sha256": "bce087829228bf2599e8c6d5e8167e009c53984f7614b696a81129d3de997e3f"
+    },
+    {
+      "path": "evidence/browser-assurance/slide-11-fullscreen.png",
+      "role": "evidence",
+      "sha256": "ca1d841e1c03a3147041d54cdb5a338541d9d12a60a8d9b2eddeb11aed5bed1a"
+    },
+    {
+      "path": "evidence/browser-assurance/slide-11-normal.png",
+      "role": "evidence",
+      "sha256": "ba2870c576751ca84bede4a607583ea5c313cbafcf1bd31323ee748a83772825"
+    },
+    {
+      "path": "evidence/browser-assurance/slide-11-reduced-motion.png",
+      "role": "evidence",
+      "sha256": "192a9a7201567ad58a7490ba43c607bf72938cb372dff37af9a993def12841d4"
+    },
+    {
+      "path": "evidence/browser-assurance/slide-12-azure.png",
+      "role": "evidence",
+      "sha256": "eb6dce267e97156b60f33a6b9dcd634823d71be7b5cb54ff5aab42daa6da5477"
+    },
+    {
+      "path": "evidence/browser-determinism-receipt.json",
+      "role": "evidence",
+      "sha256": "7fafd3b17e992bacfa9a04fc5792990a1fc168734a3cbd71f722feeaa2a61382"
+    },
+    {
+      "path": "evidence/claim-source-validation.json",
+      "role": "evidence",
+      "sha256": "a63d70fa9eaf9add963f83916136591516f1a44c9c63841ebf092a0aed3efef0"
+    },
+    {
+      "path": "evidence/contract-validation.json",
+      "role": "evidence",
+      "sha256": "8147c91076c5654eb9585428ca903999b6117b0e681b5d3811c83be82714b1df"
+    },
+    {
+      "path": "evidence/deck-build-hardening.json",
+      "role": "evidence",
+      "sha256": "ef24bf441a061868be2667453630a8acac4b50a0cc938ec88597794fdf6e3738"
+    },
+    {
+      "path": "evidence/evidence-disclosure-scan.json",
+      "role": "evidence",
+      "sha256": "36d043a24f9ff7bda317ce7c829d023c7027168fe1222e9c30697e552ef75e75"
+    },
+    {
+      "path": "evidence/pdf-export-receipt.json",
+      "role": "evidence",
+      "sha256": "25c40269caa390266e4085d1d781d1ee6918c0301a86e28494b810c78b0080c4"
+    },
+    {
+      "path": "evidence/phase-validation.json",
+      "role": "evidence",
+      "sha256": "9510e7b024ca0b1a0da85cebf3d4d15910535ec5455ef75f7ca573e25c8de275"
+    },
+    {
+      "path": "evidence/recursive-static-asset-scan.json",
+      "role": "evidence",
+      "sha256": "f37711528b02ceab48e4fd8e1452e70cd583a573fc4966cdee4de9a865f0dfd1"
+    },
+    {
+      "path": "evidence/runtime-network-receipt.json",
+      "role": "evidence",
+      "sha256": "3fdbebb58c44d381c08fd90ee13fb470a6b4a05fe85e68b75acd10a1a3d038be"
+    },
+    {
+      "path": "evidence/slide-5-regression.json",
+      "role": "evidence",
+      "sha256": "d3dd57f42a07883951d448779cdb6c57ab9dc7afdd7139e7fcf8e598fec9407f"
+    },
+    {
+      "path": "evidence/stratton-aff-6-model-receipt.json",
+      "role": "evidence",
+      "sha256": "03db54193e4a1828beef1949bfad07de86ad9031c033d6504bc6c796b8f61d4a"
+    },
+    {
+      "path": "stratton-claim-catalogue.json",
+      "role": "catalogue",
+      "sha256": "9d29106ff075640ebd00b903a179d9a62868c981159dcba24738768bcb805601"
+    },
+    {
+      "path": "stratton-presentation.html",
+      "role": "rendered-html",
+      "sha256": "85d75aa8e19e9b49a543f03f31c34ac527fc52508c202c3a0d37eec4c3b5ac97"
+    },
+    {
+      "path": "stratton-presentation.md",
+      "role": "authoritative-markdown",
+      "sha256": "e276ed58a08afdd532afc6ee6a70da994df71a95f3703eac125439046cd19837"
+    }
+  ],
+  "subjectBoundary": {
+    "candidateStatus": "TWENTY_SLIDE_SLIDE11_VISUAL_REMEDIATION_CANDIDATE",
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "approvedR7ManifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "approvedR7ApprovalSha256": "f93ced2eb5811dbfc9a792ff2fc37bc888c441cf67af7f675a872d131198723f",
+    "changeScope": "SLIDE_11_VISUAL_REMEDIATION_ONLY",
+    "activeReviewerRoutes": {
+      "affA": "gpt-5.6-luna",
+      "affB": "gpt-5.6-terra"
+    },
+    "phase6R7Approved": true,
+    "phase6R8Approved": false,
+    "azureDeploymentExecuted": false,
+    "phase7Invoked": false,
+    "phase8RuntimeTestingExecuted": false,
+    "productionReadinessClaimed": false,
+    "externalDistributionBlockedPendingAssetRightsOwnerGate": true
+  }
+}

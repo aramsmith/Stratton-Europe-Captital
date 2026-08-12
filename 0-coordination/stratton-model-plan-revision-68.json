@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "68",
+  "createdAt": "2026-08-04T00:41:54+02:00",
+  "revisionReason": "Strengthen the slide 2 legacy-estate and due-diligence pain statements.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-67.json",
+    "sha256": "10b1e6a29bb592a6caeac7b58c1e549b18b7ecf6f56197530f8167d48ab5f26b",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Describe the on-premises technology solution as outdated and end-of-life, with substantial potential renewal CAPEX.",
+      "Begin the due-diligence pain statement with Now it takes."
+    ]
+  },
+  "implementation": {
+    "legacyEstate": "The current on-premises technology solution is outdated and at end of life, potentially exposing Stratton to substantial renewal CAPEX.",
+    "dueDiligence": "Now it takes 12 weeks and consumes 60% of deal-team capacity."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

@@ -1,0 +1,416 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "OPERATIONS_OBSERVABILITY_AND_RELIABILITY_CONTRACT",
+  "serviceObjectives": {
+    "availability": "Production >=99.9% during owner-approved business hours; business-hours definition remains VAL-002.",
+    "rto": "Production <=4 hours.",
+    "rpo": "Production <=1 hour.",
+    "interactivePerformance": "p95 <5 seconds under the approved representative load.",
+    "packPerformance": "Typical due-diligence pack <=30 minutes after the typical-pack definition and representative load are approved.",
+    "support": "8x5 with named incident ownership; support window and critical criteria remain VAL-002.",
+    "claimBoundary": "No runtime, SLA, performance, availability, RTO or RPO achievement is claimed by this design."
+  },
+  "regionalDecision": {
+    "status": "CONFIRMED_PATTERN_EXACT_REGION_NAMES_PENDING",
+    "pattern": "Zonal primary plus warm recovery in two General Counsel/DPO/CISO-approved Azure regions; all AI deployments are regional.",
+    "failClosed": "No regional resource, replication rule, backup destination or quota request is created until both exact region names and evidence ID are supplied. Azure SQL requestedBackupStorageRedundancy has no production default and cannot use Geo or GeoZone without a later approved design proving the paired secondary is within the signed boundary."
+  },
+  "resilienceByState": [
+    {
+      "state": "Case, policy, review and citation metadata",
+      "service": "Azure SQL Database",
+      "productionDesign": "Business Critical starting hypothesis, zone redundancy in primary/recovery, automated PITR/LTR backups with explicit requestedBackupStorageRedundancy, SQL failover group and restore verification",
+      "rpoDesign": "<=1h through continuous backups and tested failover",
+      "rtoDesign": "<=4h runbook target",
+      "regionalConstraint": "Both exact region names must pass VAL-005 and service availability checks. Production backup redundancy has no default; Local or Zone is allowed after capability evidence, while Geo and GeoZone are denied because they use an implicit paired region. The selection applies to STR and LTR and changes affect future backups only."
+    },
+    {
+      "state": "Admitted evidence objects",
+      "service": "Azure Blob Storage",
+      "productionDesign": "Separate ZRS accounts in each approved region, versioning, soft delete, integrity hashes and owner-approved object replication/recovery manifest",
+      "rpoDesign": "<=1h operational target",
+      "rtoDesign": "Prioritised case failover/restore within 4h",
+      "regionalConstraint": "Do not rely on implicit geo-pairing; destination must be the explicitly approved recovery region."
+    },
+    {
+      "state": "Temporary working copies",
+      "service": "Azure Blob Storage work account",
+      "productionDesign": "ZRS and reproducible regeneration",
+      "rpoDesign": "No stronger than source/admitted evidence",
+      "rtoDesign": "Regenerate after core state",
+      "regionalConstraint": "Never promote temporary work to record status."
+    },
+    {
+      "state": "Retrieval index",
+      "service": "Azure AI Search",
+      "productionDesign": "Primary three-replica/one-partition hypothesis plus recovery service rebuilt from replicated admitted evidence",
+      "rpoDesign": "Rebuildable; admitted evidence is source",
+      "rtoDesign": "Warm recovery index or prioritised rebuild within service RTO",
+      "regionalConstraint": "Exact Search availability/capacity must be verified in both approved regions."
+    },
+    {
+      "state": "Queued work",
+      "service": "Azure Service Bus Premium",
+      "productionDesign": "Premium namespaces in primary/recovery, zone support where available, sessions, duplicate detection, dead-letter queues and recovery alias/metadata pattern",
+      "rpoDesign": "<=1h target; source state supports safe replay",
+      "rtoDesign": "Replay after core data validation",
+      "regionalConstraint": "Metadata failover does not guarantee message replication; recovery manifest reconciles work."
+    },
+    {
+      "state": "Audit events",
+      "service": "SQL outbox plus immutable Blob Storage",
+      "productionDesign": "Transactional outbox, hash chain, frequent export, ZRS and WORM",
+      "rpoDesign": "<=1h; critical export lag alert materially lower than RPO",
+      "rtoDesign": "Verify chain before service reopen",
+      "regionalConstraint": "Retention and recovery copy location require owners."
+    },
+    {
+      "state": "Internal Audit verdict",
+      "service": "Assurance-subscription immutable Blob Storage",
+      "productionDesign": "Internal Audit-owned identity and WORM/legal hold",
+      "rpoDesign": "No delivery-owned recovery process can overwrite it",
+      "rtoDesign": "Internal Audit recovery procedure",
+      "regionalConstraint": "Assurance owner approves replication and recovery."
+    },
+    {
+      "state": "Container images and configuration",
+      "service": "Azure Container Registry, App Configuration and IaC package",
+      "productionDesign": "Private Premium registry with approved-region geo-replication, immutable release tags, versioned configuration and reproducible Bicep",
+      "rpoDesign": "Release manifest retained",
+      "rtoDesign": "Activate warm recovery or redeploy from approved hash-bound package",
+      "regionalConstraint": "Registry/configuration replicas are limited to the signed region pair."
+    }
+  ],
+  "failureModes": [
+    {
+      "failure": "Policy service or evidence dependency unavailable",
+      "behaviour": "Deny admission, analysis, approval and transfer; retain idempotent work for bounded retry; alert owner."
+    },
+    {
+      "failure": "Azure OpenAI or Document Intelligence unavailable",
+      "behaviour": "Interactive case/review remains available; new analysis pauses; no uncited fallback output."
+    },
+    {
+      "failure": "Azure AI Search unavailable",
+      "behaviour": "Retrieval-dependent analysis pauses; direct governed evidence remains reviewable; no ungrounded generation."
+    },
+    {
+      "failure": "Audit export lag or immutable store unavailable",
+      "behaviour": "Critical control alert; after configured grace threshold, block material state transitions."
+    },
+    {
+      "failure": "Source connector unavailable",
+      "behaviour": "No source replacement or stale-data concealment; expose source version and retry state."
+    },
+    {
+      "failure": "Primary region unavailable",
+      "behaviour": "Invoke the confirmed warm-recovery pattern only after AFF-4/5 implement it and an authorised recovery exercise validates dependencies; fail over private enterprise DNS, SQL, application and AI endpoints in the documented order."
+    }
+  ],
+  "telemetryContract": {
+    "instrumentation": "OpenTelemetry traces, structured application logs, Azure resource metrics and diagnostic settings into workspace-based Application Insights/Log Analytics.",
+    "correlation": [
+      "traceId",
+      "caseId",
+      "workItemId",
+      "evidenceId",
+      "analysisRunId",
+      "policyDecisionId",
+      "reviewId"
+    ],
+    "prohibitedTelemetry": [
+      "document body",
+      "prompt body",
+      "completion body",
+      "access token",
+      "secret",
+      "special-category data",
+      "full personal identifier unless separately approved"
+    ],
+    "redaction": "Allow-list fields at source; hash or tokenise actor and subject references where operationally sufficient.",
+    "retention": "Hot and archive retention are required owner parameters; no period is invented. Legal hold overrides lifecycle deletion.",
+    "location": "Workspace, archive, ingestion and support access must all use HD-003 approved locations and SR-007 identities."
+  },
+  "alerts": [
+    {
+      "id": "ALT-001",
+      "condition": "Case/API availability or latency breaches owner-approved window/threshold",
+      "severity": "Critical or High after VAL-002 definition",
+      "owner": "Service Operations",
+      "action": "Incident assignment and dependency triage"
+    },
+    {
+      "id": "ALT-002",
+      "condition": "Policy decision dependency unavailable or deny rate anomaly",
+      "severity": "Critical",
+      "owner": "CISO and application owner",
+      "action": "Fail closed and inspect evidence"
+    },
+    {
+      "id": "ALT-003",
+      "condition": "Public network access becomes enabled on API Management, App Configuration, any database or governed data/AI service",
+      "severity": "Critical",
+      "owner": "CISO",
+      "action": "Policy deny/remediate, isolate and investigate"
+    },
+    {
+      "id": "ALT-004",
+      "condition": "Audit export lag exceeds configured control threshold or hash-chain verification fails",
+      "severity": "Critical",
+      "owner": "Service Operations and Internal Audit liaison",
+      "action": "Block material transitions and preserve incident evidence"
+    },
+    {
+      "id": "ALT-005",
+      "condition": "Dead-letter queue non-empty or oldest message exceeds work SLO",
+      "severity": "High",
+      "owner": "Application Operations",
+      "action": "Run poison-message procedure; never skip evidence"
+    },
+    {
+      "id": "ALT-006",
+      "condition": "PIM, emergency access, role assignment or denied sign-in anomaly",
+      "severity": "Critical",
+      "owner": "Identity/Security Operations",
+      "action": "Review and revoke; preserve audit"
+    },
+    {
+      "id": "ALT-007",
+      "condition": "Backup, restore verification, immutability or legal-hold control fails",
+      "severity": "Critical",
+      "owner": "Business Continuity and records owner",
+      "action": "Suspend affected disposition/recovery claims"
+    },
+    {
+      "id": "ALT-008",
+      "condition": "AI model deployment, version, content-filter or provider data-use evidence changes",
+      "severity": "High",
+      "owner": "AI Governance",
+      "action": "Suspend analysis pending governed re-approval"
+    },
+    {
+      "id": "ALT-009",
+      "condition": "Egress to unapproved destination or DNS path",
+      "severity": "Critical",
+      "owner": "Security Operations",
+      "action": "Block, isolate and invoke transfer incident process"
+    },
+    {
+      "id": "ALT-010",
+      "condition": "Release 1 reaches 20 completed eligible deals",
+      "severity": "High business control",
+      "owner": "Head of Deal Operations",
+      "action": "Deny further admission pending human acceptance"
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "Business control",
+      "views": [
+        "eligible/completed deal count",
+        "cycle-time distribution",
+        "approval completeness",
+        "control exceptions"
+      ],
+      "owner": "CIO and Deal Operations"
+    },
+    {
+      "name": "Service health",
+      "views": [
+        "availability",
+        "p50/p95/p99 latency",
+        "queue age/dead letters",
+        "pack duration",
+        "dependency health"
+      ],
+      "owner": "Service Operations"
+    },
+    {
+      "name": "AI quality evidence",
+      "views": [
+        "citation coverage",
+        "extraction accuracy",
+        "unsupported claims",
+        "seeded-risk recall",
+        "model/config version"
+      ],
+      "owner": "AI Governance; verdict remains Internal Audit"
+    },
+    {
+      "name": "Security and sovereignty",
+      "views": [
+        "public-access compliance",
+        "location compliance",
+        "egress denies",
+        "PIM/emergency events",
+        "audit export integrity"
+      ],
+      "owner": "CISO, General Counsel and DPO"
+    },
+    {
+      "name": "Recovery",
+      "views": [
+        "backup success",
+        "restore verification",
+        "recovery-manifest age",
+        "immutability status"
+      ],
+      "owner": "Business Continuity"
+    }
+  ],
+  "runbooks": [
+    {
+      "id": "RB-001",
+      "name": "Identity compromise and emergency access",
+      "owner": "Identity/Security Operations"
+    },
+    {
+      "id": "RB-002",
+      "name": "Policy dependency failure and fail-closed recovery",
+      "owner": "Application Operations and CISO"
+    },
+    {
+      "id": "RB-003",
+      "name": "Poison message, duplicate work and dead-letter reconciliation",
+      "owner": "Application Operations"
+    },
+    {
+      "id": "RB-004",
+      "name": "Source permission or licence revocation",
+      "owner": "Integration Lead and General Counsel"
+    },
+    {
+      "id": "RB-005",
+      "name": "SQL point-in-time restore and cross-store consistency verification",
+      "owner": "Business Continuity"
+    },
+    {
+      "id": "RB-006",
+      "name": "Evidence object recovery and search-index rebuild",
+      "owner": "Data Operations"
+    },
+    {
+      "id": "RB-007",
+      "name": "Regional recovery and controlled return",
+      "owner": "Business Continuity; conditional on HD-003"
+    },
+    {
+      "id": "RB-008",
+      "name": "Audit-chain failure and evidence preservation",
+      "owner": "Security Operations and Internal Audit liaison"
+    },
+    {
+      "id": "RB-009",
+      "name": "AI model/configuration change suspension and re-approval",
+      "owner": "AI Governance"
+    },
+    {
+      "id": "RB-010",
+      "name": "Data-subject, legal hold and disposition request",
+      "owner": "DPO and records owner"
+    },
+    {
+      "id": "RB-011",
+      "name": "First-three-deal reconciliation and rollout stop",
+      "owner": "Programme Delivery"
+    },
+    {
+      "id": "RB-012",
+      "name": "Critical alert ownership and 8x5 handover",
+      "owner": "Service Operations"
+    }
+  ],
+  "operationalAcceptanceEvidence": [
+    "Approved business hours, alert criteria and on-call ownership",
+    "Synthetic performance benchmark and capacity results",
+    "SQL requestedBackupStorageRedundancy configuration evidence for STR/LTR plus non-destructive restore test",
+    "Private DNS and public-access policy compliance, including APIM public gateway unreachable and private ingress functional",
+    "PIM and emergency-access exercise",
+    "Dead-letter and policy-failure exercise",
+    "Audit hash-chain and immutability verification",
+    "Location and transfer evidence",
+    "Provider/model data-use and version evidence",
+    "Internal Audit-owned validation verdict"
+  ],
+  "sources": [
+    "SRC-AZ-008",
+    "SRC-AZ-011",
+    "SRC-AZ-012",
+    "SRC-AZ-013",
+    "SRC-AZ-014",
+    "SRC-AZ-017",
+    "SRC-AZ-018",
+    "SRC-AZ-026",
+    "SRC-AZ-027",
+    "SRC-AZ-029"
+  ],
+  "changeControl": {
+    "id": "STRATTON-CC-001",
+    "status": "PROPOSED_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL",
+    "baselinePath": "3-azure-design/evidence/stratton-operations-reliability-contract.json",
+    "proposalOnly": true,
+    "modelPlanRevision": "8",
+    "authorActualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "contractOperations": {
+    "assuranceVerdict": {
+      "admission": "Submission is accepted only after exact private Blob versions are pulled, verified/scanned and copied to WORM; 202 transport/submission is not acceptance.",
+      "evaluation": "Internal Audit policy/registries/suite/release/schema/limits are immutable inputs; static default and separately authorised isolated dynamic execution.",
+      "failure": "Identity/trust/object/copy/sandbox/policy/signing/store failure leaves non-final or INCONCLUSIVE/FAIL; never local PASS.",
+      "recovery": "Internal Audit validates WORM copies, SQL/outbox, trust registries, signed release/image and exact submission before resume."
+    },
+    "analysisVectorization": {
+      "failure": "Any binding/provenance/injection/filter/revocation/schema/dimension/provider mismatch stops; no lower-control fallback, tool or partial promotion.",
+      "revocation": "Revocation/licence expiry/content change denies affected chunks/runs and queues versioned known-good rebuild.",
+      "recovery": "Validate hostile corpus, tenant/case filters, citations/provenance and atomically switch alias only after complete checks."
+    },
+    "auditExport": {
+      "ordering": "One sender lease per tenant/case; strict sequence and receiver predecessor check. Gap/conflict/signature/schema/poison never advances continuity.",
+      "retry": "Bounded jittered retry; TTL must exceed grace plus maximum retry/reconciliation window; explicit message size, duplicate window and dead-letter-on-expiry.",
+      "receipt": "Role-separated reconciler validates Internal Audit trust/signature and exact event/body/stream before VERIFIED_CONTIGUOUS; database update alone cannot satisfy guard.",
+      "recovery": "Preserve outbox/DLQ/quarantine/WORM/receipts, replay by stream, validate both producer and receipt trust and obtain Internal Audit continuity evidence."
+    }
+  },
+  "verificationAddendum": [
+    {
+      "id": "CC1-V-01",
+      "criterion": "Purpose-specific signature/trust/token mapping, rotation/revocation/compromise and canonical hash vectors pass; all negative cases deny."
+    },
+    {
+      "id": "CC1-V-02",
+      "criterion": "Same producer/run+manifest replays; different manifest conflicts; corrected run supersedes with new validationRunId; exact submission verdict read."
+    },
+    {
+      "id": "CC1-V-03",
+      "criterion": "Private exact-version pull/copy succeeds; SSRF/SAS/redirect/public path/version swap/ETag/hash/size/type/scan failures deny."
+    },
+    {
+      "id": "CC1-V-04",
+      "criterion": "Independent evaluation inputs and signed assurance release bind verdict; sandbox isolation/limits/default-static behaviour verified."
+    },
+    {
+      "id": "CC1-V-05",
+      "criterion": "Governed analysis hashes/provenance/filter/injection/citation/no-tool controls pass; hostile and cross-boundary tests deny."
+    },
+    {
+      "id": "CC1-V-06",
+      "criterion": "Evidence revocation triggers non-queryable affected data, known-good rebuild and validated atomic alias switch."
+    },
+    {
+      "id": "CC1-V-07",
+      "criterion": "Signed audit event/message hash/position/predecessor verified; conflict/gap/schema/signature/poison never advances continuity."
+    },
+    {
+      "id": "CC1-V-08",
+      "criterion": "Signed receipt exact binding and role separation required for transition guard; local row fabrication fails."
+    },
+    {
+      "id": "CC1-V-09",
+      "criterion": "Message size/duplicate-window/TTL/grace/reconciliation/order relationships fail configuration when invalid."
+    },
+    {
+      "id": "CC1-V-10",
+      "criterion": "Recovery preserves and reconciles immutable/outbox/DLQ/quarantine state under Internal Audit authority."
+    }
+  ]
+}

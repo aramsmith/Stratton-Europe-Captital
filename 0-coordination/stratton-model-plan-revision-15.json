@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "15",
+  "createdAt": "2026-08-03T04:06:32.4911442+02:00",
+  "revisionReason": "Preserve the AFF-A- and AFF-B-reviewed Phase 5 revision-3 package byte-identically and govern a sibling revision-4 candidate that remediates all six MAJOR findings from AFF-B Phase 5 round 1.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-14.json",
+    "sha256": "a4af30ebc44cb985c1881d2508eb2bdb8680e480c0262682fe34de2ebb40638b",
+    "overwrite": false
+  },
+  "reviewedPhase5Subjects": [
+    {
+      "revision": "1",
+      "path": "5-coding/stratton-phase-5-hashes.json",
+      "sha256": "412e573e287bb1056217f6a29475df596d280543fcbeae875ce020e73dc13e9b",
+      "state": "IMMUTABLE_AFF_A_ROUND_1_SUBJECT"
+    },
+    {
+      "revision": "2",
+      "path": "5-coding-r2/stratton-phase-5-hashes.json",
+      "sha256": "3effddfdc036578bc0ade0135002daedfdad0322fe6165279da2f43bbc0d74ef",
+      "state": "IMMUTABLE_AFF_A_ROUND_2_SUBJECT"
+    },
+    {
+      "revision": "3",
+      "path": "5-coding-r3/stratton-phase-5-hashes.json",
+      "sha256": "cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886",
+      "state": "IMMUTABLE_AFF_A_ROUND_3_AND_AFF_B_ROUND_1_SUBJECT",
+      "affAReview": {
+        "path": "reviews/aff-a/5/round-3/stratton-aff-a-review.json",
+        "sha256": "bcb5f8ad241cdd82a3ea290002584e91cd0a394806d6db09083c26cffe7339e8",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 0
+        }
+      },
+      "affBReview": {
+        "path": "reviews/aff-b/5/round-1/stratton-aff-b-review.json",
+        "sha256": "a46643eef6a9e2e146cd6ad811f012d733e533e499a33c9531c94c8357d27e9e",
+        "verdict": "DIVERGES",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 6,
+          "MINOR": 0
+        }
+      },
+      "coverage": {
+        "path": "reviews/aff-b/coverage/stratton-compliance-coverage-008.json",
+        "sha256": "622f9da4552c86d48f166493769b92db314a71960deab6996e1f30360b7c97e3",
+        "status": "FROZEN_FORMAL_PHASE5_ROUND1_DIVERGES_NOT_GATE_ACTIVE"
+      }
+    }
+  ],
+  "revisionedCandidate": {
+    "packageRoot": "5-coding-r4",
+    "manifestPath": "5-coding-r4/stratton-phase-5-hashes.json",
+    "state": "REMEDIATION_IN_PROGRESS",
+    "sourcePackageRoot": "5-coding-r3",
+    "sourcePackageMustRemainByteIdentical": true,
+    "requiredFindingIds": [
+      "AFFB-P5-R1-MAJ-001",
+      "AFFB-P5-R1-MAJ-002",
+      "AFFB-P5-R1-MAJ-003",
+      "AFFB-P5-R1-MAJ-004",
+      "AFFB-P5-R1-MAJ-005",
+      "AFFB-P5-R1-MAJ-006"
+    ],
+    "requiredBehaviour": [
+      "Remove delivery write authority from the assurance evidence container and bind any write authority only to the separately controlled Internal Audit evidence reader-copier identity.",
+      "Do not claim immutable-policy lock or legal-hold completion from declarative intent flags; keep data admission blocked until separately authorised observed lock and legal-hold evidence is bound.",
+      "Reject empty workload NSG and route controls, enforce explicit deny rules, route workload default egress through the corresponding regional firewall and exempt Azure-reserved subnets.",
+      "Scope Service Bus sender and receiver roles to exact queues and actual active producers and consumers; do not activate analysis or audit-export identities before their authority interfaces are approved.",
+      "Render explicit Container Apps Entra authentication with Return401, HTTPS-only, tenant, client and audience bindings supplied only as owner-bound values.",
+      "Disclose all three authority conflicts, all fourteen owner-bound residual controls and both retained AFF-B minor gaps in release evidence, and validate the disclosure for accuracy."
+    ]
+  },
+  "phase5Assignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefaultModelId": "gpt-5.3-codex",
+    "initialAuthorActualRuntimeModelId": "gpt-5.3-codex",
+    "finalisationSelectedExactGptModelId": "gpt-5.6-sol",
+    "finalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "runScopedOverrideDecision": "APPROVED_IN_REVISION_12",
+    "modelSelectionChangedByRevision15": false,
+    "additionalHumanModelApprovalRequired": false
+  },
+  "reviewAssignments": {
+    "affA": {
+      "reviewer": "AFF-A",
+      "approvedDefaultModelId": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromAllPhaseAuthorActualRuntimeModelIds": true,
+      "nextRound": 4
+    },
+    "affB": {
+      "reviewer": "AFF-B",
+      "approvedDefaultModelId": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "nextRound": 2,
+      "state": "HELD_UNTIL_AFF_A_ACCEPTS_THE_REVISION4_CANDIDATE"
+    }
+  },
+  "authorityBinding": {
+    "changeControlId": "STRATTON-CC-001",
+    "approvalPath": "approvals/change-control/stratton-cc-001-approval-1.json",
+    "approvalSha256": "ec2ddad8bc9c38993d5266985db5c9e9f12358034ba3aad9c61cd93465d8b21d",
+    "approvalModelPlanRevision": "11",
+    "interpretation": "Revision 15 hardens local implementation, deployment admission and release disclosure only. It does not alter the approved authority amendment, activate any blocked interface or authorise Azure activity."
+  },
+  "releaseScopeDecision": {
+    "decisionId": "DEC-0006",
+    "decision": "The two assessed Microsoft accelerators remain deferred to a governed future release.",
+    "release1CandidateImpact": "NONE"
+  },
+  "constraints": [
+    "Do not modify any file beneath 5-coding, 5-coding-r2 or 5-coding-r3 because those packages are bound by formal reviews.",
+    "No Azure authentication, target validation, what-if, deployment or cloud runtime testing is authorised.",
+    "No owner-bound value may be invented, inferred, waived or enabled.",
+    "The three unimplemented STRATTON-CC-001 authority-provisioning flags remain false.",
+    "Generated Bicep templates may exist only beneath 5-coding-r4/infra/out.",
+    "The revision-4 candidate must receive complete local validation and AFF-A round 4 before AFF-B round 2 is invoked.",
+    "AFF-A round 4 and AFF-B round 2 must review the same unchanged revision-4 manifest.",
+    "Phase 6 remains locked until final AFF-A and AFF-B convergence and explicit human Phase 5 approval."
+  ]
+}

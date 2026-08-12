@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "5",
+  "round": 5,
+  "createdAt": "2026-08-09T18:37:15.294+02:00",
+  "appendOnly": true,
+  "verificationMethod": "Read-only SHA-256 recomputation of canonical manifest and each listed subject file; no subject code or script execution.",
+  "subject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r7",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-phase-5-hashes.json",
+    "expectedSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519"
+  },
+  "preReview": {
+    "manifestSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "entryCount": 168,
+    "manifestFileCount": 168,
+    "listedFilesMatched": 168,
+    "missingFiles": 0,
+    "mismatchedFiles": 0,
+    "duplicatePaths": 0,
+    "ordinalPathOrder": true,
+    "invalidPathCount": 0,
+    "encoding": "UTF-8 without BOM",
+    "trailingNewline": false
+  },
+  "postReview": {
+    "manifestSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "entryCount": 168,
+    "manifestFileCount": 168,
+    "listedFilesMatched": 168,
+    "missingFiles": 0,
+    "mismatchedFiles": 0,
+    "duplicatePaths": 0,
+    "ordinalPathOrder": true,
+    "invalidPathCount": 0,
+    "encoding": "UTF-8 without BOM",
+    "trailingNewline": false
+  },
+  "reviewedFiles": {
+    "count": 168,
+    "allManifestListedFilesByteRead": true,
+    "artifactRoleCounts": {
+      "UNSPECIFIED": 168
+    }
+  },
+  "result": "PASS"
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "4",
+  "modelPlanRevision": "5",
+  "generatedAt": "2026-08-02T10:21:38.561+02:00",
+  "generatedBy": "AFF-4 orchestration using PowerShell Get-FileHash",
+  "algorithm": "SHA-256",
+  "commandPattern": "Get-FileHash -Algorithm SHA256 -LiteralPath <resolved-case-path>",
+  "evidenceScope": "All canonical Phase 4 subjects after AFF-A round-2 remediation and existing before this evidence record; this record and the subsequently generated manifest are independently verified by a separate Python hashlib receipt. Superseded reviewed manifests and evidence remain under reviews/aff-a/4/round-1/reviewed-subject and round-2/reviewed-subject.",
+  "verifiedArtifacts": [
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.md",
+      "role": "authoritative-markdown",
+      "sizeBytes": 20819,
+      "sha256": "2d6308656348e2cd99e5af2b3e374a3b1405aa4ec19777829f87fa43b722099d"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.html",
+      "role": "rendered-html",
+      "sizeBytes": 25919,
+      "sha256": "f69a472e1f19f07b9aa7bb7045421e85caa09105db3e927c50ba0c6bb664941a"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue.json",
+      "role": "catalogue",
+      "sizeBytes": 70756,
+      "sha256": "a089c45957834d2e24b7fc244ae4373a1d6d3227160e12fa270a757a0c40396a"
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag.svg",
+      "role": "diagram",
+      "sizeBytes": 6534,
+      "sha256": "2f98103a955b78ae8e947953e680dd797733272d83d36deca7bc87982d9510c5"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-official-source-corrections.json",
+      "role": "evidence",
+      "sizeBytes": 11701,
+      "sha256": "cadc5f6893d02bf832c09912718730a8cad71d9da5a5644650c7e6f91a633312"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-candidate-validation.json",
+      "role": "evidence",
+      "sizeBytes": 7250,
+      "sha256": "20c80ec1c957663a60134914a8500a2e8ef8709067aefbf7f2042d7ceeab7fc3"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-5.json",
+      "role": "catalogue",
+      "sizeBytes": 3191,
+      "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf"
+    }
+  ]
+}

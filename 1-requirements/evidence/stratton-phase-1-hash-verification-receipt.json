@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "1",
+  "verifiedAt": "2026-08-01T21:21:30+02:00",
+  "manifestPath": "1-requirements/stratton-phase-1-hashes.json",
+  "manifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+  "manifestArtifactCount": 8,
+  "generationTool": "PowerShell Get-FileHash",
+  "independentVerificationTool": "Python hashlib.sha256",
+  "allManifestEntriesMatch": true,
+  "checks": [
+    {
+      "path": "1-requirements/stratton-requirements.md",
+      "manifestSha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917",
+      "pythonSha256": "d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917",
+      "match": true
+    },
+    {
+      "path": "1-requirements/stratton-requirements.html",
+      "manifestSha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83",
+      "pythonSha256": "4d335e43eed0fb98cb2e7ff14e94dfac869f72bb09ed01973bc5cafa8085ed83",
+      "match": true
+    },
+    {
+      "path": "1-requirements/stratton-requirements-catalogue.json",
+      "manifestSha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd",
+      "pythonSha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd",
+      "match": true
+    },
+    {
+      "path": "1-requirements/stratton-interview-decisions.json",
+      "manifestSha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed",
+      "pythonSha256": "6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed",
+      "match": true
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-2.json",
+      "manifestSha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f",
+      "pythonSha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f",
+      "match": true
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "manifestSha256": "37f3830a3186ac893ee90d6544ee7f03e9d1a477724a59ba77c2f64ee6658dfa",
+      "pythonSha256": "37f3830a3186ac893ee90d6544ee7f03e9d1a477724a59ba77c2f64ee6658dfa",
+      "match": true
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "manifestSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+      "pythonSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+      "match": true
+    },
+    {
+      "path": "1-requirements/evidence/stratton-phase-1-hash-generation-evidence.json",
+      "manifestSha256": "edbb016099a25ea5997abf7fd7201d8bf96c677bd51fced5b4c319ad327b4ef5",
+      "pythonSha256": "edbb016099a25ea5997abf7fd7201d8bf96c677bd51fced5b4c319ad327b4ef5",
+      "match": true
+    }
+  ],
+  "scopeNote": "This receipt verifies the manifest and every listed artifact. It is retained outside the manifest to avoid a self-referential hash cycle."
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "61",
+  "createdAt": "2026-08-03T23:32:37+02:00",
+  "revisionReason": "Replace all three slide 3 content blocks with interlocking geometric gears that rotate slowly in the objectives-to-AI-to-outcomes sequence.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-60.json",
+    "sha256": "3d300d7fbdf3952d83cdd9292cd9879fe4ce48eb41c9f873b9758f7abd0c9d8e",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "visualReference": "User-supplied three-gear reference image",
+    "changes": [
+      "Change all three slide 3 blocks into gears.",
+      "Keep the sequence Transformation objectives, AI infusion, Expected outcomes.",
+      "Make all gears spin slowly."
+    ]
+  },
+  "implementation": {
+    "geometry": "Original runtime-generated 18-tooth SVG gear paths; no stock-image asset used.",
+    "composition": {
+      "objectives": "440px lower-left gear with 380px static content core",
+      "aiInfusion": "480px elevated centre gear with 420px static content core",
+      "outcomes": "440px lower-right gear with 380px static content core"
+    },
+    "rotation": {
+      "sideGears": "42-second clockwise revolution",
+      "centreGear": "46-second counter-clockwise revolution",
+      "lifecycle": "runs only while slide 3 is active",
+      "reducedMotion": "all gear rotation disabled"
+    },
+    "typography": {
+      "sectionLabelPx": 16.5,
+      "titlePx": 18,
+      "descriptionPx": 15,
+      "basis": "matched to slide 2"
+    },
+    "contentFit": "All three static content cores fit without horizontal or vertical overflow."
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

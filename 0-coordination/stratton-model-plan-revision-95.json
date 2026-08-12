@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "95",
+  "createdAt": "2026-08-04T13:37:36.1331320+02:00",
+  "revisionReason": "restore interactive editing and drag targeting for authority satellites without changing the approved visual composition",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-94.json",
+    "sha256": "32058248de3a7ba8597c445e20b00d647eaf2804057dfdbd147273956a86ffd1",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 9,
+    "request": "restore interactive editing and drag targeting for the authority satellites while preserving the approved Slide 9 composition"
+  },
+  "contentChange": {
+    "summary": [
+      "Slide 9 keeps the full-hub satellites overlay non-interactive and restores pointer input only on the four satellite wrappers.",
+      "The Slide 9 JSX hash is unchanged from revision 94; only the slide CSS hash changes to restore editing and drag targeting."
+    ]
+  },
+  "sourceBoundary": {
+    "status": "CANDIDATE_AWAITING_ASSURANCE_AND_HUMAN_APPROVAL",
+    "phase6ApprovalClaimed": false,
+    "deploymentOrRuntimeClaimed": false
+  },
+  "quality": {
+    "viteBuild": "pass",
+    "registeredSlides": 15,
+    "renderedSlide": 9,
+    "visualFitJetBrainsMono": "pass",
+    "visualFitSystemUi": "pass",
+    "reducedMotion": "pass",
+    "impeccableFindings": 0,
+    "mutedStateOpacity": 0.55,
+    "mutedStateFilter": "saturate(0.78)"
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.jsx",
+      "sha256": "fe09645c8b665f0d3466c2138bcb12190643bc445f6f7a006a416fcb276de644"
+    },
+    "styles": {
+      "path": "6-presentation-r4/deck/src/slides/TogafArchitectureSlide.module.css",
+      "sha256": "c3f2ba18d7773378de529b4d7e702579bed239e2a92622cc3b267fda20fa5c8e"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 15,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

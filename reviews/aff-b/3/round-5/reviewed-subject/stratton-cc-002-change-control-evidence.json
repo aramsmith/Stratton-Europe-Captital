@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_PHASE_3_CHANGE_CONTROL_EVIDENCE",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "generatedAt": "2026-08-06T08:34:24.6382420+02:00",
+  "authorModelReceipt": {
+    "agent": "AFF-3",
+    "profile": ".github/agents/AFF-3-design.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "selectionRationale": "Material Azure sovereignty, routing, security, WAF and cross-contract design synthesis.",
+    "runScopedOverrideRequired": false
+  },
+  "governingSpecification": {
+    "path": "docs/superpowers/specs/2026-08-06-stratton-gpt-5-6-model-portfolio-design.md",
+    "sha256": "f714e995129c68b295cd30b98281619579dae1f2fb8a9e6fb6e3efc793212c86",
+    "hashState": "MATCHED_LOCAL_RAW_BYTES",
+    "decisionStatus": "HUMAN_SELECTED_DESIGN_DIRECTION_CASE_ARTIFACT_AMENDMENT_PENDING",
+    "bytes": 16043
+  },
+  "modelPlanRevision": {
+    "path": "0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "bytes": 11464,
+    "hashSource": "Actual raw bytes verified against .superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-01-manifest.json",
+    "verificationState": "MATCHED_ACTUAL_FILE_AND_TASK_1_BASELINE"
+  },
+  "approvedBaseline": {
+    "phase3Manifest": {
+      "path": "3-azure-design/stratton-phase-3-hashes.json",
+      "sha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945",
+      "modified": false
+    },
+    "phase3Approval": {
+      "path": "approvals/3/stratton-phase-3-approval-1.json",
+      "decision": "HISTORICAL_BASELINE_ONLY",
+      "modified": false
+    },
+    "cc001Approval": {
+      "path": "approvals/change-control/stratton-cc-001-approval-1.json",
+      "changeControlId": "STRATTON-CC-001",
+      "modified": false
+    },
+    "cc001R2Manifest": {
+      "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+      "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "modified": false
+    }
+  },
+  "humanDirection": {
+    "decision": "Adopt a governed Luna, Terra and Sol portfolio with EU Data Zone Standard inference and fixed application routing.",
+    "reason": "Match task complexity to the smallest sufficient governed model while preserving reproducibility, evidence and accountable human authority.",
+    "candidateApprovalState": "PENDING_REQUIRED_REVIEWS_AND_EXPLICIT_HUMAN_DECISION"
+  },
+  "designChanges": [
+    {
+      "id": "CC002-CHG-001",
+      "change": "Replace the regional deployment-type denial for inference with EU Data Zone Standard.",
+      "retained": [
+        "approved EU resource geography evidence",
+        "two-region workload recovery",
+        "private endpoints",
+        "managed identity",
+        "public-network denial",
+        "human authority"
+      ]
+    },
+    {
+      "id": "CC002-CHG-002",
+      "change": "Bind gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol version 2026-07-09 with DataZoneStandard and NoAutoUpgrade."
+    },
+    {
+      "id": "CC002-CHG-003",
+      "change": "Bind Luna to Chat Completions 2024-12-01-preview and Terra/Sol to Responses 2025-04-01-preview."
+    },
+    {
+      "id": "CC002-CHG-004",
+      "change": "Add eight fixed base routes, five ordered escalation reasons, mandatory validators and fail-closed handling."
+    },
+    {
+      "id": "CC002-CHG-005",
+      "change": "Bind prebuilt-layout, text-embedding-3-large limits and deterministic/classical anomaly controls."
+    },
+    {
+      "id": "CC002-CHG-006",
+      "change": "Add per-route evaluation gates, security/compliance evidence and operational route envelopes."
+    }
+  ],
+  "supersededStatements": [
+    {
+      "path": "3-azure-design/stratton-azure-design.md",
+      "subject": "DataZone deployment-type denial",
+      "effectiveOnlyAfterHumanDecision": true
+    },
+    {
+      "path": "3-azure-design/stratton-design-catalogue.json",
+      "subject": "regional-pattern and SBB-10/SBB-19 DataZone denial",
+      "effectiveOnlyAfterHumanDecision": true
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-network-security-contract.json",
+      "subject": "AI deployment-type policy guardrail",
+      "effectiveOnlyAfterHumanDecision": true
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-operations-reliability-contract.json",
+      "subject": "regional-only AI wording",
+      "effectiveOnlyAfterHumanDecision": true
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-traceability-matrix.json",
+      "subject": "SR-001 regional deployment mapping",
+      "effectiveOnlyAfterHumanDecision": true
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-waf-cost-environment-matrix.json",
+      "subject": "WAF-005/WAF-007 regional deployment posture",
+      "effectiveOnlyAfterHumanDecision": true
+    }
+  ],
+  "candidateArtifacts": [
+    "3-azure-design/stratton-cc-002-phase-3-amendment.md",
+    "3-azure-design/stratton-cc-002-phase-3-amendment.html",
+    "3-azure-design/stratton-design-catalogue-cc-002-proposed.json",
+    "3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-model-routing-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-cc-002-candidate-validation.json",
+    "3-azure-design/evidence/stratton-cc-002-change-control-evidence.json",
+    "3-azure-design/evidence/stratton-cc-002-hash-generation-evidence.json"
+  ],
+  "releaseBoundary": {
+    "release1": [
+      "due-diligence evidence-to-draft",
+      "assistive risk and ESG evidence analysis"
+    ],
+    "futureOnly": [
+      "automated SFDR reporting",
+      "deal-intelligence copilot and sourcing",
+      "portfolio financial-anomaly monitoring",
+      "custom extraction",
+      "supervised anomaly prediction",
+      "Model Router evaluation"
+    ],
+    "release1Expanded": false
+  },
+  "ownerInputs": [
+    "exact primary and recovery Azure resource regions and designated EU geography",
+    "deployment names and IDs",
+    "model capability, quota and owner-bound capacity evidence",
+    "reasoning effort",
+    "embedding dimensions and chunking",
+    "provider data-use and support evidence",
+    "source licences",
+    "retention and legal hold",
+    "benchmark inputs and results",
+    "EU AI Act role/use-case classification evidence",
+    "control-owner identities"
+  ],
+  "hashCycleControl": {
+    "manifestExcludedFromItsOwnArtifacts": true,
+    "hashGenerationEvidenceExcludesItsOwnDigest": true,
+    "manifestBindsHashGenerationEvidence": true,
+    "externalBindings": [
+      "governing specification raw-byte SHA-256",
+      "revision 111 raw-byte SHA-256"
+    ],
+    "currentState": "COMPLETED_NO_SELF_REFERENCE"
+  },
+  "requiredReviews": [
+    {
+      "reviewer": "AFF-A",
+      "displayName": "Rubber Duck Reviewer",
+      "requiredModel": "gpt-5.6-luna",
+      "round": 6,
+      "state": "NOT_CREATED_BY_AUTHORING_TURN"
+    },
+    {
+      "reviewer": "AFF-B",
+      "displayName": "Security and Compliance Reviewer",
+      "requiredModel": "gpt-5.6-terra",
+      "round": 6,
+      "state": "NOT_CREATED_BY_AUTHORING_TURN"
+    }
+  ],
+  "approval": {
+    "granted": false,
+    "humanDecision": "PENDING",
+    "reviewerConvergenceClaimed": false,
+    "productionPromotionClaimed": false
+  },
+  "executionBoundary": {
+    "localAuthoringOnly": true,
+    "azureSignIn": false,
+    "azureValidation": false,
+    "whatIf": false,
+    "deployment": false,
+    "runtimeTesting": false,
+    "localHashAndContractValidation": true
+  },
+  "generatedAtUtc": "2026-08-06T06:34:24.6414187+00:00"
+}

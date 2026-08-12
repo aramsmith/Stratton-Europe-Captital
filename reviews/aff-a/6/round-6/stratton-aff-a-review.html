@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AFF-A Phase 6 round 6 independent review">
+<title>AFF-A Phase 6 Review — Round 6</title>
+<style>:root{color-scheme:light;--ink:#0f172a;--muted:#475569;--line:#cbd5e1;--panel:#f8fafc;--accent:#0369a1;--code:#e2e8f0}*{box-sizing:border-box}html{font-family:"Segoe UI",Arial,sans-serif;color:var(--ink);background:#e2e8f0;line-height:1.55}body{margin:0}.page{width:min(1120px,calc(100% - 32px));margin:32px auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 40px rgba(15,23,42,.12);padding:48px 56px}h1,h2{line-height:1.2}h1{font-size:2rem;margin-top:0;border-bottom:3px solid var(--accent);padding-bottom:.55rem}h2{font-size:1.35rem;margin-top:2.2rem;color:#0c4a6e}p,li{max-width:100ch}code{background:var(--code);padding:.1rem .3rem;border-radius:4px}table{border-collapse:collapse;width:100%;margin:1rem 0 1.5rem;font-size:.9rem}th,td{border:1px solid var(--line);padding:.55rem .65rem;text-align:left;vertical-align:top}th{background:#e0f2fe}tbody tr:nth-child(even){background:var(--panel)}@media(max-width:760px){.page{width:100%;margin:0;border:0;border-radius:0;padding:28px 20px}table{display:block;overflow-x:auto}}@media print{html{background:#fff}.page{width:100%;margin:0;border:0;box-shadow:none;padding:0}}</style>
+</head>
+<body><main class="page">
+<h1 id="aff-a-rubber-duck-review-phase-6-c-level-presentation-round-6">AFF-A Rubber Duck Review — Phase 6 — C-level Presentation — Round 6</h1>
+<p><strong>Case:</strong> <code>Stratton-Europe-Captital</code><br />
+<strong>Immutable subject:</strong> <code>cases/Stratton-Europe-Captital/6-presentation-r6</code><br />
+<strong>Verdict:</strong> <strong>CONFORMS</strong><br />
+<strong>Reviewed at:</strong> <code>2026-08-10T01:26:54.6112844+02:00</code><br />
+<strong>Final round for this manifest:</strong> <strong>true</strong><br />
+<strong>Phase 6 approval:</strong> <strong>not granted</strong></p>
+<h2 id="binding-and-independence">Binding and independence</h2>
+<ul>
+<li>Canonical manifest SHA-256: <code>3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219</code>.</li>
+<li>Manifest integrity: <strong>155/155</strong> listed artifact hashes matched; duplicate paths <strong>0</strong>; safe relative paths and lexical canonical ordering <strong>PASS</strong>.</li>
+<li>Model-plan revision <code>113</code>: SHA-256 <code>fde28bb18b4ac993522e4c795daa04800bf6cf8d564f5358b4f36b808dabfffe</code>.</li>
+<li>Author actual model: <code>gpt-5.6-sol</code>; AFF-A selected and actual model: <code>gpt-5.6-luna</code>.</li>
+<li>Exact model separation is verified: <code>gpt-5.6-luna != gpt-5.6-sol</code>.</li>
+<li>The subject remained byte-identical during review.</li>
+</ul>
+<h2 id="prior-finding-disposition">Prior finding disposition</h2>
+<p><code>AFFA-P6-R5-MIN-001</code> is <strong>RESOLVED</strong>. The stale phrase <code>slide-17 combines live Azure Retail Prices API rates</code> is absent from the active r6 subject. Truthful dated-snapshot wording is present in:</p>
+<ul>
+<li><code>6-presentation-r6/deck/deck.config.js</code></li>
+<li><code>6-presentation-r6/deck/dist/assets/index-D5WAks7W.js</code></li>
+</ul>
+<p>The immutable r5 manifest and AFF-A round-5 review retain their recorded SHA-256 values.</p>
+<h2 id="independent-checks">Independent checks</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manifest and artifact integrity</td>
+<td><strong>PASS</strong></td>
+<td><code>6-presentation-r6/stratton-phase-6-hashes.json</code></td>
+</tr>
+<tr>
+<td>Revision 113 and model-opposite separation</td>
+<td><strong>PASS</strong></td>
+<td>model plan, author receipt and AFF-A model receipt</td>
+</tr>
+<tr>
+<td>Human approval and optional Phase 7/8 boundary</td>
+<td><strong>PASS</strong></td>
+<td>model plan and <code>evidence/phase-validation.json</code></td>
+</tr>
+<tr>
+<td>Metadata remediation in source and compiled bundle</td>
+<td><strong>PASS</strong></td>
+<td>deck configuration and compiled <code>index-D5WAks7W.js</code></td>
+</tr>
+<tr>
+<td>Twenty slides, 38 claims and 69 source references</td>
+<td><strong>PASS</strong></td>
+<td>catalogue and claim-source validation</td>
+</tr>
+<tr>
+<td>APIM Premium v2 cost basis and arithmetic</td>
+<td><strong>PASS</strong></td>
+<td>pricing snapshot and <code>azurePricing.js</code></td>
+</tr>
+<tr>
+<td>Browser assurance and determinism</td>
+<td><strong>PASS</strong></td>
+<td>60 combinations; zero findings; three matching runs</td>
+</tr>
+<tr>
+<td>Runtime-network and recursive static checks</td>
+<td><strong>PASS</strong></td>
+<td>zero failed/external requests; 21 production files; no source maps or missing dependencies</td>
+</tr>
+<tr>
+<td>PDF export and metadata disclosure</td>
+<td><strong>PASS</strong></td>
+<td>20 pages; deterministic; blank parsed fields; no XMP/attachments; disclosed <code>MuPDF 1.29.0</code> marker</td>
+</tr>
+<tr>
+<td>Evidence-disclosure scan</td>
+<td><strong>PASS</strong></td>
+<td>zero high-confidence credential or local-system findings</td>
+</tr>
+<tr>
+<td>Asset-rights distribution boundary</td>
+<td><strong>PASS — OWNER GATE</strong></td>
+<td>external distribution remains fail closed pending accountable-owner confirmation or replacement</td>
+</tr>
+</tbody>
+</table>
+<h2 id="findings">Findings</h2>
+<p><strong>None.</strong></p>
+<h2 id="confirmed-boundaries">Confirmed boundaries</h2>
+<ul>
+<li>Pricing is a dated <code>2026-08-10</code> West Europe public-PAYG snapshot, not a live-rate or future-price guarantee.</li>
+<li>The <code>$113.0K</code> on-premises comparator, <code>+60%</code> premium and projected benefits remain explicitly illustrative or hypothetical.</li>
+<li>The presentation distinguishes source facts, hypotheses, approved design intent, static implementation evidence and untested runtime behaviour.</li>
+<li>No Azure sign-in, provider query, target validation, what-if, deployment, inference, promotion, Phase 8 runtime testing, achieved benefit, compliance certification or production-readiness evidence exists.</li>
+<li>AFF-B must review this identical manifest before the human architect can approve or reject Phase 6.</li>
+<li>Optional Phases 7 and 8 remain separately human-invoked.</li>
+</ul>
+<h2 id="verdict-rationale">Verdict rationale</h2>
+<p>The immutable r6 subject verifies exactly, model-plan revision 113 and Luna/Sol reviewer separation are correctly bound, and the prior metadata truthfulness gap is closed in both source and compiled output. Pricing, claim traceability, browser, network/static, PDF and disclosure evidence are internally consistent and avoid unsupported runtime or compliance claims. Residual asset-rights and owner-bound controls remain explicit fail-closed gates rather than presentation defects. This AFF-A verdict does not constitute human Phase 6 approval.</p>
+<h2 id="output-records">Output records</h2>
+<ul>
+<li>Review JSON: <code>cases/Stratton-Europe-Captital/reviews/aff-a/6/round-6/stratton-aff-a-review.json</code></li>
+<li>Model receipt: <code>cases/Stratton-Europe-Captital/reviews/aff-a/6/round-6/stratton-aff-a-model-receipt.json</code></li>
+<li>Reviewed-subject snapshot: <code>cases/Stratton-Europe-Captital/reviews/aff-a/6/round-6/reviewed-subject/stratton-phase-6-hashes.json</code></li>
+<li>Hash verification receipt: <code>cases/Stratton-Europe-Captital/reviews/aff-a/6/round-6/reviewed-subject/stratton-phase-6-hash-verification-receipt.json</code></li>
+</ul>
+
+</main></body>
+</html>

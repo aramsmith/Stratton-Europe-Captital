@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "round": 6,
+  "reviewedAt": "2026-08-09T18:09:19.702+02:00",
+  "canonicalSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r6",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-phase-5-hashes.json",
+    "expectedSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "preReviewSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "postReviewSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "prePostStatus": "UNCHANGED",
+    "entryCount": 166,
+    "recomputedEntryCount": 166,
+    "matchedFileCount": 166,
+    "missingFiles": [],
+    "hashMismatches": [],
+    "duplicatePaths": [],
+    "ordinalPathOrdering": true,
+    "pathShapeViolations": [],
+    "missingRoles": [],
+    "utf8Bom": false,
+    "trailingNewline": false
+  },
+  "releaseManifest": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-release-manifest.json",
+    "expectedSha256": "88f41e40e0b1c2f7f699bd92b89d36e8d91589895012c86c4912c7247e3b9e28",
+    "actualSha256": "88f41e40e0b1c2f7f699bd92b89d36e8d91589895012c86c4912c7247e3b9e28"
+  },
+  "priorReviewedSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "expectedSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "entryCount": 162,
+    "recomputedMatched": 162
+  },
+  "snapshot": {
+    "path": "reviews/aff-a/5/round-6/reviewed-subject/stratton-phase-5-hashes.json",
+    "sha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "byteIdenticalToCanonical": true
+  },
+  "subjectModificationPerformed": false,
+  "staticOnlyBoundary": "No package code, tests, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, inference, promotion, retention finalisation, or runtime tests were executed."
+}

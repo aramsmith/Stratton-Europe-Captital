@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "57",
+  "createdAt": "2026-08-03T22:53:02+02:00",
+  "revisionReason": "Add clearer vertical separation between the three stacked horizontal content panels on slide 2.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-56.json",
+    "sha256": "1058978038a6f5783ba146aace33f7d052f95f53c3254865dd23caf0e9cbbeee",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Create visible space between the horizontal blocks on slide 2."
+    ]
+  },
+  "implementation": {
+    "target": "slide-2-profile-grid",
+    "previousPanelGapPx": 3,
+    "panelGapPx": 10,
+    "preserved": [
+      "panel dimensions",
+      "content and typography",
+      "existing animations",
+      "footer clearance"
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

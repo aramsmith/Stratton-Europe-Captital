@@ -1,0 +1,182 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "10",
+  "supersedesRevision": "9",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-9.json",
+  "generatedAt": "2026-08-02T16:11:32.2480900+02:00",
+  "changeReason": "Append-only governance correction after AFF-A round 5 accepted the core STRATTON-CC-001 remediation but found one stale non-authoritative current-candidate Phase 3 path in the Phase 4 r2 catalogue. The reviewed r2 subjects are immutable; Phase 3 remains unchanged and Phase 4 correction moves to new r3 paths.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefault": "gpt-5.3-codex",
+    "selectedExactGptModelId": "gpt-5.3-codex",
+    "actualRuntimeModelId": "gpt-5.3-codex",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved Phase 5 coding model remains active for implementation and local validation while authority-interface finalisation stays fail-closed.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "ACTIVE_PHASE_5_PRESERVED_AUTHORITY_INTERFACE_FINALISATION_GATED"
+  },
+  "changeControl": {
+    "changeControlId": "STRATTON-CC-001",
+    "status": "AFF_A_PHASE3_COMPLETE_PHASE4_BOUNDED_R3_CORRECTION",
+    "affectedPhaseIds": [
+      "3",
+      "4"
+    ],
+    "approvedBaselinesPreserved": true,
+    "proposalApprovalGranted": false,
+    "phase5State": "ACTIVE",
+    "phase5Gate": "Authority-interface finalisation remains fail-closed pending the Phase 4 r3 correction, AFF-A Phase 4 re-review, AFF-B convergence on unchanged final subjects and explicit human approval.",
+    "reviewedRound2Subjects": [
+      {
+        "phaseId": "3",
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "status": "FROZEN_AFF_A_ROUND_5_COMPLETE_AFF_B_PENDING",
+        "immutableHistoricalSubject": true
+      },
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json",
+        "sha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+        "status": "SUPERSEDED_AFTER_AFF_A_BOUNDED_REFERENCE_FINDING",
+        "immutableHistoricalSubject": true
+      }
+    ],
+    "nextCanonicalCandidateManifests": [
+      {
+        "phaseId": "3",
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "status": "UNCHANGED_FINAL_CANDIDATE",
+        "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54"
+      },
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+        "status": "PENDING_AFTER_BOUNDED_CORRECTION",
+        "hashRecorded": false
+      }
+    ],
+    "bindingRule": "No r2 file may be overwritten after AFF-A review. Phase 4 r3 must bind the exact unchanged Phase 3 r2 manifest hash and may correct only the stale current-candidate path plus directly dependent validation and hash evidence."
+  },
+  "formalReviews": {
+    "phase3": {
+      "manifestSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "affA": {
+        "round": 5,
+        "path": "reviews/aff-a/3/round-5/stratton-aff-a-review.json",
+        "sha256": "1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539",
+        "actualRuntimeModelId": "gpt-5.5",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 2
+        },
+        "finalForUnchangedSubject": true
+      },
+      "affB": {
+        "round": 4,
+        "actualRuntimeModelId": "gpt-5.6-sol",
+        "status": "PENDING_COVERAGE_007"
+      }
+    },
+    "phase4": {
+      "supersededManifestSha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+      "affA": {
+        "round": 5,
+        "path": "reviews/aff-a/4/round-5/stratton-aff-a-review.json",
+        "sha256": "471575d814195868a9d751ee12d36be1514e12d77dfff13c427156c0ce849892",
+        "actualRuntimeModelId": "gpt-5.5",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 4
+        },
+        "boundedFindingId": "AFFA-P4-R5-MIN-004",
+        "finalForUnchangedSubject": true,
+        "supersededForCorrection": true
+      },
+      "nextAffA": {
+        "round": 6,
+        "requiredActualRuntimeModelId": "gpt-5.5",
+        "status": "PENDING_PHASE4_R3"
+      },
+      "affB": {
+        "round": 3,
+        "requiredActualRuntimeModelId": "gpt-5.6-sol",
+        "status": "HELD_PENDING_PHASE4_R3_AND_AFF_A_ROUND_6"
+      }
+    },
+    "coverage": {
+      "sequence": "007",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "status": "PENDING_FINAL_SUBJECT_BINDING"
+    },
+    "overallOutcome": "PENDING_BOUNDED_PHASE4_CORRECTION",
+    "humanGateStatus": "BLOCKED"
+  },
+  "boundedCorrection": {
+    "owner": {
+      "agent": "AFF-4",
+      "phaseId": "4",
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "actualRuntimeModelId": "gpt-5.6-sol",
+      "availability": "ACTIVE"
+    },
+    "finding": {
+      "id": "AFFA-P4-R5-MIN-004",
+      "severity": "MINOR",
+      "subjectDefect": true,
+      "requiredOutcome": "The current-candidate changeControl.proposedPhase3Binding must name 3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json while intentionally historical revision-8 references remain unchanged."
+    },
+    "writeBoundary": [
+      "4-implementation-plan/*-cc-001-r3-*",
+      "4-implementation-plan/evidence/*-cc-001-r3-*",
+      "4-implementation-plan/diagrams/*-cc-001-r3-*",
+      "4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json"
+    ],
+    "prohibitedWrites": [
+      "Every Phase 3 r2 file",
+      "Every Phase 4 r2 file",
+      "All existing reviews, coverage, approvals, Phase 5 files, dashboard and journal"
+    ]
+  },
+  "reviewAssignments": {
+    "affA": {
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "phase4NextRound": 6
+    },
+    "affB": {
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol",
+      "phase3Round": 4,
+      "phase4Round": 3,
+      "coverageSequence": "007"
+    }
+  },
+  "constraints": [
+    "The approved Phase 3 and Phase 4 baselines, approvals and historical hashes remain unchanged.",
+    "All revision-8 and r2 subjects already reviewed are immutable and must not be overwritten.",
+    "Phase 3 r2 remains the unchanged final candidate and retains its AFF-A round-5 review.",
+    "Phase 4 bounded correction must use new r3 paths and bind the exact Phase 3 r2 hash.",
+    "AFF-A must use exact actual runtime model ID gpt-5.5 for Phase 4 round 6.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol and bind coverage 007 plus the current AFF-A records.",
+    "Phase 5 remains active, but authority-interface finalisation stays fail-closed until final review convergence and explicit human approval.",
+    "No Azure operation, deployment, what-if or runtime test is authorised by this model-plan revision."
+  ]
+}

@@ -1,0 +1,1529 @@
+{
+  "deploymentUnitId": "DU-10",
+  "environment": "dev",
+  "tenantId": "11111111-1111-1111-1111-111111111111",
+  "citadelParentManagementGroupId": "mg-citadel",
+  "citadelManagementSubscriptionId": "00000000-0000-0000-0000-000000000001",
+  "citadelConnectivitySubscriptionId": "00000000-0000-0000-0000-000000000002",
+  "citadelAiGovernanceSubscriptionId": "00000000-0000-0000-0000-000000000003",
+  "strattonNonproductionSubscriptionId": "00000000-0000-0000-0000-000000000004",
+  "strattonProductionSubscriptionId": "00000000-0000-0000-0000-000000000005",
+  "strattonAssuranceProductionSubscriptionId": "00000000-0000-0000-0000-000000000006",
+  "approvedPrimaryLocation": "northeurope",
+  "approvedRecoveryLocation": "westeurope",
+  "approvedLocationEvidenceId": "evid-123",
+  "environmentAddressSpaces": {
+    "dev": "10.20.0.0/16",
+    "tst": "10.30.0.0/16",
+    "prd": "10.40.0.0/16"
+  },
+  "primaryAndRecoveryHubAddressSpaces": {
+    "primary": "10.0.0.0/16",
+    "recovery": "10.1.0.0/16"
+  },
+  "primaryAndRecoveryEnterpriseWanConnectionIds": {
+    "primary": "/subscriptions/00000000-0000-0000-0000-000000000002/resourceGroups/rg-net/providers/Microsoft.Network/virtualHubs/vhub-primary/hubVirtualNetworkConnections/conn-primary",
+    "recovery": "/subscriptions/00000000-0000-0000-0000-000000000002/resourceGroups/rg-net/providers/Microsoft.Network/virtualHubs/vhub-recovery/hubVirtualNetworkConnections/conn-recovery"
+  },
+  "ownerTag": "test-owner",
+  "costCenterTag": "test-cost-centre",
+  "productionDataClassificationTag": "confidential",
+  "criticalityTag": "test",
+  "supportActionGroupReceivers": [
+    {
+      "name": "test-support",
+      "emailAddress": "test-support@example.invalid"
+    }
+  ],
+  "businessHoursDefinitionId": "test-business-hours",
+  "criticalAlertDefinitionId": "test-critical-alert",
+  "workloadProfileVersion": "test-workload-profile",
+  "regulatoryEvidenceRegisterVersion": "test-regulatory-register",
+  "applicationGatewayNetworkIsolationFeatureRegistrationEvidenceBySubscription": {
+    "00000000-0000-0000-0000-000000000004": "Registered",
+    "00000000-0000-0000-0000-000000000005": "Registered"
+  },
+  "rolloutAdmissionMaximum": 20,
+  "modelPortfolioDeploymentEnabled": true,
+  "modelNameVersionAndQuota": {
+    "luna": {
+      "name": "gpt-5.6-luna",
+      "version": "2026-07-09",
+      "capacity": 10
+    },
+    "terra": {
+      "name": "gpt-5.6-terra",
+      "version": "2026-07-09",
+      "capacity": 10
+    },
+    "sol": {
+      "name": "gpt-5.6-sol",
+      "version": "2026-07-09",
+      "capacity": 10
+    },
+    "embedding": {
+      "name": "text-embedding-3-large",
+      "version": "test-owner-approved-version",
+      "capacity": 10
+    }
+  },
+  "modelCapabilityAndQuotaEvidenceByEnvironment": {
+    "dev": {
+      "approvalState": "APPROVED",
+      "capabilityEvidenceId": "STRATTON-AI-CAPABILITY-DEV-TEST-001",
+      "capabilityEvidenceSha256": "fa03c1df28abcb85aabad909e6cd6529dc9d1bfc0ef6c1976029a251b47ff199",
+      "quotaEvidenceId": "STRATTON-AI-QUOTA-DEV-TEST-001",
+      "quotaEvidenceSha256": "de055b93614b908414345f23f81dfe0b11253a48cfa68a99c54e8d021b838dcb",
+      "target": {
+        "environment": "dev",
+        "subscriptionId": "00000000-0000-0000-0000-000000000004",
+        "resourceGroupName": "rg-ai-stratton-dev",
+        "location": "northeurope",
+        "accountName": "aoai-stratton-dev"
+      },
+      "portfolioBindingSha256": "af1487061c79ca4c74a290b232461134e0993ff229477f12b6ced2b45b9fe2c9"
+    },
+    "tst": {
+      "approvalState": "APPROVED",
+      "capabilityEvidenceId": "STRATTON-AI-CAPABILITY-TST-TEST-001",
+      "capabilityEvidenceSha256": "b9de17128c18b2f0b80647664edb34d0031e24501e8b180783012eec59864130",
+      "quotaEvidenceId": "STRATTON-AI-QUOTA-TST-TEST-001",
+      "quotaEvidenceSha256": "f166bbd675df36d3da0ce555586a14016ed36df14139900f6e254580fab8a4c9",
+      "target": {
+        "environment": "tst",
+        "subscriptionId": "00000000-0000-0000-0000-000000000004",
+        "resourceGroupName": "rg-ai-stratton-tst",
+        "location": "northeurope",
+        "accountName": "aoai-stratton-tst"
+      },
+      "portfolioBindingSha256": "9a7f665c81893683fe707ddb66e5de01c0e3fe42a1d24261c892b61c1908f5ed"
+    },
+    "prd": {
+      "approvalState": "APPROVED",
+      "capabilityEvidenceId": "STRATTON-AI-CAPABILITY-PRD-TEST-001",
+      "capabilityEvidenceSha256": "5ec30e9a5125ec1d7bfd2156ea0e62fe6c9c178cf420b67fac78e1c5afb7882b",
+      "quotaEvidenceId": "STRATTON-AI-QUOTA-PRD-TEST-001",
+      "quotaEvidenceSha256": "840c7b5a6cb12ad91048e94701d4b7f297a8522be86ebfac53a483592a52558d",
+      "target": {
+        "environment": "prd",
+        "subscriptionId": "00000000-0000-0000-0000-000000000005",
+        "resourceGroupName": "rg-ai-stratton-prd",
+        "location": "northeurope",
+        "accountName": "aoai-stratton-prd"
+      },
+      "portfolioBindingSha256": "0ee5ee0a5e6f24685c45cc4acfc75bd3cb25512650a0c2d7c30f2448ba8a01de"
+    }
+  },
+  "providerDataUseEvidenceId": "test-provider-data-use-evidence",
+  "aiActClassificationEvidenceId": "test-ai-act-classification-evidence",
+  "du01": {
+    "mode": "manage",
+    "platformManagementGroupName": "mg-platform",
+    "landingZonesManagementGroupName": "mg-lz",
+    "assuranceManagementGroupName": "mg-assurance",
+    "placementEvidenceId": "e01",
+    "placementEvidenceHash": "h01"
+  },
+  "du02": {
+    "requiredTagKeys": [
+      "environment",
+      "workload",
+      "owner",
+      "costCenter",
+      "dataClassification",
+      "criticality",
+      "managedBy"
+    ],
+    "approvedLocationList": [
+      "northeurope",
+      "westeurope"
+    ],
+    "approvedFirewallPublicIpResourceIds": [
+      "/subscriptions/00000000-0000-0000-0000-000000000002/resourceGroups/rg-net/providers/Microsoft.Network/publicIPAddresses/pip-fw-01"
+    ]
+  },
+  "du03": {
+    "managementGroups": [
+      {
+        "name": "rg1",
+        "tags": {
+          "dataClassification": "synthetic"
+        }
+      }
+    ],
+    "connectivityGroups": [
+      {
+        "name": "rg2",
+        "tags": {
+          "dataClassification": "synthetic"
+        }
+      }
+    ],
+    "aiGovernanceGroups": [
+      {
+        "name": "rg3",
+        "tags": {
+          "dataClassification": "synthetic"
+        }
+      }
+    ],
+    "workloadGroupsByEnvironment": {
+      "dev": [
+        {
+          "name": "rgdev",
+          "tags": {
+            "dataClassification": "synthetic"
+          }
+        }
+      ],
+      "tst": [
+        {
+          "name": "rgtst",
+          "tags": {
+            "dataClassification": "synthetic"
+          }
+        }
+      ],
+      "prd": [
+        {
+          "name": "rgprd",
+          "tags": {
+            "dataClassification": "confidential"
+          }
+        }
+      ]
+    }
+  },
+  "du04": {
+    "hubPrimaryNetwork": {
+      "firewallPrivateIpAddress": "10.0.0.4",
+      "subnets": [
+        {
+          "name": "s1"
+        }
+      ]
+    },
+    "hubRecoveryNetwork": {
+      "firewallPrivateIpAddress": "10.1.0.4",
+      "subnets": [
+        {
+          "name": "s1"
+        }
+      ]
+    },
+    "deployRecoveryByEnvironment": {
+      "dev": false,
+      "tst": false,
+      "prd": true
+    },
+    "workloadPrimaryNetworkByEnvironment": {
+      "dev": {
+        "name": "vnet-dev",
+        "subnets": [
+          {
+            "name": "snet-apim",
+            "nsgRules": [
+              {
+                "name": "allow-approved-inbound",
+                "properties": {
+                  "direction": "Inbound",
+                  "access": "Allow",
+                  "sourceAddressPrefix": "10.10.0.0/24",
+                  "destinationAddressPrefix": "10.20.0.0/24"
+                }
+              },
+              {
+                "name": "deny-all-inbound",
+                "properties": {
+                  "direction": "Inbound",
+                  "access": "Deny",
+                  "sourceAddressPrefix": "*",
+                  "destinationAddressPrefix": "*"
+                }
+              },
+              {
+                "name": "deny-all-outbound",
+                "properties": {
+                  "direction": "Outbound",
+                  "access": "Deny",
+                  "sourceAddressPrefix": "*",
+                  "destinationAddressPrefix": "*"
+                }
+              }
+            ],
+            "routeEntries": [
+              {
+                "name": "default-egress",
+                "properties": {
+                  "addressPrefix": "0.0.0.0/0",
+                  "nextHopType": "VirtualAppliance",
+                  "nextHopIpAddress": "10.0.0.4"
+                }
+              }
+            ]
+          },
+          {
+            "name": "snet-app",
+            "nsgRules": [
+              {
+                "name": "allow-approved-inbound",
+                "properties": {
+                  "direction": "Inbound",
+                  "access": "Allow",
+                  "sourceAddressPrefix": "10.20.0.0/24",
+                  "destinationAddressPrefix": "10.30.0.0/24"
+                }
+              },
+              {
+                "name": "deny-all-inbound",
+                "properties": {
+                  "direction": "Inbound",
+                  "access": "Deny",
+                  "sourceAddressPrefix": "*",
+                  "destinationAddressPrefix": "*"
+                }
+              },
+              {
+                "name": "deny-all-outbound",
+                "properties": {
+                  "direction": "Outbound",
+                  "access": "Deny",
+                  "sourceAddressPrefix": "*",
+                  "destinationAddressPrefix": "*"
+                }
+              }
+            ],
+            "routeEntries": [
+              {
+                "name": "default-egress",
+                "properties": {
+                  "addressPrefix": "0.0.0.0/0",
+                  "nextHopType": "VirtualAppliance",
+                  "nextHopIpAddress": "10.0.0.4"
+                }
+              }
+            ]
+          },
+          {
+            "name": "snet-private-endpoints",
+            "privateEndpointNetworkPolicies": "Enabled",
+            "nsgRules": [
+              {
+                "name": "allow-approved-inbound",
+                "properties": {
+                  "direction": "Inbound",
+                  "access": "Allow",
+                  "sourceAddressPrefix": "10.30.0.0/24",
+                  "destinationAddressPrefix": "10.40.0.0/24"
+                }
+              },
+              {
+                "name": "deny-all-inbound",
+                "properties": {
+                  "direction": "Inbound",
+                  "access": "Deny",
+                  "sourceAddressPrefix": "*",
+                  "destinationAddressPrefix": "*"
+                }
+              },
+              {
+                "name": "deny-all-outbound",
+                "properties": {
+                  "direction": "Outbound",
+                  "access": "Deny",
+                  "sourceAddressPrefix": "*",
+                  "destinationAddressPrefix": "*"
+                }
+              }
+            ],
+            "routeEntries": [
+              {
+                "name": "default-egress",
+                "properties": {
+                  "addressPrefix": "0.0.0.0/0",
+                  "nextHopType": "VirtualAppliance",
+                  "nextHopIpAddress": "10.0.0.4"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "tst": {
+        "name": "vnet-tst",
+        "subnets": [
+          {
+            "name": "s1"
+          }
+        ]
+      },
+      "prd": {
+        "name": "vnet-prd",
+        "subnets": [
+          {
+            "name": "s1"
+          }
+        ]
+      }
+    },
+    "peeringContractByEnvironment": {
+      "dev": {
+        "allowEnvironmentPeering": false,
+        "correspondingHubOnly": true,
+        "workloadPublicIpAllowed": false
+      },
+      "tst": {
+        "allowEnvironmentPeering": false,
+        "correspondingHubOnly": true,
+        "workloadPublicIpAllowed": false
+      },
+      "prd": {
+        "allowEnvironmentPeering": false,
+        "correspondingHubOnly": true,
+        "workloadPublicIpAllowed": false
+      }
+    }
+  },
+  "du05": {
+    "privateZones": [
+      {
+        "name": "privatelink.database.windows.net"
+      }
+    ],
+    "resolver": {
+      "forwardingRulesets": [
+        {
+          "name": "r1"
+        }
+      ],
+      "forwardingRules": [
+        {
+          "name": "fr1"
+        }
+      ],
+      "forwardingVirtualNetworkLinks": [
+        {
+          "name": "lnk1"
+        }
+      ]
+    }
+  },
+  "du06": {
+    "identities": [
+      {
+        "name": "uami-api"
+      },
+      {
+        "name": "uami-ingest"
+      },
+      {
+        "name": "uami-extraction"
+      },
+      {
+        "name": "uami-analysis"
+      },
+      {
+        "name": "uami-indexer"
+      },
+      {
+        "name": "uami-audit-export"
+      },
+      {
+        "name": "uami-deploy"
+      },
+      {
+        "name": "uami-monitor"
+      },
+      {
+        "name": "uami-role-assignment-executor"
+      },
+      {
+        "name": "uami-assurance-authority"
+      }
+    ]
+  },
+  "du09": {
+    "dataByEnvironment": {
+      "dev": {
+        "primaryLocation": "northeurope",
+        "sql": {
+          "publicNetworkAccess": "Disabled",
+          "backupStorageRedundancy": "Local"
+        },
+        "appConfiguration": {
+          "publicNetworkAccess": "Disabled"
+        },
+        "storageAccounts": [
+          {
+            "publicNetworkAccess": "Disabled",
+            "allowBlobPublicAccess": false
+          }
+        ]
+      },
+      "tst": {
+        "primaryLocation": "northeurope",
+        "sql": {
+          "publicNetworkAccess": "Disabled",
+          "backupStorageRedundancy": "Local"
+        },
+        "appConfiguration": {
+          "publicNetworkAccess": "Disabled"
+        },
+        "storageAccounts": [
+          {
+            "publicNetworkAccess": "Disabled",
+            "allowBlobPublicAccess": false
+          }
+        ]
+      },
+      "prd": {
+        "primaryLocation": "northeurope",
+        "sql": {
+          "publicNetworkAccess": "Disabled",
+          "backupStorageRedundancy": "Zone"
+        },
+        "appConfiguration": {
+          "publicNetworkAccess": "Disabled"
+        },
+        "storageAccounts": [
+          {
+            "publicNetworkAccess": "Disabled",
+            "allowBlobPublicAccess": false
+          }
+        ]
+      }
+    }
+  },
+  "du10": {
+    "integrationByEnvironment": {
+      "dev": {
+        "serviceBus": {
+          "publicNetworkAccess": "Disabled",
+          "queues": [
+            {
+              "name": "q-ingestion"
+            },
+            {
+              "name": "q-extraction"
+            },
+            {
+              "name": "q-analysis"
+            },
+            {
+              "name": "q-indexing"
+            },
+            {
+              "name": "q-audit-export"
+            }
+          ],
+          "roleAssignments": [
+            {
+              "identityName": "uami-api",
+              "queueName": "q-ingestion",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-api",
+              "queueName": "q-extraction",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-api",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-ingest",
+              "queueName": "q-ingestion",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            },
+            {
+              "identityName": "uami-extraction",
+              "queueName": "q-extraction",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            },
+            {
+              "identityName": "uami-extraction",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-indexer",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            }
+          ],
+          "skuName": "Premium",
+          "tier": "Premium"
+        },
+        "apim": {
+          "publicNetworkAccess": "Disabled"
+        }
+      },
+      "tst": {
+        "serviceBus": {
+          "publicNetworkAccess": "Disabled",
+          "queues": [
+            {
+              "name": "q-ingestion"
+            },
+            {
+              "name": "q-extraction"
+            },
+            {
+              "name": "q-analysis"
+            },
+            {
+              "name": "q-indexing"
+            },
+            {
+              "name": "q-audit-export"
+            }
+          ],
+          "roleAssignments": [
+            {
+              "identityName": "uami-api",
+              "queueName": "q-ingestion",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-api",
+              "queueName": "q-extraction",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-api",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-ingest",
+              "queueName": "q-ingestion",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            },
+            {
+              "identityName": "uami-extraction",
+              "queueName": "q-extraction",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            },
+            {
+              "identityName": "uami-extraction",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-indexer",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            }
+          ],
+          "skuName": "Premium",
+          "tier": "Premium"
+        },
+        "apim": {
+          "publicNetworkAccess": "Disabled"
+        }
+      },
+      "prd": {
+        "serviceBus": {
+          "publicNetworkAccess": "Disabled",
+          "queues": [
+            {
+              "name": "q-ingestion"
+            },
+            {
+              "name": "q-extraction"
+            },
+            {
+              "name": "q-analysis"
+            },
+            {
+              "name": "q-indexing"
+            },
+            {
+              "name": "q-audit-export"
+            }
+          ],
+          "roleAssignments": [
+            {
+              "identityName": "uami-api",
+              "queueName": "q-ingestion",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-api",
+              "queueName": "q-extraction",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-api",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-ingest",
+              "queueName": "q-ingestion",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            },
+            {
+              "identityName": "uami-extraction",
+              "queueName": "q-extraction",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            },
+            {
+              "identityName": "uami-extraction",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39"
+            },
+            {
+              "identityName": "uami-indexer",
+              "queueName": "q-indexing",
+              "roleDefinitionId": "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0"
+            }
+          ],
+          "skuName": "Premium",
+          "tier": "Premium"
+        },
+        "apim": {
+          "publicNetworkAccess": "Disabled"
+        }
+      }
+    }
+  },
+  "du11": {
+    "aiByEnvironment": {
+      "dev": {
+        "serviceInventory": {
+          "deploymentType": "DataZoneStandard"
+        },
+        "publicNetworkAccess": "Disabled",
+        "deployments": [
+          {
+            "modelKey": "luna",
+            "name": "gpt-56-luna-dev",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "terra",
+            "name": "gpt-56-terra-dev",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "sol",
+            "name": "gpt-56-sol-dev",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "embedding",
+            "name": "embedding-3-large-dev",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          }
+        ],
+        "openAi": {
+          "accountName": "aoai-stratton-dev"
+        }
+      },
+      "tst": {
+        "serviceInventory": {
+          "deploymentType": "DataZoneStandard"
+        },
+        "publicNetworkAccess": "Disabled",
+        "deployments": [
+          {
+            "modelKey": "luna",
+            "name": "gpt-56-luna-tst",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "terra",
+            "name": "gpt-56-terra-tst",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "sol",
+            "name": "gpt-56-sol-tst",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "embedding",
+            "name": "embedding-3-large-tst",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          }
+        ],
+        "openAi": {
+          "accountName": "aoai-stratton-tst"
+        }
+      },
+      "prd": {
+        "serviceInventory": {
+          "deploymentType": "DataZoneStandard"
+        },
+        "publicNetworkAccess": "Disabled",
+        "deployments": [
+          {
+            "modelKey": "luna",
+            "name": "gpt-56-luna-prd",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "terra",
+            "name": "gpt-56-terra-prd",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "sol",
+            "name": "gpt-56-sol-prd",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          },
+          {
+            "modelKey": "embedding",
+            "name": "embedding-3-large-prd",
+            "skuName": "DataZoneStandard",
+            "versionUpgradeOption": "NoAutoUpgrade",
+            "fineTuningEnabled": false
+          }
+        ],
+        "openAi": {
+          "accountName": "aoai-stratton-prd"
+        }
+      }
+    },
+    "subscriptionIdByEnvironment": {
+      "dev": "00000000-0000-0000-0000-000000000004",
+      "tst": "00000000-0000-0000-0000-000000000004",
+      "prd": "00000000-0000-0000-0000-000000000005"
+    },
+    "aiResourceGroupByEnvironment": {
+      "dev": "rg-ai-stratton-dev",
+      "tst": "rg-ai-stratton-tst",
+      "prd": "rg-ai-stratton-prd"
+    },
+    "locationByEnvironment": {
+      "dev": "northeurope",
+      "tst": "northeurope",
+      "prd": "northeurope"
+    }
+  },
+  "du12": {
+    "platformByEnvironment": {
+      "dev": {
+        "workerJobs": [
+          {
+            "name": "job-q-ingestion-dev",
+            "queueName": "q-ingestion",
+            "identityPrincipalId": "pid-q-ingestion-dev"
+          },
+          {
+            "name": "job-q-extraction-dev",
+            "queueName": "q-extraction",
+            "identityPrincipalId": "pid-q-extraction-dev"
+          },
+          {
+            "name": "job-q-analysis-dev",
+            "queueName": "q-analysis",
+            "deploymentEnabled": false,
+            "identityPrincipalId": "pid-q-analysis-dev"
+          },
+          {
+            "name": "job-q-indexing-dev",
+            "queueName": "q-indexing",
+            "identityPrincipalId": "pid-q-indexing-dev"
+          },
+          {
+            "name": "job-q-audit-export-dev",
+            "queueName": "q-audit-export",
+            "deploymentEnabled": false,
+            "identityPrincipalId": "pid-q-audit-export-dev"
+          }
+        ],
+        "apiApp": {
+          "minReplicas": 1,
+          "entraAuthentication": {
+            "tenantId": "11111111-1111-4111-8111-111111111111",
+            "clientId": "22222222-2222-4222-8222-222222222222",
+            "allowedAudience": "api://22222222-2222-4222-8222-222222222222"
+          },
+          "environmentVariables": [
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_INGESTION",
+              "value": "q-ingestion"
+            },
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_EXTRACTION",
+              "value": "q-extraction"
+            },
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_INDEXING",
+              "value": "q-indexing"
+            }
+          ]
+        },
+        "keyVault": {
+          "networkBypass": "None"
+        }
+      },
+      "tst": {
+        "workerJobs": [
+          {
+            "name": "job-q-ingestion-tst",
+            "queueName": "q-ingestion",
+            "identityPrincipalId": "pid-q-ingestion-tst"
+          },
+          {
+            "name": "job-q-extraction-tst",
+            "queueName": "q-extraction",
+            "identityPrincipalId": "pid-q-extraction-tst"
+          },
+          {
+            "name": "job-q-analysis-tst",
+            "queueName": "q-analysis",
+            "deploymentEnabled": false,
+            "identityPrincipalId": "pid-q-analysis-tst"
+          },
+          {
+            "name": "job-q-indexing-tst",
+            "queueName": "q-indexing",
+            "identityPrincipalId": "pid-q-indexing-tst"
+          },
+          {
+            "name": "job-q-audit-export-tst",
+            "queueName": "q-audit-export",
+            "deploymentEnabled": false,
+            "identityPrincipalId": "pid-q-audit-export-tst"
+          }
+        ],
+        "apiApp": {
+          "minReplicas": 1,
+          "entraAuthentication": {
+            "tenantId": "11111111-1111-4111-8111-111111111111",
+            "clientId": "22222222-2222-4222-8222-222222222222",
+            "allowedAudience": "api://22222222-2222-4222-8222-222222222222"
+          },
+          "environmentVariables": [
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_INGESTION",
+              "value": "q-ingestion"
+            },
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_EXTRACTION",
+              "value": "q-extraction"
+            },
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_INDEXING",
+              "value": "q-indexing"
+            }
+          ]
+        },
+        "keyVault": {
+          "networkBypass": "None"
+        }
+      },
+      "prd": {
+        "workerJobs": [
+          {
+            "name": "job-q-ingestion-prd",
+            "queueName": "q-ingestion",
+            "identityPrincipalId": "pid-q-ingestion-prd"
+          },
+          {
+            "name": "job-q-extraction-prd",
+            "queueName": "q-extraction",
+            "identityPrincipalId": "pid-q-extraction-prd"
+          },
+          {
+            "name": "job-q-analysis-prd",
+            "queueName": "q-analysis",
+            "deploymentEnabled": false,
+            "identityPrincipalId": "pid-q-analysis-prd"
+          },
+          {
+            "name": "job-q-indexing-prd",
+            "queueName": "q-indexing",
+            "identityPrincipalId": "pid-q-indexing-prd"
+          },
+          {
+            "name": "job-q-audit-export-prd",
+            "queueName": "q-audit-export",
+            "deploymentEnabled": false,
+            "identityPrincipalId": "pid-q-audit-export-prd"
+          }
+        ],
+        "apiApp": {
+          "minReplicas": 2,
+          "entraAuthentication": {
+            "tenantId": "11111111-1111-4111-8111-111111111111",
+            "clientId": "22222222-2222-4222-8222-222222222222",
+            "allowedAudience": "api://22222222-2222-4222-8222-222222222222"
+          },
+          "environmentVariables": [
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_INGESTION",
+              "value": "q-ingestion"
+            },
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_EXTRACTION",
+              "value": "q-extraction"
+            },
+            {
+              "name": "AZURE_SERVICEBUS_QUEUE_INDEXING",
+              "value": "q-indexing"
+            }
+          ]
+        },
+        "keyVault": {
+          "networkBypass": "None"
+        }
+      }
+    }
+  },
+  "du13": {
+    "privateEndpointsByEnvironment": {
+      "dev": [
+        {
+          "serviceType": "sql-primary",
+          "name": "pe-sql-primary-dev"
+        },
+        {
+          "serviceType": "servicebus",
+          "name": "pe-servicebus-dev"
+        },
+        {
+          "serviceType": "keyvault",
+          "name": "pe-keyvault-dev"
+        },
+        {
+          "serviceType": "appconfig",
+          "name": "pe-appconfig-dev"
+        },
+        {
+          "serviceType": "search",
+          "name": "pe-search-dev"
+        },
+        {
+          "serviceType": "openai",
+          "name": "pe-openai-dev"
+        },
+        {
+          "serviceType": "documentintelligence",
+          "name": "pe-documentintelligence-dev"
+        },
+        {
+          "serviceType": "acr",
+          "name": "pe-acr-dev"
+        },
+        {
+          "serviceType": "apim",
+          "name": "pe-apim-dev"
+        },
+        {
+          "serviceType": "monitor",
+          "name": "pe-monitor-dev"
+        }
+      ],
+      "tst": [
+        {
+          "serviceType": "sql-primary",
+          "name": "pe-sql-primary-tst"
+        },
+        {
+          "serviceType": "servicebus",
+          "name": "pe-servicebus-tst"
+        },
+        {
+          "serviceType": "keyvault",
+          "name": "pe-keyvault-tst"
+        },
+        {
+          "serviceType": "appconfig",
+          "name": "pe-appconfig-tst"
+        },
+        {
+          "serviceType": "search",
+          "name": "pe-search-tst"
+        },
+        {
+          "serviceType": "openai",
+          "name": "pe-openai-tst"
+        },
+        {
+          "serviceType": "documentintelligence",
+          "name": "pe-documentintelligence-tst"
+        },
+        {
+          "serviceType": "acr",
+          "name": "pe-acr-tst"
+        },
+        {
+          "serviceType": "apim",
+          "name": "pe-apim-tst"
+        },
+        {
+          "serviceType": "monitor",
+          "name": "pe-monitor-tst"
+        }
+      ],
+      "prd": [
+        {
+          "serviceType": "sql-primary",
+          "name": "pe-sql-primary-prd"
+        },
+        {
+          "serviceType": "servicebus",
+          "name": "pe-servicebus-prd"
+        },
+        {
+          "serviceType": "keyvault",
+          "name": "pe-keyvault-prd"
+        },
+        {
+          "serviceType": "appconfig",
+          "name": "pe-appconfig-prd"
+        },
+        {
+          "serviceType": "search",
+          "name": "pe-search-prd"
+        },
+        {
+          "serviceType": "openai",
+          "name": "pe-openai-prd"
+        },
+        {
+          "serviceType": "documentintelligence",
+          "name": "pe-documentintelligence-prd"
+        },
+        {
+          "serviceType": "acr",
+          "name": "pe-acr-prd"
+        },
+        {
+          "serviceType": "apim",
+          "name": "pe-apim-prd"
+        },
+        {
+          "serviceType": "monitor",
+          "name": "pe-monitor-prd"
+        },
+        {
+          "serviceType": "sql-recovery",
+          "name": "pe-sql-recovery-prd"
+        },
+        {
+          "serviceType": "apim-recovery",
+          "name": "pe-apim-recovery-prd"
+        }
+      ]
+    }
+  },
+  "du14": {
+    "privateEndpointEvidenceStateByEnvironment": {
+      "dev": "APPROVED",
+      "tst": "APPROVED",
+      "prd": "APPROVED"
+    },
+    "privateEndpointEvidenceIdByEnvironment": {
+      "dev": "pe-evid-dev",
+      "tst": "pe-evid-tst",
+      "prd": "pe-evid-prd"
+    },
+    "privateEndpointEvidenceHashByEnvironment": {
+      "dev": "pe-hash-dev",
+      "tst": "pe-hash-tst",
+      "prd": "pe-hash-prd"
+    },
+    "dnsEvidenceStateByEnvironment": {
+      "dev": "APPROVED",
+      "tst": "APPROVED",
+      "prd": "APPROVED"
+    },
+    "dnsEvidenceIdByEnvironment": {
+      "dev": "dns-evid-dev",
+      "tst": "dns-evid-tst",
+      "prd": "dns-evid-prd"
+    },
+    "dnsEvidenceHashByEnvironment": {
+      "dev": "dns-hash-dev",
+      "tst": "dns-hash-tst",
+      "prd": "dns-hash-prd"
+    },
+    "apiAdmissionEvidenceStateByEnvironment": {
+      "dev": "APPROVED",
+      "tst": "APPROVED",
+      "prd": "APPROVED"
+    },
+    "apiAdmissionEvidenceIdByEnvironment": {
+      "dev": "api-evid-dev",
+      "tst": "api-evid-tst",
+      "prd": "api-evid-prd"
+    },
+    "apiAdmissionEvidenceHashByEnvironment": {
+      "dev": "api-hash-dev",
+      "tst": "api-hash-tst",
+      "prd": "api-hash-prd"
+    },
+    "apimByEnvironment": {
+      "dev": {
+        "publicNetworkAccess": "Disabled",
+        "backends": [
+          {
+            "name": "api-backend"
+          }
+        ],
+        "apis": [
+          {
+            "name": "a1",
+            "backendId": "api-backend",
+            "entraAuthentication": {
+              "tenantId": "11111111-1111-4111-8111-111111111111",
+              "clientId": "22222222-2222-4222-8222-222222222222",
+              "allowedAudience": "api://22222222-2222-4222-8222-222222222222"
+            }
+          }
+        ]
+      },
+      "tst": {
+        "publicNetworkAccess": "Disabled",
+        "backends": [
+          {
+            "name": "api-backend"
+          }
+        ],
+        "apis": [
+          {
+            "name": "a1",
+            "backendId": "api-backend",
+            "entraAuthentication": {
+              "tenantId": "11111111-1111-4111-8111-111111111111",
+              "clientId": "22222222-2222-4222-8222-222222222222",
+              "allowedAudience": "api://22222222-2222-4222-8222-222222222222"
+            }
+          }
+        ]
+      },
+      "prd": {
+        "publicNetworkAccess": "Disabled",
+        "backends": [
+          {
+            "name": "api-backend"
+          }
+        ],
+        "apis": [
+          {
+            "name": "a1",
+            "backendId": "api-backend",
+            "entraAuthentication": {
+              "tenantId": "11111111-1111-4111-8111-111111111111",
+              "clientId": "22222222-2222-4222-8222-222222222222",
+              "allowedAudience": "api://22222222-2222-4222-8222-222222222222"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "du15": {
+    "subscriptionIdByEnvironment": {
+      "dev": "00000000-0000-0000-0000-000000000004",
+      "tst": "00000000-0000-0000-0000-000000000004",
+      "prd": "00000000-0000-0000-0000-000000000005"
+    },
+    "ingressResourceGroupByEnvironment": {
+      "dev": "rg-stratton-dev-ingress"
+    },
+    "featureRegistrationEvidenceIdByEnvironment": {
+      "dev": "TEST-DU15-FEATURE-REGISTRATION-001"
+    },
+    "featureRegistrationEvidenceHashByEnvironment": {
+      "dev": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "locationByEnvironment": {
+      "dev": "swedencentral"
+    },
+    "ingressByEnvironment": {
+      "dev": {
+        "name": "agw-stratton-dev",
+        "skuName": "WAF_v2",
+        "skuTier": "WAF_v2",
+        "autoscale": {
+          "minCapacity": 1,
+          "maxCapacity": 2
+        },
+        "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg-stratton-dev-network/providers/Microsoft.Network/virtualNetworks/vnet-stratton-dev/subnets/snet-appgateway",
+        "frontend": {
+          "privateIpAllocationMethod": "Static",
+          "privateIpAddress": "10.20.0.10"
+        },
+        "tlsCertificateKeyVaultSecretId": "https://kv-stratton-dev.vault.azure.net/secrets/appgateway-tls",
+        "apimPrivateFqdn": "apim-stratton-dev.azure-api.net",
+        "requestTimeoutSeconds": 30,
+        "trustedRootCertificates": [],
+        "healthProbePath": "/status-0123456789abcdef",
+        "healthProbeIntervalSeconds": 30,
+        "healthProbeTimeoutSeconds": 30,
+        "healthProbeUnhealthyThreshold": 3,
+        "healthProbeStatusCodes": [
+          "200-399"
+        ],
+        "rulePriority": 100,
+        "sslPolicyName": "AppGwSslPolicy20220101",
+        "wafPolicyId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg-stratton-dev-ingress/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/waf-stratton-dev"
+      }
+    }
+  },
+  "du16": {
+    "assuranceByEnvironment": {
+      "prd": {
+        "retentionFinalization": {
+          "state": "ACTIVE_OBSERVED_LOCK_AND_LEGAL_HOLD_EVIDENCE_VERIFIED",
+          "dataAdmissionEnabled": true,
+          "immutabilityLockRequired": true,
+          "legalHoldRequired": true,
+          "immutabilityLockEvidenceId": "LOCK-EVIDENCE-001",
+          "immutabilityLockEvidenceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "legalHoldEvidenceId": "LEGAL-HOLD-EVIDENCE-001",
+          "legalHoldEvidenceSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "legalHoldTags": [
+          "case-stratton"
+        ],
+        "evidenceStorage": {
+          "immutabilityDays": 365
+        },
+        "verdictStorage": {
+          "immutabilityDays": 365
+        },
+        "evidenceReaderCopierPrincipalId": "pid-assurance-evidence-reader-copier",
+        "evidenceReaderCopierAuthority": "Internal Audit",
+        "evidenceReaderCopierRoleDefinitionId": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+        "auditEvidenceReadRoleDefinitionId": "2a2b9908-6ea1-4ae2-8e65-a410df84e7d1",
+        "auditRoleDefinitionId": "17d1049b-9a84-46fb-8f53-869881c3d3ab"
+      }
+    },
+    "pendingAuthorityAmendment": {
+      "changeId": "STRATTON-CC-001",
+      "approvalState": "APPROVED",
+      "approvalEvidenceId": "STRATTON-CC-001-APPROVAL-001",
+      "approvalEvidenceHash": "ec2ddad8bc9c38993d5266985db5c9e9f12358034ba3aad9c61cd93465d8b21d",
+      "enableVerdictApiComputeBoundaryProvisioning": false,
+      "enableGovernedAnalysisVectorizationProvisioning": false,
+      "enableAuditExportPushEndpointQueueProvisioning": false
+    }
+  },
+  "du17": {
+    "diagnosticsByEnvironment": {
+      "dev": {
+        "assuranceAlerts": [
+          {
+            "intentId": "ALT-001",
+            "name": "ALT-001-dev"
+          },
+          {
+            "intentId": "ALT-002",
+            "name": "ALT-002-dev"
+          },
+          {
+            "intentId": "ALT-003",
+            "name": "ALT-003-dev"
+          },
+          {
+            "intentId": "ALT-004",
+            "name": "ALT-004-dev"
+          },
+          {
+            "intentId": "ALT-005",
+            "name": "ALT-005-dev"
+          },
+          {
+            "intentId": "ALT-006",
+            "name": "ALT-006-dev"
+          },
+          {
+            "intentId": "ALT-007",
+            "name": "ALT-007-dev"
+          },
+          {
+            "intentId": "ALT-008",
+            "name": "ALT-008-dev"
+          },
+          {
+            "intentId": "ALT-009",
+            "name": "ALT-009-dev"
+          },
+          {
+            "intentId": "ALT-010",
+            "name": "ALT-010-dev"
+          }
+        ],
+        "targets": {
+          "storageAccounts": [
+            {
+              "resourceId": "/s/1",
+              "diagnosticSettingName": "d1",
+              "logs": [
+                {
+                  "enabled": true
+                }
+              ],
+              "metrics": [
+                {
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        },
+        "workspaceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/law",
+        "actionGroupResourceId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg/providers/Microsoft.Insights/actionGroups/ag"
+      },
+      "tst": {
+        "assuranceAlerts": [
+          {
+            "intentId": "ALT-001",
+            "name": "ALT-001-tst"
+          },
+          {
+            "intentId": "ALT-002",
+            "name": "ALT-002-tst"
+          },
+          {
+            "intentId": "ALT-003",
+            "name": "ALT-003-tst"
+          },
+          {
+            "intentId": "ALT-004",
+            "name": "ALT-004-tst"
+          },
+          {
+            "intentId": "ALT-005",
+            "name": "ALT-005-tst"
+          },
+          {
+            "intentId": "ALT-006",
+            "name": "ALT-006-tst"
+          },
+          {
+            "intentId": "ALT-007",
+            "name": "ALT-007-tst"
+          },
+          {
+            "intentId": "ALT-008",
+            "name": "ALT-008-tst"
+          },
+          {
+            "intentId": "ALT-009",
+            "name": "ALT-009-tst"
+          },
+          {
+            "intentId": "ALT-010",
+            "name": "ALT-010-tst"
+          }
+        ],
+        "targets": {
+          "storageAccounts": [
+            {
+              "resourceId": "/s/1",
+              "diagnosticSettingName": "d1",
+              "logs": [
+                {
+                  "enabled": true
+                }
+              ],
+              "metrics": [
+                {
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        },
+        "workspaceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/law",
+        "actionGroupResourceId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg/providers/Microsoft.Insights/actionGroups/ag"
+      },
+      "prd": {
+        "assuranceAlerts": [
+          {
+            "intentId": "ALT-001",
+            "name": "ALT-001-prd"
+          },
+          {
+            "intentId": "ALT-002",
+            "name": "ALT-002-prd"
+          },
+          {
+            "intentId": "ALT-003",
+            "name": "ALT-003-prd"
+          },
+          {
+            "intentId": "ALT-004",
+            "name": "ALT-004-prd"
+          },
+          {
+            "intentId": "ALT-005",
+            "name": "ALT-005-prd"
+          },
+          {
+            "intentId": "ALT-006",
+            "name": "ALT-006-prd"
+          },
+          {
+            "intentId": "ALT-007",
+            "name": "ALT-007-prd"
+          },
+          {
+            "intentId": "ALT-008",
+            "name": "ALT-008-prd"
+          },
+          {
+            "intentId": "ALT-009",
+            "name": "ALT-009-prd"
+          },
+          {
+            "intentId": "ALT-010",
+            "name": "ALT-010-prd"
+          }
+        ],
+        "targets": {
+          "storageAccounts": [
+            {
+              "resourceId": "/s/1",
+              "diagnosticSettingName": "d1",
+              "logs": [
+                {
+                  "enabled": true
+                }
+              ],
+              "metrics": [
+                {
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        },
+        "workspaceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/law",
+        "actionGroupResourceId": "/subscriptions/00000000-0000-0000-0000-000000000004/resourceGroups/rg/providers/Microsoft.Insights/actionGroups/ag"
+      }
+    }
+  }
+}

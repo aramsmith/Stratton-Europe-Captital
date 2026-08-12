@@ -1,0 +1,5 @@
+
+> stratton-phase5-app@1.0.0 check:migrations
+> node ./scripts/check-migrations.mjs
+
+migration checks passed

@@ -1,0 +1,370 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF-B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "003",
+  "phaseId": "1",
+  "createdAt": "2026-08-01T21:31:46.333+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_FOR_BOUND_MANIFEST",
+  "supersedesCoverageSequence": "002",
+  "supersessionReason": "Material remediation added DR-007 and SR-010 and produced a new canonical manifest; coverage 002 remains retained but is not active for the current manifest.",
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-2.json",
+    "modelPlanRevision": "2",
+    "modelPlanManifestEntrySha256": "d5587f21824b6882fef4bb36e37484227b34f28ab581853438ed9019b423d25f"
+  },
+  "canonicalSubjectBinding": {
+    "manifestPath": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+    "manifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "modelPlanRevision": "2",
+    "artifactCount": 8,
+    "independentReceiptPath": "cases/Stratton-Europe-Captital/1-requirements/evidence/stratton-phase-1-hash-verification-receipt.json",
+    "verificationStatus": "VERIFIED_BY_RETAINED_DUAL_TOOL_EVIDENCE_ALL_ENTRIES_MATCH",
+    "reviewerLocalRecomputeStatus": "NOT_RECOMPUTED_NO_HASH_EXECUTION_TOOL_EXPOSED"
+  },
+  "sourceRegister": {
+    "path": "cases/Stratton-Europe-Captital/stratton-regulatory-register.md",
+    "manifestSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+    "revision": "002",
+    "custodian": "AFF-0"
+  },
+  "evidenceBasis": {
+    "humanConfirmedApplicabilityEvidence": [
+      "1-requirements/stratton-interview-decisions.json:903-930 (INT-D-007)",
+      "1-requirements/stratton-interview-decisions.json:1044-1068 (INT-D-009)"
+    ],
+    "sovereigntyAndClassificationEvidence": [
+      "1-requirements/stratton-interview-decisions.json:592-611 (INT-D-002)",
+      "1-requirements/stratton-interview-decisions.json:637-660 (INT-D-003)"
+    ],
+    "requirementsEvidence": "cases/Stratton-Europe-Captital/1-requirements/stratton-requirements-catalogue.json",
+    "requirementsManifestSha256": "a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd",
+    "officialSourceAndArticleMappingStatus": "OPEN_ACCOUNTABLE_OWNER_VALIDATION",
+    "useBoundary": "Human-confirmed applicability and material constraints are requirements evidence only. This coverage record does not make an independent legal determination or formal compliance claim."
+  },
+  "coverageSummary": {
+    "confirmedApplicabilityBoundaries": 4,
+    "conditionalApplicabilityBoundaries": 1,
+    "confirmedObligationClustersMapped": 21,
+    "conditionalObligationClustersMapped": 4,
+    "totalObligationClustersMapped": 25,
+    "coveredClusters": 25,
+    "confirmedNonRegulatoryControlOutcomesMapped": 7,
+    "fullyCoveredNonRegulatoryControlOutcomes": 7,
+    "partiallyCoveredControlOutcomes": 0,
+    "missingControlOutcomes": 0,
+    "formalComplianceClaims": 0
+  },
+  "confirmedObligationCoverage": [
+    {
+      "registerEntryId": "REG-0001",
+      "instrument": "GDPR",
+      "jurisdiction": "European Union / EEA",
+      "scopeTrigger": "Release 1 processes EU personal data.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "DPO and General Counsel, recorded through human architect confirmation in INT-D-007.",
+      "officialSource": "NOT_YET_RETRIEVED_IN_REGISTER",
+      "publicationOrEffectiveDate": "NOT_YET_CONFIRMED_IN_REGISTER",
+      "status": "CONFIRMED_PENDING_DETAILED_EVIDENCE",
+      "obligationMappings": [
+        {
+          "obligation": "Data minimisation",
+          "controlOutcome": "Reject or remove unnecessary personal data.",
+          "requirementIds": ["DR-003"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Purpose limitation",
+          "controlOutcome": "Require a documented purpose for retained personal data and approved privacy evidence.",
+          "requirementIds": ["DR-003", "SR-003"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Documented lawful basis",
+          "controlOutcome": "Block processing until approved lawful-basis evidence is present.",
+          "requirementIds": ["SR-003"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Data-subject handling",
+          "controlOutcome": "Require approved data-subject-handling evidence.",
+          "requirementIds": ["SR-003"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "DPIA screening",
+          "controlOutcome": "Require DPIA screening before production and on material change.",
+          "requirementIds": ["SR-003"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Processor controls",
+          "controlOutcome": "Require approved processor evidence before processing.",
+          "requirementIds": ["SR-003"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Transfer governance",
+          "controlOutcome": "Block extra-EEA transfers without joint approval, legal mechanism, purpose and risk assessment.",
+          "requirementIds": ["SR-002", "SR-003"],
+          "coverage": "COVERED"
+        }
+      ]
+    },
+    {
+      "registerEntryId": "REG-0003",
+      "instrument": "SFDR",
+      "jurisdiction": "European Union",
+      "scopeTrigger": "ESG output supports regulated disclosures.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "Head of Compliance, recorded through human architect confirmation in INT-D-007.",
+      "officialSource": "NOT_YET_RETRIEVED_IN_REGISTER",
+      "publicationOrEffectiveDate": "NOT_YET_CONFIRMED_IN_REGISTER",
+      "status": "CONFIRMED_CONDITIONAL",
+      "obligationMappings": [
+        {
+          "obligation": "Data lineage",
+          "controlOutcome": "Retain source provenance and a reproducible evidence chain.",
+          "requirementIds": ["DR-004", "SR-004"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Data quality",
+          "controlOutcome": "Retain quality status and block incomplete evidence.",
+          "requirementIds": ["DR-004", "SR-004"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Reproducibility",
+          "controlOutcome": "Reproduce regulated-disclosure-supporting output from retained evidence.",
+          "requirementIds": ["SR-004"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Accountable review",
+          "controlOutcome": "Require applicable specialist approval and accountable review.",
+          "requirementIds": ["FR-002", "SR-004"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Audit evidence",
+          "controlOutcome": "Retain complete audit evidence for regulated-disclosure-supporting output.",
+          "requirementIds": ["SR-004"],
+          "coverage": "COVERED"
+        }
+      ]
+    },
+    {
+      "registerEntryId": "REG-0004",
+      "instrument": "AIFMD",
+      "jurisdiction": "European Union / Luxembourg implementation",
+      "scopeTrigger": "A Luxembourg AIF vehicle uses the Release 1 workflow.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "Fund Legal and Compliance, recorded through human architect confirmation in INT-D-007.",
+      "officialSource": "NOT_YET_RETRIEVED_IN_REGISTER",
+      "publicationOrEffectiveDate": "NOT_YET_CONFIRMED_IN_REGISTER",
+      "status": "CONFIRMED_CONDITIONAL",
+      "obligationMappings": [
+        {
+          "obligation": "Governed risk records",
+          "controlOutcome": "Retain governed risk records for each applicable vehicle.",
+          "requirementIds": ["SR-005"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Governed documentation records",
+          "controlOutcome": "Map applicable vehicle documentation to controlled records.",
+          "requirementIds": ["SR-005"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Applicable retention",
+          "controlOutcome": "Apply approved authoritative schedules and legal holds without inventing a period.",
+          "requirementIds": ["DR-005", "SR-005"],
+          "coverage": "COVERED"
+        }
+      ]
+    },
+    {
+      "registerEntryId": "REG-0002",
+      "instrument": "EU AI Act",
+      "jurisdiction": "European Union",
+      "scopeTrigger": "Release 1 uses AI; the exact role and use-case classification remain subject to documented assessment.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "General Counsel and Head of AI Governance, recorded through human architect confirmation in INT-D-007.",
+      "officialSource": "NOT_YET_RETRIEVED_IN_REGISTER",
+      "publicationOrEffectiveDate": "NOT_YET_CONFIRMED_IN_REGISTER",
+      "status": "CONFIRMED_PENDING_CLASSIFICATION_EVIDENCE",
+      "obligationMappings": [
+        {
+          "obligation": "AI literacy",
+          "controlOutcome": "Require approved AI-literacy evidence before production and after material change.",
+          "requirementIds": ["SR-006"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Transparency",
+          "controlOutcome": "Keep outputs as reviewable drafts with source evidence and approved transparency evidence.",
+          "requirementIds": ["FR-001", "AR-002", "SR-006"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Human oversight",
+          "controlOutcome": "Block progress until required professional and specialist review; retain every investment decision with the Investment Committee.",
+          "requirementIds": ["FR-002", "AR-001", "AR-002", "NR-002"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Logging",
+          "controlOutcome": "Retain auditable prohibited-action and material-human-review evidence.",
+          "requirementIds": ["AR-001", "SR-006", "NR-002"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Risk management",
+          "controlOutcome": "Prevent prohibited actions and meet approved citation, unsupported-claim and risk-detection thresholds under independent validation.",
+          "requirementIds": ["AR-001", "SR-006", "SR-008", "NR-001", "NR-002"],
+          "coverage": "COVERED"
+        },
+        {
+          "obligation": "Documented role and use-case classification",
+          "controlOutcome": "Forbid high-risk or non-high-risk claims until the approved assessment exists.",
+          "requirementIds": ["SR-006"],
+          "coverage": "COVERED"
+        }
+      ]
+    }
+  ],
+  "conditionalApplicabilityCoverage": [
+    {
+      "registerEntryId": "REG-0006",
+      "instrument": "DORA",
+      "jurisdiction": "European Union",
+      "scopeTrigger": "Stratton or the relevant managing entity is an in-scope AIFM or other financial entity.",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "The conditional boundary is confirmed in INT-D-009; General Counsel's entity-specific applicability or exemption record remains open.",
+      "officialSource": "NOT_YET_RETRIEVED_IN_REGISTER",
+      "publicationOrEffectiveDate": "NOT_YET_CONFIRMED_IN_REGISTER",
+      "status": "CONDITIONAL_VALIDATION_OPEN_NO_FORMAL_COMPLIANCE_CLAIM",
+      "obligationMappings": [
+        {
+          "obligation": "ICT risk-management evidence",
+          "controlOutcome": "Maintain DORA-aligned ICT risk evidence pending the entity decision.",
+          "requirementIds": ["SR-009"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_REQUIREMENT"
+        },
+        {
+          "obligation": "Incident evidence",
+          "controlOutcome": "Maintain incident evidence, monitored critical alerts and named incident ownership.",
+          "requirementIds": ["SR-009", "TR-004"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_REQUIREMENT"
+        },
+        {
+          "obligation": "Resilience testing",
+          "controlOutcome": "Maintain resilience-test evidence against availability, RTO and RPO targets.",
+          "requirementIds": ["SR-009", "TR-003"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_REQUIREMENT"
+        },
+        {
+          "obligation": "Third-party and cloud oversight",
+          "controlOutcome": "Maintain provider-oversight evidence and prohibit formal DORA compliance claims before the legal record.",
+          "requirementIds": ["SR-009"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_REQUIREMENT"
+        }
+      ]
+    }
+  ],
+  "confirmedRequirementControlMappings": [
+    {
+      "controlOutcome": "EU/EEA data and routine-processing residency",
+      "requirementIds": ["SR-001"],
+      "sourceDecisionIds": ["INT-D-002"],
+      "status": "COVERED"
+    },
+    {
+      "controlOutcome": "Extra-EEA transfer gate",
+      "requirementIds": ["SR-002"],
+      "sourceDecisionIds": ["INT-D-002", "INT-D-007"],
+      "status": "COVERED"
+    },
+    {
+      "controlOutcome": "Stratton-controlled, EU-based, least-privilege, time-bound and audited privileged access with emergency process",
+      "requirementIds": ["SR-007"],
+      "sourceDecisionIds": ["INT-D-002", "INT-D-006"],
+      "status": "COVERED"
+    },
+    {
+      "controlOutcome": "Assistive AI with prohibited autonomous actions and retained human investment authority",
+      "requirementIds": ["AR-001", "AR-002", "NR-002"],
+      "sourceDecisionIds": ["INT-D-004", "INT-D-005"],
+      "status": "COVERED"
+    },
+    {
+      "controlOutcome": "Independent acceptance validation",
+      "requirementIds": ["SR-008"],
+      "sourceDecisionIds": ["INT-D-009"],
+      "status": "COVERED"
+    },
+    {
+      "controlOutcome": "Highly confidential data classification and classification-bound handling",
+      "requirementIds": ["DR-007", "DR-005", "SR-001", "SR-002", "SR-007", "TR-001"],
+      "sourceDecisionIds": ["INT-D-002", "INT-D-003", "INT-D-006"],
+      "status": "COVERED",
+      "acceptanceEvidence": "T-DR-007 requires 100% classification and complete applicable handling-control evidence across access, production isolation, residency, transfer, audit and retention boundaries."
+    },
+    {
+      "controlOutcome": "EU/member-state legal governance for contracts, data processing, incident handling and disputes, with assessed and accepted foreign-jurisdiction exposure",
+      "requirementIds": ["SR-010"],
+      "sourceDecisionIds": ["INT-D-002"],
+      "status": "COVERED",
+      "acceptanceEvidence": "T-SR-010 requires governing-law review and documented General Counsel assessment and acceptance for 100% of identified foreign-jurisdiction exposures before use."
+    }
+  ],
+  "priorCoverageGapDisposition": {
+    "priorGapId": "COV-002-GAP-004",
+    "priorStatus": "OPEN_MAJOR_REVIEW_FINDING",
+    "currentStatus": "RESOLVED_FOR_CURRENT_MANIFEST",
+    "evidence": [
+      "DR-007 translates the confirmed highly-confidential classification and handling boundaries.",
+      "SR-010 translates EU/member-state legal governance and foreign-jurisdiction assessment and acceptance.",
+      "Both requirements are active, sourced, owner-bound and have stable acceptance tests in the current catalogue."
+    ]
+  },
+  "residualGaps": [
+    {
+      "id": "COV-003-GAP-001",
+      "gap": "Official-source citations, publication/effective dates and article-level obligation mappings remain unrecorded for the confirmed regulatory boundaries.",
+      "owner": "Accountable legal/compliance owners; AFF-0 as regulatory-register custodian",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "COV-003-GAP-002",
+      "gap": "The EU AI Act role and use-case classification assessment remains required; neither high-risk nor non-high-risk status is asserted.",
+      "owner": "General Counsel and Head of AI Governance",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "COV-003-GAP-003",
+      "gap": "Entity-specific DORA applicability or exemption and resulting obligations remain open; no formal DORA compliance is claimed.",
+      "owner": "General Counsel",
+      "status": "OPEN_NOT_WAIVED"
+    },
+    {
+      "id": "COV-003-GAP-004",
+      "gap": "Approved EU/EEA locations and the sovereignty exception evidence process require General Counsel confirmation before production acceptance.",
+      "owner": "General Counsel",
+      "status": "OPEN_NOT_WAIVED"
+    }
+  ],
+  "limitations": [
+    "This is architecture-assurance coverage, not legal advice, certification, attestation, waiver or approval.",
+    "Human-confirmed applicability is requirements evidence; it is not independently certified here.",
+    "No named Azure service or implementation control is selected in Phase 1.",
+    "The DORA mapping is an interim conditional evidence boundary and is not a formal compliance claim."
+  ]
+}

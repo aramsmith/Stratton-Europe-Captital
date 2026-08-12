@@ -1,0 +1,407 @@
+{
+  "workPackages": [
+    {
+      "id": "MP-01-CAPABILITY-AND-QUOTA-EVIDENCE",
+      "dependsOn": [],
+      "owner": "Azure AI Capacity and Platform Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/iac/Invoke-DeploymentPreflight.ps1",
+        "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/capability-and-quota-template.json"
+      ],
+      "failClosedCondition": "BLOCK_MODEL_PORTFOLIO_ENABLEMENT_WITHOUT_OWNER_CAPABILITY_AND_QUOTA_EVIDENCE",
+      "validationCommand": "pwsh -NoProfile -File '.\\tests\\iac\\Invoke-DeploymentPreflight.ps1'",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/capability-and-quota-validation.json",
+      "rollbackMethod": "Remove only unapproved MP-01 evidence outputs and keep model portfolio deployment disabled."
+    },
+    {
+      "id": "MP-02-EU-DATA-ZONE-IAC",
+      "dependsOn": [
+        "MP-01-CAPABILITY-AND-QUOTA-EVIDENCE"
+      ],
+      "owner": "Azure Infrastructure as Code Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/infra/main.bicep",
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/iac/Infra.Tests.ps1"
+      ],
+      "failClosedCondition": "BLOCK_IAC_ACCEPTANCE_UNLESS_EVERY_AZURE_AI_DEPLOYMENT_USES_DATA_ZONE_STANDARD",
+      "validationCommand": "pwsh -NoProfile -File '.\\tests\\iac\\Invoke-IaCTests.ps1'",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/eu-data-zone-iac-validation.json",
+      "rollbackMethod": "Restore the prior approved IaC bytes and retain the model portfolio deployment flag as false."
+    },
+    {
+      "id": "MP-03-PINNED-MODEL-DEPLOYMENTS",
+      "dependsOn": [
+        "MP-02-EU-DATA-ZONE-IAC"
+      ],
+      "owner": "Azure AI Model Deployment Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/infra/parameters/dev.bicepparam",
+        "cases/Stratton-Europe-Captital/5-coding-r4/infra/parameters/tst.bicepparam",
+        "cases/Stratton-Europe-Captital/5-coding-r4/infra/parameters/prd.bicepparam"
+      ],
+      "failClosedCondition": "BLOCK_DEPLOYMENT_ADMISSION_UNLESS_ALL_MODEL_NAMES_VERSIONS_CAPACITIES_AND_NO_AUTO_UPGRADE_ARE_VALID",
+      "validationCommand": "pwsh -NoProfile -File '.\\tests\\iac\\Invoke-IaCTests.ps1'",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/pinned-model-deployment-validation.json",
+      "rollbackMethod": "Restore the previous parameter files and keep every unresolved deployment capacity at zero."
+    },
+    {
+      "id": "MP-04-DETERMINISTIC-ROUTING",
+      "dependsOn": [
+        "MP-03-PINNED-MODEL-DEPLOYMENTS"
+      ],
+      "owner": "Application Routing Policy Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/app/src/model-routing-policy.ts",
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/app/unit/model-routing-policy.test.ts"
+      ],
+      "failClosedCondition": "BLOCK_ANALYSIS_WHEN_THE_APPLICATION_CANNOT_SELECT_AN_APPROVED_DETERMINISTIC_ROUTE",
+      "validationCommand": "npm --prefix '.\\app' run test:unit",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/deterministic-routing-validation.json",
+      "rollbackMethod": "Remove the unapproved routing change and retain the blocked analysis provider in Azure mode."
+    },
+    {
+      "id": "MP-05-PERSISTED-ROUTE-EVIDENCE",
+      "dependsOn": [
+        "MP-04-DETERMINISTIC-ROUTING"
+      ],
+      "owner": "Application Data and API Contract Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/app/database/migrations/002_model_routing.sql",
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/app/integration/contracts-and-migrations.test.ts",
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/app/integration/api-runtime.test.ts"
+      ],
+      "failClosedCondition": "BLOCK_NEW_ANALYSIS_RUNS_WHEN_ROUTE_IDENTITY_AND_RESIDENCY_EVIDENCE_CANNOT_BE_PERSISTED",
+      "validationCommand": "npm --prefix '.\\app' run test:integration",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/persisted-route-evidence-validation.json",
+      "rollbackMethod": "Correct forward with an append-only migration and never delete or rewrite historical route records."
+    },
+    {
+      "id": "MP-06-PREBUILT-LAYOUT",
+      "dependsOn": [
+        "MP-05-PERSISTED-ROUTE-EVIDENCE"
+      ],
+      "owner": "Document Intelligence Integration Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/app/src/provider-adapters.ts",
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/app/unit/provider-adapters.test.ts"
+      ],
+      "failClosedCondition": "BLOCK_DOCUMENT_PROCESSING_WHEN_PREBUILT_LAYOUT_OR_REQUIRED_OWNER_CONFIGURATION_IS_UNAVAILABLE",
+      "validationCommand": "npm --prefix '.\\app' run test:unit",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/prebuilt-layout-validation.json",
+      "rollbackMethod": "Restore the previous provider adapter and keep production document processing disabled."
+    },
+    {
+      "id": "MP-07-MODEL-BENCHMARK-GATE",
+      "dependsOn": [
+        "MP-06-PREBUILT-LAYOUT"
+      ],
+      "owner": "Model Evaluation and Validation Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/5-coding-r4/app/src/benchmark-runner.ts",
+        "cases/Stratton-Europe-Captital/5-coding-r4/tests/app/unit/benchmark-runner.test.ts",
+        "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/model-portfolio-benchmark-template.json"
+      ],
+      "failClosedCondition": "BLOCK_ROUTE_PROMOTION_WITHOUT_100_REPRESENTATIVE_GENERATIVE_CASES_AND_RETAINED_RAW_AND_DERIVED_EVIDENCE",
+      "validationCommand": "npm --prefix '.\\app' run validate",
+      "evidenceOutput": "cases/Stratton-Europe-Captital/5-coding-r4/evidence/model-portfolio/model-benchmark-gate-validation.json",
+      "rollbackMethod": "Revoke the candidate promotion state and retain all raw benchmark inputs and derived metrics.",
+      "benchmarkGate": {
+        "minimumRepresentativeGenerativeCasesPerPromotedRoute": 100,
+        "retainRawBenchmarkInputs": true,
+        "retainDerivedMetrics": true,
+        "promotionState": "BLOCKED_PENDING_OBSERVED_EVIDENCE"
+      }
+    },
+    {
+      "id": "MP-08-PRESENTATION-INTEGRATION",
+      "dependsOn": [
+        "MP-07-MODEL-BENCHMARK-GATE"
+      ],
+      "owner": "Architecture Presentation Owner",
+      "inputHashes": [
+        {
+          "role": "APPROVED_PHASE_3_CC_002",
+          "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+        },
+        {
+          "role": "PHASE_3_CC_002_SUBJECT_MANIFEST",
+          "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+          "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+        }
+      ],
+      "files": [
+        "cases/Stratton-Europe-Captital/6-presentation-r4/deck/src/slides/ModelPortfolioSlide.jsx",
+        "cases/Stratton-Europe-Captital/6-presentation-r4/deck/src/slides/ModelPortfolioSlide.module.css",
+        "cases/Stratton-Europe-Captital/6-presentation-r4/deck/deck.config.js"
+      ],
+      "failClosedCondition": "BLOCK_PRESENTATION_INTEGRATION_UNTIL_APPROVED_PHASE_5_EVIDENCE_EXISTS",
+      "validationCommand": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\model-portfolio-slide-contract.mjs'",
+      "evidenceOutput": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-13-report.md",
+      "rollbackMethod": "Remove only the unapproved Slide 11 integration and preserve the approved revision 111 deck bytes.",
+      "phase5ApprovalGate": {
+        "dependencyType": "PHASE_APPROVAL_EVIDENCE",
+        "approvalRecordType": "AFF_PHASE_APPROVAL",
+        "phaseId": "5",
+        "gate": "APPROVED_PHASE_5_EVIDENCE",
+        "evidencePath": "cases/Stratton-Europe-Captital/5-coding/evidence/stratton-phase-5-approval-evidence.json",
+        "expectedDecision": "APPROVED",
+        "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "currentState": "PENDING_BLOCKED",
+        "required": true,
+        "failClosed": true,
+        "blockedAction": "BLOCK_PHASE_4_PRESENTATION_INTEGRATION_UNTIL_APPROVED_PHASE_5_EVIDENCE_EXISTS"
+      }
+    }
+  ],
+  "requiredOwnerInputs": [
+    {
+      "id": "AZURE_REGION_PAIR",
+      "status": "REQUIRED_OWNER_INPUT",
+      "owner": "Accountable Azure Platform Owner",
+      "resolutionStatus": "UNRESOLVED",
+      "valueState": "NOT_SUPPLIED",
+      "failClosed": true,
+      "evidenceRequirements": [
+        {
+          "id": "AZURE_REGION_PAIR-EVIDENCE",
+          "requirement": "Provide owner-controlled primary-source evidence for the exact Azure region pair; do not record a resolved value in this amendment.",
+          "source": "Owner-controlled authoritative evidence register"
+        }
+      ],
+      "validationSteps": [
+        {
+          "id": "AZURE_REGION_PAIR-VALIDATION",
+          "action": "Independently validate the approved evidence for the exact Azure region pair before enablement; otherwise keep implementation and deployment blocked.",
+          "evidenceRequirementId": "AZURE_REGION_PAIR-EVIDENCE"
+        }
+      ]
+    },
+    {
+      "id": "QUOTA_AND_CAPACITY",
+      "status": "REQUIRED_OWNER_INPUT",
+      "owner": "Accountable Azure Platform Owner",
+      "resolutionStatus": "UNRESOLVED",
+      "valueState": "NOT_SUPPLIED",
+      "failClosed": true,
+      "evidenceRequirements": [
+        {
+          "id": "QUOTA_AND_CAPACITY-EVIDENCE",
+          "requirement": "Provide owner-controlled primary-source evidence for quota and capacity for every selected deployment; do not record a resolved value in this amendment.",
+          "source": "Owner-controlled authoritative evidence register"
+        }
+      ],
+      "validationSteps": [
+        {
+          "id": "QUOTA_AND_CAPACITY-VALIDATION",
+          "action": "Independently validate the approved evidence for quota and capacity for every selected deployment before enablement; otherwise keep implementation and deployment blocked.",
+          "evidenceRequirementId": "QUOTA_AND_CAPACITY-EVIDENCE"
+        }
+      ]
+    },
+    {
+      "id": "DEPLOYMENT_IDS",
+      "status": "REQUIRED_OWNER_INPUT",
+      "owner": "Accountable Azure Platform Owner",
+      "resolutionStatus": "UNRESOLVED",
+      "valueState": "NOT_SUPPLIED",
+      "failClosed": true,
+      "evidenceRequirements": [
+        {
+          "id": "DEPLOYMENT_IDS-EVIDENCE",
+          "requirement": "Provide owner-controlled primary-source evidence for the deployment identifiers for every selected model; do not record a resolved value in this amendment.",
+          "source": "Owner-controlled authoritative evidence register"
+        }
+      ],
+      "validationSteps": [
+        {
+          "id": "DEPLOYMENT_IDS-VALIDATION",
+          "action": "Independently validate the approved evidence for the deployment identifiers for every selected model before enablement; otherwise keep implementation and deployment blocked.",
+          "evidenceRequirementId": "DEPLOYMENT_IDS-EVIDENCE"
+        }
+      ]
+    },
+    {
+      "id": "EMBEDDING_DIMENSIONS_AND_CHUNKING",
+      "status": "REQUIRED_OWNER_INPUT",
+      "owner": "Accountable Azure Platform Owner",
+      "resolutionStatus": "UNRESOLVED",
+      "valueState": "NOT_SUPPLIED",
+      "failClosed": true,
+      "evidenceRequirements": [
+        {
+          "id": "EMBEDDING_DIMENSIONS_AND_CHUNKING-EVIDENCE",
+          "requirement": "Provide owner-controlled primary-source evidence for embedding dimensions and chunking parameters; do not record a resolved value in this amendment.",
+          "source": "Owner-controlled authoritative evidence register"
+        }
+      ],
+      "validationSteps": [
+        {
+          "id": "EMBEDDING_DIMENSIONS_AND_CHUNKING-VALIDATION",
+          "action": "Independently validate the approved evidence for embedding dimensions and chunking parameters before enablement; otherwise keep implementation and deployment blocked.",
+          "evidenceRequirementId": "EMBEDDING_DIMENSIONS_AND_CHUNKING-EVIDENCE"
+        }
+      ]
+    },
+    {
+      "id": "PROVIDER_DATA_USE_EVIDENCE",
+      "status": "REQUIRED_OWNER_INPUT",
+      "owner": "Accountable Azure Platform Owner",
+      "resolutionStatus": "UNRESOLVED",
+      "valueState": "NOT_SUPPLIED",
+      "failClosed": true,
+      "evidenceRequirements": [
+        {
+          "id": "PROVIDER_DATA_USE_EVIDENCE-EVIDENCE",
+          "requirement": "Provide owner-controlled primary-source evidence for provider data-use terms and evidence; do not record a resolved value in this amendment.",
+          "source": "Owner-controlled authoritative evidence register"
+        }
+      ],
+      "validationSteps": [
+        {
+          "id": "PROVIDER_DATA_USE_EVIDENCE-VALIDATION",
+          "action": "Independently validate the approved evidence for provider data-use terms and evidence before enablement; otherwise keep implementation and deployment blocked.",
+          "evidenceRequirementId": "PROVIDER_DATA_USE_EVIDENCE-EVIDENCE"
+        }
+      ]
+    },
+    {
+      "id": "EU_AI_ACT_CLASSIFICATION_EVIDENCE",
+      "status": "REQUIRED_OWNER_INPUT",
+      "owner": "Accountable Azure Platform Owner",
+      "resolutionStatus": "UNRESOLVED",
+      "valueState": "NOT_SUPPLIED",
+      "failClosed": true,
+      "evidenceRequirements": [
+        {
+          "id": "EU_AI_ACT_CLASSIFICATION_EVIDENCE-EVIDENCE",
+          "requirement": "Provide owner-controlled primary-source evidence for the EU AI Act classification and supporting evidence; do not record a resolved value in this amendment.",
+          "source": "Owner-controlled authoritative evidence register"
+        }
+      ],
+      "validationSteps": [
+        {
+          "id": "EU_AI_ACT_CLASSIFICATION_EVIDENCE-VALIDATION",
+          "action": "Independently validate the approved evidence for the EU AI Act classification and supporting evidence before enablement; otherwise keep implementation and deployment blocked.",
+          "evidenceRequirementId": "EU_AI_ACT_CLASSIFICATION_EVIDENCE-EVIDENCE"
+        }
+      ]
+    }
+  ],
+  "modelDeploymentPolicy": {
+    "approvedDataZone": "EU_DATA_ZONE",
+    "globalStandard": "PROHIBITED",
+    "serviceTier": "DataZoneStandard",
+    "autoUpgrade": "NoAutoUpgrade",
+    "routingMode": "DETERMINISTIC",
+    "productionModelRouter": "PROHIBITED",
+    "deploymentAuthority": "NONE",
+    "promotionAuthority": "NONE",
+    "selectedModels": [
+      {
+        "role": "LUNA",
+        "modelId": "gpt-5.6-luna",
+        "version": "2026-07-09"
+      },
+      {
+        "role": "TERRA",
+        "modelId": "gpt-5.6-terra",
+        "version": "2026-07-09"
+      },
+      {
+        "role": "SOL",
+        "modelId": "gpt-5.6-sol",
+        "version": "2026-07-09"
+      }
+    ],
+    "availabilityStopCondition": {
+      "condition": "SELECTED_MODEL_VERSION_OR_SKU_UNAVAILABLE_IN_APPROVED_EU_DATA_ZONE",
+      "action": "STOP",
+      "failClosed": true
+    }
+  }
+}

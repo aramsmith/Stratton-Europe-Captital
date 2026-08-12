@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_6_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "round": 2,
+  "generatedAt": "2026-08-03T12:03:05.127+02:00",
+  "canonicalManifestPath": "6-presentation-r3/stratton-phase-6-hashes.json",
+  "expectedManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+  "preReviewManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+  "postReviewManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+  "manifestHashStatus": "MATCH_UNCHANGED_PRE_POST",
+  "manifestSchemaFields": {
+    "schemaVersion": "1.0.0",
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton",
+    "phaseId": "6",
+    "modelPlanRevision": "18",
+    "generatedAt": "2026-08-03T11:50:31.918554+02:00",
+    "hashAlgorithm": "SHA-256"
+  },
+  "artifactCount": 95,
+  "expectedArtifactCount": 95,
+  "matchedArtifactHashes": 95,
+  "problemCount": 0,
+  "problems": [],
+  "roleCounts": {
+    "presentation-source": 53,
+    "presentation-export": 19,
+    "diagram": 3,
+    "evidence": 17,
+    "catalogue": 1,
+    "rendered-html": 1,
+    "authoritative-markdown": 1
+  },
+  "paths": {
+    "duplicatePathCount": 0,
+    "ordinalSorted": true,
+    "unsafePathCount": 0,
+    "unsafePaths": []
+  },
+  "snapshot": {
+    "path": "reviews/aff-b/6/round-2/reviewed-subject/stratton-phase-6-hashes.json",
+    "sha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "byteIdenticalToSubjectManifest": true
+  },
+  "priorBindings": {
+    "revision1Manifest": {
+      "path": "6-presentation/stratton-phase-6-hashes.json",
+      "expectedSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "actualSha256": "b714ba7860570b4cc166dc6741a0f1ef3825a679b3790c6337dae7e05f748951",
+      "unchanged": true
+    },
+    "revision2Manifest": {
+      "path": "6-presentation-r2/stratton-phase-6-hashes.json",
+      "expectedSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "actualSha256": "a9116def3c48fa1c2769d7635178201bdfab35fba5ac92fcf93e5d13d15c8b5f",
+      "unchanged": true
+    },
+    "affBRound1": {
+      "path": "reviews/aff-b/6/round-1/stratton-aff-b-review.json",
+      "expectedSha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "actualSha256": "5db090b60e348014ed8365399a106587fd68d26f80c04a25240a13e46877d27d",
+      "unchanged": true
+    },
+    "coverage010": {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-010.json",
+      "expectedSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "actualSha256": "f141e2cbe2d8bad4a46ea28a71a62f3538547147c665f29eb7d3a55dabed4382",
+      "unchanged": true
+    }
+  },
+  "finalAffARound3": {
+    "path": "reviews/aff-a/6/round-3/stratton-aff-a-review.json",
+    "expectedSha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+    "actualSha256": "8c542720f995a9a5b3b35a520b5bc84e4cbd718ae13becfdcc1e5729dd3ab7cb",
+    "verdict": "CONFORMS",
+    "unchanged": true
+  },
+  "oldSubjectArtifactVerification": {
+    "revision1": {
+      "manifestPath": "6-presentation/stratton-phase-6-hashes.json",
+      "artifactCount": 83,
+      "expectedArtifactCount": 83,
+      "allArtifactHashesMatched": true,
+      "artifactProblems": []
+    },
+    "revision2": {
+      "manifestPath": "6-presentation-r2/stratton-phase-6-hashes.json",
+      "artifactCount": 88,
+      "expectedArtifactCount": 88,
+      "allArtifactHashesMatched": true,
+      "artifactProblems": []
+    }
+  },
+  "claimAndSourceCounts": {
+    "claimCount": 32,
+    "sourceReferenceCount": 66,
+    "missingSourceCount": 0,
+    "claimClassCounts": {
+      "APPROVED_DESIGN_INTENT": 13,
+      "IMPLEMENTED_AND_STATICALLY_VALIDATED": 7,
+      "UNTESTED_RUNTIME_BEHAVIOUR": 3,
+      "SOURCE_FACT": 6,
+      "HUMAN_OWNED_HYPOTHESIS": 3
+    }
+  },
+  "readOnlyEvidenceChecks": {
+    "browserRuntimeReceipt": {
+      "slideCount": 10,
+      "requestCount": 8,
+      "successfulLocalRequestCount": 8,
+      "externalRequestCount": 0,
+      "failedRequestCount": 0,
+      "overallStatus": "PASS"
+    },
+    "recursiveStaticScan": {
+      "fileCount": 18,
+      "sourceMapCount": 0,
+      "externalDependencyCount": 0,
+      "allLocalDependenciesExist": true,
+      "productionInertUrlStringCount": 71,
+      "overallStatus": "PASS"
+    },
+    "pdf": {
+      "path": "deck/deck.pdf",
+      "sha256": "7871128d05df9e5d78a8552d44f9bad475cd467f40759cbd2d79eaaf1ef0faf0",
+      "sizeBytes": 1326778,
+      "pageCount": 10,
+      "infoMetadataPresent": false,
+      "xmpMetadataPresent": false,
+      "localPlatformOrPathValuesPresent": false
+    },
+    "candidateWideDisclosureScan": {
+      "filesScanned": 121,
+      "findingCount": 0,
+      "overallStatus": "PASS"
+    },
+    "reviewMethodBoundary": "Static read-only verification of manifest-bound artifacts and evidence receipts; AFF-B did not execute the deck, browser, build, export or evidence scripts and does not claim runtime operating effectiveness."
+  },
+  "reviewerBoundary": "No subject, prior candidate, dashboard, journal, model plan, prior review, coverage record, Azure resource, build, export or runtime execution was modified or performed."
+}

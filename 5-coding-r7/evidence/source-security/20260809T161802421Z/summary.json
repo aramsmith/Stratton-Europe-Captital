@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260809T161802421Z",
+  "generatedAt": "2026-08-09T16:32:32.4334993Z",
+  "validationInput": {
+    "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+    "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+    "fileCount": 124
+  },
+  "status": "PASS",
+  "scan": "evidence/source-security/20260809T161802421Z/trivy-source.json",
+  "scannerDatabase": "evidence/source-security/20260809T161802421Z/trivy-db-metadata.json",
+  "highVulnerabilities": 0,
+  "criticalVulnerabilities": 0,
+  "highMisconfigurations": 0,
+  "criticalMisconfigurations": 0,
+  "secretFindings": 0,
+  "licenseFindings": 120,
+  "licenseSummary": [
+    {
+      "spdxId": "0BSD",
+      "count": 1
+    },
+    {
+      "spdxId": "Apache-2.0",
+      "count": 4
+    },
+    {
+      "spdxId": "BSD-3-Clause",
+      "count": 5
+    },
+    {
+      "spdxId": "ISC",
+      "count": 2
+    },
+    {
+      "spdxId": "MIT",
+      "count": 108
+    }
+  ],
+  "licenseReviewStatus": "PENDING_AFF_B_REVIEW"
+}

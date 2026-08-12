@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_EVIDENCE_DISCLOSURE_SCAN",
+  "generatedAt": "2026-08-12T01:47:23.245Z",
+  "scope": "6-presentation-r12 source, dist, PDF and final evidence, excluding dependencies, caches and cyclic disclosure/phase summaries",
+  "filesScanned": 177,
+  "patternsChecked": [
+    "WINDOWS_USER_PATH",
+    "LOCAL_USERNAME",
+    "WINDOWS_PLATFORM",
+    "HEADLESS_BROWSER",
+    "FILE_URI",
+    "GITHUB_TOKEN",
+    "OPENAI_STYLE_SECRET",
+    "AWS_ACCESS_KEY",
+    "PRIVATE_KEY",
+    "GENERIC_BEARER_TOKEN"
+  ],
+  "findingCount": 0,
+  "findings": [],
+  "overallStatus": "PASS",
+  "overallBoundary": "High-confidence local-system, credential and private-key scan only; not a substitute for accountable data-classification, privacy, legal or licensing review."
+}

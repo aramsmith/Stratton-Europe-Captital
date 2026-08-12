@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "79",
+  "createdAt": "2026-08-04T02:39:47+02:00",
+  "revisionReason": "Convert the nine phase agents and two independent reviewers on slide 5 into continuously rotating 3D spheres.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-78.json",
+    "sha256": "3780eb8f7d19593b8d563ea5854d3f58bbe74d3080d57b785ec1de17db2b8763",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 5,
+    "change": "Make all round agents into rotating 3D spheres."
+  },
+  "implementation": {
+    "sphereScope": {
+      "phaseAgents": 9,
+      "independentReviewers": 2,
+      "humanArchitectExcluded": true,
+      "totalAnimatedSpheres": 11
+    },
+    "visualTreatment": {
+      "directionalRadialShading": true,
+      "specularHighlight": true,
+      "insetDepthShadows": true,
+      "rotatingSurfaceLayer": true,
+      "rotatingMeridian": true,
+      "optionalAgentsRetainAmberDistinction": true,
+      "reviewersRetainPinkDistinction": true
+    },
+    "motion": {
+      "labelsRemainStatic": true,
+      "activeSlideOnly": true,
+      "startsAfterNodeArrival": true,
+      "alternatingDirections": true,
+      "durationRangeSeconds": [
+        11,
+        15
+      ],
+      "prefersReducedMotion": "all continuous sphere animation disabled"
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "nodePairOverlap": false,
+      "agentTextOverflow": false
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "liveAnimatedSphereCount": 11,
+      "surfaceMotionObserved": true,
+      "meridianMotionObserved": true,
+      "cssWhitespaceCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticArchitectureRingSlide.module.css",
+      "sha256": "0d9ca4469ff5030bb537cf13fa7cd32f536c3ad14f4971f04c841c5dbd84bd40"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

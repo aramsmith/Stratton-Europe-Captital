@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE5_APPEND_ONLY_OPERATIONAL_REFERENCE_REMEDIATION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "changeControlId": "STRATTON-CC-002",
+  "createdAt": "2026-08-09T18:20:00+02:00",
+  "source": {
+    "packageRoot": "5-coding-r6",
+    "manifestPath": "5-coding-r6/stratton-phase-5-hashes.json",
+    "manifestSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "fileCount": 166,
+    "immutable": true
+  },
+  "reviewTrigger": {
+    "reviewPath": "reviews/aff-a/5/round-6/stratton-aff-a-review.json",
+    "reviewSha256": "0198a83f90c2690db1e175c6f4e31aeb8bcefb22309a6e6960c24ce29e3b828f",
+    "findingId": "AFFA-P5-R6-MAJ-001",
+    "severity": "MAJOR",
+    "verdict": "DIVERGES"
+  },
+  "companionAssurance": {
+    "reviewPath": "reviews/aff-b/5/round-4/stratton-aff-b-review.json",
+    "reviewSha256": "4ce5050a03a45cddce9d4d0615b7db4cb484251b314f8c6b55c9771d7b2cf72e",
+    "coveragePath": "reviews/aff-b/coverage/stratton-compliance-coverage-019.json",
+    "coverageSha256": "4d4511baafaf2db61018cd0b2e604f1db46534409249086e5ac43eb0ac22bc68"
+  },
+  "destination": {
+    "packageRoot": "5-coding-r7",
+    "canonicalManifestPath": "5-coding-r7/stratton-phase-5-hashes.json",
+    "status": "REMEDIATION_CANDIDATE_NOT_YET_APPROVED"
+  },
+  "remediation": {
+    "requirements": [
+      "Identify the package as r7 in current candidate guidance.",
+      "Require approval of the exact r7 Phase 5 manifest in future deployment admission.",
+      "Target r7 in executable validation, preflight, template and retention-finalisation commands.",
+      "Bind release, freeze and package-integrity tooling to r7.",
+      "Preserve reviewed r6, reviewed r5 and approved r4 byte-for-byte."
+    ],
+    "regressionTest": "tests/iac/CandidateReference.Tests.ps1"
+  },
+  "authorityBoundary": {
+    "humanApprovalClaimed": false,
+    "azureActivityOccurred": false,
+    "deploymentAuthorised": false,
+    "runtimeTestingAuthorised": false
+  }
+}

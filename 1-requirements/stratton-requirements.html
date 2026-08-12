@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="aff-phase" content="1">
+  <meta name="aff-model-plan-revision" content="2">
+  <meta name="aff-source-markdown-sha256" content="d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917">
+  <meta name="aff-catalogue-sha256" content="a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd">
+  <meta name="aff-interview-record-sha256" content="6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed">
+  <title>Phase 1 — Requirements: Stratton Release 1</title>
+  <style>
+    :root{color-scheme:light;--ink:#172033;--muted:#536176;--line:#cbd5e1;--panel:#f4f7fb;--brand:#174ea6;--accent:#e8f0fe;--good:#166534}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fff;color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--brand)}a:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+    .skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.75rem;z-index:2}
+    header{background:linear-gradient(135deg,#102a56,#174ea6);color:#fff;padding:2.5rem max(1rem,calc((100% - 76rem)/2))}
+    header p{max-width:70rem;margin:.4rem 0}main{max-width:76rem;margin:auto;padding:1.5rem}nav{background:var(--panel);border:1px solid var(--line);border-radius:.5rem;padding:1rem}
+    nav ul{columns:2;margin:.4rem 0}@media(max-width:700px){nav ul{columns:1}}
+    section{margin:2rem 0}h1{font-size:2rem;margin:0 0 .5rem}h2{border-bottom:2px solid var(--brand);padding-bottom:.25rem}h3{margin-top:1.5rem}
+    .status{display:inline-block;background:#fff;color:#7c2d12;border-radius:999px;padding:.2rem .7rem;font-weight:700}
+    .callout{border-left:.35rem solid var(--brand);background:var(--accent);padding:1rem}.good{border-left-color:var(--good)}
+    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:.4rem}table{width:100%;border-collapse:collapse;font-size:.91rem}
+    th,td{padding:.55rem .65rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:#e8eef7}tr:last-child td{border-bottom:0}
+    code{background:#eef2f7;padding:.1rem .25rem;border-radius:.2rem}footer{border-top:1px solid var(--line);color:var(--muted);padding:1.5rem}
+    @media print{header{background:#fff;color:#000;padding:0}nav,.skip{display:none}main{max-width:none;padding:0}section{break-inside:avoid}.table-wrap{overflow:visible}}
+  </style>
+</head>
+<body>
+<a class="skip" href="#phase-1-main">Skip to content</a>
+<header role="banner">
+  <span class="status">Candidate — human approval not recorded</span>
+  <h1>Phase 1 — Requirements: Stratton Release 1</h1>
+  <p>Case <code>Stratton-Europe-Captital</code> · artifact prefix <code>stratton</code> · model-plan revision <code>2</code></p>
+  <p>Authoritative sources: <a href="stratton-requirements.md">Markdown</a>, <a href="stratton-requirements-catalogue.json">requirements catalogue</a>, and <a href="stratton-interview-decisions.json">interview decision record</a>.</p>
+</header>
+<main id="phase-1-main">
+  <nav aria-label="Contents">
+    <strong>Contents</strong>
+    <ul>
+      <li><a href="#phase-1-executive">Executive position</a></li>
+      <li><a href="#phase-1-interview">Interview outcome</a></li>
+      <li><a href="#phase-1-scope">Scope and accountability</a></li>
+      <li><a href="#phase-1-management">Requirements management</a></li>
+      <li><a href="#phase-1-register">Requirements register</a></li>
+      <li><a href="#phase-1-regulatory">Regulatory boundary</a></li>
+      <li><a href="#phase-1-validation">Residual validation</a></li>
+      <li><a href="#phase-1-coverage">Coverage and gate</a></li>
+      <li><a href="#phase-1-metadata">Generated metadata</a></li>
+    </ul>
+  </nav>
+
+  <section id="phase-1-executive">
+    <h2>Executive position</h2>
+    <p>Release 1 is a controlled production rollout for the first 20 eligible new private-equity opportunities. Within 12 months of programme approval, it must reduce median due diligence from 12 weeks to no more than 3 weeks, measured from formal case opening to an investment-committee-ready recommendation. The Chief Investment Officer owns the outcome.</p>
+    <p>AI is assistive: it may process governed evidence and prepare drafts, while deal professionals validate material outputs, Legal and Compliance approve applicable specialist conclusions, and the Investment Committee retains every investment decision.</p>
+    <div class="callout"><strong>Boundary:</strong> this requirements candidate contains no architecture, Azure service selection, deployment claim, runtime result or Phase 1 approval.</div>
+  </section>
+
+  <section id="phase-1-interview">
+    <h2>Interview outcome</h2>
+    <p>The human architect confirmed the interview record complete at <code>2026-08-01T21:07:24.031+02:00</code>. Shared-understanding confidence closed at <strong>96%</strong>: Business 96%, Data 94%, Application 97%, Technology 95% and Security 96%.</p>
+    <div class="callout good">All domains exceed 80%, overall confidence exceeds 95%, no material decision remains unanswered, and residual details have owners and validation plans. Interview confirmation authorised authoring only; it did not approve Phase 1 or invoke Phase 2.</div>
+  </section>
+
+  <section id="phase-1-scope">
+    <h2>Scope and accountability</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Area</th><th>Confirmed boundary</th></tr></thead>
+      <tbody>
+        <tr><td>Population</td><td>First 20 eligible new private-equity investment opportunities</td></tr>
+        <tr><td>Users</td><td>Deal teams, Legal and Compliance reviewers, AI Governance and Investment Committee members</td></tr>
+        <tr><td>Journey</td><td>Formal case opening through an investment-committee-ready draft recommendation</td></tr>
+        <tr><td>Jurisdiction</td><td>Central European footprint only where confirmed sovereignty constraints are met</td></tr>
+        <tr><td>Outcome and product sponsor</td><td>Chief Investment Officer</td></tr>
+        <tr><td>Eligibility</td><td>Head of Deal Operations for deals; General Counsel for jurisdictions</td></tr>
+        <tr><td>Rollout</td><td>Programme Delivery</td></tr>
+        <tr><td>Independent validation</td><td>Internal Audit; Model Risk advises on methods only</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Explicit non-scope</h3>
+    <ul>
+      <li>Portfolio-company monitoring, automated SFDR filing and deal-sourcing automation.</li>
+      <li>Autonomous investment or approval decisions, transactions and external counterparty communications.</li>
+      <li>Source-system write-back or replacement.</li>
+      <li>Special-category personal data without separately approved change control.</li>
+      <li>Wider production rollout before Release 1 acceptance passes.</li>
+    </ul>
+  </section>
+
+  <section id="phase-1-management">
+    <h2>Requirements-management contract</h2>
+    <ul>
+      <li>Immutable <code>{CATEGORY}-{NNN}</code> identifiers; corrections append or supersede.</li>
+      <li>MoSCoW priority, accountable ownership, precise sources and stable acceptance-test IDs.</li>
+      <li>Material changes require impact analysis, human confirmation, new hashes and renewed assurance.</li>
+      <li>Approved baselines are never overwritten.</li>
+    </ul>
+  </section>
+
+  <section id="phase-1-register">
+    <h2>Compact requirements register</h2>
+    <p>The JSON catalogue is authoritative for complete acceptance fields.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Owner</th><th>Requirement</th><th>Acceptance threshold</th></tr></thead>
+      <tbody>
+        <tr><td>BR-001</td><td>CIO</td><td>Reduce median due diligence to no more than 3 weeks within 12 months.</td><td>Median ≤3 weeks across first 20 eligible deals</td></tr>
+        <tr><td>BR-002</td><td>Head of Deal Operations</td><td>Limit rollout to 20 approved eligible deals.</td><td>100% eligibility evidence</td></tr>
+        <tr><td>FR-001</td><td>CIO</td><td>Provide confirmed governed evidence-to-draft functions.</td><td>All listed functions demonstrated</td></tr>
+        <tr><td>FR-002</td><td>CIO</td><td>Enforce required professional and specialist review.</td><td>100% auditable approvals</td></tr>
+        <tr><td>AR-001</td><td>Head of AI Governance</td><td>Keep AI assistive and prevent prohibited actions.</td><td>100% prevention; zero critical breach</td></tr>
+        <tr><td>AR-002</td><td>Investment Committee</td><td>Retain every investment decision.</td><td>Zero system-issued decisions</td></tr>
+        <tr><td>DR-001–007</td><td>Named data owners / CISO</td><td>Govern sources, licences, privacy, provenance, retention, training prohibition and highly-confidential handling.</td><td>Complete approvals, metadata, classification and control evidence; zero prohibited use</td></tr>
+        <tr><td>SR-001–003</td><td>General Counsel / DPO</td><td>Enforce EU/EEA sovereignty, transfer governance and GDPR evidence.</td><td>Zero unapproved location/transfer; complete privacy evidence</td></tr>
+        <tr><td>SR-004–006</td><td>Compliance / Legal / AI Governance</td><td>Evidence conditional SFDR, AIFMD and EU AI Act constraints.</td><td>Complete applicable evidence; no unsupported classification</td></tr>
+        <tr><td>SR-007–010</td><td>Identity / Internal Audit / General Counsel</td><td>Control privileged access, independent validation, DORA-aligned evidence and legal-jurisdiction exposure.</td><td>Zero unauthorised access or premature compliance claim; 100% foreign exposure assessed and accepted</td></tr>
+        <tr><td>IR-001</td><td>Integration Lead</td><td>Use read-only APIs or controlled ingestion; prevent write-back.</td><td>Zero AI-generated source writes</td></tr>
+        <tr><td>TR-001–004</td><td>Named technology owners</td><td>Separate environments, migrate incrementally, recover and support production.</td><td>0 data leakage; 3 reconciliations; 99.9%, RTO 4h, RPO 1h; alert ownership</td></tr>
+        <tr><td>NR-001</td><td>Head of AI Governance</td><td>Meet confirmed AI quality thresholds.</td><td>100% citation; ≥95% extraction; ≥99% critical fields; 0 critical unsupported/missed risk; ≤2% other unsupported; ≥90% recall</td></tr>
+        <tr><td>NR-002</td><td>Head of AI Governance</td><td>Prevent prohibited actions and audit human review.</td><td>100% prevention and review evidence</td></tr>
+        <tr><td>NR-003</td><td>Enterprise Platform</td><td>Meet interaction and pack-processing performance.</td><td>p95 &lt;5s; typical pack ≤30 min</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="phase-1-regulatory">
+    <h2>Regulatory boundary</h2>
+    <p>GDPR applies to EU personal-data processing; SFDR applies where ESG output supports regulated disclosures; AIFMD applies where Luxembourg AIF vehicles use the workflow; and the EU AI Act provides the confirmed AI-governance framework without an unsupported high-risk classification.</p>
+    <p>DORA applies where Stratton or the relevant managing entity is an in-scope AIFM or other financial entity. General Counsel still owns the entity-specific applicability or exemption record. Until it exists, Release 1 must support DORA-aligned ICT risk, incident, resilience-test and provider-oversight evidence and must not claim formal DORA compliance.</p>
+  </section>
+
+  <section id="phase-1-validation">
+    <h2>Residual validation plan</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Item</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>VAL-001</td><td>Entity-specific DORA applicability or exemption and resulting obligations</td><td>General Counsel</td></tr>
+        <tr><td>VAL-002</td><td>Business hours, typical document pack and critical-alert criteria</td><td>CIO and Service Operations</td></tr>
+        <tr><td>VAL-003</td><td>Eligibility, benchmark, critical-field, severity and exception definitions</td><td>Deal Operations, AI Governance, Legal, Compliance and CIO</td></tr>
+        <tr><td>VAL-004</td><td>Exact source instances, schedules, volumes and quality remediation</td><td>Source and records owners</td></tr>
+        <tr><td>VAL-005</td><td>Approved EU/EEA locations and sovereignty exception evidence</td><td>General Counsel</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="phase-1-coverage">
+    <h2>Coverage and gate</h2>
+    <p>The catalogue contains <strong>31 active sourced requirements</strong> and 31 stable acceptance tests across all five interview domains. No duplicate or contradictory active requirement is known.</p>
+    <p>Dependency chain: <code>governed sources → controlled integration → assistive AI → human review → independent validation → controlled rollout → business outcome</code>.</p>
+    <div class="callout">The candidate requires final Rubber Duck Reviewer and Security and Compliance Reviewer verdicts over the same unchanged manifest before the explicit human Phase 1 approval decision.</div>
+  </section>
+
+  <section id="phase-1-metadata">
+    <h2>Generated metadata</h2>
+    <div class="table-wrap"><table>
+      <tbody>
+        <tr><th>Markdown</th><td><code>stratton-requirements.md</code></td><td><code>d09e1bd5a09e3d0cf064995a2fcfe76cb8ad1d7988d95e08d711c532570d7917</code></td></tr>
+        <tr><th>Catalogue</th><td><code>stratton-requirements-catalogue.json</code></td><td><code>a6ba1ab434b02696e76402aaa9219ac388bec766a2bfbd67c1a3a74989d91acd</code></td></tr>
+        <tr><th>Interview record</th><td><code>stratton-interview-decisions.json</code></td><td><code>6a7996957d7d3ba98f8024c4102da802808fdf879426afbe5f78e89bb55977ed</code></td></tr>
+        <tr><th>Model plan</th><td><code>../0-coordination/stratton-model-plan-revision-2.json</code></td><td>Revision <code>2</code></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</main>
+<footer>Generated self-contained Phase 1 view. Markdown, catalogue and interview records remain authoritative.</footer>
+</body>
+</html>

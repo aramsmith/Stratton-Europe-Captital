@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stratton AFF-B review Phase 5 round 1</title>
+  <script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+  </script>
+  <style>
+  :root {
+    color-scheme: light;
+    --cp-bg: #f7f4ef;
+    --cp-bg-elevated: #fcfbf8;
+    --cp-surface: #ffffff;
+    --cp-surface-soft: #f5f5f5;
+    --cp-border: #dedede;
+    --cp-border-strong: #919191;
+    --cp-text: #242424;
+    --cp-text-muted: #5c5c5c;
+    --cp-text-soft: #6f6f6f;
+    --cp-accent: #b11f4b;
+    --cp-accent-hover: #9a1a41;
+    --cp-accent-soft: rgba(177, 31, 75, 0.08);
+    --cp-accent-fg: #ffffff;
+    --cp-success: #16a34a;
+    --cp-danger: #dc2626;
+    --cp-warning: #f59e0b;
+    --cp-link: #0078d4;
+    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+    --cp-overlay: rgba(255, 255, 255, 0.8);
+    --cp-panel: rgba(255, 255, 255, 0.86);
+    --cp-panel-strong: rgba(255, 255, 255, 0.96);
+    --cp-sheen: rgba(255, 255, 255, 0.55);
+    --cp-highlight: rgba(177, 31, 75, 0.12);
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --cp-bg: #3d3b3a;
+    --cp-bg-elevated: #343231;
+    --cp-surface: #292929;
+    --cp-surface-soft: #2e2e2e;
+    --cp-border: #474747;
+    --cp-border-strong: #5f5f5f;
+    --cp-text: #dedede;
+    --cp-text-muted: #919191;
+    --cp-text-soft: #b0b0b0;
+    --cp-accent: #fd8ea1;
+    --cp-accent-hover: #fb7b91;
+    --cp-accent-soft: rgba(253, 142, 161, 0.14);
+    --cp-accent-fg: #1a1a1a;
+    --cp-success: #4ade80;
+    --cp-danger: #f87171;
+    --cp-warning: #fbbf24;
+    --cp-link: #4da6ff;
+    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+    --cp-overlay: rgba(41, 41, 41, 0.88);
+    --cp-panel: rgba(41, 41, 41, 0.72);
+    --cp-panel-strong: rgba(41, 41, 41, 0.96);
+    --cp-sheen: rgba(255, 255, 255, 0.04);
+    --cp-highlight: rgba(253, 142, 161, 0.12);
+  }
+  body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}
+  main{max-width:1180px;margin:0 auto;padding:2rem}
+  .card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border);padding:1.5rem;margin:1rem 0}
+  h1,h2,h3{line-height:1.25}.bad{color:var(--cp-danger);font-weight:800}.ok{color:var(--cp-success);font-weight:700}.warn{color:var(--cp-warning);font-weight:700}.muted{color:var(--cp-text-muted)}
+  code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.08rem .25rem;overflow-wrap:anywhere}
+  .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:.75rem 0}th,td{border:1px solid var(--cp-border);padding:.55rem;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}
+  a{color:var(--cp-link)}article{border-top:1px solid var(--cp-border);padding-top:1rem;margin-top:1rem}
+  @media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}.card{box-shadow:none}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="card"><p class="muted">Agentic Architecture Factory · AFF-B Security and Compliance Reviewer</p><h1>Stratton AFF-B review — Phase 5 — Coding round 1</h1><p><strong>Verdict:</strong> <span class="bad">DIVERGES</span></p><p><strong>Review time:</strong> <code>2026-08-03T03:54:38.7348869+02:00</code></p><p><strong>Reviewer runtime:</strong> <code>gpt-5.6-sol</code></p><p><strong>Subject:</strong> <code>cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886</code></p><p><strong>Final round for manifest:</strong> <code>false</code></p></section>
+  <section class="card"><h2>Summary</h2><p>Six unresolved major findings affect authority separation, immutable evidence, networking, Service Bus RBAC, API authentication and release disclosure. Phase 5 must not enter the human gate.</p></section>
+  <section class="card"><h2>Independent binding</h2><ul><li>Manifest pre/post SHA-256: <code>cf4ce5b9d6d003e796ff1e5a89c86007932e63641ec92f3a3a2cad8b787a7886</code> (<span class="ok">UNCHANGED</span>).</li><li>Manifest entries: <code>154/154</code> recomputed and matched.</li><li>Final AFF-A: <code>bcb5f8ad241cdd82a3ea290002584e91cd0a394806d6db09083c26cffe7339e8</code>; same exact subject.</li><li>Coverage 008: <code>622f9da4552c86d48f166493769b92db314a71960deab6996e1f30360b7c97e3</code>.</li><li>Hash receipt: <code>559af43528968044258372eee472c91a1a0b8224e6a8af409e4fa36535c9c5dd</code>; model receipt: <code>ec935efdcccd8d494ef7a2dda4df99aaeb3ce479ff234d8e819f56adc403cc71</code>.</li></ul></section>
+  <section class="card"><h2>Finding summary</h2><div class="table-wrap"><table><thead><tr><th>BLOCKER</th><th>MAJOR</th><th>MINOR</th></tr></thead><tbody><tr><td>0</td><td class="bad">6</td><td>0</td></tr></tbody></table></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Severity</th><th>Title</th><th>Required action</th></tr></thead><tbody><tr><td><code>AFFB-P5-R1-MAJ-001</code></td><td class="bad">MAJOR</td><td>Direct delivery write access violates the assurance pull/copy boundary</td><td>Remove delivery data-plane write access to assurance storage. Permit only signed-manifest submission; give the Internal Audit reader exact source-container read scope and the controlled copier exclusive assurance-WORM write scope. Add negative RBAC tests.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-002</code></td><td class="bad">MAJOR</td><td>Declared locked immutability and legal hold are not implemented</td><td>Implement legal-hold resources and a separately authorised immutability-lock step, or block activation until immutable lock and legal-hold evidence is verified. Test rendered and observed state rather than input flags.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-003</code></td><td class="bad">MAJOR</td><td>Workload NSGs and routes retain fail-open Azure defaults</td><td>Require service-specific allow rules, explicit deny rules and validated UDRs to the corresponding regional firewall. Add selected-environment rendered-template tests and explicitly handle Azure service-reserved subnets.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-004</code></td><td class="bad">MAJOR</td><td>Service Bus RBAC is over-broad and incompatible with the runtime</td><td>Grant each active worker receiver access only to its queue and sender access only to required producers and queues. Grant the API sender access only to its required queues, and do not provision blocked analysis, indexing or audit identities before activation.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-005</code></td><td class="bad">MAJOR</td><td>Container Apps authentication is not bound to an Entra tenant and audience</td><td>Configure the exact Microsoft Entra tenant issuer and allowed audience, require authentication, return 401 to unauthenticated callers, and validate APIM-to-app identity. Add rendered-template and spoofed-header negative tests.</td></tr><tr><td><code>AFFB-P5-R1-MAJ-006</code></td><td class="bad">MAJOR</td><td>Release evidence suppresses open authority conflicts and residual controls</td><td>Carry all fourteen owner controls and all three blocked authority interfaces into the release manifest and reports. Validation must verify faithful disclosure rather than require an empty conflict list.</td></tr></tbody></table></div></section>
+  <section class="card"><h2>Findings</h2><article><h3>AFFB-P5-R1-MAJ-001 — Direct delivery write access violates the assurance pull/copy boundary</h3><p><strong>Severity/status:</strong> <span class="bad">MAJOR — OPEN</span></p><p><strong>Consequence:</strong> A delivery identity can write directly into the assurance evidence container, bypassing the independent exact-version pull, verification and controlled-copy boundary.</p><ul><li>5-coding-r3/infra/modules/assurance/main.bicep:128-138 grants deliveryPrincipalId a configurable data-plane role directly on the assurance evidence container.</li><li>5-coding-r3/infra/parameters/prd.bicepparam:3265-3268 selects role ba92f5b4-2d11-453d-a403-e96b0029c9fe, Storage Blob Data Contributor.</li><li>Coverage 007 CC1-OWN-002 retains an Internal Audit exact-version pull/copy acceptance boundary before activation.</li></ul><p><strong>Owner:</strong> AFF-5, Internal Audit, Identity Lead</p><p><strong>Required remediation:</strong> Remove delivery data-plane write access to assurance storage. Permit only signed-manifest submission; give the Internal Audit reader exact source-container read scope and the controlled copier exclusive assurance-WORM write scope. Add negative RBAC tests.</p></article><article><h3>AFFB-P5-R1-MAJ-002 — Declared locked immutability and legal hold are not implemented</h3><p><strong>Severity/status:</strong> <span class="bad">MAJOR — OPEN</span></p><p><strong>Consequence:</strong> The package cannot substantiate locked WORM or legal-hold protection; an unlocked time-based policy remains administratively mutable.</p><ul><li>5-coding-r3/infra/parameters/prd.bicepparam:3223-3227 declares immutabilityLocked, legalHoldEnabled and legalHoldTags.</li><li>5-coding-r3/infra/modules/assurance/main.bicep:88-126 creates unlocked immutability policies but no legal-hold resource or separately authorised lock step.</li><li>5-coding-r3/tests/iac/Invoke-DeploymentPreflight.ps1:560-564 accepts input booleans and retention days rather than rendered or observed lock/legal-hold evidence.</li></ul><p><strong>Owner:</strong> AFF-5, Internal Audit Records Owner, Business Continuity</p><p><strong>Required remediation:</strong> Implement legal-hold resources and a separately authorised immutability-lock step, or block activation until immutable lock and legal-hold evidence is verified. Test rendered and observed state rather than input flags.</p></article><article><h3>AFFB-P5-R1-MAJ-003 — Workload NSGs and routes retain fail-open Azure defaults</h3><p><strong>Severity/status:</strong> <span class="bad">MAJOR — OPEN</span></p><p><strong>Consequence:</strong> Default VNet lateral access and Internet outbound can remain available instead of explicit least privilege and controlled egress.</p><ul><li>5-coding-r3/infra/modules/network/main.bicep:21-50 deploys supplied NSG rules and route entries without enforcing a security baseline.</li><li>5-coding-r3/infra/parameters/prd.bicepparam:333-432 leaves workload snet-apim, snet-app and private-endpoint NSG/route arrays empty.</li><li>5-coding-r3/tests/iac/Invoke-DeploymentPreflight.ps1 checks selected network owner inputs but does not reject empty workload controls or prove default egress through the corresponding regional firewall.</li></ul><p><strong>Owner:</strong> Network Lead, CISO, AFF-5</p><p><strong>Required remediation:</strong> Require service-specific allow rules, explicit deny rules and validated UDRs to the corresponding regional firewall. Add selected-environment rendered-template tests and explicitly handle Azure service-reserved subnets.</p></article><article><h3>AFFB-P5-R1-MAJ-004 — Service Bus RBAC is over-broad and incompatible with the runtime</h3><p><strong>Severity/status:</strong> <span class="bad">MAJOR — OPEN</span></p><p><strong>Consequence:</strong> Production processing lacks required receiver grants, while every worker can inject messages into every queue.</p><ul><li>5-coding-r3/infra/modules/integration/main.bicep:31-48 assigns every Service Bus role at namespace scope.</li><li>5-coding-r3/infra/parameters/prd.bicepparam:1668-1688 grants Azure Service Bus Data Sender to every worker identity and omits the API identity.</li><li>5-coding-r3/app/src/api-main.ts:65-74 creates senders for q-ingestion, q-extraction and q-indexing.</li><li>5-coding-r3/app/src/worker-main.ts:119-126 requires every active worker to receive from its queue and the extraction worker to send to q-indexing.</li></ul><p><strong>Owner:</strong> AFF-5, Integration Lead, Identity Lead</p><p><strong>Required remediation:</strong> Grant each active worker receiver access only to its queue and sender access only to required producers and queues. Grant the API sender access only to its required queues, and do not provision blocked analysis, indexing or audit identities before activation.</p></article><article><h3>AFFB-P5-R1-MAJ-005 — Container Apps authentication is not bound to an Entra tenant and audience</h3><p><strong>Severity/status:</strong> <span class="bad">MAJOR — OPEN</span></p><p><strong>Consequence:</strong> The required token-validation and trusted-header boundary cannot be proven and may depend on unsafe or unavailable defaults.</p><ul><li>5-coding-r3/infra/parameters/prd.bicepparam:2037-2041 configures only authConfig.platform.enabled.</li><li>5-coding-r3/infra/modules/application-platform/main.bicep:111-115 passes the incomplete object directly to Microsoft.App/containerApps/authConfigs.</li><li>5-coding-r3/app/src/api-runtime.ts:283-334 trusts x-ms-client-principal as the platform-validated identity boundary.</li></ul><p><strong>Owner:</strong> AFF-5, Identity Lead, API Owner</p><p><strong>Required remediation:</strong> Configure the exact Microsoft Entra tenant issuer and allowed audience, require authentication, return 401 to unauthenticated callers, and validate APIM-to-app identity. Add rendered-template and spoofed-header negative tests.</p></article><article><h3>AFFB-P5-R1-MAJ-006 — Release evidence suppresses open authority conflicts and residual controls</h3><p><strong>Severity/status:</strong> <span class="bad">MAJOR — OPEN</span></p><p><strong>Consequence:</strong> The human gate package materially understates unresolved authority interfaces and owner dependencies.</p><ul><li>5-coding-r3/app/authority-boundary-conflict-note.md:1-15 records three unresolved authority interfaces.</li><li>5-coding-r3/validation/New-ReleaseManifest.ps1:559-572 emits only nine residual IDs and an empty authorityConflicts array.</li><li>5-coding-r3/stratton-build-report.md:77-98 says no authority gates are recorded and refers to seven approved residual controls.</li><li>5-coding-r3/validation/Test-ReleaseEvidence.ps1:149-154 requires authorityConflicts to be empty.</li><li>Coverage 007 retains VAL-001 through VAL-005, AFFB-RES-001/002 and CC1-OWN-001 through CC1-OWN-007 as fourteen open owner controls.</li></ul><p><strong>Owner:</strong> AFF-5</p><p><strong>Required remediation:</strong> Carry all fourteen owner controls and all three blocked authority interfaces into the release manifest and reports. Validation must verify faithful disclosure rather than require an empty conflict list.</p></article></section>
+  <section class="card"><h2>Confirmed controls</h2><ul><li>SQL public access is disabled; Microsoft Entra-only authentication and TLS 1.2 are configured.</li><li>Storage, Key Vault, Service Bus, API Management, Search and Cognitive Services disable public network access or local authentication where supported.</li><li>Managed identities and digest-pinned images are used; stored credentials and GitHub OIDC are prohibited.</li><li>API code enforces roles, case access, human-only review routes and tenant/case SQL row-level-security context.</li><li>Input, licence, purpose, privacy, evidence-admission and special-category gates fail closed.</li><li>Queued analysis rechecks current source and licence authority; production analysis, vectorisation, audit export and verdict issuance remain blocked.</li><li>Transactional idempotency, durable queue outbox, claim fencing and SQL audit sequencing are implemented.</li><li>Blob references are allow-listed and protected against query/SAS use, ETag drift and size/hash mismatch.</li><li>Containers run non-root with pinned base-image digests; retained scans report no HIGH or CRITICAL vulnerabilities and no secrets.</li><li>Local signatures are accurately described as non-production integrity evidence.</li><li>No Azure authentication, target validation, what-if, deployment or cloud runtime testing occurred.</li></ul></section>
+  <section class="card"><h2>Applicability and residual boundary</h2><p>No new legal instrument or obligation is introduced. GDPR remains human-confirmed with detailed citations open; the EU AI Act classification remains open; SFDR and AIFMD remain conditional; DORA remains inferred conditional pending General Counsel.</p><p>Open and unwaived: VAL-001, VAL-002, VAL-003, VAL-004, VAL-005, AFFB-RES-001, AFFB-RES-002, CC1-OWN-001, CC1-OWN-002, CC1-OWN-003, CC1-OWN-004, CC1-OWN-005, CC1-OWN-006, CC1-OWN-007, AFFB-CC001-R2-MIN-001, AFFB-CC001-R3-MIN-002.</p></section>
+  <section class="card"><h2>Required action</h2><p>AFF-5 must preserve revision 3 byte-identically, create a new sibling candidate and model-plan revision addressing all six major findings, regenerate validation, release and canonical hash evidence, and invoke new AFF-A and AFF-B reviews against the same new manifest.</p><p>AFF-B does not approve Phase 5, open the human gate, waive residual controls, certify compliance, attest operating effectiveness or authorise Azure activity.</p></section>
+</main>
+</body>
+</html>

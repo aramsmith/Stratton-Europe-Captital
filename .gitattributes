@@ -1,0 +1,18 @@
+* -text
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.github/workflows/*.yml text eol=lf
+README.md text eol=lf
+7-deployment/README.md text eol=lf
+8-testing/README.md text eol=lf
+assets/** binary
+6-presentation-r12/deck/dist/** binary
+*.gif binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.png binary
+*.webp binary
+*.woff binary
+*.woff2 binary

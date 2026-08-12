@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "generatedAt": "2026-08-01T20:11:01.5186814+02:00",
+  "generatedBy": "AFF-0 using PowerShell Get-FileHash",
+  "algorithm": "SHA-256",
+  "commandPattern": "Get-FileHash -Algorithm SHA256 -LiteralPath <resolved-case-path>",
+  "evidenceScope": "All candidate subjects existing before this evidence record; this record and the subsequently generated manifest are verified by the separate dual-tool verification receipt.",
+  "verifiedArtifacts": [
+    {
+      "path": "0-coordination/stratton-coordination.md",
+      "sizeBytes": 11024,
+      "sha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0"
+    },
+    {
+      "path": "0-coordination/stratton-coordination.html",
+      "sizeBytes": 18129,
+      "sha256": "0934a429cb999889667b3111e61456d2f1f92f348e3c35f0f887ff1275a8432b"
+    },
+    {
+      "path": "0-coordination/stratton-input-inventory.json",
+      "sizeBytes": 2549,
+      "sha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "sizeBytes": 7509,
+      "sha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.pdf",
+      "sizeBytes": 132859,
+      "sha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43"
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "sizeBytes": 3275,
+      "sha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-normalisation-validation.json",
+      "sizeBytes": 1786,
+      "sha256": "eef070843f2a93349b584f4ea48f1c4f7bb8601c4a00db7a880f11b0b94be24d"
+    },
+    {
+      "path": "0-coordination/evidence/stratton-run-journal-phase-0-candidate.jsonl",
+      "sizeBytes": 1575,
+      "sha256": "2c317160032f7063551f8fbd743de1b34647ad47e0f9f42179393939627c9647"
+    },
+    {
+      "path": "stratton-decisions.md",
+      "sizeBytes": 520,
+      "sha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca"
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "sizeBytes": 2466,
+      "sha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "sizeBytes": 1946,
+      "sha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7"
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+.togafArchitectureSlide {
+  padding: 0 0 44px;
+}
+
+.subtitle {
+  color: var(--secondary-foreground);
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.architectureStage {
+  position: relative;
+  display: grid;
+  height: 502px;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+
+.architectureStage.isComplete .layerStack::after {
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 34px color-mix(in srgb, color-mix(in srgb, var(--purple) 58%, var(--green)) 34%, transparent);
+}
+
+.layerStack {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 16px 54px 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 58%, var(--border));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--secondary) 88%, var(--foreground) 12%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+.layerStack::after {
+  position: absolute;
+  top: 28px;
+  right: 22px;
+  bottom: 28px;
+  width: 3px;
+  content: '';
+  border-radius: 999px;
+  background: linear-gradient(var(--cyan), var(--green), var(--purple), var(--pink), #fbbf24);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 52%, transparent);
+}
+
+.layerShell,
+.blockShell,
+.metricShell {
+  min-width: 0;
+}
+
+.layer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, currentColor 56%, var(--border));
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, currentColor 18%, var(--secondary)),
+      color-mix(in srgb, var(--secondary) 88%, var(--foreground) 12%)
+    );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent);
+  transition:
+    opacity 420ms ease,
+    transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 420ms ease;
+}
+
+.isMuted {
+  opacity: 0.82;
+  filter: saturate(0.92);
+  transform: none;
+}
+
+.isRevealed {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.layerIdentity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: currentColor;
+}
+
+.layerIdentity svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.layerIdentity strong {
+  color: currentColor;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+}
+
+.layerBlocks {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.layerBlock {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, currentColor 42%, var(--border));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--secondary) 82%, var(--foreground) 18%);
+  text-align: center;
+}
+
+.layerBlock span {
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 1.26;
+  font-weight: 600;
+}
+
+.context {
+  color: var(--cyan);
+}
+
+.business {
+  color: var(--green);
+}
+
+.application {
+  color: var(--purple);
+}
+
+.data {
+  color: var(--pink);
+}
+
+.technology {
+  color: #fbbf24;
+}
+
+.layerConnector {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  width: 30px;
+  height: 1px;
+  content: '';
+  background: currentColor;
+  opacity: 0.72;
+}
+
+.metricsRibbon {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.metric {
+  display: grid;
+  gap: 2px;
+  min-height: 68px;
+  align-content: center;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--accent) 44%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--secondary) 86%, var(--foreground) 14%);
+}
+
+.metric strong {
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.metric span {
+  color: var(--secondary-foreground);
+  font-size: 12px;
+  line-height: 1.22;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer,
+  .layerStack::after {
+    transition: none;
+    animation: none;
+    will-change: auto;
+  }
+}

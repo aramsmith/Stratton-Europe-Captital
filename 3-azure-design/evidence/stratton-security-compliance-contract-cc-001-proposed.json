@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "SECURITY_COMPLIANCE_CHANGE_CONTROL_CONTRACT",
+  "changeControlId": "STRATTON-CC-001",
+  "status": "PROPOSED_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL",
+  "proposalOnly": true,
+  "baselineSources": [
+    "3-azure-design/evidence/stratton-identity-rbac-contract.json",
+    "3-azure-design/evidence/stratton-network-security-contract.json"
+  ],
+  "authorityMatrix": [
+    {
+      "boundary": "Workload",
+      "owner": "Stratton application/data owners",
+      "allowed": [
+        "sign/submit manifest",
+        "expose approved exact private Blob versions for Internal Audit pull",
+        "sign/send ordered audit event",
+        "verify/read signed receipt/verdict",
+        "execute approved analysis binding"
+      ],
+      "denied": [
+        "write assurance copy",
+        "assurance image push/admin",
+        "verdict/evaluation policy authority",
+        "receipt fabrication",
+        "caller-defined Search security filter",
+        "tools/autonomous action"
+      ]
+    },
+    {
+      "boundary": "AI governance",
+      "owner": "Head of AI Governance",
+      "allowed": [
+        "approve versioned adapter/prompt/model/embedding/chunking/injection/safety/retrieval/revocation binding"
+      ],
+      "denied": [
+        "issue verdict",
+        "override evidence admission",
+        "operate assurance"
+      ]
+    },
+    {
+      "boundary": "Assurance",
+      "owner": "Internal Audit",
+      "allowed": [
+        "accept independently reviewed/signed assurance release",
+        "pull/copy/scan evidence",
+        "evaluate in sandbox",
+        "receive audit",
+        "sign receipts/verdicts",
+        "operate/recover authority services"
+      ],
+      "denied": [
+        "accept workload decision as authoritative",
+        "grant delivery assurance admin/image push"
+      ]
+    }
+  ],
+  "authentication": {
+    "tokens": "Separate managed identities; exact issuer/tenant/audience/lifetime/app role. Token producer tenant/object must equal trusted producer and purpose-specific signer mapping.",
+    "purposeKeys": "Four separate purposes: workload submission, workload audit, Internal Audit receipt, Internal Audit verdict. Exact algorithms/key versions come from approved policy/registry; none invented.",
+    "denial": "Missing, unavailable, expired, not-yet-valid, rotated-out, revoked, compromised, wrong-purpose, token/signer mismatch or signature/hash failure denies.",
+    "management": "Internal Audit deployment/build/release/operations identities are separate from delivery/workload identities and PIM-controlled."
+  },
+  "authorisation": {
+    "apiAppRoles": [
+      "AssuranceEvidence.Submit",
+      "AssuranceVerdict.Read",
+      "AuditReceipt.Read"
+    ],
+    "rules": [
+      "Exact role plus workload identity allow-list and subject scope",
+      "deny by default",
+      "delivery has no verdict/receipt write role",
+      "Internal Audit admin object IDs are owner supplied",
+      "role evidence required before route admission"
+    ]
+  },
+  "privateNetworking": [
+    "Internal assurance API/evaluator/receiver in assurance VNet with no public ingress/egress.",
+    "Internal Audit evidence reader reaches allow-listed source Blob private endpoints through approved DNS/path and exact version requests; no SAS, redirect or arbitrary URL.",
+    "Assurance SQL, Service Bus, Storage, Key Vault, ACR and Monitor use approved private endpoints/DNS and public access disabled where supported.",
+    "Evaluator sandbox has no public egress or management-plane route; only explicitly authorised private dependencies.",
+    "Workload-to-assurance management plane and image push are denied."
+  ],
+  "dataProtection": [
+    "TLS 1.2 or later; platform encryption at rest unless separately approved CMK decision.",
+    "Manifests/messages carry references and hashes, not document/prompt/completion bodies.",
+    "Immutable storage, legal hold and retention are Internal Audit-owned; no duration invented.",
+    "Logs allow-list correlation/hash metadata and exclude tokens, signatures and sensitive bodies."
+  ],
+  "auditability": [
+    "Every submit/read/send/receive/duplicate/conflict/DLQ/verdict/signing/configuration decision is correlated.",
+    "Preserve role, private-path, signature, hash-chain, receipt, immutability and binding evidence.",
+    "Missing receipt or final signed verdict cannot be inferred as success."
+  ],
+  "complianceBoundary": "Technical evidence controls only; no legal conclusion, certification, attestation, waiver or phase approval. Existing residual controls remain open.",
+  "failClosedOwnerEvidence": [
+    {
+      "parameterGroup": "Assurance identity/endpoints/roles/signing/retention/recovery/capacity",
+      "owners": [
+        "Internal Audit",
+        "Identity Lead",
+        "Network Lead",
+        "records owner",
+        "Business Continuity"
+      ],
+      "evidence": "signed provisioning, RBAC, private DNS/path, key policy, retention/legal hold, recovery and capacity records"
+    },
+    {
+      "parameterGroup": "AI adapter/provider/prompt/model/embedding/dimensions/safety/limits",
+      "owners": [
+        "Head of AI Governance",
+        "Application Engineering",
+        "Data Owner",
+        "Service Operations"
+      ],
+      "evidence": "versioned registry approval, deployment/model/provider terms, evaluation, quota/capability, safety and limits evidence"
+    },
+    {
+      "parameterGroup": "Audit queue/retry/grace/poison/receipt",
+      "owners": [
+        "Internal Audit",
+        "Service Operations",
+        "Application Owner"
+      ],
+      "evidence": "queue ownership/RBAC/private path, thresholds and poison/recovery approval"
+    }
+  ],
+  "verificationCriteria": [
+    "Negative RBAC proves no workload verdict mutation/assurance admin.",
+    "Public path fails and approved private identity/path succeeds.",
+    "Manifest/message tamper, signature/role mismatch, duplicate conflict and missing parameter fail closed.",
+    "Workload/delivery cannot replace/delete immutable receipt/verdict.",
+    "No secrets/sensitive bodies in templates, configuration or telemetry.",
+    "Negative SSRF, redirect, public path and Blob version-swap tests",
+    "Token/signer mapping, expiry/revocation/compromise and cross-purpose key negative tests",
+    "Cross-tenant/case retrieval, caller-filter override, prompt injection, citation spoof and poisoned-index tests",
+    "Workload image push/assurance administration and receipt-row fabrication denied",
+    "Sandbox management-plane, secret and public-egress denial"
+  ],
+  "sources": [
+    "https://learn.microsoft.com/azure/ai-foundry/openai/how-to/network",
+    "https://learn.microsoft.com/azure/ai-foundry/openai/how-to/managed-identity",
+    "https://learn.microsoft.com/azure/service-bus-messaging/private-link-service",
+    "https://learn.microsoft.com/azure/storage/blobs/immutable-storage-overview"
+  ],
+  "modelPlanRevision": "8",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "hostileContentAndIsolation": [
+    "All submitted artifacts untrusted until private pull, exact-version verification, scan and WORM copy.",
+    "Static verification default; dynamic execution separately authorised.",
+    "Ephemeral non-root immutable-image sandbox with read-only copied input, no secrets, bounded CPU/memory/time/process/object/temp and destruction after result.",
+    "Instruction/data separation, injection controls, tenant/case server filters, provenance and known-good index alias required.",
+    "Unavailable control or sandbox never produces PASS."
+  ]
+}

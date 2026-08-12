@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_REVIEWED_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "round": 3,
+  "verifiedAt": "2026-08-09T17:18:42.729+02:00",
+  "method": "Static SHA-256 and file-byte inspection only",
+  "canonicalSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r5",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "expectedSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "preReviewSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-3/reviewed-subject/stratton-phase-5-hashes.json",
+    "snapshotSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "fileCount": 162,
+    "manifestFileCount": 162,
+    "listedFilesMatched": 162,
+    "missingFiles": 0,
+    "mismatchedFiles": 0,
+    "duplicatePaths": 0,
+    "ordinalPathOrder": true,
+    "invalidPathCount": 0,
+    "roles": [
+      {
+        "role": "APPLICATION_SOURCE",
+        "count": 43
+      },
+      {
+        "role": "DEPLOYMENT_PROCEDURE",
+        "count": 2
+      },
+      {
+        "role": "INFRASTRUCTURE_AS_CODE",
+        "count": 39
+      },
+      {
+        "role": "PACKAGE_DOCUMENTATION",
+        "count": 1
+      },
+      {
+        "role": "PHASE_REPORT_HTML",
+        "count": 1
+      },
+      {
+        "role": "PHASE_REPORT_MARKDOWN",
+        "count": 1
+      },
+      {
+        "role": "RELEASE_MANIFEST",
+        "count": 1
+      },
+      {
+        "role": "RELEASE_SCHEMA",
+        "count": 1
+      },
+      {
+        "role": "TEST_SOURCE",
+        "count": 25
+      },
+      {
+        "role": "TOOLCHAIN_LOCK",
+        "count": 1
+      },
+      {
+        "role": "VALIDATION_EVIDENCE",
+        "count": 38
+      },
+      {
+        "role": "VALIDATION_TOOLING",
+        "count": 9
+      }
+    ],
+    "encoding": "UTF-8 without BOM",
+    "utf8Bom": false,
+    "trailingNewline": false
+  },
+  "releaseManifest": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-release-manifest.json",
+    "expectedSha256": "154543da6430cfbbdd91352b011ceef723a370e718540413dd10a456386bf49f",
+    "actualSha256": "154543da6430cfbbdd91352b011ceef723a370e718540413dd10a456386bf49f",
+    "match": true
+  },
+  "governingModelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "match": true
+  },
+  "approvedR4Preservation": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+    "expectedSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "actualSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "entryCount": 155,
+    "listedFilesMatched": 155,
+    "missingFiles": 0,
+    "mismatchedFiles": 0,
+    "match": true
+  },
+  "inputBindings": [
+    {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-11-report.md",
+      "sha256": "bde3b33d4d2f25690fdf442e4ec8078f6d328fc368f0198b05f1fc4423802922",
+      "match": true
+    },
+    {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-11-pre-review.md",
+      "sha256": "13f1e9db243a2e9be38f6be15297b4dc2938e99d6876d47eb2587409a5f211ee",
+      "match": true
+    },
+    {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-017.json",
+      "sha256": "2fcfbbcfcb5b1858d44561abbdf27f4801939b51e822da92228d55f6237662c3",
+      "match": true
+    }
+  ],
+  "conclusion": "PRE_REVIEW_CANONICAL_SUBJECT_MATCHED; post-review recomputation is bound in the final review record."
+}

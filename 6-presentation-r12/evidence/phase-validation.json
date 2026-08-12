@@ -1,0 +1,363 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_VALIDATION_EVIDENCE",
+  "generatedAt": "2026-08-12T01:47:23.401Z",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "modelPlanRevision": "119",
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-119.json",
+    "sha256": "251687266430187b7af9a379505715222cee15f65ac5bb07c3dd4e617927c852"
+  },
+  "candidateStatus": "FROZEN_TWENTY_SLIDE_R12_HUMAN_VISUAL_REMEDIATION_CANDIDATE",
+  "changeScope": "HUMAN_REQUESTED_FINAL_VISUAL_CORRECTION",
+  "validatedTask7Source": {
+    "root": "deck/src",
+    "fileCount": 103,
+    "manifestFormat": "UTF-8 lines of ordinal-sorted path|sha256 with a trailing LF",
+    "manifestSha256": "6a6636356809e9aa53d033ee6d7c586ea5178e817fcb6e4e313469367230b256"
+  },
+  "summary": {
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "productionFiles": 21,
+    "browserRenderCombinations": 60,
+    "browserDeterministicArtifacts": 22,
+    "pdfPages": 20
+  },
+  "checks": [
+    {
+      "id": "P6-R12-V01",
+      "name": "Five r12 source, metadata and frozen-r11 contracts",
+      "result": "PASS",
+      "detail": "Five of five contracts passed. Metadata output SHA-256 9127682e9b741ec0a87ae353c8632db139f1141a5dd38155e3bbece54ba2bd48."
+    },
+    {
+      "id": "P6-R12-V02",
+      "name": "Retained Slide 5 and Slide 9 browser regressions",
+      "result": "PASS",
+      "detail": "Slide 5 1/1; Slide 9 1/1; Slide 9 screenshot 105e2662dc1592754ac720f2b08aaa6c325cabacdd5072957eac27fc2e887199."
+    },
+    {
+      "id": "P6-R12-V03",
+      "name": "Validated source and frozen r11 predecessor",
+      "result": "PASS",
+      "detail": "Source 103 files at 6a6636356809e9aa53d033ee6d7c586ea5178e817fcb6e4e313469367230b256; frozen-r11 candidate tree 8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a; frozen-r11 contract output ff71dd1b98258aa6d01312f56e51a2728dacebab027747aa954d27d9de44bf7f."
+    },
+    {
+      "id": "P6-R12-V04",
+      "name": "Hardened production build",
+      "result": "PASS",
+      "detail": "2005 modules transformed; 21 production files; 0 external CSS dependencies."
+    },
+    {
+      "id": "P6-R12-V05",
+      "name": "Three-mode browser assurance",
+      "result": "PASS",
+      "detail": "60/60 clean records, 112 assertions, 0 failures and 20 canonical screenshots."
+    },
+    {
+      "id": "P6-R12-V06",
+      "name": "Three-run browser determinism",
+      "result": "PASS",
+      "detail": "22/22 artifacts matched across 3 runs; promoted run-1."
+    },
+    {
+      "id": "P6-R12-V07",
+      "name": "Local browser runtime-network observation",
+      "result": "PASS",
+      "detail": "600 total / 600 successful / 0 failed / 0 external requests."
+    },
+    {
+      "id": "P6-R12-V08",
+      "name": "Recursive static-asset scan",
+      "result": "PASS",
+      "detail": "21 files; 0 source maps; 0 external and 0 missing dependencies."
+    },
+    {
+      "id": "P6-R12-V09",
+      "name": "Exact claim-source inventory and comparator classification",
+      "result": "PASS",
+      "detail": "20 slides, 38 claims and 69 references; USD 200000 is HUMAN_OWNED_HYPOTHESIS."
+    },
+    {
+      "id": "P6-R12-V10",
+      "name": "Deterministic canonical PDF and sanitisation",
+      "result": "PASS",
+      "detail": "20 pages at 960x600 points; SHA-256 9e7ad56238345062b48eaa64d9e135f84aebc382a5f84aa7afc8c403682e00f7; two-run equality true; requested-slide screenshots 7/7; clipped or missing text 0; blank metadata, 0 XMP and 0 attachments."
+    },
+    {
+      "id": "P6-R12-V11",
+      "name": "Candidate disclosure scan",
+      "result": "PASS",
+      "detail": "177 files scanned; 0 findings."
+    },
+    {
+      "id": "P6-R12-V12",
+      "name": "Unchanged asset-rights and Azure pricing evidence",
+      "result": "PASS",
+      "detail": "Asset rights 96e7b6b28b74cdc881e21f35cf124b5c5a5d11805413aa913f7ee501a18c3433; Azure retail pricing c9a1532aed425a643e3a91c0d49b7e359e1a78aac236bea33314a7039c8cec8f; both byte-identical to frozen r11 and r9."
+    },
+    {
+      "id": "P6-R12-V13",
+      "name": "Model-plan revision 119 binding",
+      "result": "PASS",
+      "detail": "Revision 119 SHA-256 251687266430187b7af9a379505715222cee15f65ac5bb07c3dd4e617927c852; Sol author, planned Luna AFF-A round 12 and Terra AFF-B round 8; candidate records no approval."
+    },
+    {
+      "id": "P6-R12-V14",
+      "name": "Requested visual remediation containment",
+      "result": "PASS",
+      "detail": "Only the approved visual changes on Slides 10, 11, 12, 14, 16, 17 and 18 are present; authoritative metadata, claims and execution boundaries remain intact."
+    },
+    {
+      "id": "P6-R12-V15",
+      "name": "No deployment, runtime or realised-benefit claim",
+      "result": "PASS",
+      "detail": "Azure deployment, production inference, runtime testing, production readiness and realised benefits remain false."
+    },
+    {
+      "id": "P6-R12-V16",
+      "name": "Phase 7 and Phase 8 not invoked",
+      "result": "PASS",
+      "detail": "Model plan states NOT_INVOKED / NOT_INVOKED; optional-phase approval records 0 / 0."
+    },
+    {
+      "id": "P6-R11-V17",
+      "name": "Asset-rights owner gate",
+      "result": "OWNER_GATE",
+      "detail": "External distribution remains blocked pending accountable owner rights confirmation or asset replacement."
+    },
+    {
+      "id": "P6-R12-V18",
+      "name": "Frozen r11 and r12 unaffected-file parity",
+      "result": "PASS",
+      "detail": "Deck/src 93 unaffected files byte-identical with exactly 10 approved differences; unaffected screenshots 6/6; immutable package/catalogue files 3/3; binary dist assets unchanged."
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "path": "evidence/asset-rights-inventory.json",
+      "sha256": "96e7b6b28b74cdc881e21f35cf124b5c5a5d11805413aa913f7ee501a18c3433",
+      "bytes": 2882
+    },
+    {
+      "path": "evidence/azure-retail-pricing-snapshot.json",
+      "sha256": "c9a1532aed425a643e3a91c0d49b7e359e1a78aac236bea33314a7039c8cec8f",
+      "bytes": 1654
+    },
+    {
+      "path": "evidence/browser-assurance/browser-assurance.json",
+      "sha256": "bf0fd0d2553d5e51559684b9a4d329219bdbe67c6714d20d57d034ffc5737b2a",
+      "bytes": 174908
+    },
+    {
+      "path": "evidence/browser-assurance/slide-02-normal.png",
+      "sha256": "63f0ad85d62cb36a6ffd8f32c82798c443904e1c5345c9b4d9d889c82ef05874",
+      "bytes": 238910
+    },
+    {
+      "path": "evidence/browser-assurance/slide-05-normal.png",
+      "sha256": "9d63c41a937f3b3c5409542dedb6eb59bc71b0672c19407ea08085f262ce2cf5",
+      "bytes": 444128
+    },
+    {
+      "path": "evidence/browser-assurance/slide-06-normal.png",
+      "sha256": "011da2883a9837cb7c99586f27f5c5f79985cc4cc9ebb0eb3378904edbd947ee",
+      "bytes": 322995
+    },
+    {
+      "path": "evidence/browser-assurance/slide-09-dev-activated.png",
+      "sha256": "105e2662dc1592754ac720f2b08aaa6c325cabacdd5072957eac27fc2e887199",
+      "bytes": 264284
+    },
+    {
+      "path": "evidence/browser-assurance/slide-10-normal.png",
+      "sha256": "1c931b433ab86053749418dde2b6f24b86b875820e53af384e2dbe81e6ccc06e",
+      "bytes": 278184
+    },
+    {
+      "path": "evidence/browser-assurance/slide-11-normal.png",
+      "sha256": "f7d5a16377bd5f7e7d39377df864c3b70f1bbc16c0cb81de6336cb3fdd33b523",
+      "bytes": 320438
+    },
+    {
+      "path": "evidence/browser-assurance/slide-12-hover.png",
+      "sha256": "c577f3d29cf6127a92904c738ce4cd66d442f3c49c25749c338145859f5041a2",
+      "bytes": 546568
+    },
+    {
+      "path": "evidence/browser-assurance/slide-12-normal.png",
+      "sha256": "3361443b03866e4f108657943791f34eebc6d86f6c30fb59107abb78ab53d77c",
+      "bytes": 533733
+    },
+    {
+      "path": "evidence/browser-assurance/slide-12-reduced-hover.png",
+      "sha256": "b21b1a9d4ad8c18e55218bf154ea89c45b07ea107648064dadf3ca1dcd09064d",
+      "bytes": 509917
+    },
+    {
+      "path": "evidence/browser-assurance/slide-12-reduced-motion.png",
+      "sha256": "f8e83536d93a54f140be60d730137ee43f6c269e16f8ec7037e4fa21ee158b88",
+      "bytes": 496148
+    },
+    {
+      "path": "evidence/browser-assurance/slide-13-normal.png",
+      "sha256": "1fde37bbcc719f00197852773bb76e4807c24df3720792cd11e92b9c402ce753",
+      "bytes": 321924
+    },
+    {
+      "path": "evidence/browser-assurance/slide-14-normal.png",
+      "sha256": "8cbc0c2a4299a5edc475d670648ac23d070147422d0e8e43d1189c2fe2447099",
+      "bytes": 374315
+    },
+    {
+      "path": "evidence/browser-assurance/slide-15-normal.png",
+      "sha256": "4fc5fef1d502630689841142c2d463c7725d68b412eb30460e76b27cb727134b",
+      "bytes": 321129
+    },
+    {
+      "path": "evidence/browser-assurance/slide-16-actual-hover.png",
+      "sha256": "48c672be804317aea01ec2496ff0f7c00c99e6000c47dfca544f8667b1f2aeda",
+      "bytes": 479273
+    },
+    {
+      "path": "evidence/browser-assurance/slide-16-normal.png",
+      "sha256": "53c5a91bd0834c536375ed158a1c45f303a2e7ef782291c30e6a651728ce43c4",
+      "bytes": 519187
+    },
+    {
+      "path": "evidence/browser-assurance/slide-16-planned-hover.png",
+      "sha256": "8262bfbaff14505a520c0a3c4a1a377541109fe089db47eabef8a7d5441c8e4e",
+      "bytes": 572696
+    },
+    {
+      "path": "evidence/browser-assurance/slide-17-benefit-hover.png",
+      "sha256": "aaf27002f56767e2180c10432de0ddb808d0d464ce6634133f0eccec1f788abc",
+      "bytes": 367559
+    },
+    {
+      "path": "evidence/browser-assurance/slide-17-normal.png",
+      "sha256": "6f31af6f003fd16b233d383dfebd1a2c55da39ad8f7926483f7cf0a492fbc06e",
+      "bytes": 378786
+    },
+    {
+      "path": "evidence/browser-assurance/slide-18-normal.png",
+      "sha256": "5bb01a7b5372b106c808c35a6e28d4188c5443b1d5e83e48fb5ca53737321029",
+      "bytes": 323170
+    },
+    {
+      "path": "evidence/browser-assurance/slide-18-reduced-motion.png",
+      "sha256": "557e607990d08b5fcf1f8bc57c3f1c367cf1754bc2a2b6eeaa737e958635633a",
+      "bytes": 299636
+    },
+    {
+      "path": "evidence/browser-assurance/slide-19-normal.png",
+      "sha256": "85302e7921a8ee15a621542558b52bccb35585a3e927b7f805aa0bbe7d41138e",
+      "bytes": 296806
+    },
+    {
+      "path": "evidence/browser-determinism-receipt.json",
+      "sha256": "69a0dc2ecc2fdf12ac7bea838de92ae13d80f5f42fc3433b7ec1c216eb41243a",
+      "bytes": 7812
+    },
+    {
+      "path": "evidence/claim-source-validation.json",
+      "sha256": "616f80ded7d5986e078206a57e1ff38a66174562da4e5e3b20ba3bd67785f88d",
+      "bytes": 1199
+    },
+    {
+      "path": "evidence/contract-validation.json",
+      "sha256": "6815d9bb1b90cfee944784cfdb7029fb1d4f570a9c794b05a7014cae7890f4db",
+      "bytes": 8098
+    },
+    {
+      "path": "evidence/deck-build-hardening.json",
+      "sha256": "1decd77b7e163821d1776e63a5379bb9cba2d299129459a1d7ca7bbdc06f5696",
+      "bytes": 7729
+    },
+    {
+      "path": "evidence/deck-build.log",
+      "sha256": "0af04a6d8f6351b32fc111eb2bd0bf2a1450c2d49fdb90105a8e5f7c183bd815",
+      "bytes": 2404
+    },
+    {
+      "path": "evidence/evidence-disclosure-scan.json",
+      "sha256": "b99db6354139b0fbde9d9fe695cae10fb665376c7e71b3ef7bda66099a2c0914",
+      "bytes": 797
+    },
+    {
+      "path": "evidence/pdf-export-receipt.json",
+      "sha256": "10fb706a2f81aa09d4c5ee19970a53bd7f32f1d4417fb2b9aa4f49f1ce0a5087",
+      "bytes": 25799
+    },
+    {
+      "path": "evidence/r11-r12-unaffected-parity.json",
+      "sha256": "a308d19f7abeac4f31310c326d16fcb3673b22a626986dbc77a6c8ad8e88ca6c",
+      "bytes": 45639
+    },
+    {
+      "path": "evidence/recursive-static-asset-scan.json",
+      "sha256": "7bc71da9dc57d8caac79b833980de53d0e513b11d2efc51bf06bea8e59f2b098",
+      "bytes": 30721
+    },
+    {
+      "path": "evidence/runtime-network-receipt.json",
+      "sha256": "f700e65af3b567f9650b5b6ae4cedf7554e3f6681e7e2059bd6fe7e4fa8ec43c",
+      "bytes": 179455
+    },
+    {
+      "path": "evidence/slide-5-regression.json",
+      "sha256": "763a973b231dca4a8e000efc514c9f1120d48840525cae30dc1b336675e84a66",
+      "bytes": 3252
+    },
+    {
+      "path": "evidence/slide-9-regression.json",
+      "sha256": "4375053d2dea5d83385f59abb4c3e2c2d5da74dc530db43d43392b928f39a4fe",
+      "bytes": 3619
+    },
+    {
+      "path": "evidence/stratton-aff-6-model-receipt.json",
+      "sha256": "189dd40ffff932697e3a11469fc7b7d2882a299d8dcfa3571fea1c75683dbbbb",
+      "bytes": 3487
+    }
+  ],
+  "humanOwnedComparator": {
+    "annualUsd": 200000,
+    "classification": "HUMAN_OWNED_HYPOTHESIS",
+    "quoteOrValidatedBaseline": false,
+    "realisedBenefitClaimed": false
+  },
+  "visibleBoundaryRemovals": {
+    "slides": [
+      10,
+      12,
+      17
+    ],
+    "authoritativeBoundaryPreserved": true,
+    "approvalOrExecutionBoundaryRemoved": false
+  },
+  "predecessorR11": {
+    "manifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "candidateFileCount": 175,
+    "candidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "state": "FROZEN_ASSURED_UNAPPROVED_IMMUTABLE"
+  },
+  "overallStatus": "PASS_WITH_OWNER_GATES",
+  "approval": false,
+  "phaseBoundary": {
+    "phase6R12Approved": false,
+    "phase7Invoked": false,
+    "phase8Invoked": false,
+    "azureDeploymentExecuted": false,
+    "productionInferenceExecuted": false,
+    "runtimeTestingExecuted": false,
+    "productionReadinessClaimed": false,
+    "realisedBenefitsClaimed": false,
+    "complianceCertificationClaimed": false,
+    "externalDistributionBlockedPendingAssetRightsOwnerGate": true
+  },
+  "nextGate": "Invoke AFF-A round 12 with gpt-5.6-luna against this exact frozen manifest. Human Phase 6 r12 approval remains false."
+}

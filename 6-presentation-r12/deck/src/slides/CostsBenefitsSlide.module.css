@@ -1,0 +1,62 @@
+.costsBenefitsSlide {
+  padding: 0 0 44px;
+}
+
+.costStack {
+  height: 24px;
+}
+
+.costRows {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  align-content: stretch;
+  gap: 8px;
+}
+
+.costRow {
+  min-height: 64px;
+  height: 100%;
+  padding: 8px 10px;
+}
+
+.costRow strong {
+  font-size: 15px;
+  line-height: 1.12;
+}
+
+.costsBenefitsSlide .costRow > div strong {
+  font-size: 15px;
+  line-height: 1.12;
+}
+
+.costsBenefitsSlide .costRow > div span {
+  font-size: 11.5px;
+  line-height: 1.16;
+}
+
+.costsBenefitsSlide .costRow > strong {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.benefitInteractive {
+  transition: filter 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.benefitInteractive:hover,
+.benefitInteractive:focus-within {
+  border-color: color-mix(in srgb, var(--green) 72%, var(--border));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--green) 28%, transparent);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.assumptionsPanel {
+  gap: 4px;
+  padding-block: 8px;
+}
+
+.assumptionItem span:last-child {
+  font-size: 13.5px;
+  line-height: 1.18;
+}

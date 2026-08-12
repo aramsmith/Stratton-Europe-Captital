@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "reviewId": "stratton-aff-a-review-r12",
+  "reviewer": "AFF-A",
+  "reviewerDisplayName": "Rubber Duck Reviewer",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "reasoningEffort": "xhigh",
+  "selectionRationale": "Fresh separate independent AFF-A reviewer context using gpt-5.6-luna, opposite to the gpt-5.6-sol Phase 6 author and required by the r12 authorization.",
+  "availability": "VERIFIED_FOR_THIS_REVIEW",
+  "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r12-aff-a-round-12-invocation-authorization.json",
+    "sha256": "bfdbd05e0aae70d4d71ea954b165d37567639d7979633fd878daad137a1f6ec9"
+  },
+  "approvedDesign": {
+    "path": "docs/superpowers/specs/2026-08-11-stratton-r12-slide-polish-design.md",
+    "sha256": "02bf714358f624800ee4838fd8cc495ceaf785f84b5eb6589c035341839cc620",
+    "commit": "3b315a77f5791311842151321b4227770faded94"
+  },
+  "implementationPlan": {
+    "path": "docs/superpowers/plans/2026-08-11-stratton-r12-slide-polish.md",
+    "task": 8,
+    "sha256": "f2a21e2944e438d143e594e737db1f9b2ce206a5af3c9f42a3e397ea37ac6deb"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-119.json",
+    "revision": "119",
+    "sha256": "251687266430187b7af9a379505715222cee15f65ac5bb07c3dd4e617927c852"
+  },
+  "subject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r12/stratton-phase-6-hashes.json",
+    "manifestSha256": "888d1619a5c085dad0abfd47c34d478c8580ced876377c2291e34f28e2094d0c",
+    "phase": "6",
+    "phaseRevision": "12",
+    "reviewRound": 12,
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "independence": {
+    "actualIdsDiffer": true,
+    "freshReviewerContext": true,
+    "authorId": "gpt-5.6-sol",
+    "reviewerId": "gpt-5.6-luna"
+  },
+  "boundaries": {
+    "readOnlyReview": true,
+    "candidateMutation": false,
+    "subjectModificationPerformed": false,
+    "azureSignIn": false,
+    "azureQuery": false,
+    "targetValidation": false,
+    "whatIf": false,
+    "deployment": false,
+    "inference": false,
+    "runtimeTesting": false,
+    "preview": false,
+    "approval": false,
+    "waiver": false,
+    "legalCertification": false,
+    "externalDistribution": false,
+    "phase7": "NOT_INVOKED",
+    "phase8": "NOT_INVOKED"
+  },
+  "recordedAt": "2026-08-12T04:22:39.612+02:00"
+}

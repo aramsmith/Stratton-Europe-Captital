@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "modelPlanRevision": "5",
+  "generatedAt": "2026-08-02T04:08:55.432+02:00",
+  "hashAlgorithm": "SHA-256",
+  "revisionReason": "AFF-A round-1 remediation of release hash self-reference and missing ABB-17 mapping",
+  "supersedesManifestSha256": "4ba4fd61ba2c7f38407ed696726cb3272b53a6c641ad0024082d951f4a129690",
+  "artifacts": [
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.md",
+      "role": "authoritative-markdown",
+      "sha256": "17fa54d0dc437de51e1d3b4a4d4f56229f98817062f9f0526e9555ce6ad7f126"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.html",
+      "role": "rendered-html",
+      "sha256": "d7380be295cb16df26d2e3dc9c9de54db4045c54041fa7fa0a13b81c2948017f"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue.json",
+      "role": "catalogue",
+      "sha256": "ff3ffd1881417d6ef76ffe0b4ac72e3e4eb03f67a98b55c74a267a5b3fd3d4e1"
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag.svg",
+      "role": "diagram",
+      "sha256": "2f98103a955b78ae8e947953e680dd797733272d83d36deca7bc87982d9510c5"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-official-source-corrections.json",
+      "role": "evidence",
+      "sha256": "cadc5f6893d02bf832c09912718730a8cad71d9da5a5644650c7e6f91a633312"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-candidate-validation.json",
+      "role": "evidence",
+      "sha256": "20417eed464b34903ab7a903e004e22cee24afd73177f524290bc69957ed0068"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-5.json",
+      "role": "catalogue",
+      "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-phase-4-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "c43a1e89de22ba643dce4a765f00e69589786c6356517f12dd99dbd063ca1452"
+    }
+  ]
+}

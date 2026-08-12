@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "role": "Evidence-based security, privacy, sovereignty and compliance architecture assurance"
+  },
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 6,
+  "reviewedAt": "2026-08-10T23:50:21.473+02:00",
+  "readOnlyReview": true,
+  "subjectModificationPerformed": false,
+  "verdict": "CONFORMS-WITH-GAPS",
+  "finalRoundForManifest": true,
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116.json",
+    "revision": "116",
+    "sha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164"
+  },
+  "modelPlanScopeAmendment": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116-scope-amendment-1.json",
+    "sequence": "1",
+    "sha256": "25bf34c80e36ede34f69440e8141e5f972fe00968759751ffc8229fb0061d5ec"
+  },
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r9-aff-b-round-6-invocation-authorization.json",
+    "sha256": "eb1878d5eefe27d210e0f67ebcb833bd2a092c87a3865948a599b1990ef07f8c",
+    "journalEventId": "EVT-0222",
+    "status": "AUTHORIZED_PENDING_EXECUTION"
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "availability": "ACTIVE",
+    "selectionRationale": "The explicit Phase-0 authorisation selects Terra for independent security and compliance review after the Sol author and Luna AFF-A reviewer.",
+    "distinctContextSeparation": "VERIFIED_FRESH_AFF_B_CONTEXT_WITH_DISTINCT_ACTUAL_MODEL_IDS"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r9/stratton-phase-6-hashes.json",
+    "expectedSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "preReviewSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "postReviewSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "hashStatus": "MATCH_UNCHANGED_PRE_POST",
+    "artifactCount": 163,
+    "allListedArtifactHashesMatched": true,
+    "matchedArtifactHashes": 163,
+    "missingArtifactCount": 0,
+    "mismatchedArtifactCount": 0,
+    "trueUtf16OrdinalOrder": true,
+    "duplicatePathCount": 0,
+    "unsafePathCount": 0,
+    "filesystemExact": true,
+    "listedExcludedPathCount": 0,
+    "unlistedOutsideExactExclusions": 0,
+    "exactExclusions": [
+      "deck/node_modules",
+      "deck/.vite",
+      "deck/.github",
+      "deck/.vscode",
+      "deck/test-results",
+      "deck/playwright-report",
+      "deck/AGENTS.md",
+      "deck/MCP-GUIDE.md",
+      "deck/README.md",
+      "deck/src/data/.gitkeep",
+      "stratton-phase-6-hashes.json"
+    ],
+    "roleCounts": {
+      "presentation-source": 111,
+      "presentation-export": 22,
+      "test": 4,
+      "tooling": 1,
+      "evidence": 22,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69
+  },
+  "affAPrerequisite": {
+    "reviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/stratton-aff-a-review.json",
+    "reviewSha256": "fc6c92259a5a213692dd6e44ea08f94cb1d325c298e8f594eeb4e170325ec237",
+    "markdownSha256": "9e13f337c27451329fc56f1ea8ad52e2046bf07a0aa4dc2f8f62bf139f432152",
+    "htmlSha256": "fed053011b33aa1171254cfa077b923841ab27c3b33d641c1ad55a0221919c4b",
+    "modelReceiptSha256": "1fe54f6b7fb3ff53ad6a5ca10194d212c3e6191909f77c3af7716835fa7701cd",
+    "snapshotSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "verificationReceiptSha256": "e0d4d788e6122a0188372ab5ad10cbae5287caee6686fefdf03bf5be03dfb610",
+    "verdict": "CONFORMS-WITH-GAPS",
+    "findingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "sameManifestBinding": true,
+    "independentlyAcceptedForProgression": true
+  },
+  "historicalPreservation": {
+    "r7": {
+      "manifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+      "approvalSha256": "f93ced2eb5811dbfc9a792ff2fc37bc888c441cf67af7f675a872d131198723f",
+      "status": "APPROVED_IMMUTABLE_HISTORICAL_BASELINE"
+    },
+    "r8": {
+      "manifestSha256": "94d04136b0f0e3f5014cfe2118e6667daa30a27ae5bd8800d3dff177871683ae",
+      "affARound8Sha256": "129fb558c76e2f53afef1b33bfaa12135d5954ab0bb108416c42b68e3065880b",
+      "affBRound5Sha256": "e03cb144f8fe108d2f8b854475ad7e113d7b6df10c8db4d007de666e610fa961",
+      "status": "REVIEWED_SUPERSEDED_UNAPPROVED_IMMUTABLE_HISTORICAL_CONTEXT"
+    },
+    "freezeSequence": {
+      "staleNextGateInvalidation": "EVT-0220",
+      "correctedFreeze": "EVT-0221",
+      "correctedNextGate": "AFF-A round 9 with gpt-5.6-luna, then AFF-B round 6 with gpt-5.6-terra only after no unresolved BLOCKER or MAJOR finding"
+    }
+  },
+  "scopeChecks": {
+    "claimsAndFinancialEvidence": "38 claims and 69 references have zero missing sources. Dated public West Europe retail input remains illustrative and excludes taxes, discounts, negotiated terms and target costs; comparator, benefit and GPT-4o-mini proxy values are explicitly not achieved, customer-quote or approved-route pricing claims.",
+    "sensitiveDataAndDisclosure": "Disclosure scan reports 0 credential, private-key, local-system or similar findings; it remains a high-confidence scan, not a classification or privacy determination.",
+    "sourceBrandingAndDistributionRights": "Asset and mark inventory keeps source and reuse rights pending, makes no licensing conclusion, and blocks external distribution pending owner confirmation or replacement.",
+    "securityCompliancePrivacyAndSovereignty": "Approved architecture intent is not represented as achieved compliance, certification, regulatory conclusion, residency proof or operating effectiveness. Regional, privacy, retention, legal, provider-term and regulatory-applicability decisions remain owner-owned and fail closed.",
+    "humanAuthority": "Claims and Slide 9 preserve assistive AI, specialist/human review and Investment Committee decision authority; the removed Slide 9 panel was a visual defect remediation, not an authority or architecture change.",
+    "slide5": "Activated-wrapper threshold 9, direct-shell static override, RED failure, GREEN pass and final regression evidence pass.",
+    "slide9": "Activated-wrapper threshold 31, complete authority-panel removal, five-layer/20-block reflow, no overlap/overflow/errors and 20/38/69 parity pass.",
+    "slide11": "All r8 brightness, typography, Moon/Earth/Sun, 0/160/320 ms stagger and reduced-motion behaviours are preserved; 12/12 contracts pass.",
+    "buildAndRuntimeEvidence": "Hardened build, recursive static scan, 60/60 clean browser records, 200 local successful/0 external runtime requests, disclosure scan, deterministic 20-page PDF and metadata/distribution evidence pass.",
+    "phaseBoundary": "No Azure sign-in, query, what-if, deployment, inference, promotion, runtime testing, achieved benefit, operating-effectiveness, production-readiness, certification, legal conclusion, approval, waiver, Phase 7 invocation or Phase 8 invocation is claimed."
+  },
+  "findings": [],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0,
+    "total": 0
+  },
+  "residualOwnerGates": [
+    {
+      "gateId": "P6-R9-V14",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Accountable asset-rights owner",
+      "statement": "External distribution remains blocked pending rights confirmation or asset replacement.",
+      "waived": false
+    },
+    {
+      "gateId": "P6-R9-OWNER-001",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Accountable platform, privacy, records, legal, compliance and commercial owners",
+      "statement": "Regions and identifiers, capacity, embeddings and benchmarks, recovery/failover, provider terms, source permissions, privacy lifecycle, retention/legal hold, classification, release identity and future Azure/runtime evidence remain unresolved.",
+      "waived": false
+    },
+    {
+      "gateId": "P6-R9-BOUNDARY-001",
+      "status": "OPEN_FAIL_CLOSED",
+      "owner": "Human architect and accountable owners",
+      "statement": "No Azure sign-in, target validation, what-if, deployment, inference, promotion, realised benefit, operating effectiveness, certification, legal conclusion, production-readiness evidence or optional-phase execution exists.",
+      "waived": false
+    }
+  ],
+  "coverageBoundary": {
+    "historicalCoverage023": "INACTIVE_R8_EVIDENCE",
+    "activeCoverage024": "SEPARATE_REQUIRED_POST_REVIEW_COORDINATOR_RECORD",
+    "coverage024CreatedByThisRound": false,
+    "coverage024HashBoundByThisRound": false
+  },
+  "nextAction": "Keep r9 unchanged. AFF-0 must create the separate active coverage 024 record without altering this review or its subject. The human architect retains the explicit in-tool Phase 6 decision after considering both same-manifest reviews and the open fail-closed gates. Do not resolve or waive owner decisions, approve Phase 6, distribute externally, perform Azure activity, or invoke Phase 7 or Phase 8.",
+  "noApproval": true,
+  "noWaiver": true,
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "deploymentExecuted": false,
+  "inferenceExecuted": false,
+  "productionReadinessClaimed": false,
+  "nonApprovalStatement": "AFF-B provides architecture assurance only. This record is not implementation, approval, deployment, certification, waiver, legal advice, compliance attestation, owner-gate resolution or authorisation for Phase 7 or Phase 8.",
+  "outputIntegrity": {
+    "markdown": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/stratton-aff-b-review.md",
+    "html": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/stratton-aff-b-review.html",
+    "json": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/stratton-aff-b-review.json",
+    "modelReceipt": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/stratton-aff-b-model-receipt.json",
+    "snapshot": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/reviewed-subject/stratton-phase-6-hashes.json",
+    "verificationReceipt": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  }
+}

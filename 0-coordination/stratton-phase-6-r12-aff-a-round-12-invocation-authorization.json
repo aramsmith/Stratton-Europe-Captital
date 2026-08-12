@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_INVOCATION_AUTHORIZATION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseRevision": "12",
+  "reviewRound": 12,
+  "recordedAt": "2026-08-12T04:21:19.9049839+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "status": "AUTHORIZED_PENDING_EXECUTION",
+  "authorizationScope": "Invoke AFF-A round 12 for a fresh read-only logic, traceability, visual-remediation and complete-subject review of the frozen Phase 6 r12 candidate.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-119.json",
+    "revision": "119",
+    "sha256": "251687266430187b7af9a379505715222cee15f65ac5bb07c3dd4e617927c852"
+  },
+  "approvedDesign": {
+    "path": "docs/superpowers/specs/2026-08-11-stratton-r12-slide-polish-design.md",
+    "sha256": "02bf714358f624800ee4838fd8cc495ceaf785f84b5eb6589c035341839cc620",
+    "commit": "3b315a77f5791311842151321b4227770faded94"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r12/stratton-phase-6-hashes.json",
+    "sha256": "888d1619a5c085dad0abfd47c34d478c8580ced876377c2291e34f28e2094d0c",
+    "artifactCount": 180,
+    "roleCounts": {
+      "authoritative-markdown": 1,
+      "build": 1,
+      "catalogue": 1,
+      "evidence": 16,
+      "pdf": 1,
+      "presentation-export": 21,
+      "presentation-source": 112,
+      "rendered-html": 1,
+      "screenshot": 21,
+      "test": 4,
+      "tooling": 1
+    },
+    "fullCandidateFileCount": 181,
+    "fullCandidateTreeSha256": "b0ce24ac5f2c36058f27fdae01eafee0d16d0bbe4b801e765c0a57373bda9245",
+    "pdfSha256": "9e7ad56238345062b48eaa64d9e135f84aebc382a5f84aa7afc8c403682e00f7",
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "immutablePredecessor": {
+    "r11ManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "r11ManifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "r11CandidateFileCount": 175,
+    "r11CandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "r11PdfSha256": "1d5d6014cccfecb7c0f3e783c73805f002b33b43ac44442cb27a995ff1378300",
+    "r11AffARound11AuthorizationPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r11-aff-a-round-11-invocation-authorization.json",
+    "r11AffARound11AuthorizationSha256": "0aecc69c1ed1888d374d512be6646a04addef87cefec6cce469eb27803e549ca",
+    "r11AffARound11ReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-11/stratton-aff-a-review.json",
+    "r11AffARound11ReviewSha256": "05699c6498e309f7eff1e9a1b1cf034c6d67ceabecab429c2b36595c12ba23d3",
+    "r11AffBRound7ReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-7/stratton-aff-b-review.json",
+    "r11AffBRound7ReviewSha256": "0d20fb5edb095db8c43e7bd57d5d749c0e2c8cacc78983435561618fffd05a2c",
+    "r11Coverage025Path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-025.json",
+    "r11Coverage025Sha256": "2941f39c1b3c3d5a55e5f46dad3d9ab907f514b4dc77f04c729319f01494dfce",
+    "requiredPreservation": "BYTE_IDENTICAL_IMMUTABLE_REVIEWED_UNAPPROVED_PREDECESSOR"
+  },
+  "modelAuthorization": {
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "requiredActualRuntimeModelId": "gpt-5.6-luna",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "minimumReasoningEffort": "high",
+    "requiredSeparation": "Luna must run in a fresh separate general-purpose reviewer context and remain distinct from the Sol author."
+  },
+  "requiredReviewChecks": [
+    "Recompute the canonical manifest SHA-256 and all 180 listed artifact SHA-256 values in a fresh process.",
+    "Verify the 181-file full candidate tree SHA-256 b0ce24ac5f2c36058f27fdae01eafee0d16d0bbe4b801e765c0a57373bda9245, ordinal ordering, safe paths, exclusions, role counts, exact filesystem boundary and unchanged pre/post-review subject.",
+    "Verify the complete frozen r11 predecessor contract and immutable r11 manifest, candidate tree, PDF, AFF-A round 11, AFF-B round 7 and coverage 025 anchors.",
+    "Inspect the complete canonical r12 visual-remediation candidate, including requested Slides 10, 11, 12, 14, 16, 17 and 18, all screenshots, browser-assurance evidence, deterministic PDF, authoritative Markdown, rendered HTML, claim catalogue, source contracts and presentation source.",
+    "Verify the requested layout, typography, hover, focus and reduced-motion behavior without inventing requirements or treating hover-only states as canonical static content.",
+    "Verify 20 registered slides, 38 material claims, 69 source references, the human-owned USD 200,000 comparator classification and every unsupported-claim boundary.",
+    "Verify the three canonical open residual gates P6-R11-V17, P6-R9-OWNER-001 and P6-R9-BOUNDARY-001 remain unwaived and external distribution remains blocked.",
+    "Return only CONFORMS, CONFORMS-WITH-GAPS or DIVERGES with BLOCKER, MAJOR and MINOR findings; stop progression on any material finding."
+  ],
+  "requiredOutputs": {
+    "directory": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12",
+    "reviewMarkdown": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12/stratton-aff-a-review.md",
+    "reviewHtml": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12/stratton-aff-a-review.html",
+    "reviewJson": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12/stratton-aff-a-review.json",
+    "modelReceipt": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12/stratton-aff-a-model-receipt.json",
+    "manifestSnapshot": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12/reviewed-subject/stratton-phase-6-hashes.json",
+    "verificationReceipt": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-12/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  },
+  "boundaries": {
+    "subjectMutationAllowed": false,
+    "candidateMutationAllowed": false,
+    "reviewRecordWritesAllowedOnly": true,
+    "approvalAllowed": false,
+    "waiverAllowed": false,
+    "legalOrRegulatoryCertificationAllowed": false,
+    "azureActivityAllowed": false,
+    "azureSignInAllowed": false,
+    "azureQueryAllowed": false,
+    "deploymentAllowed": false,
+    "runtimeInferenceAllowed": false,
+    "runtimeTestingAllowed": false,
+    "phase7InvocationAllowed": false,
+    "phase8InvocationAllowed": false,
+    "externalDistributionAllowed": false
+  },
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "nextAction": "Run AFF-A round 12 with actual model gpt-5.6-luna in the required fresh separate context against the unchanged manifest. Return only CONFORMS, CONFORMS-WITH-GAPS or DIVERGES. Any unresolved BLOCKER or MAJOR stops progression and forbids AFF-B invocation.",
+  "nonApprovalStatement": "This coordination record authorizes only the bounded read-only AFF-A review. It does not approve Phase 6 r12, resolve or waive owner gates, authorize distribution or Azure activity, mutate the candidate, or invoke Phase 7 or Phase 8."
+}

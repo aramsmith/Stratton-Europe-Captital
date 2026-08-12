@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_MODEL_SOURCE_BINDING",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "retrievalDate": "2026-08-06",
+  "purpose": "Claim-bound official-source provenance for material model, API, capability, Data Zone, privacy, networking, identity and specialist-service assertions.",
+  "sources": [
+    {
+      "sourceId": "CC002-R2-SRC-001",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure#gpt-56",
+      "sectionTitle": "GPT-5.6 — Capabilities",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "The GPT-5.6 capability table lists gpt-5.6-sol, gpt-5.6-terra and gpt-5.6-luna version 2026-07-09, Responses API and Chat Completions API support, structured outputs, text and image processing, functions/tools, a 1,050,000 context window and 128,000 maximum output tokens.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; quotation is concise evidence for architecture traceability, not republication; owner must recheck Microsoft terms before broader reuse.",
+      "owner": "AI Governance Source Owner",
+      "reviewOrExpiryCondition": "Re-fetch before deployment promotion and whenever the page, model version, API support or capability statement changes."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-002",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure-region-availability#data-zone-standard",
+      "sectionTitle": "Data Zone Standard — Availability for Azure OpenAI in Foundry Models — Europe",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "The Data Zone Standard section states that Microsoft processes prompts and responses anywhere within the specified data zone; its Europe table lists gpt-5.6-luna, gpt-5.6-sol, gpt-5.6-terra version 2026-07-09 and text-embedding-3-large as available across listed European resource regions.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; availability is time-sensitive evidence and is not a quota or deployment guarantee.",
+      "owner": "Azure Platform Source Owner",
+      "reviewOrExpiryCondition": "Expires at promotion review, any model/deployment change, or 30 days after retrieval, whichever occurs first."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-003",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types",
+      "sectionTitle": "Data residency for all deployment types; Deployment type comparison; Data Zone deployments",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "Data stored at rest remains in the designated Azure geography. DataZone types process data only within the Microsoft-specified data zone. Data Zone Standard uses SKU DataZoneStandard. EU Data Zone prompts and responses are processed within the EU Data Boundary and additional regions may be added without prior notice.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; supports design semantics only and does not authorise a resource, region, quota or legal conclusion.",
+      "owner": "DPO and Azure Platform Source Owners",
+      "reviewOrExpiryCondition": "Re-fetch before sovereignty approval, failover activation or any deployment-type policy change."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-004",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy",
+      "sectionTitle": "Important data-use statements; Generating completions, images or embeddings through inferencing; Understanding location of processing for Global and Data zone deployment types",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "Prompts, completions, embeddings and training data are not available to other customers or model providers and are not used to improve or train foundation models without permission or instruction. For DataZone deployments, prompts and responses may be processed anywhere within the specified data zone, while data stored at rest is stored in the customer-designated geography.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; provider terms, DPA and configuration evidence remain owner-required before enablement.",
+      "owner": "General Counsel and DPO Source Owners",
+      "reviewOrExpiryCondition": "Re-fetch and obtain provider-terms disposition before enablement and after any service privacy, abuse-monitoring or data-use change."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-005",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy",
+      "sectionTitle": "Data storage for Models sold by Azure features",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "Stored feature data is held at rest in the Foundry resource within the same geography as the resource, is encrypted at rest by default and can be deleted by the customer; the Responses API can store message history and related content.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; lifecycle settings and feature-specific legal assessment remain accountable-owner inputs.",
+      "owner": "DPO and Records Owner",
+      "reviewOrExpiryCondition": "Re-fetch before enabling stateful features, changing retention, or adopting preview capabilities."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-006",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/network",
+      "sectionTitle": "Create a private endpoint and private DNS zone",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "The networking guidance configures an Azure OpenAI resource with access disabled so private endpoint connections are the exclusive access path and documents private DNS integration.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; classic-portal guidance is architectural evidence only and must be reconciled with the implementation-time current portal and resource provider.",
+      "owner": "Network Security Source Owner",
+      "reviewOrExpiryCondition": "Re-fetch against the implementation-time Azure OpenAI networking documentation before deployment validation."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-007",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/managed-identity",
+      "sectionTitle": "Entra ID authentication compared to managed identities; Authenticate from an Azure-hosted app by using a managed identity",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "Microsoft Entra ID allows calls without storing an API key; managed identities are Entra identities whose credentials Azure creates and rotates, leaving no secret for the application to store or rotate.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; role assignment and identity selection remain implementation-time owner decisions.",
+      "owner": "Identity and Access Source Owner",
+      "reviewOrExpiryCondition": "Re-fetch before identity design acceptance or any authentication/RBAC change."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-008",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-azure-openai-embedding",
+      "sectionTitle": "Skill parameters; Supported dimensions by modelName",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "The Azure OpenAI Embedding skill requires a deploymentId, supports text-embedding-3-large, supports managed identity through authIdentity and lists a maximum of 3,072 dimensions for text-embedding-3-large.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; the skill page currently states an 8,000-token skill input limit, so the portfolio's model-level 8,191-token limit must not be treated as an indexer-skill allowance.",
+      "owner": "Search and Data Engineering Source Owner",
+      "reviewOrExpiryCondition": "Re-fetch before choosing the embedding integration path, dimensions, chunking or API version."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-009",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept/choose-model-feature?view=doc-intel-4.0.0",
+      "sectionTitle": "Pretrained document-analysis models",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "For documents requiring structural information such as tables, selection marks, paragraphs, titles, headings and subheadings, Microsoft identifies the Layout analysis model as the best solution.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; source supports deterministic extraction selection, not a workload accuracy claim.",
+      "owner": "Document Processing Source Owner",
+      "reviewOrExpiryCondition": "Re-fetch before changing Document Intelligence API/model version or promoting custom extraction."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-010",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#data-zone-deployments",
+      "sectionTitle": "Data Zone deployments",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "For DataZone deployment types, prompts and responses are processed only within the specified data zone; Microsoft notes that additional EU Data Boundary regions may be added without prior notice to improve capacity and availability.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; establishes that this architecture cannot promise a provider-selected processing region.",
+      "owner": "Sovereignty Source Owner",
+      "reviewOrExpiryCondition": "Re-fetch before each formal sovereignty review and after Microsoft changes the zone definition."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-011",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses",
+      "sectionTitle": "Use the Azure OpenAI Responses API; Supported models",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "Microsoft documents the Responses API as the unified stateful, multi-turn API and lists gpt-5.6-sol, gpt-5.6-terra and gpt-5.6-luna version 2026-07-09 as supported models. The current guidance states that the v1 API is required for the latest features.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; supports the Responses interface and exposes a current-version reconciliation requirement.",
+      "owner": "Application Engineering and AI Governance Source Owners",
+      "reviewOrExpiryCondition": "Re-fetch before implementation; the candidate's dated 2025-04-01-preview pin remains fail-closed until official version support is evidenced or a new change control adopts v1."
+    },
+    {
+      "sourceId": "CC002-R2-SRC-012",
+      "publisher": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/azure/foundry/openai/reference#rest-api-versioning",
+      "sectionTitle": "REST API versioning",
+      "retrievalDate": "2026-08-06",
+      "evidenceExcerpt": "Microsoft documents that dated service APIs use the api-version query parameter and follow a YYYY-MM-DD structure, while the current data-plane reference points to the newer v1 API lifecycle.",
+      "licenceUseDisposition": "PUBLIC_MICROSOFT_LEARN_REFERENCE; supports the dated-version mechanism but does not independently confirm the candidate's two exact preview versions.",
+      "owner": "Application Engineering Source Owner",
+      "reviewOrExpiryCondition": "Exact 2024-12-01-preview and 2025-04-01-preview support must be confirmed by official REST specification evidence before implementation or promotion."
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "CC002-R2-CLM-001",
+      "category": "MODEL_ID_VERSION",
+      "claim": "The candidate model IDs are gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol at version 2026-07-09.",
+      "sourceIds": [
+        "CC002-R2-SRC-001",
+        "CC002-R2-SRC-002"
+      ],
+      "owner": "AI Governance",
+      "reviewOrExpiryCondition": "Must be revalidated before promotion; no availability or quota is inferred."
+    },
+    {
+      "claimId": "CC002-R2-CLM-002",
+      "category": "MODEL_CAPABILITY",
+      "claim": "Each GPT-5.6 variant supports text and image processing, structured outputs, functions/tools, a 1,050,000-token context window and a 128,000 maximum output limit.",
+      "sourceIds": [
+        "CC002-R2-SRC-001"
+      ],
+      "owner": "AI Governance",
+      "reviewOrExpiryCondition": "Revalidate on any model version or capability-page change."
+    },
+    {
+      "claimId": "CC002-R2-CLM-003",
+      "category": "API_INTERFACE",
+      "claim": "Microsoft documents both Responses API and Chat Completions API capability for the GPT-5.6 variants; the Luna/Terra/Sol interface choice remains this architecture's pinned application decision.",
+      "sourceIds": [
+        "CC002-R2-SRC-001"
+      ],
+      "owner": "Application Engineering and AI Governance",
+      "reviewOrExpiryCondition": "Revalidate API support and the separately pinned API versions before implementation."
+    },
+    {
+      "claimId": "CC002-R2-CLM-004",
+      "category": "DATA_ZONE",
+      "claim": "Data Zone Standard uses SKU DataZoneStandard and processes prompts and responses within the specified data zone while at-rest data remains in the designated Azure geography.",
+      "sourceIds": [
+        "CC002-R2-SRC-003",
+        "CC002-R2-SRC-004"
+      ],
+      "owner": "DPO, General Counsel and Azure Platform",
+      "reviewOrExpiryCondition": "Requires accountable-human sovereignty evidence before enablement."
+    },
+    {
+      "claimId": "CC002-R2-CLM-005",
+      "category": "REGION_AVAILABILITY",
+      "claim": "The official Data Zone Standard Europe table listed all three GPT-5.6 variants and text-embedding-3-large on the retrieval date.",
+      "sourceIds": [
+        "CC002-R2-SRC-002"
+      ],
+      "owner": "Azure Platform",
+      "reviewOrExpiryCondition": "Time-sensitive; re-fetch within 30 days of any promotion or failover decision."
+    },
+    {
+      "claimId": "CC002-R2-CLM-006",
+      "category": "DATA_ZONE",
+      "claim": "The provider may select any processing region within the EU Data Zone and may add covered regions, so no specific processing-region promise is made.",
+      "sourceIds": [
+        "CC002-R2-SRC-003",
+        "CC002-R2-SRC-010"
+      ],
+      "owner": "DPO, General Counsel and Sovereignty Owner",
+      "reviewOrExpiryCondition": "Revalidate at sovereignty review and before primary/recovery activation."
+    },
+    {
+      "claimId": "CC002-R2-CLM-007",
+      "category": "NO_TRAINING_USE",
+      "claim": "Prompts, completions and embeddings are not used to train foundation models without customer permission or instruction, subject to current provider terms and configuration evidence.",
+      "sourceIds": [
+        "CC002-R2-SRC-004"
+      ],
+      "owner": "General Counsel, DPO and AI Governance",
+      "reviewOrExpiryCondition": "Provider terms and configuration must be accepted before enablement and rechecked on change."
+    },
+    {
+      "claimId": "CC002-R2-CLM-008",
+      "category": "NETWORK",
+      "claim": "Azure OpenAI supports a private-endpoint design in which public network access is disabled and private endpoint connections are the exclusive access path.",
+      "sourceIds": [
+        "CC002-R2-SRC-006"
+      ],
+      "owner": "Network Security",
+      "reviewOrExpiryCondition": "Must be confirmed with current implementation guidance and local negative-path evidence."
+    },
+    {
+      "claimId": "CC002-R2-CLM-009",
+      "category": "MANAGED_IDENTITY",
+      "claim": "Microsoft Entra managed identities allow Azure-hosted applications to authenticate without an application-stored API key or rotating secret.",
+      "sourceIds": [
+        "CC002-R2-SRC-007"
+      ],
+      "owner": "Identity and Access Management",
+      "reviewOrExpiryCondition": "Revalidate identity type, RBAC and token audience before deployment."
+    },
+    {
+      "claimId": "CC002-R2-CLM-010",
+      "category": "EMBEDDING",
+      "claim": "The Azure OpenAI Embedding skill supports text-embedding-3-large, deploymentId binding, managed identity and up to 3,072 dimensions.",
+      "sourceIds": [
+        "CC002-R2-SRC-008"
+      ],
+      "owner": "Search and Data Engineering",
+      "reviewOrExpiryCondition": "Revalidate the chosen integration path, limits, dimensions and chunking before index creation."
+    },
+    {
+      "claimId": "CC002-R2-CLM-011",
+      "category": "EMBEDDING",
+      "claim": "The Search embedding skill's documented 8,000-token input limit is stricter than the portfolio's model-level 8,191-token limit and therefore governs that specific skill integration.",
+      "sourceIds": [
+        "CC002-R2-SRC-008"
+      ],
+      "owner": "Search and Data Engineering",
+      "reviewOrExpiryCondition": "Revalidate at implementation; do not silently substitute one limit for another."
+    },
+    {
+      "claimId": "CC002-R2-CLM-012",
+      "category": "DOCUMENT_INTELLIGENCE",
+      "claim": "The Document Intelligence Layout analysis model is suited to extracting structural information including tables, selection marks, paragraphs, titles and headings.",
+      "sourceIds": [
+        "CC002-R2-SRC-009"
+      ],
+      "owner": "Document Processing Owner",
+      "reviewOrExpiryCondition": "Workload accuracy remains benchmark-bound; revalidate on model/API change."
+    },
+    {
+      "claimId": "CC002-R2-CLM-013",
+      "category": "DATA_ZONE",
+      "claim": "Data stored by stateful Foundry features remains within the resource geography, is encrypted at rest by default and can be deleted by the customer, subject to feature and preview limitations.",
+      "sourceIds": [
+        "CC002-R2-SRC-005"
+      ],
+      "owner": "DPO and Records Owner",
+      "reviewOrExpiryCondition": "Stateful features remain disabled until lifecycle, legal and preview evidence is approved."
+    },
+    {
+      "claimId": "CC002-R2-CLM-014",
+      "category": "API_INTERFACE",
+      "claim": "The Responses API can persist message history and related content, so this architecture requires explicit stateful-feature disablement or owner-approved lifecycle evidence.",
+      "sourceIds": [
+        "CC002-R2-SRC-005"
+      ],
+      "owner": "Application Engineering, DPO and Records Owner",
+      "reviewOrExpiryCondition": "Revalidate before enabling Responses API storage or multi-turn state."
+    },
+    {
+      "claimId": "CC002-R2-CLM-015",
+      "category": "API_INTERFACE",
+      "claim": "Current Microsoft guidance supports the Responses interface for all three GPT-5.6 variants and identifies v1 as the current API for latest features.",
+      "sourceIds": [
+        "CC002-R2-SRC-011"
+      ],
+      "owner": "Application Engineering and AI Governance",
+      "reviewOrExpiryCondition": "The existing Terra/Sol 2025-04-01-preview architecture pin remains blocked pending exact official support evidence or a separately reviewed v1 change."
+    },
+    {
+      "claimId": "CC002-R2-CLM-016",
+      "category": "API_INTERFACE",
+      "claim": "The Luna 2024-12-01-preview and Terra/Sol 2025-04-01-preview values are mandatory candidate design pins, but the retrieved official sources confirm only the dated api-version mechanism, not those exact versions.",
+      "sourceIds": [
+        "CC002-R2-SRC-001",
+        "CC002-R2-SRC-011",
+        "CC002-R2-SRC-012"
+      ],
+      "owner": "Application Engineering, Azure Platform and AI Governance",
+      "reviewOrExpiryCondition": "REQUIRED_OWNER_INPUT_OFFICIAL_EXACT_VERSION_EVIDENCE_FAIL_CLOSED_BEFORE_IMPLEMENTATION_OR_PROMOTION"
+    }
+  ],
+  "licenceAndUseBoundary": {
+    "sourceMaterialUse": "Concise quotations and URLs are retained solely for architecture evidence and audit traceability.",
+    "redistribution": "NO_BULK_REPUBLICATION_CLAIMED",
+    "providerTerms": "REQUIRED_OWNER_INPUT_BEFORE_ENABLEMENT",
+    "sourceAiUsePermission": "REQUIRED_OWNER_INPUT_PER_INGESTED_SOURCE",
+    "failClosedOutcome": "DENY_SOURCE_ADMISSION_OR_MODEL_PROMOTION_WHEN_USE_RIGHTS_OR_PROVIDER_TERMS_ARE_MISSING_EXPIRED_OR_MISMATCHED"
+  },
+  "nonClaims": {
+    "legalAdvice": false,
+    "licenceGrant": false,
+    "quotaAvailability": false,
+    "resourceAvailability": false,
+    "deployment": false,
+    "specificProcessingRegion": false,
+    "providerTermsAccepted": false,
+    "productionPromotion": false
+  }
+}

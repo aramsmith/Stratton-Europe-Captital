@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">Citadel Azure solution and landing-zone topology</title>
+  <desc id="desc">Citadel composes Azure Landing Zones, Foundry Citadel layered AI governance and Sovereign Landing Zone policies. Separate platform, non-production, production and Internal Audit assurance subscriptions contain primary and recovery regional private services.</desc>
+  <defs>
+    <style>
+      .bg{fill:#ffffff}.boundary{fill:#f7f7f7;stroke:#0078d4;stroke-width:3}.platform{fill:#e8f3ff;stroke:#0078d4;stroke-width:2}.nonprod{fill:#edf7ed;stroke:#107c10;stroke-width:2}.prod{fill:#fff1f0;stroke:#a4262c;stroke-width:2}.assure{fill:#f3e8ff;stroke:#5c2d91;stroke-width:2}.box{fill:#ffffff;stroke:#4f4f4f;stroke-width:1.5}.t{font:16px 'Segoe UI',sans-serif;fill:#242424}.h{font:bold 19px 'Segoe UI',sans-serif;fill:#242424}.small{font:14px 'Segoe UI',sans-serif;fill:#242424}.note{fill:#fff4ce;stroke:#d6b656;stroke-width:1.5}.arrow{fill:none;stroke:#0078d4;stroke-width:2;marker-end:url(#a)}.assureArrow{fill:none;stroke:#5c2d91;stroke-width:2;marker-end:url(#b)}
+    </style>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0078d4"/></marker>
+    <marker id="b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5c2d91"/></marker>
+  </defs>
+  <rect class="bg" width="1400" height="860"/>
+  <text class="h" x="35" y="38">Citadel / Stratton Release 1 — Azure solution and landing-zone topology</text>
+  <g aria-label="Microsoft Azure architecture icon" transform="translate(1335 12)"><path d="M18 2L4 30h12l8-16 8 16h12L28 2z" fill="#0078d4"/><path d="M17 34h29l-6 10H11z" fill="#50e6ff"/></g>
+  <rect class="note" x="35" y="58" rx="8" width="900" height="45"/>
+  <text class="small" x="55" y="86">Citadel and subscription separation are confirmed; exact IDs, region names and IPAM allocations remain fail-closed.</text>
+  <rect class="boundary" x="35" y="125" rx="14" width="1330" height="695"/>
+  <text class="h" x="55" y="157">Citadel — ALZ foundation + Foundry Citadel governance + sovereign policy overlays</text>
+  <rect class="platform" x="60" y="185" rx="12" width="275" height="585"/>
+  <text class="h" x="80" y="220">mg-citadel-platform</text>
+  <rect class="box" x="85" y="250" rx="9" width="225" height="105"/>
+  <text class="t" x="105" y="278">sub-citadel-connectivity</text><text class="small" x="105" y="305">Primary + recovery hubs</text><text class="small" x="105" y="330">Firewall / central DNS</text>
+  <rect class="box" x="85" y="390" rx="9" width="225" height="100"/>
+  <text class="t" x="105" y="420">sub-citadel-management</text><text class="small" x="105" y="447">ALZ + sovereign policy</text><text class="small" x="105" y="472">Defender / management</text>
+  <rect class="box" x="85" y="525" rx="9" width="225" height="85"/>
+  <text class="t" x="105" y="558">sub-citadel-ai-governance</text><text class="small" x="105" y="585">Model / evaluation / approvals</text>
+  <rect class="nonprod" x="365" y="185" rx="12" width="285" height="585"/>
+  <text class="h" x="385" y="220">Citadel non-production</text>
+  <rect class="box" x="390" y="250" rx="9" width="235" height="110"/><text class="t" x="410" y="280">Development spoke</text><text class="small" x="410" y="307">Synthetic only / private</text><text class="small" x="410" y="332">SQL public access disabled</text>
+  <rect class="box" x="390" y="395" rx="9" width="235" height="110"/><text class="t" x="410" y="425">Test spoke</text><text class="small" x="410" y="452">Synthetic benchmark</text><text class="small" x="410" y="477">SQL public access disabled</text>
+  <rect class="box" x="390" y="540" rx="9" width="235" height="125"/><text class="t" x="410" y="568">Private Azure services</text><text class="small" x="410" y="595">Apps / SQL / Blob / Search</text><text class="small" x="410" y="620">Service Bus / AI / Monitor</text><text class="small" x="410" y="645">Separate identities and VNets</text>
+  <rect class="prod" x="680" y="185" rx="12" width="380" height="585"/>
+  <text class="h" x="700" y="220">Citadel production</text>
+  <rect class="box" x="710" y="250" rx="9" width="320" height="75"/><text class="t" x="730" y="280">Primary regional private spoke</text><text class="small" x="730" y="305">WAF / APIM / apps / data / AI</text>
+  <rect class="box" x="710" y="350" rx="9" width="320" height="90"/><text class="t" x="730" y="380">Warm recovery regional spoke</text><text class="small" x="730" y="407">Private DNS failover / regional AI</text>
+  <rect class="box" x="710" y="465" rx="9" width="320" height="90"/><text class="t" x="730" y="495">Regional recovery data</text><text class="small" x="730" y="522">SQL failover / Local-or-Zone backups / ZRS data</text>
+  <rect class="box" x="710" y="580" rx="9" width="320" height="100"/><text class="t" x="730" y="610">Regional AI deployments only</text><text class="small" x="730" y="637">Global and DataZone denied</text><text class="small" x="730" y="662">No fine-tuning or training use</text>
+  <rect class="assure" x="1090" y="185" rx="12" width="245" height="585"/>
+  <text class="h" x="1110" y="220">Citadel assurance</text>
+  <rect class="box" x="1115" y="260" rx="9" width="195" height="125"/><text class="t" x="1135" y="290">Internal Audit subscription</text><text class="small" x="1135" y="317">Regional immutable evidence</text><text class="small" x="1135" y="342">Verdict stores</text><text class="small" x="1135" y="367">Audit controls replication</text>
+  <rect class="box" x="1115" y="425" rx="9" width="195" height="105"/><text class="t" x="1135" y="455">Read-only evidence</text><text class="small" x="1135" y="482">Delivery submits only</text><text class="small" x="1135" y="507">No delivery verdict role</text>
+  <path class="arrow" d="M310 302 H365"/><path class="arrow" d="M310 302 C500 125 750 150 780 250"/>
+  <path class="assureArrow" d="M1030 510 H1115"/>
+  <text class="small" x="1010" y="498">immutable submission</text>
+</svg>

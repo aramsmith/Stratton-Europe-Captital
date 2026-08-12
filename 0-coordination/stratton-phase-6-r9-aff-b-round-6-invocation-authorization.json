@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_INVOCATION_AUTHORIZATION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseRevision": "9",
+  "reviewRound": 6,
+  "recordedAt": "2026-08-10T23:47:43.4082374+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "status": "AUTHORIZED_PENDING_EXECUTION",
+  "authorizationScope": "Invoke AFF-B round 6 for a read-only security and compliance review of the complete frozen Phase 6 r9 subject after successful AFF-A round 9 closure.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116.json",
+    "revision": "116",
+    "sha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164"
+  },
+  "scopeAmendment": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116-scope-amendment-1.json",
+    "sequence": "1",
+    "sha256": "25bf34c80e36ede34f69440e8141e5f972fe00968759751ffc8229fb0061d5ec"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r9/stratton-phase-6-hashes.json",
+    "sha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "artifactCount": 163,
+    "roleCounts": {
+      "presentation-source": 111,
+      "presentation-export": 22,
+      "test": 4,
+      "tooling": 1,
+      "evidence": 22,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "affAPrerequisite": {
+    "reviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/stratton-aff-a-review.json",
+    "reviewSha256": "fc6c92259a5a213692dd6e44ea08f94cb1d325c298e8f594eeb4e170325ec237",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/stratton-aff-a-model-receipt.json",
+    "modelReceiptSha256": "1fe54f6b7fb3ff53ad6a5ca10194d212c3e6191909f77c3af7716835fa7701cd",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/reviewed-subject/stratton-phase-6-hashes.json",
+    "snapshotSha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993",
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-9/reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "verificationReceiptSha256": "e0d4d788e6122a0188372ab5ad10cbae5287caee6686fefdf03bf5be03dfb610",
+    "verdict": "CONFORMS-WITH-GAPS",
+    "findingCounts": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "finalRoundForManifest": true,
+    "sameManifestBinding": true,
+    "independentRecordReview": "APPROVED",
+    "authorizationConditionMet": true
+  },
+  "modelAuthorization": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "requiredActualRuntimeModelId": "gpt-5.6-terra",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "requiredSeparation": "Terra must run in a fresh reviewer context and remain distinct from both Sol author and Luna AFF-A reviewer."
+  },
+  "requiredOutputs": {
+    "directory": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-6",
+    "reviewMarkdown": "stratton-aff-b-review.md",
+    "reviewHtml": "stratton-aff-b-review.html",
+    "reviewJson": "stratton-aff-b-review.json",
+    "modelReceipt": "stratton-aff-b-model-receipt.json",
+    "manifestSnapshot": "reviewed-subject/stratton-phase-6-hashes.json",
+    "verificationReceipt": "reviewed-subject/stratton-phase-6-hash-verification-receipt.json",
+    "plannedCoverageSequence": "024"
+  },
+  "boundaries": {
+    "subjectMutationAllowed": false,
+    "approvalAllowed": false,
+    "waiverAllowed": false,
+    "legalOrRegulatoryCertificationAllowed": false,
+    "azureActivityAllowed": false,
+    "runtimeInferenceAllowed": false,
+    "phase7InvocationAllowed": false,
+    "phase8InvocationAllowed": false,
+    "externalDistributionAllowed": false
+  },
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "nextAction": "Run AFF-B round 6 with actual model gpt-5.6-terra against the unchanged manifest. If any BLOCKER or MAJOR finding is raised, return to AFF-6 remediation and invalidate same-manifest progression.",
+  "nonApprovalStatement": "This coordination record authorizes only the bounded AFF-B review. It does not approve Phase 6 r9, resolve or waive owner gates, authorize distribution or Azure activity, or invoke Phase 7 or Phase 8."
+}

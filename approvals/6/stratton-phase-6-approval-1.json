@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-6-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-10T12:06:01.351+02:00",
+  "modelPlanRevision": "114",
+  "subjectHashManifest": {
+    "path": "6-presentation-r7/stratton-phase-6-hashes.json",
+    "sha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/6/round-7/stratton-aff-a-review.json",
+    "sha256": "3a33b30144ed1c1a276569342cfe4d96426cbfc9034806a5ef9768b1972671a2"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/6/round-4/stratton-aff-b-review.json",
+    "sha256": "e5d173f37bf3aa6eee1de1fc7163082d55a40c6e91719d42660519d163ed4ef4"
+  },
+  "residualGaps": [
+    "Regions and resource identifiers, quota/capacity, embeddings and benchmarks, recovery/failover, provider terms, source and licence permissions, privacy lifecycle, retention/legal hold, legal/compliance classification, release identity and future Azure/runtime evidence remain unresolved and fail closed.",
+    "External distribution remains blocked pending accountable asset-rights confirmation or replacement.",
+    "No Azure, target, inference, promotion, retention-finalisation, Phase 8 runtime, achieved-benefit or operating-effectiveness evidence exists.",
+    "No legal applicability, licensing, certification, waiver or formal-attestation conclusion is made."
+  ],
+  "constraints": [
+    "Exact decision: approve Phase 6 r7.",
+    "Approver authority type: HUMAN_ARCHITECT_ACTIVE_AI_INTERACTION.",
+    "Approval evidence in the active Copilot CLI interaction: User input: \"I approve phase 6 r7\".",
+    "Approval accepts only the frozen r7 Phase 6 manifest cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03 and its 155 hash-bound artifacts.",
+    "AFF-A round 7 used gpt-5.6-luna, returned CONFORMS, finalRoundForManifest true, resolved AFFB-P6-R3-MAJ-001 for logic and traceability, and recorded zero BLOCKER, MAJOR or MINOR findings.",
+    "AFF-B round 4 used gpt-5.6-terra, returned CONFORMS-WITH-GAPS, finalRoundForManifest true, resolved AFFB-P6-R3-MAJ-001 without waiver, and recorded zero BLOCKER, MAJOR or MINOR findings.",
+    "AFF-B compliance coverage 022 is reviews/aff-b/coverage/stratton-compliance-coverage-022.json with SHA-256 67d2f44f2df5b6f5d49c1427496864499337110709d5422f9d38b5c154aa3c47.",
+    "The active model plan is revision 114 at 0-coordination/stratton-model-plan-revision-114.json with SHA-256 1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc.",
+    "Approval completes Phase 6 as the final standard-route phase but does not invoke, authorise or require Phase 7 deployment or Phase 8 runtime testing.",
+    "All residual gaps remain open, unwaived and fail closed; no legal conclusion, certification, owner input, asset-rights confirmation or operating-effectiveness result is inferred.",
+    "External distribution remains blocked until an accountable owner confirms source and asset rights or replaces the affected assets.",
+    "Any material change to r7 requires a new sibling candidate, new converged AFF-A and AFF-B reviews, and a new explicit human decision.",
+    "No Azure sign-in, provider or subscription query, target validation, what-if, deployment, model inference, promotion, retention finalisation, Azure network call, runtime testing, Phase 7 authority or Phase 8 authority is granted."
+  ]
+}

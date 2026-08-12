@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "formalReviewRound": 5,
+  "changeControlId": "STRATTON-CC-002",
+  "createdAt": "2026-08-06T08:50:09.460+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "selectionRationale": "The task explicitly selects Terra for an independent, evidence-bound Phase 3 security and compliance review; it differs from the Phase author’s actual Sol runtime.",
+    "runScopedOverrideRequired": true
+  },
+  "author": {
+    "agent": "AFF-3",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "status": "UNCHANGED_PRE_POST"
+  },
+  "coverage": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-012.json",
+    "sha256": "d835b1f6a2d7b0679fa32a04c6237022ce3c320a193cac300b5baf7291ed8458"
+  }
+}

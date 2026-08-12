@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script><title>Stratton AFF-A review Phase 4 — Implementation Plan round 5</title><style>
+:root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#ffffff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-text-soft:#6f6f6f;--cp-accent:#b11f4b;--cp-accent-hover:#9a1a41;--cp-accent-soft:rgba(177,31,75,.08);--cp-accent-fg:#ffffff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-link:#0078d4;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-overlay:rgba(255,255,255,.8);--cp-panel:rgba(255,255,255,.86);--cp-panel-strong:rgba(255,255,255,.96);--cp-sheen:rgba(255,255,255,.55);--cp-highlight:rgba(177,31,75,.12)}
+html[data-theme="dark"]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#919191;--cp-text-soft:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-hover:#fb7b91;--cp-accent-soft:rgba(253,142,161,.14);--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-link:#4da6ff;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-overlay:rgba(41,41,41,.88);--cp-panel:rgba(41,41,41,.72);--cp-panel-strong:rgba(41,41,41,.96);--cp-sheen:rgba(255,255,255,.04);--cp-highlight:rgba(253,142,161,.12)}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}main{max-width:1180px;margin:0 auto;padding:2rem}article,section{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:1.5rem;margin:1rem 0}h1,h2,h3{color:var(--cp-text);line-height:1.25}h1{margin-top:0}h2{border-bottom:1px solid var(--cp-border);padding-bottom:.5rem}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:.75rem 0}th,td{border:1px solid var(--cp-border);padding:.55rem;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:.1rem .3rem}@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}}
+</style></head><body><main><article><h1>Stratton AFF-A review — Phase 4 — Implementation Plan round 5</h1>
+<p>**Change control:** <code>STRATTON-CC-001</code>  </p>
+<p>**Verdict:** <code>CONFORMS-WITH-GAPS</code>  </p>
+<p>**Review time:** <code>2026-08-02T16:06:01.656+02:00</code>  </p>
+<p>**Reviewer runtime:** <code>gpt-5.5</code>; author runtime <code>gpt-5.6-sol</code>  </p>
+<p>**Independence:** <code>VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS</code>  </p>
+<p>**Invoked by:** <code>AFF-4</code>  </p>
+<p>**Subject modification performed:** <code>false</code></p>
+<h2>Summary</h2>
+<p>Phase 4 round-2 amendment translates authority separation and signing-time trust semantics into work packages, deployable units, identity mappings, assertions and validation gates.</p>
+<h2>Independent verification</h2>
+<p>• Manifest: <code>cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json</code></p>
+<p>• Manifest SHA-256: <code>7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9</code> (<code>MATCH</code>).</p>
+<p>• Model plan: revision <code>9</code> / <code>f89c71fd12821781c5ddf3c266b2351003563c9a2b1794e579feeb556f04ddf9</code>.</p>
+<p>• Artifact count: <code>13</code>; artifact hashes <code>ALL_MANIFEST_ENTRIES_RECOMPUTED_AND_MATCHED</code>.</p>
+<p>• Reviewed-subject snapshot: <code>reviews/aff-a/4/round-5/reviewed-subject/stratton-phase-4-hashes-cc-001-r2-proposed.json</code>.</p>
+<p>• Hash receipt: <code>reviews/aff-a/4/round-5/reviewed-subject/stratton-phase-4-hash-verification-receipt.json</code> / <code>ef0bd2fd5ce579b0d48d9c3a236be908217dc49ac89e58ceb4d8b97325c4d9e4</code>.</p>
+<p>• Model receipt: <code>reviews/aff-a/4/round-5/stratton-aff-a-model-receipt.json</code> / <code>55fd145b01b1f4b7bbc09ebe5f998e34494a5812cf6d8c42f6bca21ea6c23748</code>.</p>
+<p>• Frozen subject pre/post: <code>7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9</code> / <code>7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9</code>.</p>
+<p>• Trust-vector proof: <code>PASS</code> with <code>4</code> positive and <code>10</code> negative vectors.</p>
+<p>• DU sequence proof: <code>17</code> nodes, <code>46</code> edges, acyclic <code>true</code>.</p>
+<p>• Phase 3 r2 binding: <code>e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54</code> (<code>MATCHES_FROZEN_PHASE_3_R2_HASH_WITH_MINOR_STALE_CHANGECONTROL_REFERENCE</code>).</p>
+<h2>Findings</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Required action</th></tr></thead><tbody>
+<tr><td><code>AFFA-P4-R5-MIN-001</code></td><td><code>MINOR</code></td><td><code>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</code></td><td>276 implementation parameters remain owner-bound fail-closed values; named owners must provide evidence before activation.</td></tr>
+<tr><td><code>AFFA-P4-R5-MIN-002</code></td><td><code>MINOR</code></td><td><code>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</code></td><td>Internal Audit WP-05 package acceptance/build/sign/publish/deploy/operate remains a future fail-closed gate.</td></tr>
+<tr><td><code>AFFA-P4-R5-MIN-003</code></td><td><code>MINOR</code></td><td><code>OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT</code></td><td>14 open controls remain unwaived and gate-bound.</td></tr>
+<tr><td><code>AFFA-P4-R5-MIN-004</code></td><td><code>MINOR</code></td><td><code>BOUNDED_INTERNAL_REFERENCE_GAP</code></td><td>changeControl.proposedPhase3Binding still names the revision-8 Phase 3 proposal path; manifest/upstreamBinding/proposedUpstream correctly bind the r2 hash.</td></tr>
+</tbody></table></div>
+<h2>Review area results</h2>
+<div class="table-wrap"><table><thead><tr><th>Area</th><th>Status</th><th>Evidence</th></tr></thead><tbody>
+<tr><td>Frozen subject and artifact hashes</td><td><code>CONFORMS</code></td><td>Subject manifests and every manifest-bound artifact were recomputed and matched before and after review.</td></tr>
+<tr><td>Model independence</td><td><code>CONFORMS</code></td><td>AFF-A actual runtime gpt-5.5 differs from author actual runtime gpt-5.6-sol; recorded as VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS.</td></tr>
+<tr><td>Historical boundary</td><td><code>CONFORMS</code></td><td>Revision-8 manifests are byte-identical; superseded interim r2 hashes are historical non-subject evidence only.</td></tr>
+<tr><td>Authority separation</td><td><code>CONFORMS</code></td><td>Repository administration, review, merge, build, release signing, ACR publication, DU-16 deployment, operations, rollback and role assignment are separately owned and mutually denied.</td></tr>
+<tr><td>Trust-vector semantics</td><td><code>CONFORMS</code></td><td>Four positive vectors recompute purpose, signedRecordId, signedAt, signer tenant/object, key, policy/registry/mapping hashes, validity/revocation evidence, retention class, snapshot ID/hash and envelope hash; ten negatives deny/block/review/recover/no-rewrite.</td></tr>
+<tr><td>Signed record immutability</td><td><code>CONFORMS</code></td><td>Submission, audit event, receipt and verdict include signedAt and TrustVerificationSnapshot/hash inside canonical preimages and co-retain records/snapshots in Internal Audit WORM.</td></tr>
+<tr><td>Prior AFF-B MAJOR remediation</td><td><code>CONFORMS-WITH-GAPS</code></td><td>Both prior AFF-B MAJOR findings are substantively remediated for AFF-A correctness; AFF-B still owns compliance judgement.</td></tr>
+<tr><td>Owner values</td><td><code>CONFORMS-WITH-GAPS</code></td><td>Repository IDs, tenants, groups, keys, algorithms, endpoints, regions, retention and thresholds remain owner-supplied fail-closed values.</td></tr>
+<tr><td>Markdown/HTML/diagram consistency</td><td><code>CONFORMS</code></td><td>Candidate Markdown/HTML headings are in parity; HTML is self-contained with Clawpilot variables; diagrams parse without active script/foreignObject/external runtime reference.</td></tr>
+<tr><td>No unauthorised execution</td><td><code>CONFORMS</code></td><td>The subjects claim no approval, deployment, what-if, Azure operation, Phase 5 output or runtime validation.</td></tr>
+<tr><td>Phase 3 r2 binding</td><td><code>CONFORMS-WITH-GAPS</code></td><td>Manifest, upstreamBinding and proposedUpstream bind the exact Phase 3 r2 hash; one catalogue changeControl cross-reference is stale and minor.</td></tr>
+<tr><td>DU sequencing</td><td><code>CONFORMS</code></td><td>17 DU nodes and 46 dependency edges are acyclic; DU-16 precedes dependent workload/private-path activation.</td></tr>
+<tr><td>Implementation fidelity</td><td><code>CONFORMS</code></td><td>WP-05, DU-06, DU-12, DU-13, DU-16 and DU-17 translate Phase 3 authority, identity, assertion, evidence and gate requirements into implementable tasks.</td></tr>
+<tr><td>Traceability completeness</td><td><code>CONFORMS</code></td><td>23 SBBs, 44 resource inventory entries, 31 requirements, 19 ABBs and 10 architecture decisions are mapped with zero unmapped entries.</td></tr>
+</tbody></table></div>
+<h2>Prior AFF-B major finding disposition</h2>
+<div class="table-wrap"><table><thead><tr><th>Finding</th><th>AFF-A correctness disposition</th><th>Evidence</th></tr></thead><tbody>
+<tr><td><code>AFFB-CC001-MAJ-001</code></td><td><code>SUBSTANTIVELY_REMEDIATED_FOR_CORRECTNESS_PENDING_AFF_B_REVIEW</code></td><td>Dedicated Internal Audit source boundary, separate stage identities, two-person gates, immutable chain-of-custody and cross-role negatives.</td></tr>
+<tr><td><code>AFFB-CC001-MAJ-002</code></td><td><code>SUBSTANTIVELY_REMEDIATED_FOR_CORRECTNESS_PENDING_AFF_B_REVIEW</code></td><td>All four signed records include signedAt, purpose-specific TrustVerificationSnapshot/hash, policy/registry/mapping hashes, key validity, revocation/compromise evidence, retention class and WORM co-retention.</td></tr>
+</tbody></table></div>
+<h2>Residual gaps</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Owner</th><th>Status</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>P4-RC-001</code></td><td>Named parameter owners</td><td><code>OPEN_OWNER_BOUND_FAIL_CLOSED</code></td><td>276 implementation parameters have UNRESOLVED_FAIL_CLOSED evidence status.</td></tr>
+<tr><td><code>P4-RC-002</code></td><td>Internal Audit</td><td><code>OPEN_OWNER_BOUND_FAIL_CLOSED</code></td><td>WP-05 acceptance/build/sign/publish/deploy/operate chain is planned and pre-activation gate-bound.</td></tr>
+<tr><td><code>P4-RC-003</code></td><td>Named control owners</td><td><code>OPEN_OWNER_BOUND_FAIL_CLOSED</code></td><td>14 controls remain open, unwaived and fail-closed.</td></tr>
+<tr><td><code>P4-RC-004</code></td><td>AFF-4 future revision if needed</td><td><code>BOUNDED_REFERENCE_GAP</code></td><td>One non-authoritative change-control cross-reference is stale.</td></tr>
+</tbody></table></div>
+<h2>Non-approval statement</h2>
+<p>AFF-A does not approve STRATTON-CC-001, Phase 5, deployment, Azure operations, runtime testing, legal certification, waiver or human gate passage. Human approval remains pending.</p>
+<h2>Verdict rationale</h2>
+<p>No blocker or unresolved major correctness finding was identified. Round 2 is internally coherent enough for AFF-A with explicit minor/owner-bound gaps, unchanged frozen hashes, and no approval/deployment/runtime claim. AFF-B must still perform its own compliance re-review on the same unchanged manifest before any human gate decision.</p></article></main></body></html>

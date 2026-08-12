@@ -1,0 +1,38 @@
+flowchart TB
+  subgraph Z1[User and governance trust zone]
+    ID[Identity, role and time-bound privilege]
+    UI[Case and review channels]
+  end
+  subgraph Z2[Application trust zone]
+    PE[Policy enforcement]
+    SV[Logical application services]
+    JOB[Controlled asynchronous work]
+  end
+  subgraph Z3[Data trust zone]
+    EV[Evidence stores]
+    AU[Audit and compliance records]
+    BK[Protected recovery copies]
+  end
+  subgraph Z4[Integration trust zone]
+    GW[Private logical integration boundary]
+    CN[Read-only connectors]
+  end
+  subgraph Z5[Operations trust zone]
+    OB[Metrics, logs and traces]
+    IN[Alert and incident management]
+    RC[Recovery orchestration]
+  end
+  ID --> UI
+  UI --> PE
+  PE --> SV
+  SV --> JOB
+  CN --> GW
+  GW --> PE
+  SV --> EV
+  SV --> AU
+  EV --> BK
+  SV --> OB
+  PE --> OB
+  OB --> IN
+  RC --> SV
+  RC --> EV

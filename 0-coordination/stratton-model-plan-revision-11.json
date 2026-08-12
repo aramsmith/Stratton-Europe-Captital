@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "1.0.0",
+  "planRevision": "11",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "createdAt": "2026-08-02T16:43:26.7827287+02:00",
+  "revisionReason": "Record formal AFF-A and AFF-B convergence on the immutable STRATTON-CC-001 final subjects and open the explicit human decision gate without authorising Azure execution.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-10.json",
+    "sha256": "63750f1ea18a89fa3a7500fff05a6f98135bc6a5e98ad6301fdfbc246e94b894",
+    "overwrite": false
+  },
+  "changeControl": {
+    "id": "STRATTON-CC-001",
+    "changeControlId": "STRATTON-CC-001",
+    "status": "FORMAL_REVIEWS_CONVERGED_HUMAN_DECISION_PENDING",
+    "approvedBaselinesRemainUnchanged": true,
+    "proposedSubjectsHaveOperatingEffect": false,
+    "azureExecutionAuthorised": false,
+    "canonicalSubjects": [
+      {
+        "phaseId": "3",
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "sha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+        "state": "FROZEN_FORMALLY_REVIEWED_PENDING_HUMAN_DECISION"
+      },
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+        "sha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+        "state": "FROZEN_FORMALLY_REVIEWED_PENDING_HUMAN_DECISION",
+        "exactPhase3BindingSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54"
+      }
+    ],
+    "immutableHistory": [
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json",
+        "sha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+        "state": "SUPERSEDED_REVIEWED_SUBJECT_RETAINED_BYTE_IDENTICAL"
+      }
+    ]
+  },
+  "formalReviewConvergence": {
+    "coverage": {
+      "sequence": "007",
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-007.json",
+      "sha256": "e769a9326a6bf362a566a42934ef6093d2dca8e37bc955a53474e17f664147d8",
+      "status": "FROZEN_FORMAL_FINAL"
+    },
+    "phase3": {
+      "affA": {
+        "round": 5,
+        "path": "reviews/aff-a/3/round-5/stratton-aff-a-review.json",
+        "sha256": "1be8a11a1cf51e9009be9db1e9dcb2f8e5369181c1c6862b988de9d29f28d539",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 2
+        }
+      },
+      "affB": {
+        "round": 4,
+        "path": "reviews/aff-b/3/round-4/stratton-aff-b-review.json",
+        "sha256": "0adf627a1e43de0553d106eb6c446a47f3b2718cf3adeafa844c7bd5944e5e9c",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 1
+        }
+      }
+    },
+    "phase4": {
+      "affA": {
+        "round": 6,
+        "path": "reviews/aff-a/4/round-6/stratton-aff-a-review.json",
+        "sha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 4
+        }
+      },
+      "affB": {
+        "round": 3,
+        "path": "reviews/aff-b/4/round-3/stratton-aff-b-review.json",
+        "sha256": "b220e01bbede12f7fff81e3220c15a2271b27b4970c35bd963ee877049e3d7b9",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 2
+        }
+      }
+    },
+    "formerAffBMajorFindings": [
+      {
+        "id": "AFFB-CC001-MAJ-001",
+        "disposition": "RESOLVED",
+        "basis": "Repository, build, sign, publish, deploy and operate authorities are separated with independent Internal Audit ownership and fail-closed activation gates."
+      },
+      {
+        "id": "AFFB-CC001-MAJ-002",
+        "disposition": "RESOLVED",
+        "basis": "Purpose-specific signing-time TrustVerificationSnapshot records bind identity, key, policy, registry, mapping, validity, revocation, retention and envelope evidence; four positive and ten negative vectors pass."
+      }
+    ],
+    "blockerCount": 0,
+    "majorCount": 0,
+    "status": "CONVERGED_WITH_EXPLICIT_MINOR_AND_OWNER_BOUND_GAPS"
+  },
+  "residualGaps": [
+    {
+      "id": "OWNER-PARAMETERS",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED",
+      "description": "Phase 3 retains 244 and Phase 4 retains 276 owner-bound parameters requiring named-owner evidence before activation."
+    },
+    {
+      "id": "INTERNAL-AUDIT-WP-05",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED",
+      "description": "Internal Audit package acceptance and build, sign, publish, deploy and operate authority remain future gates."
+    },
+    {
+      "id": "PHASE4-OPEN-CONTROLS",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED",
+      "description": "Fourteen implementation controls remain owner-bound and unwaived."
+    },
+    {
+      "id": "AFFB-CC001-R2-MIN-001",
+      "status": "OPEN_BEFORE_SIGNATURE_CLIENT_IMPLEMENTATION",
+      "description": "Helper purpose metadata must use signedAt for workload audit events and include signedAt while retaining issuedAt as verdict decision time."
+    },
+    {
+      "id": "AFFB-CC001-R3-MIN-002",
+      "status": "BOUNDED_FUTURE_WORDING_CORRECTION",
+      "description": "A future material Phase 4 revision must name the r3 subject accurately; current automation and approval must use the canonical r3 hash rather than the prose label."
+    },
+    {
+      "id": "BASELINE-OWNER-CONTROLS",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED",
+      "controlIds": [
+        "VAL-001",
+        "VAL-002",
+        "VAL-003",
+        "VAL-004",
+        "VAL-005",
+        "AFFB-RES-001",
+        "AFFB-RES-002"
+      ]
+    }
+  ],
+  "governanceBindings": {
+    "operatingContract": {
+      "path": ".github/agents/AFF-OPERATING-CONTRACT.md",
+      "sha256": "ecf5512f82debe5698449a3bc0c52ffe0481589f7326d422305b33a14a3fd972"
+    },
+    "changeControlApprovalSchema": {
+      "path": ".github/schemas/aff-change-control-approval.schema.json",
+      "sha256": "bce5c0e2206efb881a6741952a73a0e51ab53514aade0d6eb75a8d2341734cc9"
+    },
+    "phase5ReleaseGate": {
+      "path": "5-coding/validation/New-ReleaseManifest.ps1",
+      "sha256": "f87e83523a0868746d56e2781850e1c9198fddb44268cd7b740dc06f9b87a1e2"
+    },
+    "phase5ReleaseSchema": {
+      "path": "5-coding/release/release-manifest.schema.json",
+      "sha256": "8583e1fc53abaa8ae0d817d810b7d5597f98217697552e1a8f5507e2efa4f0de"
+    }
+  },
+  "humanDecisionGate": {
+    "state": "PENDING",
+    "requiredRecordPath": "approvals/change-control/stratton-cc-001-approval-1.json",
+    "requiredSchemaPath": ".github/schemas/aff-change-control-approval.schema.json",
+    "decisionScope": "Approve or reject only the final STRATTON-CC-001 Phase 3 r2 and Phase 4 r3 amendment subjects for prospective Phase 5 authority-interface finalisation.",
+    "requiredInterpretations": [
+      "The exact Phase 4 subject is r3 hash 4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626; no r2 prose label can override that hash.",
+      "Approval does not waive owner-bound parameters, Internal Audit authority gates, the fourteen open controls, AFFB-CC001-R2-MIN-001 or baseline residual controls.",
+      "Approval does not authorise Azure sign-in, validation, what-if, deployment, runtime testing or Phase 6."
+    ]
+  },
+  "phase5Gate": {
+    "state": "BLOCKED_PENDING_CHANGE_CONTROL_HUMAN_DECISION",
+    "onApproval": "Permit local Phase 5 authority-interface finalisation, complete validation, candidate hashing and formal Phase 5 reviews.",
+    "onRejection": "Keep the Phase 5 release gate closed and return the change control to the human architect without mutating reviewed subjects."
+  },
+  "constraints": [
+    "Do not modify any formally reviewed subject or review output.",
+    "Do not overwrite any approved baseline or historical reviewed subject.",
+    "Do not infer, populate or waive owner-bound inputs.",
+    "Do not perform Azure authentication, validate, what-if, deployment or cloud runtime operations.",
+    "Do not start Phase 6 automatically."
+  ]
+}

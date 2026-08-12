@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "DATA_AND_INTEGRATION_CONTRACTS",
+  "dataDesign": {
+    "citadelGovernance": "Admission and AI-use decisions consume versioned references from the separate Citadel AI-governance plane. That plane stores policy, model, evaluation and approval metadata only—not Stratton source documents, production inference state or Internal Audit verdicts.",
+    "regionalPattern": "Production uses separate private data services in the signed-approved primary/recovery region pair. Global/DataZone AI is prohibited and no implicit Azure geo-pair is accepted unless it is the explicitly approved recovery region.",
+    "systemOfRecordBoundary": "Existing deal-room, CRM, finance, ESG, legal and compliance systems remain authoritative. Release 1 stores governed evidence copies, metadata, derived analysis and workflow state only.",
+    "transactionalStore": "Azure SQL Database with Microsoft Entra-only authentication, private endpoint, publicNetworkAccess Disabled, TDE, auditing and automated backups.",
+    "objectStores": "Separate private Blob Storage accounts/containers for quarantine, admitted evidence, temporary work, audit export and Internal Audit verdicts, with controlled primary-to-approved-recovery replication under the owning boundary.",
+    "retrievalStore": "Azure AI Search holds rebuildable derived chunks and vectors keyed to evidenceId; it is not an authoritative record.",
+    "classification": "Production case, deal, financial, legal and portfolio data is highly confidential. Development and test contain synthetic data only.",
+    "partitioning": "All transactional and derived entities carry caseId. Blob paths use environment/caseId/evidenceId/version. Search filters include caseId, classification, policyVersion and admissionStatus.",
+    "retention": "No duration is invented. Every record carries retentionScheduleId, legalHoldId when applicable and dispositionStatus. Production lifecycle policies remain disabled or non-destructive until source/records owners approve schedules under VAL-004.",
+    "trainingBoundary": "No Azure OpenAI fine-tuning or custom foundation-model training is deployed. Stratton prompts, completions and source documents are not placed in a training dataset."
+  },
+  "logicalEntities": [
+    {"entity":"Case","key":"caseId","requiredFields":["status","dealEligibilityDecisionId","jurisdictionEligibilityDecisionId","openedAt","committeeReadyAt","rolloutSequence"],"rules":["rolloutSequence <= 20","status transition requires policy decision"]},
+    {"entity":"EligibilityDecision","key":"eligibilityDecisionId","requiredFields":["caseId","decisionType","decision","deciderObjectId","decidedAt","policyVersion"],"rules":["append-only history"]},
+    {"entity":"SourceRegistration","key":"sourceId","requiredFields":["ownerId","domain","authoritativeStatus","interfaceType","permissionEvidenceId","jurisdiction","status"],"rules":["production enabled only after VAL-004 evidence"]},
+    {"entity":"ExternalLicenceDecision","key":"licenceDecisionId","requiredFields":["sourceId","licenceEvidenceId","aiRetrievalAllowed","aiAnalysisAllowed","purposeId","approvedBy","expiresAt"],"rules":["deny on false, missing or expired"]},
+    {"entity":"EvidenceEnvelope","key":"evidenceId","requiredFields":["caseId","sourceId","sourceVersion","ownerId","capturedAt","licenceDecisionId","purposeId","classification","qualityStatus","contentHash","admissionStatus"],"rules":["analysis requires all fields and admissionStatus=ADMITTED"]},
+    {"entity":"EvidenceObject","key":"evidenceVersionId","requiredFields":["evidenceId","blobUriReference","contentHash","mediaType","sizeBytes","malwareScanStatus","retentionScheduleId","dispositionStatus"],"rules":["content stored outside SQL; hash must match"]},
+    {"entity":"AnalysisRun","key":"analysisRunId","requiredFields":["caseId","modelDeploymentId","promptTemplateVersion","policyVersion","inputManifestHash","startedAt","completedAt","status"],"rules":["draft output only","no approval transition permission"]},
+    {"entity":"MaterialClaim","key":"claimId","requiredFields":["caseId","analysisRunId","claimTextReference","severity","reviewStatus"],"rules":["material claim cannot be publishable without citation and review"]},
+    {"entity":"Citation","key":"citationId","requiredFields":["claimId","evidenceId","evidenceVersionId","locator","accessibleAtReview"],"rules":["foreign-key integrity to admitted evidence"]},
+    {"entity":"ReviewApproval","key":"reviewId","requiredFields":["caseId","subjectId","reviewType","reviewerObjectId","decision","decidedAt","evidenceManifestHash"],"rules":["human identity required","append-only correction record"]},
+    {"entity":"PolicyDecision","key":"policyDecisionId","requiredFields":["caseId","decisionPoint","policyVersion","inputHash","result","reasonCodes","decidedAt"],"rules":["default result DENY on dependency failure"]},
+    {"entity":"WorkItem","key":"workItemId","requiredFields":["caseId","workType","messageId","attempt","status","queuedAt","completedAt"],"rules":["idempotency by messageId","bounded retries then dead letter"]},
+    {"entity":"AuditEvent","key":"eventId","requiredFields":["occurredAt","caseId","actorId","action","subjectId","correlationId","outcome","eventHash"],"rules":["no sensitive payload body","export to immutable store"]},
+    {"entity":"ValidationManifest","key":"validationManifestId","requiredFields":["benchmarkVersion","inputHashes","testSuiteVersion","resultHashes","producerIdentity","generatedAt"],"rules":["delivery can submit; Internal Audit owns verdict"]},
+    {"entity":"ValidationVerdict","key":"verdictId","requiredFields":["validationManifestId","internalAuditSigner","decision","signedAt","verdictHash"],"rules":["created only in assurance boundary","immutable to delivery and operations"]},
+    {"entity":"LegalRegulatoryEvidence","key":"legalEvidenceId","requiredFields":["evidenceType","owner","sourceUrl","publicationDate","effectiveDate","scopeDecision","status"],"rules":["formal claim blocked while required fields are incomplete"]}
+  ],
+  "indexDesign": [
+    {"store":"Azure SQL","object":"Case","indexes":["unique rolloutSequence where active","status, openedAt","committeeReadyAt"],"purpose":"Eligibility, workflow and outcome measurement"},
+    {"store":"Azure SQL","object":"EvidenceEnvelope","indexes":["caseId, admissionStatus","sourceId, sourceVersion","contentHash"],"purpose":"Admission, deduplication and lineage"},
+    {"store":"Azure SQL","object":"MaterialClaim/Citation","indexes":["claimId","evidenceId, evidenceVersionId"],"purpose":"Citation completeness"},
+    {"store":"Azure SQL","object":"PolicyDecision/AuditEvent outbox","indexes":["caseId, decidedAt","correlationId","unexported sequence"],"purpose":"Fail-closed decisions and immutable export"},
+    {"store":"Azure AI Search","object":"evidence-chunks-v<schema>","fields":["chunkId","caseId","evidenceId","evidenceVersionId","text","vector","classification","qualityStatus","policyVersion","citationLocator"],"purpose":"Security-filtered hybrid retrieval; rebuilt from admitted evidence"}
+  ],
+  "apiDefaults": {
+    "transport": "HTTPS with TLS 1.2 or later over private connectivity",
+    "authentication": "Microsoft Entra OAuth 2.0 access token; workload-to-workload managed identity",
+    "authorisation": "Application roles plus case/purpose policy decision; deny by default",
+    "mediaType": "application/json; versioned OpenAPI 3 contract",
+    "correlationHeaders": ["traceparent","x-case-id","idempotency-key"],
+    "limits": "Request size, rate, timeout and concurrency are environment parameters derived from HD-005; APIM rejects absent or excessive values. Document bodies use time-limited managed uploads, not API payloads.",
+    "errors": [
+      {"status":400,"code":"INVALID_CONTRACT","behaviour":"No state change; return field-safe validation details."},
+      {"status":401,"code":"UNAUTHENTICATED","behaviour":"No state change; audit identity failure without token content."},
+      {"status":403,"code":"POLICY_DENIED","behaviour":"No state change; return correlation and non-sensitive reason code."},
+      {"status":409,"code":"STATE_CONFLICT","behaviour":"No state change; return current version for reconciliation."},
+      {"status":422,"code":"EVIDENCE_INCOMPLETE","behaviour":"Quarantine or retain draft; never continue analysis."},
+      {"status":429,"code":"CAPACITY_LIMIT","behaviour":"Retry-After; no uncontrolled queue creation."},
+      {"status":503,"code":"DEPENDENCY_UNAVAILABLE","behaviour":"Fail closed; bounded retry only for idempotent asynchronous work."}
+    ]
+  },
+  "apis": [
+    {"operationId":"createCase","method":"POST","path":"/v1/cases","roles":["DealInitiator"],"preconditions":["deal eligibility approval","jurisdiction eligibility approval","rollout count below 20"],"result":"201 draft case or policy denial"},
+    {"operationId":"registerSource","method":"POST","path":"/v1/cases/{caseId}/sources","roles":["SourceOwner"],"preconditions":["authoritative owner and interface evidence","VAL-004 fields for production"],"result":"201 disabled registration until admission rules pass"},
+    {"operationId":"createExternalLicenceDecision","method":"POST","path":"/v1/sources/{sourceId}/licence-decisions","roles":["LegalApprover","DataOwner"],"preconditions":["licence evidence and purpose"],"result":"append-only decision"},
+    {"operationId":"requestIngestion","method":"POST","path":"/v1/cases/{caseId}/ingestions","roles":["DealContributor"],"preconditions":["source active","purpose and classification pass"],"result":"202 workItemId; content enters quarantine"},
+    {"operationId":"admitEvidence","method":"POST","path":"/v1/evidence/{evidenceId}/admission","roles":["DataSteward"],"preconditions":["malware/content scan","complete envelope","licence and privacy policy"],"result":"append-only admission decision"},
+    {"operationId":"requestAnalysis","method":"POST","path":"/v1/cases/{caseId}/analysis-runs","roles":["DealContributor"],"preconditions":["admitted evidence only","AI governance and model deployment active"],"result":"202 analysisRunId; draft outputs only"},
+    {"operationId":"getAnalysisStatus","method":"GET","path":"/v1/analysis-runs/{analysisRunId}","roles":["CaseReader"],"preconditions":["case access"],"result":"status and safe progress metadata"},
+    {"operationId":"submitReview","method":"POST","path":"/v1/cases/{caseId}/reviews","roles":["DealReviewer","LegalApprover","ComplianceApprover"],"preconditions":["role matches review type","subject version unchanged"],"result":"append-only review; policy recalculates state"},
+    {"operationId":"prepareDraft","method":"POST","path":"/v1/cases/{caseId}/draft-recommendations","roles":["DealReviewer"],"preconditions":["all material claims cited","required reviews complete"],"result":"draft artefact only; no investment decision"},
+    {"operationId":"exportValidationEvidence","method":"POST","path":"/v1/validation-exports","roles":["ValidationProducer"],"preconditions":["signed manifest","complete benchmark evidence"],"result":"immutable evidence submission; cannot create verdict"},
+    {"operationId":"recordVerdict","method":"POST","path":"/assurance/v1/verdicts","roles":["InternalAuditValidator"],"preconditions":["assurance subscription access","manifest hash verified"],"result":"immutable Internal Audit verdict"}
+  ],
+  "messaging": {
+    "topicsAndQueues": [
+      {"name":"q-ingestion","sessionId":"caseId","consumer":"ingestion job","deadLetter":"after bounded retry; named owner alert"},
+      {"name":"q-extraction","sessionId":"caseId","consumer":"document extraction job","deadLetter":"no silent skip"},
+      {"name":"q-analysis","sessionId":"caseId","consumer":"analysis job","deadLetter":"draft remains incomplete"},
+      {"name":"q-indexing","sessionId":"caseId","consumer":"indexer","deadLetter":"evidence unavailable to retrieval"},
+      {"name":"q-audit-export","sessionId":"caseId","consumer":"audit export identity","deadLetter":"critical control alert"}
+    ],
+    "controls":["duplicate detection","idempotency key","message TTL as approved operational parameter","payload contains references not document bodies","managed identity RBAC","private endpoint","dead-letter review runbook"]
+  },
+  "sourceConnectorContract": {
+    "permission": "Read-only API or controlled file ingestion",
+    "requiredEvidence": ["sourceId","ownerId","purposeId","permissionEvidenceId","dataClassification","retentionScheduleId","location","qualityRemediationOwner"],
+    "externalAdditionalEvidence": ["licenceDecisionId","AI-assisted retrieval allowed","AI-assisted analysis allowed","expiry"],
+    "prohibited": ["write-back","delete at source","external communication","unapproved extra-EEA transfer"],
+    "changeControl": "Permission or licence change suspends connector until policy evidence is re-approved."
+  },
+  "sources": ["SRC-AZ-009","SRC-AZ-012","SRC-AZ-013","SRC-AZ-014","SRC-AZ-018","SRC-AZ-020","SRC-AZ-025","SRC-AZ-026","SRC-AZ-027"]
+}

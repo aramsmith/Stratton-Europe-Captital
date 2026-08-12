@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE_3_PARENT_STATIC_VALIDATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "3",
+  "modelPlanRevision": "4",
+  "validatedAt": "2026-08-02T02:45:13.366+02:00",
+  "validatedBy": "Parent AFF orchestration",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "P3-PARENT-001",
+      "check": "Every Phase 3 JSON document parses",
+      "observed": "16 Phase 3 JSON documents parsed after AFF-A round-1 remediation",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-002",
+      "check": "Approved requirements map to valid Azure Solution Building Blocks",
+      "observed": "31 of 31 unique approved requirements mapped to valid SBB IDs",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-003",
+      "check": "Approved Architecture Building Blocks map to valid Azure Solution Building Blocks",
+      "observed": "19 of 19 ABBs mapped to valid SBB IDs",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-004",
+      "check": "Approved architecture decisions remain implemented",
+      "observed": "AD-001 through AD-010 preserved and mapped to valid SBB IDs",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-005",
+      "check": "Governed validation controls remain formally carried and absent from the dashboard",
+      "observed": "Seven controls retained; controlsDisplayedOnDashboard=false",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-006",
+      "check": "Required editable and standalone diagrams are present and parse",
+      "observed": "Three draw.io and three standalone SVG files parsed",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-007",
+      "check": "Standalone SVG safety and accessibility",
+      "observed": "Every SVG contains title and description and contains no script, foreignObject or external href/src",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-008",
+      "check": "Azure design HTML structure, local links, scripts and mandatory Clawpilot theme",
+      "observed": "HTML parsed; relative links resolve; inline JavaScript compiles; exact theme detector and variables present; no external runtime dependency or component hardcoded colours",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-009",
+      "check": "Database public access boundary",
+      "observed": "Azure SQL publicNetworkAccess=Disabled is explicit for development, test, production-primary and production-recovery",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-010",
+      "check": "Human infrastructure decisions",
+      "observed": "HD-001 through HD-005 have confirmed design patterns with exact fail-closed parameter ownership retained",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-011",
+      "check": "Citadel source and architecture boundary",
+      "observed": "Citadel is accurately composed from Azure Landing Zones, Azure-Samples Foundry Citadel guidance and Sovereign Landing Zone overlays; no product claim is made",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-012",
+      "check": "Phase boundary",
+      "observed": "No deployment, implementation code execution, Azure what-if or runtime test is claimed",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-013",
+      "check": "AFFA-P3-R1-MAJ-001 recovery-service feasibility remediation",
+      "observed": "The unbound Microsoft.DataProtection Backup vault was removed; SBB-16 now binds recovery to Azure SQL automated PITR/LTR, failover groups and Blob lifecycle/immutability controls",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-014",
+      "check": "AFFA-P3-R1-MIN-001 private-ingress deployment prerequisite remediation",
+      "observed": "Microsoft.Network/EnableApplicationGatewayNetworkIsolation registration evidence is a fail-closed AFF-4 parameter, assertion, preflight and release-sequence constraint with no public fallback",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-015",
+      "check": "AFFB-P3-R1-MAJ-001 Azure SQL backup-location remediation",
+      "observed": "Every SQL database requires explicit requestedBackupStorageRedundancy; production admits only Local or Zone after approved-region capability evidence and denies Geo/GeoZone implicit paired-region replication for STR/LTR",
+      "result": "PASS"
+    },
+    {
+      "id": "P3-PARENT-016",
+      "check": "AFFB-P3-R1-MAJ-002 API Management public-gateway remediation",
+      "observed": "API Management publicNetworkAccess=Disabled follows approved private endpoint and DNS proof, is covered by explicit assertions/tests/policy, and has no temporary or recovery public fallback; App Configuration public access is also explicitly disabled",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Azure regional service, feature, quota and SKU availability must be resolved after the exact approved region pair is supplied.",
+    "Pinned AVM candidate versions and registry integrity remain AFF-4 verification work.",
+    "No deployment, Azure what-if or runtime validation was authorised or performed."
+  ]
+}

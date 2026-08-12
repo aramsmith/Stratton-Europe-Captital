@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 9,
+  "recordedAt": "2026-08-10T23:37:40.400+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-116.json",
+    "revision": "116",
+    "sha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164"
+  },
+  "reviewer": {
+    "agent": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "availability": "ACTIVE",
+    "selectionRationale": "The enforced gpt-5.6-luna runtime is a suitable independent GPT model for logic, traceability and complete-subject assurance and differs from author gpt-5.6-sol.",
+    "authorActualRuntimeModelId": "gpt-5.6-sol",
+    "modelSeparation": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS_AND_SEPARATE_REVIEW_CONTEXT"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r9/stratton-phase-6-hashes.json",
+    "sha256": "3eb0eab5b42bb89f9184166141261598ce71323412e33d93cd556877eea60993"
+  },
+  "scope": "Static logic and traceability assurance only; no subject modification, approval, waiver, deployment, certification or optional-phase invocation.",
+  "nonApprovalStatement": "This receipt records reviewer-model provenance only."
+}

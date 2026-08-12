@@ -1,0 +1,4330 @@
+.phaseSlide {
+  background: var(--background);
+  padding: 0 0 44px;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 520px;
+  height: 520px;
+  top: -225px;
+  right: -95px;
+  background: radial-gradient(
+    circle at 42% 42%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 23%, transparent) 52%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 430px;
+  height: 430px;
+  bottom: -175px;
+  left: 105px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 18%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  gap: 16px;
+  align-content: center;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.header {
+  display: grid;
+  gap: 7px;
+  max-width: 1190px;
+  padding-right: 125px;
+}
+
+.eyebrow,
+.panelKicker,
+.cardLabel {
+  color: var(--cyan);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.title {
+  color: var(--foreground);
+  font-size: clamp(45px, 3.8vw, 50px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.038em;
+  line-height: 1.03;
+  text-wrap: balance;
+}
+
+.subtitle {
+  max-width: 1160px;
+  color: var(--secondary-foreground);
+  font-size: 18px;
+  line-height: 1.38;
+  text-wrap: balance;
+}
+
+.surface {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--secondary) 90%, transparent), color-mix(in srgb, var(--background) 66%, transparent)),
+    var(--secondary);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.27);
+}
+
+.surface::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+  opacity: 0.72;
+}
+
+.panelLead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
+}
+
+.panelLead > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.panelLead h3 {
+  color: var(--foreground);
+  font-size: 20px;
+  line-height: 1.18;
+}
+
+.panelKicker,
+.cardLabel {
+  font-size: 11.5px;
+  line-height: 1.2;
+}
+
+.approvedBadge,
+.regionBadge,
+.dependencyBadge,
+.optionalRouteTag,
+.mockStamp,
+.liveApiTag,
+.premiumBadge,
+.passTag {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.055em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.approvedBadge {
+  padding: 8px 11px;
+  border: 1px solid color-mix(in srgb, #22c55e 52%, var(--border));
+  background: color-mix(in srgb, #22c55e 12%, var(--secondary));
+  color: #86efac;
+}
+
+/* Slide 9 — TOGAF */
+
+.togafGrid {
+  display: grid;
+  height: 578px;
+  grid-template-columns: minmax(0, 1fr) 314px;
+  gap: 18px;
+  min-width: 0;
+}
+
+.architecturePanel {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  gap: 14px;
+  padding: 20px;
+  border-color: color-mix(in srgb, var(--cyan) 30%, var(--border));
+}
+
+.controlRail,
+.auditRail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 11px 14px;
+  border-radius: 13px;
+}
+
+.controlRail {
+  border: 1px solid color-mix(in srgb, var(--cyan) 42%, var(--border));
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cyan) 12%, var(--secondary)), color-mix(in srgb, var(--purple) 8%, var(--secondary)));
+}
+
+.controlRail svg {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  color: var(--cyan);
+}
+
+.controlRail > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+}
+
+.controlRail strong,
+.auditRail strong {
+  color: var(--foreground);
+  font-size: 13.5px;
+  line-height: 1.2;
+}
+
+.controlRail span,
+.auditRail span {
+  color: var(--secondary-foreground);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.architectureFlow {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  align-items: stretch;
+}
+
+.architectureNodeShell,
+.architectureNodeWrap {
+  min-width: 0;
+}
+
+.architectureNodeWrap {
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(0, 1fr) 14px;
+  gap: 2px;
+  align-items: center;
+}
+
+.architectureNode {
+  display: grid;
+  height: 100%;
+  min-height: 178px;
+  align-content: center;
+  justify-items: center;
+  gap: 9px;
+  padding: 12px 8px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 25%, var(--border));
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 50% 10%, color-mix(in srgb, var(--cyan) 9%, transparent), transparent 42%),
+    color-mix(in srgb, var(--secondary) 86%, var(--background));
+  text-align: center;
+}
+
+.humanNode {
+  border-color: color-mix(in srgb, #22c55e 42%, var(--border));
+  background:
+    radial-gradient(circle at 50% 10%, color-mix(in srgb, #22c55e 11%, transparent), transparent 42%),
+    color-mix(in srgb, var(--secondary) 86%, var(--background));
+}
+
+.nodeIcon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 36%, var(--border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--cyan) 10%, var(--background));
+  color: var(--cyan);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--cyan) 10%, transparent);
+}
+
+.humanNode .nodeIcon {
+  border-color: color-mix(in srgb, #22c55e 48%, var(--border));
+  background: color-mix(in srgb, #22c55e 9%, var(--background));
+  color: #86efac;
+}
+
+.nodeIcon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.architectureNode strong {
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 1.18;
+}
+
+.architectureNode span:last-child {
+  color: var(--muted-foreground);
+  font-size: 10.5px;
+  line-height: 1.34;
+}
+
+.flowArrow {
+  width: 14px;
+  height: 14px;
+  color: var(--purple);
+}
+
+.auditRail {
+  border: 1px solid color-mix(in srgb, var(--purple) 42%, var(--border));
+  background: color-mix(in srgb, var(--purple-deep) 20%, var(--secondary));
+}
+
+.auditRail strong {
+  flex: none;
+  color: color-mix(in srgb, var(--purple) 70%, white);
+}
+
+.auditRail span {
+  min-width: 0;
+}
+
+.auditPulse {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--purple);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--purple) 14%, transparent), 0 0 20px var(--purple);
+}
+
+.architectureFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted-foreground);
+  font-size: 11.5px;
+  line-height: 1.25;
+}
+
+.architectureFoot strong {
+  color: var(--cyan);
+}
+
+.togafSide {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.approvalCard,
+.residualCard {
+  display: grid;
+  gap: 7px;
+  padding: 17px;
+}
+
+.approvalCard strong {
+  color: #86efac;
+  font-size: 24px;
+  line-height: 1.08;
+}
+
+.approvalCard p,
+.residualCard p {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.38;
+}
+
+.metricQuad {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metricShell {
+  min-width: 0;
+}
+
+.metricMini {
+  display: grid;
+  height: 100%;
+  align-content: center;
+  gap: 5px;
+  padding: 13px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 23%, var(--border));
+  border-radius: 15px;
+  background: color-mix(in srgb, var(--secondary) 78%, transparent);
+}
+
+.metricMini strong {
+  color: var(--foreground);
+  font-size: 28px;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.metricMini span {
+  color: var(--muted-foreground);
+  font-size: 11px;
+  line-height: 1.28;
+}
+
+.residualCard {
+  border-color: color-mix(in srgb, #f59e0b 45%, var(--border));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, #f59e0b 8%, var(--secondary)), var(--secondary)),
+    var(--secondary);
+}
+
+.residualCard .cardLabel {
+  color: #fbbf24;
+}
+
+.residualValue {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.residualValue strong {
+  color: #fbbf24;
+  font-size: 39px;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.residualValue span {
+  color: var(--secondary-foreground);
+  font-size: 12.5px;
+}
+
+.dependencyBadge svg,
+.mockStamp svg,
+.premiumBadge svg {
+  width: 16px;
+  height: 16px;
+}
+
+.wafHeading,
+.assumptionHeading,
+.deployEvidenceHeading,
+.actualHeading,
+.evidenceHeading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.wafHeading svg,
+.assumptionHeading svg {
+  width: 20px;
+  height: 20px;
+  color: var(--cyan);
+}
+
+.wafHeading strong,
+.assumptionHeading strong {
+  color: var(--foreground);
+  font-size: 14px;
+}
+
+/* Slide 11 — Azure design */
+
+.azureSlide {
+  --alz-blue: #0078d4;
+  --alz-amber: #f59e0b;
+}
+
+.azureSlide .azureGrid {
+  display: grid;
+  height: 612px;
+  grid-template-columns: minmax(0, 936px) 342px;
+  gap: 18px;
+  min-width: 0;
+}
+
+.azureSlide .azureCanvas {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 13px;
+  padding: 18px;
+  border-color: color-mix(in srgb, var(--alz-blue) 46%, var(--border));
+}
+
+.azureDiagramLead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
+}
+
+.azureDiagramLead > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.azureDiagramLead h3 {
+  color: var(--foreground);
+  font-size: 21px;
+  line-height: 1.16;
+}
+
+.azureSlide .regionBadge {
+  padding: 8px 11px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 40%, var(--border));
+  background: color-mix(in srgb, var(--cyan) 9%, var(--secondary));
+  color: var(--cyan);
+}
+
+.azureSlide .regionBadge svg,
+.assuranceSubmission svg {
+  width: 16px;
+  height: 16px;
+}
+
+.alzGuardrailFrame {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 11px 14px 12px;
+  border: 1px solid color-mix(in srgb, var(--alz-blue) 64%, var(--border));
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 47%, color-mix(in srgb, var(--cyan) 14%, transparent), transparent 34%),
+    linear-gradient(145deg, color-mix(in srgb, var(--alz-blue) 8%, transparent), color-mix(in srgb, var(--purple-deep) 9%, transparent)),
+    color-mix(in srgb, var(--background) 48%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--alz-blue) 16%, transparent), 0 0 34px color-mix(in srgb, var(--alz-blue) 9%, transparent);
+}
+
+.alzFrameLabel {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--alz-blue) 35%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--alz-blue) 9%, var(--secondary));
+  color: color-mix(in srgb, var(--cyan) 80%, white);
+  font-size: 10.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.055em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.alzFrameLabel img {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  object-fit: contain;
+}
+
+.guardrailDomainGrid {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 72px minmax(0, 1fr);
+  gap: 9px 10px;
+}
+
+.guardrailDomainList {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 72px minmax(0, 1fr);
+  gap: 9px 10px;
+  pointer-events: none;
+}
+
+.guardrailDomainShell {
+  display: grid;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+.guardrailDomainShell:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.guardrailDomainShell:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.guardrailDomainShell:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.guardrailDomainShell:nth-child(4) {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+.guardrailDomainShell:nth-child(5),
+.guardrailDomainShell:nth-child(6),
+.guardrailDomainShell:nth-child(7),
+.guardrailDomainShell:nth-child(8) {
+  min-height: 104px;
+}
+
+.guardrailDomainShell:nth-child(5) {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+}
+
+.guardrailDomainShell:nth-child(6) {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+}
+
+.guardrailDomainShell:nth-child(7) {
+  grid-column: 4;
+  grid-row: 2;
+  align-self: start;
+}
+
+.guardrailDomainShell:nth-child(8) {
+  grid-column: 4;
+  grid-row: 2;
+  align-self: end;
+}
+
+.guardrailDomainCard {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  align-content: start;
+  gap: 4px;
+  padding: 7px 8px;
+  border: 1px solid color-mix(in srgb, var(--alz-blue) 30%, var(--border));
+  border-radius: 12px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--alz-blue) 7%, var(--secondary)), color-mix(in srgb, var(--background) 38%, transparent)),
+    color-mix(in srgb, var(--secondary) 74%, transparent);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16);
+}
+
+.guardrailIconRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 18px;
+}
+
+.guardrailIconRow img {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  object-fit: contain;
+}
+
+.guardrailDomainCard strong {
+  color: var(--foreground);
+  font-size: 11.25px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+}
+
+.guardrailDomainCard span {
+  color: var(--muted-foreground);
+  font-size: 9.6px;
+  line-height: 1.16;
+}
+
+.runtimePathRibbon {
+  z-index: 3;
+  display: grid;
+  grid-column: 2 / 4;
+  grid-row: 2;
+  width: min(100%, 382px);
+  justify-self: center;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  align-self: start;
+  margin-top: 1px;
+  padding: 6px 7px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 36%, var(--border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--background) 58%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--cyan) 8%, transparent);
+}
+
+.runtimePathShell {
+  min-width: 0;
+}
+
+.runtimePathNode {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.runtimePathNode img {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+
+.runtimePathNode span {
+  color: var(--secondary-foreground);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.05;
+}
+
+.runtimePathNode svg {
+  position: absolute;
+  top: 6px;
+  right: -10px;
+  width: 13px;
+  height: 16px;
+  color: var(--cyan);
+}
+
+.citadelCore {
+  position: absolute;
+  z-index: 4;
+  top: 101px;
+  left: 50%;
+  display: grid;
+  width: 306px;
+  transform: translateX(-50%);
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 68%, var(--border));
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--cyan) 25%, transparent), transparent 46%),
+    radial-gradient(circle at 92% 92%, color-mix(in srgb, var(--purple) 18%, transparent), transparent 52%),
+    linear-gradient(150deg, color-mix(in srgb, var(--cyan) 12%, var(--secondary)), color-mix(in srgb, var(--purple-deep) 20%, var(--secondary)));
+  box-shadow: 0 0 34px color-mix(in srgb, var(--cyan) 21%, transparent), 0 18px 30px rgba(0, 0, 0, 0.34);
+}
+
+.coreLabel {
+  justify-self: center;
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.citadelCoreStack {
+  display: grid;
+  gap: 7px;
+}
+
+.citadelCoreShell {
+  min-width: 0;
+}
+
+.citadelCoreCard {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 31px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  padding: 8px 9px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 44%, var(--border));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--background) 50%, transparent);
+}
+
+.citadelCoreCard img {
+  width: 31px;
+  height: 31px;
+  object-fit: contain;
+}
+
+.citadelCoreCard > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.citadelCoreCard strong {
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.08;
+}
+
+.citadelCoreCard span {
+  color: var(--secondary-foreground);
+  font-size: 10.25px;
+  line-height: 1.16;
+}
+
+.dependencyFanout {
+  z-index: 3;
+  display: grid;
+  grid-column: 2 / 4;
+  grid-row: 2;
+  width: min(100%, 396px);
+  justify-self: center;
+  align-self: end;
+  gap: 5px;
+  padding: 7px 9px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 22%, var(--border));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--background) 62%, transparent);
+}
+
+.dependencyFanout strong {
+  color: var(--cyan);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dependencyChipList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+.dependencyChipShell {
+  min-width: 0;
+}
+
+.dependencyChipList span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 20%, var(--border));
+  border-radius: 999px;
+  padding: 2px 6px;
+  color: var(--muted-foreground);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+}
+
+.subscriptionStrip {
+  position: relative;
+  min-height: 64px;
+}
+
+.subscriptionBoundaryList {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.subscriptionBoundaryShell {
+  min-width: 0;
+}
+
+.subscriptionBoundaryCard {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 5px;
+  padding: 8px 9px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--background) 52%, transparent);
+}
+
+.subscriptionBoundaryHeading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.subscriptionBoundaryHeading img {
+  width: 23px;
+  height: 23px;
+  flex: none;
+  object-fit: contain;
+}
+
+.subscriptionBoundaryHeading strong {
+  color: var(--foreground);
+  font-size: 11.5px;
+  line-height: 1.1;
+}
+
+.subscriptionBoundaryCard > span {
+  color: var(--muted-foreground);
+  font-size: 9.75px;
+  line-height: 1.14;
+}
+
+.platformBoundary {
+  border-color: color-mix(in srgb, var(--alz-blue) 52%, var(--border));
+  background: color-mix(in srgb, var(--alz-blue) 8%, var(--secondary));
+}
+
+.nonProdBoundary {
+  border-color: color-mix(in srgb, #22c55e 45%, var(--border));
+  background: color-mix(in srgb, #22c55e 7%, var(--secondary));
+}
+
+.productionBoundary {
+  border-color: color-mix(in srgb, var(--pink) 50%, var(--border));
+  background: color-mix(in srgb, var(--pink) 8%, var(--secondary));
+}
+
+.assuranceBoundary {
+  border-color: color-mix(in srgb, var(--purple) 54%, var(--border));
+  background: color-mix(in srgb, var(--purple-deep) 20%, var(--secondary));
+}
+
+.assuranceSubmission {
+  position: absolute;
+  z-index: 5;
+  top: -10px;
+  right: 68px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 7px 3px 33px;
+  border: 1px dashed color-mix(in srgb, var(--purple) 64%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--purple-deep) 34%, var(--background));
+  color: color-mix(in srgb, var(--purple) 72%, white);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.assuranceSubmission::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  width: 20px;
+  border-top: 1px dashed currentColor;
+}
+
+.azureSlide .azureSide {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: 210px 158px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.azureSlide .targetPanel,
+.boundaryFactPanel,
+.considerationsPanel {
+  display: grid;
+  min-height: 0;
+  gap: 10px;
+  padding: 15px;
+}
+
+.azureSlide .targetPanel {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.azureSlide .targetList {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.azureSlide .targetShell {
+  min-width: 0;
+}
+
+.azureSlide .targetShell:first-child {
+  grid-column: 1 / -1;
+}
+
+.azureSlide .targetCard {
+  display: grid;
+  height: 100%;
+  align-content: center;
+  gap: 4px;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb, var(--alz-blue) 26%, var(--border));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--alz-blue) 6%, var(--secondary));
+}
+
+.azureSlide .targetCard strong {
+  color: var(--foreground);
+  font-size: 25px;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.azureSlide .targetCard span {
+  color: var(--muted-foreground);
+  font-size: 10.25px;
+  line-height: 1.2;
+}
+
+.boundaryFactPanel {
+  grid-template-rows: auto minmax(0, 1fr);
+  border-color: color-mix(in srgb, var(--cyan) 30%, var(--border));
+}
+
+.considerationsPanel {
+  grid-template-rows: auto minmax(0, 1fr);
+  border-color: color-mix(in srgb, #22c55e 38%, var(--border));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, #22c55e 7%, var(--secondary)), color-mix(in srgb, var(--background) 18%, transparent)),
+    var(--secondary);
+}
+
+.considerationsPanel .azureRailHeading svg,
+.considerationsPanel .azureRailHeading strong {
+  color: #22c55e;
+}
+
+.azureRailHeading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.azureRailHeading svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: var(--cyan);
+}
+
+.azureRailHeading strong {
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+.azureBulletList {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-height: 0;
+}
+
+.azureBulletShell {
+  position: relative;
+  min-width: 0;
+  padding-left: 13px;
+}
+
+.azureBulletShell::before {
+  content: '';
+  position: absolute;
+  top: 0.58em;
+  left: 1px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 55%, transparent);
+}
+
+.considerationsPanel .azureBulletShell::before {
+  background: #22c55e;
+  box-shadow: 0 0 10px color-mix(in srgb, #22c55e 45%, transparent);
+}
+
+.azureBulletShell span {
+  display: block;
+  color: var(--secondary-foreground);
+  font-size: 10.8px;
+  line-height: 1.28;
+}
+
+/* Slide 12 — implementation plan */
+
+.deliveryMap {
+  display: grid;
+  height: 356px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  padding: 18px;
+  border-color: color-mix(in srgb, var(--purple) 34%, var(--border));
+}
+
+.dependencyBadge {
+  padding: 8px 11px;
+  border: 1px solid color-mix(in srgb, var(--purple) 40%, var(--border));
+  background: color-mix(in srgb, var(--purple-deep) 18%, var(--secondary));
+  color: color-mix(in srgb, var(--purple) 72%, white);
+}
+
+.deliveryBands {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.deliveryBandShell,
+.deliveryBandWrap {
+  min-width: 0;
+}
+
+.deliveryBandWrap {
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(0, 1fr) 16px;
+  gap: 2px;
+  align-items: center;
+}
+
+.deliveryBand {
+  display: grid;
+  height: 100%;
+  align-content: start;
+  gap: 7px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 24%, var(--border));
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cyan) 7%, var(--secondary)), color-mix(in srgb, var(--purple) 5%, var(--secondary))),
+    var(--secondary);
+}
+
+.bandTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bandStep {
+  color: var(--cyan);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.bandIcon {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--purple) 36%, var(--border));
+  border-radius: 10px;
+  color: var(--purple);
+}
+
+.bandIcon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.deliveryBand > strong {
+  color: var(--foreground);
+}
+
+.bandUnits {
+  color: var(--cyan);
+  font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-semibold);
+}
+
+.deliveryBand p {
+  color: var(--muted-foreground);
+}
+
+.bandArrow {
+  width: 15px;
+  height: 15px;
+  color: var(--purple);
+}
+
+.planPrinciple {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 24%, var(--border));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--background) 46%, transparent);
+}
+
+.planPrinciple strong {
+  color: var(--secondary-foreground);
+}
+
+.planPrinciple span {
+  color: var(--muted-foreground);
+  text-align: left;
+}
+
+.planBottom {
+  display: grid;
+  height: 220px;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 12px;
+  min-width: 0;
+}
+
+.planMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.planMetricShell {
+  min-width: 0;
+}
+
+.planMetric {
+  display: grid;
+  height: 100%;
+  align-content: center;
+  gap: 5px;
+  padding: 15px;
+}
+
+.planMetric strong {
+  color: var(--foreground);
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.planMetric span {
+  color: var(--muted-foreground);
+}
+
+.releaseGates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+
+.releaseGateShell {
+  min-width: 0;
+}
+
+.releaseGate {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto auto;
+  gap: 12px;
+  align-content: center;
+  padding: 16px;
+}
+
+.releaseGate > span {
+  display: grid;
+  width: 37px;
+  height: 37px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 36%, var(--border));
+  border-radius: 12px;
+  color: var(--cyan);
+}
+
+.releaseGate > span svg {
+  width: 20px;
+  height: 20px;
+}
+
+.releaseGate > div {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.releaseGate strong {
+  color: var(--foreground);
+}
+
+.releaseGate p {
+  color: var(--muted-foreground);
+}
+
+.planSlide .eyebrow {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.planSlide .title {
+  font-size: clamp(48px, 4vw, 54px);
+}
+
+.planSlide .subtitle {
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.planSlide .panelKicker {
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.planSlide .panelLead h3 {
+  font-size: 25px;
+  line-height: 1.12;
+}
+
+.planSlide .dependencyBadge {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.planSlide .bandStep {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.planSlide .deliveryBand > strong {
+  font-size: 18px;
+  line-height: 1.16;
+}
+
+.planSlide .bandUnits {
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+.planSlide .deliveryBand p {
+  font-size: 15px;
+  line-height: 1.28;
+}
+
+.planSlide .planPrinciple strong {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.planSlide .planPrinciple span {
+  font-size: 15px;
+  line-height: 1.28;
+}
+
+.planSlide .planMetric strong {
+  font-size: 35px;
+}
+
+.planSlide .planMetric span {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.planSlide .releaseGate > span {
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+}
+
+.planSlide .releaseGate > span svg {
+  width: 18px;
+  height: 18px;
+}
+
+.planSlide .releaseGate strong {
+  font-size: 18px;
+  line-height: 1.16;
+}
+
+.planSlide .releaseGate p {
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+/* Task 6 — Slide 12 sequence motion and plain language */
+@keyframes phaseBandIn {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes phaseBandGlow {
+  0%,
+  3% {
+    opacity: 0;
+    background-position: 0% 50%;
+  }
+  8%,
+  14% {
+    opacity: 0.72;
+  }
+  19%,
+  100% {
+    opacity: 0;
+    background-position: 100% 50%;
+  }
+}
+
+.deliveryBand {
+  position: relative;
+  overflow: hidden;
+}
+
+.deliveryBand::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid color-mix(in srgb, var(--cyan) 68%, transparent);
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--cyan) 34%, transparent) 46%, color-mix(in srgb, var(--purple) 24%, transparent) 52%, transparent 64%) 0% 50% / 220% 100% no-repeat;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--cyan) 24%, transparent);
+  opacity: 0;
+  animation: phaseBandGlow 10s linear infinite;
+  pointer-events: none;
+}
+
+.planSlide:global(.active) .deliveryBandShell {
+  opacity: 0;
+  animation: phaseBandIn 520ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.planSlide:global(.active) .deliveryBandShell:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.planSlide:global(.active) .deliveryBandShell:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.planSlide:global(.active) .deliveryBandShell:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+.planSlide:global(.active) .deliveryBandShell:nth-child(5) {
+  animation-delay: 480ms;
+}
+
+.deliveryBandShell:nth-child(2) .deliveryBand::after {
+  animation-delay: 2s;
+}
+
+.deliveryBandShell:nth-child(3) .deliveryBand::after {
+  animation-delay: 4s;
+}
+
+.deliveryBandShell:nth-child(4) .deliveryBand::after {
+  animation-delay: 6s;
+}
+
+.deliveryBandShell:nth-child(5) .deliveryBand::after {
+  animation-delay: 8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planSlide:global(.active) .deliveryBandShell {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
+  .deliveryBand::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Slide 13 — coding */
+
+.codingSlide .body {
+  gap: 14px;
+  align-content: start;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.codingSlide .header {
+  gap: 5px;
+  max-width: 1245px;
+  padding-right: 124px;
+}
+
+.codingSlide .eyebrow {
+  font-size: 15px;
+}
+
+.codingSlide .title {
+  font-size: clamp(50px, 4.2vw, 58px);
+  line-height: 1.01;
+}
+
+.codingSlide .subtitle {
+  max-width: 1120px;
+  font-size: 20px;
+  line-height: 1.28;
+}
+
+.releaseRouteHero {
+  display: grid;
+  min-height: 126px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+  padding: 16px 18px;
+  border-color: color-mix(in srgb, var(--cyan) 38%, var(--border));
+}
+
+.releaseRouteShell,
+.releaseRouteWrap {
+  min-width: 0;
+}
+
+.releaseRouteWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.releaseRouteNode {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  min-height: 94px;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 15px 17px;
+  border: 1px solid color-mix(in srgb, var(--purple) 34%, var(--border));
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--cyan) 10%, var(--secondary)), color-mix(in srgb, var(--purple-deep) 18%, var(--secondary))),
+    var(--secondary);
+}
+
+.releaseRouteNode img {
+  width: 47px;
+  height: 47px;
+  object-fit: contain;
+}
+
+.releaseRouteNode > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.releaseRouteNode strong {
+  color: var(--foreground);
+  font-size: 18px;
+  line-height: 1.14;
+}
+
+.releaseRouteNode span {
+  color: var(--secondary-foreground);
+  font-size: 13.5px;
+  line-height: 1.22;
+}
+
+.releaseRouteArrow {
+  width: 25px;
+  height: 25px;
+  flex: none;
+  color: var(--purple);
+}
+
+.codingGrid {
+  display: grid;
+  height: 528px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.05fr) minmax(0, 1.18fr);
+  gap: 14px;
+  min-width: 0;
+}
+
+.repoPanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 17px;
+  border-color: color-mix(in srgb, var(--cyan) 32%, var(--border));
+}
+
+.codingSlide .panelKicker {
+  font-size: 13px;
+  line-height: 1.18;
+}
+
+.codingSlide .panelLead h3,
+.skuHeader h3 {
+  color: var(--foreground);
+  font-size: 24px;
+  line-height: 1.12;
+}
+
+.repoPanel .panelLead > svg {
+  width: 34px;
+  height: 34px;
+  color: var(--cyan);
+}
+
+.repoTree {
+  display: grid;
+  align-content: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.repoTreeShell,
+.localMetricShell,
+.validationChipShell,
+.skuRowShell {
+  min-width: 0;
+}
+
+.repoRow {
+  display: grid;
+  grid-template-columns: 18px 56px minmax(0, 1fr) 28px;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 18%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--background) 50%, transparent);
+}
+
+.repoRow svg {
+  width: 18px;
+  height: 18px;
+  color: var(--cyan);
+}
+
+.repoRow strong {
+  color: var(--foreground);
+  font-family: var(--font-family-mono);
+  font-size: 13.5px;
+  line-height: 1.1;
+}
+
+.repoRow span {
+  overflow: visible;
+  color: var(--muted-foreground);
+  font-size: 10.7px;
+  line-height: 1.12;
+  text-overflow: unset;
+  white-space: normal;
+}
+
+.repoRow small {
+  color: var(--purple);
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  text-align: right;
+}
+
+.codingEvidence {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.localEvidencePanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 10px;
+  padding: 15px;
+  border-color: color-mix(in srgb, #22c55e 38%, var(--border));
+}
+
+.evidenceHeading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.evidenceHeading > svg {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  color: #22c55e;
+}
+
+.evidenceHeading > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.evidenceHeading h3 {
+  color: var(--foreground);
+  font-size: 24px;
+  line-height: 1.08;
+}
+
+.localMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.localMetric {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, #22c55e 26%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, #22c55e 6%, var(--secondary));
+}
+
+.localMetric strong {
+  color: #86efac;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.localMetric span {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.18;
+}
+
+.validationChips {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  align-content: start;
+}
+
+.validationChip {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 7px;
+  border: 1px solid color-mix(in srgb, #22c55e 17%, var(--border));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--background) 48%, transparent);
+}
+
+.validationChip svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  color: #22c55e;
+}
+
+.validationChip span {
+  overflow: hidden;
+  color: var(--secondary-foreground);
+  font-size: 12px;
+  line-height: 1.12;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.supplyChainPanel {
+  display: grid;
+  grid-template-columns: 43px minmax(0, 1fr) auto;
+  gap: 11px;
+  align-items: center;
+  min-height: 86px;
+  padding: 11px 13px;
+}
+
+.supplyIcon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 34%, var(--border));
+  border-radius: 12px;
+  color: var(--cyan);
+}
+
+.supplyIcon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.supplyChainPanel > div:nth-child(2) {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.supplyChainPanel strong {
+  color: var(--foreground);
+  font-size: 15px;
+  line-height: 1.14;
+}
+
+.supplyChainPanel p {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.24;
+}
+
+.integrityTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border: 1px solid color-mix(in srgb, var(--purple) 34%, var(--border));
+  border-radius: 999px;
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.integrityTag svg {
+  width: 15px;
+  height: 15px;
+}
+
+.skuPanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 4px;
+  padding: 10px;
+  border-color: color-mix(in srgb, var(--purple) 35%, var(--border));
+}
+
+.skuHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.skuHeader > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.skuRows {
+  display: grid;
+  min-height: 0;
+  gap: 2px;
+  align-content: start;
+}
+
+.skuRow {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+  padding: 4px 6px;
+  border: 1px solid color-mix(in srgb, var(--purple) 20%, var(--border));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--background) 46%, transparent);
+}
+
+.skuRowTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: start;
+  min-width: 0;
+}
+
+.skuRow strong {
+  color: var(--foreground);
+  font-size: 10.4px;
+  line-height: 1.08;
+}
+
+.skuTier,
+.skuNote {
+  min-width: 0;
+  color: var(--muted-foreground);
+  font-size: 9.2px;
+  line-height: 1.05;
+}
+
+.skuNote {
+  color: var(--secondary-foreground);
+}
+
+.skuStatus {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  max-width: 142px;
+  padding: 2px 4px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 28%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cyan) 8%, var(--secondary));
+  color: var(--cyan);
+  font-size: 8.6px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.015em;
+  line-height: 1.02;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.skuHeader .skuStatus {
+  max-width: 160px;
+  border-color: color-mix(in srgb, #f59e0b 40%, var(--border));
+  background: color-mix(in srgb, #f59e0b 9%, var(--secondary));
+  color: #fbbf24;
+}
+
+/* Slides 13 and 14 — optional execution */
+
+.executionBoundary,
+.mockBoundary {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 13px;
+  align-items: center;
+  min-height: 63px;
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, #f59e0b 52%, var(--border));
+  border-radius: 16px;
+  background:
+    linear-gradient(100deg, color-mix(in srgb, #f59e0b 12%, var(--secondary)), color-mix(in srgb, var(--pink) 6%, var(--secondary))),
+    var(--secondary);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+
+.executionBoundary img,
+.mockBoundary img {
+  width: 43px;
+  height: 43px;
+  object-fit: contain;
+}
+
+.executionBoundary > div,
+.mockBoundary > div {
+  display: grid;
+  gap: 2px;
+}
+
+.executionBoundary strong,
+.mockBoundary strong {
+  color: #fbbf24;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+.executionBoundary > div span,
+.mockBoundary > div span {
+  color: var(--secondary-foreground);
+  font-size: 11.5px;
+  line-height: 1.3;
+}
+
+.optionalRouteTag {
+  padding: 8px 11px;
+  border: 1px dashed color-mix(in srgb, #f59e0b 66%, var(--border));
+  background: color-mix(in srgb, #f59e0b 8%, var(--background));
+  color: #fbbf24;
+}
+
+.deploymentSequencePanel {
+  display: grid;
+  height: 376px;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 15px;
+  padding: 18px;
+}
+
+.deploymentSlide .panelLead h3 {
+  font-size: 22px;
+  line-height: 1.18;
+}
+
+.deploymentSteps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.deploymentStepShell,
+.deploymentStepWrap {
+  min-width: 0;
+}
+
+.deploymentStepWrap {
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(0, 1fr) 14px;
+  gap: 2px;
+  align-items: center;
+}
+
+.deploymentStepWrap > svg {
+  width: 14px;
+  height: 14px;
+  color: #f59e0b;
+}
+
+.deploymentStep {
+  display: grid;
+  height: 100%;
+  min-height: 248px;
+  align-content: start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, #f59e0b 25%, var(--border));
+  border-radius: 15px;
+  background:
+    linear-gradient(150deg, color-mix(in srgb, #f59e0b 7%, var(--secondary)), color-mix(in srgb, var(--purple) 5%, var(--secondary))),
+    var(--secondary);
+}
+
+.deploymentStepTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.deploymentStepTop span {
+  color: #fbbf24;
+  font-size: 12.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.deploymentStepTop svg {
+  width: 26px;
+  height: 26px;
+  color: var(--cyan);
+}
+
+.deploymentStep > strong {
+  color: var(--foreground);
+  font-size: 14.5px;
+  line-height: 1.2;
+}
+
+.deploymentStep p {
+  color: var(--muted-foreground);
+  font-size: 11.25px;
+  line-height: 1.33;
+}
+
+.deploymentStep small {
+  align-self: end;
+  justify-self: start;
+  margin-top: auto;
+  padding: 5px 8px;
+  border: 1px solid color-mix(in srgb, #f59e0b 30%, var(--border));
+  border-radius: 999px;
+  color: #fbbf24;
+  font-size: 9.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+}
+
+.deploymentBottom {
+  display: grid;
+  height: 189px;
+  grid-template-columns: 0.92fr 0.92fr 1.56fr;
+  gap: 12px;
+  min-width: 0;
+}
+
+.deployControlCard {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  padding: 15px;
+}
+
+.deployControlIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, #f59e0b 38%, var(--border));
+  border-radius: 13px;
+  color: #fbbf24;
+}
+
+.deployControlIcon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.deployControlCard > div {
+  display: grid;
+  gap: 6px;
+}
+
+.deployControlCard strong {
+  color: var(--foreground);
+  font-size: 14.5px;
+  line-height: 1.22;
+}
+
+.deployControlCard p {
+  color: var(--muted-foreground);
+  font-size: 11.5px;
+  line-height: 1.32;
+}
+
+.deployEvidenceCard {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+  padding: 13px;
+  border-color: color-mix(in srgb, var(--cyan) 34%, var(--border));
+}
+
+.deployEvidenceCard:focus {
+  outline: 2px solid color-mix(in srgb, var(--cyan) 72%, transparent);
+  outline-offset: 3px;
+}
+
+.deployEvidenceHeading {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-width: 0;
+}
+
+.deployEvidenceIcons {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.deployEvidenceHeading img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.deployEvidenceHeading strong {
+  margin-left: 0;
+  color: var(--foreground);
+  font-size: 14.5px;
+  line-height: 1.12;
+  white-space: nowrap;
+}
+
+.deployEvidenceMeta {
+  display: grid;
+  gap: 2px;
+  justify-items: end;
+  min-width: 0;
+  text-align: right;
+}
+
+.deployEvidenceCaption {
+  color: var(--cyan);
+  font-size: 9.75px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.035em;
+  line-height: 1.15;
+}
+
+.deployEvidenceFuture {
+  max-width: 315px;
+  color: var(--muted-foreground);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+}
+
+.deployPackageViewport {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+}
+
+.deployPackageTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  will-change: transform;
+  animation: deployPackageConveyor 28s linear infinite;
+}
+
+.deployPackageSourceGroup,
+.deployPackageCloneGroup {
+  display: grid;
+  gap: 5px;
+  padding-bottom: 5px;
+}
+
+.deployEvidenceCard:hover .deployPackageTrack,
+.deployEvidenceCard:focus-within .deployPackageTrack {
+  animation-play-state: paused;
+}
+
+.deployPackageRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(142px, 0.8fr) auto minmax(154px, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-height: 29px;
+  padding: 5px 8px 5px 11px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cyan) 20%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--background) 42%, transparent);
+}
+
+.deployPackageRow::before {
+  content: '';
+  position: absolute;
+  inset: 5px auto 5px 0;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--cyan);
+  opacity: 0.82;
+}
+
+.deployPackageMain {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 7px;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.deployPackageDu {
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.055em;
+  line-height: 1.1;
+}
+
+.deployPackageMain strong {
+  overflow: hidden;
+  color: var(--foreground);
+  font-size: 12.25px;
+  line-height: 1.18;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deployPackageStatus {
+  justify-self: start;
+  padding: 3px 6px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 46%, var(--border));
+  border-radius: 999px;
+  color: var(--cyan);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.045em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.deployPackageStatusPackaged {
+  border-color: color-mix(in srgb, var(--cyan) 58%, var(--border));
+  background: color-mix(in srgb, var(--cyan) 9%, transparent);
+  color: var(--cyan);
+}
+
+.deployPackageStatusDigest {
+  border-color: color-mix(in srgb, var(--purple) 62%, var(--cyan));
+  background: color-mix(in srgb, var(--purple) 12%, transparent);
+  color: #c4b5fd;
+}
+
+.deployPackageStatusGated {
+  border-color: color-mix(in srgb, #f59e0b 64%, var(--border));
+  background: color-mix(in srgb, #f59e0b 10%, transparent);
+  color: #fbbf24;
+}
+
+.deployPackageStatusOwner {
+  border-color: color-mix(in srgb, #fbbf24 56%, var(--border));
+  background: color-mix(in srgb, #f59e0b 8%, transparent);
+  color: #fde68a;
+}
+
+.deployPackageStatusSeparate {
+  border-color: color-mix(in srgb, var(--pink) 56%, var(--purple));
+  background: color-mix(in srgb, var(--pink) 10%, transparent);
+  color: #f0abfc;
+}
+
+.deployPackageNote {
+  overflow: hidden;
+  color: var(--secondary-foreground);
+  font-size: 9.75px;
+  line-height: 1.22;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deployPackageStaticNote {
+  display: none;
+  margin: 6px 0 0;
+  padding: 6px 8px;
+  border: 1px dashed color-mix(in srgb, #f59e0b 46%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, #f59e0b 8%, var(--background));
+  color: #fde68a;
+  font-size: 9.75px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.22;
+}
+
+.assumptionItem > span:first-child {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  margin-top: 3px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 9px color-mix(in srgb, var(--cyan) 58%, transparent);
+}
+
+@keyframes deployPackageConveyor {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Slide 15 — planned acceptance gates */
+
+.testingSlide {
+  --planned-gate-border: color-mix(in srgb, var(--cyan) 28%, var(--border));
+}
+
+.testingSlide .testingGrid {
+  display: grid;
+  height: 638px;
+  grid-template-columns: 338px minmax(0, 1fr);
+  gap: 16px;
+  min-width: 0;
+}
+
+.testingSlide .actualChecksPanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px;
+  border-color: color-mix(in srgb, #22c55e 36%, var(--border));
+}
+
+.testingSlide .actualHeadingIcon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, #22c55e 38%, var(--border));
+  border-radius: 13px;
+  color: #22c55e;
+}
+
+.testingSlide .actualHeadingIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.testingSlide .actualHeading > div {
+  display: grid;
+  gap: 3px;
+}
+
+.testingSlide .actualHeading h3 {
+  color: var(--foreground);
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.testingSlide .actualChecks {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+}
+
+.testingSlide .actualCheck {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 14px;
+  border: 1px solid color-mix(in srgb, #22c55e 24%, var(--border));
+  border-radius: 13px;
+  background: color-mix(in srgb, #22c55e 6%, var(--secondary));
+}
+
+.testingSlide .actualCheck > svg {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  color: #22c55e;
+}
+
+.testingSlide .actualCheck > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.testingSlide .actualCheck strong {
+  color: #86efac;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.testingSlide .actualCheck span {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.testingSlide .panelKicker {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.testingSlide .panelLead h3 {
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.testingSlide .plannedGatesPanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  padding: 18px;
+  border-color: color-mix(in srgb, #f59e0b 34%, var(--border));
+}
+
+.testingSlide .plannedGateGrid {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.testingSlide .plannedGateShell {
+  min-width: 0;
+  min-height: 0;
+}
+
+.testingSlide .plannedGateCard {
+  display: grid;
+  height: 100%;
+  min-width: 0;
+  align-content: start;
+  gap: 4px;
+  padding: 9px;
+  border: 1px solid var(--planned-gate-border);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 92% 6%, color-mix(in srgb, var(--cyan) 9%, transparent), transparent 38%),
+    linear-gradient(145deg, color-mix(in srgb, var(--secondary) 88%, transparent), color-mix(in srgb, var(--background) 36%, transparent)),
+    var(--secondary);
+}
+
+.testingSlide .plannedGateTop {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+}
+
+.testingSlide .plannedGateIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 38%, var(--border));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--cyan) 8%, var(--background));
+  color: var(--cyan);
+}
+
+.testingSlide .plannedGateIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.testingSlide .plannedGateCard h4 {
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+}
+
+.testingSlide .gateSection {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.testingSlide .gateSectionLabel {
+  color: color-mix(in srgb, var(--cyan) 78%, white);
+  font-size: 9.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.055em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.testingSlide .plannedGateCard p {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.18;
+}
+
+.testingSlide .gateThreshold {
+  color: var(--secondary-foreground) !important;
+  font-size: 12px !important;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.18 !important;
+}
+
+/* Slide 16 — cost and benefits */
+
+.costGrid {
+  display: grid;
+  height: 318px;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 14px;
+  min-width: 0;
+}
+
+.azureCostPanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 9px;
+  padding: 14px 15px;
+  border-color: color-mix(in srgb, var(--cyan) 32%, var(--border));
+}
+
+.costHero {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.calculatorIcon {
+  display: grid;
+  width: 45px;
+  height: 45px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 42%, var(--border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--cyan) 9%, var(--secondary));
+  color: var(--cyan);
+}
+
+.calculatorIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.costHero > div:nth-child(2) {
+  display: grid;
+  gap: 2px;
+}
+
+.costHeadline {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.costHeadline strong {
+  color: var(--foreground);
+  font-size: 34px;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.costHeadline span {
+  color: var(--cyan);
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.costHero p {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+}
+
+.costSlide .body {
+  gap: 9px;
+  padding-top: 20px;
+  padding-bottom: 18px;
+}
+
+.costSlide .header {
+  gap: 6px;
+}
+
+.costSlide .title {
+  font-size: clamp(42px, 3.5vw, 46px);
+}
+
+.costSlide .subtitle {
+  max-width: 1190px;
+  font-size: 16.8px;
+  line-height: 1.25;
+}
+
+.costSlide .cardLabel {
+  font-size: 13.5px;
+}
+
+.liveApiTag {
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, #22c55e 42%, var(--border));
+  background: color-mix(in srgb, #22c55e 7%, var(--secondary));
+  color: #86efac;
+}
+
+.liveApiTag > span:first-child {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 5px color-mix(in srgb, #22c55e 12%, transparent), 0 0 15px #22c55e;
+}
+
+.costStack {
+  display: flex;
+  overflow: hidden;
+  height: 16px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 12%, var(--border));
+  border-radius: 999px;
+  background: var(--background);
+}
+
+.costSegment {
+  width: var(--segment-width);
+  background: var(--segment-color);
+  box-shadow: inset -1px 0 rgba(0, 0, 0, 0.22);
+}
+
+.costRows {
+  display: grid;
+  min-height: 0;
+  gap: 6px;
+}
+
+.costRow {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) 60px;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 8%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--background) 45%, transparent);
+}
+
+.costSwatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--segment-color);
+  box-shadow: 0 0 10px var(--segment-color);
+}
+
+.costRow > div {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.costRow > div strong {
+  color: var(--foreground);
+  font-size: 12px;
+}
+
+.costRow > div span {
+  overflow: visible;
+  color: var(--muted-foreground);
+  font-size: 10.2px;
+  line-height: 1.12;
+  text-overflow: unset;
+  white-space: normal;
+}
+
+.costRow > strong {
+  color: var(--secondary-foreground);
+  font-size: 12px;
+  text-align: right;
+}
+
+.pricingSource {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding-top: 2px;
+}
+
+.pricingSource strong {
+  color: var(--cyan);
+  font-size: 11px;
+}
+
+.pricingSource span {
+  color: var(--muted-foreground);
+  font-size: 10.5px;
+  line-height: 1.22;
+}
+
+.costSide {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 11px;
+}
+
+.onPremPanel {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 13px;
+  padding: 15px;
+  border-color: color-mix(in srgb, #f59e0b 38%, var(--border));
+}
+
+.onPremHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.onPremHeading > div {
+  display: grid;
+  gap: 4px;
+}
+
+.onPremHeading .cardLabel {
+  color: #fbbf24;
+}
+
+.onPremHeading > div > strong {
+  color: var(--foreground);
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.premiumBadge {
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, #f59e0b 48%, var(--border));
+  background: color-mix(in srgb, #f59e0b 8%, var(--secondary));
+  color: #fbbf24;
+}
+
+.onPremBars {
+  display: grid;
+  align-content: center;
+  gap: 14px;
+}
+
+.onPremBarRow {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) 52px;
+  gap: 9px;
+  align-items: center;
+}
+
+.onPremBarRow > div:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.onPremBarRow > div:first-child strong {
+  color: var(--secondary-foreground);
+  font-size: 13px;
+}
+
+.onPremBarRow > div:first-child span {
+  color: var(--muted-foreground);
+  font-size: 10.5px;
+  line-height: 1.2;
+}
+
+.onPremTrack {
+  overflow: hidden;
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+.onPremTrack span {
+  display: block;
+  width: var(--bar-width);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f59e0b, var(--pink));
+}
+
+.onPremBarRow > strong {
+  color: var(--foreground);
+  font-size: 13px;
+  text-align: right;
+}
+
+.gapCallout {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, #22c55e 28%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in srgb, #22c55e 6%, var(--background));
+}
+
+.gapCallout svg {
+  width: 25px;
+  height: 25px;
+  color: #22c55e;
+}
+
+.gapCallout > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.gapCallout strong {
+  color: #86efac;
+  font-size: 22px;
+}
+
+.gapCallout span {
+  color: var(--muted-foreground);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.assumptionsPanel {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.assumptionList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+}
+
+.assumptionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.assumptionItem span:last-child {
+  color: var(--muted-foreground);
+  font-size: 11.5px;
+  line-height: 1.2;
+}
+
+.projectionCaveat {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 7px 11px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 28%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cyan) 7%, var(--background));
+  color: var(--secondary-foreground);
+  font-size: 11.75px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.18;
+}
+
+.benefitMatrix {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.benefitMatrixShell {
+  min-width: 0;
+}
+
+.benefitMatrixCard {
+  display: grid;
+  min-height: 0;
+  gap: 3px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 24%, var(--border));
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cyan) 7%, var(--secondary)), color-mix(in srgb, var(--purple) 5%, var(--secondary))),
+    var(--secondary);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.23);
+}
+
+.benefitMatrixCategory {
+  color: color-mix(in srgb, var(--cyan) 82%, white);
+  font-size: 9.6px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.benefitMatrixHeadline {
+  color: #86efac;
+  font-size: 12.4px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.15;
+}
+
+.benefitMatrixBody {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.benefitMatrixBody p {
+  min-width: 0;
+  color: var(--muted-foreground);
+  font-size: 9.6px;
+  line-height: 1.08;
+}
+
+.benefitMatrixBody strong {
+  color: var(--secondary-foreground);
+  font-weight: var(--font-weight-bold);
+}
+
+.benefitStrip {
+  display: grid;
+  height: 124px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.benefitShell {
+  min-width: 0;
+}
+
+.benefitCard {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 42px 64px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 26%, var(--border));
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cyan) 7%, var(--secondary)), color-mix(in srgb, var(--purple) 5%, var(--secondary))),
+    var(--secondary);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.23);
+}
+
+.benefitCard > span {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--cyan) 34%, var(--border));
+  border-radius: 12px;
+  color: var(--cyan);
+}
+
+.benefitCard > span svg {
+  width: 21px;
+  height: 21px;
+}
+
+.benefitCard > strong {
+  color: var(--foreground);
+  font-size: 28px;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.benefitCard > div {
+  display: grid;
+  gap: 4px;
+}
+
+.benefitCard h4 {
+  color: var(--secondary-foreground);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.benefitCard p {
+  color: var(--muted-foreground);
+  font-size: 8.75px;
+  line-height: 1.26;
+}
+
+/* Task 8 Fix Round 1 — executive legibility floor */
+.azureSlide .body {
+  gap: 12px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.azureSlide .header {
+  gap: 5px;
+}
+
+.azureSlide .title {
+  font-size: clamp(42px, 3.5vw, 46px);
+}
+
+.azureSlide .subtitle {
+  font-size: 17px;
+  line-height: 1.26;
+}
+
+.azureSlide .azureGrid {
+  height: 662px;
+  grid-template-columns: minmax(0, 960px) 302px;
+}
+
+.azureSlide .azureCanvas {
+  gap: 9px;
+  padding: 13px;
+}
+
+.azureDiagramLead h3 {
+  font-size: 19px;
+}
+
+.alzGuardrailFrame {
+  gap: 7px;
+  padding: 9px 11px 10px;
+}
+
+.alzFrameLabel {
+  font-size: 10px;
+}
+
+.guardrailDomainGrid,
+.guardrailDomainList {
+  grid-template-rows: 116px minmax(0, 1fr);
+  gap: 7px 8px;
+}
+
+.guardrailDomainShell:nth-child(5),
+.guardrailDomainShell:nth-child(6),
+.guardrailDomainShell:nth-child(7),
+.guardrailDomainShell:nth-child(8) {
+  min-height: 132px;
+}
+
+.guardrailDomainCard {
+  gap: 3px;
+  padding: 6px 7px;
+}
+
+.guardrailIconRow {
+  gap: 4px;
+  min-height: 16px;
+}
+
+.guardrailIconRow img {
+  width: 16px;
+  height: 16px;
+}
+
+.guardrailDomainCard strong {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.guardrailDomainCard span {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.runtimePathRibbon {
+  width: min(100%, 412px);
+  padding: 5px 6px;
+}
+
+.runtimePathNode span,
+.dependencyChipList span {
+  font-size: 10px;
+  line-height: 1.05;
+}
+
+.citadelCore {
+  top: 116px;
+  width: 350px;
+  gap: 6px;
+  padding: 8px;
+}
+
+.coreLabel,
+.dependencyFanout strong {
+  font-size: 10px;
+}
+
+.citadelCoreStack {
+  gap: 6px;
+}
+
+.citadelCoreCard {
+  grid-template-columns: 27px minmax(0, 1fr);
+  gap: 7px;
+  padding: 6px 7px;
+}
+
+.citadelCoreCard img {
+  width: 27px;
+  height: 27px;
+}
+
+.citadelCoreCard strong,
+.subscriptionBoundaryHeading strong,
+.azureRailHeading strong {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.citadelCoreCard span,
+.subscriptionBoundaryCard > span,
+.azureBulletShell span,
+.azureSlide .targetCard span {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.dependencyFanout {
+  width: min(100%, 420px);
+  gap: 4px;
+  padding: 6px 7px;
+}
+
+.subscriptionStrip {
+  min-height: 86px;
+}
+
+.subscriptionBoundaryList {
+  gap: 6px;
+}
+
+.subscriptionBoundaryCard {
+  gap: 4px;
+  padding: 6px 7px;
+}
+
+.subscriptionBoundaryHeading img {
+  width: 20px;
+  height: 20px;
+}
+
+.azureSlide .azureSide {
+  grid-template-rows: 210px 178px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.azureSlide .targetPanel,
+.boundaryFactPanel,
+.considerationsPanel {
+  gap: 7px;
+  padding: 11px;
+}
+
+.azureSlide .targetList {
+  gap: 6px;
+}
+
+.azureSlide .targetCard {
+  gap: 3px;
+  padding: 6px 7px;
+}
+
+.azureSlide .targetCard strong {
+  font-size: 22px;
+}
+
+.azureBulletList {
+  gap: 5px;
+}
+
+.azureSlide .azureSide {
+  grid-template-rows: 220px 168px minmax(0, 1fr);
+}
+
+
+/* Task 5 — Slide 11 Citadel core and Considerations */
+.citadelCore {
+  width: 390px;
+  top: 192px;
+  gap: 4px;
+  padding: 4px;
+}
+
+.citadelCoreIcons {
+  display: inline-flex;
+  width: 27px;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.citadelCoreIcons img {
+  width: 31px;
+  height: 31px;
+  flex: none;
+  object-fit: contain;
+  transform: scale(0.86);
+  transform-origin: center;
+}
+
+.citadelCoreIcons img + img {
+  margin-left: -28px;
+}
+
+.coreLabel {
+  font-size: 11px;
+}
+
+.citadelCoreStack {
+  gap: 3px;
+}
+
+.citadelCoreCard {
+  grid-template-columns: 27px minmax(0, 1fr);
+  gap: 3px;
+  padding: 3px 3px;
+}
+
+.citadelCoreCard strong {
+  font-size: 14px;
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+  letter-spacing: -0.08em;
+  line-height: 1.04;
+  white-space: nowrap;
+}
+
+.citadelCoreCard span {
+  font-size: 13.5px;
+  letter-spacing: -0.125em;
+  line-height: 1.06;
+  white-space: nowrap;
+}
+
+.citadelCoreCard > div {
+  gap: 1px;
+}
+
+.citadelCoreCard > div span {
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.citadelCoreShell:nth-child(4) .citadelCoreCard > div span {
+  letter-spacing: -0.125em;
+  white-space: nowrap;
+}
+
+.runtimePathRibbon {
+  margin-top: -2px;
+}
+
+.runtimePathNode svg {
+  top: -4px;
+  pointer-events: none;
+}
+
+.dependencyFanout {
+  gap: 2px;
+  margin-bottom: -1px;
+  padding: 4px 5px;
+  transform: translateY(30px);
+}
+
+.dependencyFanout strong {
+  font-size: 10px;
+}
+
+.dependencyChipList {
+  align-content: start;
+  gap: 2px;
+}
+
+.dependencyChipShell {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.dependencyChipList span {
+  padding: 1px 4px;
+  font-size: 9.5px;
+  line-height: 1;
+}
+
+.subscriptionStrip {
+  transform: translateY(24px);
+}
+
+.considerationsPanel .azureRailHeading svg,
+.considerationsPanel .azureRailHeading strong {
+  color: #22c55e;
+}
+
+.considerationsPanel .azureBulletShell::before {
+  background: #22c55e;
+  box-shadow: 0 0 10px color-mix(in srgb, #22c55e 45%, transparent);
+}
+
+/* Slide 13 legibility floor */
+.codingSlide .body {
+  gap: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.codingSlide .header {
+  gap: 3px;
+}
+
+.codingSlide .title {
+  font-size: clamp(44px, 3.8vw, 50px);
+}
+
+.codingSlide .subtitle {
+  font-size: 17px;
+  line-height: 1.18;
+}
+
+.releaseRouteHero {
+  min-height: 112px;
+  padding: 12px 14px;
+}
+
+.releaseRouteNode {
+  min-height: 82px;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 11px;
+  padding: 11px 13px;
+}
+
+.releaseRouteNode img {
+  width: 40px;
+  height: 40px;
+}
+
+.releaseRouteNode span,
+.repoRow span,
+.localMetric span,
+.supplyChainPanel p,
+.skuRow strong,
+.skuTier,
+.skuNote {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.codingGrid {
+  height: 572px;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 0.95fr) minmax(0, 1.35fr);
+  gap: 10px;
+}
+
+.repoPanel,
+.localEvidencePanel {
+  gap: 8px;
+  padding: 12px;
+}
+
+.repoTree {
+  gap: 7px;
+}
+
+.repoRow {
+  grid-template-columns: 17px 52px minmax(0, 1fr) 28px;
+  gap: 5px;
+  padding: 7px;
+}
+
+.repoRow strong,
+.repoRow small,
+.validationChip span,
+.integrityTag {
+  font-size: 13px;
+}
+
+.localMetricGrid {
+  gap: 5px;
+}
+
+.localMetric {
+  padding: 6px 8px;
+}
+
+.validationChips {
+  gap: 4px;
+}
+
+.validationChip {
+  gap: 5px;
+  padding: 4px 6px;
+}
+
+.supplyChainPanel {
+  min-height: 78px;
+  padding: 9px 10px;
+}
+
+.skuPanel {
+  gap: 3px;
+  padding: 8px;
+}
+
+.skuHeader {
+  gap: 8px;
+}
+
+.skuRows {
+  gap: 2px;
+}
+
+.skuRow {
+  gap: 1px;
+  padding: 3px 5px;
+  border-radius: 9px;
+}
+
+.skuRowTop {
+  gap: 5px;
+}
+
+.skuStatus {
+  max-width: 142px;
+  padding: 2px 5px;
+  font-size: 10px;
+  line-height: 1.02;
+}
+
+/* Slide 15 legibility floor */
+.plannedGateGrid {
+  gap: 8px;
+}
+
+.plannedGateCard {
+  gap: 4px;
+  padding: 7px 8px;
+}
+
+.plannedGateTop {
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 7px;
+}
+
+.plannedGateIcon {
+  width: 28px;
+  height: 28px;
+}
+
+.plannedGateIcon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.plannedGateCard h4 {
+  font-size: 15px;
+  line-height: 1.12;
+}
+
+.gateSectionLabel {
+  font-size: 10px;
+  line-height: 1.08;
+}
+
+.plannedGateCard p,
+.gateThreshold,
+.testingSlide .testDecisionBar span,
+.testingSlide .runtimeSeparation p,
+.actualCheck span {
+  font-size: 13px !important;
+  line-height: 1.12 !important;
+}
+
+/* Slide 16 legibility floor */
+.costSlide .body {
+  gap: 7px;
+  padding-top: 10px;
+  padding-bottom: 12px;
+}
+
+.costSlide .header {
+  gap: 4px;
+}
+
+.costSlide .title {
+  font-size: clamp(38px, 3.1vw, 42px);
+}
+
+.costSlide .subtitle {
+  font-size: 15px;
+  line-height: 1.16;
+}
+
+.costGrid {
+  height: 284px;
+  gap: 10px;
+}
+
+.azureCostPanel {
+  gap: 6px;
+  padding: 10px 12px;
+}
+
+.costHero {
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  gap: 9px;
+}
+
+.calculatorIcon {
+  width: 37px;
+  height: 37px;
+}
+
+.costHeadline strong {
+  font-size: 30px;
+}
+
+.costHero p,
+.costRow > div span,
+.costRow > strong,
+.onPremBarRow > div:first-child span,
+.gapCallout span,
+.assumptionItem span:last-child,
+.pricingSource span,
+.projectionCaveat,
+.benefitMatrixBody p {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.costRows {
+  gap: 4px;
+}
+
+.costRow {
+  grid-template-columns: 9px minmax(0, 1fr) 58px;
+  gap: 7px;
+  padding: 4px 6px;
+}
+
+.costRow > div strong,
+.costRow > strong,
+.onPremBarRow > div:first-child strong,
+.benefitMatrixHeadline {
+  font-size: 13px;
+}
+
+.costSide {
+  gap: 8px;
+}
+
+.onPremPanel {
+  gap: 8px;
+  padding: 10px;
+}
+
+.onPremHeading > div > strong {
+  font-size: 24px;
+}
+
+.onPremBars {
+  gap: 8px;
+}
+
+.assumptionsPanel {
+  gap: 5px;
+  padding: 9px 10px;
+}
+
+.projectionCaveat {
+  padding: 5px 9px;
+}
+
+.benefitMatrix {
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.benefitMatrixCard {
+  grid-template-columns: 112px 250px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  padding: 5px 8px;
+}
+
+.benefitMatrixCategory {
+  font-size: 10px;
+  line-height: 1.05;
+}
+
+.benefitMatrixHeadline {
+  line-height: 1.08;
+}
+
+.costSlide .benefitMatrixBody {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+}
+
+/* Task 8 Fix Round 1 — follow-up fit/legibility corrections */
+.assuranceSubmission {
+  font-size: 10px;
+}
+
+.codingSlide .body {
+  gap: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.codingSlide .title {
+  font-size: clamp(40px, 3.45vw, 46px);
+}
+
+.codingSlide .subtitle {
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.releaseRouteHero {
+  min-height: 96px;
+  padding: 9px 12px;
+}
+
+.releaseRouteNode {
+  min-height: 72px;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 9px;
+  padding: 9px 11px;
+}
+
+.releaseRouteNode img {
+  width: 35px;
+  height: 35px;
+}
+
+.releaseRouteNode strong {
+  font-size: 16px;
+  line-height: 1.08;
+}
+
+.releaseRouteNode span {
+  font-size: 13px;
+  line-height: 1.06;
+}
+
+.codingGrid {
+  height: 608px;
+}
+
+.skuHeader {
+  align-items: center;
+}
+
+.skuHeader > div {
+  gap: 1px;
+}
+
+.skuHeader h3 {
+  font-size: 18px;
+  line-height: 1.06;
+}
+
+.codingSlide .skuHeader .panelKicker {
+  font-size: 10px;
+  line-height: 1.05;
+}
+
+.skuHeader .skuStatus {
+  max-width: 142px;
+  font-size: 10px;
+}
+
+.skuRows {
+  gap: 1px;
+}
+
+.skuRow {
+  padding: 2px 5px;
+}
+
+/* Slide 14 also follows the same body/label floor. */
+.deploymentSlide .deploymentStepTop span,
+.deploymentSlide .deployPackageDu {
+  font-size: 13px;
+}
+
+.deploymentSlide .deploymentStep p,
+.deploymentSlide .deployEvidenceFuture,
+.deploymentSlide .deployPackageMain strong,
+.deploymentSlide .deployPackageNote,
+.deploymentSlide .deployPackageStaticNote {
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.deploymentSlide .deploymentStep small,
+.deploymentSlide .deployEvidenceCaption,
+.deploymentSlide .deployPackageStatus {
+  font-size: 10px;
+  line-height: 1.05;
+}
+
+.deploymentSlide .deployPackageRow {
+  min-height: 38px;
+  grid-template-columns: minmax(150px, 0.8fr) auto minmax(210px, 1fr);
+  gap: 7px;
+  padding: 5px 8px 5px 10px;
+}
+
+.deploymentSlide .deployPackageMain {
+  grid-template-columns: 52px minmax(0, 1fr);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deploymentSlide .deployPackageSourceGroup .deployPackageRow {
+    min-height: 30px;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+/* Task 8 Fix Round 2 — final scoped Slide 14 control-card body floor */
+.deploymentSlide .deployControlCard p {
+  font-size: 13px;
+  line-height: 1.12;
+}
+
+@keyframes phaseRise {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.phaseSlide .surface,
+.executionBoundary,
+.mockBoundary,
+.benefitCard,
+.benefitMatrixCard {
+  animation: phaseRise 560ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phaseSlide .surface,
+  .executionBoundary,
+  .mockBoundary,
+  .benefitCard,
+  .benefitMatrixCard {
+    animation: none;
+  }
+
+  .deployPackageViewport {
+    overflow: hidden;
+    mask-image: none;
+  }
+
+  .deployPackageTrack {
+    display: block;
+    height: 100%;
+    animation: none;
+    transform: none;
+  }
+
+  .deployPackageSourceGroup {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding-bottom: 0;
+  }
+
+  .deployPackageSourceGroup .deployPackageRow:nth-of-type(n+7) {
+    display: none;
+  }
+
+  .deployPackageCloneGroup {
+    display: none;
+  }
+
+  .deployPackageSourceGroup .deployPackageRow {
+    min-height: 24px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 6px;
+    padding: 3px 6px 3px 8px;
+    border-radius: 8px;
+  }
+
+  .deployPackageSourceGroup .deployPackageMain {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .deployPackageSourceGroup .deployPackageNote {
+    display: none;
+  }
+
+  .deployPackageStaticNote {
+    display: block;
+    margin-top: 5px;
+  }
+}
+
+/* Slide 11 — readable Citadel and evidence hierarchy */
+.azureSlide .guardrailDomainGrid,
+.azureSlide .guardrailDomainList {
+  grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr) 180px;
+}
+
+.azureSlide .citadelCore {
+  top: 186px;
+  width: 510px;
+  gap: 2px;
+  padding: 3px;
+}
+
+.azureSlide .citadelCoreStack {
+  gap: 3px;
+}
+
+.azureSlide .citadelCoreCard {
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 8px;
+  padding: 2px 7px;
+}
+
+.azureSlide .citadelCoreIcons {
+  width: 44px;
+  gap: 0;
+}
+
+.azureSlide .citadelCoreIcons img {
+  width: 32px;
+  height: 32px;
+  transform: none;
+}
+
+.azureSlide .citadelCoreIcons img + img {
+  margin-left: -20px;
+}
+
+.azureSlide .citadelCoreCard > div {
+  gap: 2px;
+}
+
+.azureSlide .citadelCoreCard strong {
+  font-size: 14.5px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.azureSlide .citadelCoreCard span,
+.azureSlide .citadelCoreShell:nth-child(4) .citadelCoreCard > div span {
+  font-size: 13.5px;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  white-space: nowrap;
+}
+
+.azureSlide .dependencyFanout {
+  width: min(100%, 510px);
+  gap: 4px;
+  margin-bottom: 0;
+  padding: 5px 8px;
+  transform: none;
+}
+
+.azureSlide .dependencyChipList {
+  display: grid;
+  grid-template-columns: 0.55fr 0.8fr 0.95fr 1.22fr 1.85fr 1fr 1.08fr;
+  gap: 0;
+}
+
+.azureSlide .dependencyChipShell {
+  justify-content: center;
+  padding: 0 3px;
+  border-left: 1px solid color-mix(in srgb, var(--cyan) 20%, var(--border));
+}
+
+.azureSlide .dependencyChipShell:first-child {
+  border-left: 0;
+}
+
+.azureSlide .dependencyChipList span {
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 9.5px;
+  white-space: nowrap;
+}
+
+.azureSlide .subscriptionStrip {
+  min-height: 96px;
+  transform: none;
+}
+
+.azureSlide .subscriptionBoundaryCard {
+  height: 100%;
+  align-content: start;
+  gap: 4px;
+  padding: 8px 10px;
+}
+
+.azureSlide .subscriptionBoundaryHeading {
+  gap: 8px;
+}
+
+.azureSlide .subscriptionBoundaryHeading img {
+  width: 28px;
+  height: 28px;
+}
+
+.azureSlide .subscriptionBoundaryHeading strong {
+  font-size: 13.5px;
+  line-height: 1.12;
+}
+
+.azureSlide .subscriptionBoundaryCard > span {
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+.azureSlide .assuranceSubmission {
+  position: static;
+  width: 100%;
+  justify-self: stretch;
+  margin-top: auto;
+  padding: 4px 0 0;
+  border: 0;
+  border-top: 1px dashed color-mix(in srgb, var(--purple) 64%, var(--border));
+  border-radius: 0;
+  background: transparent;
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+}
+
+.azureSlide .assuranceSubmission::before {
+  display: none;
+}
+
+.azureSlide .assuranceSubmission svg {
+  margin-left: auto;
+}
+
+.codingSlide .codingGrid {
+  height: 616px;
+}
+
+.codingSlide .repoRow {
+  grid-template-columns: 18px 80px minmax(0, 1fr) 30px;
+  gap: 8px;
+}
+
+.codingSlide .skuRows {
+  gap: 4px;
+}
+
+.codingSlide .skuRow {
+  padding: 5px 6px;
+}
+
+
+/* Slide 14 - Task 8 final scoped type floors */
+.deploymentSlide .deploymentStep p {
+  font-size: 14px;
+  line-height: 1.18;
+}
+
+.deploymentSlide .deployPackageMain strong,
+.deploymentSlide .deployPackageNote,
+.deploymentSlide .deployPackageStaticNote,
+.deploymentSlide .deployEvidenceFuture {
+  font-size: 13.5px;
+  line-height: 1.12;
+}
+
+/* Preserve full package labels at the approved type floor. */
+.deploymentSlide .deployPackageMain strong,
+.deploymentSlide .deployPackageNote {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+/* Task 9 — final Slide 15 fit and legibility overrides */
+.testingSlide .testingGrid {
+  height: 684px;
+}
+
+.testingSlide .actualCheck span {
+  font-size: 14px !important;
+}
+
+.testingSlide .plannedGatesPanel {
+  gap: 8px;
+  padding: 12px;
+}
+
+.testingSlide .plannedGateGrid {
+  gap: 8px;
+}
+
+.testingSlide .plannedGateCard {
+  gap: 1px;
+  padding: 5px 6px;
+}
+
+.testingSlide .plannedGateTop {
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 6px;
+}
+
+.testingSlide .plannedGateIcon {
+  width: 26px;
+  height: 26px;
+}
+
+.testingSlide .plannedGateIcon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.testingSlide .plannedGateCard h4 {
+  font-size: 15px;
+  line-height: 1.12;
+}
+
+.testingSlide .gateSection {
+  gap: 0;
+}
+
+.testingSlide .gateSectionLabel {
+  font-size: 9px;
+  line-height: 1.08;
+}
+
+.testingSlide .plannedGateCard p,
+.testingSlide .gateThreshold {
+  font-size: 13.5px !important;
+  line-height: 1.1 !important;
+}
+
+/* Slide 16 Task 10 — executive cost comparison and projected benefits */
+.costSlide .benefitMatrix {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.costSlide .benefitMatrixCard {
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 12px;
+}
+
+.costSlide .benefitMatrixCategory {
+  font-size: 12px;
+}
+
+.costSlide .benefitMatrixHeadline {
+  font-size: 16px;
+  line-height: 1.18;
+}
+
+.costSlide .benefitMeasure {
+  color: var(--secondary-foreground);
+  font-size: 13.5px;
+  line-height: 1.22;
+}
+
+/* Slide 16 Task 10 — compact, evidence-preserving comparison band */
+.costSlide .costGrid {
+  height: 360px;
+}
+
+.costSlide .azureCostPanel {
+  gap: 7px;
+  padding: 12px 14px;
+}
+
+.costSlide .costRows {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 6px;
+}
+
+.costSlide .costRow {
+  grid-template-columns: 8px minmax(0, 1fr) 52px;
+  gap: 6px;
+  padding: 4px 6px;
+}
+
+.costSlide .costRow > div span {
+  font-size: 10px;
+  line-height: 1.1;
+}
+
+.costSlide .pricingSource {
+  gap: 8px;
+}
+
+.costSlide .costSide {
+  grid-template-rows: 205px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.costSlide .onPremPanel {
+  grid-template-rows: auto auto auto;
+  gap: 7px;
+  padding: 12px;
+}
+
+.costSlide .onPremHeading .cardLabel {
+  font-size: 11.5px;
+  line-height: 1.1;
+}
+
+.costSlide .onPremHeading > div > strong {
+  font-size: 26px;
+}
+
+.costSlide .onPremBars {
+  gap: 6px;
+}
+
+.costSlide .onPremBarRow {
+  grid-template-columns: 105px minmax(0, 1fr) 48px;
+  gap: 7px;
+}
+
+.costSlide .onPremBarRow > div:first-child span {
+  font-size: 10px;
+  line-height: 1.12;
+}
+
+.costSlide .gapCallout {
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 7px;
+  padding: 7px;
+}
+
+.costSlide .gapCallout strong {
+  font-size: 19px;
+}
+
+.costSlide .assumptionsPanel {
+  gap: 6px;
+  padding: 10px 12px;
+}
+
+.costSlide .assumptionItem span:last-child {
+  font-size: 10.5px;
+  line-height: 1.15;
+}
+
+.costSlide .benefitMatrix {
+  grid-auto-rows: minmax(114px, auto);
+}
+
+.costSlide .benefitMatrixCard {
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: 18px;
+  row-gap: 4px;
+  padding: 10px 12px;
+}
+
+.costSlide .benefitMatrixCategory {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.costSlide .benefitMatrixHeadline {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.costSlide .benefitMatrixBody {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+/* Slide 16 Task 10 — keep the comparator evidence legible within one band */
+.costSlide .onPremPanel {
+  grid-template-columns: minmax(0, 1fr) 126px;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.costSlide .onPremHeading {
+  grid-column: 1 / -1;
+}
+
+.costSlide .onPremHeading .cardLabel {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.costSlide .onPremHeading > div > strong {
+  font-size: 24px;
+}
+
+.costSlide .onPremBars {
+  grid-column: 1;
+}
+
+.costSlide .onPremBarRow {
+  grid-template-columns: 86px minmax(0, 1fr) 44px;
+  gap: 5px;
+}
+
+.costSlide .onPremBarRow > div:first-child span {
+  font-size: 9px;
+  line-height: 1.05;
+}
+
+.costSlide .gapCallout {
+  grid-column: 2;
+  grid-template-columns: 1fr;
+  justify-items: start;
+  align-content: center;
+}
+
+.costSlide .gapCallout > div {
+  display: grid;
+  gap: 2px;
+}
+
+.costSlide .gapCallout span {
+  font-size: 10px;
+}
+
+.costSlide .benefitMatrixHeadline,
+.costSlide .benefitMatrixBody {
+  min-width: 0;
+}
+
+.costSlide .benefitMatrixBody,
+.costSlide .benefitMeasure {
+  width: 100%;
+}
+
+.costSlide .benefitMeasure {
+  display: block;
+}
+
+.costSlide .benefitMatrixBody {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Slide 16 Task 10 — retain a single full-width measure track */
+.costSlide .benefitMatrixBody {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.costSlide .benefitMatrixCard {
+  height: 100%;
+}
+
+/* Reduced motion uses the static package summary instead of a clipped conveyor snapshot. */
+@media (prefers-reduced-motion: reduce) {
+  .deploymentSlide .deployPackageTrack {
+    display: none;
+    height: auto;
+  }
+}
+
+/* Slide 13 Task 11 fix round 2 — preserve Database validation text under JetBrains metrics */
+.codingSlide .validationChip {
+  gap: 3px;
+  padding: 4px 5px;
+}

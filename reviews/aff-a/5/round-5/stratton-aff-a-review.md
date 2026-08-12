@@ -1,0 +1,64 @@
+# Stratton Phase 5 — Coding: AFF-A round 5 review
+
+**Verdict: DIVERGES**  
+**Reviewer:** AFF-A / Rubber Duck Reviewer  
+**Invoked by:** AFF-5  
+**Round:** 5  
+**Reviewed:** 2026-08-09T17:18:42.697+02:00  
+**Actual reviewer model:** `gpt-5.6-luna`  
+**Phase 5 author/finalisation model:** `gpt-5.6-sol`  
+**Independence:** `VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS`  
+**Subject modified:** No  
+**Final round for manifest:** No
+
+## Scope and supersession
+
+This is the independent static review of the complete frozen `5-coding-r5` CC-002 sibling. AFF-A round 4 remains append-only and covers the approved `5-coding-r4` subject; this round 5 covers sibling `5-coding-r5` and supersedes round 4 only for this new candidate. Prior record: `reviews/aff-a/5/round-4/stratton-aff-a-review.json` (SHA-256 `a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e`).
+
+## Immutable bindings and integrity
+
+- Canonical subject: `cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json`.
+- Expected, pre-review and independently recomputed SHA-256: `e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f`.
+- Entries: 162; all 162 files present and matching; no duplicates or path-shape violations; ordinal path ordering confirmed; roles present for every entry.
+- Manifest encoding: UTF-8 without BOM and no trailing newline.
+- Release manifest: `stratton-release-manifest.json`, SHA-256 `154543da6430cfbbdd91352b011ceef723a370e718540413dd10a456386bf49f`.
+- Approved r4 preservation: `5-coding-r4/stratton-phase-5-hashes.json`, SHA-256 `bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626`; 155/155 entries recomputed and matched.
+- Reviewed snapshot is byte-identical: `reviews/aff-a/5/round-5/reviewed-subject/stratton-phase-5-hashes.json`, SHA-256 `e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f`.
+- Governing model-plan revision 111 is bound at `0-coordination/stratton-model-plan-revision-111.json`, SHA-256 `64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7`.
+
+## Confirmed conformity areas
+
+- Callers cannot select a deployment or model; application-owned routing is deterministic and fail closed.
+- `GlobalStandard` is rejected and `DataZoneStandard` is required. GPT-5.6 version `2026-07-09`, `NoAutoUpgrade` and disabled fine-tuning are represented in the parameter controls.
+- Production inference remains blocked by `BlockedAnalysisProvider`; benchmark observations are null and promotion is `BLOCKED_PENDING_OBSERVED_EVIDENCE`.
+- No autonomous decision authority is introduced. Authority-boundary conflicts, owner-bound controls and retained AFF-B gaps are disclosed rather than waived.
+- The current runtime image evidence records `libarchive-3.7.7-7.azl3` and zero HIGH/CRITICAL findings for both images; `CVE-2026-14164` remediation is traceable in the Dockerfiles and current Trivy evidence.
+- The append-only r4-to-r5 sibling migration, CC-002 bindings, Phase 4 binding and report/hash-generation freeze sequence are represented.
+- No Azure sign-in, provider/subscription query, target validation, what-if, deployment, inference, promotion, retention finalisation, Azure network call or runtime test is claimed in the candidate. AFF-A performed none.
+
+## Findings
+
+### AFFA-P5-R5-MAJ-001 — Validation evidence is not bound to the exact frozen package input
+
+**Evidence:** `5-coding-r5/evidence/README.md` requires a package or input hash for each evidence record. The retained records `evidence/local-validation/20260809T145652575Z/index.json`, `prerequisites.json`, `application-validation.json`, `container-validation.json` and the other step JSON files contain timestamps, commands, exit codes and log paths, but no package/input hash or source-manifest binding. `validation/Invoke-LocalValidation.ps1` writes these records without such a binding. The freeze scripts `validation/New-Phase5Hashes.ps1`, `validation/New-BuildReport.ps1` and `validation/Test-ReleaseEvidence.ps1` select the latest evidence by filesystem `LastWriteTimeUtc`, rather than by an embedded run identity and exact input hash.
+
+**Owner:** AFF-5, with the validation-evidence owner.
+
+**Impact:** The final canonical manifest proves the current bytes, but it does not prove that the retained PASS validation, security and container evidence was produced from those same bytes. A copied or touched historical evidence directory could be selected as “latest”, allowing stale or mismatched evidence to be bound to a new candidate and weakening audit traceability.
+
+**Required remediation:** Compute a deterministic package/input aggregate hash before validation, record it in the validation index and every step/dependency record, and require all freeze scripts to assert equality with the exact frozen subject. Select evidence by embedded run ID/generated time and exact referenced paths, not filesystem modification time. Regenerate the affected evidence, reports and manifests, then obtain new convergent AFF-A and AFF-B reviews.
+
+## Residual gaps
+
+Exact Azure regions/resources/deployment IDs, capability and quota evidence, positive capacities, embedding configuration, recovery/failover evidence, provider terms and licences, retention/legal hold and privacy lifecycle evidence, regulatory classification, and observed benchmark metrics remain explicit owner-bound gaps. AFF-B owns specialist security/compliance assurance; its pending licence review is not duplicated here.
+
+## Required action and non-approval
+
+The major finding blocks convergence. `finalRoundForManifest=false`; the human Phase 5 gate remains locked until remediation and re-review bind a new unchanged manifest. AFF-A does not approve Phase 5, waive gaps, certify compliance, authorise Azure activity, authorise retention finalisation, authorise deployment or runtime testing, or provide human approval.
+
+## Hash and receipt links
+
+- Model receipt: `stratton-aff-a-model-receipt.json`.
+- Hash verification receipt: `reviewed-subject/stratton-phase-5-hash-verification-receipt.json`.
+- Manifest snapshot: `reviewed-subject/stratton-phase-5-hashes.json`.
+- Pre/post subject hash: `e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f` / `e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f` (UNCHANGED).

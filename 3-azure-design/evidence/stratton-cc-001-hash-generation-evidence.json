@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_001_HASH_GENERATION_AND_CANONICALISATION_EVIDENCE",
+  "phaseId": "3",
+  "modelPlanRevision": "8",
+  "generatedAt": "2026-08-02T14:19:15.948+02:00",
+  "algorithm": "SHA-256",
+  "fileEncoding": "Raw file bytes; JSON subjects use deterministic UTF-8 without BOM, two-space indentation, LF and one trailing LF",
+  "manifestSchema": ".github/schemas/aff-phase-hashes.schema.json",
+  "selfReferenceRule": "This evidence and the manifest are excluded from verifiedArtifacts; the manifest independently hashes this evidence.",
+  "verifiedArtifacts": [
+    {
+      "path": "3-azure-design/stratton-cc-001-phase-3-amendment.md",
+      "sizeBytes": 8894,
+      "sha256": "30cda0f9ac7eef8fdc67f3625754d4586426eb4eb9c3c29434487b4371a42abe"
+    },
+    {
+      "path": "3-azure-design/stratton-cc-001-phase-3-amendment.html",
+      "sizeBytes": 14150,
+      "sha256": "da20b4cd6b2155651537a6644a6fa6a2c30cff2c04c45095188d5812a3aec753"
+    },
+    {
+      "path": "3-azure-design/stratton-design-catalogue-cc-001-proposed.json",
+      "sizeBytes": 44335,
+      "sha256": "54763b805c99d3eccfe7280ec131d03a52f92a4cefefcdc2ee236e20ea4cab2c"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json",
+      "sizeBytes": 64844,
+      "sha256": "06fbb8aab31e070fecddac7197082be87acd6bbc31745d7607c5064270512f84"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-security-compliance-contract-cc-001-proposed.json",
+      "sizeBytes": 7574,
+      "sha256": "522a0609192466fa2c8055ee23668f53c1d69c5f96a28b9fba5b147d83153ee7"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-proposed.json",
+      "sizeBytes": 18495,
+      "sha256": "fd19054ced6b0ee477acf5b0fba859dfe1504b3162bbaa7ca24841ddacea6105"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-cc-001-authority-flows.drawio",
+      "sizeBytes": 2464,
+      "sha256": "c2f3e5ee8bb9f7cb9813ce84eb049204f044aceafa16df5b1003a48d0b4ad3b5"
+    },
+    {
+      "path": "3-azure-design/diagrams/stratton-cc-001-authority-flows.svg",
+      "sizeBytes": 2657,
+      "sha256": "cfb9b973be684418c29ca820a210d82bed7192b2a8e797e23402ac2c0a585d82"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-8.json",
+      "sizeBytes": 7717,
+      "sha256": "19754c9d3b4273d91b8af61cc0e38523768967ecf50a79f9c3caee4694a41be9"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-cc-001-change-control-evidence.json",
+      "sizeBytes": 9140,
+      "sha256": "661c95f9d25be5d867867240081d5b8f60da19da413f4de9446c08d64194b285"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-phase-3-hashes-cc-001-preliminary-revision-7.json",
+      "sizeBytes": 2559,
+      "sha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-candidate-validation.json",
+      "sizeBytes": 6016,
+      "sha256": "65aaea58e653f516f8be37bfe6791a556c3f03546474a2bde76bbf8e292e72a4"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-phase-3-hash-generation-evidence.json",
+      "sizeBytes": 4442,
+      "sha256": "63ab4f874e4d1469d3b82d4f5116f830f1fe873d07b50f45ba65b01029c42d86"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-cc-001-candidate-validation.json",
+      "sizeBytes": 1981,
+      "sha256": "8c4dd32acc4e215ee01150dfce1b040c126a15433f7689b43ff29991a359d7fc"
+    }
+  ]
+}

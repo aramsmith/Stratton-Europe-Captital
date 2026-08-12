@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CHANGE_CONTROL_EVIDENCE",
+  "changeControlId": "STRATTON-CC-001",
+  "phaseId": "3",
+  "status": "PROPOSED_PENDING_FORMAL_REVIEW_AND_HUMAN_APPROVAL",
+  "modelPlanRevision": "8",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "humanSelections": [
+    {
+      "id": "HS-001",
+      "direction": "Internal Audit-owned verdict API/compute boundary"
+    },
+    {
+      "id": "HS-002",
+      "direction": "Governed production analysis/vectorisation contract"
+    },
+    {
+      "id": "HS-003",
+      "direction": "Internal Audit-owned immutable audit export push endpoint/queue"
+    }
+  ],
+  "approvedBaseline": {
+    "manifestPath": "3-azure-design/stratton-phase-3-hashes.json",
+    "manifestSha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945",
+    "approvalPath": "approvals/3/stratton-phase-3-approval-1.json",
+    "approvalSha256": "f6f9de73a70ef3376b90a0ea467ac5d35531f970d362a84bd3b653d35b8a85f3",
+    "modified": false
+  },
+  "supersededPreliminary": {
+    "originalPath": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+    "originalSha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61",
+    "preservedPath": "3-azure-design/evidence/stratton-phase-3-hashes-cc-001-preliminary-revision-7.json",
+    "preservedSha256": "2ee5f2d64b58543d53969389356d243c9e84047f6103a63854e0ddf707d7cb61",
+    "status": "SUPERSEDED_FOR_REMEDIATION"
+  },
+  "affectedArtifacts": [
+    "3-azure-design/stratton-cc-001-phase-3-amendment.md",
+    "3-azure-design/stratton-cc-001-phase-3-amendment.html",
+    "3-azure-design/stratton-design-catalogue-cc-001-proposed.json",
+    "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json",
+    "3-azure-design/evidence/stratton-security-compliance-contract-cc-001-proposed.json",
+    "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-proposed.json",
+    "3-azure-design/diagrams/stratton-cc-001-authority-flows.drawio",
+    "3-azure-design/diagrams/stratton-cc-001-authority-flows.svg"
+  ],
+  "preliminaryFindings": [
+    {
+      "id": "PF-01",
+      "finding": "Canonical preimages were self-referential or incomplete",
+      "remediation": "Defined domain-separated RFC 8785 preimages, exact exclusions, array ordering, lowercase SHA-256, UTF-8 and UTC timestamp rules for all named hashes.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-02",
+      "finding": "Signature algorithm, key and producer trust policy were incomplete",
+      "remediation": "Added four purpose-specific signer contracts and fail-closed algorithm policy, trust registry, identity mapping, validity, rotation, revocation and compromise inputs.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-03",
+      "finding": "Verdict uniqueness and read identity were ambiguous",
+      "remediation": "Submission ID now derives from trusted producer identity plus validationRunId; unique run replay/conflict/supersession and exact-submission verdict read are explicit.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-04",
+      "finding": "Evidence transfer allowed undefined URI references",
+      "remediation": "Replaced with allow-listed exact Azure Blob version pull, conditional metadata/hash/scan verification, assurance WORM copy, private RBAC/DNS and SSRF/version-swap negatives.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-05",
+      "finding": "Assurance evaluation inputs were absent",
+      "remediation": "Added Internal Audit policy, benchmark/test registries, evaluator release/images, schemas, limits and approval bindings; verdict binds all.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-06",
+      "finding": "Internal Audit-owned assurance implementation package was missing",
+      "remediation": "Phase 4 adds WP-05 with Internal Audit repository/build/sign/release/ACR/deployment/operations authority; DU-16 admits signed digests only.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-07",
+      "finding": "Submitted artifacts and evaluator isolation were under-specified",
+      "remediation": "Defined untrusted-input handling, static default, separately authorised ephemeral least-privilege sandbox and fail-closed limits.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-08",
+      "finding": "Analysis configuration/input canonical bindings and hostile-content policies were incomplete",
+      "remediation": "Added canonical hashes plus chunking, instruction/data separation, injection corpus/control, Search schema/alias and revocation bindings.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-09",
+      "finding": "Vector provenance and tenant/case isolation fields were incomplete",
+      "remediation": "Added tenant/case, both manifest hashes, chunk/evidence hashes, policies, embedding/schema fields, deterministic scoped keys and server-injected filters.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-10",
+      "finding": "Prompt-injection, cross-boundary retrieval and poisoned-index recovery tests were missing",
+      "remediation": "Added hostile tests, revocation invalidation, known-good versioned rebuild and validated atomic alias switch; tools/fallback prohibited.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-11",
+      "finding": "Audit producer authenticity and receipt binding were incomplete",
+      "remediation": "Required producer-signed events; receipt binds verified producer/key, event/body hashes, stream position and assurance signer and limits meaning to integrity receipt.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-12",
+      "finding": "Audit stream uniqueness and continuity conflict rules were incomplete",
+      "remediation": "Enforced unique tenant/case/sequence, strict sender order, tenant:case sessions, predecessor validation and no continuity advance for gaps/conflicts/signature/schema/poison.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-13",
+      "finding": "Local receipt success could be fabricated",
+      "remediation": "Added final body hash, role-separated receipt trust/signature verification and exact-binding guard before VERIFIED_CONTIGUOUS.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-14",
+      "finding": "Audit size, duplicate-window, expiry and ordering relationships were absent",
+      "remediation": "Added fail-closed parameters/assertions including TTL greater than grace plus retry/reconciliation; rollback preserves all evidence.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-15",
+      "finding": "Phase 4 work, mappings, parameters and counts were not fully reconciled",
+      "remediation": "Phase 4 catalogue is regenerated across DUs, packages, WP-05, validation, sequence, identities, mappings, owner evidence, controls and coverage.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-16",
+      "finding": "DAG rationale and activation sequence were incomplete",
+      "remediation": "Retained 17 DUs/46 edges after acyclic verification; DU-16 depends on DU-09 for source evidence path and exact software→infrastructure→private path→copy tests→clients sequence is defined.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-17",
+      "finding": "Three-boundary authority flow overlay was missing",
+      "remediation": "Added editable draw.io and sanitised accessible SVG for pull/copy, verdict, governed analysis/vectorisation and audit push/receipt.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-18",
+      "finding": "Amendment HTML did not meet required Clawpilot rendering contract",
+      "remediation": "Regenerated self-contained HTML with theme detector first, exact variables, var-only component colours, required fonts and Markdown parity.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    },
+    {
+      "id": "PF-19",
+      "finding": "Change control did not enumerate preliminary findings/remediation",
+      "remediation": "This evidence records all 19 findings, exact remediation, status, selections, baseline/supersession, author/revision and required formal re-review.",
+      "status": "RESOLVED_IN_CANDIDATE_PENDING_FORMAL_REVIEW"
+    }
+  ],
+  "approval": {
+    "granted": false,
+    "humanDecision": "PENDING",
+    "formalAffAReviewRequired": true,
+    "formalAffBReviewRequired": true,
+    "convergenceClaimed": false
+  },
+  "executionBoundary": "Local authoring and validation only; no Azure login, validate, what-if, deployment or runtime test."
+}

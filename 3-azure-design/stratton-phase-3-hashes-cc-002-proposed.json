@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "modelPlanRevision": "111",
+  "changeControlId": "STRATTON-CC-002",
+  "generatedAt": "2026-08-06T08:38:06.0018426+02:00",
+  "generatedAtUtc": "2026-08-06T06:38:06.0022152+00:00",
+  "hashAlgorithm": "SHA-256",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "artifacts": [
+    {
+      "path": "3-azure-design/evidence/stratton-cc-002-candidate-validation.json",
+      "role": "evidence",
+      "sha256": "9ddca2e19b33c2f5966c3832205cd2ac295589f1fd816c5ebff3f9a0e554212d"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-cc-002-change-control-evidence.json",
+      "role": "evidence",
+      "sha256": "ef8c51dbd855557bbdbc923974e48bfb9a8771c10be2290e1fb4a720be3e0ca5"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-cc-002-hash-generation-evidence.json",
+      "role": "evidence",
+      "sha256": "24adfe8c6e213e6b11c42d79a09462bb3112274a8192c8b63af8376796157233"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-proposed.json",
+      "role": "evidence",
+      "sha256": "04ca5af6fec1d2aa198a6bafb736ded6fb88161046a10b8f5162619f86325205"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-proposed.json",
+      "role": "evidence",
+      "sha256": "12035f866fce6667598e17c6bd6fea186f52548c2faffbf4b8901e0d89d00d91"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-model-routing-contract-cc-002-proposed.json",
+      "role": "evidence",
+      "sha256": "d1e090923a24fe3ffd396623d776e77b4e9a49da524f98e06ae075d552943ad2"
+    },
+    {
+      "path": "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-proposed.json",
+      "role": "evidence",
+      "sha256": "f51242de7bc63a77ec07ce22af5ea851807f1fb0f5d102d170fd0b116d24b1d0"
+    },
+    {
+      "path": "3-azure-design/stratton-cc-002-phase-3-amendment.html",
+      "role": "rendered-html",
+      "sha256": "b377b86ea45fae3e1069834316b43832b29db52f5c39b2153a0bf462addaab23"
+    },
+    {
+      "path": "3-azure-design/stratton-cc-002-phase-3-amendment.md",
+      "role": "authoritative-markdown",
+      "sha256": "74e65b3414d6b17a990af7be54c81bafdf8b6099e518a7b5a21d40258b63160d"
+    },
+    {
+      "path": "3-azure-design/stratton-design-catalogue-cc-002-proposed.json",
+      "role": "catalogue",
+      "sha256": "d8374650f58e2b2cec5164f876493e4ac7c5dc678875fef550cb1051b96dde92"
+    }
+  ]
+}

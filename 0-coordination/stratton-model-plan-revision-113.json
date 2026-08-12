@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0",
+  "planRevision": "113",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "status": "EFFECTIVE_FOR_PHASE_6_R6_METADATA_REMEDIATION",
+  "recordedAt": "2026-08-10T01:01:54.4917815+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-112.json",
+    "sha256": "09634cb3c5a152b65c8a5f4e97835e6f9ab1bb5cee8b039ad2398260b5ae6c7d",
+    "preservation": "Revision 112 and the formally reviewed r5 subject remain immutable historical evidence."
+  },
+  "trigger": {
+    "type": "AFF_A_ROUND_5_MINOR_FINDING_REMEDIATION",
+    "reviewPath": "reviews/aff-a/6/round-5/stratton-aff-a-review.json",
+    "reviewSha256": "5d7fe7ce00a261db1fdb8dab73c31ba2287f60f201dd84b67da391eaf5de7a2c",
+    "findingId": "AFFA-P6-R5-MIN-001",
+    "reason": "The visible presentation and evidence correctly describe dated Azure Retail Prices API snapshot evidence, but deck.config.js and the compiled bundle retain one stale live-rates metadata phrase. The r6 sibling corrects only that narrative metadata and regenerates derived assurance."
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r6",
+    "instruction": "Preserve r5 and its reviews unchanged; create a narrow append-only r6 candidate that replaces the stale live-rate metadata with dated-snapshot wording, then complete fresh AFF-A and AFF-B review against one frozen manifest before returning to the human approval gate.",
+    "phase6ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "presentation": {
+    "registeredSlides": 20,
+    "candidateStatus": "TWENTY_SLIDE_METADATA_REMEDIATION_CANDIDATE",
+    "metadataCorrection": {
+      "old": "slide-17 combines live Azure Retail Prices API rates",
+      "new": "slide-17 combines a dated 2026-08-10 West Europe Azure Retail Prices API snapshot",
+      "scope": "Non-visible deck metadata and its compiled copy only; architecture, claims, costs, slide content and approval boundaries remain unchanged."
+    },
+    "frozenDesignInputs": {
+      "targetAzureFootprint": "Proposed Azure deployment design for later validation only",
+      "apiManagementTier": "PremiumV2",
+      "phase5RepositoryInventoryFiles": 124,
+      "implementationPlan": "5 work packages plus 8 conditional gates",
+      "pricingBasis": "Dated 2026-08-10 West Europe Azure Retail Prices API snapshot plus stated Azure Price Calculator proxies",
+      "monthlyEstimateUsd": 7985.55,
+      "annualEstimateUsd": 95826.6
+    }
+  },
+  "modelAssignments": {
+    "AFF-6-presentation": {
+      "model": "gpt-5.6-sol",
+      "role": "AUTHOR_AND_METADATA_REMEDIATOR",
+      "rationale": "Sol preserves the approved narrative while making the bounded source/configuration correction and regenerating deterministic assurance."
+    },
+    "AFF-A-rubber-duck": {
+      "model": "gpt-5.6-luna",
+      "role": "INDEPENDENT_PRESENTATION_REVIEWER",
+      "rationale": "Luna remains model-opposite to the Sol author and rechecks the corrected immutable candidate."
+    },
+    "AFF-B-security-compliance": {
+      "model": "gpt-5.6-terra",
+      "role": "INDEPENDENT_SECURITY_COMPLIANCE_REVIEWER",
+      "rationale": "Terra independently attests security, compliance, evidence-disclosure and claim-boundary posture after AFF-A closure."
+    }
+  },
+  "modelPortfolio": {
+    "version": "2026-07-09",
+    "allowedModels": [
+      "gpt-5.6-luna",
+      "gpt-5.6-terra",
+      "gpt-5.6-sol"
+    ],
+    "dataZone": "DataZoneStandard",
+    "versionUpgradePolicy": "NoAutoUpgrade",
+    "globalStandardAllowed": false
+  },
+  "reviewSequence": [
+    "Freeze and independently verify the r6 manifest.",
+    "Invoke AFF-A round 6 with gpt-5.6-luna.",
+    "If AFF-A has no unresolved material finding, invoke AFF-B round 3 with gpt-5.6-terra against the identical manifest.",
+    "Return the unchanged candidate and both formal reviews to the human architect for explicit in-tool approval or rejection."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, provider query, target validation, what-if, deployment or promotion occurred.",
+    "No runtime inference, retention finalisation or Phase 8 runtime testing occurred.",
+    "The dated pricing snapshot is evidence for planning, not a future-price guarantee.",
+    "The presentation remains a proposed architecture and reviewed deployment package, not an as-built runtime attestation."
+  ]
+}

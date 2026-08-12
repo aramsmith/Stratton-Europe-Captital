@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "43",
+  "createdAt": "2026-08-03T18:30:08.2409049+02:00",
+  "revisionReason": "Move the Business challenges area from slide 3 to slide 2 as a third full-width panel beneath the company story and current-position panels.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-42.json",
+    "sha256": "753cefe5bae4f0d72a494308814d27a10763072847624713e83e135452d99074",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "contentSequence": {
+      "slide2": [
+        "Our story",
+        "Where Stratton is today",
+        "01 · Business challenges"
+      ],
+      "slide3": [
+        "02 · Transformation objectives",
+        "03 · Expected outcomes",
+        "AI infusion"
+      ]
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

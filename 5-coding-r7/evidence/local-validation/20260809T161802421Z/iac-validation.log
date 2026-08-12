@@ -1,0 +1,9 @@
+[95m
+[95mRunning tests from 4 files.[0m
+[32m[+] <PACKAGE_ROOT>\tests\iac\CandidateReference.Tests.ps1[0m[90m 379ms[0m
+[32m[+] <PACKAGE_ROOT>\tests\iac\Infra.Tests.ps1[0m[90m 642.67s[0m
+[32m[+] <PACKAGE_ROOT>\tests\iac\Remediation.Tests.ps1[0m[90m 34.31s[0m
+[32m[+] <PACKAGE_ROOT>\tests\iac\ValidationEvidenceBinding.Tests.ps1[0m[90m 292ms[0m
+[97mTests completed in 677.67s[0m
+[32mTests Passed: 65, [0m[90mFailed: 0, [0m[90mSkipped: 0, [0m[90mInconclusive: 0, [0m[90mNotRun: 0[0m
+IaC tests passed. Pester Passed: 65, Failed: 0. PesterResultPath: <PACKAGE_ROOT>\tests\iac\..\..\infra\out\pester-testResults.xml. PSRule Evaluations: 47, Passed: 47, Failed: 0, Error: 0. Coverage: Stratton.Storage.PublicAccessDisabled=3, Stratton.Sql.PublicNetworkDisabled=2, Stratton.ServiceBus.PremiumPrivate=1, Stratton.AppConfig.PublicNetworkDisabled=1, Stratton.KeyVault.PublicNetworkDisabled=1, Stratton.ACR.PublicNetworkDisabled=1, Stratton.Cognitive.PublicNetworkDisabled=2, Stratton.Search.PublicNetworkDisabled=1, Stratton.APIM.PublicNetworkDisabled=1, Stratton.ContainerApp.PrivateIngress=1, Stratton.AppGateway.PrivateFrontendOnly=1, Stratton.Tags.RequiredSeven=31, Stratton.RolloutLimitFixed20=1. ResourceTypes: Microsoft.Storage/storageAccounts=3, Microsoft.Sql/servers=2, Microsoft.ServiceBus/namespaces=1, Microsoft.AppConfiguration/configurationStores=1, Microsoft.KeyVault/vaults=1, Microsoft.ContainerRegistry/registries=1, Microsoft.CognitiveServices/accounts=2, Microsoft.Search/searchServices=1, Microsoft.ApiManagement/service=1, Microsoft.App/containerApps=1, Microsoft.Network/applicationGateways=1. Compiled templates written to: <PACKAGE_ROOT>\tests\iac\..\..\infra\out

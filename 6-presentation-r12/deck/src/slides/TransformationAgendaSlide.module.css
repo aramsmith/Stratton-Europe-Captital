@@ -1,0 +1,509 @@
+.transformationAgenda {
+  background: var(--background);
+  padding: 0 0 44px 0;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 500px;
+  height: 500px;
+  top: -170px;
+  right: -90px;
+  background: radial-gradient(
+    circle at 40% 40%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 28%, transparent) 54%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 380px;
+  height: 380px;
+  bottom: -100px;
+  left: 520px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 22%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  padding-top: 6px;
+}
+
+.header {
+  display: grid;
+  gap: 6px;
+  max-width: 1200px;
+  padding-right: 158px;
+}
+
+.eyebrow {
+  width: max-content;
+  padding: 6px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--surface-overlay);
+  color: var(--cyan);
+  box-shadow: 0 0 18px var(--glow-cyan);
+  font-size: 13.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: var(--foreground);
+  font-size: clamp(36px, 3.7vw, 46px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.08;
+}
+
+.subtitle {
+  max-width: 1030px;
+  color: var(--muted-foreground);
+  font-size: 16.5px;
+  line-height: 1.45;
+}
+
+.gearStage {
+  position: relative;
+  min-height: 540px;
+}
+
+.gear {
+  --gear-highlight: #f4f7fb;
+  --gear-start: #c7ced8;
+  --gear-mid: #707986;
+  --gear-end: #252b34;
+  --gear-accent: var(--cyan);
+
+  position: absolute;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.sideGear {
+  top: 120px;
+  width: 420px;
+  height: 420px;
+  z-index: 1;
+}
+
+.centreGear {
+  top: 0;
+  left: 410px;
+  width: 460px;
+  height: 460px;
+  z-index: 2;
+}
+
+.objectiveGear {
+  left: -8px;
+}
+
+.aiGear {
+  --gear-highlight: #ffd2ba;
+  --gear-start: #ff8f72;
+  --gear-mid: #c8435f;
+  --gear-end: #4b1e42;
+  --gear-accent: #ff8a78;
+}
+
+.outcomeGear {
+  --gear-accent: color-mix(in srgb, var(--purple) 62%, white);
+
+  right: -8px;
+}
+
+.outcomeGear .gearCore {
+  padding: 30px 20px;
+}
+
+.outcomeGear .areaItems {
+  margin-top: 5px;
+}
+
+.outcomeGear .areaItem {
+  padding: 3px 0;
+}
+
+.outcomeGear .areaItem p {
+  line-height: 1.2;
+}
+
+.gearTeeth {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter:
+    drop-shadow(0 13px 18px rgba(0, 0, 0, 0.52))
+    drop-shadow(0 0 9px color-mix(in srgb, var(--gear-accent) 34%, transparent));
+  transform-origin: center;
+}
+
+.gearShape {
+  stroke: color-mix(in srgb, var(--gear-highlight) 38%, var(--gear-end));
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.gearOuterRing {
+  fill: none;
+  stroke: color-mix(in srgb, var(--gear-end) 82%, black);
+  stroke-width: 12;
+  vector-effect: non-scaling-stroke;
+}
+
+.gearRing {
+  fill: none;
+  stroke-width: 7;
+  vector-effect: non-scaling-stroke;
+}
+
+.gearInnerRing {
+  fill: none;
+  stroke: color-mix(in srgb, var(--gear-highlight) 28%, var(--gear-end));
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.gearCore {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 380px;
+  height: 380px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px 28px;
+  border: 3px solid color-mix(in srgb, var(--gear-mid) 72%, var(--gear-end));
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--gear-highlight) 8%, transparent), transparent 38%),
+    radial-gradient(circle at 50% 42%, #161c25 0 68%, #090d13 100%);
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 6px rgba(255, 255, 255, 0.025),
+    inset 0 -18px 32px rgba(0, 0, 0, 0.34);
+}
+
+.gearCore::before {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border: 2px solid color-mix(in srgb, var(--gear-highlight) 16%, var(--gear-end));
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.gearCore::after {
+  content: '';
+  position: absolute;
+  inset: 18px;
+  border: 1px solid color-mix(in srgb, var(--gear-highlight) 7%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.aiCore {
+  width: 420px;
+  height: 420px;
+  padding: 50px 42px;
+  background:
+    linear-gradient(145deg, rgba(255, 195, 166, 0.08), transparent 38%),
+    radial-gradient(circle at 50% 42%, #1b1420 0 66%, #09080e 100%);
+  box-shadow:
+    0 20px 42px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 6px rgba(255, 185, 153, 0.03),
+    inset 0 -20px 36px rgba(54, 14, 40, 0.42);
+}
+
+.gearCore > h3 {
+  color: var(--gear-accent);
+  font-size: 15.5px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  line-height: 1.18;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.areaItems {
+  display: grid;
+  margin-top: 7px;
+}
+
+.areaItemShell {
+  min-width: 0;
+}
+
+.areaItemShell + .areaItemShell {
+  border-top: 1px solid color-mix(in srgb, var(--gear-accent) 18%, var(--border));
+}
+
+.areaItem {
+  display: grid;
+  gap: 2px;
+  padding: 5px 0;
+}
+
+.areaItem strong {
+  display: block;
+  color: var(--foreground);
+  font-size: 17px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.areaItem p {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.aiHeader {
+  display: grid;
+  gap: 3px;
+  text-align: center;
+}
+
+.aiHeader span {
+  color: var(--gear-accent);
+  font-size: 15.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.1em;
+  line-height: 1.18;
+  text-transform: uppercase;
+}
+
+.aiHeader strong {
+  color: var(--foreground);
+  font-size: 17px;
+  line-height: 1.22;
+}
+
+.aiGrid {
+  display: grid;
+  margin-top: 6px;
+}
+
+.aiPointShell {
+  min-width: 0;
+}
+
+.aiPointShell + .aiPointShell {
+  border-top: 1px solid color-mix(in srgb, var(--cyan) 18%, var(--border));
+}
+
+.aiPoint {
+  padding: 4px 0;
+  text-align: center;
+}
+
+.aiPoint h4 {
+  color: var(--foreground);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.aiPoint p {
+  margin-top: 1px;
+  color: color-mix(in srgb, var(--cyan) 14%, var(--muted-foreground));
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.sources {
+  color: var(--muted-foreground);
+  font-family: var(--font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.transformationAgenda:global(.active) .header .eyebrow,
+.transformationAgenda:global(.active) .header .title,
+.transformationAgenda:global(.active) .header .subtitle,
+.transformationAgenda:global(.active) .gear,
+.transformationAgenda:global(.active) .areaItemShell,
+.transformationAgenda:global(.active) .aiHeader span,
+.transformationAgenda:global(.active) .aiHeader strong,
+.transformationAgenda:global(.active) .aiPointShell,
+.transformationAgenda:global(.active) .sources {
+  opacity: 0;
+}
+
+.transformationAgenda:global(.active) .header .eyebrow {
+  animation: agendaFadeIn 450ms ease 50ms both;
+}
+
+.transformationAgenda:global(.active) .header .title {
+  animation: agendaFadeDown 550ms ease 120ms both;
+}
+
+.transformationAgenda:global(.active) .header .subtitle {
+  animation: agendaTextReveal 650ms cubic-bezier(.22, 1, .36, 1) 360ms both;
+}
+
+.transformationAgenda:global(.active) .objectiveGear {
+  animation: gearEnterLeft 1350ms cubic-bezier(.37, 0, .63, 1) 700ms both;
+  will-change: transform, opacity;
+}
+
+.transformationAgenda:global(.active) .aiGear {
+  animation: gearEnterCentre 1500ms cubic-bezier(.22, 1, .36, 1) 940ms both;
+  will-change: transform, opacity, filter;
+}
+
+.transformationAgenda:global(.active) .outcomeGear {
+  animation: gearEnterRight 1350ms cubic-bezier(.37, 0, .63, 1) 1180ms both;
+  will-change: transform, opacity;
+}
+
+.transformationAgenda:global(.active) .objectiveGear .gearTeeth,
+.transformationAgenda:global(.active) .outcomeGear .gearTeeth {
+  animation: gearRotateClockwise 42s linear 2530ms infinite;
+  will-change: transform;
+}
+
+.transformationAgenda:global(.active) .aiGear .gearTeeth {
+  animation: gearRotateCounterClockwise 46s linear 2440ms infinite;
+  will-change: transform;
+}
+
+.transformationAgenda:global(.active) .areaItemShell {
+  animation: agendaFadeUp 600ms cubic-bezier(.22, 1, .36, 1) 1100ms both;
+}
+
+.transformationAgenda:global(.active) .objectiveGear .areaItemShell:nth-child(2) {
+  animation-delay: 1220ms;
+}
+
+.transformationAgenda:global(.active) .objectiveGear .areaItemShell:nth-child(3) {
+  animation-delay: 1340ms;
+}
+
+.transformationAgenda:global(.active) .aiHeader span {
+  animation: agendaFadeIn 500ms ease 1420ms both;
+}
+
+.transformationAgenda:global(.active) .aiHeader strong {
+  animation: agendaTextReveal 600ms cubic-bezier(.22, 1, .36, 1) 1520ms both;
+}
+
+.transformationAgenda:global(.active) .aiPointShell {
+  animation: agendaFadeUp 600ms cubic-bezier(.22, 1, .36, 1) 1680ms both;
+}
+
+.transformationAgenda:global(.active) .aiPointShell:nth-child(2) {
+  animation-delay: 1800ms;
+}
+
+.transformationAgenda:global(.active) .aiPointShell:nth-child(3) {
+  animation-delay: 1920ms;
+}
+
+.transformationAgenda:global(.active) .outcomeGear .areaItemShell:nth-child(1) {
+  animation-delay: 1660ms;
+}
+
+.transformationAgenda:global(.active) .outcomeGear .areaItemShell:nth-child(2) {
+  animation-delay: 1780ms;
+}
+
+.transformationAgenda:global(.active) .outcomeGear .areaItemShell:nth-child(3) {
+  animation-delay: 1900ms;
+}
+
+.transformationAgenda:global(.active) .outcomeGear .areaItemShell:nth-child(4) {
+  animation-delay: 2020ms;
+}
+
+.transformationAgenda:global(.active) .outcomeGear .areaItemShell:nth-child(5) {
+  animation-delay: 2140ms;
+}
+
+.transformationAgenda:global(.active) .sources {
+  animation: agendaFadeIn 500ms ease 2280ms both;
+}
+
+@keyframes agendaFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes agendaFadeDown {
+  from { opacity: 0; transform: translate3d(0, -12px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes agendaTextReveal {
+  from { opacity: 0; filter: blur(4px); transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; filter: blur(0); transform: translate3d(0, 0, 0); }
+}
+
+@keyframes agendaFadeUp {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes gearEnterLeft {
+  from { opacity: 0; transform: translate3d(-48px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes gearEnterCentre {
+  from { opacity: 0; filter: blur(8px); transform: translate3d(0, -24px, 0) scale(0.84); }
+  to { opacity: 1; filter: blur(0); transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes gearEnterRight {
+  from { opacity: 0; transform: translate3d(48px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes gearRotateClockwise {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gearRotateCounterClockwise {
+  from { transform: rotate(0); }
+  to { transform: rotate(-360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transformationAgenda:global(.active) .gear,
+  .transformationAgenda:global(.active) .gearTeeth,
+  .transformationAgenda:global(.active) .header .eyebrow,
+  .transformationAgenda:global(.active) .header .title,
+  .transformationAgenda:global(.active) .header .subtitle,
+  .transformationAgenda:global(.active) .areaItemShell,
+  .transformationAgenda:global(.active) .aiHeader span,
+  .transformationAgenda:global(.active) .aiHeader strong,
+  .transformationAgenda:global(.active) .aiPointShell,
+  .transformationAgenda:global(.active) .sources {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}

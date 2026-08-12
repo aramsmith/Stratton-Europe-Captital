@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "9",
+  "supersedesRevision": "8",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-8.json",
+  "generatedAt": "2026-08-02T15:08:10.9119864+02:00",
+  "changeReason": "Append-only STRATTON-CC-001 formal-review disposition recording AFF-A conformance, AFF-B divergence, preservation of the reviewed revision-8 subjects, and remediation round 2 without prospective candidate hashes.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-5",
+    "phaseId": "5",
+    "approvedDefault": "gpt-5.3-codex",
+    "selectedExactGptModelId": "gpt-5.3-codex",
+    "actualRuntimeModelId": "gpt-5.3-codex",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved coding default remains best suited to the active Phase 5 implementation and local validation work.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "ACTIVE_PHASE_5_PRESERVED_AUTHORITY_INTERFACE_FINALISATION_GATED"
+  },
+  "changeControl": {
+    "changeControlId": "STRATTON-CC-001",
+    "status": "FORMAL_REVIEW_DIVERGED_REMEDIATION_ROUND_2",
+    "affectedPhaseIds": [
+      "3",
+      "4"
+    ],
+    "approvedBaselinesPreserved": true,
+    "proposalApprovalGranted": false,
+    "phase5State": "ACTIVE",
+    "phase5Gate": "Authority-interface finalisation remains fail-closed pending revision-9 candidate manifests, complete AFF-A/AFF-B convergence on unchanged hashes and explicit human approval.",
+    "reviewedRevision8Subjects": [
+      {
+        "phaseId": "3",
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+        "sha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+        "status": "SUPERSEDED_AFTER_FORMAL_REVIEW",
+        "immutableHistoricalSubject": true
+      },
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json",
+        "sha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8",
+        "status": "SUPERSEDED_AFTER_FORMAL_REVIEW",
+        "immutableHistoricalSubject": true
+      }
+    ],
+    "nextCanonicalCandidateManifests": [
+      {
+        "phaseId": "3",
+        "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+        "status": "PENDING_AFTER_REMEDIATION",
+        "hashRecorded": false
+      },
+      {
+        "phaseId": "4",
+        "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json",
+        "status": "PENDING_AFTER_REMEDIATION",
+        "hashRecorded": false
+      }
+    ],
+    "bindingRule": "Revision 9 records no prospective remediated candidate hash. All revision-8 reviewed subject files remain byte-identical; remediation round 2 must use new revisioned paths and generate manifests only after the new subject is complete."
+  },
+  "formalReviews": {
+    "coverage": {
+      "sequence": "006",
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-006.json",
+      "sha256": "d85823693aebed0f790a81377d9e79e785db97c7f2322d0c904dfbf36deec78b",
+      "status": "ACTIVE_FOR_REVIEWED_REVISION_8_SUBJECTS"
+    },
+    "phase3": {
+      "manifestSha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+      "affA": {
+        "round": 4,
+        "path": "reviews/aff-a/3/round-4/stratton-aff-a-review.json",
+        "sha256": "6199029413b9cc75c594b443c676c522ed518f93b298cea0f878b06f23a78fdc",
+        "actualRuntimeModelId": "gpt-5.5",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 2
+        }
+      },
+      "affB": {
+        "round": 3,
+        "path": "reviews/aff-b/3/round-3/stratton-aff-b-review.json",
+        "sha256": "7f292ec5648d71b511260c16ace3fe403332412a2ef8a7e2c58c7bc2c328c165",
+        "actualRuntimeModelId": "gpt-5.6-sol",
+        "verdict": "DIVERGES",
+        "findingIds": [
+          "AFFB-CC001-MAJ-001",
+          "AFFB-CC001-MAJ-002"
+        ]
+      },
+      "sameUnchangedSubject": true,
+      "verdictConvergence": false
+    },
+    "phase4": {
+      "manifestSha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8",
+      "affA": {
+        "round": 4,
+        "path": "reviews/aff-a/4/round-4/stratton-aff-a-review.json",
+        "sha256": "73656e7433c9af192d385115b91ac6d8e952b1eb3fa3d683ea6daf360c03b0a9",
+        "actualRuntimeModelId": "gpt-5.5",
+        "verdict": "CONFORMS-WITH-GAPS",
+        "findingSummary": {
+          "BLOCKER": 0,
+          "MAJOR": 0,
+          "MINOR": 3
+        }
+      },
+      "affB": {
+        "round": 2,
+        "path": "reviews/aff-b/4/round-2/stratton-aff-b-review.json",
+        "sha256": "83d78067bd8b7100cd37c69138a6039585e662e92239ed1afb334e7c25ced438",
+        "actualRuntimeModelId": "gpt-5.6-sol",
+        "verdict": "DIVERGES",
+        "findingIds": [
+          "AFFB-CC001-MAJ-001",
+          "AFFB-CC001-MAJ-002"
+        ]
+      },
+      "sameUnchangedSubject": true,
+      "verdictConvergence": false
+    },
+    "overallOutcome": "DIVERGES",
+    "humanGateStatus": "BLOCKED"
+  },
+  "remediationRound2": {
+    "authoringAssignments": [
+      {
+        "agent": "AFF-3",
+        "phaseId": "3",
+        "approvedDefault": "gpt-5.6-sol",
+        "selectedExactGptModelId": "gpt-5.6-sol",
+        "actualRuntimeModelId": "gpt-5.6-sol",
+        "availability": "ACTIVE",
+        "assignmentStatus": "REMEDIATION_ROUND_2_STARTED"
+      },
+      {
+        "agent": "AFF-4",
+        "phaseId": "4",
+        "approvedDefault": "gpt-5.6-sol",
+        "selectedExactGptModelId": "gpt-5.6-sol",
+        "actualRuntimeModelId": "gpt-5.6-sol",
+        "availability": "ACTIVE",
+        "assignmentStatus": "REMEDIATION_ROUND_2_STARTED"
+      }
+    ],
+    "requiredRemediation": [
+      {
+        "id": "AFFB-CC001-MAJ-001",
+        "title": "Assurance supply-chain authority remains concentrated and the dedicated repository boundary is undefined",
+        "requiredOutcome": "Define an independently administered Internal Audit source-control boundary and split repository acceptance, reproducible build, release signing, ACR push, deployment and operations across separately authorised identities and approval steps with immutable provenance and negative cross-role tests."
+      },
+      {
+        "id": "AFFB-CC001-MAJ-002",
+        "title": "Signed receipt and trust evidence are not immutably bound to signing time and exact trust snapshots",
+        "requiredOutcome": "Bind signed time, purpose, algorithm policy, trust registry, signer mapping, key-validity evidence and revocation/compromise disposition into each signed record or immutable verification snapshot covered by the record hash and retained for the full record/legal-hold period."
+      }
+    ],
+    "reviewerModelsPreserved": {
+      "affA": {
+        "approvedDefaultModelId": "gpt-5.5",
+        "selectedExactGptModelId": "gpt-5.5",
+        "actualRuntimeModelId": "gpt-5.5"
+      },
+      "affB": {
+        "approvedDefaultModelId": "gpt-5.6-sol",
+        "selectedExactGptModelId": "gpt-5.6-sol",
+        "actualRuntimeModelId": "gpt-5.6-sol"
+      }
+    }
+  },
+  "constraints": [
+    "The approved Phase 3 and Phase 4 baselines, approvals and historical hashes remain unchanged.",
+    "Every revision-8 subject artifact and manifest reviewed by AFF-A/AFF-B is immutable and must not be overwritten.",
+    "Remediation round 2 must use new revisioned subject and manifest paths bound to model-plan revision 9.",
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every subsequent STRATTON-CC-001 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every subsequent STRATTON-CC-001 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "Phase 5 remains active, but authority-interface finalisation stays fail-closed until formal review convergence and explicit human approval.",
+    "No Azure operation, deployment, what-if or runtime test is authorised by this change-control record."
+  ]
+}

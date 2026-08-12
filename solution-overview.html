@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="case-name" content="Stratton-Europe-Captital">
+  <meta name="artifact-prefix" content="stratton">
+  <meta name="phase-0-manifest-sha256" content="6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec">
+  <meta name="phase-1-manifest-sha256" content="b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a">
+  <meta name="phase-1-approval-sha256" content="ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a">
+  <meta name="phase-2-manifest-sha256" content="8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9">
+  <meta name="phase-2-approval-sha256" content="61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3">
+  <meta name="phase-3-manifest-sha256" content="78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945">
+  <meta name="phase-3-approval-sha256" content="f6f9de73a70ef3376b90a0ea467ac5d35531f970d362a84bd3b653d35b8a85f3">
+  <meta name="phase-4-manifest-sha256" content="87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4">
+  <meta name="phase-4-approval-sha256" content="305e897a63291bb592d24ced46cc372e6ab2034d46eaca100d7af8db6490c0b5">
+  <meta name="phase-5-manifest-sha256" content="bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626">
+  <meta name="phase-5-approval-sha256" content="f39fbd68d4574f77e7d31d5fb7608739a1e472fa808fc91b14969009a27b1cd4">
+  <title>Stratton Europe Capital — AFF solution overview</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font: 16px/1.55 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: var(--cp-link); }
+    code { font-family: Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 32px auto; }
+    header, .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+    header { padding: 28px; margin-bottom: 16px; }
+    h1 { margin: 4px 0 12px; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.08; }
+    h2 { margin: 0 0 16px; }
+    h3 { margin: 0 0 8px; }
+    p { margin: 8px 0; }
+    .eyebrow { color: var(--cp-accent); font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .muted { color: var(--cp-text-muted); }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .pill { border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 5px 10px; font-weight: 800; }
+    .success { color: var(--cp-success); }
+    .warning { color: var(--cp-warning); }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    .card { grid-column: span 6; padding: 22px; }
+    .full { grid-column: 1 / -1; }
+    .metric { color: var(--cp-accent); font-size: 2.2rem; font-weight: 850; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid var(--cp-border); padding: 10px; text-align: left; vertical-align: top; }
+    th { background: var(--cp-surface-soft); }
+    ol, ul { margin: 8px 0; padding-left: 22px; }
+    li { margin: 7px 0; }
+    .callout { background: var(--cp-accent-soft); border-left: 4px solid var(--cp-accent); padding: 14px; border-radius: 0.625rem; }
+    footer { color: var(--cp-text-muted); padding: 20px 4px; }
+    @media (max-width: 760px) {
+      .card { grid-column: 1 / -1; }
+      table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="eyebrow">Agentic Architecture Factory</div>
+      <h1>Stratton Europe Capital</h1>
+      <p class="muted">Human-governed architecture case overview.</p>
+      <div class="pills">
+        <span class="pill success">Phase 0 approved</span>
+        <span class="pill success">Phase 1 approved</span>
+        <span class="pill success">Phase 2 approved</span>
+        <span class="pill success">Phase 3 approved</span>
+        <span class="pill success">Phase 4 approved</span>
+        <span class="pill success">Phase 5 approved</span>
+        <span class="pill success">Phase 6 r7 approved</span>
+        <span class="pill warning">Phase 6 r8 reviewed, unapproved and superseded</span>
+        <span class="pill warning">Phase 6 r9 frozen, reviewed, immutable and unapproved</span>
+        <span class="pill warning">Phase 6 r10 frozen; AFF-A round 10 diverged; remediation required; unapproved</span>
+        <span class="pill warning">Phase 6 r12 assured; governed preview live; final visual review pending; unapproved</span>
+        <span class="pill warning">3 authority conflicts · 14 owner controls · 2 retained gaps</span>
+      </div>
+      <p><strong>Latest approval:</strong> <code>STRATTON-PHASE-6-APPROVAL-001</code> by <code>@aramsmith</code> at <code>2026-08-10T12:06:01.351+02:00</code>.</p>
+      <p><strong>Active process:</strong> <code>EVT-0248</code> binds Luna AFF-A round 12 <code>686e7cfb…33ba</code>, Terra AFF-B round 8 <code>5edc1393…be2d</code> and active coverage 026 <code>4f70138b…dfbc</code> to frozen r12 manifest <code>888d1619…94d0c</code>, full-tree hash <code>b0ce24ac…a9245</code>, 180 artifacts, 20 slides, 38 claims, 69 references and deterministic PDF <code>9e7ad562…e00f7</code>. Both reviews returned <code>CONFORMS-WITH-GAPS</code> with zero findings. The governed preview is live at <a href="http://127.0.0.1:5178/"><code>http://127.0.0.1:5178/</code></a> under PID <code>28328</code>. The r12 candidate remains unapproved and unchanged. Frozen r11 remains immutable; all three canonical residual gates remain open and unwaived; external distribution remains blocked; Phase 7 and Phase 8 remain <code>NOT_INVOKED</code>.</p>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <div class="eyebrow">Approved requirements</div>
+        <div class="metric">31</div>
+        <p>Active, sourced requirements with 31 stable acceptance tests and 96% interview confidence.</p>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Standard route</div>
+        <div class="metric">Active</div>
+        <p>Phase 6 r7 remains approved and immutable. R8, r9, r10 and frozen r11 remain immutable history. R12 is frozen, assured and unapproved; Luna AFF-A round 12 and Terra AFF-B round 8 completed with zero findings, coverage 026 is active, and the governed loopback preview is ready for final visual review. No r12 decision record exists. Optional Phases 7 and 8 remain <code>NOT_INVOKED</code>.</p>
+      </article>
+
+      <article class="card full">
+        <h2>Lifecycle state</h2>
+        <table>
+          <thead><tr><th>Phase</th><th>State</th><th>Governed basis</th></tr></thead>
+          <tbody>
+            <tr><td>Phase 0 — Coordinate</td><td class="success"><strong>APPROVED</strong></td><td><a href="approvals/0/stratton-phase-0-approval-1.json">Approval 001</a>; journal events EVT-0013 and EVT-0014</td></tr>
+            <tr><td>Phase 1 — Requirements</td><td class="success"><strong>APPROVED</strong></td><td><a href="approvals/1/stratton-phase-1-approval-1.json">Approval 001</a>; journal event EVT-0017</td></tr>
+            <tr><td>Phase 2 — TOGAF Architecture</td><td class="success"><strong>APPROVED</strong></td><td><a href="approvals/2/stratton-phase-2-approval-1.json">Approval 001</a>; ten architecture decisions accepted</td></tr>
+            <tr><td>Phase 3 — Azure Design</td><td class="success"><strong>APPROVED</strong></td><td><a href="approvals/3/stratton-phase-3-approval-1.json">Approval 001</a>; Citadel Azure design accepted as the baseline</td></tr>
+            <tr><td>Phase 4 — Implementation Plan</td><td class="success"><strong>APPROVED</strong></td><td><a href="approvals/4/stratton-phase-4-approval-1.json">Approval 001</a>; implementation baseline accepted with seven controls open</td></tr>
+            <tr><td>Phase 5 — Coding</td><td class="success"><strong>APPROVED</strong></td><td><a href="approvals/5/stratton-phase-5-approval-1.json">Approval 001</a>; revision 4 accepted with residual controls open and unwaived</td></tr>
+            <tr><td>Phase 6 — C-level Presentation</td><td class="warning"><strong>APPROVED_R7 + IMMUTABLE_R8_R9_R10_R11_HISTORY + R12_ASSURANCE_COMPLETE_FINAL_VISUAL_REVIEW_PENDING</strong></td><td><a href="approvals/6/stratton-phase-6-approval-1.json">Approval 001</a> applies only to r7; r8-r11 remain immutable history; r12 is frozen, assured and unapproved with its governed preview ready for final visual review</td></tr>
+            <tr><td>Phases 7–8</td><td><strong>NOT_INVOKED</strong></td><td>Separate human authorisation and invocation required</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 6 - approved r7, immutable r8-r11 history and frozen r12</h2>
+        <div class="callout">
+          <strong>Approved only on the immutable r7 baseline.</strong> R8-r11 remain append-only historical evidence. Revision 119 governs frozen r12 manifest <code>888d1619…94d0c</code>, 180 artifacts and full-tree hash <code>b0ce24ac…a9245</code>. Luna AFF-A round 12 and Terra AFF-B round 8 completed with <code>CONFORMS-WITH-GAPS</code> and zero findings against this unchanged subject; coverage 026 is active. The governed loopback preview is live at <code>http://127.0.0.1:5178/</code> under PID <code>28328</code>. The r12 candidate remains unapproved. The canonical residual gates remain open and unwaived; external distribution remains blocked; Phase 7 and Phase 8 remain <code>NOT_INVOKED</code>.
+        </div>
+        <table>
+          <tbody>
+            <tr><th>Approved canonical manifest</th><td><a href="6-presentation-r7/stratton-phase-6-hashes.json"><code>cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03</code></a></td></tr>
+            <tr><th>Approved presentation record</th><td><a href="6-presentation-r7/stratton-presentation.html">Presentation HTML</a> · <a href="6-presentation-r7/stratton-presentation.md">authoritative Markdown</a> · <a href="6-presentation-r7/deck/dist/index.html">browser deck</a></td></tr>
+            <tr><th>Historical r8 subject</th><td><a href="6-presentation-r8/stratton-presentation.html">Presentation HTML</a> · <a href="6-presentation-r8/stratton-presentation.md">authoritative Markdown</a> · <a href="6-presentation-r8/stratton-claim-catalogue.json">claim catalogue</a> · <a href="6-presentation-r8/stratton-phase-6-hashes.json">canonical manifest</a> · <a href="reviews/aff-a/6/round-8/stratton-aff-a-review.json">AFF-A round 8</a> · <a href="reviews/aff-b/6/round-5/stratton-aff-b-review.json">AFF-B round 5</a></td></tr>
+            <tr><th>Frozen r9 candidate</th><td><a href="6-presentation-r9/stratton-presentation.html">Presentation HTML</a> · <a href="6-presentation-r9/stratton-presentation.md">authoritative Markdown</a> · <a href="6-presentation-r9/stratton-claim-catalogue.json">claim catalogue</a> · <a href="6-presentation-r9/stratton-phase-6-hashes.json">replacement canonical manifest</a> · <a href="6-presentation-r9/evidence/browser-assurance/slide-09-dev-activated.png">Slide 9 dev screenshot</a></td></tr>
+            <tr><th>Frozen r10 candidate</th><td><a href="6-presentation-r10/stratton-presentation.html">Presentation HTML</a> · <a href="6-presentation-r10/stratton-presentation.md">authoritative Markdown</a> · <a href="6-presentation-r10/stratton-claim-catalogue.json">claim catalogue</a> · <a href="6-presentation-r10/stratton-phase-6-hashes.json"><code>3239babb9893bea3c1c356651ee29487bf5ea124fb0d0d1f0613dac5d5b493fe</code></a> · <a href="6-presentation-r10/deck/deck.pdf">deterministic PDF</a> · <a href="reviews/aff-a/6/round-10/stratton-aff-a-review.json">AFF-A round 10 DIVERGES</a></td></tr>
+            <tr><th>Frozen r11 candidate</th><td><a href="6-presentation-r11/stratton-presentation.html">Presentation HTML</a> · <a href="6-presentation-r11/stratton-presentation.md">authoritative Markdown</a> · <a href="6-presentation-r11/stratton-claim-catalogue.json">claim catalogue</a> · <a href="6-presentation-r11/stratton-phase-6-hashes.json"><code>e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4</code></a> · <a href="6-presentation-r11/deck/deck.pdf">deterministic PDF</a> · <a href="6-presentation-r11/evidence/r10-r11-parity.json">parity evidence</a></td></tr>
+            <tr><th>Frozen r12 candidate</th><td><a href="6-presentation-r12/stratton-phase-6-hashes.json"><code>888d1619a5c085dad0abfd47c34d478c8580ced876377c2291e34f28e2094d0c</code></a> · <a href="6-presentation-r12/stratton-presentation.html">Presentation HTML</a> · <a href="6-presentation-r12/stratton-presentation.md">authoritative Markdown</a> · <a href="6-presentation-r12/stratton-claim-catalogue.json">claim catalogue</a> · <a href="6-presentation-r12/deck/deck.pdf">deterministic PDF</a></td></tr>
+            <tr><th>Active model plan</th><td><a href="0-coordination/stratton-model-plan-revision-119.json"><code>251687266430187b7af9a379505715222cee15f65ac5bb07c3dd4e617927c852</code></a> · Sol r12 visual-remediation author -&gt; Luna AFF-A round 12 review -&gt; Terra AFF-B round 8 review</td></tr>
+            <tr><th>Candidate state</th><td><code>R12_ASSURANCE_COMPLETE_FINAL_VISUAL_REVIEW_PENDING</code>; the r12 candidate remains unapproved at 180 artifacts, 20 slides, 38 material claims and 69 references. Luna AFF-A round 12 and Terra AFF-B round 8 both returned <code>CONFORMS-WITH-GAPS</code> with zero findings; coverage 026 is active. The governed loopback preview is live at <code>http://127.0.0.1:5178/</code> under PID <code>28328</code>. No r12 human decision record exists. Frozen r11 remains immutable. The asset-rights owner gate remains open, external distribution remains blocked, and Phase 7 and Phase 8 remain <code>NOT_INVOKED</code>.</td></tr>
+            <tr><th>R12 AFF-A round 12</th><td><a href="reviews/aff-a/6/round-12/stratton-aff-a-review.json">Round 12</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings, Luna, <code>686e7cfb…33ba</code>; exact frozen r12 manifest retained</td></tr>
+            <tr><th>R12 AFF-B round 8</th><td><a href="reviews/aff-b/6/round-8/stratton-aff-b-review.json">Round 8</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings, Terra, <code>5edc1393…be2d</code>; exact frozen r12 manifest retained</td></tr>
+            <tr><th>R10 AFF-A round 10</th><td><a href="reviews/aff-a/6/round-10/stratton-aff-a-review.json">Round 10</a> — <code>DIVERGES</code>, 0 blocker / 1 major / 0 minor, Luna, <code>c47eed6e…fbbc</code>; same-manifest progression stopped</td></tr>
+            <tr><th>Approved r7 assurance</th><td><a href="reviews/aff-a/6/round-7/stratton-aff-a-review.json">AFF-A round 7</a> and <a href="reviews/aff-b/6/round-4/stratton-aff-b-review.json">AFF-B round 4</a> bind the approved r7 subject</td></tr>
+            <tr><th>R9 AFF-A final</th><td><a href="reviews/aff-a/6/round-9/stratton-aff-a-review.json">Round 9</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings, Luna, <code>fc6c9225…c237</code></td></tr>
+            <tr><th>R9 AFF-B final</th><td><a href="reviews/aff-b/6/round-6/stratton-aff-b-review.json">Round 6</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings, Terra, <code>0a6ccda4…fb81</code></td></tr>
+            <tr><th>Historical r8 reviews</th><td><a href="reviews/aff-a/6/round-8/stratton-aff-a-review.json">AFF-A round 8</a> and <a href="reviews/aff-b/6/round-5/stratton-aff-b-review.json">AFF-B round 5</a> — both <code>CONFORMS-WITH-GAPS</code>, zero findings, preserved without approval</td></tr>
+            <tr><th>Coverage</th><td><a href="reviews/aff-b/coverage/stratton-compliance-coverage-026.json">Active sequence 026</a> · <code>4f70138b…dfbc</code>; sequence 025 remains immutable r11 evidence. <code>P6-R11-V17</code>, <code>P6-R9-OWNER-001</code> and <code>P6-R9-BOUNDARY-001</code> remain open, fail closed and unwaived; external distribution remains blocked.</td></tr>
+            <tr><th>Approval</th><td><a href="approvals/6/stratton-phase-6-approval-1.json"><code>f93ced2eb5811dbfc9a792ff2fc37bc888c441cf67af7f675a872d131198723f</code></a> applies only to r7; r9-r12 approval remain false</td></tr>
+            <tr><th>Route status</th><td>Phase 6 r7 is approved and immutable. Phase 6 r8-r11 remain immutable history. Phase 6 r12 is frozen, assured and unapproved with its governed loopback preview ready for final visual review. No deployment or runtime activity occurred. Phase 7 deployment and Phase 8 runtime testing remain <strong>NOT_INVOKED</strong>.</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 5 assurance</h2>
+        <div class="callout">
+          <strong>Approved as a local, statically validated package.</strong> AFF-A round 4 and AFF-B round 2 both returned <code>CONFORMS-WITH-GAPS</code> with zero findings against the same unchanged revision-4 manifest. Three authority conflicts, fourteen owner-bound controls and two retained AFF-B minor gaps remain open and unwaived.
+        </div>
+        <table>
+          <tbody>
+            <tr><th>Canonical manifest</th><td><a href="5-coding-r4/stratton-phase-5-hashes.json"><code>bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626</code></a></td></tr>
+            <tr><th>Build report</th><td><a href="5-coding-r4/stratton-build-report.html">Build report HTML</a> · <a href="5-coding-r4/stratton-build-report.md">authoritative Markdown</a></td></tr>
+            <tr><th>AFF-A final</th><td><a href="reviews/aff-a/5/round-4/stratton-aff-a-review.json">Round 4</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>AFF-B final</th><td><a href="reviews/aff-b/5/round-2/stratton-aff-b-review.json">Round 2</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>Coverage</th><td><a href="reviews/aff-b/coverage/stratton-compliance-coverage-009.json">Active sequence 009</a></td></tr>
+            <tr><th>Approval</th><td><a href="approvals/5/stratton-phase-5-approval-1.json"><code>f39fbd68d4574f77e7d31d5fb7608739a1e472fa808fc91b14969009a27b1cd4</code></a></td></tr>
+            <tr><th>Execution boundary</th><td>No Azure sign-in, target validation, what-if, deployment, retention finalisation or cloud runtime testing occurred or was authorised.</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 4 assurance</h2>
+        <div class="callout">
+          <strong>Approved with bounded controls.</strong> AFF-A round 3 and AFF-B round 1 both returned <code>CONFORMS-WITH-GAPS</code> with zero findings against the same unchanged implementation-plan manifest. Compliance coverage 005 preserves all 25 obligation clusters and 31 requirements.
+        </div>
+        <table>
+          <tbody>
+            <tr><th>Canonical manifest</th><td><a href="4-implementation-plan/stratton-phase-4-hashes.json"><code>87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4</code></a></td></tr>
+            <tr><th>Implementation plan</th><td><a href="4-implementation-plan/stratton-implementation-plan.html">Plan HTML</a> · <a href="4-implementation-plan/stratton-implementation-plan.md">authoritative Markdown</a></td></tr>
+            <tr><th>AFF-A final</th><td><a href="reviews/aff-a/4/round-3/stratton-aff-a-review.json">Round 3</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>AFF-B final</th><td><a href="reviews/aff-b/4/round-1/stratton-aff-b-review.json">Round 1</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>Coverage</th><td><a href="reviews/aff-b/coverage/stratton-compliance-coverage-005.json">Active sequence 005</a></td></tr>
+            <tr><th>Approval</th><td><a href="approvals/4/stratton-phase-4-approval-1.json"><code>305e897a63291bb592d24ced46cc372e6ab2034d46eaca100d7af8db6490c0b5</code></a></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 3 assurance</h2>
+        <div class="callout">
+          <strong>Approved with bounded controls.</strong> AFF-A round 3 and AFF-B round 2 both returned <code>CONFORMS-WITH-GAPS</code> with zero findings against the same unchanged Citadel design manifest. The seven owner-bound controls remain open and unwaived.
+        </div>
+        <table>
+          <tbody>
+            <tr><th>Canonical manifest</th><td><a href="3-azure-design/stratton-phase-3-hashes.json"><code>78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945</code></a></td></tr>
+            <tr><th>Azure design</th><td><a href="3-azure-design/stratton-azure-design.html">Citadel design HTML</a> · <a href="3-azure-design/stratton-azure-design.md">authoritative Markdown</a></td></tr>
+            <tr><th>AFF-A final</th><td><a href="reviews/aff-a/3/round-3/stratton-aff-a-review.json">Round 3</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>AFF-B final</th><td><a href="reviews/aff-b/3/round-2/stratton-aff-b-review.json">Round 2</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>Approval</th><td><a href="approvals/3/stratton-phase-3-approval-1.json"><code>f6f9de73a70ef3376b90a0ea467ac5d35531f970d362a84bd3b653d35b8a85f3</code></a></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card full">
+        <h2>Phase 2 assurance</h2>
+        <div class="callout">
+          <strong>Approved with bounded validation gaps.</strong> AFF-A round 1 and AFF-B round 1 both returned <code>CONFORMS-WITH-GAPS</code> with zero findings against the same unchanged canonical manifest.
+        </div>
+        <table>
+          <tbody>
+            <tr><th>Canonical manifest</th><td><a href="2-togaf-architecture/stratton-phase-2-hashes.json"><code>8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9</code></a></td></tr>
+            <tr><th>AFF-A final</th><td><a href="reviews/aff-a/2/round-1/stratton-aff-a-review.json">Round 1</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>AFF-B final</th><td><a href="reviews/aff-b/2/round-1/stratton-aff-b-review.json">Round 1</a> — <code>CONFORMS-WITH-GAPS</code>, zero findings</td></tr>
+            <tr><th>Approval</th><td><a href="approvals/2/stratton-phase-2-approval-1.json"><code>61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3</code></a></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card">
+        <h2>Open Phase 5 boundaries</h2>
+        <ol>
+          <li>Three authority interfaces remain blocked: assurance verdict issuance, analysis execution, and audit evidence export.</li>
+          <li>Fourteen owner-bound controls remain fail closed until their named owners provide evidence.</li>
+          <li>Two retained AFF-B minor gaps remain open and unwaived.</li>
+          <li>Runtime behaviour, operating effectiveness, deployment readiness and compliance certification are not claimed.</li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <h2>Primary artifacts</h2>
+        <ul>
+          <li><a href="0-coordination/stratton-model-plan-revision-119.json">Phase 6 r12 active model plan revision 119</a></li>
+          <li><a href="6-presentation-r12/stratton-phase-6-hashes.json">Phase 6 r12 canonical manifest · 888d1619…94d0c</a></li>
+          <li><a href="6-presentation-r12/deck/deck.pdf">Phase 6 r12 deterministic 20-page PDF · 9e7ad562…e00f7</a></li>
+          <li><a href="6-presentation-r12/evidence/phase-validation.json">Phase 6 r12 validation evidence</a></li>
+          <li><a href="0-coordination/stratton-phase-6-r12-aff-a-round-12-invocation-authorization.json">Phase 6 r12 AFF-A round 12 invocation authorization · bfdbd05e…6ec9</a></li>
+          <li><a href="reviews/aff-a/6/round-12/stratton-aff-a-review.json">Phase 6 r12 AFF-A round 12 review · CONFORMS-WITH-GAPS · zero findings · 686e7cfb…33ba</a></li>
+          <li><a href="0-coordination/stratton-phase-6-r11-aff-a-round-11-invocation-authorization.json">Phase 6 r11 AFF-A round 11 invocation authorization · 0aecc69c…549ca</a></li>
+          <li><a href="reviews/aff-a/6/round-11/stratton-aff-a-review.json">Phase 6 r11 AFF-A round 11 review · CONFORMS-WITH-GAPS · zero findings · 05699c64…23d3</a></li>
+          <li><a href="0-coordination/stratton-phase-6-r11-aff-b-round-7-invocation-authorization.json">Phase 6 r11 AFF-B round 7 invocation authorization · 34036a22…62a7</a></li>
+          <li><a href="reviews/aff-b/6/round-7/stratton-aff-b-review.json">Phase 6 r11 AFF-B round 7 review · CONFORMS-WITH-GAPS · zero findings · 0d20fb5e…a2c</a></li>
+          <li><a href="reviews/aff-b/coverage/stratton-compliance-coverage-025.json">Phase 6 r11 active coverage 025 · 2941f39c…dfce</a></li>
+          <li><a href="6-presentation-r11/stratton-presentation.html">Phase 6 r11 frozen presentation</a></li>
+          <li><a href="6-presentation-r11/stratton-presentation.md">Phase 6 r11 frozen presentation Markdown</a></li>
+          <li><a href="6-presentation-r11/stratton-claim-catalogue.json">Phase 6 r11 frozen claim catalogue</a></li>
+          <li><a href="6-presentation-r11/stratton-phase-6-hashes.json">Phase 6 r11 canonical manifest · e7197da1…19d4</a></li>
+          <li><a href="6-presentation-r11/deck/deck.pdf">Phase 6 r11 deterministic PDF</a></li>
+          <li><a href="6-presentation-r11/evidence/r10-r11-parity.json">Phase 6 r11 r10/r11 parity evidence</a></li>
+          <li><a href="0-coordination/stratton-model-plan-revision-117.json">Phase 6 r10 active model plan revision 117</a></li>
+          <li><a href="6-presentation-r10/stratton-presentation.html">Phase 6 r10 frozen presentation</a></li>
+          <li><a href="6-presentation-r10/stratton-presentation.md">Phase 6 r10 frozen presentation Markdown</a></li>
+          <li><a href="6-presentation-r10/stratton-claim-catalogue.json">Phase 6 r10 frozen claim catalogue</a></li>
+          <li><a href="6-presentation-r10/stratton-phase-6-hashes.json">Phase 6 r10 canonical manifest · 3239babb…93fe</a></li>
+          <li><a href="6-presentation-r10/deck/deck.pdf">Phase 6 r10 deterministic PDF</a></li>
+          <li><a href="0-coordination/stratton-model-plan-revision-116.json">Phase 6 r9 preserved model plan</a></li>
+          <li><a href="6-presentation-r9/stratton-presentation.html">Phase 6 r9 frozen presentation</a></li>
+          <li><a href="6-presentation-r9/stratton-presentation.md">Phase 6 r9 frozen presentation Markdown</a></li>
+          <li><a href="6-presentation-r9/stratton-claim-catalogue.json">Phase 6 r9 frozen claim catalogue</a></li>
+          <li><a href="6-presentation-r9/stratton-phase-6-hashes.json">Phase 6 r9 replacement canonical manifest</a></li>
+          <li><a href="0-coordination/stratton-model-plan-revision-116-scope-amendment-1.json">Phase 6 r9 scope amendment 1</a></li>
+          <li><a href="0-coordination/stratton-phase-6-r9-aff-b-round-6-invocation-authorization.json">Phase 6 r9 AFF-B round 6 invocation authorization</a></li>
+          <li><a href="reviews/aff-a/6/round-9/stratton-aff-a-review.html">Phase 6 r9 AFF-A round 9 final review</a></li>
+          <li><a href="reviews/aff-b/6/round-6/stratton-aff-b-review.html">Phase 6 r9 AFF-B round 6 final review</a></li>
+          <li><a href="reviews/aff-b/coverage/stratton-compliance-coverage-024.json">Phase 6 r9 active compliance coverage 024</a></li>
+          <li><a href="0-coordination/stratton-model-plan-revision-115.json">Phase 6 r8 historical model plan</a></li>
+          <li><a href="6-presentation-r8/stratton-presentation.html">Phase 6 r8 immutable historical presentation</a></li>
+          <li><a href="6-presentation-r8/stratton-phase-6-hashes.json">Phase 6 r8 immutable historical manifest</a></li>
+          <li><a href="6-presentation-r7/stratton-presentation.html">Phase 6 approved presentation</a></li>
+          <li><a href="6-presentation-r7/stratton-phase-6-hashes.json">Phase 6 canonical manifest</a></li>
+          <li><a href="reviews/aff-a/6/round-7/stratton-aff-a-review.html">Phase 6 approved r7 AFF-A final review</a></li>
+          <li><a href="reviews/aff-b/6/round-4/stratton-aff-b-review.html">Phase 6 approved r7 AFF-B final review</a></li>
+          <li><a href="approvals/6/stratton-phase-6-approval-1.json">Phase 6 immutable approval</a></li>
+          <li><a href="5-coding-r4/stratton-build-report.html">Phase 5 build report</a></li>
+          <li><a href="5-coding-r4/stratton-release-manifest.json">Phase 5 release manifest</a></li>
+          <li><a href="5-coding-r4/stratton-phase-5-hashes.json">Phase 5 canonical manifest</a></li>
+          <li><a href="reviews/aff-a/5/round-4/stratton-aff-a-review.html">Phase 5 AFF-A final review</a></li>
+          <li><a href="reviews/aff-b/5/round-2/stratton-aff-b-review.html">Phase 5 AFF-B final review</a></li>
+          <li><a href="approvals/5/stratton-phase-5-approval-1.json">Phase 5 immutable approval</a></li>
+          <li><a href="4-implementation-plan/stratton-implementation-plan.html">Phase 4 implementation plan</a></li>
+          <li><a href="4-implementation-plan/stratton-implementation-catalogue.json">Implementation catalogue</a></li>
+          <li><a href="4-implementation-plan/stratton-phase-4-hashes.json">Phase 4 canonical manifest</a></li>
+          <li><a href="approvals/4/stratton-phase-4-approval-1.json">Phase 4 immutable approval</a></li>
+          <li><a href="3-azure-design/stratton-azure-design.html">Citadel Azure design</a></li>
+          <li><a href="3-azure-design/stratton-design-catalogue.json">Azure design catalogue</a></li>
+          <li><a href="3-azure-design/stratton-phase-3-hashes.json">Phase 3 canonical manifest</a></li>
+          <li><a href="approvals/3/stratton-phase-3-approval-1.json">Phase 3 immutable approval</a></li>
+          <li><a href="2-togaf-architecture/stratton-architecture.html">TOGAF architecture</a></li>
+          <li><a href="2-togaf-architecture/stratton-architecture-catalogue.json">Architecture catalogue</a></li>
+          <li><a href="1-requirements/stratton-requirements.html">Requirements document</a></li>
+          <li><a href="1-requirements/stratton-requirements-catalogue.json">Requirements catalogue</a></li>
+          <li><a href="1-requirements/stratton-interview-decisions.json">Interview decisions</a></li>
+          <li><a href="phase-status-dashboard.html">Live phase status dashboard</a></li>
+          <li><a href="stratton-run-journal.jsonl">Append-only run journal</a></li>
+        </ul>
+      </article>
+    </section>
+
+    <footer>
+      Authoritative phase artifacts, immutable approvals, canonical manifests, final reviewer records, and the append-only journal take precedence over this compact overview.
+    </footer>
+  </main>
+</body>
+</html>

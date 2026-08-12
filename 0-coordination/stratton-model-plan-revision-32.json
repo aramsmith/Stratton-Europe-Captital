@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "32",
+  "createdAt": "2026-08-03T17:46:45.4684890+02:00",
+  "revisionReason": "Clarify slide 2 as two vertically ordered primary panels and apply horizontal fly-in motion to those panels rather than their internal cards.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-31.json",
+    "sha256": "47092905f0ab977897ecf3b8a04cac7111b4afc5131f53bc8ff6ba5c8662ff5a",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 2,
+    "layout": [
+      "Our story panel first.",
+      "Where Stratton is today panel directly underneath."
+    ],
+    "motion": [
+      "Our story enters horizontally from the left.",
+      "Where Stratton is today enters horizontally from the right."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

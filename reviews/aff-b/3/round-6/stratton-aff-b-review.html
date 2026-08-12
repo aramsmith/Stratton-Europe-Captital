@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stratton AFF-B Phase 3 round 6 review</title>
+<style>
+body{font:16px/1.5 system-ui,sans-serif;color:#172033;margin:2rem auto;max-width:1100px;padding:0 1rem}h1,h2{color:#102a56}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #c8d1df;padding:.65rem;text-align:left;vertical-align:top}th{background:#edf3fb}.ok{color:#176b3a;font-weight:700}.gap{color:#805b00;font-weight:700}code{overflow-wrap:anywhere}@media print{body{max-width:none;margin:0}table{font-size:10pt}}
+</style>
+</head>
+<body>
+<h1>Security and Compliance Reviewer — Phase 3 — Azure Design round 6</h1>
+<p><strong>Change:</strong> STRATTON-CC-002 R2 · <strong>Verdict:</strong> <span class="gap">CONFORMS-WITH-GAPS</span><br>
+<strong>Reviewer selected/actual:</strong> gpt-5.6-terra · <strong>Author actual:</strong> gpt-5.6-sol · <strong>Model-plan revision:</strong> 111<br>
+<strong>R2 manifest:</strong> <code>357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e</code><br>
+<strong>Original retained:</strong> <code>2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a</code></p>
+<h2>Scope and verification</h2>
+<p>Twelve R2 candidate files were independently raw-byte hashed, parsed where JSON, and copied byte-identically to the reviewed subject. All 11 manifest entries match; the R2 manifest remained unchanged. The original manifest and all 11 original live files remain unchanged and match both prior snapshots. Markdown/HTML headings match 13/13, the anomaly rows remain separate, and no external script source exists.</p>
+<h2>Prior AFF-B findings</h2>
+<table><thead><tr><th>ID</th><th>Status</th><th>Disposition</th></tr></thead><tbody>
+<tr><td>AFFB-CC002-MAJ-001</td><td class="ok">ADDRESSED</td><td>Primary/recovery EU allow-list and DataZoneStandard evidence, authority, boundaries and deny/queue semantics are explicit and fail closed.</td></tr>
+<tr><td>AFFB-CC002-MAJ-002</td><td class="ok">ADDRESSED</td><td>Twelve immutable gates have explicit pass criteria, evidence IDs, owners and fail-closed outcomes in all three contracts.</td></tr>
+<tr><td>AFFB-CC002-MAJ-003</td><td class="ok">ADDRESSED</td><td>Claim-bound official-source, licence/use and provider-use evidence is present; absent terms or permission denies enablement.</td></tr>
+<tr><td>AFFB-CC002-MAJ-004</td><td class="ok">ADDRESSED</td><td>Five lifecycle classes cover minimisation, retention, deletion, legal hold, DSR, redaction, integrity, recovery and owners.</td></tr>
+<tr><td>AFFB-CC002-MIN-001</td><td class="ok">ADDRESSED</td><td>Static verification confirms exact Markdown/HTML parity for 13 headings and the substantive anomaly rows.</td></tr>
+</tbody></table>
+<h2>Applicability boundaries and residual gaps</h2>
+<p>GDPR remains confirmed only to the existing register boundary. EU AI Act role/use-case classification is not inferred. DORA applicability remains conditional pending accountable-human confirmation. Provider terms, source AI-use permissions, resources, regions, allow-lists, deployments, quota, capacity and retention are owner-bound and fail closed. No Azure, security-gate, recovery or lifecycle operating-effectiveness evidence was performed.</p>
+<h2>Verdict and required action</h2>
+<p>No new finding: BLOCKER 0, MAJOR 0, MINOR 0. <strong>finalRoundStatus: true</strong> for the exact retainable R2 bytes. Preserve them, obtain AFF-A round 7 against this same manifest, then present converged reviews and residual gaps for an explicit human decision. Do not promote, deploy or test first.</p>
+<p><small>Architecture security and compliance assurance only; not legal advice, certification, attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.</small></p>
+</body>
+</html>

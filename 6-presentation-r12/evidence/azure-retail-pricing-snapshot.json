@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_AZURE_RETAIL_PRICING_SNAPSHOT",
+  "generatedAt": "2026-08-10T00:36:00.2283808+02:00",
+  "apiVersion": "2023-01-01-preview",
+  "query": "serviceName eq 'API Management' and armRegionName eq 'westeurope' and priceType eq 'Consumption'",
+  "region": "westeurope",
+  "currency": "USD",
+  "primaryMeterOnly": true,
+  "apimPremiumV2": {
+    "serviceName": "API Management",
+    "skuName": "Premium v2",
+    "armSkuName": "Premium v2",
+    "meterName": "Premium v2 Unit",
+    "retailPriceUsdPerHour": 3.83562,
+    "unitOfMeasure": "1 Hour",
+    "effectiveStartDate": "2024-01-01T00:00:00Z",
+    "monthlyHours": 730,
+    "monthlyCostUsd": 2800
+  },
+  "apimStandardV2Comparison": {
+    "serviceName": "API Management",
+    "skuName": "Standard v2",
+    "armSkuName": "Standard v2",
+    "meterName": "Standard v2 Unit",
+    "retailPriceUsdPerHour": 0.9589,
+    "unitOfMeasure": "1 Hour",
+    "effectiveStartDate": "2024-03-01T00:00:00Z",
+    "monthlyHours": 730,
+    "monthlyCostUsd": 700
+  },
+  "reconciliation": {
+    "priorSku": "Standard v2",
+    "currentSku": "Premium v2",
+    "monthlyDeltaUsd": 2100.01,
+    "reason": "The approved Phase 5 r7 parameter files use PremiumV2 capacity 1 in dev, test and production; the Phase 6 cost shape now follows that current package while retaining the Phase 3 Standard v2 variance explicitly."
+  },
+  "boundary": "Public retail input evidence only. Taxes, support, discounts, negotiated terms, actual consumption, approved GPT-5.6 route pricing and target-specific Azure costs are excluded.",
+  "overallStatus": "PASS"
+}

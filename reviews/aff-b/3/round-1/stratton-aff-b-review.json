@@ -1,0 +1,332 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_PHASE_REVIEW",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "runtimeIdentityEvidence": "The active human invocation explicitly states exact actual runtime model gpt-5.6-sol, matching the AFF-B assignment in model-plan revision 4. AFF-B is permitted to use the same runtime model as AFF-3; reviewer role, identity and write scope remain independent.",
+    "complexityReassessment": {
+      "regulatoryComplexity": "HIGH",
+      "securityComplexity": "HIGH",
+      "evidenceComplexity": "HIGH",
+      "contextComplexity": "HIGH_BUT_TRACTABLE",
+      "rationale": "The frozen Phase 3 subject combines highly confidential investment data, private Azure networking, six-subscription separation, privileged access, independent Internal Audit assurance, regional AI, evidence immutability, recovery, conditional DORA and EU AI Act boundaries, and 31 requirements across 24 hash-bound artifacts. The approved AFF-B default remains the best-suited available GPT model.",
+      "selectedDefaultRemainsSuitable": true,
+      "runScopedOverrideRequired": false,
+      "humanOverrideApprovalRequired": false
+    }
+  },
+  "case": {
+    "caseName": "Stratton-Europe-Captital",
+    "artifactPrefix": "stratton"
+  },
+  "phase": {
+    "phaseId": "3",
+    "phaseName": "Phase 3 — Azure Design",
+    "owner": "AFF-3"
+  },
+  "round": 1,
+  "reviewTime": "2026-08-02T02:40:34.5455293+02:00",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-4.json",
+    "revision": "4",
+    "manifestEntrySha256": "51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-sol",
+    "affBModelRelationshipStatus": "ALLOWED_SAME_EXACT_MODEL_INDEPENDENT_ROLE_AND_WRITE_SCOPE",
+    "availability": "ACTIVE",
+    "changedForThisReview": false
+  },
+  "scope": [
+    "Complete 24-artifact canonical Phase 3 Azure design subject and independent verification receipt",
+    "Approved 31 Must requirements, 19 Architecture Building Blocks and Architecture Decisions AD-001 through AD-010",
+    "Citadel composition of Azure Landing Zones, Azure-Samples Foundry Citadel guidance and Sovereign Landing Zone policy overlays",
+    "Management-group, six-subscription, tenant administration, production/nonproduction and Internal Audit independence boundaries",
+    "Human access, Conditional Access, phishing-resistant MFA, PIM, emergency access, managed identities, Entra-only SQL and role-assignment ownership",
+    "Hub/spoke routing, Firewall Premium, NSGs, central Private DNS Resolver, private endpoints, private-only Application Gateway and APIM ingress",
+    "Public-network denial for SQL and supported platform, data and AI services",
+    "Evidence envelopes, admission, privacy, classification, retention, legal hold, telemetry redaction, immutable evidence and hash-chain integrity",
+    "Regional AI, provider data-use evidence, model/version/quota gates, prohibited training and autonomous actions, human review and non-authoritative output",
+    "Sovereignty, transfer, DORA, EU AI Act, official-source, benchmark and support-definition conditionality",
+    "RTO/RPO, SQL PITR/LTR/failover, Blob recovery, Service Bus replay, evidence preservation and incident/restore ownership",
+    "Pinned supply-chain candidates, validation gates and deployment-identity restrictions",
+    "Fail-closed unknown tenant, subscription, location, network, capacity, retention and legal values",
+    "Phase boundary: no code, deployment, what-if, runtime, certification, residency guarantee or achieved-SLA claim"
+  ],
+  "assuranceBoundary": "Architecture assurance only. This record is not legal advice, legal or regulatory certification, formal compliance attestation, a waiver, approval, deployment evidence or runtime evidence.",
+  "canonicalReviewedEvidenceSet": {
+    "canonicalSubjectManifest": {
+      "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes.json",
+      "sha256": "a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f",
+      "expectedSha256FromInvocation": "a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f",
+      "modelPlanRevision": "4",
+      "hashAlgorithm": "SHA-256",
+      "artifactCount": 24,
+      "hashVerificationStatus": "LOCAL_RECOMPUTE_ALL_24_MATCH_MANIFEST_AND_RETAINED_RECEIPT",
+      "independentReceiptPath": "cases/Stratton-Europe-Captital/3-azure-design/evidence/stratton-phase-3-hash-verification-receipt.json",
+      "independentReceiptManifestSha256": "a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f",
+      "independentReceiptAllEntriesMatch": true
+    },
+    "affAFinalReview": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-2/stratton-aff-a-review.json",
+      "sha256": "0941110ee0ee36b54c8544e65f5618c7f8ecb94c78a5ea5c3142215bd92e50ee",
+      "round": 2,
+      "verdict": "CONFORMS-WITH-GAPS",
+      "findings": 0,
+      "finalRoundForManifest": true,
+      "canonicalManifestSha256": "a3c33f79915b840a2552b632c7b8c117c152924562319559f672949906276a6f",
+      "modelPlanRevision": "4",
+      "relationshipToThisReview": "AFF-A's no-finding result does not waive or supersede AFF-B's independent security and compliance findings."
+    },
+    "activeRetainedCoverage": {
+      "sequence": "004",
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-004.json",
+      "sha256": "aaa1b82d7ae19b1fe11feeec9e6ed345f8ad6c0811c722e7c5f0f0cd5bf974fe",
+      "status": "ACTIVE_PHASE_2_LOGICAL_COVERAGE_USED_AS_RETAINED_CONTEXT",
+      "newCoverageRecordCreated": false,
+      "reason": "The active invocation authorises creation only of the two Phase 3 round-1 review records."
+    }
+  },
+  "artifactsReviewed": [
+    {"path":"3-azure-design/stratton-azure-design.md","role":"authoritative-markdown","manifestSha256":"6d9d7d3a2aedac6f5c2a2ba1e8e2f72e730399f37fff96f8cd94f6457495d4cc","localRecomputedSha256":"6d9d7d3a2aedac6f5c2a2ba1e8e2f72e730399f37fff96f8cd94f6457495d4cc","status":"MATCH"},
+    {"path":"3-azure-design/stratton-azure-design.html","role":"rendered-html","manifestSha256":"4fc51d42368a41e8fbeb746a620edd253263534388ca380495e0f83591329995","localRecomputedSha256":"4fc51d42368a41e8fbeb746a620edd253263534388ca380495e0f83591329995","status":"MATCH"},
+    {"path":"3-azure-design/stratton-design-catalogue.json","role":"catalogue","manifestSha256":"33866009aa4d04a1b5ac62acd6c4f8f4245f7af239e927b6273381becaac0dc2","localRecomputedSha256":"33866009aa4d04a1b5ac62acd6c4f8f4245f7af239e927b6273381becaac0dc2","status":"MATCH"},
+    {"path":"3-azure-design/diagrams/stratton-solution-lz-topology.drawio","role":"diagram","manifestSha256":"a573bb54064ae0af8f69ccad262e659ca4be1855768bab17e4710d8473c09dac","localRecomputedSha256":"a573bb54064ae0af8f69ccad262e659ca4be1855768bab17e4710d8473c09dac","status":"MATCH"},
+    {"path":"3-azure-design/diagrams/stratton-solution-lz-topology.svg","role":"diagram","manifestSha256":"82d7ffcb0e08d20978d8e28cd4116f699702b6da7fef402b044867ea3ec10982","localRecomputedSha256":"82d7ffcb0e08d20978d8e28cd4116f699702b6da7fef402b044867ea3ec10982","status":"MATCH"},
+    {"path":"3-azure-design/diagrams/stratton-network-security-boundaries.drawio","role":"diagram","manifestSha256":"a9d50c26393fa1e6228b1a97b74e0b45f949b0ee5096b040761d63e5eebae920","localRecomputedSha256":"a9d50c26393fa1e6228b1a97b74e0b45f949b0ee5096b040761d63e5eebae920","status":"MATCH"},
+    {"path":"3-azure-design/diagrams/stratton-network-security-boundaries.svg","role":"diagram","manifestSha256":"5283129bba2a47ebf17f0e383b457e6055abd3d42bb49fee459e331b5c74b986","localRecomputedSha256":"5283129bba2a47ebf17f0e383b457e6055abd3d42bb49fee459e331b5c74b986","status":"MATCH"},
+    {"path":"3-azure-design/diagrams/stratton-end-to-end-data-flow.drawio","role":"diagram","manifestSha256":"45516c0867bea48c8415ed3ed9fec485843c3412329a2e76017261a364eb9d1e","localRecomputedSha256":"45516c0867bea48c8415ed3ed9fec485843c3412329a2e76017261a364eb9d1e","status":"MATCH"},
+    {"path":"3-azure-design/diagrams/stratton-end-to-end-data-flow.svg","role":"diagram","manifestSha256":"5427ebe55477d3f922a739b0637fdbd89ee475584314ea228f7fcf9f0ad03358","localRecomputedSha256":"5427ebe55477d3f922a739b0637fdbd89ee475584314ea228f7fcf9f0ad03358","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-aff4-handoff.json","role":"evidence","manifestSha256":"298c0a668de3826d7cdb14c3d48290cd75b726a4372b786100e4200209083e08","localRecomputedSha256":"298c0a668de3826d7cdb14c3d48290cd75b726a4372b786100e4200209083e08","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-candidate-validation.json","role":"evidence","manifestSha256":"3c3d664673f73e94bc6aece4316478b362a7bd8ab91589b31e497393adcef9ad","localRecomputedSha256":"3c3d664673f73e94bc6aece4316478b362a7bd8ab91589b31e497393adcef9ad","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-citadel-landing-zone-contract.json","role":"evidence","manifestSha256":"64f7992ab54f9e8dd6ace2751468206ed6a0200f452fe30fc2a93660bdb7854e","localRecomputedSha256":"64f7992ab54f9e8dd6ace2751468206ed6a0200f452fe30fc2a93660bdb7854e","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-data-api-contracts.json","role":"evidence","manifestSha256":"16fbff5164cb574c815e8171edc5091fb308d8f7d016e68fcabc0f33c29441fe","localRecomputedSha256":"16fbff5164cb574c815e8171edc5091fb308d8f7d016e68fcabc0f33c29441fe","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-human-decision-register.json","role":"evidence","manifestSha256":"a5c9d614981f237054c464e3390adeb88b7484b9bf2c51e4694d94f51168da6f","localRecomputedSha256":"a5c9d614981f237054c464e3390adeb88b7484b9bf2c51e4694d94f51168da6f","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-identity-rbac-contract.json","role":"evidence","manifestSha256":"06dc4700a33f78bf8e378264dd2c232516125d9f5a0b77f9cc832f50242dd443","localRecomputedSha256":"06dc4700a33f78bf8e378264dd2c232516125d9f5a0b77f9cc832f50242dd443","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-network-security-contract.json","role":"evidence","manifestSha256":"32e4ce9848af5ed366915b1bdf0f4a74d33285c34115e330b9225f8f75251364","localRecomputedSha256":"32e4ce9848af5ed366915b1bdf0f4a74d33285c34115e330b9225f8f75251364","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-operations-reliability-contract.json","role":"evidence","manifestSha256":"67e90602e4ce613c9eaeb66b8b279badf47b401c29506696adac1f034797ca87","localRecomputedSha256":"67e90602e4ce613c9eaeb66b8b279badf47b401c29506696adac1f034797ca87","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-source-register.json","role":"evidence","manifestSha256":"1ed1edb1c6a3555063f5b1d30165e568e0389480dabdb144fd012c203a12a5a2","localRecomputedSha256":"1ed1edb1c6a3555063f5b1d30165e568e0389480dabdb144fd012c203a12a5a2","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-traceability-matrix.json","role":"evidence","manifestSha256":"f68afb36774c5d490e6f6d9b805ca680bd72c5c97817a31323fa10e2a7e542c8","localRecomputedSha256":"f68afb36774c5d490e6f6d9b805ca680bd72c5c97817a31323fa10e2a7e542c8","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-waf-cost-environment-matrix.json","role":"evidence","manifestSha256":"cfd26b75c6dd064c3f77098546a2a36ceb459e64bb3d498c84af9be92e16ae97","localRecomputedSha256":"cfd26b75c6dd064c3f77098546a2a36ceb459e64bb3d498c84af9be92e16ae97","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-parent-validation-receipt.json","role":"evidence","manifestSha256":"1495355075c2bfc02a10214abd70d3595d5afbf9534810f2cf0ab0afe13f8892","localRecomputedSha256":"1495355075c2bfc02a10214abd70d3595d5afbf9534810f2cf0ab0afe13f8892","status":"MATCH"},
+    {"path":"0-coordination/stratton-model-plan-revision-4.json","role":"catalogue","manifestSha256":"51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f","localRecomputedSha256":"51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f","status":"MATCH"},
+    {"path":"iac/docs/architecture.md","role":"other","manifestSha256":"ef656d1b2a8b827457d24e5eca91699e72dfabb4f032c4f4dff679c88a2ec939","localRecomputedSha256":"ef656d1b2a8b827457d24e5eca91699e72dfabb4f032c4f4dff679c88a2ec939","status":"MATCH"},
+    {"path":"3-azure-design/evidence/stratton-phase-3-hash-generation-evidence.json","role":"evidence","manifestSha256":"2921818eb756371f334af28829bcfc1e983d712f6d7776c9e29af71ee06d79c3","localRecomputedSha256":"2921818eb756371f334af28829bcfc1e983d712f6d7776c9e29af71ee06d79c3","status":"MATCH"}
+  ],
+  "additionalRecordsRead": [
+    ".github/agents/AFF-B-security-compliance.agent.md",
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json",
+    ".github/copilot-instructions.md",
+    ".github/schemas/aff-phase-hashes.schema.json",
+    "1-requirements/stratton-requirements-catalogue.json",
+    "1-requirements/stratton-interview-decisions.json",
+    "1-requirements/stratton-phase-1-hashes.json",
+    "2-togaf-architecture/stratton-architecture-catalogue.json",
+    "2-togaf-architecture/stratton-phase-2-hashes.json",
+    "approvals/1/stratton-phase-1-approval-1.json",
+    "approvals/2/stratton-phase-2-approval-1.json",
+    "reviews/aff-b/2/round-1/stratton-aff-b-review.json",
+    "reviews/aff-b/coverage/stratton-compliance-coverage-004.json",
+    "reviews/aff-a/3/round-2/stratton-aff-a-review.json",
+    "stratton-decisions.md",
+    "stratton-risk-log.md",
+    "stratton-regulatory-register.md"
+  ],
+  "upstreamBinding": {
+    "phase1ApprovalSha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a",
+    "phase1ManifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "phase2ApprovalSha256": "61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3",
+    "phase2ManifestSha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+    "phase2FinalAffBReviewSha256": "fa7d3be880821f00c008403331bfb5ba4ccd05ac0211c2cbdbcc0f1c2eaa1245",
+    "approvedMustRequirements": 31,
+    "approvedArchitectureBuildingBlocks": 19,
+    "approvedArchitectureDecisions": 10,
+    "sevenResidualControlsUnwaived": true,
+    "bindingStatus": "APPROVED_UPSTREAM_BASELINES_PRESERVED"
+  },
+  "traceabilityVerification": {
+    "mustRequirements": {"approved":31,"mapped":31,"missing":[],"status":"COMPLETE"},
+    "architectureBuildingBlocks": {"approved":19,"mapped":19,"missing":[],"status":"COMPLETE"},
+    "architectureDecisions": {"approved":10,"preserved":10,"missing":[],"status":"COMPLETE"},
+    "solutionBuildingBlocks": {"defined":23,"allReferenced":true,"danglingReferences":[],"status":"COMPLETE"},
+    "governedResidualControls": {"approved":7,"carried":7,"waived":0,"status":"COMPLETE"}
+  },
+  "confirmedControlOutcomes": [
+    {
+      "controlOutcome": "Citadel accurately composes Azure Landing Zones, Azure-Samples Foundry Citadel guidance and sovereign policy overlays without representing Foundry Citadel as a Microsoft product, certification or ALZ replacement.",
+      "evidence": ["stratton-azure-design.md section 2","stratton-citadel-landing-zone-contract.json composition","stratton-source-register.json SRC-AZ-001, SRC-AZ-025, SRC-AZ-026 and SRC-AZ-027"]
+    },
+    {
+      "controlOutcome": "Management, connectivity, AI governance, nonproduction, production and Internal Audit assurance are separated across six distinct subscriptions with independently owned assurance roles.",
+      "evidence": ["stratton-citadel-landing-zone-contract.json subscriptions and separationAssertions","stratton-identity-rbac-contract.json citadelSeparation","SBB-20 and SBB-22"]
+    },
+    {
+      "controlOutcome": "Human and workload identity boundaries use Entra identities, PIM, phishing-resistant MFA, managed identities, Entra-only SQL and a separately activated role-assignment executor; emergency-account specifics remain tenant-owned rather than invented.",
+      "evidence": ["stratton-identity-rbac-contract.json principles, workloadIdentities, pimSettings and sqlAuthorisation","stratton-aff4-handoff.json module 6"]
+    },
+    {
+      "controlOutcome": "Hub/spoke routing, Firewall Premium, NSGs, central private DNS, no environment peering, private-only Application Gateway feature registration and evidence-gated egress are stated fail closed.",
+      "evidence": ["stratton-network-security-contract.json topology, flowRules and egressControls","stratton-aff4-handoff.json modules 4, 5 and 13"]
+    },
+    {
+      "controlOutcome": "Source authority, permission, licence, purpose, classification, retention, legal hold, privacy, telemetry redaction, immutable evidence and Internal Audit verdict ownership have concrete data and API contracts.",
+      "evidence": ["stratton-data-api-contracts.json dataContract, entities, API operations and connectorContract","stratton-operations-reliability-contract.json telemetryContract","SBB-08, SBB-13, SBB-14 and SBB-20"]
+    },
+    {
+      "controlOutcome": "Regional AI remains private, assistive and non-authoritative; Global/DataZone deployments, fine-tuning, autonomous tools and foundation-model training are denied, while model/version/quota and provider evidence have no defaults.",
+      "evidence": ["stratton-azure-design.md sections 5 and 10","stratton-aff4-handoff.json module 11 and required parameters","stratton-data-api-contracts.json trainingBoundary and AnalysisRun"]
+    },
+    {
+      "controlOutcome": "The design does not overstate DORA compliance, EU AI Act classification, certification, residency, runtime operation or achieved SLA/RTO/RPO; all seven inherited controls remain visible in formal evidence despite intentional dashboard omission.",
+      "evidence": ["stratton-azure-design.md sections 7 and 9","stratton-traceability-matrix.json governedValidationControls","approvals/2/stratton-phase-2-approval-1.json residualGaps"]
+    },
+    {
+      "controlOutcome": "Supply-chain handoff pins candidate versions and requires Foundry Citadel revision pinning, AVM digest/lock evidence, Bicep/PSRule/schema/secret/image/licence checks and restricted deployment identities.",
+      "evidence": ["stratton-aff4-handoff.json plannedLocalValidation and releaseSequenceConstraints","stratton-source-register.json SRC-AZ-024 and SRC-AZ-025"]
+    }
+  ],
+  "assessment": [
+    {"focus":"REQUIREMENTS_ABB_DECISION_TO_SBB_TRACEABILITY","status":"CONFORMS","evidence":"Independent set comparison found 31/31 Must requirements, 19/19 ABBs and AD-001 through AD-010 mapped to valid SBB identifiers; all 23 SBBs are used and no dangling reference exists."},
+    {"focus":"CITADEL_COMPOSITION_AND_CLAIM_ACCURACY","status":"CONFORMS","evidence":"The ALZ foundation, Azure-Samples adaptation and sovereign overlays are differentiated. No product, certification or achieved-sovereignty claim is made."},
+    {"focus":"IDENTITY_PRIVILEGE_AND_INDEPENDENCE","status":"CONFORMS","evidence":"PIM, phishing-resistant MFA, controlled emergency access, separate managed identities, Entra-only SQL, role-assignment separation and Internal Audit ownership form a coherent least-privilege path without circular self-assignment."},
+    {"focus":"PRIVATE_INGRESS_AND_PUBLIC_NETWORK_DENIAL","status":"DIVERGES","evidence":"Application Gateway is correctly gated, but APIM private endpoint creation is not paired with an explicit enforceable publicNetworkAccess=Disabled assertion. Microsoft documents that the public endpoint must be disabled separately after private endpoint configuration."},
+    {"focus":"SOVEREIGNTY_BACKUP_LOCATION_AND_TRANSFER","status":"DIVERGES","evidence":"The design prohibits implicit geo-pairs yet does not bind Azure SQL STR/LTR backup storage redundancy. Azure SQL defaults new production databases to geo-redundant backup storage replicated to a paired region."},
+    {"focus":"DATA_ADMISSION_PRIVACY_RECORDS_AND_AUDIT","status":"CONFORMS-WITH-GAPS","evidence":"Admission, minimisation, classification, lifecycle, redaction, legal hold, WORM, hash-chain and verdict ownership are concrete; exact schedules, sources and formal legal mappings remain open under VAL-004 and AFFB-RES-002."},
+    {"focus":"AI_GOVERNANCE_PROVIDER_USE_AND_HUMAN_AUTHORITY","status":"CONFORMS-WITH-GAPS","evidence":"Regional private inference, no training/fine-tuning/autonomous tools, versioned evidence, suspension on changes and mandatory human authority are clear. Role/use-case classification remains open under AFFB-RES-001."},
+    {"focus":"DORA_AND_EU_AI_ACT_CONDITIONALITY","status":"CONFORMS-WITH-GAPS","evidence":"Entity-specific DORA applicability and AI Act classification remain explicitly open and unwaived; no unsupported compliance or classification claim is present."},
+    {"focus":"RESILIENCE_AND_RECORDS_OBLIGATIONS","status":"DIVERGES","evidence":"SQL, Blob, Search, Service Bus, audit and verdict recovery responsibilities are otherwise coherent, but SQL backup location is not fail-closed and can conflict with the approved-location boundary."},
+    {"focus":"SUPPLY_CHAIN_AND_PHASE_4_5_HANDOFF","status":"CONFORMS-WITH-GAPS","evidence":"The design specifies pinned candidates and comprehensive local validation; exact registry availability, digests, locks and service capabilities are correctly deferred as mandatory evidence rather than claimed."},
+    {"focus":"FAIL_CLOSED_UNKNOWN_VALUES","status":"CONFORMS","evidence":"Tenant, subscription, region, CIDR, WAN, DNS, capacity, retention, support, model/quota and legal values have no invented production defaults, apart from the unbound Azure SQL platform backup default identified as a finding."},
+    {"focus":"PHASE_BOUNDARY_AND_UNSUPPORTED_CLAIMS","status":"CONFORMS","evidence":"No Bicep implementation, deployment, what-if, runtime test, certification or achieved service-level claim is asserted."},
+    {"focus":"HTML_AND_DIAGRAM_SAFETY","status":"CONFORMS","evidence":"The subject HTML is self-contained apart from ordinary hyperlinks; SVG and draw.io files parse, SVGs contain no script, foreignObject or external resource reference."}
+  ],
+  "authoritativeSourcesVerified": [
+    {
+      "title": "Automatic, Geo-Redundant Backups - Azure SQL Database",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/automated-backups-overview?view=azuresql",
+      "publisher": "Microsoft Learn",
+      "documentDate": "2026-07-13",
+      "retrievedAt": "2026-08-02",
+      "relevantEvidence": "New Azure SQL databases default to geo-redundant backup storage replicated to a paired region. LRS or ZRS must be selected to keep STR and LTR backups in the database region."
+    },
+    {
+      "title": "Set up inbound private endpoint for Azure API Management",
+      "url": "https://learn.microsoft.com/en-us/azure/api-management/private-endpoint",
+      "publisher": "Microsoft Learn",
+      "documentDate": "2026-06-09",
+      "retrievedAt": "2026-08-02",
+      "relevantEvidence": "Standard v2 supports inbound private endpoints, but public network access can be disabled only after the private endpoint is configured; the private endpoint alone does not establish private-only ingress."
+    },
+    {
+      "title": "Private Application Gateway deployment",
+      "url": "https://learn.microsoft.com/en-us/azure/application-gateway/application-gateway-private-deployment",
+      "publisher": "Microsoft Learn",
+      "documentDate": "2025-12-18",
+      "retrievedAt": "2026-08-02",
+      "relevantEvidence": "Private-IP-only Application Gateway v2 is generally available and requires EnableApplicationGatewayNetworkIsolation feature registration, matching the design's fail-closed gate."
+    },
+    {
+      "title": "Data, privacy, and security for Foundry Models sold by Azure",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy",
+      "publisher": "Microsoft Learn",
+      "documentDate": "2026-05-18",
+      "retrievedAt": "2026-08-02",
+      "relevantEvidence": "Prompts, completions and customer data are not used to train foundation models without permission; processing geography differs for Global or DataZone deployments, supporting the regional-only gate and provider-evidence requirement."
+    },
+    {
+      "title": "Regulation (EU) 2022/2554",
+      "url": "https://eur-lex.europa.eu/eli/reg/2022/2554/oj",
+      "publisher": "EUR-Lex",
+      "retrievedAt": "2026-08-02",
+      "relevantEvidence": "Official DORA text exists, but entity-specific scope and article mapping remain accountable legal work under VAL-001 and AFFB-RES-002."
+    },
+    {
+      "title": "Regulation (EU) 2024/1689",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "publisher": "EUR-Lex",
+      "retrievedAt": "2026-08-02",
+      "relevantEvidence": "Official AI Act text exists, but provider/deployer role and use-case classification remain accountable legal and AI-governance work under AFFB-RES-001 and AFFB-RES-002."
+    }
+  ],
+  "findings": [
+    {
+      "id": "AFFB-P3-R1-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Azure SQL backup storage redundancy is not bound to the signed region pair",
+      "evidence": [
+        "3-azure-design/evidence/stratton-operations-reliability-contract.json uses automated PITR backups and LTR/failover controls but specifies no SQL backupStorageRedundancy value.",
+        "3-azure-design/evidence/stratton-aff4-handoff.json module 9 and requiredParametersWithoutProductionDefaults omit SQL STR/LTR backup storage redundancy, and its compileTimeAndPolicyAssertions contain no guard against GRS or GZRS.",
+        "3-azure-design/evidence/stratton-citadel-landing-zone-contract.json states that replication is limited to the approved pair and that no implicit Azure geo-pair is accepted.",
+        "Microsoft Learn states that new Azure SQL databases default to geo-redundant backup storage replicated to a paired region, and that LRS or ZRS must be selected to keep STR and LTR backups in-region."
+      ],
+      "risk": "A Phase 4/5 implementation that follows the current handoff can silently accept Azure SQL's default GRS backup setting and replicate highly confidential production backups to an Azure paired region that is not one of the two signed-approved locations. This breaks SR-001, HD-003, VAL-005 and the design's fail-closed sovereignty claim, and can create an unapproved transfer before any runtime control detects it.",
+      "boundedRemediation": [
+        "Add an explicit per-environment Azure SQL STR/LTR backup-storage-redundancy parameter and policy assertion with no production default.",
+        "For each SQL database in primary and recovery, require LRS or ZRS only after region capability and approved-location evidence are validated; permit GRS/GZRS only through a later explicit legal/design decision proving the Azure paired secondary is approved and within the signed boundary.",
+        "Apply the choice to both short-term and long-term retention, record that changes affect future backups, and require configuration evidence before data admission.",
+        "Add Phase 4/5 tests that inspect the rendered ARM property and deployed configuration without claiming deployment in Phase 3.",
+        "Add the current Microsoft Learn automated-backups source to the source register and align the Markdown, catalogue, reliability contract, handoff, validation evidence and diagrams where materially affected."
+      ],
+      "owner": ["AFF-3 design owner","General Counsel","Data Protection Officer","CISO","AFF-4 implementation-plan owner"],
+      "manifestRegenerationRequired": true,
+      "gateEffect": "BLOCKS_PHASE_3_CONVERGENCE_AND_HUMAN_APPROVAL"
+    },
+    {
+      "id": "AFFB-P3-R1-MAJ-002",
+      "severity": "MAJOR",
+      "title": "APIM private endpoint is not coupled to explicit public gateway disablement",
+      "evidence": [
+        "3-azure-design/evidence/stratton-source-register.json SRC-AZ-019 says public network access is explicitly disabled after private DNS validation.",
+        "3-azure-design/evidence/stratton-network-security-contract.json creates an APIM private endpoint but its policyGuardrails list omits API Management public-network denial.",
+        "3-azure-design/evidence/stratton-aff4-handoff.json module 10 outputs only the APIM private endpoint; the compile assertion 'all supported data/AI services disable public network access' does not unambiguously include the API gateway.",
+        "Microsoft Learn states that an APIM private endpoint supports private ingress but public network access must be disabled separately, and only after the private endpoint is configured."
+      ],
+      "risk": "The API Management gateway can remain reachable through its public endpoint even while the documented private endpoint works. A caller could bypass the private Application Gateway WAF, enterprise-network registration gate and intended ingress path, increasing attack surface and contradicting the no-public-frontend and fail-closed network boundary.",
+      "boundedRemediation": [
+        "Make API Management publicNetworkAccess=Disabled explicit for dev, test, production-primary and production-recovery after private endpoint approval and private DNS resolution succeed.",
+        "Add an API Management-specific compile assertion, Azure Policy or deployment check, PSRule/custom rule and release evidence; a generic data/AI assertion is insufficient.",
+        "Require tests proving the public APIM gateway is unreachable and the private Application Gateway-to-APIM path remains functional; prohibit temporary or recovery fallback to the public gateway.",
+        "Align the network contract, AFF-4 handoff, catalogue, Markdown and validation receipt. Include App Configuration in the same explicit supported-service public-access review so the private configuration plane is not left to implication."
+      ],
+      "owner": ["AFF-3 design owner","Network Lead","CISO","API platform owner","AFF-4 implementation-plan owner"],
+      "manifestRegenerationRequired": true,
+      "gateEffect": "BLOCKS_PHASE_3_CONVERGENCE_AND_HUMAN_APPROVAL"
+    }
+  ],
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 2,
+    "MINOR": 0,
+    "unresolvedMajor": 2
+  },
+  "residualControls": [
+    {"id":"VAL-001","owner":"General Counsel","control":"Record entity-specific DORA applicability or exemption and resulting obligations.","requiredBefore":"Any formal DORA claim or scope-changing obligation","status":"OPEN_OWNER_BOUND_NOT_WAIVED"},
+    {"id":"VAL-002","owner":"Chief Investment Officer and Service Operations","control":"Approve business hours, typical document-pack characteristics and critical-alert criteria.","requiredBefore":"Service and performance acceptance","status":"OPEN_OWNER_BOUND_NOT_WAIVED"},
+    {"id":"VAL-003","owner":"Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer","control":"Approve eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions.","requiredBefore":"Internal Audit validation","status":"OPEN_OWNER_BOUND_NOT_WAIVED"},
+    {"id":"VAL-004","owner":"Source and records owners","control":"Map exact source instances, retention schedules, volumes and production quality-remediation procedures.","requiredBefore":"Production ingestion","status":"OPEN_OWNER_BOUND_NOT_WAIVED"},
+    {"id":"VAL-005","owner":"General Counsel","control":"Confirm approved EU/EEA locations and the sovereignty exception evidence process.","requiredBefore":"Production location and transfer acceptance","status":"OPEN_OWNER_BOUND_NOT_WAIVED"},
+    {"id":"AFFB-RES-001","owner":"General Counsel and Head of AI Governance","control":"Provide EU AI Act role and use-case classification evidence; neither high-risk nor non-high-risk status is asserted.","requiredBefore":"Production or any classification claim","status":"OPEN_OWNER_BOUND_NOT_WAIVED"},
+    {"id":"AFFB-RES-002","owner":"Legal and compliance owners; AFF-0 custodian","control":"Add official-source citations, publication/effective dates and article-level obligation mappings.","requiredBefore":"Any formal representation relying on the regulatory register","status":"OPEN_OWNER_BOUND_NOT_WAIVED"}
+  ],
+  "requiredActions": [
+    "AFF-3 must disposition both MAJOR findings without editing approved upstream baselines.",
+    "Accepted remediation must update the complete affected Phase 3 subject, regenerate the canonical Phase 3 manifest and independent receipt, and produce a new manifest SHA-256.",
+    "Because the changes are material, both AFF-A and AFF-B must re-review the complete new hash-bound subject; the current AFF-A round 2 and this AFF-B round 1 cannot converge with a changed manifest.",
+    "Do not present this exact manifest for Phase 3 human approval while either MAJOR finding remains unresolved.",
+    "Keep all seven inherited residual controls open and visible; remediation must not invent locations, legal conclusions, retention periods, capacity, tenant identifiers or network values."
+  ],
+  "verdict": "DIVERGES",
+  "verdictRationale": "The frozen subject has strong and complete logical traceability, coherent identity and assurance separation, bounded AI governance, explicit residual controls and an appropriate Phase 3 boundary. However, two concrete implementation-path defects remain: Azure SQL's default geo-redundant backup storage can silently replicate STR/LTR backups to an unapproved paired region, and an APIM private endpoint does not itself disable the public gateway. Both defects undermine core sovereignty and private-ingress requirements and are MAJOR. An unresolved MAJOR is incompatible with a conforming verdict.",
+  "finalRoundForManifest": true,
+  "finalRoundStatus": "FINAL_AFF_B_RESULT_FOR_MANIFEST_A3C33F79915B840A2552B632C7B8C117C152924562319559F672949906276A6F_AND_MODEL_PLAN_REVISION_4_NOT_GATE_CONVERGED",
+  "sameManifestAsFinalAffA": true,
+  "gateConvergenceStatus": "NOT_CONVERGED_DUE_TO_AFF_B_MAJOR_FINDINGS",
+  "nextAction": "Remediate AFFB-P3-R1-MAJ-001 and AFFB-P3-R1-MAJ-002, regenerate the complete Phase 3 canonical hash set and independently re-invoke AFF-A and AFF-B on the new unchanged manifest.",
+  "reviewRecordHashNote": "The final JSON and HTML SHA-256 values are computed after serialisation and reported in the HTML evidence table and the parent response. A record cannot safely contain its own final hash without self-reference.",
+  "nonApprovalStatement": "AFF-B provides architecture assurance only. This record does not approve, waive, certify, attest, deploy, test or modify the frozen subject."
+}

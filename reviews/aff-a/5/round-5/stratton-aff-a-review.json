@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 5 — Coding",
+  "phaseId": "5",
+  "phaseOwnerInvoker": "AFF-5",
+  "round": 5,
+  "reviewedAt": "2026-08-09T17:18:42.697+02:00",
+  "verdict": "DIVERGES",
+  "verdictRationale": "One unresolved MAJOR finding prevents evidence-bound convergence: validation and freeze records do not bind the retained PASS evidence to the exact frozen package input, and latest-evidence selection depends on filesystem modification time.",
+  "finalRoundForManifest": false,
+  "subjectModificationPerformed": false,
+  "reviewInputs": {
+    "task11Brief": {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-11-brief.md",
+      "sha256": "4ae5b9a0981934358e424ea78906be7a51dd814256d878336c620608f99b26d3"
+    },
+    "task11Report": {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-11-report.md",
+      "sha256": "bde3b33d4d2f25690fdf442e4ec8078f6d328fc368f0198b05f1fc4423802922"
+    },
+    "preReview": {
+      "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-11-pre-review.md",
+      "sha256": "13f1e9db243a2e9be38f6be15297b4dc2938e99d6876d47eb2587409a5f211ee"
+    }
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "phaseAuthorActualRuntimeModelIds": [
+      "gpt-5.6-sol"
+    ],
+    "authorFinalisationModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "selectionRationale": "The approved AFF-A default is gpt-5.5; Task 11 assigns gpt-5.6-luna for this review and the exposed actual runtime ID is gpt-5.6-luna, different from the gpt-5.6-sol Phase 5 author/finalisation model."
+  },
+  "reviewedSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r5",
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-phase-5-hashes.json",
+    "expectedManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "preReviewManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "postReviewManifestSha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f",
+    "prePostStatus": "UNCHANGED",
+    "manifestFileCount": 162,
+    "recomputedFileCount": 162,
+    "matchedFileCount": 162,
+    "missingFileCount": 0,
+    "hashMismatchCount": 0,
+    "duplicatePathCount": 0,
+    "ordinalPathOrdering": true,
+    "pathShapeViolationCount": 0,
+    "roleMissingCount": 0,
+    "manifestUtf8Bom": false,
+    "manifestTrailingNewline": false,
+    "releaseManifestPath": "cases/Stratton-Europe-Captital/5-coding-r5/stratton-release-manifest.json",
+    "releaseManifestSha256": "154543da6430cfbbdd91352b011ceef723a370e718540413dd10a456386bf49f",
+    "approvedR4ManifestPath": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+    "approvedR4ManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "approvedR4EntryCount": 155,
+    "approvedR4RecomputedMatched": 155
+  },
+  "priorRoundSupersession": {
+    "supersedesReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-4/stratton-aff-a-review.json",
+    "supersedesReviewSha256": "a808d4934d50c1b96c92e4dee1240ce4c277c7330c2e4644914f48c5e8a1981e",
+    "priorRound": 4,
+    "priorSubjectManifestPath": "cases/Stratton-Europe-Captital/5-coding-r4/stratton-phase-5-hashes.json",
+    "priorSubjectManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "relationship": "Round 4 covers approved r4; round 5 covers sibling r5. Round 4 is not modified."
+  },
+  "receipts": {
+    "modelReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/stratton-aff-a-model-receipt.json",
+      "sha256": "3b1ff4491f26f855707f4523ad69cd701ae6c183268e671bdade8c727266523b"
+    },
+    "hashVerificationReceipt": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/reviewed-subject/stratton-phase-5-hash-verification-receipt.json",
+      "sha256": "96d4807236c29cb7e0b4cc456e864bebc563d0c1de23601093e600bc357ee9c2"
+    },
+    "reviewedSubjectSnapshot": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/reviewed-subject/stratton-phase-5-hashes.json",
+      "sha256": "e73132030070a39fbf6cf121fc8fe2988ac7a944368aa2894527bf51d506fc0f"
+    },
+    "reviewMarkdown": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/stratton-aff-a-review.md",
+      "sha256": "2246b9729af8f3d6a971b8a00be65a4206a84d9be60a8cb4bcb9e020fbe6dd4e"
+    },
+    "reviewHtml": {
+      "path": "cases/Stratton-Europe-Captital/reviews/aff-a/5/round-5/stratton-aff-a-review.html",
+      "sha256": "f0e5d2f352bc9e3d80e02f42e7268d25b212d4fea851c5af90b45a53966bc001"
+    }
+  },
+  "findingSummary": {
+    "BLOCKER": 0,
+    "MAJOR": 1,
+    "MINOR": 0,
+    "CONFORMS": 0
+  },
+  "findings": [
+    {
+      "id": "AFFA-P5-R5-MAJ-001",
+      "severity": "MAJOR",
+      "title": "Validation evidence is not bound to the exact frozen package input",
+      "evidencePaths": [
+        "5-coding-r5/evidence/README.md",
+        "5-coding-r5/evidence/local-validation/20260809T145652575Z/index.json",
+        "5-coding-r5/evidence/local-validation/20260809T145652575Z/prerequisites.json",
+        "5-coding-r5/evidence/local-validation/20260809T145652575Z/application-validation.json",
+        "5-coding-r5/validation/Invoke-LocalValidation.ps1",
+        "5-coding-r5/validation/New-Phase5Hashes.ps1",
+        "5-coding-r5/validation/New-BuildReport.ps1",
+        "5-coding-r5/validation/Test-ReleaseEvidence.ps1"
+      ],
+      "owner": "AFF-5; validation-evidence owner",
+      "impact": "The retained PASS evidence is not proven to have been produced from the exact bytes later frozen by the canonical manifest; filesystem-mtime selection can bind stale or copied evidence.",
+      "requiredRemediation": "Compute and record a deterministic package/input aggregate hash before validation, require equality in every step/index and freeze script, select by embedded run identity rather than LastWriteTimeUtc, regenerate evidence/reports/manifests, and obtain new convergent AFF-A/AFF-B reviews.",
+      "status": "OPEN"
+    }
+  ],
+  "reviewAreas": [
+    {
+      "area": "Canonical integrity",
+      "status": "CONFORMS",
+      "evidence": "162/162 listed hashes matched; manifest format and ordering checks passed; release digest and approved r4 preservation matched."
+    },
+    {
+      "area": "Model independence",
+      "status": "CONFORMS",
+      "evidence": "Actual gpt-5.6-luna differs from author/finalisation gpt-5.6-sol."
+    },
+    {
+      "area": "Routing and model controls",
+      "status": "CONFORMS",
+      "evidence": "Caller model selection is rejected; deterministic application routing, DataZoneStandard, GlobalStandard denial, 2026-07-09 and NoAutoUpgrade are represented."
+    },
+    {
+      "area": "Blocked capabilities and authority",
+      "status": "CONFORMS",
+      "evidence": "BlockedAnalysisProvider, null benchmark observations, blocked promotion, authority conflicts and no autonomous authority are disclosed."
+    },
+    {
+      "area": "Evidence integrity and freeze logic",
+      "status": "DIVERGES",
+      "evidence": "MAJOR finding AFFA-P5-R5-MAJ-001."
+    },
+    {
+      "area": "Phase boundary",
+      "status": "CONFORMS",
+      "evidence": "No Azure activity, inference, promotion, retention finalisation or runtime test is claimed or performed."
+    }
+  ],
+  "residualGaps": [
+    "Exact Azure regions, resources and deployment IDs",
+    "Model capability, quota and positive capacity evidence",
+    "Embedding version, dimensions, chunking and rebuild evidence",
+    "Recovery/failover operating evidence",
+    "Provider terms, licences and source permissions",
+    "Retention, legal hold, privacy lifecycle and deletion evidence",
+    "GDPR, EU AI Act and DORA owner classification",
+    "Observed benchmark metrics",
+    "Pending AFF-B licence review"
+  ],
+  "requiredAction": "AFF-5 must remediate the open major evidence-binding finding and produce a new immutable candidate/review round. The human Phase 5 gate remains locked.",
+  "nonApprovalStatement": "AFF-A does not approve Phase 5, waive gaps, certify compliance, authorise Azure activity, authorise retention finalisation, authorise deployment or runtime testing, or provide human approval.",
+  "staticOnlyBoundary": "No package code, tests, npm, Bicep compilation, containers, scanners, Azure CLI, login, provider/subscription queries, target validation, what-if, deployment, inference, promotion, retention finalisation, or runtime tests were executed."
+}

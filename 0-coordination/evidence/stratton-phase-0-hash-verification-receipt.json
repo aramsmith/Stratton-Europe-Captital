@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "verifiedAt": "2026-08-01T20:11:10.165932+02:00",
+  "manifestPath": "0-coordination/stratton-phase-0-hashes.json",
+  "manifestSha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec",
+  "manifestArtifactCount": 12,
+  "generationTool": "PowerShell Get-FileHash (manifest and generation evidence)",
+  "independentVerificationTool": "Python 3.13.14 hashlib.sha256",
+  "allManifestEntriesMatch": true,
+  "checks": [
+    {
+      "path": "0-coordination/stratton-coordination.md",
+      "manifestSha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0",
+      "pythonSha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0",
+      "match": true
+    },
+    {
+      "path": "0-coordination/stratton-coordination.html",
+      "manifestSha256": "0934a429cb999889667b3111e61456d2f1f92f348e3c35f0f887ff1275a8432b",
+      "pythonSha256": "0934a429cb999889667b3111e61456d2f1f92f348e3c35f0f887ff1275a8432b",
+      "match": true
+    },
+    {
+      "path": "0-coordination/stratton-input-inventory.json",
+      "manifestSha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d",
+      "pythonSha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d",
+      "match": true
+    },
+    {
+      "path": "0-coordination/stratton-model-plan.json",
+      "manifestSha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+      "pythonSha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+      "match": true
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.pdf",
+      "manifestSha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "pythonSha256": "57c786e5bdfb0bfb8efec77fb7bd9839d150d3fe2e807373b22a667f7ed50e43",
+      "match": true
+    },
+    {
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "manifestSha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "pythonSha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "match": true
+    },
+    {
+      "path": "0-coordination/evidence/stratton-normalisation-validation.json",
+      "manifestSha256": "eef070843f2a93349b584f4ea48f1c4f7bb8601c4a00db7a880f11b0b94be24d",
+      "pythonSha256": "eef070843f2a93349b584f4ea48f1c4f7bb8601c4a00db7a880f11b0b94be24d",
+      "match": true
+    },
+    {
+      "path": "0-coordination/evidence/stratton-run-journal-phase-0-candidate.jsonl",
+      "manifestSha256": "2c317160032f7063551f8fbd743de1b34647ad47e0f9f42179393939627c9647",
+      "pythonSha256": "2c317160032f7063551f8fbd743de1b34647ad47e0f9f42179393939627c9647",
+      "match": true
+    },
+    {
+      "path": "stratton-decisions.md",
+      "manifestSha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca",
+      "pythonSha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca",
+      "match": true
+    },
+    {
+      "path": "stratton-risk-log.md",
+      "manifestSha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f",
+      "pythonSha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f",
+      "match": true
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "manifestSha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+      "pythonSha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+      "match": true
+    },
+    {
+      "path": "0-coordination/evidence/stratton-hash-generation-evidence.json",
+      "manifestSha256": "f13efaad00fb0260d3e4d369e1723500b546aaff6cce9ea7e90f33f49eb3e40f",
+      "pythonSha256": "f13efaad00fb0260d3e4d369e1723500b546aaff6cce9ea7e90f33f49eb3e40f",
+      "match": true
+    }
+  ],
+  "scopeNote": "This receipt verifies the canonical manifest and every artifact it lists. It is retained verification evidence rather than a subject artifact, avoiding a self-referential hash cycle."
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "CITADEL_LANDING_ZONE_COMPOSITION_CONTRACT",
+  "decisionStatus": "CONFIRMED_DESIGN_PATTERN_WITH_EXACT_PARAMETERS_PENDING",
+  "name": "Citadel",
+  "composition": {
+    "foundation": "Microsoft Azure Landing Zone enterprise-scale platform/application structure",
+    "aiGovernanceAdaptation": "Azure-Samples Foundry Citadel Platform opinionated layered AI-governance architecture",
+    "sovereigntyOverlay": "Azure Sovereign Landing Zone control principles and sovereign policy design",
+    "accuracyBoundary": "Foundry Citadel is adapted architecture guidance. It is not a standalone Microsoft product and does not replace Azure Landing Zones."
+  },
+  "managementGroups": [
+    {"name":"mg-citadel-platform","parent":"<citadelParentManagementGroupId>","children":["sub-citadel-management","sub-citadel-connectivity","sub-citadel-ai-governance"]},
+    {"name":"mg-citadel-landingzones","parent":"<citadelParentManagementGroupId>","children":["sub-citadel-stratton-nonprod","sub-citadel-stratton-prod"]},
+    {"name":"mg-citadel-assurance","parent":"<citadelParentManagementGroupId>","children":["sub-citadel-stratton-assurance-prod"]}
+  ],
+  "subscriptions": [
+    {"name":"sub-citadel-management","owner":"Enterprise Platform","dataBoundary":"Central policy evidence and platform telemetry only; no Stratton source documents","functions":["ALZ policy management","Defender integration","platform observability"]},
+    {"name":"sub-citadel-connectivity","owner":"Network Lead","dataBoundary":"Network and DNS control plane","functions":["primary regional hub","recovery regional hub","Azure Firewall Premium","Private DNS Resolver","central private DNS"]},
+    {"name":"sub-citadel-ai-governance","owner":"Head of AI Governance","dataBoundary":"Model, evaluation, policy and approval metadata only; no production inference or verdict","functions":["model approval references","evaluation policy","AI-use controls","governance artefacts"]},
+    {"name":"sub-citadel-stratton-nonprod","owner":"Enterprise Platform and Programme Delivery","dataBoundary":"Synthetic data only","functions":["development spoke","test spoke"]},
+    {"name":"sub-citadel-stratton-prod","owner":"Enterprise Platform and workload owners","dataBoundary":"Highly confidential production data","functions":["primary production spoke","warm recovery production spoke","regional workload services"]},
+    {"name":"sub-citadel-stratton-assurance-prod","owner":"Internal Audit","dataBoundary":"Independent acceptance evidence and verdict","functions":["regional immutable evidence stores","verdict creation and retention"]}
+  ],
+  "policyLayers": [
+    {"layer":"ALZ foundation","controls":["management-group inheritance","subscription placement","identity/network/management/governance baselines"]},
+    {"layer":"Citadel AI governance","controls":["model and deployment approval references","evaluation evidence","AI-use policy","no production inference in governance subscription"]},
+    {"layer":"Sovereign policy overlay","controls":["deny unapproved locations","deny public data/AI services","deny Global/DataZone AI","require private connectivity","require approved privileged operations and evidence"]},
+    {"layer":"Stratton workload controls","controls":["20-deal limit","source read-only","licence quarantine","human review","no training use","Internal Audit independence"]}
+  ],
+  "regionalPattern": {
+    "status": "CONFIRMED_TWO_REGION_PATTERN",
+    "primaryRegion":"<approvedPrimaryAzureRegion>",
+    "recoveryRegion":"<approvedRecoveryAzureRegion>",
+    "rules":["Both exact names require one signed evidence ID","AI deployments are regional only","Each region has a Citadel hub and production spoke","Replication is explicit and limited to the approved pair","No implicit Azure geo-pair is accepted without matching approval"]
+  },
+  "separationAssertions": [
+    "All six subscription IDs are distinct.",
+    "AI-governance administrators do not gain production data access through platform role.",
+    "Production delivery cannot assign or modify Internal Audit assurance roles.",
+    "Connectivity owns central private DNS; workload subscriptions cannot create duplicate zones.",
+    "Management telemetry must not contain Stratton document, prompt or completion bodies."
+  ],
+  "remainingFailClosedParameters": [
+    "citadelParentManagementGroupId",
+    "six Azure subscription IDs and billing scopes",
+    "owner/admin group object IDs",
+    "approvedPrimaryAzureRegion",
+    "approvedRecoveryAzureRegion",
+    "approvedLocationEvidenceId",
+    "Foundry Citadel repository commit/tag and adaptation record",
+    "ALZ and sovereign policy initiative versions"
+  ],
+  "sources": ["SRC-AZ-001","SRC-AZ-002","SRC-AZ-021","SRC-AZ-025","SRC-AZ-026","SRC-AZ-027"]
+}

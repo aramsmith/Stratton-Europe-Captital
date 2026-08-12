@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "formalReviewRound": 9,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R3",
+  "verifiedAt": "2026-08-06T11:33:35.325Z",
+  "hashAlgorithm": "SHA-256",
+  "encoding": "Raw file bytes; no newline or encoding normalisation",
+  "manifestPath": "4-implementation-plan/stratton-phase-4-hashes-cc-002-r3-proposed.json",
+  "expectedManifestSha256FromInvocation": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+  "manifestSha256BeforeReview": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+  "manifestSha256AfterSnapshot": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+  "manifestHashStatus": "MATCH_UNCHANGED",
+  "manifestArtifactCount": 6,
+  "candidateFileCount": 7,
+  "allManifestEntriesMatch": true,
+  "allReviewedSubjectSnapshotsByteIdentical": true,
+  "schemaValidation": {
+    "schemaPath": ".github/schemas/aff-phase-hashes.schema.json",
+    "status": "PASS_RECONFIRMED_FROM_IDENTICAL_AFF_B_ROUND_7_SUBJECT_AND_STRUCTURAL_CHECK",
+    "errorCount": 0,
+    "errors": []
+  },
+  "verifiedArtifacts": [
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-002-r3-candidate-validation.json",
+      "declaredRole": "evidence",
+      "declaredSha256": "6cdcd5dc2ffa5cb55f57d4d94f4fc733ddb242de140020edcf6323cb74c427f2",
+      "computedSha256": "6cdcd5dc2ffa5cb55f57d4d94f4fc733ddb242de140020edcf6323cb74c427f2",
+      "sizeBytes": 5361,
+      "creationTimeUtc": "2026-08-06T10:43:49.774Z",
+      "lastWriteTimeUtc": "2026-08-06T10:43:49.774Z",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-002-r3-change-control-evidence.json",
+      "declaredRole": "evidence",
+      "declaredSha256": "8abb313ab751533dacb182171cefc8690209033c03a5cfcd67f5ecb3157a6b6c",
+      "computedSha256": "8abb313ab751533dacb182171cefc8690209033c03a5cfcd67f5ecb3157a6b6c",
+      "sizeBytes": 5531,
+      "creationTimeUtc": "2026-08-06T10:43:49.775Z",
+      "lastWriteTimeUtc": "2026-08-06T10:43:49.775Z",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-002-r3-hash-generation-evidence.json",
+      "declaredRole": "evidence",
+      "declaredSha256": "fcecd82a12c7a7e0c02e0cf6933d3b1416b704d3c9d3e16b52cbc84a8663a174",
+      "computedSha256": "fcecd82a12c7a7e0c02e0cf6933d3b1416b704d3c9d3e16b52cbc84a8663a174",
+      "sizeBytes": 6219,
+      "creationTimeUtc": "2026-08-06T10:43:49.776Z",
+      "lastWriteTimeUtc": "2026-08-06T10:43:49.776Z",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-002-r3-phase-4-amendment.html",
+      "declaredRole": "rendered-html",
+      "declaredSha256": "4bfdf51533c30b507fafaeb92d55ea798b622b1aa514e10818c8b66aea47d9d4",
+      "computedSha256": "4bfdf51533c30b507fafaeb92d55ea798b622b1aa514e10818c8b66aea47d9d4",
+      "sizeBytes": 31196,
+      "creationTimeUtc": "2026-08-06T10:43:49.773Z",
+      "lastWriteTimeUtc": "2026-08-06T10:43:49.773Z",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-002-r3-phase-4-amendment.md",
+      "declaredRole": "authoritative-markdown",
+      "declaredSha256": "e094f7a711df6fba1b0084523ba206edbdef494c36f8567c0245f5fb98f5a4ab",
+      "computedSha256": "e094f7a711df6fba1b0084523ba206edbdef494c36f8567c0245f5fb98f5a4ab",
+      "sizeBytes": 28098,
+      "creationTimeUtc": "2026-08-06T10:43:49.768Z",
+      "lastWriteTimeUtc": "2026-08-06T10:43:49.770Z",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue-cc-002-r3-proposed.json",
+      "declaredRole": "catalogue",
+      "declaredSha256": "b2c210502cd721aabac63a0558b43659c47aa17ccbac1e2e150d269ee2755ecb",
+      "computedSha256": "b2c210502cd721aabac63a0558b43659c47aa17ccbac1e2e150d269ee2755ecb",
+      "sizeBytes": 69877,
+      "creationTimeUtc": "2026-08-06T10:43:49.765Z",
+      "lastWriteTimeUtc": "2026-08-06T10:43:49.766Z",
+      "status": "MATCH"
+    }
+  ],
+  "candidateFiles": [
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-002-r3-candidate-validation.json",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-cc-002-r3-candidate-validation.json",
+      "sizeBytes": 5361,
+      "sha256": "6cdcd5dc2ffa5cb55f57d4d94f4fc733ddb242de140020edcf6323cb74c427f2",
+      "snapshotSha256": "6cdcd5dc2ffa5cb55f57d4d94f4fc733ddb242de140020edcf6323cb74c427f2",
+      "status": "MATCH_BYTE_IDENTICAL"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-002-r3-change-control-evidence.json",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-cc-002-r3-change-control-evidence.json",
+      "sizeBytes": 5531,
+      "sha256": "8abb313ab751533dacb182171cefc8690209033c03a5cfcd67f5ecb3157a6b6c",
+      "snapshotSha256": "8abb313ab751533dacb182171cefc8690209033c03a5cfcd67f5ecb3157a6b6c",
+      "status": "MATCH_BYTE_IDENTICAL"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-002-r3-hash-generation-evidence.json",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-cc-002-r3-hash-generation-evidence.json",
+      "sizeBytes": 6219,
+      "sha256": "fcecd82a12c7a7e0c02e0cf6933d3b1416b704d3c9d3e16b52cbc84a8663a174",
+      "snapshotSha256": "fcecd82a12c7a7e0c02e0cf6933d3b1416b704d3c9d3e16b52cbc84a8663a174",
+      "status": "MATCH_BYTE_IDENTICAL"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-002-r3-phase-4-amendment.html",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-cc-002-r3-phase-4-amendment.html",
+      "sizeBytes": 31196,
+      "sha256": "4bfdf51533c30b507fafaeb92d55ea798b622b1aa514e10818c8b66aea47d9d4",
+      "snapshotSha256": "4bfdf51533c30b507fafaeb92d55ea798b622b1aa514e10818c8b66aea47d9d4",
+      "status": "MATCH_BYTE_IDENTICAL"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-002-r3-phase-4-amendment.md",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-cc-002-r3-phase-4-amendment.md",
+      "sizeBytes": 28098,
+      "sha256": "e094f7a711df6fba1b0084523ba206edbdef494c36f8567c0245f5fb98f5a4ab",
+      "snapshotSha256": "e094f7a711df6fba1b0084523ba206edbdef494c36f8567c0245f5fb98f5a4ab",
+      "status": "MATCH_BYTE_IDENTICAL"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue-cc-002-r3-proposed.json",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-implementation-catalogue-cc-002-r3-proposed.json",
+      "sizeBytes": 69877,
+      "sha256": "b2c210502cd721aabac63a0558b43659c47aa17ccbac1e2e150d269ee2755ecb",
+      "snapshotSha256": "b2c210502cd721aabac63a0558b43659c47aa17ccbac1e2e150d269ee2755ecb",
+      "status": "MATCH_BYTE_IDENTICAL"
+    },
+    {
+      "path": "4-implementation-plan/stratton-phase-4-hashes-cc-002-r3-proposed.json",
+      "snapshotPath": "reviews/aff-a/4/round-9/reviewed-subject/stratton-phase-4-hashes-cc-002-r3-proposed.json",
+      "sizeBytes": 1308,
+      "sha256": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+      "snapshotSha256": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+      "status": "MATCH_BYTE_IDENTICAL"
+    }
+  ],
+  "checks": [
+    {
+      "name": "phase-4-cc-002-contract",
+      "workingDirectory": "C:\\Users\\arsmith\\Projects\\Agentic-Architecture-v2",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-contract.mjs'",
+      "exitCode": 0,
+      "result": "PASS: Phase 4 CC-002 contract satisfied."
+    },
+    {
+      "name": "phase-4-cc-002-self-test",
+      "workingDirectory": "C:\\Users\\arsmith\\Projects\\Agentic-Architecture-v2",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-contract.mjs' --self-test",
+      "exitCode": 0,
+      "result": "PASS: Phase 4 CC-002 internal self-tests satisfied."
+    },
+    {
+      "name": "phase-4-cc-002-r2-contract",
+      "workingDirectory": "C:\\Users\\arsmith\\Projects\\Agentic-Architecture-v2",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r2-contract.mjs'",
+      "exitCode": 0,
+      "result": "PASS: Phase 4 CC-002 R2 contract satisfied."
+    },
+    {
+      "name": "phase-4-cc-002-r2-self-test",
+      "workingDirectory": "C:\\Users\\arsmith\\Projects\\Agentic-Architecture-v2",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r2-contract.mjs' --self-test",
+      "exitCode": 0,
+      "result": "PASS: Phase 4 CC-002 R2 internal self-tests satisfied."
+    },
+    {
+      "name": "phase-4-cc-002-r3-contract",
+      "workingDirectory": "C:\\Users\\arsmith\\Projects\\Agentic-Architecture-v2",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r3-contract.mjs'",
+      "exitCode": 0,
+      "result": "PASS: Phase 4 CC-002 R3 contract satisfied."
+    },
+    {
+      "name": "phase-4-cc-002-r3-self-test",
+      "workingDirectory": "C:\\Users\\arsmith\\Projects\\Agentic-Architecture-v2",
+      "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-r3-contract.mjs' --self-test",
+      "exitCode": 0,
+      "result": "PASS: Phase 4 CC-002 R3 internal self-tests satisfied."
+    }
+  ],
+  "reviewedSubjectModificationPerformed": false,
+  "executionBoundary": {
+    "azureSignIn": false,
+    "whatIf": false,
+    "deployment": false,
+    "runtimeCloudTesting": false,
+    "routePromotion": false,
+    "destructiveRollback": false
+  }
+}

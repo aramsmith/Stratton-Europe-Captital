@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AFF-A Review — Phase 3 Round 3</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font: 15px/1.55 "Segoe UI", Aptos, Calibri, sans-serif; }
+    header { background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border); padding: 2rem; }
+    main { max-width: 1180px; margin: auto; padding: 1rem; }
+    h2 { border-bottom: 2px solid var(--cp-border); }
+    .status { display: inline-block; padding: .28rem .7rem; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-accent-soft); color: var(--cp-warning); font-weight: 750; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; }
+    .card { padding: 1rem; border: 1px solid var(--cp-border); border-radius: 1rem; background: var(--cp-surface); box-shadow: var(--cp-shadow); }
+    .metric { font-size: 1.6rem; font-weight: 800; color: var(--cp-success); }
+    .warn { color: var(--cp-warning); font-weight: 750; }
+    .muted { color: var(--cp-text-muted); }
+    .table-wrap { overflow: auto; border: 1px solid var(--cp-border); border-radius: .625rem; }
+    table { width: 100%; min-width: 700px; border-collapse: collapse; }
+    th, td { padding: .58rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--cp-border); }
+    th { background: var(--cp-surface-soft); }
+    code { font-family: Consolas, "Courier New", monospace; background: var(--cp-surface-soft); color: var(--cp-text); }
+    footer { padding: 1rem; color: var(--cp-text-muted); border-top: 1px solid var(--cp-border); }
+  </style>
+</head>
+<body>
+<header><h1>AFF-A Phase 3 Round 3 Review — Stratton</h1><p><span class="status">Verdict: CONFORMS-WITH-GAPS</span></p><p>Final AFF-A review for manifest <code>78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945</code>; model-plan revision <code>4</code>.</p><p class="muted">Reviewer actual <code>gpt-5.5</code>; author actual <code>gpt-5.6-sol</code>; exact-model independence verified.</p></header>
+<main><section><h2>Summary</h2><div class="grid"><div class="card"><div class="metric">0</div><p>Findings</p></div><div class="card"><div class="metric">24/24</div><p>Hashes matched</p></div><div class="card"><div class="metric">31/31</div><p>Requirements mapped</p></div><div class="card"><div class="metric">23/23</div><p>SBBs challenged</p></div></div><p>No BLOCKER, MAJOR or MINOR finding was identified against the complete regenerated 24-artifact Phase 3 subject. The verdict remains gap-qualified because seven owner-bound validation controls are intentionally open, explicit and unwaived.</p><p class="warn">AFF-A does not approve, waive, certify, deploy, test or modify the subject.</p></section><section><h2>Resolution challenge</h2><div class="table-wrap"><table><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Challenge</th></tr></thead><tbody><tr><td>AFFA-P3-R1-MAJ-001</td><td>MAJOR</td><td>REMAINS_RESOLVED</td><td>Unbound Backup vault remains removed; recovery is supported SQL PITR/LTR/failover groups plus Blob lifecycle/immutability.</td></tr><tr><td>AFFA-P3-R1-MIN-001</td><td>MINOR</td><td>REMAINS_RESOLVED</td><td>Application Gateway network-isolation registration evidence is fail-closed before private-only ingress; no public frontend fallback.</td></tr><tr><td>AFFB-P3-R1-MAJ-001</td><td>MAJOR</td><td>RESOLVED_IN_CURRENT_SUBJECT</td><td>Every SQL DB must set requestedBackupStorageRedundancy; production has no default; Local/Zone only after capability/evidence; Geo/GeoZone denied absent later approved design; applies to STR/LTR/future backups; failover group carries cross-region recovery.</td></tr><tr><td>AFFB-P3-R1-MAJ-002</td><td>MAJOR</td><td>RESOLVED_IN_CURRENT_SUBJECT</td><td>APIM publicNetworkAccess=Disabled is explicit after private endpoint and central DNS proof; policy/assertion/rendered-template and acceptance checks are required; no public fallback; App Configuration public access is explicit.</td></tr></tbody></table></div></section><section><h2>Residual controls</h2><div class="table-wrap"><table><thead><tr><th>ID</th><th>Owner</th><th>Status</th><th>Description</th></tr></thead><tbody><tr><td>VAL-001</td><td>General Counsel</td><td>OPEN_NOT_WAIVED</td><td>DORA applicability/exemption and obligations before any formal claim or scope change.</td></tr><tr><td>VAL-002</td><td>CIO and Service Operations</td><td>OPEN_NOT_WAIVED</td><td>Business hours, typical pack and critical-alert criteria before service/performance acceptance.</td></tr><tr><td>VAL-003</td><td>Deal Operations, AI Governance, Legal, Compliance and CIO</td><td>OPEN_NOT_WAIVED</td><td>Eligibility, benchmark, critical-field, severity and exception definitions before validation.</td></tr><tr><td>VAL-004</td><td>Source and records owners</td><td>OPEN_NOT_WAIVED</td><td>Exact sources, schedules, volumes and remediation before production ingestion.</td></tr><tr><td>VAL-005</td><td>General Counsel</td><td>OPEN_NOT_WAIVED</td><td>Approved locations and transfer-exception process before production acceptance.</td></tr><tr><td>AFFB-RES-001</td><td>General Counsel and Head of AI Governance</td><td>OPEN_NOT_WAIVED</td><td>AI Act role/use-case classification evidence before production or any classification claim.</td></tr><tr><td>AFFB-RES-002</td><td>Legal and compliance owners</td><td>OPEN_NOT_WAIVED</td><td>Official citations, dates and article mappings before formal representation.</td></tr></tbody></table></div></section><section><h2>Hash evidence</h2><p>Manifest <code>78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945</code>. JSON record SHA-256 <code>a705a102085ac0fe856882ddf99390a3ed9de04912ca89323d9b8fd2743d7c2b</code>.</p><div class="table-wrap"><table><thead><tr><th>Path</th><th>Role</th><th>SHA-256</th><th>Status</th></tr></thead><tbody><tr><td>3-azure-design/stratton-azure-design.md</td><td>authoritative-markdown</td><td><code>2c908793c6dd93f22a1f27370699957629968ad25d7802fcb25e80bfabbec0fe</code></td><td>MATCH</td></tr><tr><td>3-azure-design/stratton-azure-design.html</td><td>rendered-html</td><td><code>23e90b259539f3fc297614537428831ebdb94f9a9c257004e0a533745a7c9b75</code></td><td>MATCH</td></tr><tr><td>3-azure-design/stratton-design-catalogue.json</td><td>catalogue</td><td><code>8d17e387f8dae3359132d49d50ccdf6881600816735c55f880726d572c3edd1f</code></td><td>MATCH</td></tr><tr><td>3-azure-design/diagrams/stratton-solution-lz-topology.drawio</td><td>diagram</td><td><code>c68ecac7ab16d9ca41a81c8fea9a341ebad79cb30be2699126bf8e1fd0b72f73</code></td><td>MATCH</td></tr><tr><td>3-azure-design/diagrams/stratton-solution-lz-topology.svg</td><td>diagram</td><td><code>c408af1d7d762cd06b39cf071c5f7b39247ab68be05de09d7946edba5f1e1abc</code></td><td>MATCH</td></tr><tr><td>3-azure-design/diagrams/stratton-network-security-boundaries.drawio</td><td>diagram</td><td><code>689e8b428efc454aea1bc24e09d07544b24d32b726f2ffb0c69588fb8b25dbfc</code></td><td>MATCH</td></tr><tr><td>3-azure-design/diagrams/stratton-network-security-boundaries.svg</td><td>diagram</td><td><code>5432b22f71944c150f8dd9cd8ce77ba5e5d3a74f5b6e20ecc438ed541162026a</code></td><td>MATCH</td></tr><tr><td>3-azure-design/diagrams/stratton-end-to-end-data-flow.drawio</td><td>diagram</td><td><code>45516c0867bea48c8415ed3ed9fec485843c3412329a2e76017261a364eb9d1e</code></td><td>MATCH</td></tr><tr><td>3-azure-design/diagrams/stratton-end-to-end-data-flow.svg</td><td>diagram</td><td><code>5427ebe55477d3f922a739b0637fdbd89ee475584314ea228f7fcf9f0ad03358</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-aff4-handoff.json</td><td>evidence</td><td><code>3641311c51f23abfbbf1830d590e7e9af7ce5627269d4f3eb42eb4f8698e2afc</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-candidate-validation.json</td><td>evidence</td><td><code>65aaea58e653f516f8be37bfe6791a556c3f03546474a2bde76bbf8e292e72a4</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-citadel-landing-zone-contract.json</td><td>evidence</td><td><code>64f7992ab54f9e8dd6ace2751468206ed6a0200f452fe30fc2a93660bdb7854e</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-data-api-contracts.json</td><td>evidence</td><td><code>16fbff5164cb574c815e8171edc5091fb308d8f7d016e68fcabc0f33c29441fe</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-human-decision-register.json</td><td>evidence</td><td><code>a5c9d614981f237054c464e3390adeb88b7484b9bf2c51e4694d94f51168da6f</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-identity-rbac-contract.json</td><td>evidence</td><td><code>06dc4700a33f78bf8e378264dd2c232516125d9f5a0b77f9cc832f50242dd443</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-network-security-contract.json</td><td>evidence</td><td><code>c48b4902c22e6053a8c0248a1b2912655b92f932b4113b1b2a8f09971f816443</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-operations-reliability-contract.json</td><td>evidence</td><td><code>b4765cd93ffd8f15ea5fb11d0d668717dda533e572cbb1d66843c197924790af</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-source-register.json</td><td>evidence</td><td><code>47d1374a69bdca91f3988ac6a5599db480e73b01b5879fa206198ffa152d9cb3</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-traceability-matrix.json</td><td>evidence</td><td><code>7414a9f6dc3524eb134c7214bbe2c1409fa56b607cd7c500edc9513c1fd91931</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-waf-cost-environment-matrix.json</td><td>evidence</td><td><code>bf2dacb017c6f3ac0d9db65233282fac4b61496233299d5fd931e51e530f4342</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-parent-validation-receipt.json</td><td>evidence</td><td><code>65b3c051bbd7ca98eb6c938aa813e8367e8f422d6e41f77742746f0df28ef99f</code></td><td>MATCH</td></tr><tr><td>0-coordination/stratton-model-plan-revision-4.json</td><td>catalogue</td><td><code>51a15d7ad19690fd4c7d8bb104a65b13a78366ee0cee0fb3d9c3b2ed1ecec96f</code></td><td>MATCH</td></tr><tr><td>iac/docs/architecture.md</td><td>other</td><td><code>ef656d1b2a8b827457d24e5eca91699e72dfabb4f032c4f4dff679c88a2ec939</code></td><td>MATCH</td></tr><tr><td>3-azure-design/evidence/stratton-phase-3-hash-generation-evidence.json</td><td>evidence</td><td><code>63ab4f874e4d1469d3b82d4f5116f830f1fe873d07b50f45ba65b01029c42d86</code></td><td>MATCH</td></tr></tbody></table></div></section><section><h2>Current Microsoft capability checks</h2><div class="table-wrap"><table><thead><tr><th>Source</th><th>Retrieved</th><th>Evidence</th></tr></thead><tbody><tr><td>Automatic, Geo-Redundant Backups - Azure SQL Database</td><td>2026-08-02</td><td>Default is geo-redundant; LRS/ZRS keep backups in region; setting applies to STR/LTR and future backups; Local/Zone disable geo-restore.</td></tr><tr><td>Microsoft.Sql/servers/databases ARM reference</td><td>2026-08-02</td><td>requestedBackupStorageRedundancy supports Geo, GeoZone, Local, Zone.</td></tr><tr><td>Set up inbound private endpoint for Azure API Management</td><td>2026-08-02</td><td>Public network access can be disabled only after private endpoint configuration.</td></tr><tr><td>Microsoft.ApiManagement/service ARM reference</td><td>2026-08-02</td><td>publicNetworkAccess supports Enabled/Disabled; default Enabled.</td></tr><tr><td>Private Application Gateway deployment</td><td>2026-08-02</td><td>Private IP-only v2 controls are GA and require registration.</td></tr><tr><td>Microsoft.AppConfiguration/configurationStores ARM reference</td><td>2026-08-02</td><td>publicNetworkAccess includes Disabled.</td></tr></tbody></table></div></section><section><h2>Required actions</h2><ol><li>Carry all seven residual controls into AFF-4 and later human decisions.</li><li>Invoke AFF-B over this same unchanged manifest before Phase 3 convergence.</li><li>Do not treat this review as approval, waiver, certification, deployment authorisation or runtime validation.</li></ol></section></main>
+<footer>Generated by AFF-A Rubber Duck Reviewer for the exact frozen manifest only.</footer>
+</body>
+</html>

@@ -1,0 +1,1527 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_1_INTERVIEW_DECISIONS",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": {
+    "phaseId": "1",
+    "phaseName": "Phase 1 \u2014 Requirements",
+    "owner": "AFF-1"
+  },
+  "createdAt": "2026-08-01T20:35:07.905+02:00",
+  "appendOnly": true,
+  "status": "INTERVIEW_CLOSED_CONFIRMED",
+  "phase0Gate": {
+    "status": "VERIFIED_APPROVED_AND_ELIGIBLE",
+    "approvalId": "STRATTON-PHASE-0-APPROVAL-001",
+    "approvalPath": "approvals/0/stratton-phase-0-approval-1.json",
+    "approvalSha256": "048c00663b8427d0fa3f1e95ce43b865256fcf97242b1c46e907164bd9a8b633",
+    "canonicalManifestPath": "0-coordination/stratton-phase-0-hashes.json",
+    "canonicalManifestSha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec",
+    "modelPlanRevision": "1",
+    "affAFinalReviewPath": "reviews/aff-a/0/round-2/stratton-aff-a-review.json",
+    "affAFinalReviewSha256": "a6502980b92af950b903358928934b643cc37534378e8a6dbb7caea34386ca54",
+    "affBFinalReviewPath": "reviews/aff-b/0/round-2/stratton-aff-b-review.json",
+    "affBFinalReviewSha256": "ef4cfa72c8a213b0ed203ac0e230d86243428a2c92804318946e69e4def6dd35",
+    "journalEligibilityEventId": "EVT-0014",
+    "independentHashVerification": "PASS"
+  },
+  "phaseEntryModelReassessment": {
+    "activeModelPlanPath": "0-coordination/stratton-model-plan.json",
+    "activeModelPlanRevision": "1",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved default remains suited to evidence-bound interviewing and cross-domain requirements synthesis for this regulated, AI-enabled investment-management case.",
+    "overrideRequired": false,
+    "humanOverrideDecisionRequired": false,
+    "status": "COMPLETE"
+  },
+  "currentModelPlanBinding": {
+    "path": "0-coordination/stratton-model-plan-revision-2.json",
+    "revision": "2",
+    "reason": "Append-only Phase 1 authoring reassessment created during assurance remediation; the approved Phase 0 revision remains immutable.",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "status": "ACTIVE_FOR_PHASE_1"
+  },
+  "authoritativeInputBindings": [
+    {
+      "sourceId": "PHASE0-COORDINATION",
+      "path": "0-coordination/stratton-coordination.md",
+      "sha256": "a18fcb950c3be5d366483825316ade18f4103812a71b649c4367c6df851899d0",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "PHASE0-INVENTORY",
+      "path": "0-coordination/stratton-input-inventory.json",
+      "sha256": "f5c71d7c8daca3f69fc4724a8ce7d7cf6813b8f75cd93c695f4d37b3f90b1f0d",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "MODEL-PLAN",
+      "path": "0-coordination/stratton-model-plan.json",
+      "sha256": "5f736d8661eac6c740f1093a129f99f4ac111b41597075ee69750ef5e90beded",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "SRC-001-NORMALISED",
+      "path": "0-coordination/input/Case-Study-18.normalised.md",
+      "sha256": "bc55412849f67cde3d824d050b330f6d2c459f62b6de49484ec153a1ebeb3d86",
+      "readStatus": "READ",
+      "sourceReadability": "READABLE"
+    },
+    {
+      "sourceId": "SHARED-DECISIONS",
+      "path": "stratton-decisions.md",
+      "sha256": "bd60b72172c3f767f8f5eae165e52bf354e7fa5c24859937507154dfbce8cfca",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "SHARED-RISKS",
+      "path": "stratton-risk-log.md",
+      "sha256": "70f56db3b21e4bc356b34859670ee6ea227ee9643fe6a0709eb304cf1b9e4a1f",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "SHARED-REGULATORY-REGISTER",
+      "path": "stratton-regulatory-register.md",
+      "sha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "AFF-A-PHASE0-FINAL",
+      "path": "reviews/aff-a/0/round-2/stratton-aff-a-review.json",
+      "sha256": "a6502980b92af950b903358928934b643cc37534378e8a6dbb7caea34386ca54",
+      "readStatus": "READ"
+    },
+    {
+      "sourceId": "AFF-B-PHASE0-FINAL",
+      "path": "reviews/aff-b/0/round-2/stratton-aff-b-review.json",
+      "sha256": "ef4cfa72c8a213b0ed203ac0e230d86243428a2c92804318946e69e4def6dd35",
+      "readStatus": "READ"
+    }
+  ],
+  "confirmedGoal": null,
+  "confirmedGoals": [
+    {
+      "id": "GOAL-001",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "status": "CONFIRMED",
+      "sourceDecisionId": "INT-D-001",
+      "statement": "Within 12 months of programme approval, reduce the median end-to-end due-diligence cycle for new investment opportunities from 12 weeks to no more than 3 weeks for Stratton deal teams, measured from formal case opening to an investment-committee-ready recommendation, with the Chief Investment Officer as accountable business owner."
+    }
+  ],
+  "startingConfidence": {
+    "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+    "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+    "domains": [
+      {
+        "domain": "Business",
+        "confidence": 35,
+        "reason": "The source states challenges, a transformation objective and desired outcomes, but the first-release outcome, scope, metric definitions, target date, sponsor and acceptance owner are unconfirmed."
+      },
+      {
+        "domain": "Data",
+        "confidence": 15,
+        "reason": "Broad data categories are named, but systems of record, ownership, classification, residency, quality, volume, retention, transfer constraints and permitted use are unknown."
+      },
+      {
+        "domain": "Application",
+        "confidence": 20,
+        "reason": "Three AI-enabled concepts are described, but users, journeys, functional boundaries, integrations, human oversight, evaluation and explicit non-scope are unknown."
+      },
+      {
+        "domain": "Technology",
+        "confidence": 15,
+        "reason": "A legacy on-premises starting point and an undefined Azure sovereignty landing-zone preference are stated, but the estate, environments, connectivity, operations and service constraints are unknown."
+      },
+      {
+        "domain": "Security",
+        "confidence": 10,
+        "reason": "Regulatory and sovereignty terms are named, but applicability, legal roles, data sensitivity, identity, threats, privacy, residency, transfers, controls and accountable authorities are unconfirmed."
+      }
+    ],
+    "overallConfidence": 19,
+    "closureCandidate": false
+  },
+  "confidenceAssessments": [
+    {
+      "assessmentId": "CONF-002",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "triggerDecisionId": "INT-D-001",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 65,
+          "changeFromPrior": 30,
+          "reason": "The first-release workflow, target users, baseline, threshold, measurement boundary, target horizon and accountable business owner are confirmed. Wider stakeholder, value, consequence, budget and prioritisation details remain open."
+        },
+        {
+          "domain": "Data",
+          "confidence": 15,
+          "changeFromPrior": 0,
+          "reason": "The decision does not establish governed sources, ownership, classification, residency, quality, volume, retention, transfers or permitted use."
+        },
+        {
+          "domain": "Application",
+          "confidence": 30,
+          "changeFromPrior": 10,
+          "reason": "The due-diligence journey now has confirmed start and end boundaries and a target user group, but functions, integrations, human oversight, failure handling and non-scope remain open."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 15,
+          "changeFromPrior": 0,
+          "reason": "The decision adds no confirmed estate, environment, connectivity, operational or platform constraint."
+        },
+        {
+          "domain": "Security",
+          "confidence": 10,
+          "changeFromPrior": 0,
+          "reason": "The decision adds no confirmed identity, threat, privacy, sovereignty, regulatory or control requirement."
+        }
+      ],
+      "overallConfidence": 27,
+      "changeFromPrior": 8,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-003",
+      "recordedAt": "2026-08-01T20:45:05.593+02:00",
+      "triggerDecisionId": "INT-D-002",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 65,
+          "changeFromPrior": 0,
+          "reason": "The confirmed first-release outcome remains clear; wider stakeholder, value, consequence, budget and prioritisation details remain open."
+        },
+        {
+          "domain": "Data",
+          "confidence": 25,
+          "changeFromPrior": 10,
+          "reason": "Residency and exceptional transfer constraints are confirmed for production data, backups, logs, and model inputs and outputs, but sources, ownership, classification, quality, volume, retention and permitted use remain unknown."
+        },
+        {
+          "domain": "Application",
+          "confidence": 30,
+          "changeFromPrior": 0,
+          "reason": "The due-diligence journey boundary and target users remain confirmed, but functions, integrations, human oversight, failure handling and non-scope remain open."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 30,
+          "changeFromPrior": 15,
+          "reason": "EU/EEA routine-processing location, Stratton-controlled privileged identities, EU-based operational access, elevation, audit and emergency-access outcomes are confirmed; estate, environments, connectivity, availability and support remain open."
+        },
+        {
+          "domain": "Security",
+          "confidence": 55,
+          "changeFromPrior": 45,
+          "reason": "Material sovereignty, privileged-access, auditability, legal-governance, exception approval and accountability outcomes are confirmed. Identity detail, threats, data classification, privacy roles, incident criteria, regulatory applicability and control acceptance remain open."
+        }
+      ],
+      "overallConfidence": 41,
+      "changeFromPrior": 14,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-004",
+      "recordedAt": "2026-08-01T20:49:34.189+02:00",
+      "triggerDecisionId": "INT-D-003",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 65,
+          "changeFromPrior": 0,
+          "reason": "The first-release outcome remains confirmed; wider stakeholder, value, consequence, budget and prioritisation details remain open."
+        },
+        {
+          "domain": "Data",
+          "confidence": 75,
+          "changeFromPrior": 50,
+          "reason": "Permitted source classes and owners, external-data licensing, confidentiality, personal-data minimisation, special-category exclusion, provenance, quality, model-training prohibition, human validation, retention and working-copy deletion are confirmed. Exact systems, schedules, volumes, quality thresholds and legal-role validation remain open."
+        },
+        {
+          "domain": "Application",
+          "confidence": 40,
+          "changeFromPrior": 10,
+          "reason": "Permitted input domains, provenance and human validation before investment use constrain the application boundary, but detailed functions, integrations, decision rights, failure handling and prohibited AI actions remain open."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 35,
+          "changeFromPrior": 5,
+          "reason": "Source-system retention, deletion of temporary working copies and foundation-model training restrictions add operational constraints; estate, environments, connectivity, availability and support remain open."
+        },
+        {
+          "domain": "Security",
+          "confidence": 65,
+          "changeFromPrior": 10,
+          "reason": "Confidentiality, data minimisation, special-category exclusion, licensing, provenance, training and human-validation constraints are confirmed. Threats, detailed access, privacy roles, incident criteria, regulatory applicability and control acceptance remain open."
+        }
+      ],
+      "overallConfidence": 56,
+      "changeFromPrior": 15,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-005",
+      "recordedAt": "2026-08-01T20:52:54.934+02:00",
+      "triggerDecisionId": "INT-D-004",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 72,
+          "changeFromPrior": 7,
+          "reason": "The Chief Investment Officer is now accountable for business-output acceptance and the Investment Committee retains investment decisions. Wider value, consequence, budget and prioritisation details remain open."
+        },
+        {
+          "domain": "Data",
+          "confidence": 75,
+          "changeFromPrior": 0,
+          "reason": "The governed data scope and constraints remain confirmed; exact systems, schedules, volumes, quality thresholds and legal-role validation remain open."
+        },
+        {
+          "domain": "Application",
+          "confidence": 75,
+          "changeFromPrior": 35,
+          "reason": "Permitted AI tasks, required validation and approvals, retained human decisions, prohibited autonomous actions and accountable AI and business owners are confirmed. Detailed integrations, exception handling and acceptance thresholds remain open."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 35,
+          "changeFromPrior": 0,
+          "reason": "No additional estate, environment, connectivity, availability, recovery, support or migration constraint is confirmed."
+        },
+        {
+          "domain": "Security",
+          "confidence": 75,
+          "changeFromPrior": 10,
+          "reason": "Legal, compliance, sanctions, external-source, security and human review boundaries are strengthened, with AI-governance ownership confirmed. Detailed threats, privacy roles, incident criteria, regulatory applicability and control acceptance remain open."
+        }
+      ],
+      "overallConfidence": 66,
+      "changeFromPrior": 10,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-006",
+      "recordedAt": "2026-08-01T20:55:20.902+02:00",
+      "triggerDecisionId": "INT-D-005",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 85,
+          "changeFromPrior": 13,
+          "reason": "The first-release outcome, accountable owner, measurement population, quality safeguard and benefit-evidence acceptance are confirmed. Budget, consequences and broader value measures remain open with owners still required."
+        },
+        {
+          "domain": "Data",
+          "confidence": 80,
+          "changeFromPrior": 5,
+          "reason": "Benchmark ownership and field-level quality thresholds are confirmed in addition to governed data constraints. Exact systems, schedules, volumes and production quality remediation remain residual gaps requiring owners and validation."
+        },
+        {
+          "domain": "Application",
+          "confidence": 88,
+          "changeFromPrior": 13,
+          "reason": "Permitted AI behaviour now has measurable citation, extraction, unsupported-claim, risk-recall, prohibited-action and human-review acceptance thresholds. Detailed integrations and exception workflows remain open."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 40,
+          "changeFromPrior": 5,
+          "reason": "Workflow timestamp and auditable evidence needs are confirmed, but the current estate, environments, connectivity, availability, recovery, performance, migration, support and operating model remain largely unknown."
+        },
+        {
+          "domain": "Security",
+          "confidence": 82,
+          "changeFromPrior": 7,
+          "reason": "Negative testing, critical-risk detection, regulated-test acceptance, audit evidence and independent validation are confirmed. Detailed threats, incident criteria, privacy roles, regulatory applicability and the exact independent validator remain residual gaps."
+        }
+      ],
+      "overallConfidence": 75,
+      "changeFromPrior": 9,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-007",
+      "recordedAt": "2026-08-01T20:57:37.748+02:00",
+      "triggerDecisionId": "INT-D-006",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 85,
+          "changeFromPrior": 0,
+          "reason": "The first-release outcome, accountability and evidence population remain confirmed; budget, consequences and broader value measures remain residual gaps."
+        },
+        {
+          "domain": "Data",
+          "confidence": 85,
+          "changeFromPrior": 5,
+          "reason": "Authoritative systems, production-data isolation, synthetic non-production data and controlled ingestion are confirmed. Exact source schedules, volumes and production quality-remediation procedures remain residual gaps."
+        },
+        {
+          "domain": "Application",
+          "confidence": 90,
+          "changeFromPrior": 2,
+          "reason": "Read-only integration and prohibition of AI write-back clarify the application boundary in addition to confirmed AI controls. Detailed exception workflows remain residual gaps."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 88,
+          "changeFromPrior": 48,
+          "reason": "Authoritative estate, integration modes, environment separation, data isolation, availability, recovery, performance, migration, support and operational owners are confirmed. Business-hours definition, alert severity and detailed dependency validation remain residual gaps."
+        },
+        {
+          "domain": "Security",
+          "confidence": 84,
+          "changeFromPrior": 2,
+          "reason": "Production-data isolation and named identity, network, incident and recovery ownership strengthen the confirmed boundary. Regulatory applicability, detailed threats, incident criteria and the exact independent validator remain open."
+        }
+      ],
+      "overallConfidence": 86,
+      "changeFromPrior": 11,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-008",
+      "recordedAt": "2026-08-01T20:59:59.556+02:00",
+      "triggerDecisionId": "INT-D-007",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 87,
+          "changeFromPrior": 2,
+          "reason": "Regulated disclosure and fund-vehicle contexts are clarified in addition to the confirmed outcome and accountability. Explicit Release 1 scope, non-scope, budget and wider stakeholder consequences remain open."
+        },
+        {
+          "domain": "Data",
+          "confidence": 90,
+          "changeFromPrior": 5,
+          "reason": "GDPR, SFDR and AIFMD constraints add confirmed purpose, lawful-basis, lineage, reproducibility, audit, risk-record and retention requirements. Exact systems, schedules, volumes and production quality remediation remain residual gaps."
+        },
+        {
+          "domain": "Application",
+          "confidence": 91,
+          "changeFromPrior": 1,
+          "reason": "AI Act transparency, oversight, logging, risk-management and classification evidence strengthen the application boundary. Explicit scope, non-scope and exception workflows remain open."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 89,
+          "changeFromPrior": 1,
+          "reason": "Potential DORA ICT resilience, testing, incident and third-party obligations are identified for assessment, but remain unconfirmed. Existing operational constraints remain otherwise clear."
+        },
+        {
+          "domain": "Security",
+          "confidence": 93,
+          "changeFromPrior": 9,
+          "reason": "Applicability, material obligations and accountable authorities are confirmed for GDPR, SFDR, AIFMD and the EU AI Act; DORA remains an owned candidate and exact control implementation remains for later phases."
+        }
+      ],
+      "overallConfidence": 90,
+      "changeFromPrior": 4,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-009",
+      "recordedAt": "2026-08-01T21:02:10.946+02:00",
+      "triggerDecisionId": "INT-D-008",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 96,
+          "changeFromPrior": 9,
+          "reason": "Release 1 users, eligible opportunities, controlled rollout, sponsor, eligibility and rollout owners, included journey and deferred capabilities are confirmed. Residual business details have owners or validation paths."
+        },
+        {
+          "domain": "Data",
+          "confidence": 94,
+          "changeFromPrior": 4,
+          "reason": "The production scope, governed evidence functions, sovereignty eligibility and special-category exclusion are explicit. Exact source schedules, volumes and production quality-remediation procedures remain owned residual details."
+        },
+        {
+          "domain": "Application",
+          "confidence": 97,
+          "changeFromPrior": 6,
+          "reason": "Users, included functions, journey endpoint, prohibited capabilities, deferred functions and rollout boundary are explicit and consistent with prior AI controls."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 94,
+          "changeFromPrior": 5,
+          "reason": "Controlled production rollout and the condition for wider rollout are confirmed in addition to prior operational constraints. Detailed dependency validation remains an owned implementation-planning input."
+        },
+        {
+          "domain": "Security",
+          "confidence": 94,
+          "changeFromPrior": 1,
+          "reason": "Jurisdiction eligibility is bound to sovereignty compliance and owned by General Counsel, while prohibited data and actions are explicit. DORA applicability and the exact independent validator remain material owner-dependent decisions."
+        }
+      ],
+      "overallConfidence": 95,
+      "changeFromPrior": 5,
+      "closureCandidate": false
+    },
+    {
+      "assessmentId": "CONF-010",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "triggerDecisionId": "INT-D-009",
+      "assessmentType": "SHARED_UNDERSTANDING_ONLY",
+      "humanConfirmationStatus": "AWAITING_CONFIRMATION_OR_CORRECTION",
+      "domains": [
+        {
+          "domain": "Business",
+          "confidence": 96,
+          "changeFromPrior": 0,
+          "reason": "Release 1 outcome, scope, sponsor, acceptance and rollout ownership are confirmed; residual details are owner-bound and planned."
+        },
+        {
+          "domain": "Data",
+          "confidence": 94,
+          "changeFromPrior": 0,
+          "reason": "Data scope, owners, handling, quality, provenance, retention and regulatory constraints are confirmed; exact operational details are owner-bound validation items."
+        },
+        {
+          "domain": "Application",
+          "confidence": 97,
+          "changeFromPrior": 0,
+          "reason": "Release 1 functions, users, AI boundaries, human controls, acceptance thresholds, scope and non-scope are confirmed."
+        },
+        {
+          "domain": "Technology",
+          "confidence": 95,
+          "changeFromPrior": 1,
+          "reason": "Operational constraints and DORA-aligned ICT risk, incident, resilience and third-party evidence expectations are confirmed without an unsupported formal-compliance claim."
+        },
+        {
+          "domain": "Security",
+          "confidence": 96,
+          "changeFromPrior": 2,
+          "reason": "The conditional DORA position, legal owner, interim requirements boundary, independent validator and supporting methodology roles are confirmed; formal applicability evidence remains an owned validation item."
+        }
+      ],
+      "overallConfidence": 96,
+      "changeFromPrior": 1,
+      "closureCandidate": true
+    }
+  ],
+  "questionsAndDecisions": [
+    {
+      "id": "INT-Q-001",
+      "recordedAt": "2026-08-01T20:35:07.905+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 1,
+      "impactedDomains": [
+        "Business",
+        "Application"
+      ],
+      "question": "What single business outcome should the first release be accountable for, expressed as the in-scope workflow, target user group, measurable threshold, target date, and accountable business owner?",
+      "rationale": "The source presents several desired outcomes without establishing the first-release goal or its accountable acceptance basis; this decision is needed before detailed scope or requirements can be confirmed.",
+      "sourceBindings": [
+        "0-coordination/stratton-coordination.md#phase-1-interview-preparation-handoff",
+        "0-coordination/input/Case-Study-18.normalised.md#expected-outcomes"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with business sponsor or product owner",
+      "followUp": "Record the human answer without inference, then continue with one next material question."
+    },
+    {
+      "id": "INT-D-001",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-001",
+      "impactedDomains": [
+        "Business",
+        "Application"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "Within 12 months of programme approval, reduce the median end-to-end due-diligence cycle for new investment opportunities from 12 weeks to no more than 3 weeks for Stratton deal teams, measured from formal case opening to an investment-committee-ready recommendation, with the Chief Investment Officer as accountable business owner.",
+      "rationale": "This establishes one measurable first-release outcome with a baseline, threshold, measurement boundary, target horizon, target users and accountable business owner.",
+      "rejectedAlternatives": [],
+      "owner": "Chief Investment Officer",
+      "followUp": "Define the measurement method, evidence source and acceptance process before the requirements baseline is created."
+    },
+    {
+      "id": "INT-Q-002",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 2,
+      "impactedDomains": [
+        "Security",
+        "Data",
+        "Technology"
+      ],
+      "question": "For this programme, what mandatory outcomes does \u201csovereign\u201d require across data residency, cross-border transfer, administrative control, operational access and legal jurisdiction, and which accountable authority will confirm them?",
+      "rationale": "Sovereignty is an explicit source objective and an approved Phase 0 residual gap; leaving it undefined could drive unsupported data, security and platform requirements.",
+      "sourceBindings": [
+        "0-coordination/stratton-coordination.md#phase-1-interview-preparation-handoff",
+        "stratton-risk-log.md#RISK-0001",
+        "approvals/0/stratton-phase-0-approval-1.json"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with legal, compliance, security and platform owners",
+      "followUp": "Record the human answer or accountable-owner validation action without inference."
+    },
+    {
+      "id": "INT-D-002",
+      "recordedAt": "2026-08-01T20:45:05.593+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-002",
+      "impactedDomains": [
+        "Security",
+        "Data",
+        "Technology"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "All production data, backups, logs, model inputs and outputs, and routine processing must remain within approved EU/EEA locations. Transfers outside the EEA are prohibited unless the General Counsel and Data Protection Officer approve a documented legal mechanism, purpose, and risk assessment. Privileged administration and operational access must use Stratton-controlled identities and be limited to authorised EU-based personnel, with least privilege, time-bound elevation, complete auditability, and an approved emergency-access process. Contracts, data processing, incident handling, and dispute governance must remain subject to applicable EU and member-state law, with any foreign-jurisdiction exposure explicitly assessed and accepted. The General Counsel is accountable for final confirmation, advised by the DPO and CISO.",
+      "rationale": "This defines the mandatory sovereignty outcomes, controlled exception path, privileged-access conditions, jurisdictional governance and accountable confirmation authority without selecting an architecture or service.",
+      "rejectedAlternatives": [],
+      "owner": "General Counsel",
+      "advisers": [
+        "Data Protection Officer",
+        "Chief Information Security Officer"
+      ],
+      "followUp": "Obtain the General Counsel's final confirmation and retain the documented decision; define approved EU/EEA locations, exception evidence and operational procedures before baselining dependent requirements."
+    },
+    {
+      "id": "INT-Q-003",
+      "recordedAt": "2026-08-01T20:45:05.593+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 3,
+      "impactedDomains": [
+        "Data",
+        "Application",
+        "Security"
+      ],
+      "question": "For the first-release due-diligence workflow, which authoritative source systems and data classes may be used, who owns each, and what classification, personal-data, retention, quality, licensing or permitted-use constraints apply?",
+      "rationale": "The outcome and sovereignty boundary are now confirmed, but the platform cannot establish lawful, safe or testable ingestion and AI-processing requirements until its governed inputs and accountable owners are known.",
+      "sourceBindings": [
+        "0-coordination/stratton-coordination.md#phase-1-interview-preparation-handoff",
+        "stratton-risk-log.md#RISK-0003",
+        "0-coordination/input/Case-Study-18.normalised.md#ai-infusion-point"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with data, records, privacy, legal and business process owners",
+      "followUp": "Record only confirmed sources, classifications, owners and constraints; assign validation actions for matters owned by other authorities."
+    },
+    {
+      "id": "INT-D-003",
+      "recordedAt": "2026-08-01T20:49:34.189+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-003",
+      "impactedDomains": [
+        "Data",
+        "Application",
+        "Technology",
+        "Security"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "Release 1 may use governed deal-room and document-management records owned by Deal Operations; deal pipeline and CRM records owned by Investment Origination; portfolio and financial records owned by Finance; ESG submissions owned by the ESG function; and legal and compliance records owned by General Counsel and Compliance. External market, company, patent, sanctions, and regulatory data may be used only where licensing explicitly permits AI-assisted retrieval and analysis. Deal, financial, legal, and portfolio data is highly confidential. Personal data must be minimised, and special-category data is excluded unless separately approved. Every item must retain source provenance, owner, timestamp, licence, and quality status. Stratton data must not train foundation models, and AI outputs require human validation before investment use. Retention follows the authoritative source-system schedule and legal holds; temporary AI working copies are deleted when no longer required.",
+      "rationale": "This establishes the permitted source domains and accountable owners, external-data licence gate, core classification and privacy constraints, provenance and quality metadata, model-training prohibition, human-validation rule, and retention and deletion boundaries for Release 1.",
+      "rejectedAlternatives": [],
+      "owners": [
+        "Deal Operations",
+        "Investment Origination",
+        "Finance",
+        "ESG function",
+        "General Counsel",
+        "Compliance"
+      ],
+      "followUp": "Identify exact authoritative systems and schedules, define quality thresholds and volumes, and obtain any separately required approval before special-category data enters scope."
+    },
+    {
+      "id": "INT-Q-004",
+      "recordedAt": "2026-08-01T20:49:34.189+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 4,
+      "impactedDomains": [
+        "Application",
+        "Business",
+        "Security"
+      ],
+      "question": "Within Release 1 due diligence, which tasks and decisions may AI perform or support, which named human roles must review or approve each material output, and which actions are prohibited from autonomous execution?",
+      "recommendation": {
+        "status": "UNCONFIRMED_PROPOSED_ANSWER",
+        "proposal": "Limit AI to evidence retrieval, extraction, summarisation, comparison, anomaly flagging and draft risk-assessment support; require an assigned deal professional to validate cited evidence and conclusions, with the Investment Committee retaining the investment decision; prohibit autonomous recommendations being treated as final, source alteration, external disclosure, transaction execution, or bypass of legal, compliance and conflicts review.",
+        "assumptions": [
+          "Release 1 supports due diligence only and does not execute investments or communicate externally.",
+          "Existing deal, legal, compliance and conflicts approvals remain authoritative."
+        ],
+        "missingOwners": [
+          "Named model-risk or AI-governance owner",
+          "Named owner for due-diligence output acceptance",
+          "Named legal, compliance and conflicts approvers for applicable cases"
+        ]
+      },
+      "rationale": "Human validation is confirmed, but its accountable roles, approval points and prohibited autonomous actions are not; these are required to make the workflow and AI-control boundary testable.",
+      "sourceBindings": [
+        "INT-D-001",
+        "INT-D-003",
+        "0-coordination/input/Case-Study-18.normalised.md#ai-infusion-point"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with Chief Investment Officer, deal-process, legal, compliance and AI-governance owners",
+      "followUp": "Accept, amend or reject the unconfirmed proposal and identify accountable roles without inferring agreement."
+    },
+    {
+      "id": "INT-D-004",
+      "recordedAt": "2026-08-01T20:52:54.934+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-004",
+      "impactedDomains": [
+        "Application",
+        "Business",
+        "Security"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "Release 1 AI may perform retrieval, extraction, summarisation, comparison, anomaly flagging, and draft risk assessments. Deal professionals must validate source evidence and material outputs. General Counsel and Compliance must approve regulated, legal, sanctions, or externally sourced conclusions. The Investment Committee retains every investment decision. AI must not autonomously issue final investment recommendations, alter authoritative sources, disclose information externally, execute transactions, make approval decisions, or bypass required legal, compliance, security, or human review. The Head of AI Governance owns AI policy and model-risk controls, while the Chief Investment Officer is accountable for business-output acceptance.",
+      "rationale": "This confirms permitted assistive AI functions, mandatory human validation and specialist approval, retained investment authority, prohibited autonomous actions, and accountable AI-governance and business-output owners.",
+      "rejectedAlternatives": [],
+      "owners": [
+        "Head of AI Governance",
+        "Chief Investment Officer",
+        "General Counsel",
+        "Compliance",
+        "Investment Committee",
+        "Deal professionals"
+      ],
+      "followUp": "Define measurable quality, grounding, safety, audit and business acceptance thresholds before baselining AI requirements."
+    },
+    {
+      "id": "INT-Q-005",
+      "recordedAt": "2026-08-01T20:52:54.934+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 5,
+      "impactedDomains": [
+        "Application",
+        "Business",
+        "Security"
+      ],
+      "question": "What measurable acceptance thresholds and evidence must Release 1 meet for source citation, extraction accuracy, unsupported claims, risk-assessment quality, prohibited-action prevention, human-review completion, and the 3-week business outcome?",
+      "recommendation": {
+        "status": "UNCONFIRMED_PROPOSED_ANSWER",
+        "proposal": "Require every material AI claim to cite an accessible governed source; test extraction and risk outputs against an approved representative benchmark with thresholds set by the Head of AI Governance and Chief Investment Officer; allow no critical prohibited-action or external-disclosure breach; evidence every required human approval in an immutable audit trail; and measure the 3-week outcome from workflow timestamps, with mocked evidence labelled synthetic and excluded from claims of achieved production benefit.",
+        "assumptions": [
+          "A representative, lawfully usable benchmark set can be assembled before acceptance testing.",
+          "The workflow can produce reliable case-opening, review, approval and investment-committee-readiness timestamps.",
+          "Release 1 acceptance can distinguish technical AI quality from later production benefit realisation."
+        ],
+        "missingOwners": [
+          "Named benchmark-data owner",
+          "Named independent validation or assurance owner",
+          "Named benefits-measurement owner",
+          "Named acceptance authority for legal and compliance test cases"
+        ]
+      },
+      "rationale": "The AI operating boundary is confirmed, but it is not yet testable; explicit thresholds, representative evidence and acceptance ownership are required before requirements can be baselined.",
+      "sourceBindings": [
+        "INT-D-001",
+        "INT-D-003",
+        "INT-D-004",
+        "stratton-risk-log.md#RISK-0004",
+        "stratton-risk-log.md#RISK-0005"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with Head of AI Governance, Chief Investment Officer, legal, compliance, data and assurance owners",
+      "followUp": "Accept, amend or reject the unconfirmed proposal and provide exact thresholds or accountable owners and validation actions."
+    },
+    {
+      "id": "INT-D-005",
+      "recordedAt": "2026-08-01T20:55:20.902+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-005",
+      "impactedDomains": [
+        "Application",
+        "Business",
+        "Data",
+        "Security",
+        "Technology"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "Release 1 requires governed source citations for 100% of material claims; at least 95% field-level extraction accuracy and 99% accuracy for critical financial and legal fields on an approved representative benchmark; zero critical unsupported claims and no more than 2% unsupported non-critical claims; at least 90% recall for seeded high-risk findings with no critical risk missed; 100% prevention of prohibited actions in negative testing; and auditable human review for every material output. The 3-week outcome is measured from workflow timestamps across the first 20 eligible completed deals, with control exceptions tracked to ensure cycle-time improvement does not reduce quality. Synthetic or mocked evidence is clearly labelled and excluded from production-benefit claims. The Head of AI Governance owns benchmark data, Model Risk or Internal Audit owns independent validation, General Counsel and Compliance accept regulated tests, and the Chief Investment Officer accepts the business-benefit evidence.",
+      "rationale": "This makes the AI quality, safety, human-review and business-benefit outcomes measurable, assigns acceptance responsibilities, and prevents synthetic evidence from being represented as achieved production benefit.",
+      "rejectedAlternatives": [],
+      "owners": [
+        "Head of AI Governance",
+        "Model Risk or Internal Audit, exact owner pending assignment",
+        "General Counsel",
+        "Compliance",
+        "Chief Investment Officer"
+      ],
+      "followUp": "Assign either Model Risk or Internal Audit as the accountable independent validator and define benchmark eligibility, critical-field classification, unsupported-claim severity, eligible-deal criteria and control-exception handling before baselining acceptance tests."
+    },
+    {
+      "id": "INT-Q-006",
+      "recordedAt": "2026-08-01T20:55:20.902+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 6,
+      "impactedDomains": [
+        "Technology",
+        "Application",
+        "Security"
+      ],
+      "question": "What current-estate, integration, environment, availability, recovery, performance, migration, support and operational-ownership constraints must Release 1 satisfy?",
+      "recommendation": {
+        "status": "UNCONFIRMED_PROPOSED_ANSWER",
+        "proposal": "Use separate development, test and production environments; integrate read-only with authoritative deal-room, document, CRM, finance, ESG, legal and compliance systems through governed interfaces; require production monitoring, auditable support access, tested backup and recovery, and controlled migration with no source-system replacement in Release 1; set availability, recovery and response-time targets only after business-impact and dependency evidence is supplied.",
+        "assumptions": [
+          "Authoritative source systems remain systems of record during Release 1.",
+          "Release 1 can initially avoid write-back and source-system replacement.",
+          "Existing identity, network, landing-zone and service-management standards can be supplied by Stratton owners."
+        ],
+        "missingOwners": [
+          "Enterprise or solution platform owner",
+          "Owners for each source-system integration",
+          "Identity and network owners",
+          "Service owner and support lead",
+          "Business continuity and disaster-recovery owner",
+          "Migration and legacy-estate owner"
+        ]
+      },
+      "rationale": "Technology remains the only domain below 80 and material operational constraints are required before integration, non-functional and migration requirements can be made testable.",
+      "sourceBindings": [
+        "INT-D-002",
+        "INT-D-003",
+        "INT-D-005",
+        "0-coordination/stratton-coordination.md#phase-1-interview-preparation-handoff",
+        "0-coordination/input/Case-Study-18.normalised.md#transformation-objective"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with platform, source-system, identity, network, operations, continuity and migration owners",
+      "followUp": "Accept, amend or reject the unconfirmed recommendation and supply evidence-backed constraints or owner-assigned validation actions."
+    },
+    {
+      "id": "INT-D-006",
+      "recordedAt": "2026-08-01T20:57:37.748+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-006",
+      "impactedDomains": [
+        "Technology",
+        "Application",
+        "Data",
+        "Security"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "Existing deal-room, CRM, finance, ESG, and legal systems remain authoritative. Release 1 integrates through approved read-only APIs or controlled ingestion and must not write AI-generated content into source records. Development, test, and production environments are separated; development and test use synthetic data, while production-confidential data remains only in production. Production targets 99.9% availability during business hours, RTO of 4 hours, RPO of 1 hour, p95 interactive response below 5 seconds, and processing of a typical due-diligence document pack within 30 minutes. Migration is incremental with reconciliation and parallel operation for the first three eligible deals; no big-bang replacement is permitted. Support is 8x5 with monitored critical alerts and named incident ownership. Enterprise Platform owns environments, the Integration Lead owns interfaces, Identity and Network leads own access and connectivity, Service Operations owns support, Business Continuity owns recovery, and Programme Delivery owns migration.",
+      "rationale": "This confirms the system-of-record boundary, permitted integration modes, environment and data separation, measurable service targets, incremental migration safeguards, support model and accountable technology and operations owners.",
+      "rejectedAlternatives": [
+        "AI-generated write-back to authoritative source records in Release 1",
+        "Big-bang source-system replacement"
+      ],
+      "owners": [
+        "Enterprise Platform",
+        "Integration Lead",
+        "Identity Lead",
+        "Network Lead",
+        "Service Operations",
+        "Business Continuity",
+        "Programme Delivery"
+      ],
+      "followUp": "Define business hours, typical document-pack characteristics, critical-alert criteria and the evidence method for availability, recovery, performance, reconciliation and parallel-operation acceptance."
+    },
+    {
+      "id": "INT-Q-007",
+      "recordedAt": "2026-08-01T20:57:37.748+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 7,
+      "impactedDomains": [
+        "Security",
+        "Business",
+        "Data"
+      ],
+      "question": "Which named legal and regulatory instruments are confirmed applicable to Release 1, what specific obligations materially constrain it, and which accountable authority confirms each applicability decision?",
+      "recommendation": {
+        "status": "UNCONFIRMED_PROPOSED_ANSWER",
+        "proposal": "Treat GDPR, the EU AI Act, SFDR and AIFMD as applicability candidates only until General Counsel and Compliance document the relevant Stratton entity, processing or AI role, jurisdiction, trigger and material obligations; identify or remove the unspecified sector-specific directives; translate only confirmed obligations into requirements.",
+        "assumptions": [
+          "Release 1 processes data for EU operations and Luxembourg-based fund vehicles as described by the source.",
+          "Stratton may act in different legal or AI roles across use cases, so applicability cannot be determined from the case study alone.",
+          "No reviewer or architect can substitute for accountable legal and compliance confirmation."
+        ],
+        "missingOwners": [
+          "Named legal owner for each instrument and jurisdiction",
+          "Named Compliance owner for SFDR and AIFMD scope",
+          "Named Data Protection Officer confirmation for GDPR roles and processing",
+          "Named AI Act classification and role owner",
+          "Owner to identify the source's unspecified sector-specific directives"
+        ]
+      },
+      "rationale": "All five Phase 0 regulatory leads remain inferred; this is now the highest material unknown because unconfirmed applicability cannot support legal or compliance requirements.",
+      "sourceBindings": [
+        "stratton-regulatory-register.md",
+        "INT-D-002",
+        "INT-D-003",
+        "INT-D-004",
+        "approvals/0/stratton-phase-0-approval-1.json"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with General Counsel, Data Protection Officer, Compliance and AI-governance authorities",
+      "followUp": "Record confirmed applicability and obligations only from accountable human authorities; otherwise retain an owned validation action and keep the interview open."
+    },
+    {
+      "id": "INT-D-007",
+      "recordedAt": "2026-08-01T20:59:59.556+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-007",
+      "impactedDomains": [
+        "Security",
+        "Data",
+        "Application",
+        "Technology",
+        "Business"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "GDPR applies because Release 1 processes EU personal data; it requires data minimisation, purpose limitation, documented lawful basis, data-subject handling, DPIA screening, processor controls, and transfer governance, confirmed by the DPO and General Counsel. SFDR applies where ESG outputs support regulated disclosures; it requires data lineage, quality, reproducibility, accountable review, and audit evidence, confirmed by the Head of Compliance. AIFMD applies where Luxembourg AIF vehicles use the workflow; it requires governed risk and documentation records and applicable retention, confirmed by Fund Legal and Compliance. The EU AI Act applies as an AI governance framework, but Release 1 is not classified as high-risk unless a documented role and use-case assessment concludes otherwise; AI literacy, transparency, human oversight, logging, risk management, and classification evidence are required, confirmed by General Counsel and the Head of AI Governance. DORA remains a candidate requiring General Counsel confirmation because the cloud and AI service may support a regulated financial entity; ICT resilience, incident, testing, and third-party obligations must be assessed. The unspecified sector directives are removed unless Legal identifies exact instruments and triggers. General Counsel owns final applicability decisions.",
+      "rationale": "This confirms applicability, material constraints and accountable authorities for GDPR, SFDR, AIFMD and the EU AI Act; retains DORA as an explicitly owned candidate; and removes the unsupported generic sector-directive lead unless Legal supplies an exact instrument and trigger.",
+      "rejectedAlternatives": [
+        "Treating the unspecified sector-specific directives as applicable without identified instruments and triggers",
+        "Classifying Release 1 as EU AI Act high-risk without a documented role and use-case assessment"
+      ],
+      "owners": [
+        "General Counsel",
+        "Data Protection Officer",
+        "Head of Compliance",
+        "Fund Legal",
+        "Compliance",
+        "Head of AI Governance"
+      ],
+      "followUp": "AFF-0 must append an evidence-backed regulatory-register revision reflecting the confirmed entries, removed generic lead and open DORA candidate. General Counsel must complete the DORA assessment and retain the AI Act role and use-case classification evidence."
+    },
+    {
+      "id": "INT-Q-008",
+      "recordedAt": "2026-08-01T20:59:59.556+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 8,
+      "impactedDomains": [
+        "Business",
+        "Application",
+        "Data",
+        "Technology",
+        "Security"
+      ],
+      "question": "What is explicitly included and excluded from Release 1 across users, deal types, jurisdictions, portfolio companies, ESG and deal-sourcing functions, external communications, source-system changes, and production rollout?",
+      "recommendation": {
+        "status": "UNCONFIRMED_PROPOSED_ANSWER",
+        "proposal": "Include only Stratton deal professionals conducting due diligence for eligible new investment opportunities, using the confirmed governed sources and assistive AI controls through the investment-committee-ready recommendation. Exclude autonomous investment decisions, transaction execution, external communications, authoritative-source write-back or replacement, special-category personal data, enterprise-wide portfolio monitoring, automated SFDR filing, and deal-sourcing automation unless separately approved through change control.",
+        "assumptions": [
+          "The confirmed 12-to-3-week outcome makes due diligence the sole Release 1 business journey.",
+          "Portfolio monitoring, ESG reporting and deal sourcing remain future capabilities despite appearing in the source vision.",
+          "The first 20 eligible completed deals constitute controlled production rollout evidence rather than unrestricted enterprise deployment."
+        ],
+        "missingOwners": [
+          "Named Release 1 product owner",
+          "Owner who defines eligible deal types and jurisdictions",
+          "Owner for production rollout and participant selection",
+          "Owners who accept deferral of portfolio monitoring, ESG filing and deal-sourcing automation"
+        ]
+      },
+      "rationale": "All domains now exceed 80, but overall confidence remains below 95 and explicit scope and non-scope are required to prevent the source's wider transformation vision from entering Release 1 without confirmation.",
+      "sourceBindings": [
+        "INT-D-001",
+        "INT-D-003",
+        "INT-D-004",
+        "INT-D-006",
+        "INT-D-007",
+        "0-coordination/input/Case-Study-18.normalised.md"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "Human architect with Chief Investment Officer, product, programme, legal, compliance and affected business-function owners",
+      "followUp": "Accept, amend or reject the unconfirmed recommendation and identify accountable owners for scope and deferred capabilities."
+    },
+    {
+      "id": "INT-D-008",
+      "recordedAt": "2026-08-01T21:02:10.946+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-008",
+      "impactedDomains": [
+        "Business",
+        "Application",
+        "Data",
+        "Technology",
+        "Security"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "Release 1 is a controlled production rollout for the first 20 eligible new private-equity investment opportunities handled by Stratton deal teams, Legal and Compliance reviewers, AI Governance, and Investment Committee members. It includes governed evidence ingestion, retrieval, extraction, comparison, risk and ESG analysis, source citations, human review, and preparation of an investment-committee-ready draft recommendation. Deals across Stratton's stated Central European footprint are eligible only where all processing satisfies the confirmed sovereignty rules. Release 1 excludes portfolio-company monitoring, automated SFDR filing, deal-sourcing automation, autonomous decisions or transactions, external counterparty communications, source-system write-back or replacement, special-category data, and wider production rollout until acceptance criteria pass. The Chief Investment Officer is product sponsor, Head of Deal Operations owns deal eligibility, General Counsel owns jurisdiction eligibility, Programme Delivery owns rollout, and the relevant business owners accept deferred capabilities.",
+      "rationale": "This confirms the complete Release 1 population, users, included journey and functions, jurisdiction condition, explicit non-scope, controlled rollout boundary and accountable scope owners.",
+      "rejectedAlternatives": [
+        "Including portfolio-company monitoring in Release 1",
+        "Including automated SFDR filing in Release 1",
+        "Including deal-sourcing automation in Release 1",
+        "Wider production rollout before acceptance criteria pass"
+      ],
+      "owners": [
+        "Chief Investment Officer",
+        "Head of Deal Operations",
+        "General Counsel",
+        "Programme Delivery",
+        "Relevant business owners for deferred capabilities"
+      ],
+      "followUp": "Preserve deferred capabilities as explicit non-scope and route any addition through human-gated requirements change control."
+    },
+    {
+      "id": "INT-Q-009",
+      "recordedAt": "2026-08-01T21:02:10.946+02:00",
+      "type": "QUESTION",
+      "status": "AWAITING_HUMAN_ANSWER",
+      "priority": 9,
+      "impactedDomains": [
+        "Security",
+        "Technology",
+        "Business"
+      ],
+      "question": "Before interview closure, what are the accountable-owner decisions for DORA applicability and for assigning one independent Release 1 validator: Model Risk or Internal Audit?",
+      "recommendation": {
+        "status": "UNCONFIRMED_PROPOSED_ANSWER",
+        "proposal": "General Counsel should record whether DORA applies, the relevant entity and ICT-service trigger, and any resulting Release 1 obligations; the Chief Investment Officer and Head of AI Governance should assign exactly one organisationally independent validation owner, with Internal Audit preferred if Model Risk cannot demonstrate independence from model development and operation.",
+        "assumptions": [
+          "DORA applicability may materially alter resilience, incident, testing, contractual and third-party requirements.",
+          "One accountable validation owner is required even if other assurance functions contribute.",
+          "The selected validator must be independent of Release 1 development, operation and business acceptance."
+        ],
+        "missingOwners": [
+          "General Counsel's recorded DORA applicability decision",
+          "Chief Investment Officer and Head of AI Governance assignment of either Model Risk or Internal Audit",
+          "Named individual or role accepting the independent-validation mandate"
+        ]
+      },
+      "rationale": "All domains meet the minimum confidence floor and overall confidence is 95, but these two material accountable-owner decisions remain unresolved and therefore block grill-me closure.",
+      "sourceBindings": [
+        "INT-D-005",
+        "INT-D-007",
+        "INT-D-008"
+      ],
+      "answer": null,
+      "answerSource": null,
+      "owner": "General Counsel, Chief Investment Officer and Head of AI Governance",
+      "followUp": "Record the accountable decisions or an explicit owner-bound validation plan; do not infer applicability or validator assignment."
+    },
+    {
+      "id": "INT-D-009",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "type": "DECISION",
+      "status": "CONFIRMED",
+      "resolvesQuestionId": "INT-Q-009",
+      "impactedDomains": [
+        "Security",
+        "Technology",
+        "Business"
+      ],
+      "source": "Human architect confirmation in the active AI interaction",
+      "answer": "General Counsel confirms DORA applies where Stratton or the relevant managing entity is an in-scope AIFM or other financial entity and will document any applicable exemption. Until the legal decision is recorded, Release 1 must support DORA-aligned ICT risk management, incident evidence, resilience testing, and third-party and cloud oversight without claiming formal compliance. Internal Audit is the independent Release 1 validator because it is organisationally separate from solution design and AI control ownership. Model Risk defines validation methods and advises but does not issue the independent verdict. General Counsel owns DORA applicability, the Chief Investment Officer appoints Internal Audit, and the Head of AI Governance and Model Risk provide evidence and methodology.",
+      "rationale": "This establishes the conditional DORA trigger, accountable legal confirmation and evidence plan, safe interim requirements boundary, independent validation authority, and separation between validation methodology and verdict.",
+      "rejectedAlternatives": [
+        "Claiming formal DORA compliance before the legal applicability decision and evidence are recorded",
+        "Assigning Model Risk to issue the independent Release 1 verdict"
+      ],
+      "owners": [
+        "General Counsel",
+        "Chief Investment Officer",
+        "Internal Audit",
+        "Head of AI Governance",
+        "Model Risk"
+      ],
+      "followUp": "General Counsel must retain the entity-specific applicability or exemption decision. Internal Audit must independently validate Release 1 using methods informed by Model Risk and evidence supplied by the Head of AI Governance and delivery owners."
+    }
+  ],
+  "statusTransitions": [
+    {
+      "transitionId": "TRANS-001",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "subjectId": "INT-Q-001",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-001"
+    },
+    {
+      "transitionId": "TRANS-002",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "subjectId": "OPEN-001",
+      "from": "OPEN",
+      "to": "RESOLVED",
+      "evidenceId": "INT-D-001",
+      "residualNote": "Detailed metric evidence and acceptance procedure remain a later interview item."
+    },
+    {
+      "transitionId": "TRANS-003",
+      "recordedAt": "2026-08-01T20:45:05.593+02:00",
+      "subjectId": "INT-Q-002",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-002"
+    },
+    {
+      "transitionId": "TRANS-004",
+      "recordedAt": "2026-08-01T20:45:05.593+02:00",
+      "subjectId": "OPEN-002",
+      "from": "OPEN",
+      "to": "PARTIALLY_RESOLVED_PENDING_ACCOUNTABLE_CONFIRMATION_AND_DETAIL",
+      "evidenceId": "INT-D-002",
+      "residualNote": "Mandatory outcomes and accountability are confirmed by the human architect; General Counsel confirmation, approved locations, exception evidence and procedures remain open."
+    },
+    {
+      "transitionId": "TRANS-005",
+      "recordedAt": "2026-08-01T20:49:34.189+02:00",
+      "subjectId": "INT-Q-003",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-003"
+    },
+    {
+      "transitionId": "TRANS-006",
+      "recordedAt": "2026-08-01T20:49:34.189+02:00",
+      "subjectId": "OPEN-003",
+      "from": "OPEN",
+      "to": "PARTIALLY_RESOLVED_PENDING_SYSTEM_DETAIL_AND_VALIDATION",
+      "evidenceId": "INT-D-003",
+      "residualNote": "Source domains, owners and material constraints are confirmed; exact systems, schedules, volumes, quality thresholds and any special-category approval remain open."
+    },
+    {
+      "transitionId": "TRANS-007",
+      "recordedAt": "2026-08-01T20:52:54.934+02:00",
+      "subjectId": "INT-Q-004",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-004"
+    },
+    {
+      "transitionId": "TRANS-008",
+      "recordedAt": "2026-08-01T20:55:20.902+02:00",
+      "subjectId": "INT-Q-005",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-005"
+    },
+    {
+      "transitionId": "TRANS-009",
+      "recordedAt": "2026-08-01T20:57:37.748+02:00",
+      "subjectId": "INT-Q-006",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-006"
+    },
+    {
+      "transitionId": "TRANS-010",
+      "recordedAt": "2026-08-01T20:59:59.556+02:00",
+      "subjectId": "INT-Q-007",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-007"
+    },
+    {
+      "transitionId": "TRANS-011",
+      "recordedAt": "2026-08-01T20:59:59.556+02:00",
+      "subjectId": "OPEN-004",
+      "from": "OPEN",
+      "to": "PARTIALLY_RESOLVED_PENDING_REGISTER_REVISION_AND_DORA_DECISION",
+      "evidenceId": "INT-D-007",
+      "residualNote": "GDPR, SFDR, AIFMD and EU AI Act applicability and constraints are confirmed; DORA remains an owned candidate, and AFF-0 must revise the shared register."
+    },
+    {
+      "transitionId": "TRANS-012",
+      "recordedAt": "2026-08-01T21:02:10.946+02:00",
+      "subjectId": "INT-Q-008",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-008"
+    },
+    {
+      "transitionId": "TRANS-013",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "subjectId": "INT-Q-009",
+      "from": "AWAITING_HUMAN_ANSWER",
+      "to": "RESOLVED_BY_CONFIRMED_DECISION",
+      "evidenceId": "INT-D-009"
+    },
+    {
+      "transitionId": "TRANS-014",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "subjectId": "OPEN-005",
+      "from": "OPEN",
+      "to": "RESIDUAL_VALIDATION_OWNED_AND_PLANNED",
+      "evidenceId": "INT-D-009",
+      "residualNote": "General Counsel owns the entity-specific DORA applicability or exemption record; Release 1 follows the confirmed DORA-aligned boundary without claiming formal compliance meanwhile."
+    },
+    {
+      "transitionId": "TRANS-015",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "subjectId": "OPEN-006",
+      "from": "OPEN",
+      "to": "RESOLVED",
+      "evidenceId": "INT-D-009",
+      "residualNote": "Internal Audit is assigned as independent validator; Model Risk advises on methods only."
+    }
+  ],
+  "impactAssessments": [
+    {
+      "impactId": "IMPACT-001",
+      "recordedAt": "2026-08-01T20:42:28.652+02:00",
+      "decisionId": "INT-D-001",
+      "impacts": [
+        "Confirms the primary first-release business outcome and accountable business owner.",
+        "Defines the due-diligence measurement boundary as formal case opening through an investment-committee-ready recommendation.",
+        "Raises Business and Application shared-understanding confidence.",
+        "Does not confirm detailed functional scope, architecture, technology, data sources, regulatory obligations or acceptance evidence."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for later requirement derivation.",
+      "reviewImpact": "None; interview closure criteria are not met and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-002",
+      "recordedAt": "2026-08-01T20:45:05.593+02:00",
+      "decisionId": "INT-D-002",
+      "impacts": [
+        "Defines EU/EEA residency for production data, backups, logs, model inputs and outputs, and routine processing.",
+        "Prohibits transfers outside the EEA except through a documented, jointly approved legal and risk process.",
+        "Defines Stratton-controlled identity, EU-based personnel, least-privilege, time-bound elevation, auditability and emergency-access outcomes for privileged operations.",
+        "Defines EU and member-state legal-governance outcomes and explicit acceptance of foreign-jurisdiction exposure.",
+        "Assigns the General Counsel as accountable confirmer, advised by the DPO and CISO.",
+        "Raises Data, Technology and Security shared-understanding confidence without selecting an architecture, Azure service or control implementation."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for later data, technology, security and non-functional requirement derivation after residual details and accountable confirmation are obtained.",
+      "reviewImpact": "None; interview closure criteria are not met and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-003",
+      "recordedAt": "2026-08-01T20:49:34.189+02:00",
+      "decisionId": "INT-D-003",
+      "impacts": [
+        "Defines permitted governed internal source domains and accountable business owners for Release 1.",
+        "Makes explicit AI-assisted-use licensing a gate for external market, company, patent, sanctions and regulatory data.",
+        "Classifies deal, financial, legal and portfolio data as highly confidential.",
+        "Requires personal-data minimisation and excludes special-category data absent separate approval.",
+        "Requires provenance, owner, timestamp, licence and quality status for every item.",
+        "Prohibits use of Stratton data to train foundation models and requires human validation before investment use.",
+        "Binds retention to authoritative source schedules and legal holds, with deletion of temporary AI working copies when no longer required.",
+        "Raises Data, Application, Technology and Security shared-understanding confidence without selecting an implementation."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for later data, application, security and non-functional requirement derivation after residual system details and validation criteria are established.",
+      "reviewImpact": "None; interview closure criteria are not met and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-004",
+      "recordedAt": "2026-08-01T20:52:54.934+02:00",
+      "decisionId": "INT-D-004",
+      "impacts": [
+        "Confirms retrieval, extraction, summarisation, comparison, anomaly flagging and draft risk assessment as permitted Release 1 AI tasks.",
+        "Requires deal professionals to validate source evidence and material outputs.",
+        "Requires General Counsel and Compliance approval for regulated, legal, sanctions or externally sourced conclusions.",
+        "Retains every investment decision with the Investment Committee.",
+        "Prohibits autonomous final recommendations, source alteration, external disclosure, transaction execution, approval decisions and bypass of required reviews.",
+        "Assigns AI policy and model-risk ownership to the Head of AI Governance and business-output acceptance accountability to the Chief Investment Officer.",
+        "Raises Business, Application and Security shared-understanding confidence without selecting a model, architecture or control implementation."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for later functional, application, security and non-functional requirements once measurable acceptance criteria are confirmed.",
+      "reviewImpact": "None; interview closure criteria are not met and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-005",
+      "recordedAt": "2026-08-01T20:55:20.902+02:00",
+      "decisionId": "INT-D-005",
+      "impacts": [
+        "Sets 100% governed citation coverage for material claims.",
+        "Sets extraction accuracy at 95% overall and 99% for critical financial and legal fields on an approved representative benchmark.",
+        "Sets zero tolerance for critical unsupported claims and a maximum 2% rate for non-critical unsupported claims.",
+        "Sets at least 90% recall for seeded high-risk findings with no critical risk missed.",
+        "Requires 100% prevention of prohibited actions in negative testing and auditable human review for every material output.",
+        "Defines the first 20 eligible completed deals and workflow timestamps as the initial business-outcome evidence population, with control exceptions tracked.",
+        "Excludes clearly labelled synthetic or mocked evidence from production-benefit claims.",
+        "Assigns benchmark, regulated-test and business-benefit acceptance roles while leaving the exact independent validator between Model Risk and Internal Audit unresolved.",
+        "Raises all domain confidence values but leaves Technology materially open."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for testable business, application, data, security and non-functional requirements after residual definitions and the independent validator are assigned.",
+      "reviewImpact": "None; interview closure criteria are not met and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-006",
+      "recordedAt": "2026-08-01T20:57:37.748+02:00",
+      "decisionId": "INT-D-006",
+      "impacts": [
+        "Retains deal-room, CRM, finance, ESG and legal systems as authoritative sources.",
+        "Limits Release 1 to approved read-only APIs or controlled ingestion and prohibits AI-generated source-record write-back.",
+        "Separates development, test and production and restricts production-confidential data to production.",
+        "Sets 99.9% business-hours availability, four-hour RTO, one-hour RPO, sub-five-second p95 interactive response and 30-minute typical document-pack processing targets.",
+        "Requires incremental migration, reconciliation and parallel operation for the first three eligible deals and prohibits big-bang replacement.",
+        "Defines 8x5 support, monitored critical alerts and named incident ownership.",
+        "Assigns environment, integration, identity, network, support, recovery and migration ownership.",
+        "Raises Technology above the interview closure floor while leaving regulatory applicability as a material open decision."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for later integration, technology, availability, recovery, performance, migration, support, data-isolation and security requirements after residual definitions are assigned.",
+      "reviewImpact": "None; overall confidence remains below 95, material regulatory decisions remain open and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-007",
+      "recordedAt": "2026-08-01T20:59:59.556+02:00",
+      "decisionId": "INT-D-007",
+      "impacts": [
+        "Confirms GDPR applicability and material privacy-governance constraints with DPO and General Counsel authority.",
+        "Confirms conditional SFDR applicability and lineage, quality, reproducibility, review and audit constraints with Head of Compliance authority.",
+        "Confirms conditional AIFMD applicability for Luxembourg AIF vehicles and governed risk, documentation and retention constraints with Fund Legal and Compliance authority.",
+        "Confirms the EU AI Act governance framework, required literacy, transparency, oversight, logging, risk and classification evidence, while withholding high-risk classification absent documented assessment.",
+        "Retains DORA as a candidate with a General Counsel-owned applicability and obligation assessment.",
+        "Removes the unspecified sector-directive lead unless Legal identifies exact instruments and triggers.",
+        "Requires AFF-0 to update the shared regulatory register through append-only change control.",
+        "Raises Security and overall confidence while leaving explicit Release 1 scope and non-scope as a material open decision."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; confirmed obligations are authoring evidence for later security, data, application and non-functional requirements. DORA must not produce active requirements unless its applicability and obligations are confirmed.",
+      "sharedRecordImpact": "AFF-0 regulatory-register revision required; AFF-1 does not edit the shared register.",
+      "reviewImpact": "None; overall confidence remains below 95, explicit scope and non-scope are open and reviewers remain uninvoked."
+    },
+    {
+      "impactId": "IMPACT-008",
+      "recordedAt": "2026-08-01T21:02:10.946+02:00",
+      "decisionId": "INT-D-008",
+      "impacts": [
+        "Defines Release 1 as a controlled production rollout covering the first 20 eligible new private-equity opportunities.",
+        "Confirms participating roles and the complete included due-diligence journey through an investment-committee-ready draft recommendation.",
+        "Conditions Central European deal eligibility on compliance with confirmed sovereignty rules.",
+        "Explicitly defers portfolio monitoring, automated SFDR filing, deal-sourcing automation and wider production rollout.",
+        "Reaffirms exclusions for autonomous decisions or transactions, external communications, source write-back or replacement and special-category data.",
+        "Assigns product sponsorship, deal eligibility, jurisdiction eligibility, rollout and deferred-capability ownership.",
+        "Raises all domains above 90 and overall confidence to 95."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the confirmed scope and non-scope are authoring evidence for the later requirements baseline and change-control boundary.",
+      "reviewImpact": "None; DORA applicability and independent-validator assignment remain material decisions, so interview closure and reviewer invocation remain blocked."
+    },
+    {
+      "impactId": "IMPACT-009",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "decisionId": "INT-D-009",
+      "impacts": [
+        "Defines the entity-specific trigger for DORA applicability and General Counsel's responsibility to retain the applicability or exemption decision.",
+        "Requires DORA-aligned ICT risk, incident, resilience-testing and third-party and cloud oversight evidence pending that record.",
+        "Prohibits a formal DORA compliance claim before applicability and supporting evidence are confirmed.",
+        "Assigns Internal Audit as the organisationally independent Release 1 validator.",
+        "Limits Model Risk to validation methodology and advice rather than the independent verdict.",
+        "Assigns appointment, evidence and methodology responsibilities across the Chief Investment Officer, Head of AI Governance and Model Risk.",
+        "Resolves the last material interview decisions and raises overall shared-understanding confidence to 96."
+      ],
+      "requirementsBaselineImpact": "No baseline exists; the decision is authoring evidence for DORA-aligned requirements and independent-validation governance, subject to the retained entity-specific legal record.",
+      "sharedRecordImpact": "AFF-0 regulatory-register revision must include the conditional DORA position and must not state formal compliance.",
+      "reviewImpact": "Interview closure criteria are met, but reviewers remain uninvoked until the human explicitly confirms the interview record and AFF-1 authors the complete candidate."
+    }
+  ],
+  "assumptions": [],
+  "nonScope": [],
+  "corrections": [],
+  "openItems": [
+    {
+      "id": "OPEN-001",
+      "summary": "First-release business outcome and acceptance basis are unconfirmed.",
+      "owner": "Human architect with business sponsor or product owner",
+      "status": "OPEN",
+      "linkedQuestionId": "INT-Q-001"
+    },
+    {
+      "id": "OPEN-002",
+      "summary": "Sovereignty outcomes and constraints are undefined.",
+      "owner": "Human architect with legal, compliance, security and platform owners",
+      "status": "OPEN"
+    },
+    {
+      "id": "OPEN-003",
+      "summary": "Data classes, owners, processing locations, transfers and retention are unknown.",
+      "owner": "Data, privacy, security and records owners",
+      "status": "OPEN"
+    },
+    {
+      "id": "OPEN-004",
+      "summary": "All source-stated regulatory leads remain inferred and require accountable legal or compliance confirmation.",
+      "owner": "Legal or compliance owner",
+      "status": "OPEN"
+    },
+    {
+      "id": "OPEN-005",
+      "summary": "DORA applicability and any resulting Release 1 obligations require General Counsel's recorded decision.",
+      "owner": "General Counsel",
+      "status": "OPEN",
+      "linkedQuestionId": "INT-Q-009"
+    },
+    {
+      "id": "OPEN-006",
+      "summary": "Exactly one independent validator must be assigned from Model Risk or Internal Audit.",
+      "owner": "Chief Investment Officer and Head of AI Governance",
+      "status": "OPEN",
+      "linkedQuestionId": "INT-Q-009"
+    }
+  ],
+  "interviewConfirmation": {
+    "status": "CONFIRMED",
+    "humanConfirmedAt": "2026-08-01T21:07:24.031+02:00",
+    "source": "Human architect confirmation in the active AI interaction",
+    "statement": "The Phase 1 interview decision record is complete and accurate; AFF-1 is authorised to close the interview and begin requirements-baseline authoring.",
+    "authorisesBaselineAuthoring": true,
+    "isFinalPhaseApproval": false
+  },
+  "closureCriteria": {
+    "allDomainsAtLeast80": true,
+    "overallAtLeast95": true,
+    "noCriticalUnknownOrMaterialDecisionPending": true,
+    "residualAssumptionsOwnedAndPlanned": true,
+    "interviewClosed": true
+  },
+  "closureAssessments": [
+    {
+      "assessmentId": "CLOSURE-001",
+      "recordedAt": "2026-08-01T21:02:10.946+02:00",
+      "triggerDecisionId": "INT-D-008",
+      "result": "KEEP_INTERVIEW_OPEN",
+      "allDomainsAtLeast80": true,
+      "overallAtLeast95": true,
+      "noCriticalUnknownOrMaterialDecisionPending": false,
+      "residualAssumptionsOwnedAndPlanned": true,
+      "blockers": [
+        "General Counsel has not recorded the DORA applicability decision and resulting obligations.",
+        "Neither Model Risk nor Internal Audit has been assigned as the single accountable independent validator."
+      ],
+      "nextQuestionId": "INT-Q-009",
+      "reviewersInvoked": false,
+      "requirementsBaselineCreated": false
+    },
+    {
+      "assessmentId": "CLOSURE-002",
+      "recordedAt": "2026-08-01T21:04:01.730+02:00",
+      "triggerDecisionId": "INT-D-009",
+      "result": "READY_FOR_EXPLICIT_HUMAN_INTERVIEW_CONFIRMATION",
+      "allDomainsAtLeast80": true,
+      "overallAtLeast95": true,
+      "noCriticalUnknownOrMaterialDecisionPending": true,
+      "residualAssumptionsOwnedAndPlanned": true,
+      "residualValidationItems": [
+        {
+          "item": "Entity-specific DORA applicability or exemption record",
+          "owner": "General Counsel",
+          "validationPlan": "Document the relevant entity, trigger, applicability or exemption and resulting obligations before any formal compliance claim."
+        },
+        {
+          "item": "Exact source schedules, volumes, benchmark definitions and operational evidence details",
+          "owner": "Named data, business, AI-governance and technology owners recorded in prior decisions",
+          "validationPlan": "Resolve during requirements authoring and implementation planning without changing confirmed intent; reopen the interview if a material decision emerges."
+        }
+      ],
+      "blockers": [],
+      "confirmationRequired": true,
+      "reviewersInvoked": false,
+      "requirementsBaselineCreated": false
+    },
+    {
+      "assessmentId": "CLOSURE-003",
+      "recordedAt": "2026-08-01T21:07:24.031+02:00",
+      "result": "INTERVIEW_CLOSED_BY_HUMAN_CONFIRMATION",
+      "allDomainsAtLeast80": true,
+      "overallAtLeast95": true,
+      "noCriticalUnknownOrMaterialDecisionPending": true,
+      "residualAssumptionsOwnedAndPlanned": true,
+      "humanConfirmationReceived": true,
+      "authorisesBaselineAuthoring": true,
+      "isFinalPhaseApproval": false,
+      "reviewersInvoked": false,
+      "requirementsBaselineCreated": false
+    }
+  ],
+  "interviewEvents": [
+    {
+      "eventId": "INTERVIEW-EVT-001",
+      "recordedAt": "2026-08-01T21:07:24.031+02:00",
+      "eventType": "INTERVIEW_CLOSURE_CONFIRMED",
+      "actor": "Human architect",
+      "evidence": "Active AI interaction",
+      "decision": "CONFIRMED",
+      "effect": "AFF-1 may author the complete Phase 1 candidate; this is not Phase 1 approval and does not invoke Phase 2."
+    }
+  ],
+  "openItemCurrentDispositions": [
+    {
+      "openItemId": "OPEN-001",
+      "currentStatus": "RESOLVED",
+      "evidence": "INT-D-001",
+      "residual": "Metric evidence procedure is covered by INT-D-005 and catalogue validation items."
+    },
+    {
+      "openItemId": "OPEN-002",
+      "currentStatus": "RESOLVED_WITH_OWNED_VALIDATION",
+      "evidence": "INT-D-002",
+      "residual": "General Counsel owns the approved-location and exception-evidence record."
+    },
+    {
+      "openItemId": "OPEN-003",
+      "currentStatus": "RESOLVED_WITH_OWNED_VALIDATION",
+      "evidence": "INT-D-003",
+      "residual": "Source owners must complete exact system, schedule, volume and remediation mappings."
+    },
+    {
+      "openItemId": "OPEN-004",
+      "currentStatus": "RESOLVED_WITH_OWNED_VALIDATION",
+      "evidence": "INT-D-007 and INT-D-009",
+      "residual": "General Counsel owns the entity-specific DORA applicability or exemption record."
+    },
+    {
+      "openItemId": "OPEN-005",
+      "currentStatus": "RESIDUAL_VALIDATION_OWNED_AND_PLANNED",
+      "evidence": "INT-D-009",
+      "residual": "No formal DORA compliance claim is allowed before General Counsel records the entity-specific decision."
+    },
+    {
+      "openItemId": "OPEN-006",
+      "currentStatus": "RESOLVED",
+      "evidence": "INT-D-009",
+      "residual": "Internal Audit is the independent validator; Model Risk advises on methods."
+    }
+  ],
+  "sharedRecordCurrentBindings": [
+    {
+      "path": "stratton-risk-log.md",
+      "status": "PHASE_1_DISPOSITIONS_APPENDED",
+      "custodian": "AFF-0"
+    },
+    {
+      "path": "stratton-regulatory-register.md",
+      "status": "PHASE_1_REVISION_002_APPENDED",
+      "custodian": "AFF-0"
+    }
+  ]
+}

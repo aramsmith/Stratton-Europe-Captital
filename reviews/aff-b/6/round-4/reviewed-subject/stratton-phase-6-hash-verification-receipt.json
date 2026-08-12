@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_REVIEWED_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": "Phase 6 — C-level Presentation",
+  "round": 4,
+  "reviewedAt": "2026-08-10T01:58:06.9491935+02:00",
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r7/stratton-phase-6-hashes.json",
+    "expectedSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "preWriteSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "postWriteSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "unchanged": true,
+    "artifactCountExpected": 155,
+    "artifactCountRecomputed": 155,
+    "artifactHashesMatched": 155,
+    "allListedArtifactHashesMatched": true,
+    "duplicatePathCount": 0,
+    "safeRelativePaths": true,
+    "canonicalArrayOrdering": true,
+    "manifestSelfExcluded": true
+  },
+  "reviewedSubjectSnapshot": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-4/reviewed-subject/stratton-phase-6-hashes.json",
+    "sha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "byteIdenticalToCanonical": true,
+    "bytes": 32040
+  },
+  "modelBinding": {
+    "revision": "114",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-114.json",
+    "modelPlanSha256": "1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc",
+    "authorReceiptPath": "cases/Stratton-Europe-Captital/6-presentation-r7/evidence/stratton-aff-6-model-receipt.json",
+    "authorReceiptSha256": "f92e432777308e7419fd6b9ddbff32fa635273e5901da033c35ea05d04fda001",
+    "authorActualModel": "gpt-5.6-sol",
+    "affAActualModel": "gpt-5.6-luna",
+    "reviewerActualModel": "gpt-5.6-terra",
+    "actualModelSeparation": true
+  },
+  "finalAffABinding": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-review.json",
+    "sha256": "3a33b30144ed1c1a276569342cfe4d96426cbfc9034806a5ef9768b1972671a2",
+    "verdict": "CONFORMS",
+    "sameExactManifest": true
+  },
+  "priorFindingDisposition": {
+    "findingId": "AFFB-P6-R3-MAJ-001",
+    "status": "RESOLVED",
+    "waiverUsed": false
+  },
+  "nonCircularOutputHashes": {
+    "reviewMarkdownSha256": "c425862e2b4f8cb2fca0724262162710a507c823535b1a7b2301993c41fdee3d",
+    "reviewHtmlSha256": "07ad97073020f247d92e682d758ade82841bcfc121fb79da63ce1ccdb4219088",
+    "reviewJsonSha256": "e5d173f37bf3aa6eee1de1fc7163082d55a40c6e91719d42660519d163ed4ef4",
+    "modelReceiptSha256": "b4da348bf21ebb663440b71e093e10f37f02657b3482d82f830e5790e149413e",
+    "reviewedSubjectSnapshotSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03"
+  },
+  "historicalIdentity": {
+    "r6ManifestSha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219",
+    "affARound6ReviewSha256": "13029b87a1ee99cefa97354ee6955018b23745266e89d08bf217a7426e312e13",
+    "affBRound3ReviewSha256": "6f4df3362b7f77fbd6cefc703608cc4540ab001d78a786cb42e9ffc2a8327c43",
+    "coverage021Sha256": "2ddfeae4e7c7190f080d0b6d6e4c306535743c2518d845a5d685c8e033bd590e",
+    "historicalRecordsUnchanged": true
+  },
+  "scope": "Read-only SHA-256 and byte verification; no subject execution, rebuild, formatting, deployment, inference, runtime test or subject modification.",
+  "receiptSelfHashRecordedExternally": false
+}

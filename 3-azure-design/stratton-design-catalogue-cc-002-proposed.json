@@ -1,0 +1,348 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_3_CC_002_AZURE_DESIGN_CATALOGUE_OVERLAY",
+  "changeControlId": "STRATTON-CC-002",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "3",
+  "phaseName": "Phase 3 — Azure Design",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "generatedAt": "2026-08-06T08:16:06.737+02:00",
+  "authoringReceipt": {
+    "agent": "AFF-3",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "rationale": "The approved AFF-3 default is retained for material Azure design synthesis, sovereignty reconciliation and cross-contract traceability.",
+    "availability": "AVAILABLE_IN_ACTIVE_AUTHORING_CONTEXT"
+  },
+  "baselineBoundary": {
+    "overlayOnly": true,
+    "canonicalPhase3Manifest": {
+      "path": "3-azure-design/stratton-phase-3-hashes.json",
+      "sha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945"
+    },
+    "approvedChangePrecedent": {
+      "path": "approvals/change-control/stratton-cc-001-approval-1.json",
+      "changeControlId": "STRATTON-CC-001",
+      "preserved": true
+    },
+    "canonicalOrCc001FilesModified": false
+  },
+  "designPosition": {
+    "summary": "A fixed specialist-plus-Luna/Terra/Sol portfolio uses deterministic task routing and EU Data Zone Standard inference while preserving private connectivity, managed identity, human authority and fail-closed promotion.",
+    "deploymentType": "EU Data Zone Standard",
+    "azureDeploymentSkuName": "DataZoneStandard",
+    "versionUpgradeOption": "NoAutoUpgrade",
+    "globalDeploymentPolicy": "Global Standard prohibited",
+    "productionModelRouter": "DEFERRED_NOT_A_PRODUCTION_COMPONENT",
+    "deploymentState": "BLOCKED_PENDING_OWNER_EVIDENCE_REVIEWS_AND_HUMAN_DECISION",
+    "release1ScopeChanged": false,
+    "databasePublicAccess": "DISABLED_IN_ALL_ENVIRONMENTS"
+  },
+  "supersededDesignStatements": [
+    {
+      "source": "3-azure-design/stratton-azure-design.md",
+      "subject": "HD-003 and Azure OpenAI deployment-type denial",
+      "disposition": "TARGETED_FOR_SUPERSESSION_BY_THIS_OVERLAY_ONLY_AFTER_EXPLICIT_HUMAN_DECISION",
+      "retainedControls": [
+        "two approved Azure resource regions remain owner inputs",
+        "private endpoints",
+        "public-network denial",
+        "managed identity",
+        "provider evidence",
+        "fail-closed deployment"
+      ]
+    },
+    {
+      "source": "3-azure-design/stratton-design-catalogue.json",
+      "subject": "SBB-10, SBB-19 and regional-pattern denial of DataZone deployment types",
+      "disposition": "TARGETED_FOR_SUPERSESSION_FOR_AZURE_OPENAI_INFERENCE_ONLY"
+    },
+    {
+      "source": "3-azure-design/evidence/stratton-network-security-contract.json",
+      "subject": "AI deployment-type guardrail",
+      "disposition": "REPLACE_WITH_DATA_ZONE_STANDARD_ALLOW_AND_GLOBAL_STANDARD_DENY_AFTER_GATE"
+    },
+    {
+      "source": "3-azure-design/evidence/stratton-operations-reliability-contract.json",
+      "subject": "regional-only AI wording",
+      "disposition": "RECONCILE_RESOURCE_RECOVERY_LOCATIONS_WITH_PROVIDER_SELECTED_EU_DATA_ZONE_PROCESSING"
+    },
+    {
+      "source": "3-azure-design/evidence/stratton-traceability-matrix.json",
+      "subject": "SR-001 deployment-type evidence",
+      "disposition": "UPDATE_BY_OVERLAY_WITHOUT_CHANGING_REQUIREMENT_INTENT"
+    },
+    {
+      "source": "3-azure-design/evidence/stratton-waf-cost-environment-matrix.json",
+      "subject": "WAF-005 and WAF-007 deployment posture",
+      "disposition": "UPDATE_BY_OVERLAY_TO_FIXED_EU_DATA_ZONE_PORTFOLIO"
+    }
+  ],
+  "architectureDecisions": [
+    {
+      "id": "CC002-AD-001",
+      "decision": "Use EU Data Zone Standard for all Azure OpenAI inference deployments.",
+      "constraints": [
+        "Global Standard prohibited",
+        "Microsoft selects processing region within the EU Data Zone",
+        "no specific processing-region promise",
+        "data at rest remains in designated EU geography"
+      ],
+      "status": "CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-AD-002",
+      "decision": "Pin gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol to version 2026-07-09 with NoAutoUpgrade.",
+      "status": "CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-AD-003",
+      "decision": "Use deterministic workflow routing with eight fixed task classes and five ordered escalation reasons.",
+      "status": "CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-AD-004",
+      "decision": "Use prebuilt-layout, text-embedding-3-large and deterministic or classical anomaly methods as the specialist foundation.",
+      "status": "CANDIDATE_REVIEW_PENDING"
+    },
+    {
+      "id": "CC002-AD-005",
+      "decision": "Block production promotion until route-specific quality, security, performance, owner and human gates pass.",
+      "status": "CANDIDATE_REVIEW_PENDING"
+    }
+  ],
+  "solutionBuildingBlockAmendments": [
+    {
+      "sbbId": "SBB-10",
+      "name": "Bounded foundation-model inference",
+      "change": "Replace one unresolved regional model with three pinned EU Data Zone Standard deployments and fixed application routing.",
+      "modelTiers": [
+        "LUNA",
+        "TERRA",
+        "SOL"
+      ],
+      "applicationBinding": "DEPLOYMENT_NAME_OR_RESOURCE_ID_ONLY",
+      "directModelAlias": "PROHIBITED"
+    },
+    {
+      "sbbId": "SBB-11",
+      "name": "Document extraction",
+      "change": "Bind Release 1 extraction to prebuilt-layout; custom extraction remains blocked pending labelled evidence."
+    },
+    {
+      "sbbId": "SBB-09",
+      "name": "Derived evidence retrieval index",
+      "change": "Bind text-embedding-3-large limits and require benchmarked dimensions, chunking and full rebuild evidence after change."
+    },
+    {
+      "sbbId": "SBB-23",
+      "name": "Quality evaluation service",
+      "change": "Add per-route generative benchmarks, specialist datasets, route telemetry and champion/challenger promotion evidence."
+    },
+    {
+      "sbbId": "CC002-SBB-01",
+      "name": "Deterministic model-routing policy",
+      "change": "Application policy maps workflow task class to one initial tier and permits only ordered, recorded escalation."
+    }
+  ],
+  "resourceInventoryAmendments": [
+    {
+      "cafPattern": "oai-stratton-<env>-<loc>-<suffix>",
+      "resourceType": "Microsoft.CognitiveServices/accounts",
+      "sku": "S0 account; deployment children use DataZoneStandard",
+      "publicNetworkAccess": "Disabled",
+      "avmModule": "br/public:avm/res/cognitive-services/account:0.12.0",
+      "capacity": "REQUIRED_OWNER_INPUT",
+      "availabilityClaimed": false
+    },
+    {
+      "cafPattern": "<owner-supplied-luna-deployment-name>",
+      "resourceType": "Microsoft.CognitiveServices/accounts/deployments",
+      "sku": "DataZoneStandard",
+      "model": "gpt-5.6-luna",
+      "version": "2026-07-09",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "capacity": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "cafPattern": "<owner-supplied-terra-deployment-name>",
+      "resourceType": "Microsoft.CognitiveServices/accounts/deployments",
+      "sku": "DataZoneStandard",
+      "model": "gpt-5.6-terra",
+      "version": "2026-07-09",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "capacity": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "cafPattern": "<owner-supplied-sol-deployment-name>",
+      "resourceType": "Microsoft.CognitiveServices/accounts/deployments",
+      "sku": "DataZoneStandard",
+      "model": "gpt-5.6-sol",
+      "version": "2026-07-09",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "capacity": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "cafPattern": "<owner-supplied-embedding-deployment-name>",
+      "resourceType": "Microsoft.CognitiveServices/accounts/deployments",
+      "sku": "DataZoneStandard",
+      "model": "text-embedding-3-large",
+      "version": "REQUIRED_OWNER_INPUT_SUPPORTED_VERSION",
+      "capacity": "REQUIRED_OWNER_INPUT"
+    }
+  ],
+  "cafAndTaggingImpact": {
+    "newManagementGroups": [],
+    "newSubscriptions": [],
+    "newResourceGroups": [],
+    "existingNamePatternsRetained": true,
+    "requiredTagsRetained": [
+      "environment",
+      "workload",
+      "owner",
+      "costCenter",
+      "dataClassification",
+      "criticality",
+      "managedBy"
+    ],
+    "oneParameterizedBicepCodebase": true
+  },
+  "releaseScope": {
+    "release1": [
+      "DUE_DILIGENCE_EVIDENCE_TO_DRAFT",
+      "ASSISTIVE_RISK_AND_ESG_EVIDENCE_ANALYSIS"
+    ],
+    "futureCapabilities": [
+      "AUTOMATED_SFDR_REPORTING",
+      "DEAL_INTELLIGENCE_COPILOT_AND_SOURCING",
+      "PORTFOLIO_FINANCIAL_ANOMALY_MONITORING",
+      "CUSTOM_DOCUMENT_INTELLIGENCE",
+      "SUPERVISED_ANOMALY_PREDICTION",
+      "MODEL_ROUTER_EVALUATION"
+    ],
+    "release1DealCap": 20,
+    "scopeExpansionByModelAvailability": false
+  },
+  "wafAssessment": [
+    {
+      "pillar": "Reliability",
+      "response": "Fixed routes, fail-closed dependency handling, version pinning and evaluation invalidation.",
+      "tradeOff": "Analysis pauses instead of using an unvalidated substitute."
+    },
+    {
+      "pillar": "Security",
+      "response": "EU Data Zone boundary, private endpoints, managed identities, prompt-injection controls and human authority.",
+      "tradeOff": "More identity, policy and assurance evidence is required."
+    },
+    {
+      "pillar": "Cost Optimisation",
+      "response": "Smallest sufficient tier and route-level token/cost evidence.",
+      "tradeOff": "Three deployments and independent benchmarks add governance cost."
+    },
+    {
+      "pillar": "Operational Excellence",
+      "response": "IaC-first, NoAutoUpgrade, versioned route policy, immutable telemetry and runbooks.",
+      "tradeOff": "Material configuration changes repeat evaluation and change control."
+    },
+    {
+      "pillar": "Performance Efficiency",
+      "response": "Task-tier matching with separate interactive and pack measures.",
+      "tradeOff": "A stronger tier is available only through a governed escalation."
+    }
+  ],
+  "traceability": [
+    {
+      "sourceId": "DR-006",
+      "disposition": "PRESERVED_NO_TRAINING_USE"
+    },
+    {
+      "sourceId": "SR-001",
+      "disposition": "AMENDED_TO_EU_DATA_ZONE_STANDARD_WITH_EXACT_RESOURCE_LOCATIONS_OWNER_BOUND"
+    },
+    {
+      "sourceId": "SR-006",
+      "disposition": "PRESERVED_AI_ACT_CLASSIFICATION_EVIDENCE_GATE"
+    },
+    {
+      "sourceId": "NR-001",
+      "disposition": "EXPANDED_WITH_PER_ROUTE_GENERATIVE_BENCHMARK"
+    },
+    {
+      "sourceId": "NR-002",
+      "disposition": "PRESERVED_HUMAN_REVIEW_AND_NEGATIVE_TESTS"
+    },
+    {
+      "sourceId": "NR-003",
+      "disposition": "PRESERVED_INTERACTIVE_AND_PACK_THRESHOLDS"
+    }
+  ],
+  "ownerInputs": [
+    {
+      "id": "CC002-OI-001",
+      "value": "Exact Azure resource region pair and designated EU geography evidence",
+      "owners": [
+        "General Counsel",
+        "DPO",
+        "CISO"
+      ],
+      "state": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "id": "CC002-OI-002",
+      "value": "Deployment names, resource IDs, capability evidence, quota and capacity per model",
+      "owners": [
+        "AI Governance",
+        "Azure Platform",
+        "Service Operations"
+      ],
+      "state": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "id": "CC002-OI-003",
+      "value": "Reasoning effort, embedding dimensions, chunking and benchmark evidence",
+      "owners": [
+        "AI Governance",
+        "Data Owner",
+        "Application Engineering"
+      ],
+      "state": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "id": "CC002-OI-004",
+      "value": "Provider data-use, source licence, retention and legal-hold evidence",
+      "owners": [
+        "General Counsel",
+        "DPO",
+        "Records Owner"
+      ],
+      "state": "REQUIRED_OWNER_INPUT"
+    },
+    {
+      "id": "CC002-OI-005",
+      "value": "EU AI Act role and use-case classification evidence",
+      "owners": [
+        "General Counsel",
+        "Head of AI Governance"
+      ],
+      "state": "REQUIRED_OWNER_INPUT"
+    }
+  ],
+  "contractReferences": [
+    "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-model-routing-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-proposed.json",
+    "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-proposed.json"
+  ],
+  "nonClaims": {
+    "quotaAvailability": false,
+    "azureDeployment": false,
+    "runtimeTesting": false,
+    "specificProcessingRegion": false,
+    "certification": false,
+    "regulatoryClassification": false,
+    "reviewerAcceptance": false,
+    "phaseApproval": false,
+    "productionPromotion": false
+  }
+}

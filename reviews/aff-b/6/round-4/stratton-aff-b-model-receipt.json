@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseName": "Phase 6 — C-level Presentation",
+  "round": 4,
+  "invokedBy": "AFF-6",
+  "aff0Role": "GOVERNANCE_BOOKKEEPING_ONLY_NOT_REVIEW_INVOKER",
+  "formalisedAt": "2026-08-10T01:58:06.9491935+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-terra",
+  "actualRuntimeModelId": "gpt-5.6-terra",
+  "actualRuntimeEvidence": "The AFF-B reviewer was invoked in a separate specialist context with the explicit gpt-5.6-terra runtime route.",
+  "selectionRationale": "Terra is the revision-114 specialist route for independent security, compliance, privacy, sovereignty and evidence-boundary review of the Sol-authored Phase 6 r7 subject.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-114.json",
+    "revision": "114",
+    "sha256": "1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc",
+    "subjectManifestModelPlanRevision": "114",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "reviewerActualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r7/stratton-phase-6-hashes.json",
+    "sha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "fileCount": 155,
+    "listedFilesMatched": 155
+  },
+  "finalAffARecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-review.json",
+    "sha256": "3a33b30144ed1c1a276569342cfe4d96426cbfc9034806a5ef9768b1972671a2",
+    "verdict": "CONFORMS",
+    "finalRoundForManifest": true
+  },
+  "activeCoverageAtInvocation": {
+    "sequence": "021",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-021.json",
+    "sha256": "2ddfeae4e7c7190f080d0b6d6e4c306535743c2518d845a5d685c8e033bd590e",
+    "status": "ACTIVE_CC002_R7_RETAINED_P6_R6_AFFB_R3_MAJOR_OPEN"
+  },
+  "separation": {
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS_AND_SEPARATE_AFFB_CONTEXT",
+    "reviewerActual": "gpt-5.6-terra",
+    "authorActual": "gpt-5.6-sol",
+    "affAActual": "gpt-5.6-luna"
+  },
+  "noUnauthorisedExecution": "AFF-B executed no Azure sign-in, provider query, target validation, what-if, deployment, inference, promotion, retention finalisation or Phase 8 runtime test. Subject inspection and hash verification remained read-only.",
+  "subjectModificationPerformed": false,
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, attest, make a licensing conclusion, deploy, authorise Azure activity or provide runtime operating-effectiveness evidence."
+}

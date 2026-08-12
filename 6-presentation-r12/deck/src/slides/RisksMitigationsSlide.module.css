@@ -1,0 +1,361 @@
+.risksSlide {
+  --risk-cycle: 11000ms;
+  background: var(--background);
+  padding: 0 0 44px;
+  justify-content: flex-start;
+}
+
+.orb1 {
+  width: 520px;
+  height: 520px;
+  top: -210px;
+  right: -90px;
+  background: radial-gradient(
+    circle at 42% 42%,
+    var(--blue-glow),
+    color-mix(in srgb, var(--cyan) 24%, transparent) 52%,
+    transparent 74%
+  );
+}
+
+.orb2 {
+  width: 410px;
+  height: 410px;
+  bottom: -145px;
+  left: 120px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--purple-deep),
+    color-mix(in srgb, var(--pink) 20%, transparent) 58%,
+    transparent 76%
+  );
+}
+
+.body {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: calc(var(--deck-canvas-height) - 44px);
+  padding-top: 22px;
+  padding-bottom: 16px;
+}
+
+.header {
+  display: grid;
+  gap: 7px;
+  max-width: 1180px;
+  padding-right: 150px;
+}
+
+.eyebrow {
+  width: max-content;
+  padding: 6px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--surface-overlay);
+  color: var(--cyan);
+  box-shadow: 0 0 18px var(--glow-cyan);
+  font-size: 13.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.title {
+  color: var(--foreground);
+  font-size: clamp(43px, 3.7vw, 50px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.038em;
+  line-height: 1.03;
+  text-wrap: balance;
+}
+
+.subtitle {
+  max-width: 1110px;
+  color: var(--secondary-foreground);
+  font-size: 17px;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.riskGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-items: stretch;
+}
+
+.riskColumn {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--secondary);
+  min-width: 0;
+  overflow: hidden;
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 7%, transparent);
+}
+
+.assumptionColumn {
+  --column-accent: #f59e0b;
+  --column-accent-soft: color-mix(in srgb, #f59e0b 12%, var(--secondary));
+  border-color: color-mix(in srgb, #f59e0b 45%, var(--border));
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, #f59e0b 16%, transparent), transparent 42%),
+    var(--secondary);
+}
+
+.riskColumnCritical {
+  --column-accent: var(--pink);
+  --column-accent-soft: color-mix(in srgb, var(--pink) 12%, var(--secondary));
+  border-color: color-mix(in srgb, var(--pink) 50%, var(--border));
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--pink) 17%, transparent), transparent 42%),
+    var(--secondary);
+}
+
+.mitigationColumn {
+  --column-accent: var(--green);
+  --column-accent-soft: color-mix(in srgb, var(--green) 12%, var(--secondary));
+  border-color: color-mix(in srgb, var(--green) 48%, var(--border));
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--green) 16%, transparent), transparent 42%),
+    var(--secondary);
+}
+
+.riskColumnCritical,
+.mitigationColumn {
+  overflow: visible;
+}
+
+.riskColumnCritical .itemList,
+.mitigationColumn .itemList {
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+
+.riskColumnCritical .itemShell,
+.mitigationColumn .itemShell,
+.riskColumnCritical .itemCard,
+.mitigationColumn .itemCard {
+  height: 100%;
+}
+
+.riskColumnCritical .itemShell {
+  position: relative;
+}
+
+.pairConnector {
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  right: -32px;
+  display: flex;
+  width: 32px;
+  align-items: center;
+  color: var(--green);
+  opacity: 0;
+  transform: translateY(-50%);
+}
+
+.pairConnector > span {
+  width: 22px;
+  border-top: 2px solid currentColor;
+}
+
+.pairConnector > svg {
+  width: 14px;
+  height: 14px;
+  margin-left: -3px;
+}
+
+.columnHeader {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding-bottom: 11px;
+  border-bottom: 1px solid color-mix(in srgb, var(--column-accent) 40%, var(--border));
+}
+
+.columnIcon {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--column-accent) 55%, var(--border));
+  border-radius: 14px;
+  background: var(--column-accent-soft);
+  color: color-mix(in srgb, var(--column-accent) 82%, white);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--column-accent) 18%, transparent);
+}
+
+.columnIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.columnTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.columnHeader h3 {
+  color: var(--foreground);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.countBadge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  padding: 3px 7px;
+  border: 1px solid color-mix(in srgb, var(--column-accent) 52%, var(--border));
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--column-accent) 13%, var(--surface-overlay));
+  color: color-mix(in srgb, var(--column-accent) 82%, white);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.columnHeader p {
+  margin-top: 3px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.34;
+}
+
+.itemList {
+  display: grid;
+  gap: 8px;
+  min-height: 0;
+  align-content: start;
+}
+
+.itemShell {
+  min-width: 0;
+}
+
+.itemCard {
+  display: grid;
+  gap: 4px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  background: var(--surface-overlay);
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--column-accent) 25%, var(--border));
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--column-accent) 70%, transparent);
+}
+
+.itemCard h4 {
+  color: var(--foreground);
+  font-size: 14.4px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.012em;
+  line-height: 1.18;
+}
+
+.itemCard p {
+  color: var(--secondary-foreground);
+  font-size: 13px;
+  line-height: 1.32;
+}
+
+.footerCallout {
+  padding: 9px 16px;
+  border: 1px solid color-mix(in srgb, var(--green) 45%, var(--border));
+  border-radius: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--green) 14%, var(--secondary)), color-mix(in srgb, var(--cyan) 8%, var(--secondary))),
+    var(--secondary);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
+}
+
+.footerCallout svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  color: color-mix(in srgb, var(--green) 82%, white);
+}
+
+.footerCallout p {
+  color: var(--foreground);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.015em;
+  line-height: 1.25;
+}
+
+.risksSlide:global(.active) [data-risk-pair] {
+  animation: riskPairGlowCycle var(--risk-cycle) ease calc(400ms + var(--pair-index) * 1800ms) infinite both;
+}
+
+.risksSlide:global(.active) .pairConnector {
+  animation: connectorPulseCycle var(--risk-cycle) ease calc(800ms + var(--pair-index) * 1800ms) infinite both;
+}
+
+.risksSlide:global(.active) [data-mitigation-pair] {
+  animation: mitigationPairGlowCycle var(--risk-cycle) ease calc(1150ms + var(--pair-index) * 1800ms) infinite both;
+}
+
+@keyframes riskPairGlowCycle {
+  0% { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--pink) 70%, transparent); filter: none; }
+  4% { box-shadow: inset 3px 0 0 var(--pink), 0 0 28px color-mix(in srgb, var(--pink) 46%, transparent); filter: brightness(1.15); }
+  8% { box-shadow: inset 3px 0 0 var(--pink), 0 0 28px color-mix(in srgb, var(--pink) 46%, transparent); filter: brightness(1.15); }
+  10%, 100% { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--pink) 70%, transparent); filter: none; }
+}
+
+@keyframes connectorPulseCycle {
+  0% { opacity: 0; transform: translate(-8px, -50%); filter: none; }
+  4% { opacity: 1; transform: translate(0, -50%); filter: drop-shadow(0 0 8px var(--green)); }
+  8% { opacity: 1; transform: translate(0, -50%); filter: drop-shadow(0 0 8px var(--green)); }
+  10%, 100% { opacity: 0; transform: translate(0, -50%); filter: none; }
+}
+
+@keyframes mitigationPairGlowCycle {
+  0% { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--green) 70%, transparent); filter: none; }
+  4% { box-shadow: inset 3px 0 0 var(--green), 0 0 30px color-mix(in srgb, var(--green) 46%, transparent); filter: brightness(1.16); }
+  8% { box-shadow: inset 3px 0 0 var(--green), 0 0 30px color-mix(in srgb, var(--green) 46%, transparent); filter: brightness(1.16); }
+  10%, 100% { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--green) 70%, transparent); filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itemCard,
+  .riskColumn,
+  .footerCallout {
+    animation: none;
+    transition: none;
+  }
+
+  .risksSlide:global(.active) [data-risk-pair],
+  .risksSlide:global(.active) .pairConnector,
+  .risksSlide:global(.active) [data-mitigation-pair] {
+    opacity: 1;
+    filter: none;
+    animation: none;
+    transform: none;
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_SCOPE_AMENDMENT",
+  "caseId": "stratton-europe-capital",
+  "phase": 6,
+  "planRevision": "116",
+  "amendmentSequence": "1",
+  "status": "EFFECTIVE_FOR_PHASE_6_R9_SLIDE5_AND_SLIDE9_REMEDIATION",
+  "recordedAt": "2026-08-10T22:48:42.4675467+02:00",
+  "recordedBy": "AFF-0-coordinator",
+  "modelPlan": {
+    "path": "0-coordination/stratton-model-plan-revision-116.json",
+    "sha256": "3ad06a75603edff4f5534d5b5796cd22ed720c566f9149743dbe2c540b99f164",
+    "preservation": "The original revision-116 record and EVT-0214 remain unchanged; this append-only amendment expands only the unreviewed r9 candidate scope."
+  },
+  "trigger": {
+    "type": "HUMAN_REQUESTED_SLIDE9_AUTHORITY_BLOCK_REMOVAL_AFTER_INITIAL_R9_FREEZE",
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "instruction": "slide 9 is also garbled but remove that block entirely.",
+    "invalidatedFreezeEventId": "EVT-0216",
+    "invalidatedManifestPath": "6-presentation-r9/stratton-phase-6-hashes.json",
+    "invalidatedManifestSha256": "7325045392dcc7d8550ba9806c4db3909fcc9e37f9b423df8c4afb6df7f3d62d",
+    "reason": "The complete right-side Retained human authority panel on Slide 9 is visibly garbled/overlapping in the live presentation and must be removed rather than repaired."
+  },
+  "humanDirection": {
+    "workingCandidate": "6-presentation-r9",
+    "instruction": "Preserve r8 exactly. Keep the existing r9 Slide 5 remediation and r8 Slide 11 improvements, remove the complete Slide 9 retained-human-authority panel including cards, Investment Committee circle and no-autonomous-decision banner, then reflow the remaining Slide 9 architecture content without changing the architecture.",
+    "phase6R7ApprovalState": "APPROVED_IMMUTABLE",
+    "phase6R8ApprovalState": "SUPERSEDED_UNAPPROVED_IMMUTABLE",
+    "phase6R9ApprovalState": "PENDING",
+    "phase7InvocationState": "NOT_INVOKED",
+    "phase8InvocationState": "NOT_INVOKED"
+  },
+  "additiveScope": {
+    "preservedScopes": [
+      "SLIDE_11_VISUAL_REMEDIATION_PRESERVED",
+      "SLIDE_5_DEV_PREVIEW_REGRESSION_REMEDIATION"
+    ],
+    "slide9": {
+      "scope": "SLIDE_9_RETAINED_HUMAN_AUTHORITY_BLOCK_REMOVAL",
+      "slide": 9,
+      "sourceFiles": [
+        "deck/src/slides/TogafArchitectureSlide.jsx",
+        "deck/src/slides/TogafArchitectureSlide.module.css"
+      ],
+      "remove": [
+        "Retained human authority panel",
+        "four authority satellite cards",
+        "Investment Committee central circle",
+        "no autonomous investment decision banner"
+      ],
+      "reflow": "Expand the existing five-layer TOGAF architecture stack into the freed width without adding claims or changing architecture.",
+      "browserRequirement": "Wait for fully activated development inline-edit wrappers, prove removed text absent, and prove no overlap or overflow.",
+      "contentOrArchitectureChangeAllowed": false
+    }
+  },
+  "catalogueBoundary": {
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "derivation": "P6-C012 and P6-C013 remain represented by the five existing layer rows; no separately catalogued claim or source reference is removed."
+  },
+  "modelAssignments": {
+    "authorApprovedDefaultSelectedActual": "gpt-5.6-sol",
+    "plannedAffA": "gpt-5.6-luna",
+    "plannedAffB": "gpt-5.6-terra"
+  },
+  "reviewSequence": [
+    "Invalidate the initial unreviewed r9 freeze and delete only its self-excluded manifest.",
+    "Implement and validate the combined Slide 5 and Slide 9 scope.",
+    "Freeze and independently verify a replacement r9 manifest.",
+    "Invoke AFF-A round 9 with gpt-5.6-luna, then AFF-B round 6 with gpt-5.6-terra only after no unresolved material AFF-A finding."
+  ],
+  "nonClaims": [
+    "No Azure sign-in, query, what-if, deployment, inference or runtime testing occurred.",
+    "No architecture, claim, cost, model-policy or human approval change is authorised by this visual removal."
+  ]
+}

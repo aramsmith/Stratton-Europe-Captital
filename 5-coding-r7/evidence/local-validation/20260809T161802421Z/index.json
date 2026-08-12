@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260809T161802421Z",
+  "scope": "All",
+  "status": "PASS",
+  "generatedAt": "2026-08-09T16:34:05.1285492Z",
+  "packageRoot": "<PACKAGE_ROOT>",
+  "validationInput": {
+    "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+    "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+    "fileCount": 124
+  },
+  "evidenceReferences": {
+    "dependencyEvidence": "evidence/dependency-evidence.json",
+    "sourceSecuritySummary": "evidence/source-security/20260809T161802421Z/summary.json",
+    "containerSummary": "evidence/containers/20260809T161802421Z/summary.json"
+  },
+  "releaseEvidenceBoundary": {
+    "localValidationReleaseStep": "RELEASE_MANIFEST_ONLY",
+    "finalFreezeOutsideValidationRun": true,
+    "freezeSequence": [
+      "validation/New-BuildReport.ps1",
+      "validation/New-Phase5Hashes.ps1",
+      "validation/Test-ReleaseEvidence.ps1"
+    ]
+  },
+  "steps": [
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "prerequisites",
+      "scope": "Prerequisites",
+      "status": "PASS",
+      "command": "Verify exact tool versions and required package inputs",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:18:03.1088241Z",
+      "endedAt": "2026-08-09T16:18:13.5283469Z",
+      "durationMilliseconds": 10420.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/prerequisites.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "iac-validation",
+      "scope": "Bicep",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File tests/iac/Invoke-IaCTests.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:18:13.5401813Z",
+      "endedAt": "2026-08-09T16:32:22.7108442Z",
+      "durationMilliseconds": 849171.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/iac-validation.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "module-digest-evidence",
+      "scope": "Bicep",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/Capture-OciDigestEvidence.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:32:22.7131139Z",
+      "endedAt": "2026-08-09T16:32:24.3696154Z",
+      "durationMilliseconds": 1657.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/module-digest-evidence.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "package-integrity",
+      "scope": "Security",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File tests/package/Test-PackageIntegrity.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:32:24.3717346Z",
+      "endedAt": "2026-08-09T16:32:25.7590639Z",
+      "durationMilliseconds": 1387.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/package-integrity.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "source-security-scan",
+      "scope": "Security",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/Scan-SourceSecurity.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:32:25.7611492Z",
+      "endedAt": "2026-08-09T16:32:32.5247005Z",
+      "durationMilliseconds": 6764.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/source-security-scan.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "database-validation",
+      "scope": "Database",
+      "status": "PASS",
+      "command": "npm run check:migrations",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:32:32.5288777Z",
+      "endedAt": "2026-08-09T16:32:32.9577070Z",
+      "durationMilliseconds": 429.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/database-validation.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "application-dependencies",
+      "scope": "Application",
+      "status": "PASS",
+      "command": "npm ci --offline --ignore-scripts",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:32:32.9598935Z",
+      "endedAt": "2026-08-09T16:32:37.3343651Z",
+      "durationMilliseconds": 4374.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/application-dependencies.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "application-validation",
+      "scope": "Application",
+      "status": "PASS",
+      "command": "npm run validate",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:32:37.3358179Z",
+      "endedAt": "2026-08-09T16:33:01.4407306Z",
+      "durationMilliseconds": 24105.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/application-validation.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "container-validation",
+      "scope": "Containers",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/Build-ContainerEvidence.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:33:01.4441914Z",
+      "endedAt": "2026-08-09T16:34:02.8919173Z",
+      "durationMilliseconds": 61448.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/container-validation.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "stepId": "release-evidence",
+      "scope": "Release",
+      "status": "PASS",
+      "command": "pwsh -NoProfile -File validation/New-ReleaseManifest.ps1",
+      "workingDirectory": "<PACKAGE_ROOT>",
+      "startedAt": "2026-08-09T16:34:02.9008819Z",
+      "endedAt": "2026-08-09T16:34:05.1242682Z",
+      "durationMilliseconds": 2223.0,
+      "exitCode": 0,
+      "redactedLog": "evidence/local-validation/20260809T161802421Z/release-evidence.log",
+      "validationInput": {
+        "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+        "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+        "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+        "fileCount": 124
+      }
+    }
+  ]
+}

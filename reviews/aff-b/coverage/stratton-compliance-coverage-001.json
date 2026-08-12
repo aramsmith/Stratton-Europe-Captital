@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF-B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "001",
+  "phaseId": "0",
+  "createdAt": "2026-08-01T20:13:59.594+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE",
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "modelPlanRevision": "1"
+  },
+  "canonicalSubjectBinding": {
+    "manifestPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-0-hashes.json",
+    "manifestSha256": "6269d6bf65933bad447996443ea38c5bc1872aa37753b6e27078b269c3ff6fec",
+    "artifactCount": 12
+  },
+  "sourceRegister": {
+    "path": "cases/Stratton-Europe-Captital/stratton-regulatory-register.md",
+    "manifestSha256": "2e7c0d468768393a32a9df2602a9ea4f2a825d21d4e9b42efd7444a34020bea7",
+    "custodian": "AFF-0"
+  },
+  "coverageSummary": {
+    "registerEntryCount": 5,
+    "inferredApplicabilityCount": 5,
+    "confirmedObligationCount": 0,
+    "confirmedRequirementCount": 0,
+    "confirmedControlCount": 0,
+    "confirmedCoverageMappingCount": 0
+  },
+  "confirmedObligationCoverage": [],
+  "confirmedRequirementControlMappings": [],
+  "inferredApplicability": [
+    {
+      "registerEntryId": "REG-0001",
+      "instrument": "GDPR",
+      "jurisdiction": "European Union / EEA",
+      "sourceStatedTrigger": "Named in the source regulatory context; processing roles and personal-data scope are not described.",
+      "officialSourceStatus": "NOT_YET_RETRIEVED",
+      "publicationOrEffectiveDateStatus": "NOT_YET_CONFIRMED",
+      "extractedObligationStatus": "NOT_YET_EXTRACTED",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "REQUIRED",
+      "requirementIds": [],
+      "controls": [],
+      "status": "OPEN"
+    },
+    {
+      "registerEntryId": "REG-0002",
+      "instrument": "EU AI Act",
+      "jurisdiction": "European Union",
+      "sourceStatedTrigger": "Named in the source regulatory context; provider/deployer role, AI-system classification, and use-case scope are not established.",
+      "officialSourceStatus": "NOT_YET_RETRIEVED",
+      "publicationOrEffectiveDateStatus": "NOT_YET_CONFIRMED",
+      "extractedObligationStatus": "NOT_YET_EXTRACTED",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "REQUIRED",
+      "requirementIds": [],
+      "controls": [],
+      "status": "OPEN"
+    },
+    {
+      "registerEntryId": "REG-0003",
+      "instrument": "EU SFDR",
+      "jurisdiction": "European Union",
+      "sourceStatedTrigger": "The source states ESG reporting obligations and portfolio-company data collection; entity and product scope are not established.",
+      "officialSourceStatus": "NOT_YET_RETRIEVED",
+      "publicationOrEffectiveDateStatus": "NOT_YET_CONFIRMED",
+      "extractedObligationStatus": "NOT_YET_EXTRACTED",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "REQUIRED",
+      "requirementIds": [],
+      "controls": [],
+      "status": "OPEN"
+    },
+    {
+      "registerEntryId": "REG-0004",
+      "instrument": "AIFMD",
+      "jurisdiction": "European Union / Luxembourg implementation",
+      "sourceStatedTrigger": "The source states regulatory reporting for Luxembourg-based fund vehicles; vehicle and manager scope are not established.",
+      "officialSourceStatus": "NOT_YET_RETRIEVED",
+      "publicationOrEffectiveDateStatus": "NOT_YET_CONFIRMED",
+      "extractedObligationStatus": "NOT_YET_EXTRACTED",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "REQUIRED",
+      "requirementIds": [],
+      "controls": [],
+      "status": "OPEN"
+    },
+    {
+      "registerEntryId": "REG-0005",
+      "instrument": "Sector-specific EU Directives",
+      "jurisdiction": "Unspecified",
+      "sourceStatedTrigger": "The source uses a generic phrase; no instrument or trigger is identified.",
+      "officialSourceStatus": "NOT_YET_IDENTIFIED",
+      "publicationOrEffectiveDateStatus": "NOT_YET_CONFIRMED",
+      "extractedObligationStatus": "NOT_YET_EXTRACTED",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "REQUIRED",
+      "requirementIds": [],
+      "controls": [],
+      "status": "BLOCKED_PENDING_IDENTIFICATION"
+    }
+  ],
+  "limitations": [
+    "This revision records source-stated inferred applicability only.",
+    "No obligation is confirmed and no requirement or control mapping is asserted.",
+    "AFF-0 remains custodian of the regulatory register; AFF-1 may translate only human-confirmed obligations into requirements.",
+    "This is architecture-assurance coverage, not legal advice, certification, attestation, waiver, or approval."
+  ]
+}

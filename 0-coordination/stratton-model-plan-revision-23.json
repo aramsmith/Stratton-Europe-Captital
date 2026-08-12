@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "23",
+  "createdAt": "2026-08-03T16:43:56.0993716+02:00",
+  "revisionReason": "Govern Phase 6 revision-4 step 4: make the presentation timer square and defer its first countdown start until the presenter advances beyond the first visible slide.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-22.json",
+    "sha256": "34ecab375d5872ddd2ee26e4c4655ef238574fda1d3418034ef0c74799ca1114",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingMethod": "STEP_BY_STEP",
+    "workingCandidate": "6-presentation-r4",
+    "currentStep": {
+      "id": "R4-STEP-04",
+      "name": "Refine timer shape and start gate",
+      "status": "AUTHORISED",
+      "timerShape": "SQUARE",
+      "initialStartTrigger": "ADVANCE_BEYOND_FIRST_VISIBLE_SLIDE_WHILE_FULLSCREEN",
+      "fullscreenExitBehaviour": "PAUSE",
+      "fullscreenReentryBehaviourAfterStart": "RESUME"
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for precise shared React state transitions, fullscreen lifecycle handling and compact presentation UI refinement."
+  },
+  "preservedBaseline": {
+    "revision3ManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "revision4Steps2And3ValidationPath": "6-presentation-r4/evidence/interactive-title-step-validation.json",
+    "revision4Steps2And3ValidationSha256": "aeddcb104314c35592f1848f1e5e88d5361438acb29cbb05c972b2af484295ad",
+    "state": "R4_STEPS_1_TO_3_COMPLETE_WORKING_DRAFT_NOT_FROZEN"
+  },
+  "implementationContract": {
+    "componentPath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.jsx",
+    "stylePath": "6-presentation-r4/deck/src/components/presentation/PresentationStatus.module.css",
+    "requirements": [
+      "Render the timer with equal width and height and a compact square silhouette.",
+      "Keep the timer at 45:00 while fullscreen remains on the first visible slide.",
+      "Start the countdown when fullscreen is active and the presenter advances to a later visible slide.",
+      "After the first start, continue counting if the presenter returns to the first slide.",
+      "Pause on fullscreen exit and resume without resetting on fullscreen re-entry.",
+      "Preserve the shared drift-resistant timer store and export-safe slide numbering.",
+      "Do not modify Deckio engine files, App.jsx, main.jsx, vite.config.js or package.json."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "formalReviewEligible": false
+  },
+  "constraints": [
+    "Preserve revisions 1, 2 and 3 byte-identically.",
+    "Do not authorise Azure activity, Phase 7 or Phase 8.",
+    "Do not freeze revision 4 until the remaining human-directed revisions are complete."
+  ]
+}

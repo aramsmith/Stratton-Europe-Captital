@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stratton AFF-B Phase 3 round 5</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:1000px;margin:auto;padding:2rem;color:#17212b}h1,h2{color:#0d3b66}code{background:#eef3f7;padding:.1rem .25rem}table{border-collapse:collapse;width:100%}th,td{border:1px solid #b9c6d0;padding:.6rem;text-align:left;vertical-align:top}th{background:#eef3f7}.bad{color:#a4161a;font-weight:700}@media print{body{max-width:none;padding:0}}</style></head>
+<body><h1>Security and Compliance Reviewer — Phase 3 — Azure Design</h1>
+<p><strong>Change:</strong> <code>STRATTON-CC-002</code> · <strong class="bad">Verdict: DIVERGES</strong></p>
+<p>Reviewer selected/actual model <code>gpt-5.6-terra</code>; author actual model <code>gpt-5.6-sol</code>. Model-plan revision <code>111</code>; unchanged manifest <code>2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a</code>; coverage <code>d835b1f6a2d7b0679fa32a04c6237022ce3c320a193cac300b5baf7291ed8458</code>.</p>
+<h2>Scope and confirmed design controls</h2>
+<p>All eleven candidate files were byte-identical before/post review and in reviewed-subject. The design states EU Data Zone prompt/output semantics, EU-geography at-rest data, Microsoft-selected processing region, no specific-region promise, fixed version/API routes, private-path and managed-identity intent, blocked promotion, no silent fallback and human authority. These are design controls only; no Azure deployment or runtime test occurred.</p>
+<p>GDPR remains confirmed only to the existing register boundary. EU AI Act classification and DORA applicability remain pending accountable-human evidence; this review supplies neither classification nor legal advice.</p>
+<h2>Findings</h2>
+<table><tr><th>ID</th><th>Severity</th><th>Required remediation</th></tr>
+<tr><td>AFFB-CC002-MAJ-001</td><td>MAJOR</td><td>Bind primary/recovery allow-lists, DataZoneStandard evidence, recovery data handling and deny/queue conditions.</td></tr>
+<tr><td>AFFB-CC002-MAJ-002</td><td>MAJOR</td><td>Make hostile-evidence, misuse and fallback scenarios explicit immutable blocking promotion gates.</td></tr>
+<tr><td>AFFB-CC002-MAJ-003</td><td>MAJOR</td><td>Add claim-bound source/provenance and licence/provider-use evidence.</td></tr>
+<tr><td>AFFB-CC002-MAJ-004</td><td>MAJOR</td><td>Bind minimisation, retention/deletion/legal hold/DSR, redaction, immutable telemetry and recovery ownership.</td></tr>
+<tr><td>AFFB-CC002-MIN-001</td><td>MINOR</td><td>Regenerate HTML with every substantive Markdown anomaly-governance row.</td></tr></table>
+<h2>Required action and boundary</h2><p>Do not approve, promote, deploy or test this candidate. Preserve the reviewed bytes, create a new append-only remediation candidate/manifest, then repeat both reviews.</p>
+<p>This is architecture security and compliance assurance only, not legal advice, certification, attestation, waiver, approval, deployment authorisation or operating-effectiveness evidence.</p></body></html>

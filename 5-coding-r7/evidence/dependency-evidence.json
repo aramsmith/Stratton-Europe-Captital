@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "registry": "mcr.microsoft.com",
+  "source": "MCR Distribution manifest endpoint",
+  "generatedAt": "2026-08-09T18:32:24.2869856+02:00",
+  "validationInput": {
+    "manifest": "evidence/local-validation/20260809T161802421Z/validation-input.json",
+    "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "aggregateSha256": "26ac6a6e1ade2e58f74e13a276c7d345f971dcb516ecd8bfe9012618d71fa558",
+    "fileCount": 124
+  },
+  "moduleCount": 1,
+  "modules": [
+    {
+      "module": "br/public:avm/res/resources/resource-group:0.4.1",
+      "tag": "0.4.1",
+      "dockerContentDigest": "sha256:c33540e1e448d05fbfadb090c29020818f2c8186ce50c7aeccef423c7b27af21",
+      "endpoint": "https://mcr.microsoft.com/v2/bicep/avm/res/resources/resource-group/manifests/0.4.1",
+      "retrievedAt": "2026-08-09T18:32:24.2864320+02:00"
+    }
+  ]
+}

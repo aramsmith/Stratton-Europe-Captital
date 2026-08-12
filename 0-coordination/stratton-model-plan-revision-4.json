@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "4",
+  "supersedesRevision": "3",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-3.json",
+  "generatedAt": "2026-08-01T22:22:38.202+02:00",
+  "changeReason": "Append-only Phase 3 authoring reassessment following explicit human invocation; prior model-plan revisions remain immutable.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-3",
+    "phaseId": "3",
+    "approvedDefault": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved default remains the best fit for evidence-bound Azure design synthesis across landing zones, sovereignty, private networking, identity, data, AI, resilience, WAF trade-offs and complete requirements-to-SBB traceability.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "COMPLETE_FOR_PHASE_3_AUTHORING"
+  },
+  "reviewAssignments": {
+    "affA": {
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationRequiredOnEveryRound": true
+    },
+    "affB": {
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol"
+    }
+  },
+  "upstreamGateBinding": {
+    "phase2ApprovalPath": "approvals/2/stratton-phase-2-approval-1.json",
+    "phase2ApprovalSha256": "61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3",
+    "phase2CanonicalManifestPath": "2-togaf-architecture/stratton-phase-2-hashes.json",
+    "phase2CanonicalManifestSha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+    "humanInvocationTimestamp": "2026-08-01T22:21:46.264+02:00",
+    "journalStartEventId": "EVT-0035",
+    "journalDashboardEventId": "EVT-0036"
+  },
+  "constraints": [
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every Phase 3 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every Phase 3 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "All seven Phase 2 residual gaps remain open, owner-bound downstream validation controls unless legitimate evidence resolves one.",
+    "Phase 3 must not invent landing-zone topology, subscriptions, Azure locations, CIDRs, workload volumes, prices or legal conclusions.",
+    "No deployment, implementation coding or runtime test is authorised in Phase 3."
+  ]
+}

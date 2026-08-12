@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+*{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.55}
+main{max-width:1180px;margin:0 auto;padding:32px 20px}header,.card,.table-card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border)}
+h1,h2,h3,h4{line-height:1.25}h1{margin-top:0}h2{border-bottom:1px solid var(--cp-border);padding-bottom:8px}code{font-family:Consolas,"Courier New",Courier,monospace;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:2px 5px;overflow-wrap:anywhere}
+.badge{display:inline-block;border:1px solid var(--cp-danger);color:var(--cp-danger);background:var(--cp-surface);border-radius:.625rem;padding:4px 10px;font-weight:700}.meta{color:var(--cp-text-muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.metric{background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:.625rem;padding:12px}.finding{border-left:6px solid var(--cp-danger)}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{border:1px solid var(--cp-border);padding:9px;text-align:left;vertical-align:top}th{background:var(--cp-accent-soft)}a{color:var(--cp-link)}summary{cursor:pointer;color:var(--cp-link)}.warning{border-left:6px solid var(--cp-warning)}footer{color:var(--cp-text-muted);padding:8px}
+@media print{body{background:var(--cp-surface)}main{max-width:none;padding:0}}
+</style><title>AFF-B review · Phase 3 — Azure Design</title></head>
+<body><main><header><span class="badge">DIVERGES</span><h1>AFF-B security and compliance review</h1>
+<p>Phase 3 — Azure Design · round 3 · STRATTON-CC-001</p>
+<p class="meta">Actual model <code>gpt-5.6-sol</code> · model plan 8 · coverage 006</p></header>
+<section class="card"><h2>Immutable subject verification</h2><div class="grid">
+<div class="metric"><strong>Manifest</strong><br><code>87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16</code><br>Schema and 15 artifact hashes: PASS</div>
+<div class="metric"><strong>Final AFF-A</strong><br><code>6199029413b9cc75c594b443c676c522ed518f93b298cea0f878b06f23a78fdc</code><br>Same unchanged manifest: yes</div>
+<div class="metric"><strong>Coverage 006</strong><br><code>d85823693aebed0f790a81377d9e79e785db97c7f2322d0c904dfbf36deec78b</code><br>25 clusters / 31 requirements retained</div>
+<div class="metric"><strong>Convergence</strong><br>Same subject: yes<br>Verdict convergence: no</div></div></section>
+<section class="card warning"><h2>Executive assessment</h2><p>The proposal materially improves the intended controls, but two unresolved major defects remain. Assurance source/build/sign/publish/deploy authority is insufficiently separated, and historical signed trust evidence is not immutably bound to signing time and exact trust snapshots. The human gate is blocked.</p></section>
+<h2>Findings</h2><section class="card finding"><h3>AFFB-CC001-MAJ-001 · MAJOR</h3>
+<h4>Assurance supply-chain authority remains concentrated and the dedicated repository boundary is undefined</h4><p>The proposal separates assurance from workload authority, but it does not define an independently administered Internal Audit source repository or equivalent source-control boundary. Phase 4 combines accepted-repository build/release signing, ACR push and DU-16 deployment in one assurance-build-release-deploy identity. Compromise or misuse of that principal can produce, sign, publish and deploy assurance code, weakening the independence of the verdict authority and creating false assurance.</p>
+<p><strong>Owner:</strong> Internal Audit Software Owner and Release Authority, Identity Lead, Enterprise DevSecOps and AFF-4</p>
+<p><strong>Required remediation:</strong> Define a dedicated Internal Audit-controlled repository or equivalently isolated source-control boundary with enforced branch protection and independent acceptance. Split repository merge/acceptance, reproducible build, release-signing key use, ACR push, deployment and operations into separately authorised identities and approval steps; require immutable provenance/SBOM/signature evidence and negative cross-role tests. Update the Phase 3 authority contract and Phase 4 WP-05, identity mappings, gates and validation plan, then generate new manifests for complete AFF-A/AFF-B re-review.</p>
+<details><summary>Evidence</summary><ul><li><code>3-azure-design/evidence/stratton-security-compliance-contract-cc-001-proposed.json authentication.management and authorityMatrix</code></li><li><code>3-azure-design/evidence/stratton-cc-001-change-control-evidence.json PF-06</code></li></ul></details></section><section class="card finding"><h3>AFFB-CC001-MAJ-002 · MAJOR</h3>
+<h4>Signed receipt and trust evidence are not immutably bound to signing time and exact trust snapshots</h4><p>The receipt schema does not require signedAt even though the purpose contract expects it. Signed envelopes identify keys, but the exact algorithm-policy, trust-registry and signer-mapping versions/hashes used for verification are external mutable parameters rather than immutable per-record bindings. Rotation, revocation, compromise or registry replacement can therefore make historical receipt/verdict verification ambiguous and weaken audit continuity, recovery and records evidence.</p>
+<p><strong>Owner:</strong> Internal Audit cryptographic authority, Workload Security Owner, Records Owner and AFF-3/AFF-4</p>
+<p><strong>Required remediation:</strong> Require signedAt for receipts and bind purpose, algorithm-policy ID/version/hash, trust-registry version/hash, signer-mapping version/hash, key-validity evidence and applicable compromise/revocation disposition into each signed envelope or an immutable referenced verification receipt covered by receiptHash/verdictHash. Retain those snapshots for the full record/legal-hold period and test historical verification across rotation, revocation, compromise, rollback and recovery. Regenerate affected Phase 3/4 artifacts and manifests for complete re-review.</p>
+<details><summary>Evidence</summary><ul><li><code>3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json receiptSchema.required omits signedAt while signatureAndProducerTrust requires signedAt</code></li><li><code>3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json canonicalCryptographicContract receiptHash/verdictHash exclusions and signatureAndProducerTrust verification</code></li><li><code>3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json failClosedParameterGroups purpose-specific trust registry versions/hashes</code></li></ul></details></section>
+<section class="table-card"><h2>All 19 remediation assessments</h2><div class="table-wrap"><table><thead><tr><th>ID</th><th>Area</th><th>Status</th><th>Assessment</th></tr></thead><tbody><tr><td><code>PF-01</code></td><td>Canonical preimages</td><td>CONFORMS</td><td>Domain-separated RFC 8785 preimages, exclusions, ordering, UTF-8 and timestamp rules are explicit and non-self-referential.</td></tr><tr><td><code>PF-02</code></td><td>Purpose-specific cryptographic trust</td><td>DIVERGES</td><td>Purpose separation and fail-closed policy inputs exist, but signed receipt time and immutable per-record trust-policy/registry evidence are incomplete; see AFFB-CC001-MAJ-002.</td></tr><tr><td><code>PF-03</code></td><td>Verdict uniqueness and exact read</td><td>CONFORMS</td><td>Trusted producer plus validationRunId uniqueness, replay/conflict/supersession and exact-submission reads are explicit.</td></tr><tr><td><code>PF-04</code></td><td>Private exact-version evidence transfer</td><td>CONFORMS</td><td>Allow-listed exact Blob version pull, ETag/hash/type/size checks, scan controls, private RBAC/DNS, WORM copy and SSRF/SAS/redirect/version-swap negatives are explicit.</td></tr><tr><td><code>PF-05</code></td><td>Independent evaluator inputs</td><td>CONFORMS-WITH-OWNER-GATES</td><td>Internal Audit policy, registries, release/images, schemas and limits are bound, but values remain owner-supplied and fail closed.</td></tr><tr><td><code>PF-06</code></td><td>Internal Audit assurance package and supply chain</td><td>DIVERGES</td><td>Ownership is separated from workload, but the dedicated repository boundary and separation of repository acceptance, build, signing, ACR push, deployment and operations identities are not enforced; see AFFB-CC001-MAJ-001.</td></tr><tr><td><code>PF-07</code></td><td>Untrusted artifact sandbox</td><td>CONFORMS-WITH-OWNER-GATES</td><td>Static verification is default; dynamic execution is separately authorised, ephemeral, least-privileged, bounded and fail closed.</td></tr><tr><td><code>PF-08</code></td><td>Analysis binding and instruction/data separation</td><td>CONFORMS</td><td>Canonical configuration/input bindings include prompt, chunking, instruction/data separation, injection, schema, alias and revocation controls.</td></tr><tr><td><code>PF-09</code></td><td>Vector provenance and isolation</td><td>CONFORMS</td><td>Tenant/case, manifest, chunk/evidence, embedding/schema provenance and deterministic scoped keys are required with server-injected filters.</td></tr><tr><td><code>PF-10</code></td><td>Hostile retrieval and poisoned-index recovery</td><td>CONFORMS</td><td>Prompt-injection, cross-boundary, citation spoof, index poison and revocation tests plus known-good rebuild and atomic alias switch are explicit; tools and fallback are prohibited.</td></tr><tr><td><code>PF-11</code></td><td>Audit producer authenticity and receipt binding</td><td>CONFORMS-WITH-PF02-GAP</td><td>Producer-signed events and event/body/position receipt binding are explicit, but historical receipt trust remains blocked by AFFB-CC001-MAJ-002.</td></tr><tr><td><code>PF-12</code></td><td>Audit stream conflict and continuity</td><td>CONFORMS</td><td>Unique tenant/case/sequence, strict sender order, predecessor validation and no continuity advance for gaps/conflicts/signature/schema/poison are explicit.</td></tr><tr><td><code>PF-13</code></td><td>Role-separated material guard</td><td>CONFORMS-WITH-PF02-GAP</td><td>The reconciler and material guard require an exact signed VERIFIED_CONTIGUOUS receipt; cryptographic historical verification remains blocked by AFFB-CC001-MAJ-002.</td></tr><tr><td><code>PF-14</code></td><td>Queue limits and ordering relationships</td><td>CONFORMS-WITH-OWNER-GATES</td><td>Size, TTL, grace, retry/reconciliation, duplicate window, expiry DLQ and ordering relationships fail closed when unresolved or invalid.</td></tr><tr><td><code>PF-15</code></td><td>Phase 4 reconciliation and owner parameters</td><td>CONFORMS-WITH-OWNER-GATES</td><td>17 DUs, 46 acyclic dependencies, five work packages, 170 owner-bound parameters, 60 assertions, 12 controls, 10 identities and 19 validation entries reconcile.</td></tr><tr><td><code>PF-16</code></td><td>Secure activation sequence</td><td>CONFORMS</td><td>The six-step sequence gates software acceptance, infrastructure, private paths, negative tests and workload clients without premature activation.</td></tr><tr><td><code>PF-17</code></td><td>Authority-flow overlay</td><td>CONFORMS</td><td>Editable and sanitised accessible diagrams cover pull/copy, verdict, analysis/vectorisation and audit push/receipt.</td></tr><tr><td><code>PF-18</code></td><td>Clawpilot HTML contract</td><td>CONFORMS</td><td>Subject HTML is self-contained and passes theme, variable, font and no-external-runtime checks.</td></tr><tr><td><code>PF-19</code></td><td>Change-control remediation evidence</td><td>CONFORMS</td><td>All 19 preliminary findings, remediation claims, baseline preservation and formal re-review boundary are enumerated.</td></tr></tbody></table></div></section>
+<section class="table-card"><h2>Owner-bound residual controls</h2><div class="table-wrap"><table><thead><tr><th>ID</th><th>Owner</th><th>Required before</th><th>Status</th></tr></thead><tbody><tr><td><code>VAL-001</code></td><td>General Counsel</td><td>Any formal DORA claim or scope-changing obligation</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>VAL-002</code></td><td>Chief Investment Officer and Service Operations</td><td>Service and performance acceptance</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>VAL-003</code></td><td>Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer</td><td>Internal Audit validation</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>VAL-004</code></td><td>Source and records owners</td><td>Production ingestion</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>VAL-005</code></td><td>General Counsel</td><td>Production regional deployment, location and transfer acceptance</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>AFFB-RES-001</code></td><td>General Counsel and Head of AI Governance</td><td>Production AI use or any classification claim</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>AFFB-RES-002</code></td><td>Legal and compliance owners</td><td>Any formal representation relying on the regulatory register</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>CC1-OWN-001</code></td><td>Internal Audit, Identity Lead and Workload Security Owner</td><td>Any assurance submission, audit, receipt or verdict signature activation</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>CC1-OWN-002</code></td><td>Internal Audit, Source Storage Owner, Network Lead and Records Owner</td><td>Evidence pull/copy acceptance</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>CC1-OWN-003</code></td><td>Internal Audit Software Owner, Release Authority, Security Operations and Business Continuity</td><td>WP-05 acceptance, DU-16 deployment or evaluation</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>CC1-OWN-004</code></td><td>Head of AI Governance, Data Owner, Application Engineering and Service Operations</td><td>Analysis/vectorisation or index alias activation</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr><tr><td><code>CC1-OWN-005</code></td><td>Internal Audit, Application Owner and Service Operations</td><td>Audit sender, receiver or receipt guard activation</td><td>OPEN_FAIL_CLOSED_NOT_WAIVED</td></tr></tbody></table></div></section>
+<section class="card"><h2>Assurance and applicability boundary</h2><p>Independent architecture assurance only. This record is not legal advice, legal or regulatory certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime evidence or an operating-effectiveness conclusion.</p><p>GDPR and the EU AI Act governance boundary remain human-confirmed inputs; no AI Act risk classification is asserted. SFDR and AIFMD remain trigger-conditional. DORA remains inferred and owner-gated. No unsupported legal, sovereignty, deployment, Azure-validation, runtime or certification claim is made.</p></section>
+<footer>Subject modification performed: false. AFF-B does not approve, waive, certify, attest, deploy, validate Azure, test runtime behaviour or authorise activation.</footer></main></body></html>

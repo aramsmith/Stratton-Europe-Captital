@@ -1,0 +1,35 @@
+{
+  "name": "stratton-phase5-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Stratton Phase 5 application/contracts/database package",
+  "engines": {
+    "node": ">=22.0.0 <27.0.0"
+  },
+  "scripts": {
+    "format:check": "node ./scripts/check-format.mjs",
+    "lint": "node ./scripts/check-lint.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
+    "test:unit": "node --import tsx --test ../tests/app/unit/**/*.test.ts",
+    "test:integration": "node --import tsx --test ../tests/app/integration/**/*.test.ts",
+    "test": "npm run test:unit && npm run test:integration",
+    "check:openapi": "node ./scripts/check-openapi.mjs",
+    "check:migrations": "node ./scripts/check-migrations.mjs",
+    "check:docker": "node ./scripts/check-docker-digest.mjs",
+    "validate": "npm run format:check && npm run lint && npm run typecheck && npm run build && npm run test && npm run check:openapi && npm run check:migrations && npm run check:docker"
+  },
+  "dependencies": {
+    "@azure/identity": "4.13.1",
+    "@azure/service-bus": "7.9.5",
+    "mssql": "12.7.0"
+  },
+  "devDependencies": {
+    "@types/mssql": "9.1.8",
+    "@types/node": "24.3.3",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2",
+    "yaml": "2.8.1"
+  }
+}

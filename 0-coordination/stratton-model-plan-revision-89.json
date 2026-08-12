@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "89",
+  "createdAt": "2026-08-04T03:24:40+02:00",
+  "revisionReason": "Add animated 3D GitHub Copilot, Microsoft Copilot, and Azure AI Foundry visuals to slide 7.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-88.json",
+    "sha256": "259f927635108a5d1c2d584a6b2cf40663ad719d49bbe308d19e523110c15c95",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 7,
+    "change": "Add a flying 3D GitHub Copilot pilot, a 3D Microsoft Copilot logo, and a 3D Azure AI Foundry logo."
+  },
+  "implementation": {
+    "githubCopilot": {
+      "source": "human-provided image",
+      "backgroundIsolated": true,
+      "treatment": "dimensional flying character with motion trail",
+      "animationDurationSeconds": 7.5
+    },
+    "microsoftCopilot": {
+      "source": "https://copilot.microsoft.com/static/cmc/favicon.svg",
+      "treatment": "official multicolour mark on an extruded glossy 3D plate",
+      "animationDurationSeconds": 6.8
+    },
+    "azureAiFoundry": {
+      "source": "Microsoft Azure Architecture Icons V24 · 035746832-icon-service-AI-Foundry.svg",
+      "treatment": "official Foundry mark on an extruded purple 3D plate",
+      "animationDurationSeconds": 7.4
+    },
+    "fit": {
+      "systemFont": "pass",
+      "jetBrainsMono": "pass",
+      "canvasOverflow": false,
+      "titleOverlap": false,
+      "allImageAssetsLoaded": true
+    },
+    "motion": {
+      "allThreeObjectsMove": true,
+      "coordinatedWithFrontierOrbits": true,
+      "prefersReducedMotion": "all object motion disabled"
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "impeccableDetectorFindings": 0,
+      "visualInspection": "pass",
+      "cssWhitespaceAndTokenCheck": "pass"
+    }
+  },
+  "artifacts": {
+    "slide": {
+      "path": "6-presentation-r4/deck/src/slides/FrontierSolutionTitleSlide.jsx",
+      "sha256": "d766c0bb173e66277ae7673612a31d3f91d7754890ccaea547a3d36172f1f383"
+    },
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/FrontierSolutionTitleSlide.module.css",
+      "sha256": "9758ea4da3a53c26818ace7a733d640f49379f7af0073f0c61ca09598d2de55a"
+    },
+    "githubCopilotPilot": {
+      "path": "6-presentation-r4/deck/src/data/github-copilot-pilot.png",
+      "sha256": "95e9104133755012c9cfc6e5741e804248aae2c2b43e3cfd1f9f20689a9bce81"
+    },
+    "microsoftCopilotLogo": {
+      "path": "6-presentation-r4/deck/src/data/microsoft-copilot-logo.svg",
+      "sha256": "c5b0ad0fc0c6fd9c49131a972635e1aba4e65a0d0385c01d5be8735921d7ef8b"
+    },
+    "azureAiFoundryLogo": {
+      "path": "6-presentation-r4/deck/src/data/azure-ai-foundry-logo.svg",
+      "sha256": "fab039a771f72780ae34e59065d61c66a02d3c347d50923ef2956f34912ea02c"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 7,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

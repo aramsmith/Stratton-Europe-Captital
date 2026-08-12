@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "3",
+  "supersedesRevision": "2",
+  "supersededRecord": "0-coordination/stratton-model-plan-revision-2.json",
+  "generatedAt": "2026-08-01T21:44:51.319+02:00",
+  "changeReason": "Append-only Phase 2 authoring reassessment following explicit human invocation; prior model-plan revisions remain immutable.",
+  "policySource": [
+    ".github/agents/AFF-OPERATING-CONTRACT.md",
+    ".github/agents/AFF-LIFECYCLE.json"
+  ],
+  "activePhaseAssignment": {
+    "agent": "AFF-2",
+    "phaseId": "2",
+    "approvedDefault": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "availability": "ACTIVE",
+    "taskFitRationale": "The approved default remains the best fit for compact, evidence-bound, vendor-neutral TOGAF synthesis across business, data, application, logical technology, security, operations and traceability for this regulated AI-enabled investment workflow.",
+    "overrideRequired": false,
+    "humanDecision": "Not required; approved default retained.",
+    "reassessmentStatus": "COMPLETE_FOR_PHASE_2_AUTHORING"
+  },
+  "reviewAssignments": {
+    "affA": {
+      "approvedDefault": "gpt-5.5",
+      "selectedExactGptModelId": "gpt-5.5",
+      "requiredActualRuntimeModelId": "gpt-5.5",
+      "mustDifferFromPhaseAuthor": true,
+      "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+      "separationRequiredOnEveryRound": true
+    },
+    "affB": {
+      "approvedDefault": "gpt-5.6-sol",
+      "selectedExactGptModelId": "gpt-5.6-sol",
+      "requiredActualRuntimeModelId": "gpt-5.6-sol"
+    }
+  },
+  "upstreamGateBinding": {
+    "phase1ApprovalPath": "approvals/1/stratton-phase-1-approval-1.json",
+    "phase1ApprovalSha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a",
+    "phase1CanonicalManifestPath": "1-requirements/stratton-phase-1-hashes.json",
+    "phase1CanonicalManifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "humanInvocationTimestamp": "2026-08-01T21:44:01.668+02:00",
+    "journalStartEventId": "EVT-0021",
+    "journalDashboardEventId": "EVT-0022"
+  },
+  "constraints": [
+    "AFF-A must use exact actual runtime model ID gpt-5.5 on every Phase 2 review round.",
+    "AFF-B must use exact actual runtime model ID gpt-5.6-sol on every Phase 2 review round.",
+    "Any run-scoped model override requires an explicit human decision and another append-only model-plan revision.",
+    "All seven Phase 1 residual gaps remain open, owner-bound downstream validation controls unless legitimate evidence resolves one.",
+    "Phase 2 remains vendor-neutral and must not select Azure services, SKUs, regions, CIDRs, modules or implementation designs.",
+    "Phase 3 remains ineligible until explicit human Phase 2 approval is recorded."
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_FORMAL_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "reviewer": "AFF-A",
+  "displayName": "Rubber Duck Reviewer",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 7,
+  "reviewedAt": "2026-08-10T01:53:53.6009222+02:00",
+  "verdict": "CONFORMS",
+  "verdictRationale": "The immutable r7 subject and all 155 listed artifacts verify exactly. Revision 114 and Luna/Sol reviewer separation are correctly bound, and AFFB-P6-R3-MAJ-001 is closed in source and compiled Slide 6 output. Evidence-bound and human-invoked labels are truthful and consistent with the claim catalogue and speaker note. No layout, pricing, evidence or execution-boundary regression was found. Residual owner controls remain explicit fail-closed gates. This is not human Phase 6 approval.",
+  "finalRoundForManifest": true,
+  "subjectModificationPerformed": false,
+  "staticOnlyBoundary": true,
+  "reviewedSubject": {
+    "canonicalManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r7/stratton-phase-6-hashes.json",
+    "expectedManifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "preReviewManifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "postReviewManifestSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "recomputedArtifactCount": 155,
+    "matchedArtifactHashes": 155,
+    "allListedHashesMatched": true,
+    "duplicatePathCount": 0,
+    "safeRelativePaths": true,
+    "ordinalSorted": true,
+    "roleCounts": {
+      "presentation-source": 107,
+      "presentation-export": 22,
+      "diagram": 3,
+      "test": 2,
+      "tooling": 1,
+      "evidence": 17,
+      "catalogue": 1,
+      "rendered-html": 1,
+      "authoritative-markdown": 1
+    },
+    "modelPlanRevision": "114",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-114.json",
+    "modelPlanSha256": "1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc",
+    "authorReceiptPath": "cases/Stratton-Europe-Captital/6-presentation-r7/evidence/stratton-aff-6-model-receipt.json",
+    "authorReceiptSha256": "f92e432777308e7419fd6b9ddbff32fa635273e5901da033c35ea05d04fda001",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/reviewed-subject/stratton-phase-6-hashes.json",
+    "snapshotSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "snapshotByteIdentical": true,
+    "unlistedSubjectFiles": [
+      "stratton-phase-6-hashes.json",
+      "deck/src/data/.gitkeep"
+    ]
+  },
+  "model": {
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-luna",
+    "actualRuntimeModelId": "gpt-5.6-luna",
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-model-receipt.json"
+  },
+  "supersession": {
+    "supersedesRound": 6,
+    "supersededReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-6/stratton-aff-a-review.json",
+    "supersededReviewSha256": "13029b87a1ee99cefa97354ee6955018b23745266e89d08bf217a7426e312e13",
+    "supersededManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r6/stratton-phase-6-hashes.json",
+    "supersededManifestSha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219",
+    "historyByteIdentical": true
+  },
+  "affBRound3Disposition": {
+    "findingId": "AFFB-P6-R3-MAJ-001",
+    "severity": "MAJOR",
+    "disposition": "RESOLVED",
+    "evidence": [
+      "cases/Stratton-Europe-Captital/6-presentation-r7/deck/src/slides/AgenticAssuranceRosterSlide.jsx",
+      "cases/Stratton-Europe-Captital/6-presentation-r7/deck/dist/assets/index-D8WRo6wN.js",
+      "cases/Stratton-Europe-Captital/6-presentation-r7/stratton-claim-catalogue.json",
+      "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-114.json"
+    ]
+  },
+  "findings": [],
+  "subjectReview": {
+    "slideCount": 20,
+    "materialClaimCount": 38,
+    "sourceReferenceCount": 69,
+    "sourcePathsResolved": true,
+    "deckOrderMatchesCatalogue": true,
+    "markdownHtmlCatalogueParity": "PASS",
+    "rosterGovernance": {
+      "standardPhaseDisplay": "Evidence-bound",
+      "optionalPhaseDisplay": "Human-invoked",
+      "activeAffA": "gpt-5.6-luna",
+      "activeAffB": "gpt-5.6-terra",
+      "legacyModelIdentifiersPresent": false,
+      "speakerNoteAndClaimParity": "PASS"
+    },
+    "browserEvidence": {
+      "slides": 20,
+      "modes": 3,
+      "combinations": 60,
+      "zeroFindingEntries": true,
+      "determinismRuns": 3,
+      "reportSha256": "83539a83806fd05a47d04ca9e8422bbced64cf76d438c685f13b4060fa5baa3e"
+    },
+    "networkStaticEvidence": {
+      "successfulLocalRequests": 38,
+      "externalRequests": 0,
+      "failedRequests": 0,
+      "productionFiles": 21,
+      "sourceMaps": 0,
+      "externalCssDependencies": 0,
+      "missingLocalDependencies": 0
+    },
+    "pdfEvidence": {
+      "sha256": "86555996132b21f3aea1e6079db77474f72c6b61fa714fa9989b8cca1a5ba752",
+      "bytes": 19185774,
+      "pages": 20,
+      "producerMarker": "MuPDF 1.29.0",
+      "producerDisclosed": true,
+      "deterministicAssemblyRuns": 2
+    },
+    "assetRightsGate": "BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT"
+  },
+  "confirmedControls": [
+    "All 155 listed artifacts matched and the r7 manifest remained unchanged throughout review.",
+    "AFFB-P6-R3-MAJ-001 is closed in source and compiled output.",
+    "The r6 manifest, AFF-A round 6, AFF-B round 3 and coverage 021 remain byte-identical history.",
+    "Evidence-bound and human-invoked labels do not assert unrecorded runtime model use.",
+    "Browser assurance confirms the changed Slide 6 remains readable across all three modes.",
+    "Pricing, PDF, disclosure, network/static and asset-rights boundaries remain consistent."
+  ],
+  "residualGaps": [
+    "AFF-B round 4 and human Phase 6 approval are absent; AFF-A does not substitute for either.",
+    "Owner-bound Azure regions, IDs, quota/capacity, recovery, retention, privacy, licences, regulatory classification, asset rights and benchmark evidence remain fail closed.",
+    "No deployment, inference, promotion, achieved benefit, compliance certification or production-readiness evidence exists."
+  ],
+  "nonApprovalStatement": "AFF-A does not approve Phase 6, waive owner gates, certify compliance, provide legal advice or formal attestation, authorise Azure activity, authorise Phase 7 or Phase 8, or invoke AFF-B.",
+  "outputIntegrity": {
+    "reviewMarkdownPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-review.md",
+    "reviewMarkdownSha256": "9b254778b981d34a7872b58afd9f5dba1ad5719a2dea424e0c59709e38f9bb32",
+    "reviewHtmlPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-review.html",
+    "reviewHtmlSha256": "7af652c1994fd21757889b6654d3c9140f263492bddfd702ca64d7b36d6e6ced",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-model-receipt.json",
+    "modelReceiptSha256": "9d4bb610e215216df2e17c744bbb99963de5c2155e5ce25e22c35f2db952f91f",
+    "reviewedSubjectSnapshotSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "reviewJsonSelfHashRecordedExternally": true,
+    "verificationReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  }
+}

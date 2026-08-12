@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "22",
+  "createdAt": "2026-08-03T16:15:23.3271724+02:00",
+  "revisionReason": "Govern Phase 6 revision-4 step 3: add an identified AMA Case 18 title slide using the human-authorised Stratton Europe Capital logo.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-21.json",
+    "sha256": "f3c7c5e0309ac16ba4904c7324bafa01a4ae4dd53453d19b309e9bdc94481fcf",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingMethod": "STEP_BY_STEP",
+    "workingCandidate": "6-presentation-r4",
+    "currentStep": {
+      "id": "R4-STEP-03",
+      "name": "Add identified title slide",
+      "status": "AUTHORISED",
+      "caseReference": "AMA Case 18",
+      "officialOrganisationName": "Stratton Europe Capital",
+      "logoSource": "C:/Users/arsmith/OneDrive/AMA-Equity-2/logo.png"
+    }
+  },
+  "phase6Assignment": {
+    "agent": "AFF-6",
+    "phaseId": "6",
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "taskFitRationale": "GPT-5.6 Sol is the best available GPT model for executive slide composition, governed identity-boundary changes, DECKIO integration and traceability-preserving presentation updates."
+  },
+  "preservedBaseline": {
+    "revision3ManifestSha256": "c59220ac2d551c11c40aeb5fe49b8b4253dcffaf49f1a9c2d086e39e439d6606",
+    "revision4Step1ValidationPath": "6-presentation-r4/evidence/dark-theme-step-validation.json",
+    "revision4Step1ValidationSha256": "e4014d67f686c3a967a904fecc04fd0081db91a44aab893c359326bf5454a363",
+    "revision4Step2ModelPlanPath": "0-coordination/stratton-model-plan-revision-21.json",
+    "revision4Step2ModelPlanSha256": "f3c7c5e0309ac16ba4904c7324bafa01a4ae4dd53453d19b309e9bdc94481fcf",
+    "state": "R4_STEP2_IMPLEMENTED_VALIDATION_PENDING"
+  },
+  "implementationContract": {
+    "slideId": "S00",
+    "componentPath": "6-presentation-r4/deck/src/slides/TitleSlide.jsx",
+    "stylePath": "6-presentation-r4/deck/src/slides/TitleSlide.module.css",
+    "logoDestination": "6-presentation-r4/deck/src/data/stratton-europe-capital-logo.png",
+    "requirements": [
+      "Register the title slide first while preserving existing logical slide identifiers S01 through S10.",
+      "Use the official organisation spelling shown in the logo: Stratton Europe Capital.",
+      "Display AMA Case 18 prominently.",
+      "Import the copied logo through ESM and never reference the OneDrive path from slide source.",
+      "Follow the DECKIO Dark descriptor with accent bar first, two ambient orbs, content-frame content-gutter and BottomBar last.",
+      "Include the shared slide-number and countdown status immediately before BottomBar.",
+      "Keep the title-slide copy concise and avoid introducing unsupported material architecture claims."
+    ]
+  },
+  "identityAndPrivacyBoundary": {
+    "previousRevision4Boundary": "AUDIENCE_ANONYMOUS_BROWSER_OUTPUT",
+    "newRevision4Boundary": "EXPLICIT_CUSTOMER_AND_CASE_IDENTITY",
+    "authorisedIdentity": [
+      "Stratton Europe Capital",
+      "AMA Case 18",
+      "Official user-supplied logo"
+    ],
+    "securityReviewRequirement": "Fresh AFF-B review must assess the intentional identity-bearing browser and export boundary before approval.",
+    "revision3EvidenceUnaffected": true
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false,
+    "formalReviewEligible": false
+  },
+  "constraints": [
+    "Preserve revisions 1, 2 and 3 byte-identically.",
+    "Do not authorise Azure activity, Phase 7 or Phase 8.",
+    "Do not freeze revision 4 until the remaining human-directed revisions are complete."
+  ]
+}

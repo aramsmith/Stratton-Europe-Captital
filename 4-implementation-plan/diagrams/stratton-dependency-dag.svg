@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="840" viewBox="0 0 1200 840" role="img" aria-labelledby="title desc">
+  <title id="title">Stratton Phase 4 complete deployment dependency DAG</title>
+  <desc id="desc">Seventeen deployable units and all forty-four direct dependencies. Edges: 01-02; 02-03; 03-04,06; 04-05,07,08; 05-07,08,09,13,16; 06-07,08,09,12,16; 07-11,13,17; 08-09,12,16,17; 09-10,11,12,13,16,17; 10-12,13,17; 11-12,13,17; 12-13,15,17; 13-14; 14-15,17; 15-17; 16-17.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="currentColor"/>
+    </marker>
+    <style>
+      .node{fill:none;stroke:currentColor;stroke-width:2}
+      .edge{stroke:currentColor;stroke-width:1;opacity:.52;marker-end:url(#arrow)}
+      .label{fill:currentColor;font:13px 'Segoe UI',Arial,sans-serif;text-anchor:middle}
+      .stage{fill:currentColor;font:11px 'Segoe UI',Arial,sans-serif;text-anchor:start}
+    </style>
+  </defs>
+  <g class="edge">
+    <line id="e01-02" x1="600" y1="65" x2="600" y2="85"/>
+    <line id="e02-03" x1="600" y1="125" x2="600" y2="145"/>
+    <line id="e03-04" x1="600" y1="185" x2="400" y2="205"/><line id="e03-06" x1="600" y1="185" x2="800" y2="205"/>
+    <line id="e04-05" x1="400" y1="245" x2="400" y2="265"/><line id="e04-07" x1="400" y1="245" x2="250" y2="325"/><line id="e04-08" x1="400" y1="245" x2="600" y2="325"/>
+    <line id="e05-07" x1="400" y1="305" x2="250" y2="325"/><line id="e05-08" x1="400" y1="305" x2="600" y2="325"/><line id="e05-09" x1="400" y1="305" x2="600" y2="385"/><line id="e05-13" x1="400" y1="305" x2="600" y2="565"/><line id="e05-16" x1="400" y1="305" x2="850" y2="685"/>
+    <line id="e06-07" x1="800" y1="245" x2="250" y2="325"/><line id="e06-08" x1="800" y1="245" x2="600" y2="325"/><line id="e06-09" x1="800" y1="245" x2="600" y2="385"/><line id="e06-12" x1="800" y1="245" x2="600" y2="505"/><line id="e06-16" x1="800" y1="245" x2="850" y2="685"/>
+    <line id="e07-11" x1="250" y1="365" x2="850" y2="445"/><line id="e07-13" x1="250" y1="365" x2="600" y2="565"/><line id="e07-17" x1="250" y1="365" x2="600" y2="745"/>
+    <line id="e08-09" x1="600" y1="365" x2="600" y2="385"/><line id="e08-12" x1="600" y1="365" x2="600" y2="505"/><line id="e08-16" x1="600" y1="365" x2="850" y2="685"/><line id="e08-17" x1="600" y1="365" x2="600" y2="745"/>
+    <line id="e09-10" x1="600" y1="425" x2="350" y2="445"/><line id="e09-11" x1="600" y1="425" x2="850" y2="445"/><line id="e09-12" x1="600" y1="425" x2="600" y2="505"/><line id="e09-13" x1="600" y1="425" x2="600" y2="565"/><line id="e09-16" x1="600" y1="425" x2="850" y2="685"/><line id="e09-17" x1="600" y1="425" x2="600" y2="745"/>
+    <line id="e10-12" x1="350" y1="485" x2="600" y2="505"/><line id="e10-13" x1="350" y1="485" x2="600" y2="565"/><line id="e10-17" x1="350" y1="485" x2="600" y2="745"/>
+    <line id="e11-12" x1="850" y1="485" x2="600" y2="505"/><line id="e11-13" x1="850" y1="485" x2="600" y2="565"/><line id="e11-17" x1="850" y1="485" x2="600" y2="745"/>
+    <line id="e12-13" x1="600" y1="545" x2="600" y2="565"/><line id="e12-15" x1="600" y1="545" x2="350" y2="685"/><line id="e12-17" x1="600" y1="545" x2="600" y2="745"/>
+    <line id="e13-14" x1="600" y1="605" x2="600" y2="625"/>
+    <line id="e14-15" x1="600" y1="665" x2="350" y2="685"/><line id="e14-17" x1="600" y1="665" x2="600" y2="745"/>
+    <line id="e15-17" x1="350" y1="725" x2="600" y2="745"/><line id="e16-17" x1="850" y1="725" x2="600" y2="745"/>
+  </g>
+  <g>
+    <text class="stage" x="20" y="50">Stage 1</text><rect class="node" x="490" y="25" width="220" height="40" rx="7"/><text class="label" x="600" y="50">DU-01 Hierarchy</text>
+    <text class="stage" x="20" y="110">Stage 2</text><rect class="node" x="490" y="85" width="220" height="40" rx="7"/><text class="label" x="600" y="110">DU-02 Guardrails</text>
+    <text class="stage" x="20" y="170">Stage 3</text><rect class="node" x="490" y="145" width="220" height="40" rx="7"/><text class="label" x="600" y="170">DU-03 Organisation</text>
+    <text class="stage" x="20" y="230">Stages 4 / 6</text><rect class="node" x="290" y="205" width="220" height="40" rx="7"/><text class="label" x="400" y="230">DU-04 Network</text><rect class="node" x="690" y="205" width="220" height="40" rx="7"/><text class="label" x="800" y="230">DU-06 Identity / RBAC</text>
+    <text class="stage" x="20" y="290">Stage 5</text><rect class="node" x="290" y="265" width="220" height="40" rx="7"/><text class="label" x="400" y="290">DU-05 Central DNS</text>
+    <text class="stage" x="20" y="350">Stage 7</text><rect class="node" x="140" y="325" width="220" height="40" rx="7"/><text class="label" x="250" y="350">DU-07 Governance</text><rect class="node" x="490" y="325" width="220" height="40" rx="7"/><text class="label" x="600" y="350">DU-08 Monitoring</text>
+    <text class="stage" x="20" y="410">Stage 8</text><rect class="node" x="490" y="385" width="220" height="40" rx="7"/><text class="label" x="600" y="410">DU-09 Data / recovery</text>
+    <text class="stage" x="20" y="470">Stage 9</text><rect class="node" x="240" y="445" width="220" height="40" rx="7"/><text class="label" x="350" y="470">DU-10 Integration / APIM</text><rect class="node" x="740" y="445" width="220" height="40" rx="7"/><text class="label" x="850" y="470">DU-11 Regional AI</text>
+    <text class="stage" x="20" y="530">Stage 10</text><rect class="node" x="490" y="505" width="220" height="40" rx="7"/><text class="label" x="600" y="530">DU-12 Application</text>
+    <text class="stage" x="20" y="590">Stage 11</text><rect class="node" x="490" y="565" width="220" height="40" rx="7"/><text class="label" x="600" y="590">DU-13 Private endpoints</text>
+    <text class="stage" x="20" y="650">Stage 12</text><rect class="node" x="490" y="625" width="220" height="40" rx="7"/><text class="label" x="600" y="650">DU-14 APIM lockdown</text>
+    <text class="stage" x="20" y="710">Stages 13 / 14</text><rect class="node" x="240" y="685" width="220" height="40" rx="7"/><text class="label" x="350" y="710">DU-15 Private ingress</text><rect class="node" x="740" y="685" width="220" height="40" rx="7"/><text class="label" x="850" y="710">DU-16 Assurance</text>
+    <text class="stage" x="20" y="770">Stage 15</text><rect class="node" x="490" y="745" width="220" height="40" rx="7"/><text class="label" x="600" y="770">DU-17 Diagnostics</text>
+  </g>
+</svg>

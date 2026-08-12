@@ -1,0 +1,535 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF-B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "006",
+  "changeControlId": "STRATTON-CC-001",
+  "phaseIds": [
+    "3",
+    "4"
+  ],
+  "createdAt": "2026-08-02T14:59:56.310+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_FOR_BOUND_CHANGE_CONTROL_MANIFESTS",
+  "supersedesCoverageSequence": "005",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-005.json",
+    "sha256": "2c0c5b1f65a46b2359712309fd9699d52e9705ed417651a877965fa2500456b7",
+    "overwrite": false
+  },
+  "supersessionReason": "Sequence 006 preserves the 25 obligation clusters and 31 approved requirements from sequence 005 and adds STRATTON-CC-001 authority, evidence-transfer, AI/retrieval, audit-authenticity/continuity, assurance supply-chain/sandbox and owner-gate coverage for the unchanged Phase 3 and Phase 4 proposal manifests.",
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "modelReassessment": "The approved default remains suitable for high-complexity security, privacy, sovereignty, cryptographic evidence, hostile-content and assurance-supply-chain review; no override is required.",
+    "modelPlanRevision": "8",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-8.json",
+    "modelPlanSha256": "19754c9d3b4273d91b8af61cc0e38523768967ecf50a79f9c3caee4694a41be9"
+  },
+  "canonicalSubjectBindings": [
+    {
+      "phaseId": "3",
+      "manifestPath": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-001-proposed.json",
+      "manifestSha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+      "modelPlanRevision": "8",
+      "artifactCount": 15,
+      "verificationStatus": "MANIFEST_SCHEMA_VALID_AND_ALL_ARTIFACT_HASHES_INDEPENDENTLY_RECOMPUTED_MATCH",
+      "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/3/round-4/stratton-aff-a-review.json",
+      "finalAffASha256": "6199029413b9cc75c594b443c676c522ed518f93b298cea0f878b06f23a78fdc",
+      "finalAffAVerdict": "CONFORMS-WITH-GAPS",
+      "sameUnchangedManifestAsAffA": true
+    },
+    {
+      "phaseId": "4",
+      "manifestPath": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-proposed.json",
+      "manifestSha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8",
+      "modelPlanRevision": "8",
+      "artifactCount": 14,
+      "verificationStatus": "MANIFEST_SCHEMA_VALID_AND_ALL_ARTIFACT_HASHES_INDEPENDENTLY_RECOMPUTED_MATCH",
+      "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-4/stratton-aff-a-review.json",
+      "finalAffASha256": "73656e7433c9af192d385115b91ac6d8e952b1eb3fa3d683ea6daf360c03b0a9",
+      "finalAffAVerdict": "CONFORMS-WITH-GAPS",
+      "sameUnchangedManifestAsAffA": true
+    }
+  ],
+  "approvedEvidenceBoundary": {
+    "phase1Approval": {
+      "path": "cases/Stratton-Europe-Captital/approvals/1/stratton-phase-1-approval-1.json",
+      "sha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a"
+    },
+    "phase1Manifest": {
+      "path": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+      "sha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a"
+    },
+    "phase2Approval": {
+      "path": "cases/Stratton-Europe-Captital/approvals/2/stratton-phase-2-approval-1.json",
+      "sha256": "61a917d712615071c70fbff53044a405aedc3460c3d0a5064a581bfa1e467ff3"
+    },
+    "phase2Manifest": {
+      "path": "cases/Stratton-Europe-Captital/2-togaf-architecture/stratton-phase-2-hashes.json",
+      "sha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9"
+    },
+    "approvedPhase3Baseline": {
+      "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes.json",
+      "sha256": "78ee209f9d600e28aba81b8a66012836e32a3850e2156157f0434ae7e6e39945",
+      "modified": false
+    },
+    "approvedPhase4Baseline": {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes.json",
+      "sha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+      "modified": false
+    }
+  },
+  "sourceAndConfidenceBoundary": {
+    "humanConfirmedApplicabilityEvidence": [
+      "cases/Stratton-Europe-Captital/1-requirements/stratton-interview-decisions.json INT-D-007",
+      "cases/Stratton-Europe-Captital/1-requirements/stratton-interview-decisions.json INT-D-009"
+    ],
+    "sourceRegister": "cases/Stratton-Europe-Captital/stratton-regulatory-register.md revision 002",
+    "officialSourceDetailStatus": "OPEN_OWNER_BOUND_UNDER_AFFB-RES-002",
+    "boundary": "This revision preserves previously human-confirmed or conditional applicability without independently deciding legal scope. It adds technical control coverage only and introduces no new instrument, article mapping, legal conclusion or mandatory obligation."
+  },
+  "applicabilityBoundary": {
+    "GDPR": {
+      "confidence": "CONFIRMED_BY_HUMAN_INPUT",
+      "status": "DETAILED_OFFICIAL_CITATIONS_OPEN_AFFB-RES-002"
+    },
+    "EU_AI_Act": {
+      "confidence": "CONFIRMED_GOVERNANCE_FRAMEWORK_BOUNDARY",
+      "classificationClaim": "NONE",
+      "status": "ROLE_AND_USE_CASE_CLASSIFICATION_OPEN_AFFB-RES-001"
+    },
+    "SFDR": {
+      "confidence": "HUMAN_CONFIRMED_CONDITIONAL",
+      "trigger": "Where ESG output supports regulated disclosures"
+    },
+    "AIFMD": {
+      "confidence": "HUMAN_CONFIRMED_CONDITIONAL",
+      "trigger": "Where a Luxembourg AIF vehicle uses the workflow"
+    },
+    "DORA": {
+      "confidence": "INFERRED_CONDITIONAL",
+      "trigger": "Relevant entity is an in-scope financial entity",
+      "humanConfirmationBoundary": "General Counsel entity-specific applicability or exemption remains open under VAL-001"
+    },
+    "otherInstruments": "No applicability conclusion introduced."
+  },
+  "preservedCoverage": {
+    "confirmedObligationClusterCount": 21,
+    "confirmedObligationClusters": [
+      "Data minimisation",
+      "Purpose limitation",
+      "Documented lawful basis",
+      "Data-subject handling",
+      "DPIA screening",
+      "Processor controls",
+      "Transfer governance",
+      "Data lineage",
+      "Data quality",
+      "Reproducibility",
+      "Accountable review",
+      "Audit evidence",
+      "Governed risk records",
+      "Governed documentation records",
+      "Applicable retention",
+      "AI literacy",
+      "Transparency",
+      "Human oversight",
+      "Logging",
+      "Risk management",
+      "Documented role and use-case classification"
+    ],
+    "conditionalObligationClusterCount": 4,
+    "conditionalObligationClusters": [
+      "ICT risk-management evidence",
+      "Incident evidence",
+      "Resilience testing",
+      "Third-party and cloud oversight"
+    ],
+    "totalObligationClusterCount": 25,
+    "activeRequirementCount": 31,
+    "activeRequirementIds": [
+      "BR-001",
+      "BR-002",
+      "FR-001",
+      "FR-002",
+      "AR-001",
+      "AR-002",
+      "DR-001",
+      "DR-002",
+      "DR-003",
+      "DR-004",
+      "DR-005",
+      "DR-006",
+      "DR-007",
+      "SR-001",
+      "SR-002",
+      "SR-003",
+      "SR-004",
+      "SR-005",
+      "SR-006",
+      "SR-007",
+      "SR-008",
+      "SR-009",
+      "SR-010",
+      "IR-001",
+      "TR-001",
+      "TR-002",
+      "TR-003",
+      "TR-004",
+      "NR-001",
+      "NR-002",
+      "NR-003"
+    ],
+    "requirementsModifiedByCoverageRevision": false,
+    "newLegalObligationsAdded": false
+  },
+  "changeControlCoverageDomains": [
+    {
+      "id": "CC1-COV-01",
+      "domain": "Authority separation and no workload verdict authority",
+      "requirements": [
+        "FR-002",
+        "SR-007",
+        "SR-008",
+        "NR-002"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-001-proposed.json authorityMatrix",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-proposed.json identityMappings"
+      ],
+      "status": "PARTIALLY_COVERED_BLOCKED_BY_AFFB-CC001-MAJ-001"
+    },
+    {
+      "id": "CC1-COV-02",
+      "domain": "Internal Audit assurance repository/build/sign/ACR/deploy/operate supply chain",
+      "requirements": [
+        "SR-008",
+        "TR-002",
+        "NR-002"
+      ],
+      "evidence": [
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-proposed.json WP-05/softwarePackageAcceptance/identityMappings"
+      ],
+      "status": "INCOMPLETE_BLOCKED_BY_AFFB-CC001-MAJ-001"
+    },
+    {
+      "id": "CC1-COV-03",
+      "domain": "Private exact-version Blob pull/copy, anti-SSRF, scan and WORM",
+      "requirements": [
+        "DR-001",
+        "DR-004",
+        "DR-005",
+        "SR-003",
+        "SR-004",
+        "SR-005",
+        "SR-010"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json pullAndCopy"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-04",
+      "domain": "Purpose-specific signatures, trust, validity, rotation, revocation and compromise",
+      "requirements": [
+        "SR-004",
+        "SR-007",
+        "SR-008",
+        "TR-003"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json signatureAndProducerTrust/receiptSchema",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-proposed.json failClosedParameters"
+      ],
+      "status": "INCOMPLETE_BLOCKED_BY_AFFB-CC001-MAJ-002"
+    },
+    {
+      "id": "CC1-COV-05",
+      "domain": "Evaluator sandbox and untrusted artifact handling",
+      "requirements": [
+        "SR-003",
+        "SR-008",
+        "NR-001",
+        "NR-002"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json sandbox",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-proposed.json WP-05/activationSequence"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-06",
+      "domain": "Prompt injection, instruction/data separation, cross-boundary retrieval, citation spoof, index poison and evidence revocation",
+      "requirements": [
+        "AR-001",
+        "AR-002",
+        "DR-004",
+        "DR-006",
+        "SR-006",
+        "NR-001",
+        "NR-002"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json analysisAndVectorizationBoundary"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    },
+    {
+      "id": "CC1-COV-07",
+      "domain": "Regional private AI and retained human authority",
+      "requirements": [
+        "FR-002",
+        "AR-001",
+        "AR-002",
+        "SR-001",
+        "SR-006",
+        "SR-010"
+      ],
+      "evidence": [
+        "3-azure-design/stratton-cc-001-phase-3-amendment.md sections 4 and 6",
+        "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-proposed.json regionalDecision"
+      ],
+      "status": "COVERED_WITH_VAL-005_AND_AFFB-RES-001_OPEN"
+    },
+    {
+      "id": "CC1-COV-08",
+      "domain": "Producer-signed audit authenticity, exact stream continuity, body/receipt binding and material guard",
+      "requirements": [
+        "SR-004",
+        "SR-008",
+        "TR-003",
+        "TR-004"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-data-api-contracts-cc-001-proposed.json auditExportPushContract"
+      ],
+      "status": "PARTIALLY_COVERED_BLOCKED_BY_AFFB-CC001-MAJ-002"
+    },
+    {
+      "id": "CC1-COV-09",
+      "domain": "Queue limits, retention, recovery, rollback preservation and secure activation",
+      "requirements": [
+        "DR-005",
+        "SR-005",
+        "SR-009",
+        "TR-003",
+        "TR-004",
+        "NR-001",
+        "NR-002"
+      ],
+      "evidence": [
+        "3-azure-design/evidence/stratton-operations-reliability-contract-cc-001-proposed.json contractOperations/verificationAddendum",
+        "4-implementation-plan/stratton-implementation-catalogue-cc-001-proposed.json activationSequence"
+      ],
+      "status": "COVERED_DESIGN_FAIL_CLOSED_OWNER_INPUTS_OPEN"
+    }
+  ],
+  "remediationCoverage": [
+    {
+      "id": "PF-01",
+      "name": "Canonical preimages",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-02",
+      "name": "Purpose-specific cryptographic trust",
+      "status": "DIVERGES"
+    },
+    {
+      "id": "PF-03",
+      "name": "Verdict uniqueness and exact read",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-04",
+      "name": "Private exact-version evidence transfer",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-05",
+      "name": "Independent evaluator inputs",
+      "status": "CONFORMS-WITH-OWNER-GATES"
+    },
+    {
+      "id": "PF-06",
+      "name": "Internal Audit assurance package and supply chain",
+      "status": "DIVERGES"
+    },
+    {
+      "id": "PF-07",
+      "name": "Untrusted artifact sandbox",
+      "status": "CONFORMS-WITH-OWNER-GATES"
+    },
+    {
+      "id": "PF-08",
+      "name": "Analysis binding and instruction/data separation",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-09",
+      "name": "Vector provenance and isolation",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-10",
+      "name": "Hostile retrieval and poisoned-index recovery",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-11",
+      "name": "Audit producer authenticity and receipt binding",
+      "status": "CONFORMS-WITH-PF02-GAP"
+    },
+    {
+      "id": "PF-12",
+      "name": "Audit stream conflict and continuity",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-13",
+      "name": "Role-separated material guard",
+      "status": "CONFORMS-WITH-PF02-GAP"
+    },
+    {
+      "id": "PF-14",
+      "name": "Queue limits and ordering relationships",
+      "status": "CONFORMS-WITH-OWNER-GATES"
+    },
+    {
+      "id": "PF-15",
+      "name": "Phase 4 reconciliation and owner parameters",
+      "status": "CONFORMS-WITH-OWNER-GATES"
+    },
+    {
+      "id": "PF-16",
+      "name": "Secure activation sequence",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-17",
+      "name": "Authority-flow overlay",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-18",
+      "name": "Clawpilot HTML contract",
+      "status": "CONFORMS"
+    },
+    {
+      "id": "PF-19",
+      "name": "Change-control remediation evidence",
+      "status": "CONFORMS"
+    }
+  ],
+  "residualControls": [
+    {
+      "id": "VAL-001",
+      "owner": "General Counsel",
+      "requiredBefore": "Any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "owner": "Chief Investment Officer and Service Operations",
+      "requiredBefore": "Service and performance acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "owner": "Deal Operations, AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "requiredBefore": "Internal Audit validation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "owner": "Source and records owners",
+      "requiredBefore": "Production ingestion",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "owner": "General Counsel",
+      "requiredBefore": "Production regional deployment, location and transfer acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "owner": "General Counsel and Head of AI Governance",
+      "requiredBefore": "Production AI use or any classification claim",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "owner": "Legal and compliance owners",
+      "requiredBefore": "Any formal representation relying on the regulatory register",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-001",
+      "owner": "Internal Audit, Identity Lead and Workload Security Owner",
+      "requiredBefore": "Any assurance submission, audit, receipt or verdict signature activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-002",
+      "owner": "Internal Audit, Source Storage Owner, Network Lead and Records Owner",
+      "requiredBefore": "Evidence pull/copy acceptance",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-003",
+      "owner": "Internal Audit Software Owner, Release Authority, Security Operations and Business Continuity",
+      "requiredBefore": "WP-05 acceptance, DU-16 deployment or evaluation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-004",
+      "owner": "Head of AI Governance, Data Owner, Application Engineering and Service Operations",
+      "requiredBefore": "Analysis/vectorisation or index alias activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    },
+    {
+      "id": "CC1-OWN-005",
+      "owner": "Internal Audit, Application Owner and Service Operations",
+      "requiredBefore": "Audit sender, receiver or receipt guard activation",
+      "status": "OPEN_FAIL_CLOSED_NOT_WAIVED"
+    }
+  ],
+  "coverageFindings": [
+    {
+      "id": "AFFB-CC001-MAJ-001",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_REMEDIATION_REQUIRED"
+    },
+    {
+      "id": "AFFB-CC001-MAJ-002",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_REMEDIATION_REQUIRED"
+    }
+  ],
+  "coverageSummary": {
+    "obligationClustersPreserved": 25,
+    "activeRequirementsPreserved": 31,
+    "changeControlCoverageDomains": 9,
+    "remediationsReviewed": 19,
+    "openOwnerBoundResidualControls": 12,
+    "openMajorSubjectFindings": 2,
+    "formalComplianceClaims": 0,
+    "certificationOrAttestationClaims": 0,
+    "deploymentClaims": 0,
+    "runtimeClaims": 0
+  },
+  "assuranceBoundary": "Architecture assurance only. This record is not legal advice, legal or regulatory certification, formal attestation, waiver, approval, deployment authorisation, Azure validation or runtime evidence.",
+  "limitations": [
+    "Sequence 005 remains immutable and is superseded only by append-only reference.",
+    "Coverage indicates design intent and planned validation, not implemented or operating controls.",
+    "The two major findings require subject-owner remediation and a new canonical manifest; AFF-B did not modify the subject.",
+    "All 12 owner-bound controls remain open, fail closed and unwaived.",
+    "No new legal applicability, sovereignty conclusion, retention period, algorithm, region, endpoint, identity, threshold or owner value is invented."
+  ]
+}

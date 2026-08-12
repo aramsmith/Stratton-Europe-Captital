@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "formalReviewRound": 10,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R4",
+  "createdAt": "2026-08-06T11:53:05.860Z",
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactGptModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "selectedModelRationale": "Sol was selected as the opposite-model reviewer for high-consequence R4 evidence, chronology, governance and inventory validation.",
+    "runScopedOverrideRequired": true,
+    "overrideDecisionEvidence": "ACTIVE_AI_INTERACTION_USER_DIRECTION"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "bindingEvidence": "R4 candidate evidence and active interaction"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r4-proposed.json",
+    "sha256": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b",
+    "status": "UNCHANGED_DURING_REVIEW"
+  },
+  "reviewedSubjectHashReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-10/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "fc164ffd41814172d5b839355c5f5c1a5382882be5b304cc625ea1834232a9ae"
+  },
+  "nonDeploymentBoundary": "Review performed no Azure sign-in, what-if, deployment, model invocation, runtime cloud test, promotion or destructive rollback."
+}

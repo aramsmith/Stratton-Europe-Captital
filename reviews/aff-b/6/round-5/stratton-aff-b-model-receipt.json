@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": "Phase 6 — C-level Presentation",
+  "phaseId": "6",
+  "round": 5,
+  "reviewedAt": "2026-08-10T21:32:42.490+02:00",
+  "reviewer": "AFF-B",
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-terra",
+  "actualRuntimeModelId": "gpt-5.6-terra",
+  "availability": "ACTIVE",
+  "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+  "affAActualRuntimeModelId": "gpt-5.6-luna",
+  "modelPlan": {
+    "revision": "115",
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-115.json",
+    "sha256": "97b34470fbb6077e701f267af01d1fc77a2b6b87f45d372a2f8f0b83508c58d1"
+  },
+  "selectionRationale": "Revision 115 selects Terra for independent security and compliance review of the Sol-authored r8 subject after the Luna AFF-A review. The actual Terra runtime ID is recorded exactly for this review.",
+  "modelSeparation": {
+    "requiredDifferentActualIds": true,
+    "verified": true,
+    "authorActual": "gpt-5.6-sol",
+    "affAActual": "gpt-5.6-luna",
+    "reviewerActual": "gpt-5.6-terra"
+  },
+  "scope": "Read-only review of the complete frozen Phase 6 r8 manifest; no subject execution or mutation.",
+  "nonApprovalStatement": "This receipt records model provenance and separation only. It does not approve Phase 6, waive gates, certify compliance, authorise Azure activity or invoke Phase 7 or Phase 8."
+}

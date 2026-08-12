@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_MODEL_PORTFOLIO_CONTRACT",
+  "changeControlId": "STRATTON-CC-002",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "generatedAt": "2026-08-06T08:16:06.737+02:00",
+  "deploymentType": "EU Data Zone Standard",
+  "deploymentSkuName": "DataZoneStandard",
+  "versionUpgradeOption": "NoAutoUpgrade",
+  "modelSelectionPrinciple": "Use the smallest governed model that meets the evidence threshold.",
+  "productionPromotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_OWNER_EVIDENCE_REVIEWS_AND_HUMAN_DECISION",
+  "sovereignty": {
+    "promptAndOutputBoundary": "Prompts and outputs remain within the EU Data Zone.",
+    "dataAtRestBoundary": "Data at rest remains in the designated EU geography.",
+    "processingRegionSelection": "Microsoft selects the processing region within that zone.",
+    "specificProcessingRegionPromise": false,
+    "specificAzureResourceRegions": "REQUIRED_OWNER_INPUT",
+    "policyStatement": "Global Standard prohibited"
+  },
+  "applicationBinding": {
+    "referenceType": "AZURE_DEPLOYMENT_NAME_OR_RESOURCE_ID",
+    "directModelAliasAllowed": false,
+    "configurationKeys": {
+      "luna": "ai.deployments.luna.deploymentId",
+      "terra": "ai.deployments.terra.deploymentId",
+      "sol": "ai.deployments.sol.deploymentId",
+      "embedding": "ai.deployments.embedding.deploymentId"
+    },
+    "resolutionFailure": "DENY_AND_QUEUE_OR_FAIL_CLOSED",
+    "evidenceRequired": [
+      "approved deployment ID",
+      "model ID and version",
+      "deployment SKU",
+      "API interface and version",
+      "capacity and quota evidence",
+      "private endpoint and managed identity evidence"
+    ]
+  },
+  "gptDeployments": [
+    {
+      "tier": "LUNA",
+      "modelId": "gpt-5.6-luna",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "azureDeploymentInterface": "Chat Completions",
+      "apiVersion": "2024-12-01-preview",
+      "configurationReference": "ai.deployments.luna.deploymentId",
+      "reasoningEffort": "REQUIRED_OWNER_INPUT_AFTER_ROUTE_BENCHMARK",
+      "allowedTaskClasses": [
+        "EVIDENCE_TRIAGE",
+        "QUERY_REWRITE",
+        "FIRST_PASS_SUMMARY"
+      ],
+      "purpose": "High-volume triage, query rewrite, first-pass summary",
+      "promotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_AND_OWNER_EVIDENCE",
+      "ownerBoundCapacity": {
+        "state": "REQUIRED_OWNER_INPUT",
+        "capacityUnits": null,
+        "quotaEvidenceId": null,
+        "owners": [
+          "AI Governance",
+          "Azure Platform",
+          "Service Operations"
+        ]
+      },
+      "capabilities": {
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "supportsTextInput": true,
+        "supportsImageInput": true,
+        "supportsStructuredOutputs": true,
+        "supportsTools": true
+      },
+      "release1ToolPolicy": "AUTONOMOUS_TOOL_EXECUTION_DISABLED",
+      "materialConclusionPolicy": "ROUTE_TO_TERRA_OR_HUMAN_AFTER_VALIDATION_FAILURE"
+    },
+    {
+      "tier": "TERRA",
+      "modelId": "gpt-5.6-terra",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "azureDeploymentInterface": "Responses",
+      "apiVersion": "2025-04-01-preview",
+      "configurationReference": "ai.deployments.terra.deploymentId",
+      "reasoningEffort": "REQUIRED_OWNER_INPUT_AFTER_ROUTE_BENCHMARK",
+      "allowedTaskClasses": [
+        "GROUNDED_ANALYSIS",
+        "CROSS_DOCUMENT_COMPARISON",
+        "ESG_NORMALISATION"
+      ],
+      "purpose": "Default grounded professional analysis",
+      "promotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_AND_OWNER_EVIDENCE",
+      "ownerBoundCapacity": {
+        "state": "REQUIRED_OWNER_INPUT",
+        "capacityUnits": null,
+        "quotaEvidenceId": null,
+        "owners": [
+          "AI Governance",
+          "Azure Platform",
+          "Service Operations"
+        ]
+      },
+      "capabilities": {
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "supportsTextInput": true,
+        "supportsImageInput": true,
+        "supportsStructuredOutputs": true,
+        "supportsTools": true
+      },
+      "release1ToolPolicy": "AUTONOMOUS_TOOL_EXECUTION_DISABLED",
+      "materialConclusionPolicy": "CITATIONS_AND_HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "tier": "SOL",
+      "modelId": "gpt-5.6-sol",
+      "modelVersion": "2026-07-09",
+      "deploymentSku": "DataZoneStandard",
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "azureDeploymentInterface": "Responses",
+      "apiVersion": "2025-04-01-preview",
+      "configurationReference": "ai.deployments.sol.deploymentId",
+      "reasoningEffort": "REQUIRED_OWNER_INPUT_AFTER_ROUTE_BENCHMARK",
+      "allowedTaskClasses": [
+        "COMPLEX_RISK_SYNTHESIS",
+        "INVESTMENT_THESIS_CHALLENGE"
+      ],
+      "purpose": "Gated complex and high-consequence reasoning",
+      "promotionState": "BLOCKED_PENDING_ROUTE_BENCHMARK_AND_OWNER_EVIDENCE",
+      "ownerBoundCapacity": {
+        "state": "REQUIRED_OWNER_INPUT",
+        "capacityUnits": null,
+        "quotaEvidenceId": null,
+        "owners": [
+          "AI Governance",
+          "Azure Platform",
+          "Service Operations"
+        ]
+      },
+      "capabilities": {
+        "contextWindowTokens": 1050000,
+        "maximumOutputTokens": 128000,
+        "supportsTextInput": true,
+        "supportsImageInput": true,
+        "supportsStructuredOutputs": true,
+        "supportsTools": true
+      },
+      "release1ToolPolicy": "AUTONOMOUS_TOOL_EXECUTION_DISABLED",
+      "materialConclusionPolicy": "SUPPORTED_DRAFT_ONLY_THEN_ACCOUNTABLE_HUMAN"
+    }
+  ],
+  "specialistFoundation": {
+    "documentIntelligence": {
+      "service": "Azure AI Document Intelligence",
+      "modelId": "prebuilt-layout",
+      "purpose": [
+        "text extraction",
+        "table extraction",
+        "selection-mark extraction",
+        "paragraph extraction",
+        "coordinate extraction"
+      ],
+      "customModelState": "BLOCKED_UNTIL_LABELLED_BENCHMARK_EVIDENCE"
+    },
+    "embeddings": {
+      "service": "Azure OpenAI",
+      "modelId": "text-embedding-3-large",
+      "deploymentSku": "DataZoneStandard",
+      "configurationReference": "ai.deployments.embedding.deploymentId",
+      "maximumInputTokens": 8191,
+      "maximumDimensions": 3072,
+      "promotedDimensions": "REQUIRED_OWNER_INPUT_AFTER_BENCHMARK",
+      "chunkingPolicy": "REQUIRED_OWNER_INPUT_AFTER_BENCHMARK",
+      "changeRule": "DIMENSION_OR_CHUNKING_CHANGE_INVALIDATES_EVALUATION_AND_REQUIRES_COMPLETE_INDEX_REBUILD"
+    },
+    "retrieval": {
+      "service": "Azure AI Search",
+      "methods": [
+        "hybrid retrieval",
+        "semantic ranking"
+      ],
+      "authority": "DERIVED_REBUILDABLE_STATE_NOT_A_SOURCE_OF_RECORD",
+      "securityFilters": "SERVER_INJECTED_CASE_CLASSIFICATION_ADMISSION_AND_LICENCE_FILTERS"
+    },
+    "anomalyDetection": {
+      "release1Primary": [
+        "deterministic controls",
+        "statistical checks"
+      ],
+      "futureExplainableChallenger": "Isolation Forest or separately governed equivalent",
+      "futureSupervisedChallenger": "gradient-boosted trees after sufficient labelled outcomes",
+      "llmBoundary": "EXPLAINS_EVIDENCE_BUT_CANNOT_OVERRIDE_DETECTOR_OR_CREATE_AUTHORITATIVE_FINANCIAL_CONCLUSION"
+    }
+  },
+  "releaseScope": {
+    "release1": [
+      {
+        "capability": "Due-diligence evidence-to-draft",
+        "path": "prebuilt-layout -> text-embedding-3-large/Search -> TERRA -> SOL only when gated"
+      },
+      {
+        "capability": "Risk and ESG evidence analysis",
+        "path": "prebuilt-layout -> deterministic validation -> TERRA or SOL -> specialist and human review"
+      }
+    ],
+    "futureCapabilities": [
+      "Automated SFDR reporting",
+      "Deal-intelligence copilot and sourcing automation",
+      "Portfolio financial-anomaly monitoring",
+      "Custom Document Intelligence models",
+      "Supervised anomaly prediction",
+      "Model Router evaluation"
+    ],
+    "futureCapabilitiesAreRelease1": false
+  },
+  "providerUseBoundary": {
+    "fineTuningWithStrattonData": "OUT_OF_SCOPE",
+    "trainingUseOfStrattonContent": "PROHIBITED",
+    "providerEvidenceState": "REQUIRED_OWNER_INPUT_BEFORE_ENABLEMENT"
+  },
+  "failClosedRules": [
+    "Missing deployment reference denies the request.",
+    "Model, version, SKU or API mismatch denies the request.",
+    "Missing capability, quota or capacity evidence blocks promotion.",
+    "Unavailable deployment queues work or returns a controlled failure.",
+    "No lower-capability deployment silently replaces the selected tier.",
+    "A route cannot become production-promoted without benchmark and human authority evidence."
+  ],
+  "sources": [
+    "https://learn.microsoft.com/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure#gpt-56",
+    "https://learn.microsoft.com/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure-region-availability#data-zone-standard",
+    "https://learn.microsoft.com/azure/foundry/foundry-models/concepts/deployment-types",
+    "https://learn.microsoft.com/azure/search/cognitive-search-skill-azure-openai-embedding",
+    "https://learn.microsoft.com/azure/ai-services/document-intelligence/concept/choose-model-feature?view=doc-intel-4.0.0"
+  ],
+  "nonClaims": {
+    "quotaAvailability": false,
+    "deployedResources": false,
+    "runtimeValidation": false,
+    "specificProcessingRegion": false,
+    "productionPromotion": false
+  }
+}

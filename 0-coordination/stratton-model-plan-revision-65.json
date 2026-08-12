@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "65",
+  "createdAt": "2026-08-04T00:15:36+02:00",
+  "revisionReason": "Improve slide 3 text containment, clear the copper gear from the subtitle in both font modes, and remove the word mocked.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-64.json",
+    "sha256": "801936b7bb63527e429aa1b03acfea89ef1b4769f5175e121ed95a7e89f77a9d",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "changes": [
+      "Make gear text slightly smaller so it fits inside the gears.",
+      "Prevent the copper gear from overlapping the subtitle.",
+      "Remove the word mocked."
+    ]
+  },
+  "implementation": {
+    "typography": {
+      "sectionLabelPx": 15.5,
+      "itemTitlePx": 17,
+      "descriptionPx": 14
+    },
+    "corePadding": {
+      "sideGearsPx": "34 28",
+      "aiGearPx": "50 42",
+      "outcomeGearPx": "30 20"
+    },
+    "copperGear": {
+      "topPx": 0,
+      "subtitleClearanceJetBrainsPx": 12,
+      "subtitleClearanceSystemPx": 12
+    },
+    "copy": {
+      "previous": "New Azure environment with mocked proof of improvement.",
+      "current": "New Azure environment with proof of improvement."
+    },
+    "verification": {
+      "jetBrainsCoreOverflow": false,
+      "systemCoreOverflow": false
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

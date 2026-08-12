@@ -1,0 +1,475 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "changeControlId": "STRATTON-CC-001",
+  "phaseId": "4",
+  "round": 3,
+  "verifiedAt": "2026-08-02T16:29:24.713+02:00",
+  "verifiedBy": "AFF-B-security-compliance",
+  "manifestPath": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+  "expectedManifestSha256FromInvocation": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+  "preReviewManifestSha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+  "postReviewManifestSha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+  "computedManifestSha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+  "hashStatus": "MATCH_UNCHANGED_PRE_POST",
+  "reviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/4/round-3/reviewed-subject/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+  "reviewedSubjectSnapshotSha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+  "snapshotByteIdentical": true,
+  "manifestSchemaPath": ".github/schemas/aff-phase-hashes.schema.json",
+  "manifestSchemaValidation": "PASS",
+  "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-10.json",
+  "modelPlanSha256": "63750f1ea18a89fa3a7500fff05a6f98135bc6a5e98ad6301fdfbc246e94b894",
+  "modelPlanRevision": "10",
+  "subjectManifestModelPlanRevision": "10",
+  "artifactCount": 13,
+  "allManifestEntriesMatch": true,
+  "verifiedArtifacts": [
+    {
+      "path": "4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.md",
+      "role": "authoritative-markdown",
+      "sizeBytes": 6924,
+      "declaredSha256": "477ff746b576ddc062d166ab49b1fa9af9baceb3cbcddee426622ed62f22eb51",
+      "computedSha256": "477ff746b576ddc062d166ab49b1fa9af9baceb3cbcddee426622ed62f22eb51",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.html",
+      "role": "rendered-html",
+      "sizeBytes": 11856,
+      "declaredSha256": "7e23673c4a477d8e1b4424fad7dce4491d2f3858216c9dce0e75b6576cf66490",
+      "computedSha256": "7e23673c4a477d8e1b4424fad7dce4491d2f3858216c9dce0e75b6576cf66490",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue-cc-001-r3-proposed.json",
+      "role": "catalogue",
+      "sizeBytes": 285009,
+      "declaredSha256": "5ec73c0781b6c184c895ceb153432ee2368532f7f1166b484ab15b8b58666fa3",
+      "computedSha256": "5ec73c0781b6c184c895ceb153432ee2368532f7f1166b484ab15b8b58666fa3",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag-cc-001-r3-proposed.svg",
+      "role": "diagram",
+      "sizeBytes": 6403,
+      "declaredSha256": "76cd3e6665bcd23282623c47d4388a25dce6e0e3c3c80d6f57ebc6e9a88a4c1f",
+      "computedSha256": "76cd3e6665bcd23282623c47d4388a25dce6e0e3c3c80d6f57ebc6e9a88a4c1f",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-001-r3-change-control-evidence.json",
+      "role": "evidence",
+      "sizeBytes": 9538,
+      "declaredSha256": "55413121a714edc82e8a484216149eba13f359474883dfaceb1666eda8bd208b",
+      "computedSha256": "55413121a714edc82e8a484216149eba13f359474883dfaceb1666eda8bd208b",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-001-r3-candidate-validation.json",
+      "role": "evidence",
+      "sizeBytes": 3601,
+      "declaredSha256": "6aeef7bff739a8ca35f4dc1d4f0fbf0bfef1f712ddbfdb5cf34ddfbcfb9496ed",
+      "computedSha256": "6aeef7bff739a8ca35f4dc1d4f0fbf0bfef1f712ddbfdb5cf34ddfbcfb9496ed",
+      "status": "MATCH"
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-10.json",
+      "role": "catalogue",
+      "sizeBytes": 7812,
+      "declaredSha256": "63750f1ea18a89fa3a7500fff05a6f98135bc6a5e98ad6301fdfbc246e94b894",
+      "computedSha256": "63750f1ea18a89fa3a7500fff05a6f98135bc6a5e98ad6301fdfbc246e94b894",
+      "status": "MATCH"
+    },
+    {
+      "path": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+      "role": "evidence",
+      "sizeBytes": 3755,
+      "declaredSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "computedSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/stratton-phase-4-hashes-cc-001-r2-proposed.json",
+      "role": "evidence",
+      "sizeBytes": 2942,
+      "declaredSha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+      "computedSha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+      "status": "MATCH"
+    },
+    {
+      "path": "reviews/aff-a/4/round-5/stratton-aff-a-review.json",
+      "role": "evidence",
+      "sizeBytes": 29793,
+      "declaredSha256": "471575d814195868a9d751ee12d36be1514e12d77dfff13c427156c0ce849892",
+      "computedSha256": "471575d814195868a9d751ee12d36be1514e12d77dfff13c427156c0ce849892",
+      "status": "MATCH"
+    },
+    {
+      "path": "reviews/aff-b/4/round-2/stratton-aff-b-review.json",
+      "role": "evidence",
+      "sizeBytes": 31075,
+      "declaredSha256": "83d78067bd8b7100cd37c69138a6039585e662e92239ed1afb334e7c25ced438",
+      "computedSha256": "83d78067bd8b7100cd37c69138a6039585e662e92239ed1afb334e7c25ced438",
+      "status": "MATCH"
+    },
+    {
+      "path": "reviews/aff-b/coverage/stratton-compliance-coverage-006.json",
+      "role": "evidence",
+      "sizeBytes": 18942,
+      "declaredSha256": "d85823693aebed0f790a81377d9e79e785db97c7f2322d0c904dfbf36deec78b",
+      "computedSha256": "d85823693aebed0f790a81377d9e79e785db97c7f2322d0c904dfbf36deec78b",
+      "status": "MATCH"
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-cc-001-r3-hash-generation-evidence.json",
+      "role": "evidence",
+      "sizeBytes": 3371,
+      "declaredSha256": "192001055f2a2c38df0958fc4dd03d3a5304bc7eeb75a33d0f87a157bea79675",
+      "computedSha256": "192001055f2a2c38df0958fc4dd03d3a5304bc7eeb75a33d0f87a157bea79675",
+      "status": "MATCH"
+    }
+  ],
+  "artifactValidation": {
+    "jsonParse": "PASS",
+    "xmlSvgDrawioParse": "PASS",
+    "htmlParse": "PASS",
+    "clawpilotSubjectHtml": "PASS",
+    "svgSanitisation": "PASS"
+  },
+  "coverageBinding": {
+    "sequence": "007",
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-007.json",
+    "sha256": "e769a9326a6bf362a566a42934ef6093d2dca8e37bc955a53474e17f664147d8",
+    "status": "FROZEN_FORMAL_FINAL"
+  },
+  "authoritySeparationVerification": {
+    "internalAuditRepositoryBoundary": "PASS",
+    "stageCount": 8,
+    "uniqueStageIdentities": 8,
+    "requiredSeparatedIdentityMappings": 10,
+    "allRequiredIdentityMappingsPresent": true,
+    "allStagesHaveCrossRoleDenials": true,
+    "roleAssignmentExecutorCannotSelfGrant": true,
+    "breakGlassConstraint": "Break-glass is time-bound/PIM/CA/two-person approved, cannot sign releases, combine merge-to-deploy, disable audit/immutability or erase provenance; normal chain must rerun before promotion.",
+    "activationGateCount": 10,
+    "futureOwnerValuesRemainFailClosed": true,
+    "result": "RESOLVED"
+  },
+  "canonicalTrustVectorVerification": {
+    "fixturePath": "cases/Stratton-Europe-Captital/3-azure-design/evidence/stratton-trust-verification-test-vectors-cc-001-r2.json",
+    "fixtureSha256": "de1ce976c0e7c58c8e7fab563f5556d025bd422f979d126df32b6245d3583417",
+    "snapshotVector": {
+      "computedSha256": "500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671",
+      "computedSnapshotId": "FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k",
+      "result": "PASS"
+    },
+    "positiveVectors": [
+      {
+        "vectorId": "TV-SUBMISSION-001",
+        "signaturePurpose": "WORKLOAD_ASSURANCE_SUBMISSION",
+        "signedRecordId": "SYNTHETIC-VALIDATION-RUN-001",
+        "computedEnvelopeSha256": "a361599c127d5a658a2ae61c3363b4e8fe45504595325da6ebb27aa816b293df",
+        "computedSnapshotSha256": "500a2f8c42ca6ebe72ba46b2e0e8e328fcaba08974d44fafe18288caee7ec671",
+        "computedSnapshotId": "FAimmYSaZUYxuDMiC5st06yrP3lFhLo_tbwkjX_X26k",
+        "checks": {
+          "purposeEquality": true,
+          "signedRecordIdEquality": true,
+          "signedAtEquality": true,
+          "signerAndKeyEquality": true,
+          "signedAtWithinKeyInterval": true,
+          "derivedSnapshotIdEquality": true,
+          "embeddedSnapshotHashEquality": true,
+          "envelopeHashRecomputation": true
+        },
+        "result": "PASS"
+      },
+      {
+        "vectorId": "TV-AUDIT-001",
+        "signaturePurpose": "WORKLOAD_AUDIT_EVENT",
+        "signedRecordId": "SYNTHETIC-AUDIT-RECORD-001",
+        "computedEnvelopeSha256": "1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e",
+        "computedSnapshotSha256": "88915531d578f18598007acaa923c588beae19a58866432824bd9409ec2a0152",
+        "computedSnapshotId": "2ZA96CaL9OxW7rFeLDkCyCurvZWosT2anzVFz_9z_eE",
+        "checks": {
+          "purposeEquality": true,
+          "signedRecordIdEquality": true,
+          "signedAtEquality": true,
+          "signerAndKeyEquality": true,
+          "signedAtWithinKeyInterval": true,
+          "derivedSnapshotIdEquality": true,
+          "embeddedSnapshotHashEquality": true,
+          "envelopeHashRecomputation": true
+        },
+        "result": "PASS"
+      },
+      {
+        "vectorId": "TV-RECEIPT-001",
+        "signaturePurpose": "INTERNAL_AUDIT_RECEIPT",
+        "signedRecordId": "SYNTHETIC-RECEIPT-001",
+        "computedEnvelopeSha256": "ee3057d2ca0623032a17b6f29deb58b5fc4c4583fdffd707d03dd45574d5fcab",
+        "computedSnapshotSha256": "f099967ee8958e6d35bed936abb41870c62dd24279085785efe3c313b571f92f",
+        "computedSnapshotId": "ng8KWSUKsqz54IXXhZu4uFgNBhh3ROvBd7Jl5CLzgTI",
+        "checks": {
+          "purposeEquality": true,
+          "signedRecordIdEquality": true,
+          "signedAtEquality": true,
+          "signerAndKeyEquality": true,
+          "signedAtWithinKeyInterval": true,
+          "derivedSnapshotIdEquality": true,
+          "embeddedSnapshotHashEquality": true,
+          "envelopeHashRecomputation": true
+        },
+        "result": "PASS"
+      },
+      {
+        "vectorId": "TV-VERDICT-001",
+        "signaturePurpose": "INTERNAL_AUDIT_VERDICT",
+        "signedRecordId": "SYNTHETIC-VERDICT-001",
+        "computedEnvelopeSha256": "02d2c7e95b288f09e609636166d1d95f981cff1f9e8469c9057a322fb4af4cd9",
+        "computedSnapshotSha256": "90bc3692d725663079b2f21b5b3b51858b3ae674f49e27043c4f8069ecb2ce62",
+        "computedSnapshotId": "l111JCfZaeFDkoobjzQJYmQYhoJ636zE8C76j9wMLiA",
+        "checks": {
+          "purposeEquality": true,
+          "signedRecordIdEquality": true,
+          "signedAtEquality": true,
+          "signerAndKeyEquality": true,
+          "signedAtWithinKeyInterval": true,
+          "derivedSnapshotIdEquality": true,
+          "embeddedSnapshotHashEquality": true,
+          "envelopeHashRecomputation": true
+        },
+        "result": "PASS"
+      }
+    ],
+    "negativeMutations": [
+      {
+        "caseId": "TN-001",
+        "mutation": "snapshot missing or snapshotHash mismatch",
+        "expectedDisposition": "DENY",
+        "observedDisposition": "DENY",
+        "evidence": "Missing/mismatched snapshot denial and canonical hash mismatch rules.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-002",
+        "mutation": "signedAt before keyValidFrom or after keyValidTo",
+        "expectedDisposition": "DENY",
+        "observedDisposition": "DENY",
+        "evidence": "signedAt key-validity interval rule.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-003",
+        "mutation": "change valid purpose-specific snapshot signaturePurpose so it differs from envelope purpose",
+        "expectedDisposition": "DENY",
+        "observedDisposition": "DENY",
+        "evidence": "Exact envelope/snapshot purpose equality rule.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-004",
+        "mutation": "trust registry ID/version/hash replaced",
+        "expectedDisposition": "DENY",
+        "observedDisposition": "DENY",
+        "evidence": "Exact immutable registry ID/version/hash binding.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-005",
+        "mutation": "revoked or compromised effective before/at signedAt",
+        "expectedDisposition": "DENY",
+        "observedDisposition": "DENY",
+        "evidence": "Pre-signing revocation/compromise denial.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-006",
+        "mutation": "known compromise strictly after signedAt",
+        "expectedDisposition": "APPLY_IMMUTABLE_HISTORICAL_POLICY_NO_REWRITE",
+        "observedDisposition": "APPLY_IMMUTABLE_HISTORICAL_POLICY_NO_REWRITE",
+        "evidence": "Immutable historical policy for known post-signing compromise.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-007",
+        "mutation": "compromise effective time unknown/ambiguous",
+        "expectedDisposition": "TRUST_REVIEW_REQUIRED_BLOCK_MATERIAL_TRANSITIONS",
+        "observedDisposition": "TRUST_REVIEW_REQUIRED_BLOCK_MATERIAL_TRANSITIONS",
+        "evidence": "Unknown effective time requires TRUST_REVIEW_REQUIRED and blocks material transitions.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-008",
+        "mutation": "snapshot field or WORM version tampered",
+        "expectedDisposition": "DENY_AND_ALERT",
+        "observedDisposition": "DENY_AND_ALERT",
+        "evidence": "Canonical/WORM tamper denial and alert semantics.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-009",
+        "mutation": "WORM record/snapshot pair missing after recovery",
+        "expectedDisposition": "RECOVERY_INCOMPLETE_BLOCK",
+        "observedDisposition": "RECOVERY_INCOMPLETE_BLOCK",
+        "evidence": "DR requires co-restoration of signed record and snapshot.",
+        "result": "PASS"
+      },
+      {
+        "caseId": "TN-010",
+        "mutation": "software rollback presents different registry/snapshot",
+        "expectedDisposition": "VERIFY_ORIGINAL_SNAPSHOT_NO_REWRITE",
+        "observedDisposition": "VERIFY_ORIGINAL_SNAPSHOT_NO_REWRITE",
+        "evidence": "Rollback verifies the original snapshot without registry rewrite.",
+        "result": "PASS"
+      }
+    ],
+    "auditDerivedIdentifiers": {
+      "eventHash": "1d179bce822bbbc36c2f582264bc69cb451fd18c8ef3f3394e4dbd256357ba4e",
+      "eventId": "kgClcxXxpCGyF-IMZGyiAbKr_PO6k8mMYwxmIJX-HF0",
+      "messageBodyHash": "691889e468c50dc599b61b68058c0694227f15ee36e163c868d2132306f6c1bf",
+      "result": "PASS"
+    },
+    "positiveCount": 4,
+    "negativeCount": 10,
+    "allPositivePass": true,
+    "allNegativePassClosed": true
+  },
+  "phase4IndependentVerification": {
+    "deployableUnits": 17,
+    "uniqueDeployableUnitIds": 17,
+    "dagEdges": 46,
+    "uniqueDagEdges": 46,
+    "dagAcyclic": true,
+    "topologicalOrder": [
+      "DU-01",
+      "DU-02",
+      "DU-03",
+      "DU-06",
+      "DU-04",
+      "DU-05",
+      "DU-08",
+      "DU-09",
+      "DU-16",
+      "DU-10",
+      "DU-07",
+      "DU-11",
+      "DU-12",
+      "DU-13",
+      "DU-14",
+      "DU-15",
+      "DU-17"
+    ],
+    "workPackages": 5,
+    "failClosedParameters": 276,
+    "uniqueFailClosedParameters": 276,
+    "parameterEvidenceRows": 276,
+    "parameterEvidenceRowsComplete": true,
+    "parameterEvidenceExactCoverage": true,
+    "phase3RequiredParameters": 244,
+    "phase3RequiredParametersCovered": true,
+    "assertions": 82,
+    "openControls": 14,
+    "identityMappings": 20,
+    "uniqueIdentityMappings": 20,
+    "validationAreas": 27,
+    "resourceClassMappings": 35,
+    "activationSteps": 10,
+    "upstreamPhase3ManifestPath": "3-azure-design/stratton-phase-3-hashes-cc-001-r2-proposed.json",
+    "upstreamPhase3ManifestSha256": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+    "crossPhaseBindingValues": {
+      "upstreamBinding": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "proposedUpstream": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54",
+      "manifestArtifact": "e1b344c59fb2378de07503bee7b27b8f71bb987a148dabd36d66b51830b9bf54"
+    },
+    "phase4R2ManifestSha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9",
+    "r2ToR3ChangedPaths": [
+      "changeControl.candidateRevision",
+      "changeControl.correctionTimestamp",
+      "changeControl.modelPlanRevision",
+      "changeControl.proposedPhase3Binding",
+      "changeControl.remediationRound",
+      "changeControl.sourcePhase4R2Manifest",
+      "changeControl.status",
+      "generatedAt",
+      "phase.modelPlanRevision",
+      "phase4ExecutionStatement",
+      "proposedUpstream.modelPlanRevision",
+      "proposedUpstream.status",
+      "upstreamBinding.modelPlanRevision",
+      "upstreamBinding.status"
+    ],
+    "securityCriticalSectionsUnchanged": [
+      "softwarePackageAcceptance",
+      "identityMappings",
+      "activationSequence",
+      "assertions",
+      "openControls",
+      "failClosedParameters",
+      "parameterEvidenceRequirements",
+      "deployableUnits",
+      "workPackages",
+      "phase5ValidationMatrix"
+    ],
+    "noSecurityRegression": true,
+    "boundedAffAMinorResolved": "AFFA-P4-R5-MIN-004",
+    "rollbackGate": "Break-glass constraints apply. Rollback identity selects only prior approved signed release after independent approval and preserves failed-release evidence."
+  },
+  "historicalImmutableSubjects": {
+    "revision8Phase3Sha256": "87d2df1790fc2df39b122f51264b50826c7716e63955d95596d6be92511e8c16",
+    "revision8Phase4Sha256": "4b92d1abf5990245914ceaee355b145d52a3c25486ab9ebb273862a39d9a20f8",
+    "phase4R2Sha256": "7a4d6a5e0f9caa2bdb726798e875ce1a6726f4cb0c05a383c0ec36caa8eb8ed9"
+  },
+  "subjectModificationPerformed": false,
+  "finalAffARecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-6/stratton-aff-a-review.json",
+    "sha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+    "computedSha256": "e2ab8da4dbcaa8cc826ba825432129e60d2756b0e515dabaf30156eaf73627e8",
+    "hashStatus": "MATCH",
+    "round": 6,
+    "verdict": "CONFORMS-WITH-GAPS",
+    "findingSummary": {
+      "BLOCKER": 0,
+      "MAJOR": 0,
+      "MINOR": 4,
+      "unresolvedMajor": 0
+    },
+    "subjectManifest": {
+      "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-001-r3-proposed.json",
+      "sha256": "4ecd7bd341d406f4361d8441b8c5d961848fef9506ebbd0dc8034016ee569626",
+      "hashStatus": "MATCH"
+    },
+    "finalRoundForManifest": true,
+    "humanApprovalStatus": "PENDING_NOT_GRANTED",
+    "findings": [
+      {
+        "id": "AFFA-P4-R6-MIN-001",
+        "severity": "MINOR",
+        "title": "AFFA-P4-R6-MIN-001",
+        "status": "OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT",
+        "requiredAction": "276 implementation parameters remain owner-bound fail-closed values; named owners must provide evidence before activation."
+      },
+      {
+        "id": "AFFA-P4-R6-MIN-002",
+        "severity": "MINOR",
+        "title": "AFFA-P4-R6-MIN-002",
+        "status": "OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT",
+        "requiredAction": "Internal Audit WP-05 package acceptance/build/sign/publish/deploy/operate remains a future fail-closed gate."
+      },
+      {
+        "id": "AFFA-P4-R6-MIN-003",
+        "severity": "MINOR",
+        "title": "AFFA-P4-R6-MIN-003",
+        "status": "OWNER_BOUND_RESIDUAL_CONTROL_NOT_A_SUBJECT_DEFECT",
+        "requiredAction": "14 open controls remain unwaived and gate-bound."
+      },
+      {
+        "id": "AFFA-P4-R6-MIN-004",
+        "severity": "MINOR",
+        "title": "AFFA-P4-R6-MIN-004",
+        "status": "BOUNDED_WORDING_GAP_NOT_SECURITY_REMEDIATION",
+        "requiredAction": "The r3 amendment approval block says 're-review of one unchanged r2 manifest'; authoritative r3 manifest/catalogue/model-plan correctly bind Phase 4 r3 and Phase 3 r2. Correct this wording only in any future material revision."
+      }
+    ]
+  }
+}

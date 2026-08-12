@@ -1,0 +1,28 @@
+{
+  "changeControlId": "STRATTON-CC-002",
+  "artifactType": "PHASE_4_CANDIDATE_VALIDATION",
+  "authorModel": "gpt-5.6-terra",
+  "actualRuntimeModel": "gpt-5.6-terra",
+  "status": "AUTHOR_CONTRACT_GREEN_REVIEW_PENDING",
+  "approvedPhase3Approval": {
+    "path": "cases/Stratton-Europe-Captital/approvals/3/stratton-phase-3-cc-002-approval-2.json",
+    "sha256": "c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+    "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e"
+  },
+  "contract": {
+    "path": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/contracts/phase-4-cc-002-contract.mjs",
+    "command": "node '.superpowers\\sdd\\2026-08-06-stratton-gpt-5-6-model-portfolio\\contracts\\phase-4-cc-002-contract.mjs'",
+    "requiredResult": "exit 0"
+  },
+  "observedValidation": {
+    "timestamp": "2026-08-06T10:47:25.3155333+02:00",
+    "selfTestExitCode": 0,
+    "contractExitCode": 0,
+    "result": "PASS: Phase 4 CC-002 contract satisfied."
+  },
+  "nonDeploymentBoundary": "No Azure sign-in, Azure resource deployment, what-if, runtime cloud test, quota claim, route promotion or production-readiness claim was performed by this authoring candidate.",
+  "candidateScope": "Catalogue, self-contained Markdown and HTML, and append-only evidence only; MP-08 is PENDING_BLOCKED until typed APPROVED_PHASE_5_EVIDENCE exists."
+}

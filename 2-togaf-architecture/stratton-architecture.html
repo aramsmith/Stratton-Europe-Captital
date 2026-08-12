@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Vendor-neutral Phase 2 TOGAF Architecture candidate for Stratton Release 1">
+  <meta name="aff-phase" content="2">
+  <meta name="aff-model-plan-revision" content="3">
+  <meta name="aff-source" content="2-togaf-architecture/stratton-architecture.md">
+  <title>Phase 2 — TOGAF Architecture: Stratton Release 1</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font: 15px/1.55 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: var(--cp-link); }
+    a:focus, button:focus, summary:focus { outline: 3px solid var(--cp-warning); outline-offset: 2px; }
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 1rem; top: 1rem; background: var(--cp-surface); padding: .7rem; z-index: 5; }
+    header {
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+      border-bottom: 1px solid var(--cp-border);
+      padding: 2rem max(1rem, calc((100% - 1180px) / 2));
+    }
+    header p { max-width: 78rem; margin: .45rem 0; }
+    .status {
+      display: inline-block;
+      background: var(--cp-accent-soft);
+      color: var(--cp-warning);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: .25rem .65rem;
+      font-weight: 700;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: var(--cp-surface);
+      border-bottom: 1px solid var(--cp-border);
+      padding: .55rem max(1rem, calc((100% - 1180px) / 2));
+      overflow: auto;
+      white-space: nowrap;
+    }
+    nav a { margin-right: 1rem; text-decoration: none; font-weight: 650; }
+    main { max-width: 1180px; margin: auto; padding: 1.4rem 1rem 4rem; }
+    section { scroll-margin-top: 4rem; margin: 2rem 0; }
+    h1, h2, h3 { line-height: 1.2; }
+    h2 { border-bottom: 2px solid var(--cp-border); padding-bottom: .35rem; }
+    h3 { color: var(--cp-accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+    .meta { display: grid; grid-template-columns: max-content 1fr; gap: .25rem .8rem; }
+    .meta dt { font-weight: 700; }
+    .meta dd { margin: 0; }
+    .table-wrap { overflow: auto; border: 1px solid var(--cp-border); border-radius: 0.625rem; margin: .7rem 0; }
+    table { border-collapse: collapse; width: 100%; min-width: 720px; }
+    th, td { text-align: left; vertical-align: top; padding: .58rem; border-bottom: 1px solid var(--cp-border); }
+    th { background: var(--cp-surface-soft); }
+    tr:last-child td { border-bottom: 0; }
+    code, pre { font-family: Consolas, "Courier New", Courier, monospace; }
+    pre {
+      white-space: pre;
+      overflow: auto;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: 1rem;
+      font-size: .82rem;
+    }
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: .12rem .35rem;
+      margin: .1rem;
+      background: var(--cp-surface);
+    }
+    .ok { color: var(--cp-success); font-weight: 750; }
+    .warn { color: var(--cp-warning); font-weight: 750; }
+    details { border: 1px solid var(--cp-border); border-radius: 0.625rem; margin: .7rem 0; background: var(--cp-surface); }
+    summary { cursor: pointer; font-weight: 700; padding: .7rem; background: var(--cp-surface-soft); }
+    details > div { padding: .8rem; }
+    .flow { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+    .flow span {
+      background: var(--cp-accent-soft);
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      padding: .4rem .55rem;
+    }
+    .flow b { color: var(--cp-text-muted); }
+    footer { border-top: 1px solid var(--cp-border); padding: 1rem; color: var(--cp-text-muted); }
+    @media print {
+      nav, .skip { display: none; }
+      details > div { display: block; }
+      body { font-size: 10pt; }
+      header { background: var(--cp-surface); color: var(--cp-text); padding: 0; }
+      main { max-width: none; }
+      .card, pre { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <h1>Phase 2 — TOGAF Architecture: Stratton Release 1</h1>
+  <p><span class="status">Candidate — hashing and assurance pending</span></p>
+  <p>Compact vendor-neutral target architecture covering Business, Data, Application and logical Technology, Security, Operations and Resilience.</p>
+  <dl class="meta">
+    <dt>Case</dt><dd>Stratton-Europe-Captital</dd>
+    <dt>Model plan</dt><dd>Revision 3</dd>
+    <dt>Requirements</dt><dd>31 active Must requirements; 31 fully mapped</dd>
+    <dt>Boundary</dt><dd>No Solution Building Block, Azure service, region, SKU, CIDR, module, deployment or runtime claim</dd>
+  </dl>
+</header>
+<nav aria-label="Document sections">
+  <a href="#vision">Vision</a><a href="#stakeholders">Stakeholders</a><a href="#principles">Principles</a>
+  <a href="#business">Business</a><a href="#data">Data</a><a href="#application">Application</a>
+  <a href="#technology">Technology</a><a href="#abbs">ABBs</a><a href="#decisions">Decisions</a>
+  <a href="#gaps">Gaps</a><a href="#controls">Controls &amp; risks</a><a href="#traceability">Traceability</a><a href="#handoff">AFF-3 handoff</a>
+</nav>
+<main id="main">
+<section id="vision">
+  <h2>1. Executive architecture vision</h2>
+  <p>Release 1 is a controlled, case-centred due-diligence capability for the first 20 eligible new private-equity opportunities. It preserves authoritative source systems and human investment authority while adding governed evidence ingestion, provenance, assistive analysis, citation, mandatory review, independent validation and auditable operations.</p>
+  <div class="grid">
+    <article class="card"><h3>Business outcome</h3><p>Measure formal case opening to an investment-committee-ready draft and support a median no greater than three weeks without reducing quality.</p></article>
+    <article class="card"><h3>Authority boundary</h3><p>AI remains assistive. Deal professionals validate, Legal and Compliance approve applicable conclusions, and the Investment Committee retains every investment decision.</p></article>
+    <article class="card"><h3>Evidence boundary</h3><p>Only governed, owner-bound and permitted evidence reaches analysis; material claims retain provenance and citations.</p></article>
+    <article class="card"><h3>Phase boundary</h3><p>ABBs and logical controls only. AFF-3 selects candidate Azure SBBs after Phase 2 approval.</p></article>
+  </div>
+  <h3>Scope and tailoring</h3>
+  <p>This iteration combines TOGAF Phases A–D at target depth. Baseline statements are limited to approved evidence. Opportunities, migration detail, implementation, deployment and runtime testing are deferred. Requirements Management remains continuous.</p>
+  <h3>Context and vision view</h3>
+  <p><strong>Concern:</strong> boundary between users, authoritative evidence, governance and retained investment authority. <strong>Requirements:</strong> BR-002, FR-001, FR-002, AR-001, AR-002, DR-001, DR-002, SR-008, IR-001.</p>
+  <details><summary>VIEW-01 Mermaid source</summary><div><p>Source: <a href="stratton-view-01-context.mmd">stratton-view-01-context.mmd</a></p><pre>flowchart LR
+  DT[Stratton deal teams] --&gt;|open eligible case; review evidence| R1[Release 1 architecture boundary]
+  LC[Legal and Compliance] --&gt;|specialist approval| R1
+  AG[AI Governance] --&gt;|policy and quality oversight| R1
+  IC[Investment Committee] --&gt;|retains investment decision| R1
+  IA[Internal Audit] --&gt;|independent validation verdict| R1
+  SRC[Authoritative internal sources] --&gt;|read-only API or controlled ingestion| R1
+  EXT[Licensed external sources] --&gt;|licence-gated ingestion| R1
+  R1 --&gt;|cited draft recommendation| DT
+  R1 --&gt;|audit and control evidence| GOV[Legal, privacy, security and service governance]
+  R1 -. no source write-back .-&gt; SRC</pre></div></details>
+</section>
+
+<section id="stakeholders">
+  <h2>2. Stakeholders and concerns</h2>
+  <div class="table-wrap"><table><thead><tr><th>Stakeholder</th><th>Power / interest</th><th>Concern</th><th>Response</th></tr></thead><tbody>
+    <tr><td>CIO and Investment Committee</td><td>High / High</td><td>Outcome, quality and retained authority</td><td>Case metrics, draft-only state and human gates</td></tr>
+    <tr><td>General Counsel and DPO</td><td>High / High</td><td>Jurisdiction, privacy and transfer</td><td>Policy decisions and legal evidence</td></tr>
+    <tr><td>Compliance, Fund Legal and AI Governance</td><td>High / High</td><td>Regulated evidence, AI boundary and quality</td><td>Lineage, approvals, guardrails and evaluation</td></tr>
+    <tr><td>Internal Audit</td><td>High / High</td><td>Independent, complete evidence</td><td>Read-only validation evidence and separate verdict</td></tr>
+    <tr><td>Deal professionals</td><td>Low / High</td><td>Speed, usability and explainability</td><td>Case workspace, citations and review</td></tr>
+    <tr><td>Platform, integration, identity, network and operations</td><td>High / High</td><td>Isolation, operability and interfaces</td><td>Logical trust, service and operations boundaries</td></tr>
+    <tr><td>Source and records owners</td><td>High / High</td><td>Authority, use, quality and retention</td><td>Source gates, provenance and disposition</td></tr>
+    <tr><td>Programme Delivery</td><td>High / Low</td><td>Scope and controlled progression</td><td>Explicit gaps and handoff constraints</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="principles">
+  <h2>3. Architecture principles</h2>
+  <p>These design rules derive from approved requirements and add no independent requirement.</p>
+  <div class="table-wrap"><table><thead><tr><th>Principle</th><th>Statement</th><th>Implication</th></tr></thead><tbody>
+    <tr><td>Human authority is final</td><td>AI assists; accountable humans review, approve and decide.</td><td>Draft-only outputs and logged prevention of prohibited actions.</td></tr>
+    <tr><td>Evidence before assertion</td><td>Every material claim traces to accessible governed evidence.</td><td>Provenance and citation are processing gates.</td></tr>
+    <tr><td>Sources stay authoritative</td><td>Integration is read-only or controlled ingestion.</td><td>No AI-generated source write-back.</td></tr>
+    <tr><td>Govern at admission</td><td>Owner, licence, purpose, classification and quality precede use.</td><td>Failed gates quarantine or reject evidence.</td></tr>
+    <tr><td>Minimise and contain</td><td>Use necessary data within approved location and transfer boundaries.</td><td>Rules cover data, logs, inputs and outputs.</td></tr>
+    <tr><td>Least privilege</td><td>Access is explicit, minimal, time-bound where privileged, and audited.</td><td>Elevation, emergency access and review are governed.</td></tr>
+    <tr><td>Fail closed</td><td>Missing approval or evidence blocks progression.</td><td>No silent bypass.</td></tr>
+    <tr><td>Operations produce evidence</td><td>Business, security and service events are observable and correlated.</td><td>Metrics, logs, traces and incidents support assurance.</td></tr>
+    <tr><td>Resilience follows criticality</td><td>Recover case, evidence and audit integrity to approved objectives.</td><td>Protected state and tested procedures.</td></tr>
+    <tr><td>Architecture precedes product</td><td>ABBs remain stable while AFF-3 selects SBBs.</td><td>No vendor selection in Phase 2.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="business">
+  <h2>4. Target Business Architecture</h2>
+  <div class="flow" aria-label="Value stream"><span>Qualify opportunity</span><b>→</b><span>Establish governed evidence</span><b>→</b><span>Analyse with citations</span><b>→</b><span>Review and approve</span><b>→</b><span>Prepare committee-ready draft</span><b>→</b><span>Validate independently</span><b>→</b><span>Measure outcome</span></div>
+  <div class="table-wrap"><table><thead><tr><th>Capability</th><th>Components</th><th>Requirements</th></tr></thead><tbody>
+    <tr><td>Govern Release 1</td><td>Eligibility, rollout and benefits</td><td>BR-001, BR-002, TR-002</td></tr>
+    <tr><td>Manage due-diligence cases</td><td>Case, evidence request, state and draft</td><td>FR-001, AR-002</td></tr>
+    <tr><td>Govern evidence</td><td>Source, licence, classification, provenance, retention</td><td>DR-001–DR-007</td></tr>
+    <tr><td>Perform assistive analysis</td><td>Retrieval, extraction, comparison, risk, ESG and citation</td><td>FR-001, AR-001, NR-001</td></tr>
+    <tr><td>Assure human oversight</td><td>Deal review, specialist approval and authority</td><td>FR-002, AR-002, NR-002</td></tr>
+    <tr><td>Validate independently</td><td>Methods, evidence and Internal Audit verdict</td><td>SR-008, NR-001–NR-003</td></tr>
+    <tr><td>Operate and protect</td><td>Identity, policy, monitoring, continuity and legal evidence</td><td>SR-001–SR-010, TR-001, TR-003, TR-004</td></tr>
+  </tbody></table></div>
+  <details><summary>VIEW-02 Mermaid source</summary><div><p>Source: <a href="stratton-view-02-business.mmd">stratton-view-02-business.mmd</a></p><pre>flowchart LR
+  A[Open proposed deal] --&gt; B{Deal and jurisdiction eligible?}
+  B -- No --&gt; X[Reject from Release 1]
+  B -- Yes --&gt; C[Register governed sources and permissions]
+  C --&gt; D[Ingest and classify evidence]
+  D --&gt; E[Retrieve, extract, compare and analyse]
+  E --&gt; F[Ground material claims in cited evidence]
+  F --&gt; G[Deal-professional review]
+  G --&gt; H{Specialist conclusion?}
+  H -- Yes --&gt; I[Legal and Compliance approval]
+  H -- No --&gt; J[Prepare committee-ready draft]
+  I --&gt; J
+  J --&gt; K[Independent acceptance evidence]
+  J --&gt; L[Investment Committee decision outside solution authority]</pre></div></details>
+</section>
+
+<section id="data">
+  <h2>5. Target Data Architecture</h2>
+  <div class="table-wrap"><table><thead><tr><th>Entity</th><th>Owner</th><th>Rule</th></tr></thead><tbody>
+    <tr><td>Due-diligence case and eligibility</td><td>Deal Operations / General Counsel</td><td>Controlled case identity and immutable approval history</td></tr>
+    <tr><td>Source registration and evidence item</td><td>Source/data owner</td><td>Authority, purpose, classification and lifecycle</td></tr>
+    <tr><td>Evidence envelope</td><td>Data owner</td><td>Provenance, owner, timestamp, licence, quality and correlation</td></tr>
+    <tr><td>Analysis result and material claim</td><td>AI Governance / CIO</td><td>Draft, derived, cited and quality-marked</td></tr>
+    <tr><td>Review and recommendation</td><td>Named reviewer / CIO</td><td>Auditable human action; draft until complete</td></tr>
+    <tr><td>Policy, audit and operational events</td><td>Policy/control owners</td><td>Versioned, correlated and retained appropriately</td></tr>
+    <tr><td>Validation evidence and verdict</td><td>Internal Audit</td><td>Read-only to delivery; independent verdict</td></tr>
+  </tbody></table></div>
+  <ul><li>Admission creates a classified evidence envelope before analysis.</li><li>Derived content retains lineage and citations.</li><li>Personal data is purpose-screened and minimised.</li><li>External evidence is licence-gated.</li><li>Working copies follow legal holds, source schedules and necessity.</li><li>Foundation-model training with Stratton data is prohibited.</li><li>Non-production uses synthetic data.</li></ul>
+  <details><summary>VIEW-04 Mermaid source</summary><div><p>Source: <a href="stratton-view-04-data.mmd">stratton-view-04-data.mmd</a></p><pre>flowchart LR
+  S1[Internal authoritative records] --&gt; G1[Source and owner gate]
+  S2[External records] --&gt; G2[Licence and purpose gate]
+  G1 --&gt; Q[Quarantine and content controls]
+  G2 --&gt; Q
+  Q --&gt; M[Classified evidence envelope]
+  M --&gt; P[Provenance and quality metadata]
+  P --&gt; W[Controlled working evidence]
+  W --&gt; A[Assistive processing]
+  A --&gt; O[Cited draft outputs]
+  O --&gt; R[Human review records]
+  M --&gt; E[Audit and regulatory evidence]
+  O --&gt; E
+  R --&gt; E
+  W --&gt; D[Disposition by source schedule, legal hold and necessity]
+  A -. no foundation-model training .-&gt; N[Training prohibited]
+  O -. no source-system write-back .-&gt; S1</pre></div></details>
+</section>
+
+<section id="application">
+  <h2>6. Target Application Architecture</h2>
+  <div class="table-wrap"><table><thead><tr><th>Logical service</th><th>Responsibility</th><th>Requirements</th></tr></thead><tbody>
+    <tr><td>Case and Eligibility</td><td>Case, rollout, eligibility and timestamps</td><td>BR-001, BR-002</td></tr>
+    <tr><td>Source Connector / Licence Gate</td><td>Read-only source access and permitted external use</td><td>DR-001, DR-002, IR-001</td></tr>
+    <tr><td>Controlled Ingestion</td><td>Quarantine, classification and admission</td><td>DR-003, DR-007</td></tr>
+    <tr><td>Evidence and Provenance</td><td>Envelope, lineage, quality and disposition</td><td>DR-004, DR-005, SR-004, SR-005</td></tr>
+    <tr><td>Assistive Analysis / Grounding</td><td>Bounded analysis and claim citation</td><td>FR-001, AR-001, DR-006, NR-001</td></tr>
+    <tr><td>Review and Draft</td><td>Human gates and committee-ready draft</td><td>FR-002, AR-002, NR-002</td></tr>
+    <tr><td>Policy Decision</td><td>Purpose, location, transfer, identity and control evidence</td><td>SR-001–SR-003, SR-006, SR-007, SR-010</td></tr>
+    <tr><td>Quality Evaluation / Audit Evidence</td><td>Acceptance, event and independent assurance evidence</td><td>SR-004, SR-006, SR-008, SR-009, NR-001–NR-003</td></tr>
+  </tbody></table></div>
+  <details><summary>VIEW-03 Mermaid source</summary><div><p>Source: <a href="stratton-view-03-application.mmd">stratton-view-03-application.mmd</a></p><pre>flowchart LR
+  U[Authorised users] --&gt; CASE[Case and eligibility service]
+  CASE --&gt; FLOW[Review and approval workflow]
+  CONN[Read-only source connectors] --&gt; ING[Controlled ingestion]
+  LIC[External-data licence gate] --&gt; ING
+  ING --&gt; META[Evidence and provenance service]
+  META --&gt; ANA[Assistive analysis service]
+  ANA --&gt; CITE[Grounding and citation service]
+  CITE --&gt; FLOW
+  POL[Policy decision service] --&gt; CASE
+  POL --&gt; ING
+  POL --&gt; ANA
+  POL --&gt; FLOW
+  FLOW --&gt; DRAFT[Draft recommendation service]
+  CASE --&gt; AUD[Audit evidence service]
+  ING --&gt; AUD
+  ANA --&gt; AUD
+  FLOW --&gt; AUD
+  DRAFT -. no automated investment decision .-&gt; IC[Investment Committee record]</pre></div></details>
+</section>
+
+<section id="technology">
+  <h2>7. Logical Technology, Security, Operations and Resilience</h2>
+  <div class="grid">
+    <article class="card"><h3>Trust</h3><p>Explicit user and workload identity, controlled purpose, least privilege, time-bound privileged elevation and governed emergency access.</p></article>
+    <article class="card"><h3>Policy</h3><p>Logically common decisions with enforcement at admission, access, analysis, review and transfer boundaries.</p></article>
+    <article class="card"><h3>Isolation</h3><p>Separate user, application, integration, data and operations trust zones; separate development, test and production.</p></article>
+    <article class="card"><h3>Operations</h3><p>Correlated metrics, logs and traces; 8x5 support; critical-alert assignment and incident evidence.</p></article>
+    <article class="card"><h3>Resilience</h3><p>Recoverable case, evidence, policy and audit state supporting 99.9% business-hours availability, RTO ≤4h and RPO ≤1h.</p></article>
+    <article class="card"><h3>Performance</h3><p>Separate logical interactive and document-pack work to support p95 &lt;5s and typical pack ≤30m.</p></article>
+  </div>
+  <details><summary>VIEW-05 Mermaid source</summary><div><p>Source: <a href="stratton-view-05-technology.mmd">stratton-view-05-technology.mmd</a></p><pre>flowchart TB
+  subgraph Z1[User and governance trust zone]
+    ID[Identity, role and time-bound privilege]
+    UI[Case and review channels]
+  end
+  subgraph Z2[Application trust zone]
+    PE[Policy enforcement]
+    SV[Logical application services]
+    JOB[Controlled asynchronous work]
+  end
+  subgraph Z3[Data trust zone]
+    EV[Evidence stores]
+    AU[Audit and compliance records]
+    BK[Protected recovery copies]
+  end
+  subgraph Z4[Integration trust zone]
+    GW[Private logical integration boundary]
+    CN[Read-only connectors]
+  end
+  subgraph Z5[Operations trust zone]
+    OB[Metrics, logs and traces]
+    IN[Alert and incident management]
+    RC[Recovery orchestration]
+  end
+  ID --&gt; UI
+  UI --&gt; PE
+  PE --&gt; SV
+  SV --&gt; JOB
+  CN --&gt; GW
+  GW --&gt; PE
+  SV --&gt; EV
+  SV --&gt; AU
+  EV --&gt; BK
+  SV --&gt; OB
+  PE --&gt; OB
+  OB --&gt; IN
+  RC --&gt; SV
+  RC --&gt; EV</pre></div></details>
+</section>
+
+<section id="abbs">
+  <h2>8. Architecture Building Blocks</h2>
+  <p>All ABBs are vendor- and product-neutral. <strong>No SBB is selected.</strong></p>
+  <div class="table-wrap"><table><thead><tr><th>ABB</th><th>Name</th><th>Responsibility</th><th>Requirements</th></tr></thead><tbody>
+    <tr><td>ABB-01</td><td>Case and Eligibility Management</td><td>Case limit, eligibility, state and timestamps</td><td>BR-001, BR-002, TR-002</td></tr>
+    <tr><td>ABB-02</td><td>Governed Source Connectivity</td><td>Read-only APIs and controlled source access</td><td>DR-001, IR-001</td></tr>
+    <tr><td>ABB-03</td><td>Controlled Ingestion</td><td>Quarantine, classification and admission</td><td>DR-003, DR-007, IR-001</td></tr>
+    <tr><td>ABB-04</td><td>Evidence and Provenance</td><td>Envelope, lineage, quality and citation context</td><td>DR-004, SR-004, NR-001</td></tr>
+    <tr><td>ABB-05</td><td>Assistive Analysis</td><td>Retrieval, extraction, comparison, anomaly, risk and ESG analysis</td><td>FR-001, AR-001, DR-006</td></tr>
+    <tr><td>ABB-06</td><td>Grounding and Citation</td><td>Material claim-to-source binding</td><td>DR-004, NR-001</td></tr>
+    <tr><td>ABB-07</td><td>Human Review and Approval</td><td>Deal and specialist gates</td><td>FR-002, AR-002, NR-002</td></tr>
+    <tr><td>ABB-08</td><td>Decision Rights Guardrail</td><td>Draft state and retained committee authority</td><td>AR-001, AR-002, NR-002</td></tr>
+    <tr><td>ABB-09</td><td>Data Governance and Lifecycle</td><td>Minimisation, classification, holds and disposition</td><td>DR-003, DR-005, DR-007, SR-003, SR-005</td></tr>
+    <tr><td>ABB-10</td><td>Policy Decision and Enforcement</td><td>Purpose, location, transfer and legal control gates</td><td>DR-003, DR-006, DR-007, SR-001–SR-003, SR-006, SR-010</td></tr>
+    <tr><td>ABB-11</td><td>Identity and Privileged Access</td><td>Identity, role, elevation and emergency access</td><td>SR-007</td></tr>
+    <tr><td>ABB-12</td><td>Audit Evidence</td><td>Correlated material event evidence</td><td>FR-002, AR-001, SR-004, SR-006, SR-008, SR-009, TR-002, NR-002</td></tr>
+    <tr><td>ABB-13</td><td>Observability and Incident Management</td><td>Telemetry, critical alerts and ownership</td><td>SR-009, TR-004</td></tr>
+    <tr><td>ABB-14</td><td>Resilience and Recovery</td><td>Protected state and continuity evidence</td><td>SR-009, TR-003</td></tr>
+    <tr><td>ABB-15</td><td>Environment and Data Isolation</td><td>Separate environments and synthetic non-production data</td><td>DR-007, SR-001, TR-001</td></tr>
+    <tr><td>ABB-16</td><td>Quality Evaluation and Independent Validation</td><td>Benchmark, negative, performance and verdict evidence</td><td>SR-008, NR-001–NR-003</td></tr>
+    <tr><td>ABB-17</td><td>External Data Licence Gate</td><td>AI-use permission before access</td><td>DR-002</td></tr>
+    <tr><td>ABB-18</td><td>Legal and Regulatory Evidence</td><td>Privacy, SFDR, AIFMD, AI and DORA-aligned evidence</td><td>SR-001–SR-006, SR-009, SR-010</td></tr>
+    <tr><td>ABB-19</td><td>Workload and Performance Management</td><td>Interactive and pack workload objectives</td><td>BR-001, NR-003</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="decisions">
+  <h2>9. Candidate architecture decisions</h2>
+  <p>All ten decisions are <span class="warn">PROPOSED_FOR_PHASE_2_APPROVAL</span>. Upstream interview decisions confirm intent but do not approve the architecture.</p>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Decision</th><th>Alternative rejected</th><th>Requirements / risks</th><th>Implication</th></tr></thead><tbody>
+    <tr><td>AD-001</td><td>Case-centred control spine</td><td>Document-only or uncoordinated tools</td><td>BR-001, BR-002, TR-002 / R2-01</td><td>Every material event carries a case identity.</td></tr>
+    <tr><td>AD-002</td><td>Read-only or controlled source ingress</td><td>Write-back or source replacement</td><td>DR-001, IR-001 / R2-02</td><td>Source permissions deny AI writes.</td></tr>
+    <tr><td>AD-003</td><td>Mandatory classified evidence envelope</td><td>Optional or unbound metadata</td><td>DR-003–DR-005, DR-007 / R2-03</td><td>Incomplete evidence is unavailable.</td></tr>
+    <tr><td>AD-004</td><td>Separate analysis from authority</td><td>Autonomous agent or unenforced review</td><td>FR-001, FR-002, AR-001, AR-002 / R2-04</td><td>Analysis cannot advance approvals.</td></tr>
+    <tr><td>AD-005</td><td>Common policy decisions with boundary enforcement</td><td>UI-only or manual checks</td><td>SR-001–SR-003, SR-006, SR-007, SR-010 / R2-05</td><td>Controls fail closed.</td></tr>
+    <tr><td>AD-006</td><td>Separate environment/data trust boundaries</td><td>Shared environment or production test copy</td><td>TR-001, SR-001 / R2-06</td><td>Non-production uses synthetic data.</td></tr>
+    <tr><td>AD-007</td><td>Separate interactive and pack work</td><td>Undifferentiated synchronous path</td><td>BR-001, TR-004, NR-003 / R2-07</td><td>Admission, progress and failure are observable.</td></tr>
+    <tr><td>AD-008</td><td>Recover complete trustworthy service state</td><td>Document-only or best-effort recovery</td><td>SR-009, TR-003 / R2-08</td><td>Recovery includes audit and policy consistency.</td></tr>
+    <tr><td>AD-009</td><td>Independent validation evidence boundary</td><td>Model Risk or delivery verdict</td><td>SR-008, NR-001–NR-003 / R2-09</td><td>Only Internal Audit issues the verdict.</td></tr>
+    <tr><td>AD-010</td><td>External data quarantine</td><td>Post-ingestion review or allow-list only</td><td>DR-002, SR-003 / R2-10</td><td>No analysis before licence and purpose approval.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="gaps">
+  <h2>10. Baseline-to-target gap analysis</h2>
+  <div class="table-wrap"><table><thead><tr><th>Component</th><th>Baseline</th><th>Target</th><th>Type</th><th>Approach</th></tr></thead><tbody>
+    <tr><td>Authoritative systems</td><td>Existing sources remain authoritative</td><td>Same authority with governed connectivity</td><td>Carried Forward</td><td>Preserve ownership; map interfaces</td></tr>
+    <tr><td>Release case control</td><td>No approved cross-domain case control</td><td>Eligibility, limit, timestamps and state</td><td>New</td><td>ABB-01</td></tr>
+    <tr><td>Evidence admission</td><td>Domains known; operational mapping open</td><td>Owner, licence, purpose, classification and quality gates</td><td>Changed</td><td>ABB-02/03/17; VAL-004</td></tr>
+    <tr><td>Provenance</td><td>Metadata required; no approved target service</td><td>Evidence envelope and claim lineage</td><td>New</td><td>ABB-04/06</td></tr>
+    <tr><td>Assistive analysis and human control</td><td>Desired AI infusion; no approved target</td><td>Bounded analysis and mandatory approvals</td><td>New</td><td>ABB-05/07/08/16</td></tr>
+    <tr><td>Privacy, sovereignty and regulation</td><td>Outcomes exist; detailed evidence incomplete</td><td>Enforced decisions and supportable evidence</td><td>Changed</td><td>ABB-09/10/18; retain open controls</td></tr>
+    <tr><td>Environment, operations and resilience</td><td>Objectives approved; definitions/controls open</td><td>Isolated, observable and recoverable platform</td><td>New</td><td>ABB-13/14/15/19; VAL-002/004</td></tr>
+    <tr><td>Independent validation</td><td>Internal Audit assigned</td><td>Segregated evidence and verdict</td><td>New</td><td>ABB-16 and AD-009</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="controls">
+  <h2>11. Open controls and risks</h2>
+  <h3>Seven approved residual controls</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Owner</th><th>Control</th><th>Architecture treatment</th></tr></thead><tbody>
+    <tr><td>VAL-001</td><td>General Counsel</td><td>DORA applicability/exemption and obligations</td><td>ABB-18; no formal claim</td></tr>
+    <tr><td>VAL-002</td><td>CIO and Service Operations</td><td>Business hours, typical pack and critical alerts</td><td>ABB-13/19</td></tr>
+    <tr><td>VAL-003</td><td>Deal Operations, AI Governance, Legal, Compliance and CIO</td><td>Eligibility, benchmark, fields, severity and exceptions</td><td>ABB-01/16</td></tr>
+    <tr><td>VAL-004</td><td>Source and records owners</td><td>Instances, schedules, volumes and remediation</td><td>ABB-02/03/09</td></tr>
+    <tr><td>VAL-005</td><td>General Counsel</td><td>Approved locations and exception evidence</td><td>ABB-10/18</td></tr>
+    <tr><td>AFFB-RES-001</td><td>General Counsel and AI Governance</td><td>AI Act role/use-case classification</td><td>ABB-10/18; no unsupported claim</td></tr>
+    <tr><td>AFFB-RES-002</td><td>Legal and compliance owners</td><td>Official citations, dates and article mapping</td><td>ABB-18</td></tr>
+  </tbody></table></div>
+  <h3>Architecture risks</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Treatment</th></tr></thead><tbody>
+    <tr><td>R2-01</td><td>Divergent eligibility or timestamps</td><td>CIO / Deal Operations</td><td>ABB-01; VAL-003</td></tr>
+    <tr><td>R2-02</td><td>Excess source connector permissions</td><td>Integration Lead</td><td>ABB-02/03; AD-002</td></tr>
+    <tr><td>R2-03</td><td>Incomplete provenance reaches analysis</td><td>Data owners / AI Governance</td><td>ABB-04/06 fail closed</td></tr>
+    <tr><td>R2-04</td><td>Human gates bypassed</td><td>CIO / Legal / Compliance</td><td>ABB-07/08/12</td></tr>
+    <tr><td>R2-05</td><td>Policy diverges across channels</td><td>CISO / General Counsel / DPO</td><td>ABB-10</td></tr>
+    <tr><td>R2-06</td><td>Production data enters non-production</td><td>Enterprise Platform / CISO</td><td>ABB-15</td></tr>
+    <tr><td>R2-07</td><td>Unknown workload invalidates performance design</td><td>Enterprise Platform / CIO</td><td>ABB-19; VAL-002/004</td></tr>
+    <tr><td>R2-08</td><td>Inconsistent recovered audit/policy state</td><td>Business Continuity</td><td>ABB-14; AD-008</td></tr>
+    <tr><td>R2-09</td><td>Validation evidence is alterable</td><td>Internal Audit</td><td>ABB-16; AD-009</td></tr>
+    <tr><td>R2-10</td><td>External licence ambiguity or change</td><td>General Counsel / data owner</td><td>ABB-17</td></tr>
+    <tr><td>R2-11</td><td>Incomplete regulatory classification or mapping</td><td>General Counsel / AI Governance</td><td>Residual controls; no formal claim</td></tr>
+    <tr><td>R2-12</td><td>Phase 3 weakens logical controls</td><td>Human architect / AFF-3</td><td>SBB-to-ABB compliance review</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="traceability">
+  <h2>12. Requirements traceability</h2>
+  <p class="ok">31/31 active Must requirements fully mapped; 0 partial; 0 blocked; 0 changed.</p>
+  <div class="table-wrap"><table><thead><tr><th>Requirement</th><th>ABBs</th><th>Views</th><th>Decisions</th></tr></thead><tbody>
+    <tr><td>BR-001</td><td>01, 19</td><td>02, 05</td><td>AD-001, AD-007</td></tr><tr><td>BR-002</td><td>01</td><td>01, 02</td><td>AD-001</td></tr>
+    <tr><td>FR-001</td><td>05, 06, 07</td><td>01, 02, 03</td><td>AD-004</td></tr><tr><td>FR-002</td><td>07, 08, 12</td><td>01, 02, 03</td><td>AD-004</td></tr>
+    <tr><td>AR-001</td><td>05, 08, 12</td><td>01, 02, 03</td><td>AD-004</td></tr><tr><td>AR-002</td><td>07, 08</td><td>01, 02, 03</td><td>AD-004</td></tr>
+    <tr><td>DR-001</td><td>02, 03</td><td>01, 03, 04</td><td>AD-002</td></tr><tr><td>DR-002</td><td>17</td><td>01, 03, 04</td><td>AD-010</td></tr>
+    <tr><td>DR-003</td><td>03, 09, 10</td><td>04, 05</td><td>AD-003, AD-005</td></tr><tr><td>DR-004</td><td>04, 06</td><td>03, 04</td><td>AD-003</td></tr>
+    <tr><td>DR-005</td><td>09</td><td>04</td><td>AD-003</td></tr><tr><td>DR-006</td><td>05, 10</td><td>03, 04</td><td>AD-004, AD-005</td></tr>
+    <tr><td>DR-007</td><td>03, 09, 10, 15</td><td>04, 05</td><td>AD-003, AD-005, AD-006</td></tr>
+    <tr><td>SR-001</td><td>10, 15, 18</td><td>04, 05</td><td>AD-005, AD-006</td></tr><tr><td>SR-002</td><td>10, 18</td><td>04, 05</td><td>AD-005</td></tr>
+    <tr><td>SR-003</td><td>09, 10, 18</td><td>04, 05</td><td>AD-005, AD-010</td></tr><tr><td>SR-004</td><td>04, 12, 18</td><td>03, 04</td><td>AD-003</td></tr>
+    <tr><td>SR-005</td><td>09, 18</td><td>04</td><td>AD-003</td></tr><tr><td>SR-006</td><td>10, 12, 18</td><td>03, 05</td><td>AD-004, AD-005</td></tr>
+    <tr><td>SR-007</td><td>11, 12</td><td>01, 05</td><td>AD-005</td></tr><tr><td>SR-008</td><td>12, 16</td><td>01, 02, 05</td><td>AD-009</td></tr>
+    <tr><td>SR-009</td><td>12, 13, 14, 18</td><td>05</td><td>AD-008</td></tr><tr><td>SR-010</td><td>10, 18</td><td>04, 05</td><td>AD-005</td></tr>
+    <tr><td>IR-001</td><td>02, 03</td><td>01, 03, 04</td><td>AD-002</td></tr><tr><td>TR-001</td><td>15</td><td>04, 05</td><td>AD-006</td></tr>
+    <tr><td>TR-002</td><td>01, 12</td><td>02</td><td>AD-001, AD-002</td></tr><tr><td>TR-003</td><td>14</td><td>05</td><td>AD-008</td></tr>
+    <tr><td>TR-004</td><td>13</td><td>05</td><td>AD-007</td></tr><tr><td>NR-001</td><td>04, 06, 16</td><td>02, 03, 04</td><td>AD-003, AD-004, AD-009</td></tr>
+    <tr><td>NR-002</td><td>07, 08, 12, 16</td><td>02, 03, 05</td><td>AD-004, AD-009</td></tr><tr><td>NR-003</td><td>16, 19</td><td>03, 05</td><td>AD-007</td></tr>
+  </tbody></table></div>
+  <h3>Requirements impact assessment</h3>
+  <div class="table-wrap"><table><thead><tr><th>Assessment</th><th>Result</th></tr></thead><tbody>
+    <tr><td>Authoritative revision</td><td>Approved Phase 1 manifest <code>b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a</code></td></tr>
+    <tr><td>Active scope</td><td>31 Must requirements; none added, changed, superseded or withdrawn</td></tr>
+    <tr><td>Architecture impact</td><td>19 ABBs, five views and ten candidate decisions provide full target coverage</td></tr>
+    <tr><td>Open controls</td><td>Seven remain owner-bound and constrain later evidence or SBB choices</td></tr>
+    <tr><td>Change trigger</td><td>Return infeasibility, weakened boundaries or changed intent through AFF-1/AFF-0 governance</td></tr>
+  </tbody></table></div>
+  <p>Full machine-readable mappings are in <a href="stratton-architecture-catalogue.json">stratton-architecture-catalogue.json</a>.</p>
+</section>
+
+<section id="handoff">
+  <h2>13. AFF-3 handoff constraints</h2>
+  <ol><li>Map every selected SBB to approved ABBs and requirements.</li><li>Do not weaken human authority, source authority, fail-closed policy or Internal Audit independence.</li><li>Do not infer Azure regions; consume the approved EU/EEA list only after VAL-005.</li><li>Keep evidence stores, databases, integration and administrative paths logically private.</li><li>Preserve controlled identity, EU-based privileged operation, least privilege, time-bound elevation, emergency access and audit.</li><li>Evidence that provider/model terms prohibit foundation-model training with Stratton data.</li><li>Preserve read-only source connectivity and licence-gated external ingestion.</li><li>Treat VAL-002 and VAL-004 as design dependencies.</li><li>Make no formal DORA or AI Act classification claim while related controls remain open.</li><li>Return infeasible requirements or weakened boundaries through governed change.</li></ol>
+  <p><strong>No SBB, Azure service, region, SKU, CIDR, module, landing-zone resource or implementation sequence is approved here.</strong></p>
+  <h3>Candidate gate</h3>
+  <p>The parent session must generate retained SHA-256 evidence and the canonical manifest, invoke AFF-A using actual runtime <code>gpt-5.5</code>, invoke AFF-B using <code>gpt-5.6-sol</code>, remediate and reconverge both over the same unchanged manifest and model-plan revision 3. This candidate neither approves Phase 2 nor makes Phase 3 eligible.</p>
+</section>
+</main>
+<footer>
+  <p>Authoritative source: <a href="stratton-architecture.md">stratton-architecture.md</a> · Catalogue: <a href="stratton-architecture-catalogue.json">stratton-architecture-catalogue.json</a> · Model plan: <a href="../0-coordination/stratton-model-plan-revision-3.json">revision 3</a> · Source hashes pending parent session.</p>
+</footer>
+</body>
+</html>

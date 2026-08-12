@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_INVOCATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "phaseName": "Phase 5 — Coding",
+  "round": 4,
+  "invokedBy": "AFF-5",
+  "formalisedAt": "2026-08-09T18:02:21.542+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "role": "AFF-B-security-compliance",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "approvedDefaultModelId": "gpt-5.6-sol",
+  "selectedExactGptModelId": "gpt-5.6-terra",
+  "actualRuntimeModelId": "gpt-5.6-terra",
+  "actualRuntimeEvidence": "The current invocation explicitly identifies its actual runtime model as GPT-5.6 Terra (gpt-5.6-terra).",
+  "selectionRationale": "The round-4 handoff explicitly selects Terra for independent security and compliance assurance.",
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7",
+    "phaseAuthorAndFinalisationActualRuntimeModelId": "gpt-5.6-sol",
+    "reviewerActualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "canonicalSubject": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-phase-5-hashes.json",
+    "sha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "fileCount": 166,
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/reviewed-subject/stratton-phase-5-hashes.json",
+    "snapshotSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33"
+  },
+  "independence": {
+    "reviewerRoleSeparate": true,
+    "reviewerContextSeparate": true,
+    "writeBoundary": "Only AFF-B round-4 records, its reviewed-subject snapshot and coverage sequence 019 were written.",
+    "authorModelDistinct": true,
+    "authorAndFinalisationModel": "gpt-5.6-sol",
+    "reviewerModel": "gpt-5.6-terra",
+    "status": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS_AND_SEPARATE_AFFB_CONTEXT"
+  },
+  "noUnauthorisedExecution": "Only static reads, searches, SHA-256/file-byte inspection and output-record creation were used; no subject code, test, package manager, Bicep, container, scanner, Azure, login, provider, inference, promotion, retention-finalisation, deployment or runtime action was executed.",
+  "subjectModificationPerformed": false,
+  "nonApprovalStatement": "This receipt does not approve, waive, certify, attest, deploy, authorise Azure activity or provide operating-effectiveness evidence."
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "caseName": "Stratton-Europe-Captital",
+  "phaseId": "4",
+  "modelPlanRevision": "5",
+  "verifiedAt": "2026-08-02T10:22:22.620+02:00",
+  "verifiedBy": "Independent Python hashlib verification",
+  "manifestPath": "4-implementation-plan/stratton-phase-4-hashes.json",
+  "manifestSha256": "87ff470043fce913e6dd3e2121430072552443ae5cacaaa1454cb8396a9265c4",
+  "artifactCount": 8,
+  "allManifestEntriesMatch": true,
+  "verifiedArtifacts": [
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.md",
+      "sha256": "2d6308656348e2cd99e5af2b3e374a3b1405aa4ec19777829f87fa43b722099d",
+      "match": true
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-plan.html",
+      "sha256": "f69a472e1f19f07b9aa7bb7045421e85caa09105db3e927c50ba0c6bb664941a",
+      "match": true
+    },
+    {
+      "path": "4-implementation-plan/stratton-implementation-catalogue.json",
+      "sha256": "a089c45957834d2e24b7fc244ae4373a1d6d3227160e12fa270a757a0c40396a",
+      "match": true
+    },
+    {
+      "path": "4-implementation-plan/diagrams/stratton-dependency-dag.svg",
+      "sha256": "2f98103a955b78ae8e947953e680dd797733272d83d36deca7bc87982d9510c5",
+      "match": true
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-official-source-corrections.json",
+      "sha256": "cadc5f6893d02bf832c09912718730a8cad71d9da5a5644650c7e6f91a633312",
+      "match": true
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-candidate-validation.json",
+      "sha256": "20c80ec1c957663a60134914a8500a2e8ef8709067aefbf7f2042d7ceeab7fc3",
+      "match": true
+    },
+    {
+      "path": "0-coordination/stratton-model-plan-revision-5.json",
+      "sha256": "111428516dd60a3293868756139ec5dc1fe788d14979a4946498227cc9c7faaf",
+      "match": true
+    },
+    {
+      "path": "4-implementation-plan/evidence/stratton-phase-4-hash-generation-evidence.json",
+      "sha256": "1350a1f407ce0d9d5693bc376a92018f5b976bdf6c19019616e4353b2dd6c0a2",
+      "match": true
+    }
+  ]
+}

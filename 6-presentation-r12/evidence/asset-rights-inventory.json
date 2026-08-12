@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_ASSET_RIGHTS_INVENTORY",
+  "generatedAt": "2026-08-09T23:46:41.473Z",
+  "assetGroups": [
+    {
+      "path": "deck/src/data/stratton-europe-capital-logo.png",
+      "classification": "CASE_LOCAL_FICTITIOUS_BRAND_ASSET",
+      "usage": "Deck branding",
+      "rightsStatus": "HUMAN_OWNER_CONFIRMATION_REQUIRED_BEFORE_EXTERNAL_DISTRIBUTION"
+    },
+    {
+      "path": "deck/src/data/stratton-round-logo.png",
+      "classification": "CASE_LOCAL_FICTITIOUS_BRAND_ASSET",
+      "usage": "Deck branding",
+      "rightsStatus": "HUMAN_OWNER_CONFIRMATION_REQUIRED_BEFORE_EXTERNAL_DISTRIBUTION"
+    },
+    {
+      "path": "deck/src/data/approach/togaf-adm.png",
+      "classification": "REFERENCE_ILLUSTRATION",
+      "usage": "Architecture-method reference",
+      "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+    },
+    {
+      "path": "deck/src/data/approach/cloud-adoption-framework.png",
+      "classification": "REFERENCE_ILLUSTRATION",
+      "usage": "Microsoft Cloud Adoption Framework reference",
+      "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+    },
+    {
+      "path": "deck/src/data/approach/well-architected-framework.png",
+      "classification": "REFERENCE_ILLUSTRATION",
+      "usage": "Microsoft Well-Architected Framework reference",
+      "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+    },
+    {
+      "path": "deck/src/data/github-copilot-pilot.png",
+      "classification": "PRODUCT_ILLUSTRATION",
+      "usage": "Agentic architecture method reference",
+      "rightsStatus": "SOURCE_AND_REUSE_RIGHTS_PENDING"
+    },
+    {
+      "path": "deck/src/data/microsoft-copilot-logo.svg",
+      "classification": "MICROSOFT_PRODUCT_MARK",
+      "usage": "Human-AI operating model",
+      "rightsStatus": "OFFICIAL_MARK_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+    },
+    {
+      "path": "deck/src/data/azure-logo.svg",
+      "classification": "MICROSOFT_PRODUCT_MARK",
+      "usage": "Azure architecture identification",
+      "rightsStatus": "OFFICIAL_MARK_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+    },
+    {
+      "path": "deck/src/data/azure-ai-foundry-logo.svg",
+      "classification": "MICROSOFT_PRODUCT_MARK",
+      "usage": "AI service identification",
+      "rightsStatus": "OFFICIAL_MARK_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+    },
+    {
+      "path": "deck/src/data/azure-icons/*.svg",
+      "classification": "MICROSOFT_PRODUCT_ICONS",
+      "usage": "Azure service identification",
+      "rightsStatus": "OFFICIAL_ICON_USAGE_TERMS_OWNER_CONFIRMATION_PENDING"
+    }
+  ],
+  "externalDistributionState": "BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT",
+  "licensingConclusionMade": false,
+  "customerBrandClaimed": false,
+  "findingBoundary": "The inventory records an owner gate and makes no copyright, trademark, licence or redistribution conclusion."
+}

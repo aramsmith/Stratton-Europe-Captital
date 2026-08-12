@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_REVIEWED_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "5",
+  "round": 4,
+  "verifiedAt": "2026-08-09T18:02:21.542+02:00",
+  "method": "Static SHA-256 and file-byte inspection only",
+  "canonicalSubject": {
+    "root": "cases/Stratton-Europe-Captital/5-coding-r6",
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-phase-5-hashes.json",
+    "expectedSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "preReviewSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "snapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-4/reviewed-subject/stratton-phase-5-hashes.json",
+    "snapshotSha256": "da59dc23d3a4db79db32d1ee25ed67d67e7ed6af82be6547adf0228b027fcc33",
+    "fileCount": 166,
+    "manifestFileCount": 166,
+    "listedFilesMatched": 166,
+    "missingFiles": 0,
+    "mismatchedFiles": 0,
+    "duplicatePaths": 0,
+    "ordinalPathOrder": true,
+    "invalidPathCount": 0,
+    "encoding": "UTF-8 without BOM",
+    "utf8Bom": false,
+    "trailingNewline": false
+  },
+  "releaseManifest": {
+    "path": "cases/Stratton-Europe-Captital/5-coding-r6/stratton-release-manifest.json",
+    "expectedSha256": "88f41e40e0b1c2f7f699bd92b89d36e8d91589895012c86c4912c7247e3b9e28",
+    "actualSha256": "88f41e40e0b1c2f7f699bd92b89d36e8d91589895012c86c4912c7247e3b9e28",
+    "match": true
+  },
+  "validationInput": {
+    "runId": "20260809T154227203Z",
+    "path": "evidence/local-validation/20260809T154227203Z/validation-input.json",
+    "aggregateAlgorithm": "SHA256_UTF8_PATH_TAB_SHA256_TAB_SIZE_LF_V1",
+    "expectedAggregateSha256": "17a15d2e4d42763e98087e80c2a1be4f91bf2c3c5ec17d4ed7adb0d0c78a9d8c",
+    "actualAggregateSha256": "17a15d2e4d42763e98087e80c2a1be4f91bf2c3c5ec17d4ed7adb0d0c78a9d8c",
+    "fileCount": 123,
+    "inputEntryMismatches": 0,
+    "releaseInventoryFileCount": 123,
+    "releaseInventoryMismatches": 0,
+    "boundRecordCount": 14,
+    "bindingMismatches": 0
+  },
+  "handoff": {
+    "preReviewPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-11-pre-review.md",
+    "preReviewSha256": "ad806f8231772c82e32279da14635e1b1ae1cdb66265532e9b2d9dead2304423",
+    "reportPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-11-report.md",
+    "reportSha256": "cdc88d901a5c0e0b8de867c850d91f288c3dd3fff0cf6416a529b5dbc94d430c"
+  },
+  "preservation": {
+    "priorAffBRound3Path": "cases/Stratton-Europe-Captital/reviews/aff-b/5/round-3/stratton-aff-b-review.json",
+    "priorAffBRound3Sha256": "63e422fa708fce1c30f1739b9d0a539d2b435110b7be9cb724dc5a799a1525a7",
+    "priorCoverage018Path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-018.json",
+    "priorCoverage018Sha256": "abe9b88504d5ca91dbd6297c6b1d09a35c346c87f9ec6295920d490076b1ae11"
+  },
+  "conclusion": "PRE_REVIEW_CANONICAL_SUBJECT_MATCHED; final post-output recomputation is recorded in the round-4 review record."
+}

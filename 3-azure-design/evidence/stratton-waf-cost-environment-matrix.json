@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "WAF_COST_CAPACITY_AND_ENVIRONMENT_MATRIX",
+  "confirmedDesignContext": "Citadel composes Azure Landing Zones, Azure-Samples Foundry Citadel layered AI governance and Sovereign Landing Zone policy overlays. The three workload subscriptions remain separate from Citadel management, connectivity and AI-governance subscriptions.",
+  "wafDecisions": [
+    {
+      "id":"WAF-001",
+      "decision":"Citadel regional hubs, private internal ingress and Private Link for data, AI and platform dependencies.",
+      "reliability":"Adds DNS and private-connectivity dependencies that require monitoring and tested resolution.",
+      "security":"Removes public application/database exposure and centralises inspected egress.",
+      "costOptimisation":"Two regional hubs, private endpoints, firewalls and resolvers add fixed cost.",
+      "operationalExcellence":"Requires central DNS ownership, endpoint inventory and policy evidence.",
+      "performanceEfficiency":"Keeps traffic on Azure/private networks but introduces gateway hops; benchmark p95.",
+      "tradeOff":"Security and sovereignty are prioritised over lowest cost and simplest connectivity."
+    },
+    {
+      "id":"WAF-002",
+      "decision":"Container Apps interactive services plus event-driven jobs.",
+      "reliability":"Production uses zone support and at least two interactive replicas; jobs are idempotent.",
+      "security":"Internal environment and managed identities isolate components.",
+      "costOptimisation":"Elastic workers avoid permanent peak compute; minimum replicas retain interactive readiness.",
+      "operationalExcellence":"One container platform reduces service diversity, but image lifecycle and scaling need runbooks.",
+      "performanceEfficiency":"Separates sub-five-second interactions from up-to-thirty-minute packs.",
+      "tradeOff":"Elastic simplicity is accepted over Kubernetes-level control; benchmark evidence sets limits."
+    },
+    {
+      "id":"WAF-003",
+      "decision":"Azure SQL Database Business Critical starting hypothesis for production case/control state.",
+      "reliability":"Zone redundancy, SQL failover groups and continuous STR/LTR backups with explicit Local or Zone backup redundancy support objectives without implicit paired-region storage.",
+      "security":"Entra-only, private endpoint and TDE; no public access in any environment; Geo and GeoZone backup redundancy are denied unless a later approved design proves the paired region is inside the signed boundary.",
+      "costOptimisation":"Business Critical costs more than General Purpose and may be reduced only after evidence.",
+      "operationalExcellence":"Managed backup and HA reduce database operations, but requestedBackupStorageRedundancy must be inspected for every database and future-backup changes tracked.",
+      "performanceEfficiency":"Low-latency transactional state with indexes and connection pooling.",
+      "tradeOff":"In-region Local or Zone backups disable geo-restore; the explicitly approved SQL failover group carries regional recovery. SKU and Zone support remain evidence-gated."
+    },
+    {
+      "id":"WAF-004",
+      "decision":"Azure AI Search S1 with three production replicas as a starting hypothesis.",
+      "reliability":"Replica count supports query/index availability; index remains rebuildable.",
+      "security":"Private endpoint, Entra roles and security filters.",
+      "costOptimisation":"Three replicas are a material fixed cost for only 20 deals.",
+      "operationalExcellence":"Managed indexing reduces custom retrieval infrastructure.",
+      "performanceEfficiency":"Hybrid/vector retrieval supports citation workflow; one partition initially.",
+      "tradeOff":"Availability is favoured over minimum cost; load evidence may alter replicas/partitions."
+    },
+    {
+      "id":"WAF-005",
+      "decision":"Regional Azure OpenAI inference with no fine-tuning or autonomous tools.",
+      "reliability":"Provider quota and regional availability remain dependencies; analysis pauses safely on outage.",
+      "security":"Private endpoint, managed identity, no training use and fail-closed policy.",
+      "costOptimisation":"Token use is demand-based; prompt/caching strategy must not retain ungoverned content.",
+      "operationalExcellence":"Model/version/configuration changes trigger governed suspension and evaluation.",
+      "performanceEfficiency":"Model and quota are selected against quality and pack benchmarks, not assumed.",
+      "tradeOff":"Regional sovereignty and human controls can constrain model choice, quota and throughput."
+    },
+    {
+      "id":"WAF-006",
+      "decision":"Separate production assurance subscription and immutable verdict storage.",
+      "reliability":"Independent evidence remains recoverable outside workload blast radius.",
+      "security":"Delivery and operations cannot alter Internal Audit verdicts.",
+      "costOptimisation":"Adds subscription governance, storage and operating overhead.",
+      "operationalExcellence":"Requires explicit evidence submission and assurance runbooks.",
+      "performanceEfficiency":"Not on interactive path; no material user latency.",
+      "tradeOff":"Independence and integrity are prioritised over consolidation."
+    },
+    {
+      "id":"WAF-007",
+      "decision":"Confirmed two-region primary/recovery pattern with regional rather than Global/DataZone AI deployments.",
+      "reliability":"Primary zonal services plus warm recovery, SQL failover, controlled evidence replication and rebuildable search address regional failure.",
+      "security":"Both exact regions must be signed-approved; Citadel policy denies other locations and Global/DataZone AI.",
+      "costOptimisation":"Warm recovery, duplicate regional hubs and regional AI quota add material cost.",
+      "operationalExcellence":"Requires region-specific runbooks, replication manifests and regular recovery exercises after implementation.",
+      "performanceEfficiency":"Primary path remains local; recovery capacity is evidence-sized and may be lower until failover.",
+      "tradeOff":"Regional resilience is accepted with higher fixed cost, while exact deployment remains fail-closed until the approved pair is named."
+    },
+    {
+      "id":"WAF-008",
+      "decision":"Platform-managed encryption baseline; CMK only by explicit CISO/Legal decision.",
+      "reliability":"Avoids key-vault coupling for all data-plane operations.",
+      "security":"Encryption at rest remains enabled; CMK may add control if justified.",
+      "costOptimisation":"Avoids unnecessary Premium key transactions and recovery overhead beyond certificate/secrets needs.",
+      "operationalExcellence":"Reduces key rotation and lockout risk.",
+      "performanceEfficiency":"Avoids extra key dependency latency.",
+      "tradeOff":"Operational reliability is favoured unless policy evidence requires customer key control."
+    },
+    {
+      "id":"WAF-009",
+      "decision":"One parameterised Bicep codebase for Citadel platform, sovereignty overlays and Stratton workload landing zones, with pinned AVM candidates.",
+      "reliability":"Repeatable environments and drift detection reduce configuration variance.",
+      "security":"Policy-as-code and no stored credentials; deployment uses human-interactive sign-in.",
+      "costOptimisation":"Shared modules reduce duplicated engineering.",
+      "operationalExcellence":"What-if, lint and validation are planned by AFF-4/5; Phase 3 executes none.",
+      "performanceEfficiency":"Environment parameters tune capacity without code forks.",
+      "tradeOff":"Module-version governance adds upgrade work but avoids unbounded latest dependencies."
+    }
+  ],
+  "capacityHypotheses": [
+    {"component":"Citadel warm recovery footprint","nonproduction":"Not applicable beyond controlled recovery testing","production":"Lower warm capacity for private ingress, apps, SQL secondary, evidence replica, Search rebuild target and regional AI quota","validation":"Authorised regional failover and RTO/RPO exercise after exact regions are approved"},
+    {"component":"Application Gateway","nonproduction":"Test only where ingress parity is needed","production":"WAF_v2 autoscale minimum 2, maximum owner parameter","validation":"Concurrent user and TLS/WAF latency test"},
+    {"component":"API Management","nonproduction":"Standard v2 1 unit; private endpoint; public gateway disabled","production":"Standard v2 2 units starting hypothesis; private endpoint; public gateway disabled","validation":"Private endpoint/DNS proof, public gateway unreachable, private Application Gateway path functional and API p95 under HD-005 load"},
+    {"component":"Container Apps API/UI","nonproduction":"0 or 1 minimum replica","production":"At least 2 minimum replicas across zones; max parameter","validation":"p95 <5 seconds and dependency saturation"},
+    {"component":"Container Apps Jobs","nonproduction":"Event-driven low cap","production":"Concurrency/max replicas have no default","validation":"Typical pack <=30 minutes without AI quota or search saturation"},
+    {"component":"Service Bus","nonproduction":"Standard initially","production":"Premium 1 messaging unit starting hypothesis","validation":"Queue age, throughput, failover and duplicate handling"},
+    {"component":"Azure SQL Database","nonproduction":"GP_S_Gen5_1 serverless starting hypothesis; requestedBackupStorageRedundancy=Local","production":"BC_Gen5_2 zone-redundant starting hypothesis; requestedBackupStorageRedundancy has no default and is Local or Zone only","validation":"Rendered property, region capability, future-backup configuration evidence, transaction latency, connection count, restore and cost"},
+    {"component":"Azure AI Search","nonproduction":"S1 1 replica/1 partition","production":"S1 3 replicas/1 partition starting hypothesis","validation":"Index size, indexing throughput and query p95"},
+    {"component":"Azure OpenAI","nonproduction":"Lowest approved quota supporting tests","production":"Model, version and quota have no default","validation":"Quality benchmark, token profile, latency, quota and approved location availability"},
+    {"component":"Document Intelligence","nonproduction":"S0 demand-based","production":"S0 demand-based; rate cap required","validation":"Page mix, extraction quality and pack duration"},
+    {"component":"Storage","nonproduction":"LRS synthetic data","production":"ZRS; capacity has no asserted baseline","validation":"VAL-004 source volume, growth, lifecycle and recovery"},
+    {"component":"Log Analytics","nonproduction":"Minimised telemetry","production":"Pay-as-you-go; daily cap cannot suppress critical audit evidence","validation":"Measured GB/day, field minimisation and owner retention"}
+  ],
+  "costDrivers": [
+    {"rank":1,"driver":"Azure OpenAI model/token usage and provisioned versus standard quota","control":"Measure tokens by approved use case; cap per case; no price until model/region/contract are known."},
+    {"rank":2,"driver":"Azure AI Search replica/partition count","control":"Start one partition; retain three production replicas only if availability/indexing evidence requires them."},
+    {"rank":3,"driver":"Azure SQL Business Critical and zone redundancy","control":"Validate GP versus BC against RTO/RPO and latency before commitment."},
+    {"rank":4,"driver":"Two Citadel regional hubs, Firewall Premium, DNS Resolver, API Management and Application Gateway fixed capacity","control":"Centralise connectivity/DNS in sub-citadel-connectivity and keep nonproduction parity only where validation requires it."},
+    {"rank":5,"driver":"Container Apps minimum replicas and worker concurrency","control":"Keep interactive minimum; event-scale jobs; set tested caps."},
+    {"rank":6,"driver":"Storage growth, immutable retention, backups and regional copies","control":"Owner schedules, tiering and legal holds; never delete records to meet budget."},
+    {"rank":7,"driver":"Log ingestion and retention","control":"Allow-list telemetry fields, route audit records efficiently and set retention from approved schedules."},
+    {"rank":8,"driver":"Private endpoints, cross-region recovery traffic and network egress","control":"Centralise in Citadel and permit only signed-approved regional replication flows."},
+    {"rank":9,"driver":"Separate Citadel management and AI-governance subscriptions","control":"Keep governance resources minimal and exclude duplicate workload inference/data services; do not weaken separation for cost."}
+  ],
+  "costPosition": {
+    "currencyOrPrice": "NOT ASSERTED",
+    "reason": "Exact approved region names, volumes, business hours, quotas, subscription IDs, commercial agreement and reserved-capacity eligibility remain unknown.",
+    "requiredMethod": "AFF-4 creates a Citadel platform plus dev/test/production/recovery/assurance bill of materials and owner-approved Azure Pricing Calculator estimate after exact region, IPAM and benchmark parameters are supplied.",
+    "commitmentGuidance": "Use pay-as-you-go through benchmark; assess reservations/savings plans only after stable measured utilisation and production approval."
+  },
+  "environmentControls": [
+    {"control":"Data","dev":"Synthetic","tst":"Synthetic benchmark","prd":"Approved highly confidential sources only"},
+    {"control":"Network","dev":"Primary Citadel hub-connected private spoke","tst":"Separate primary Citadel hub-connected private spoke","prd":"Primary and recovery Citadel hub-connected spokes; no environment peering"},
+    {"control":"Database public access","dev":"Disabled","tst":"Disabled","prd":"Disabled"},
+    {"control":"SQL STR/LTR backup redundancy","dev":"Local","tst":"Local","prd":"Required Local or Zone after region evidence; Geo/GeoZone denied"},
+    {"control":"API Management public gateway","dev":"Disabled after private endpoint/DNS proof","tst":"Disabled after private endpoint/DNS proof","prd":"Disabled after private endpoint/DNS proof; no fallback"},
+    {"control":"App Configuration public access","dev":"Disabled","tst":"Disabled","prd":"Disabled"},
+    {"control":"Identity","dev":"Environment-specific","tst":"Environment-specific","prd":"Environment-specific plus PIM/CA"},
+    {"control":"AI endpoint","dev":"Private regional approved test location","tst":"Private regional approved test location","prd":"Private regional deployments in both approved regions; Global/DataZone denied"},
+    {"control":"Evidence verdict","dev":"Not authoritative","tst":"Submitted manifest only","prd":"Internal Audit assurance subscription, separately controlled in primary/recovery pattern"},
+    {"control":"IaC","dev":"Same modules/parameters","tst":"Same modules/parameters","prd":"Same modules/parameters; stronger parameter policy"}
+  ],
+  "sources": ["SRC-AZ-001","SRC-AZ-005","SRC-AZ-021","SRC-AZ-023","SRC-AZ-024","SRC-AZ-025","SRC-AZ-026","SRC-AZ-027"]
+}

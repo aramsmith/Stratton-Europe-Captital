@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "47",
+  "createdAt": "2026-08-03T18:49:01.0195178+02:00",
+  "revisionReason": "Adopt the reference deck's staged text-and-block reveal language across all R4 slides while retaining existing directional fly-ins and metric count-ups.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-46.json",
+    "sha256": "c4f1137d20676709ff7eadce956fcbcf7f559d3963dd9148c81f62744de94d64",
+    "overwrite": false
+  },
+  "reference": {
+    "url": "https://aramsmith.github.io/enterprise-resilience-architecture/",
+    "observedPattern": [
+      "Eyebrow fades first.",
+      "Title enters from above.",
+      "Supporting text fades or rises in.",
+      "Cards and their inner content are staggered.",
+      "Numeric values count up after their containers emerge."
+    ]
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "preserve": [
+      "Slide 2 left, right and upward panel fly-ins.",
+      "Slide 3 card fades and upward AI-panel fly-in.",
+      "Slide 2 metric count-up."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

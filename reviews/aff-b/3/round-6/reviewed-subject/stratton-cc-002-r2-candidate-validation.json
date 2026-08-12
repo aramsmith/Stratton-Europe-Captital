@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_CC_002_R2_PHASE_3_CANDIDATE_VALIDATION",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseId": "3",
+  "status": "IMPLEMENTATION_COMPLETE_REVIEW_PENDING",
+  "validationOutcome": "PASS",
+  "authorActualRuntimeModelId": "gpt-5.6-sol",
+  "method": "Command-enabled local inspection, independent JSON parsing, raw-byte hashing, original-candidate and reviewed-subject comparison, finding-specific contract assertions and prohibited controller-artifact checks.",
+  "originalManifestVerification": {
+    "path": "3-azure-design/stratton-phase-3-hashes-cc-002-proposed.json",
+    "sha256": "2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a",
+    "artifactDigestsMatched": 10,
+    "manifestMatchedBothReviewedSubjectSnapshots": true,
+    "allOriginalCandidateFilesMatchedBothReviewedSubjectSnapshots": true,
+    "state": "UNCHANGED"
+  },
+  "checks": [
+    {
+      "id": "CC002-R2-P3-VAL-001",
+      "check": "Exactly twelve append-only r2 candidate paths are present and no AFF-A round 7, AFF-B round 6, coverage 013 or approval artifact exists.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-002",
+      "check": "All ten r2 JSON documents parse independently to objects.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-003",
+      "check": "All eleven r2 manifest entries match exact raw bytes, are ordinal sorted and exclude the manifest itself.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-004",
+      "check": "The original manifest remains 2184986970076bb5317c31459e335d1e9272973411c3e3d14a1886102b07214a; all ten original entries and all eleven original live/snapshot files remain byte-identical.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-005",
+      "check": "Every one of twelve hostile-evidence, routing-misuse, deployment-failure and authority-abuse scenarios is an immutable blocking gate with pass criteria, evidence IDs, owner and fail-closed outcome in evaluation, routing and security records.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-006",
+      "check": "Luna, Terra, Sol and embedding records bind owner-parameterised primary/recovery EU resources, deployment IDs, DataZoneStandard evidence, provider-region limitation, failover authority, data boundaries and missing-evidence deny/queue behaviour.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-007",
+      "check": "Material model, API, capability, Data Zone, region-availability, privacy, network, identity, embedding and Document Intelligence claims bind exact official sources, sections, retrieval dates, evidence excerpts, licence/use disposition, owners and review/expiry conditions.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-008",
+      "check": "Prompt/output, vector/index, benchmark, route-log and telemetry lifecycle records bind minimisation, classification, retention, deletion, legal hold, DSR, redaction, immutable integrity, recovery and operational owners while legal/compliance classification remains pending.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-009",
+      "check": "Markdown and generated HTML have exact thirteen-heading parity and preserve separate Explainable anomaly challenger and Supervised prediction rows with their full governance conditions.",
+      "result": "PASS"
+    },
+    {
+      "id": "CC002-R2-P3-VAL-010",
+      "check": "The append-only phase-3-cc-002-r2-contract validates every r2 file, every persisted finding, raw-byte hashes, original bytes and controller-owned artifact absence.",
+      "result": "PASS"
+    }
+  ],
+  "findingCoverage": [
+    "AFFA-P3-R6-MAJ-001",
+    "AFFA-P3-R6-MAJ-002",
+    "AFFA-P3-R6-MAJ-003",
+    "AFFA-P3-R6-MIN-001",
+    "AFFB-CC002-MAJ-001",
+    "AFFB-CC002-MAJ-002",
+    "AFFB-CC002-MAJ-003",
+    "AFFB-CC002-MAJ-004",
+    "AFFB-CC002-MIN-001"
+  ],
+  "observed": {
+    "candidateFiles": 12,
+    "candidateJsonFiles": 10,
+    "manifestArtifacts": 11,
+    "preHashSubjects": 10,
+    "securityPromotionGates": 12,
+    "recoveryRoutes": 4,
+    "privacyLifecycleClasses": 5,
+    "sourceRecords": 12,
+    "sourceBoundClaims": 16,
+    "markdownH2Sections": 13,
+    "htmlH2Sections": 13,
+    "originalCandidateFilesUnchanged": 11,
+    "originalManifestArtifactsMatched": 10,
+    "forbiddenReviewCoverageApprovalArtifacts": 0,
+    "r2ContractExitCode": 0
+  },
+  "errors": [],
+  "limitations": [
+    "No Azure sign-in, Azure validation, what-if, deployment or runtime test was performed.",
+    "No AFF-A round 7, AFF-B round 6, coverage 013 or approval record was created.",
+    "Exact resources, regions, quota, capacity, retention and legal/compliance classification remain owner-bound and fail closed.",
+    "The r2 candidate remains mutable until controller-owned formal hash-bound review starts."
+  ]
+}

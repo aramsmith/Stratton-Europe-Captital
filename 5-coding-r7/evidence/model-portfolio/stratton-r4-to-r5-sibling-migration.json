@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "PHASE5_CC002_SIBLING_MIGRATION_EVIDENCE",
+  "status": "CANDIDATE_EVIDENCE_NOT_AN_APPROVAL",
+  "caseName": "Stratton-Europe-Captital",
+  "changeControlId": "STRATTON-CC-002",
+  "recordedAt": "2026-08-09T14:33:06.647+02:00",
+  "implementationAuthor": {
+    "agent": "AFF-5",
+    "model": "gpt-5.6-sol",
+    "approval": false
+  },
+  "migration": {
+    "source": "5-coding-r4",
+    "destination": "5-coding-r5",
+    "method": "COPY_TO_NEW_SIBLING_THEN_RESTORE_APPROVED_SOURCE",
+    "copiedFileCount": 231,
+    "excludedTransientFileCount": 8817,
+    "snapshotHashAlgorithm": "SHA-256 of UTF-8 ordinal-sorted path NUL file-sha256 lines joined by LF",
+    "sourceChangedR4SnapshotSha256": "44c0e08c5b4580eaaf453775eec8fc4292d19d06ff7b6bf2c8fc2093df216fbb",
+    "destinationInitialR5SnapshotSha256": "44c0e08c5b4580eaaf453775eec8fc4292d19d06ff7b6bf2c8fc2093df216fbb",
+    "excludedPaths": [
+      "app/node_modules",
+      "any dist directory",
+      "root out",
+      "tests/app/integration/.runtime"
+    ]
+  },
+  "taskPackages": {
+    "task7": {
+      "reportPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-07-report.md",
+      "reportSha256": "6500611c959cff9f6061a6674d23197eca63567a0805e6ac4be8137897a53322",
+      "finalReviewPackagePath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-07-fix2-full-content.md",
+      "finalReviewPackageSha256": "e1b2862883cc94d275fd4a35cc536e9d7d4048834eaa14cdd6659218d55b988b"
+    },
+    "task9": {
+      "reportPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-09-report.md",
+      "reportSha256": "d2ddd451eef85fccd17c432192f53f1b8dfd14d13b30d34f9a8e2597d347b402",
+      "finalReviewPackagePath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-09-full-content.md",
+      "finalReviewPackageSha256": "6c61c7ba1496eb4fe452b2bda300b5053bbbffbbb7d0d93471d38e78d6e99cbe"
+    },
+    "task10": {
+      "reportPath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/task-10-report.md",
+      "reportSha256": "7bd77d7b34a4ce91306a240ee8bf92079aaf0c55e643865bd68164328be167ff",
+      "finalReviewPackagePath": ".superpowers/sdd/2026-08-06-stratton-gpt-5-6-model-portfolio/review-task-10-full-content.md",
+      "finalReviewPackageSha256": "3cfc73784e07a3155a7ddefc312116af0038aa68a055694a2f44d6db10def0fa"
+    },
+    "latestSourceProvenanceVerification": {
+      "fileCount": 36,
+      "matched": 36,
+      "mismatched": 0
+    }
+  },
+  "restoredApprovedR4": {
+    "canonicalManifestPath": "5-coding-r4/stratton-phase-5-hashes.json",
+    "canonicalManifestSha256": "bcdf37557f2d78d0675c8907beda6ec61dad4a25faffcca5270473a15e821626",
+    "declaredFileCount": 155,
+    "recomputedMatchingEntries": 155,
+    "mismatchedEntries": 0,
+    "planCreatedPathsRemaining": 0,
+    "fullTreeFileCountAfterRestore": 9042,
+    "fullTreeAggregateSha256AfterRestore": "c1d8e132f267f5e5312e1536d9df8dd78d28097446899c52b8799d393f8f57fa",
+    "restoredUnchanged": true
+  },
+  "candidate": {
+    "packageRoot": "5-coding-r5",
+    "canonicalManifestPath": "5-coding-r5/stratton-phase-5-hashes.json",
+    "canonicalManifestSha256": "PENDING_EXTERNAL_FREEZE",
+    "approvalClaimed": false
+  },
+  "boundaries": {
+    "azureSignIn": false,
+    "subscriptionProviderAliasQuery": false,
+    "azureValidation": false,
+    "whatIf": false,
+    "deployment": false,
+    "inference": false,
+    "promotion": false,
+    "retentionFinalization": false,
+    "azureNetworkCall": false,
+    "azureRuntimeTest": false,
+    "productionInference": "BLOCKED",
+    "benchmarkPromotion": "BLOCKED_PENDING_OBSERVED_EVIDENCE",
+    "autonomousDecisionAuthority": "NONE"
+  }
+}

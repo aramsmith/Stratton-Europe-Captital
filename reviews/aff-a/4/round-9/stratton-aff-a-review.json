@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_PHASE_REVIEW",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "phaseName": "Phase 4 — Implementation Plan",
+  "formalReviewRound": 9,
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R3",
+  "reviewTime": "2026-08-06T11:33:35.325Z",
+  "invokedBy": "AFF-4",
+  "subjectModificationPerformed": false,
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "revision": "111",
+    "sha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "reviewer": {
+    "id": "AFF-A",
+    "displayName": "Rubber Duck Reviewer",
+    "approvedDefaultModelId": "gpt-5.5",
+    "selectedExactModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol"
+  },
+  "author": {
+    "agent": "AFF-4",
+    "selectedExactModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "independenceStatus": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS",
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/4-implementation-plan/stratton-phase-4-hashes-cc-002-r3-proposed.json",
+    "sha256BeforeReview": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "sha256AfterReview": "e25af64c319529846138db3107705740f95c27c3e8d7b70dc732444f038aabd6",
+    "status": "UNCHANGED",
+    "artifactCount": 6,
+    "candidateFileCount": 7,
+    "schemaValidationStatus": "PASS"
+  },
+  "hashVerificationReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-9/reviewed-subject/stratton-phase-4-hash-verification-receipt.json",
+    "sha256": "64c5b1c1c114126a36fabe57700827f8ddd2ae2b4e2768da1ee856d4f46dba54"
+  },
+  "modelReceipt": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-9/stratton-aff-a-model-receipt.json",
+    "sha256": "dfe2d0b6ece0398d780c28cf72214dae4bf8013517159f85f23d5d6a3625612d"
+  },
+  "confirmedItems": [
+    "The immutable R3 manifest SHA-256 matches before and after review and all six declared artifact hashes match raw bytes.",
+    "All seven R3 candidate files were copied byte-identically to the reviewed-subject snapshot.",
+    "The original, R2 and R3 contracts and their self-tests exit 0, demonstrating that the three identified defects are not detected by the current contract chain.",
+    "The subject retains EU Data Zone Standard, NoAutoUpgrade, deterministic routing, fail-closed owner gates, append-only correction and the non-deployment boundary."
+  ],
+  "findings": [
+    {
+      "id": "AFFA-CC002-P4-R9-MAJ-001",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Recorded evidence chronology predates actual R3 file creation",
+      "evidence": [
+        "Candidate-validation, change-control and hash-generation evidence record timestamps of 2026-08-06T12:31:00+02:00, 12:32:00+02:00 and 12:33:00+02:00.",
+        "The corresponding files were created at approximately 2026-08-06T12:43:49.774+02:00 through 12:43:49.776+02:00, so the claimed chronology predates file creation by roughly 11–13 minutes.",
+        "All existing contracts pass because they compare declared timestamps only with each other and do not bind chronology to observed filesystem creation metadata."
+      ],
+      "impact": "The evidence package cannot truthfully demonstrate when the recorded validation and hashing activities occurred, weakening provenance and audit reliability.",
+      "owner": "AFF-4 / evidence owner",
+      "remediation": "Create an append-only R4 candidate whose evidence records bind observed artifact creation metadata and whose contract rejects materially predated or future-dated chronology."
+    },
+    {
+      "id": "AFFA-CC002-P4-R9-MAJ-002",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Runtime and records-governance references are not concretely evidenced",
+      "evidence": [
+        "All three R3 evidence records use powershell: 7.x-recorded-at-execution rather than an exact runtime version.",
+        "The current verified PowerShell runtime is 7.6.4, demonstrating that a concrete value is available.",
+        "AFF-RETENTION-STRATTON-CC-002-R3 and AFF-LEGAL-HOLD-STRATTON-CC-002-R3 are identifiers only; no owner-approved evidence path and SHA-256 or explicit fail-closed unresolved disposition is bound to either reference."
+      ],
+      "impact": "The evidence is not fully reproducible and could imply records-governance approval that has not been supplied.",
+      "owner": "AFF-4 / Records Owner / Legal",
+      "remediation": "Pin the exact PowerShell version and either bind owner-approved retention/legal-hold evidence by immutable path and hash or record an explicit unresolved, fail-closed disposition without invented identifiers."
+    },
+    {
+      "id": "AFFA-CC002-P4-R9-MAJ-003",
+      "severity": "MAJOR",
+      "status": "OPEN_SUBJECT_DEFECT",
+      "title": "Implementation inventory change modes conflict with the live baseline",
+      "evidence": [
+        "5-coding-r4/infra/README.md is absent but is marked MODIFY.",
+        "5-coding-r4/validation/README.md is absent but is marked MODIFY.",
+        ".superpowers/.../contracts/model-portfolio-slide-contract.mjs exists but is marked CREATE."
+      ],
+      "impact": "Phase 5 execution instructions are internally inconsistent and can fail change-control checks or misrepresent whether files are newly created or modified.",
+      "owner": "AFF-4 / AFF-5",
+      "remediation": "In append-only R4, mark the two absent README files CREATE and the existing slide contract MODIFY; add contract mutations that reject baseline-inconsistent change modes."
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 3,
+    "MINOR": 0
+  },
+  "verdict": "DIVERGES",
+  "verdictRationale": "Three open MAJOR findings leave R3 chronology untruthful, runtime and records-governance evidence insufficiently bound, and implementation inventory modes inconsistent with the live baseline.",
+  "residualGaps": [
+    "Owner-supplied Azure region, quota, capacity, deployment, embedding and recovery evidence remains unresolved and fail closed.",
+    "Provider-use, privacy, source-use and EU AI Act evidence remains unresolved.",
+    "No benchmark, deployment, runtime, promotion or operating-effectiveness result is established."
+  ],
+  "finalRoundStatus": true,
+  "finalRound": true,
+  "requiredAction": "Preserve all R3 bytes and this round-9 package. Create an append-only R4 candidate correcting all three MAJOR findings, strengthen the contract to detect them, and obtain fresh AFF-A and AFF-B reviews against identical unchanged R4 bytes before approval.",
+  "nonDeploymentStatement": "AFF-A does not approve, waive, certify or authorise Azure sign-in, what-if, deployment, model invocation, route promotion, production inference, destructive rollback, Phase 7 or runtime testing.",
+  "supersedesRound": null,
+  "previousRoundSameSubject": null,
+  "companionArtifacts": {
+    "markdownPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-9/stratton-aff-a-review.md",
+    "htmlPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-9/stratton-aff-a-review.html",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-9/stratton-aff-a-model-receipt.json",
+    "hashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-a/4/round-9/reviewed-subject/stratton-phase-4-hash-verification-receipt.json"
+  }
+}

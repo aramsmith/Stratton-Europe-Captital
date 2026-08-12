@@ -1,0 +1,23 @@
+# Dependencies and generated outputs
+**/node_modules/
+**/.terraform/
+**/.next/
+**/test-results/
+**/playwright-report/
+5-coding-r7/app/dist/
+5-coding-r7/infra/out/
+5-coding-r7/tests/iac/out/
+5-coding-r7/out/
+_site/
+
+# Local credentials and environment files
+.env
+.env.*
+*.local
+*.secret
+*.secrets
+*.pfx
+*.pem
+*.key
+id_rsa
+id_ed25519

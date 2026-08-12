@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "35",
+  "createdAt": "2026-08-03T18:00:34.6275629+02:00",
+  "revisionReason": "Use more of the slide 3 canvas, fade in the three transformation-area cards and fly the complete AI infusion block upward from below.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-34.json",
+    "sha256": "40c573cd3d4d8c3f1c4377db484cf5d09a22231717c8ca72b7064be8fff5af48",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 3,
+    "changes": [
+      "Increase spacing between the header, three area cards, AI infusion panel and source line.",
+      "Fade cards 01, 02 and 03 in sequentially.",
+      "Fly the complete AI infusion panel in vertically from below."
+    ]
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

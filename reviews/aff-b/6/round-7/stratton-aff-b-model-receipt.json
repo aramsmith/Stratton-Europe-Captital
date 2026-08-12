@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_MODEL_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "phaseRevision": "11",
+  "round": 7,
+  "recordedAt": "2026-08-11T12:06:12.3331519+02:00",
+  "reviewer": {
+    "id": "AFF-B",
+    "displayName": "Security and Compliance Reviewer",
+    "profile": ".github/agents/AFF-B-security-compliance.agent.md"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-118.json",
+    "revision": "118",
+    "sha256": "66b61e6f9b6aef557cc36e088d36a7f40d49651bbdad4ca01a5afe1927767ac7"
+  },
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r11-aff-b-round-7-invocation-authorization.json",
+    "sha256": "34036a22b936a32afb9b13aef8d4a00d5594fcfb4463b13ae6994f4fa2b562a7",
+    "status": "AUTHORIZED_PENDING_EXECUTION"
+  },
+  "model": {
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra"
+  },
+  "modelSelection": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "availability": "VERIFIED_FOR_THIS_REVIEW",
+    "selectionRationale": "The bounded invocation authorises gpt-5.6-terra for a fresh independent AFF-B review of the frozen r11 subject."
+  },
+  "separation": {
+    "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "affBActualRuntimeModelId": "gpt-5.6-terra",
+    "freshAffBReviewerContext": true,
+    "actualModelIdsDistinct": true,
+    "status": "VERIFIED"
+  },
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "manifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "artifactCount": 173,
+    "fullCandidateFileCount": 175,
+    "fullCandidateTreeSha256": "8ae1ac73b6be72142b884eeea65ecb758d1213905b764b79eb64f8824720479a",
+    "registeredSlides": 20,
+    "materialClaims": 38,
+    "sourceReferences": 69,
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "reviewBoundary": {
+    "readOnly": true,
+    "subjectModified": false,
+    "approvalGranted": false,
+    "waiverGranted": false,
+    "legalOrRegulatoryCertificationProvided": false,
+    "azureActivityPerformed": false,
+    "runtimeInferencePerformed": false,
+    "phase7Invoked": false,
+    "phase8Invoked": false
+  },
+  "distributionControls": {
+    "externalDistributionBlocked": true,
+    "externalDistributionAllowed": false,
+    "externalDistributionStatus": "BLOCKED_PENDING_ACCOUNTABLE_OWNER_RIGHTS_CONFIRMATION_OR_ASSET_REPLACEMENT"
+  },
+  "nonApprovalStatement": "This receipt records AFF-B model provenance for the bounded read-only r11 review only. It does not approve Phase 6 r11, resolve owner gates, authorise external distribution, provide legal advice or certification, waive a requirement, perform Azure activity, or invoke Phase 7 or Phase 8."
+}

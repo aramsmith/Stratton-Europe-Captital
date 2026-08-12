@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_MODEL_RECEIPT",
+  "reviewId": "stratton-aff-a-review-r11",
+  "reviewer": "AFF-A",
+  "reviewerDisplayName": "Rubber Duck Reviewer",
+  "approvedDefaultModelId": "gpt-5.5",
+  "selectedExactGptModelId": "gpt-5.6-luna",
+  "actualRuntimeModelId": "gpt-5.6-luna",
+  "reasoningEffort": "xhigh",
+  "selectionRationale": "Fresh independent AFF-A reviewer context using gpt-5.6-luna, model-opposite to the gpt-5.6-sol Phase 6 author and required by the r11 authorization.",
+  "availability": "VERIFIED_FOR_THIS_REVIEW",
+  "phaseAuthorActualRuntimeModelId": "gpt-5.6-sol",
+  "invocationAuthorization": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-phase-6-r11-aff-a-round-11-invocation-authorization.json",
+    "sha256": "0aecc69c1ed1888d374d512be6646a04addef87cefec6cce469eb27803e549ca"
+  },
+  "modelPlan": {
+    "path": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-118.json",
+    "revision": "118",
+    "sha256": "66b61e6f9b6aef557cc36e088d36a7f40d49651bbdad4ca01a5afe1927767ac7"
+  },
+  "subject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r11/stratton-phase-6-hashes.json",
+    "manifestSha256": "e7197da1da2bc51912900ded714123ffda12898865700bf9fd9d56d7872199d4",
+    "phase": "6",
+    "phaseRevision": "11",
+    "reviewRound": 11,
+    "status": "FROZEN_UNAPPROVED"
+  },
+  "independence": {
+    "actualIdsDiffer": true,
+    "freshReviewerContext": true,
+    "authorId": "gpt-5.6-sol",
+    "reviewerId": "gpt-5.6-luna"
+  },
+  "boundaries": {
+    "readOnlyReview": true,
+    "candidateMutation": false,
+    "subjectModificationPerformed": false,
+    "azureSignIn": false,
+    "azureQuery": false,
+    "deployment": false,
+    "inference": false,
+    "runtimeTesting": false,
+    "approval": false,
+    "waiver": false,
+    "legalCertification": false,
+    "externalDistribution": false,
+    "phase7": "NOT_INVOKED",
+    "phase8": "NOT_INVOKED"
+  }
+}

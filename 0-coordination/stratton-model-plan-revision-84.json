@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "84",
+  "createdAt": "2026-08-04T02:58:53+02:00",
+  "revisionReason": "Synchronise all three slide 6 route-label materials with their corresponding slide 5 sphere categories.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-83.json",
+    "sha256": "750bb2bfecede4b6a06b98690c39024f2a5f64fe6fb54e3bc74c8f3b2d40057e",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "slide": 6,
+    "change": "Ensure Standard route, Optional route, and Independent assurance use the same colors as their corresponding slide 5 spheres."
+  },
+  "implementation": {
+    "routeSphereMapping": {
+      "standardRoute": "standard phase sphere · cyan and purple",
+      "optionalRoute": "optional phase sphere · amber and brown",
+      "independentAssurance": "reviewer sphere · pink and purple"
+    },
+    "materialParity": {
+      "computedBackgroundMatches": {
+        "standardRoute": true,
+        "optionalRoute": true,
+        "independentAssurance": true
+      },
+      "computedShadowMatches": {
+        "standardRoute": true,
+        "optionalRoute": true,
+        "independentAssurance": true
+      },
+      "accentTextMatched": true
+    },
+    "quality": {
+      "viteBuild": "pass",
+      "visualInspection": "pass"
+    }
+  },
+  "artifacts": {
+    "stylesheet": {
+      "path": "6-presentation-r4/deck/src/slides/AgenticAssuranceRosterSlide.module.css",
+      "sha256": "b95cefbeb146312060a8565441b0f7f8b7a814231778c9bfcba5c4aa08e8773f"
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 6,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

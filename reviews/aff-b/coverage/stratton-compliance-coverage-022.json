@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "022",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "PHASE6_R7",
+  "phaseIds": [
+    "5",
+    "6"
+  ],
+  "createdAt": "2026-08-10T01:58:06.9491935+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_CC002_P6_R7_AFFB_R4_CONFORMS_WITH_GAPS",
+  "supersedesCoverageSequence": "021",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-021.json",
+    "sha256": "2ddfeae4e7c7190f080d0b6d6e4c306535743c2518d845a5d685c8e033bd590e",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "authorActualRuntimeModelId": "gpt-5.6-sol",
+    "affAActualRuntimeModelId": "gpt-5.6-luna",
+    "modelPlanRevision": "114",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-114.json",
+    "modelPlanSha256": "1812bbb90aef867b3a56b6ffb0dcb7667392256dd0fe1a567bd4d0a06a2a4dbc",
+    "independence": "VERIFIED_DIFFERENT_ACTUAL_MODEL_IDS_AND_SEPARATE_AFFB_CONTEXT"
+  },
+  "phase5Baseline": {
+    "manifestPath": "cases/Stratton-Europe-Captital/5-coding-r7/stratton-phase-5-hashes.json",
+    "manifestSha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519",
+    "approvalPath": "cases/Stratton-Europe-Captital/approvals/5/stratton-phase-5-cc-002-approval-1.json",
+    "approvalSha256": "ca419c4f84f8928156912a32ac0db29e57fa097b9785e20ecf87fa2edc2b4e4c",
+    "coverage020RetainedWithoutRewrite": true
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/6-presentation-r7/stratton-phase-6-hashes.json",
+    "sha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "expectedSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "artifactCount": 155,
+    "hashStatus": "MATCHED_BEFORE_AFFB_REVIEW_AND_RECHECKED_AFTER_AFFB_OUTPUT"
+  },
+  "reviewBindings": {
+    "finalAffAPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-7/stratton-aff-a-review.json",
+    "finalAffASha256": "3a33b30144ed1c1a276569342cfe4d96426cbfc9034806a5ef9768b1972671a2",
+    "finalAffAVerdict": "CONFORMS",
+    "affBPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-4/stratton-aff-b-review.json",
+    "affBSha256": "e5d173f37bf3aa6eee1de1fc7163082d55a40c6e91719d42660519d163ed4ef4",
+    "affBVerdict": "CONFORMS_WITH_GAPS",
+    "sameExactSubject": true
+  },
+  "evidenceReceipts": {
+    "reviewedSubjectSnapshotPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-4/reviewed-subject/stratton-phase-6-hashes.json",
+    "reviewedSubjectSnapshotSha256": "cc06a66729e3d3c69ad96ec16694ac352c2e7f83c195ccdf52ec57b38c3eec03",
+    "modelReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-4/stratton-aff-b-model-receipt.json",
+    "modelReceiptSha256": "b4da348bf21ebb663440b71e093e10f37f02657b3482d82f830e5790e149413e",
+    "hashReceiptPath": "cases/Stratton-Europe-Captital/reviews/aff-b/6/round-4/reviewed-subject/stratton-phase-6-hash-verification-receipt.json"
+  },
+  "coverageRows": [
+    {
+      "id": "CC002-P6-R7-COV-001",
+      "control": "Approved Phase 5 r7 security/compliance coverage, owner gates and human approval retained by immutable reference",
+      "status": "COVERED_BY_APPEND_ONLY_BASELINE",
+      "owner": "Existing accountable Phase 5 owners"
+    },
+    {
+      "id": "CC002-P6-R7-COV-002",
+      "control": "Canonical r7 integrity, immutable snapshot, 155-artifact verification and final AFF-A same-manifest binding",
+      "status": "COVERED_STATIC_AND_HASH_VERIFIED",
+      "owner": "AFF-6, AFF-A and AFF-B"
+    },
+    {
+      "id": "CC002-P6-R7-COV-003",
+      "control": "AFFB-P6-R3-MAJ-001 reviewer-roster remediation in source and compiled output",
+      "status": "RESOLVED_WITHOUT_WAIVER",
+      "owner": "AFF-6 with AFF-0 coordination"
+    },
+    {
+      "id": "CC002-P6-R7-COV-004",
+      "control": "Dated Premium v2 pricing, illustrative comparator, projected-benefit disclosure and claim traceability",
+      "status": "COVERED_STATIC_WITH_NO_REALISATION_CLAIM",
+      "owner": "AFF-6 and accountable commercial owners"
+    },
+    {
+      "id": "CC002-P6-R7-COV-005",
+      "control": "Local browser/network/static assurance, sensitive-information scan, asset-rights inventory and PDF metadata disclosure",
+      "status": "COVERED_STATIC_AND_RECEIPT_BOUND",
+      "owner": "AFF-6 and accountable privacy, security and source-rights owners"
+    },
+    {
+      "id": "CC002-P6-R7-COV-006",
+      "control": "GDPR, EU AI Act, DORA, SFDR and AIFMD boundaries; Azure/runtime and operating-effectiveness gates",
+      "status": "COVERED_STATIC_WITH_OWNER_GATES",
+      "owner": "Existing accountable legal, compliance, privacy, records and platform owners"
+    }
+  ],
+  "findingCounts": {
+    "BLOCKER": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "AFFB-P6-R3-MAJ-001",
+      "severity": "MAJOR",
+      "status": "RESOLVED_WITHOUT_WAIVER",
+      "summary": "The r7 assurance roster now truthfully distinguishes active Phase 6 Luna/Terra reviewers, evidence-bound standard phases and human-invoked optional phases."
+    }
+  ],
+  "openFindings": [],
+  "residualGaps": [
+    "Regions and resource identifiers, quota/capacity, embeddings and benchmarks, recovery/failover, provider terms, source and licence permissions, privacy lifecycle, retention/legal hold, legal/compliance classification, release identity and future Azure/runtime evidence remain unresolved and fail closed.",
+    "External distribution remains blocked pending accountable asset-rights confirmation or replacement.",
+    "No Azure, target, inference, promotion, retention-finalisation, Phase 8 runtime, achieved-benefit or operating-effectiveness evidence exists.",
+    "No legal applicability, licensing, certification, waiver or formal-attestation conclusion is made."
+  ],
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, formal attestation, waiver, approval, deployment authorisation, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "humanGateStatus": "READY_FOR_EXPLICIT_HUMAN_DECISION",
+  "phase6ApprovalStatus": "PENDING_HUMAN_DECISION",
+  "phase7InvocationStatus": "NOT_INVOKED",
+  "phase8InvocationStatus": "NOT_INVOKED",
+  "nextAction": "Preserve r7, AFF-A round 7, AFF-B round 4 and this coverage record unchanged. Return the unchanged candidate and both final reviews to the human architect for explicit Phase 6 approval or rejection. Do not invoke Phase 7 or Phase 8 automatically.",
+  "active": true
+}

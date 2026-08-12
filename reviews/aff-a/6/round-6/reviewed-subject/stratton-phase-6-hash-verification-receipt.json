@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_A_REVIEWED_SUBJECT_HASH_VERIFICATION_RECEIPT",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phase": "Phase 6 — C-level Presentation",
+  "round": 6,
+  "reviewedAt": "2026-08-10T01:26:54.6112844+02:00",
+  "canonicalSubject": {
+    "manifestPath": "cases/Stratton-Europe-Captital/6-presentation-r6/stratton-phase-6-hashes.json",
+    "expectedSha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219",
+    "preWriteSha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219",
+    "postWriteSha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219",
+    "unchanged": true,
+    "artifactCountExpected": 155,
+    "artifactCountRecomputed": 155,
+    "artifactHashesMatched": 155,
+    "allListedArtifactHashesMatched": true,
+    "duplicatePathCount": 0,
+    "safeRelativePaths": true,
+    "canonicalArrayOrdering": true,
+    "manifestSelfExcluded": true
+  },
+  "reviewedSubjectSnapshot": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-6/reviewed-subject/stratton-phase-6-hashes.json",
+    "sha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219",
+    "byteIdenticalToCanonical": true,
+    "bytes": 31885
+  },
+  "modelBinding": {
+    "revision": "113",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-113.json",
+    "modelPlanSha256": "fde28bb18b4ac993522e4c795daa04800bf6cf8d564f5358b4f36b808dabfffe",
+    "authorReceiptPath": "cases/Stratton-Europe-Captital/6-presentation-r6/evidence/stratton-aff-6-model-receipt.json",
+    "authorReceiptSha256": "19c2235ce32b0e6407d6e71e15108de27706de4d7d0bdedb3184921b3c15f49e",
+    "authorActualModel": "gpt-5.6-sol",
+    "reviewerActualModel": "gpt-5.6-luna",
+    "actualModelSeparation": true
+  },
+  "nonCircularOutputHashes": {
+    "reviewMarkdownSha256": "fb308aa34c4413fdc96f23804981239445e95905270894d07d60a7050378e4ed",
+    "reviewHtmlSha256": "a430084886d5570b731f29c3676214675555eae4b0e5e41c0c118ebe9f87f49c",
+    "reviewJsonSha256": "13029b87a1ee99cefa97354ee6955018b23745266e89d08bf217a7426e312e13",
+    "modelReceiptSha256": "99df0731f3c0a87f6f71335cb548a05fdce29b6e0bf69933f4b9c6e0822e1bc0",
+    "reviewedSubjectSnapshotSha256": "3e5c859c8fe5bf71154c1131692c56e612549fb165221c1b291ef95e39590219"
+  },
+  "historicalIdentity": {
+    "round5ManifestPath": "cases/Stratton-Europe-Captital/6-presentation-r5/stratton-phase-6-hashes.json",
+    "round5ManifestSha256": "84c3d53a711137b8fbd934d0fd9fcc2f3803a8b3d3144467326ff49091c01ba1",
+    "round5ReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/6/round-5/stratton-aff-a-review.json",
+    "round5ReviewSha256": "5d7fe7ce00a261db1fdb8dab73c31ba2287f60f201dd84b67da391eaf5de7a2c",
+    "round5RecordsUnchanged": true
+  },
+  "scope": "Read-only SHA-256 and byte verification; no subject execution, rebuild, formatting, deployment, inference, runtime test or subject modification.",
+  "receiptSelfHashRecordedExternally": false
+}

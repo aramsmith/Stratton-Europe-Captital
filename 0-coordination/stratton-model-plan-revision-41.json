@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_MODEL_PLAN_REVISION",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "planRevision": "41",
+  "createdAt": "2026-08-03T18:22:21.7744144+02:00",
+  "revisionReason": "Increase slide 3 typography and align its fade and upward entrance timing with slide 2's smoother motion system.",
+  "supersedes": {
+    "path": "0-coordination/stratton-model-plan-revision-40.json",
+    "sha256": "b08a25c36ecaf869e826b4141681161cc6560a2f6bd21c582ae4a328c821af21",
+    "overwrite": false
+  },
+  "humanDirection": {
+    "interactionEvidence": "ACTIVE_AI_INTERACTION",
+    "workingCandidate": "6-presentation-r4",
+    "physicalSlide": 3,
+    "typography": "Increase headings, descriptions, AI infusion copy and source text.",
+    "motion": {
+      "durationMs": 1350,
+      "easing": "cubic-bezier(0.37, 0, 0.63, 1)",
+      "staggerMs": 260,
+      "aiTravelPx": 45
+    }
+  },
+  "candidate": {
+    "phaseFolder": "6-presentation-r4",
+    "registeredSlideCount": 3,
+    "state": "WORKING_DRAFT_NOT_FROZEN",
+    "canonicalManifestCreated": false
+  }
+}

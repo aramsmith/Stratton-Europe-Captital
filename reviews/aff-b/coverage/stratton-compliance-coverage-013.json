@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "013",
+  "changeControlId": "STRATTON-CC-002",
+  "remediationRevision": "R2",
+  "phaseIds": ["3"],
+  "createdAt": "2026-08-06T09:16:48.797+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_CC002_R2_AFFB_ROUND6_CONFORMS_WITH_GAPS",
+  "supersedesCoverageSequence": "012",
+  "supersededRecord": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/coverage/stratton-compliance-coverage-012.json",
+    "sha256": "d835b1f6a2d7b0679fa32a04c6237022ce3c320a193cac300b5baf7291ed8458",
+    "overwrite": false
+  },
+  "modelBinding": {
+    "selectedExactGptModelId": "gpt-5.6-terra",
+    "actualRuntimeModelId": "gpt-5.6-terra",
+    "modelPlanRevision": "111",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-111.json",
+    "modelPlanSha256": "64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7"
+  },
+  "subjectManifest": {
+    "path": "cases/Stratton-Europe-Captital/3-azure-design/stratton-phase-3-hashes-cc-002-r2-proposed.json",
+    "sha256": "357368d1820d252d19daf65cc0910df5aa5b594ab1d59f92bf7951913918661e",
+    "artifactCount": 11,
+    "candidateFileCount": 12,
+    "hashStatus": "MATCHED_BEFORE_AND_AFTER_AFFB_REVIEW"
+  },
+  "reviewBinding": {
+    "path": "cases/Stratton-Europe-Captital/reviews/aff-b/3/round-6/stratton-aff-b-review.json",
+    "formalReviewRound": 6,
+    "verdict": "CONFORMS-WITH-GAPS",
+    "finalRoundStatus": true
+  },
+  "applicability": [
+    {
+      "instrument": "GDPR",
+      "confidence": "CONFIRMED-PENDING-DETAILED-EVIDENCE",
+      "basis": "Current regulatory register REG-0001 states that Release 1 processes EU personal data.",
+      "humanConfirmation": "DPO and General Counsel",
+      "boundary": "No lawful-purpose, DPIA disposition, processor/transfer, detailed retention or data-subject conclusion is inferred by this record.",
+      "status": "OWNER_EVIDENCE_OPEN_FAIL_CLOSED_FOR_ENABLEMENT"
+    },
+    {
+      "instrument": "EU AI Act",
+      "confidence": "CONFIRMED-PENDING-CLASSIFICATION-EVIDENCE",
+      "basis": "Current regulatory register REG-0002 states that the AI-governance framework applies.",
+      "humanConfirmation": "General Counsel and Head of AI Governance",
+      "boundary": "No provider/deployer role, risk class or obligation classification is inferred.",
+      "status": "CLASSIFICATION_EVIDENCE_OPEN_FAIL_CLOSED_FOR_ENABLEMENT"
+    },
+    {
+      "instrument": "DORA",
+      "confidence": "INFERRED_CONDITIONAL_VALIDATION_OPEN",
+      "basis": "Current regulatory register REG-0006.",
+      "humanConfirmation": "General Counsel and Compliance",
+      "boundary": "Entity-specific applicability or exemption is not established by this review.",
+      "status": "PENDING_HUMAN_LEGAL_COMPLIANCE_CONFIRMATION"
+    }
+  ],
+  "confirmedControls": [
+    {
+      "id": "CC002-R2-COV-001",
+      "control": "Luna, Terra, Sol and embedding routes require independently evidenced primary and recovery EU Data Zone Standard resources, allow-lists, deployment bindings, failover authority and deny/queue semantics.",
+      "evidence": [
+        "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ],
+      "owner": "Azure Platform, Service Operations, AI Governance, Data Owner, DPO, CISO and General Counsel",
+      "status": "COVERED_DESIGN_ONLY_OWNER_EVIDENCE_FAIL_CLOSED"
+    },
+    {
+      "id": "CC002-R2-COV-002",
+      "control": "Twelve hostile-evidence, routing-misuse, deployment-failure and authority-abuse scenarios are identical immutable blocking gates in evaluation, routing and security contracts.",
+      "evidence": [
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ],
+      "owner": "Security Owner, AI Governance, Application Security, Search Owner, Service Operations and Business Control Owner",
+      "status": "COVERED_DESIGN_ONLY_PROMOTION_BLOCKED_PENDING_EXECUTED_EVIDENCE"
+    },
+    {
+      "id": "CC002-R2-COV-003",
+      "control": "Sixteen material claims bind twelve official-source records with exact section, retrieval date, excerpt, licence/use disposition, owner and review/expiry condition; provider terms and source AI-use permissions remain fail-closed owner inputs.",
+      "evidence": [
+        "3-azure-design/evidence/stratton-model-source-binding-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json"
+      ],
+      "owner": "General Counsel, DPO, AI Governance, Source Owners and Azure Platform",
+      "status": "COVERED_DESIGN_ONLY_PROVIDER_AND_SOURCE_TERMS_PENDING"
+    },
+    {
+      "id": "CC002-R2-COV-004",
+      "control": "Prompt/output, vector/index, benchmark corpus, route log and telemetry lifecycle controls bind minimisation, classification, retention, deletion, legal hold, DSR, redaction, integrity, recovery and named operational owners.",
+      "evidence": [
+        "3-azure-design/evidence/stratton-security-compliance-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-evaluation-contract-cc-002-r2-proposed.json",
+        "3-azure-design/evidence/stratton-model-routing-contract-cc-002-r2-proposed.json"
+      ],
+      "owner": "DPO, Records Owner, Data Owner, Search Owner, Security Operations, Service Operations, Observability Owner and AI Governance",
+      "status": "COVERED_DESIGN_ONLY_LIFECYCLE_OWNER_EVIDENCE_PENDING"
+    },
+    {
+      "id": "CC002-R2-COV-005",
+      "control": "The self-contained HTML contains the same thirteen substantive headings as the authoritative Markdown, including separate explainable anomaly and supervised-prediction governance rows.",
+      "evidence": [
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.md",
+        "3-azure-design/stratton-cc-002-r2-phase-3-amendment.html"
+      ],
+      "owner": "AFF-3",
+      "status": "COVERED_STATIC_PARITY_VERIFIED"
+    }
+  ],
+  "priorFindingDisposition": [
+    {
+      "id": "AFFB-CC002-MAJ-001",
+      "status": "ADDRESSED",
+      "evidence": "All four routes bind primary/recovery EU allow-list, DataZoneStandard, authority, data/log/index/backup and deny/queue requirements; incomplete evidence remains fail closed."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-002",
+      "status": "ADDRESSED",
+      "evidence": "Twelve identical blocking gates include pass criteria, immutable evidence IDs, owners and fail-closed outcomes across the three control contracts."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-003",
+      "status": "ADDRESSED",
+      "evidence": "Claim-to-source, section, date, excerpt, licence/use, owner and expiry binding is present; absent terms or permissions deny enablement."
+    },
+    {
+      "id": "AFFB-CC002-MAJ-004",
+      "status": "ADDRESSED",
+      "evidence": "Five lifecycle classes bind all requested controls and operational ownership; unresolved legal/retention decisions remain explicitly owner-bound and fail closed."
+    },
+    {
+      "id": "AFFB-CC002-MIN-001",
+      "status": "ADDRESSED",
+      "evidence": "Independent static verification found thirteen Markdown and thirteen HTML headings, exact heading parity and no external script source."
+    }
+  ],
+  "findingCounts": {"BLOCKER": 0, "MAJOR": 0, "MINOR": 0},
+  "residualGaps": [
+    "No Azure, failover, security-gate or runtime operating-effectiveness evidence was performed.",
+    "Exact resources, regions, allow-lists, deployments, quota, capacity, provider terms, source AI-use permissions and retention schedules remain accountable-owner inputs.",
+    "GDPR detailed evidence, EU AI Act role/use-case classification and DORA applicability remain pending accountable-human confirmation.",
+    "AFF-A round 7 has not yet converged on the R2 manifest."
+  ],
+  "assuranceBoundary": "Architecture security and compliance assurance only; not legal advice, certification, attestation, waiver, approval, Azure deployment, Azure validation, runtime testing or operating-effectiveness evidence.",
+  "nextAction": "Preserve the exact R2 reviewed bytes. Obtain AFF-A round 7 against the same R2 manifest, then present converged reviews and residual gaps for an explicit human decision; do not promote, deploy or test before that decision.",
+  "active": true
+}

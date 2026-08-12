@@ -1,0 +1,431 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF-B_COMPLIANCE_COVERAGE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "coverageSequence": "004",
+  "phaseId": "2",
+  "createdAt": "2026-08-01T22:03:38.123+02:00",
+  "appendOnly": true,
+  "status": "ACTIVE_FOR_BOUND_MANIFEST",
+  "supersedesCoverageSequence": "003",
+  "supersessionReason": "Phase 2 adds vendor-neutral logical control, trust-boundary, Architecture Building Block, decision, view and risk coverage over the unchanged approved Phase 1 requirements and applicability boundaries. Coverage 003 remains retained as the final Phase 1 coverage record.",
+  "modelBinding": {
+    "approvedDefaultModelId": "gpt-5.6-sol",
+    "selectedModelId": "gpt-5.6-sol",
+    "actualRuntimeModelId": "gpt-5.6-sol",
+    "modelPlanPath": "cases/Stratton-Europe-Captital/0-coordination/stratton-model-plan-revision-3.json",
+    "modelPlanRevision": "3",
+    "modelPlanManifestEntrySha256": "38ad370fc2418cffb3be2821d062a1b91884fc5b132f14de0ab44beabcf849fe"
+  },
+  "canonicalSubjectBinding": {
+    "manifestPath": "cases/Stratton-Europe-Captital/2-togaf-architecture/stratton-phase-2-hashes.json",
+    "manifestSha256": "8e4126fb1827e9747e0739e8401858ed53f0c3b630713c51d730ee0c611ed5a9",
+    "modelPlanRevision": "3",
+    "artifactCount": 10,
+    "independentReceiptPath": "cases/Stratton-Europe-Captital/2-togaf-architecture/evidence/stratton-phase-2-hash-verification-receipt.json",
+    "verificationStatus": "VERIFIED_BY_RETAINED_RECEIPT_AND_REVIEWER_LOCAL_RECOMPUTE_ALL_ENTRIES_MATCH",
+    "reviewerLocalRecomputeStatus": "ALL_MANIFEST_AND_ARTIFACT_HASHES_MATCH"
+  },
+  "upstreamBinding": {
+    "phase1ApprovalPath": "cases/Stratton-Europe-Captital/approvals/1/stratton-phase-1-approval-1.json",
+    "phase1ApprovalSha256": "ae5f8ce1702efb21d9fdbd96b013631b6a05350597d91dc2054c1317836d730a",
+    "phase1ManifestPath": "cases/Stratton-Europe-Captital/1-requirements/stratton-phase-1-hashes.json",
+    "phase1ManifestSha256": "b0dd49069df5370ee4e37bb4500773efcdb04543016bb9b0a79acd423d49100a",
+    "phase1AffAReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-a/1/round-3/stratton-aff-a-review.json",
+    "phase1AffBReviewPath": "cases/Stratton-Europe-Captital/reviews/aff-b/1/round-2/stratton-aff-b-review.json",
+    "requirementsCataloguePath": "cases/Stratton-Europe-Captital/1-requirements/stratton-requirements-catalogue.json",
+    "activeMustRequirementCount": 31,
+    "requirementsModifiedByPhase2": false
+  },
+  "sourceRegister": {
+    "path": "cases/Stratton-Europe-Captital/stratton-regulatory-register.md",
+    "phase1ManifestSha256": "1bc3ba4ea6fce3fc0f37bfed46c891f3c420fe2feddbe99668c286025b55e320",
+    "revision": "002",
+    "custodian": "AFF-0",
+    "officialSourceDetailStatus": "OPEN_OWNER_BOUND_UNDER_AFFB-RES-002"
+  },
+  "evidenceBasis": {
+    "humanConfirmedApplicabilityEvidence": [
+      "1-requirements/stratton-interview-decisions.json:903-930 (INT-D-007)",
+      "1-requirements/stratton-interview-decisions.json:1044-1068 (INT-D-009)"
+    ],
+    "sovereigntyAndClassificationEvidence": [
+      "1-requirements/stratton-interview-decisions.json:592-611 (INT-D-002)",
+      "1-requirements/stratton-interview-decisions.json:637-660 (INT-D-003)",
+      "1-requirements/stratton-interview-decisions.json:825-854 (INT-D-006)"
+    ],
+    "architectureEvidence": [
+      "2-togaf-architecture/stratton-architecture.md",
+      "2-togaf-architecture/stratton-architecture-catalogue.json",
+      "2-togaf-architecture/stratton-view-01-context.mmd",
+      "2-togaf-architecture/stratton-view-02-business.mmd",
+      "2-togaf-architecture/stratton-view-03-application.mmd",
+      "2-togaf-architecture/stratton-view-04-data.mmd",
+      "2-togaf-architecture/stratton-view-05-technology.mmd"
+    ],
+    "useBoundary": "This record maps human-confirmed and conditional requirements to vendor-neutral logical controls. It does not independently determine legal applicability, select an Azure service, evidence implementation or runtime operation, certify compliance, attest a control, waive a gap or approve Phase 2."
+  },
+  "coverageSummary": {
+    "confirmedApplicabilityBoundaries": 4,
+    "conditionalApplicabilityBoundaries": 1,
+    "confirmedObligationClustersMapped": 21,
+    "conditionalObligationClustersMapped": 4,
+    "totalObligationClustersMapped": 25,
+    "coveredObligationClusters": 25,
+    "confirmedArchitectureMappingGroups": 11,
+    "conditionalArchitectureMappingGroups": 4,
+    "activeRequirementsMapped": 31,
+    "fullyMappedRequirements": 31,
+    "architectureBuildingBlocks": 19,
+    "logicalViews": 5,
+    "candidateArchitectureDecisions": 10,
+    "openOwnerBoundResidualControls": 7,
+    "missingControlOutcomes": 0,
+    "formalComplianceClaims": 0,
+    "azureSolutionBuildingBlocksSelected": 0,
+    "deploymentOrRuntimeEvidenceClaims": 0
+  },
+  "confirmedObligationCoverage": [
+    {
+      "registerEntryId": "REG-0001",
+      "instrument": "GDPR",
+      "jurisdiction": "European Union / EEA",
+      "scopeTrigger": "Release 1 processes EU personal data.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "DPO and General Counsel through INT-D-007.",
+      "officialSourceStatus": "OPEN_UNDER_AFFB-RES-002",
+      "status": "CONFIRMED_PENDING_DETAILED_EVIDENCE",
+      "obligationMappings": [
+        {
+          "obligationCluster": "Data minimisation and purpose limitation",
+          "sourceObligations": ["Data minimisation", "Purpose limitation"],
+          "requirementIds": ["DR-003", "SR-003"],
+          "abbIds": ["ABB-03", "ABB-09", "ABB-10", "ABB-18"],
+          "decisionIds": ["AD-003", "AD-005"],
+          "viewIds": ["VIEW-04", "VIEW-05"],
+          "controlOutcome": "Personal data is screened before use, unnecessary or unapproved special-category data is rejected, and missing purpose or privacy evidence blocks processing.",
+          "coverage": "COVERED_LOGICALLY"
+        },
+        {
+          "obligationCluster": "Lawful basis, data-subject handling, DPIA screening and processor controls",
+          "sourceObligations": ["Documented lawful basis", "Data-subject handling", "DPIA screening", "Processor controls"],
+          "requirementIds": ["SR-003"],
+          "abbIds": ["ABB-09", "ABB-10", "ABB-18"],
+          "decisionIds": ["AD-005"],
+          "viewIds": ["VIEW-04", "VIEW-05"],
+          "controlOutcome": "The policy and legal-evidence boundary blocks personal-data processing until applicable approved evidence exists.",
+          "coverage": "COVERED_LOGICALLY"
+        },
+        {
+          "obligationCluster": "Transfer governance",
+          "sourceObligations": ["Transfer governance"],
+          "requirementIds": ["SR-001", "SR-002", "SR-003", "SR-010"],
+          "abbIds": ["ABB-10", "ABB-18"],
+          "decisionIds": ["AD-005"],
+          "viewIds": ["VIEW-04", "VIEW-05"],
+          "controlOutcome": "Location and transfer decisions fail closed; extra-EEA movement requires the approved legal mechanism, purpose, risk assessment and accountable approvals, while foreign-jurisdiction exposure requires General Counsel assessment and acceptance.",
+          "coverage": "COVERED_LOGICALLY_WITH_VAL-005_OPEN"
+        }
+      ]
+    },
+    {
+      "registerEntryId": "REG-0003",
+      "instrument": "SFDR",
+      "jurisdiction": "European Union",
+      "scopeTrigger": "ESG output supports regulated disclosures.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "Head of Compliance through INT-D-007.",
+      "officialSourceStatus": "OPEN_UNDER_AFFB-RES-002",
+      "status": "CONFIRMED_CONDITIONAL",
+      "obligationMappings": [
+        {
+          "obligationCluster": "Lineage, quality and reproducibility",
+          "sourceObligations": ["Data lineage", "Data quality", "Reproducibility"],
+          "requirementIds": ["DR-004", "SR-004"],
+          "abbIds": ["ABB-04", "ABB-06", "ABB-12", "ABB-18"],
+          "decisionIds": ["AD-003"],
+          "viewIds": ["VIEW-03", "VIEW-04"],
+          "controlOutcome": "Evidence envelopes, claim-to-source binding, quality state and protected audit evidence support reproduction of regulated-disclosure-supporting output.",
+          "coverage": "COVERED_LOGICALLY"
+        },
+        {
+          "obligationCluster": "Accountable review and audit evidence",
+          "sourceObligations": ["Accountable review", "Audit evidence"],
+          "requirementIds": ["FR-002", "SR-004"],
+          "abbIds": ["ABB-07", "ABB-12", "ABB-18"],
+          "decisionIds": ["AD-004"],
+          "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03"],
+          "controlOutcome": "Applicable specialist approval and correlated audit evidence are mandatory before the output progresses.",
+          "coverage": "COVERED_LOGICALLY"
+        }
+      ]
+    },
+    {
+      "registerEntryId": "REG-0004",
+      "instrument": "AIFMD",
+      "jurisdiction": "European Union / Luxembourg implementation",
+      "scopeTrigger": "A Luxembourg AIF vehicle uses the Release 1 workflow.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "Fund Legal and Compliance through INT-D-007.",
+      "officialSourceStatus": "OPEN_UNDER_AFFB-RES-002",
+      "status": "CONFIRMED_CONDITIONAL",
+      "obligationMappings": [
+        {
+          "obligationCluster": "Governed risk and documentation records",
+          "sourceObligations": ["Governed risk records", "Governed documentation records"],
+          "requirementIds": ["SR-005"],
+          "abbIds": ["ABB-09", "ABB-18"],
+          "decisionIds": ["AD-003"],
+          "viewIds": ["VIEW-04"],
+          "controlOutcome": "Applicable vehicle records remain governed and linked to approved evidence and lifecycle controls.",
+          "coverage": "COVERED_LOGICALLY"
+        },
+        {
+          "obligationCluster": "Applicable retention",
+          "sourceObligations": ["Applicable retention"],
+          "requirementIds": ["DR-005", "SR-005"],
+          "abbIds": ["ABB-09", "ABB-18"],
+          "decisionIds": ["AD-003"],
+          "viewIds": ["VIEW-04"],
+          "controlOutcome": "Authoritative schedules and legal holds govern retained records; temporary working copies are disposed when no longer necessary without inventing a period.",
+          "coverage": "COVERED_LOGICALLY_WITH_VAL-004_OPEN"
+        }
+      ]
+    },
+    {
+      "registerEntryId": "REG-0002",
+      "instrument": "EU AI Act",
+      "jurisdiction": "European Union",
+      "scopeTrigger": "Release 1 uses AI; the exact role and use-case classification remain subject to documented assessment.",
+      "confidence": "CONFIRMED",
+      "humanLegalComplianceConfirmation": "General Counsel and Head of AI Governance through INT-D-007.",
+      "officialSourceStatus": "OPEN_UNDER_AFFB-RES-002",
+      "status": "CONFIRMED_PENDING_CLASSIFICATION_EVIDENCE",
+      "classificationClaim": "NONE_HIGH_RISK_OR_NON_HIGH_RISK",
+      "obligationMappings": [
+        {
+          "obligationCluster": "AI literacy and transparency",
+          "sourceObligations": ["AI literacy", "Transparency"],
+          "requirementIds": ["AR-002", "SR-006"],
+          "abbIds": ["ABB-07", "ABB-08", "ABB-10", "ABB-18"],
+          "decisionIds": ["AD-004", "AD-005"],
+          "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03", "VIEW-05"],
+          "controlOutcome": "Outputs remain cited, reviewable drafts and production is gated on approved governance evidence.",
+          "coverage": "COVERED_LOGICALLY"
+        },
+        {
+          "obligationCluster": "Human oversight and retained authority",
+          "sourceObligations": ["Human oversight"],
+          "requirementIds": ["FR-002", "AR-001", "AR-002", "NR-002"],
+          "abbIds": ["ABB-05", "ABB-07", "ABB-08", "ABB-12"],
+          "decisionIds": ["AD-004"],
+          "viewIds": ["VIEW-01", "VIEW-02", "VIEW-03"],
+          "controlOutcome": "Assistive analysis cannot approve or decide; deal professionals and applicable specialists review outputs, and the Investment Committee retains every investment decision.",
+          "coverage": "COVERED_LOGICALLY"
+        },
+        {
+          "obligationCluster": "Logging and risk management",
+          "sourceObligations": ["Logging", "Risk management"],
+          "requirementIds": ["AR-001", "SR-006", "SR-008", "NR-001", "NR-002"],
+          "abbIds": ["ABB-06", "ABB-08", "ABB-12", "ABB-16", "ABB-18"],
+          "decisionIds": ["AD-004", "AD-009"],
+          "viewIds": ["VIEW-02", "VIEW-03", "VIEW-05"],
+          "controlOutcome": "Material AI, source, review and control events are protected and correlated; quality and prohibited-action evidence is independently validated.",
+          "coverage": "COVERED_LOGICALLY_WITH_VAL-003_OPEN"
+        },
+        {
+          "obligationCluster": "Documented role and use-case classification",
+          "sourceObligations": ["Documented role and use-case classification"],
+          "requirementIds": ["SR-006"],
+          "abbIds": ["ABB-10", "ABB-18"],
+          "decisionIds": ["AD-005"],
+          "viewIds": ["VIEW-05"],
+          "controlOutcome": "Unsupported high-risk or non-high-risk classification is blocked until the accountable assessment exists.",
+          "coverage": "COVERED_LOGICALLY_WITH_AFFB-RES-001_OPEN"
+        }
+      ]
+    }
+  ],
+  "conditionalApplicabilityCoverage": [
+    {
+      "registerEntryId": "REG-0006",
+      "instrument": "DORA",
+      "jurisdiction": "European Union",
+      "scopeTrigger": "Stratton or the relevant managing entity is an in-scope AIFM or other financial entity.",
+      "confidence": "INFERRED",
+      "humanLegalComplianceConfirmation": "The conditional boundary is confirmed in INT-D-009; General Counsel's entity-specific applicability or exemption record remains open.",
+      "officialSourceStatus": "OPEN_UNDER_AFFB-RES-002",
+      "status": "CONDITIONAL_VALIDATION_OPEN_NO_FORMAL_COMPLIANCE_CLAIM",
+      "obligationMappings": [
+        {
+          "obligationCluster": "ICT risk-management evidence",
+          "requirementIds": ["SR-009"],
+          "abbIds": ["ABB-12", "ABB-18"],
+          "decisionIds": ["AD-008"],
+          "viewIds": ["VIEW-05"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_LOGICAL_CONTROL"
+        },
+        {
+          "obligationCluster": "Incident evidence",
+          "requirementIds": ["SR-009", "TR-004"],
+          "abbIds": ["ABB-12", "ABB-13", "ABB-18"],
+          "decisionIds": ["AD-007"],
+          "viewIds": ["VIEW-05"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_LOGICAL_CONTROL"
+        },
+        {
+          "obligationCluster": "Resilience testing",
+          "requirementIds": ["SR-009", "TR-003"],
+          "abbIds": ["ABB-12", "ABB-14", "ABB-18"],
+          "decisionIds": ["AD-008"],
+          "viewIds": ["VIEW-05"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_LOGICAL_CONTROL_WITH_VAL-002_OPEN"
+        },
+        {
+          "obligationCluster": "Third-party and cloud oversight",
+          "requirementIds": ["SR-009"],
+          "abbIds": ["ABB-18"],
+          "decisionIds": [],
+          "viewIds": ["VIEW-05"],
+          "coverage": "COVERED_AS_INTERIM_CONDITIONAL_EVIDENCE_BOUNDARY"
+        }
+      ]
+    }
+  ],
+  "confirmedNonRegulatoryControlCoverage": [
+    {
+      "controlOutcome": "EU/EEA data, backup, log, model input/output and routine-processing location boundary",
+      "requirementIds": ["SR-001"],
+      "abbIds": ["ABB-10", "ABB-15", "ABB-18"],
+      "decisionIds": ["AD-005", "AD-006"],
+      "status": "COVERED_LOGICALLY_WITH_VAL-005_OPEN"
+    },
+    {
+      "controlOutcome": "Extra-EEA transfer and foreign-jurisdiction exposure gate",
+      "requirementIds": ["SR-002", "SR-010"],
+      "abbIds": ["ABB-10", "ABB-18"],
+      "decisionIds": ["AD-005"],
+      "status": "COVERED_LOGICALLY_WITH_VAL-005_OPEN"
+    },
+    {
+      "controlOutcome": "Stratton-controlled identity, authorised EU-based operation, least privilege, time-bound elevation, complete audit and governed emergency access",
+      "requirementIds": ["SR-007"],
+      "abbIds": ["ABB-11", "ABB-12"],
+      "decisionIds": ["AD-005"],
+      "status": "COVERED_LOGICALLY"
+    },
+    {
+      "controlOutcome": "No foundation-model training with Stratton data and licence-gated external AI-assisted use",
+      "requirementIds": ["DR-002", "DR-006"],
+      "abbIds": ["ABB-05", "ABB-10", "ABB-17"],
+      "decisionIds": ["AD-004", "AD-005", "AD-010"],
+      "status": "COVERED_LOGICALLY"
+    },
+    {
+      "controlOutcome": "Production isolation with synthetic non-production data",
+      "requirementIds": ["DR-007", "SR-001", "TR-001"],
+      "abbIds": ["ABB-15"],
+      "decisionIds": ["AD-006"],
+      "status": "COVERED_LOGICALLY"
+    },
+    {
+      "controlOutcome": "Independent Internal Audit verdict protected from delivery and operations modification",
+      "requirementIds": ["SR-008"],
+      "abbIds": ["ABB-12", "ABB-16"],
+      "decisionIds": ["AD-009"],
+      "status": "COVERED_LOGICALLY_WITH_VAL-003_OPEN"
+    },
+    {
+      "controlOutcome": "Read-only authoritative source boundary and no AI source write-back",
+      "requirementIds": ["DR-001", "IR-001"],
+      "abbIds": ["ABB-02", "ABB-03"],
+      "decisionIds": ["AD-002"],
+      "status": "COVERED_LOGICALLY_WITH_VAL-004_OPEN"
+    },
+    {
+      "controlOutcome": "Correlated incident evidence, named ownership and trustworthy recovery of case, evidence, policy and audit state",
+      "requirementIds": ["SR-009", "TR-003", "TR-004"],
+      "abbIds": ["ABB-12", "ABB-13", "ABB-14"],
+      "decisionIds": ["AD-007", "AD-008"],
+      "status": "COVERED_LOGICALLY_WITH_VAL-002_OPEN"
+    }
+  ],
+  "residualControls": [
+    {
+      "id": "VAL-001",
+      "gap": "Entity-specific DORA applicability or exemption and resulting obligations remain unrecorded; formal DORA compliance must not be claimed.",
+      "owner": "General Counsel",
+      "architectureTreatment": ["ABB-18"],
+      "requiredBefore": "Any formal DORA claim or scope-changing obligation",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-002",
+      "gap": "Business hours, typical document-pack characteristics and critical-alert criteria require approval.",
+      "owner": "Chief Investment Officer and Service Operations",
+      "architectureTreatment": ["ABB-13", "ABB-19"],
+      "requiredBefore": "Service and performance acceptance",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-003",
+      "gap": "Eligibility, benchmark, critical-field, unsupported-claim severity and control-exception definitions require approval.",
+      "owner": "Head of Deal Operations, Head of AI Governance, General Counsel, Compliance and Chief Investment Officer",
+      "architectureTreatment": ["ABB-01", "ABB-16"],
+      "requiredBefore": "Internal Audit validation",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-004",
+      "gap": "Exact source instances, retention schedules, volumes and production quality-remediation procedures remain to be mapped.",
+      "owner": "Respective source owners and records owners",
+      "architectureTreatment": ["ABB-02", "ABB-03", "ABB-09"],
+      "requiredBefore": "Production ingestion",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "VAL-005",
+      "gap": "Approved EU/EEA locations and the sovereignty exception evidence process require final confirmation.",
+      "owner": "General Counsel",
+      "architectureTreatment": ["ABB-10", "ABB-18"],
+      "requiredBefore": "Production location and transfer acceptance",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-001",
+      "gap": "EU AI Act role and use-case classification evidence remains required; neither high-risk nor non-high-risk classification is asserted.",
+      "owner": "General Counsel and Head of AI Governance",
+      "architectureTreatment": ["ABB-10", "ABB-18"],
+      "requiredBefore": "Production or any classification claim",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    },
+    {
+      "id": "AFFB-RES-002",
+      "gap": "Official-source citations, publication/effective dates and detailed article-level obligation mappings remain absent.",
+      "owner": "Legal and compliance owners; AFF-0 as regulatory-register custodian",
+      "architectureTreatment": ["ABB-18"],
+      "requiredBefore": "Any formal legal or compliance representation relying on the regulatory register",
+      "status": "OPEN_OWNER_BOUND_NOT_WAIVED"
+    }
+  ],
+  "phaseBoundaryAssessment": {
+    "vendorNeutral": true,
+    "solutionBuildingBlocksSelected": false,
+    "namedAzureServicesSelected": false,
+    "azureRegionsInferred": false,
+    "deploymentEvidenceClaimed": false,
+    "runtimeEvidenceClaimed": false,
+    "formalComplianceClaimed": false,
+    "aiActRiskClassificationClaimed": false,
+    "materialConsistencyStatus": "MARKDOWN_HTML_CATALOGUE_AND_FIVE_VIEWS_MATERIALLY_CONSISTENT"
+  },
+  "limitations": [
+    "This is architecture assurance, not legal advice, certification, formal compliance attestation, waiver or approval.",
+    "Human-confirmed applicability is requirements evidence and is not independently certified here.",
+    "Logical control coverage is not implementation, deployment, operating-effectiveness or runtime evidence.",
+    "No Azure service, region, SKU, CIDR, module or Solution Building Block is selected in Phase 2.",
+    "The DORA mapping remains conditional and does not support a formal compliance claim.",
+    "The EU AI Act mapping does not assert high-risk or non-high-risk classification."
+  ]
+}

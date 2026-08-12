@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "approvalId": "STRATTON-PHASE-4-CC-002-APPROVAL-001",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "4",
+  "sequence": 1,
+  "decision": "APPROVED",
+  "approver": "@aramsmith",
+  "interactionTimestamp": "2026-08-06T13:54:06.5043637+02:00",
+  "modelPlanRevision": "111",
+  "subjectHashManifest": {
+    "path": "4-implementation-plan/stratton-phase-4-hashes-cc-002-r4-proposed.json",
+    "sha256": "5ab254e33ee9460c56026809071a3315b5fce7de887e99c65bf6d100a0140c0b"
+  },
+  "affAReview": {
+    "path": "reviews/aff-a/4/round-10/stratton-aff-a-review.json",
+    "sha256": "441ecb38ab2eb957a4c219a523d444d39ef1cbb1efa35ca5d083de6d67a135e2"
+  },
+  "affBReview": {
+    "path": "reviews/aff-b/4/round-8/stratton-aff-b-review.json",
+    "sha256": "87a101f291e3790a701655391d7fc9f9081d27b63fe5fd572cbbc7bc333f69cf"
+  },
+  "residualGaps": [
+    "Retention and legal-hold owner evidence remains explicitly unresolved, owner-bound and fail closed.",
+    "Exact Azure region pair, resources, quota and capacity, deployment IDs, embedding dimensions and chunking, recovery evidence, provider terms, source permissions, privacy lifecycle and EU AI Act classification remain owner inputs and fail closed.",
+    "No benchmark, security-gate, failover, Azure deployment, runtime, promotion or operating-effectiveness result exists; production enablement remains blocked.",
+    "Independent verifier fields remain pending until the responsible verifier records its result.",
+    "No owner evidence, legal conclusion, certification, waiver or operating-effectiveness result is inferred by this approval."
+  ],
+  "constraints": [
+    "Exact decision: approve STRATTON-CC-002 Phase 4 R4 as the immutable implementation-plan baseline for Phase 5 coding and local validation.",
+    "Approver authority type: HUMAN_ARCHITECT_ACTIVE_AI_INTERACTION.",
+    "Approval evidence in the active Copilot CLI interaction: User input: \"i need to sleep so I approve all now what needs to be approved an you go to autopilot mode\"; later direction: \"good keep going\".",
+    "The blanket approval applies to non-deployment architecture, coding, review, presentation and evidence-publication work after mandatory reviewer convergence; this record applies it only after AFF-A round 10 and AFF-B round 8 reviewed identical R4 bytes with zero BLOCKER, zero MAJOR and zero MINOR findings.",
+    "The active model plan is revision 111 at 0-coordination/stratton-model-plan-revision-111.json with SHA-256 64861f18c47c3eaa42cbe71af2e4cc158a5abfe02843fcb6784456a6cb2db9e7.",
+    "The prerequisite active Phase 3 approval is approvals/3/stratton-phase-3-cc-002-approval-2.json with SHA-256 c0d51c1e2478371c452f068361ca857b2afeb49f295dd2fd5880c58e895a96a5.",
+    "AFF-A round 10 uses gpt-5.6-sol, verdict CONFORMS-WITH-GAPS, finalRound true, and closes AFFA-CC002-P4-R9-MAJ-001 through 003.",
+    "AFF-B round 8 uses gpt-5.6-luna, verdict CONFORMS-WITH-GAPS, finalRound true; coverage 017 has SHA-256 2fcfbbcfcb5b1858d44561abbdf27f4801939b51e822da92228d55f6237662c3.",
+    "Phase 5 may encode and locally validate the target model portfolio. It may not deploy Azure resources, enable production inference, claim quota availability or mark any route promoted without owner evidence and explicit Phase 7 authority.",
+    "The approved portfolio is gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol version 2026-07-09 with NoAutoUpgrade, plus text-embedding-3-large and Document Intelligence prebuilt-layout.",
+    "EU Data Zone Standard is required. Global Standard and production Microsoft Foundry Model Router use remain prohibited.",
+    "Routing remains deterministic, application-owned and fail closed. Promotion requires at least 100 representative generative cases for every promoted route.",
+    "All residual gaps remain mandatory, owner-bound and fail closed; this approval accepts no waiver or solved status for them.",
+    "The earlier approvals/4/stratton-phase-4-approval-1.json belongs to the pre-CC-002 baseline and is not overwritten or superseded by mutation; this append-only CC-002 approval binds only the R4 subject.",
+    "No Azure sign-in, what-if, deployment, model invocation, route promotion, production inference, destructive rollback, Phase 7 or Phase 8 authority is granted."
+  ]
+}
