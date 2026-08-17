@@ -35,6 +35,14 @@ Describe 'Stratton data-plane bootstrap' {
     $script | Should -Not -Match "Get-RequiredDeploymentOutput\s+-Outputs\s+\`$outputs\s+-Name\s+'sqlPhase5AuthorityMigrationSql'"
   }
 
+  It 'validates the complete hash-bound migration receipt' {
+    $script = Get-Content -LiteralPath $script:bootstrapScriptPath -Raw
+
+    $script | Should -Match '\$receiptMigrations\.Count -ne \$migrationOutputs\.Count'
+    $script | Should -Match 'BOOTSTRAP_MIGRATION_RECEIPT_INVALID'
+    $script | Should -Not -Match 'migrationHashes\)\.Count -ne 3'
+  }
+
   It 'defines exactly one approved record for each governed route' {
     $routes = Get-Content $script:routeEvidencePath -Raw | ConvertFrom-Json
 

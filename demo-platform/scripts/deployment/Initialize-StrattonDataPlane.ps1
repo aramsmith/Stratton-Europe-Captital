@@ -867,7 +867,17 @@ function Invoke-StrattonDataPlaneBootstrap {
         }
       }
   )
-  if (@($receipt.migrationHashes).Count -ne 3 -or [string]::IsNullOrWhiteSpace([string] $receipt.searchIndexEtag)) {
+  $receiptMigrations = @($receipt.migrationHashes)
+  if ($receiptMigrations.Count -ne $migrationOutputs.Count) {
+    throw 'BOOTSTRAP_RECEIPT_INVALID'
+  }
+  foreach ($migration in $migrationHashes.GetEnumerator()) {
+    $receivedMigration = @($receiptMigrations | Where-Object name -eq $migration.Key)
+    if ($receivedMigration.Count -ne 1 -or $receivedMigration[0].sha256 -ne $migration.Value) {
+      throw "BOOTSTRAP_MIGRATION_RECEIPT_INVALID:$($migration.Key)"
+    }
+  }
+  if ([string]::IsNullOrWhiteSpace([string] $receipt.searchIndexEtag)) {
     throw 'BOOTSTRAP_RECEIPT_INVALID'
   }
   $artifact = [pscustomobject]@{
