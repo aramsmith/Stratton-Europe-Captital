@@ -43,7 +43,8 @@ export class GovernanceService {
     const state = snapshot.state;
     assertCaseId(state, caseId);
 
-    const latestRecommendationSubjectVersion = buildRecommendationSubjectVersion(state);
+    const latestRecommendationSubjectVersion =
+      state.analysisAuthority?.subjectVersion ?? buildRecommendationSubjectVersion(state);
     const policyDecisions = buildPolicyDecisions(state);
 
     return {
@@ -106,7 +107,7 @@ function buildLineage(
   return state.findings
     .filter(isMaterialFinding)
     .flatMap((finding) => {
-      const latestFindingVersion = getLatestFindingVersion(finding);
+      const latestFindingVersion = getCurrentSubjectVersion(state, finding);
       const sourceLocators = getLineageSourceLocators(finding, evidenceById);
       const evidenceIds = getLineageEvidenceIds(finding);
       const modelRoute = finding.route ?? state.latestAnalysisRun?.route;
@@ -272,7 +273,7 @@ function buildAuditExport(
             );
             return !(
               review?.decision === "APPROVED" &&
-              review.subjectVersion === getLatestFindingVersion(finding)
+              review.subjectVersion === getCurrentSubjectVersion(state, finding)
             );
           })
           .map((reviewType) => `${formatReviewType(reviewType)}:${finding.findingId}`)
@@ -392,7 +393,7 @@ function isCurrentPolicyDecisionLink(
   }
 
   if (event.metadata?.subjectVersion) {
-    return event.metadata.subjectVersion === getLatestFindingVersion(finding);
+    return event.metadata.subjectVersion === getCurrentSubjectVersion(state, finding);
   }
 
   return isBoundToLatestAnalysis(event, state.latestAnalysisRun);
@@ -412,7 +413,7 @@ function isHistoricalPolicyDecisionLink(
   }
 
   if (event.metadata?.subjectVersion) {
-    return event.metadata.subjectVersion !== getLatestFindingVersion(finding);
+    return event.metadata.subjectVersion !== getCurrentSubjectVersion(state, finding);
   }
 
   return hasAnalysisBinding(event) && !isBoundToLatestAnalysis(event, state.latestAnalysisRun);
@@ -559,6 +560,13 @@ function getEligibleReviewTypesForFinding(
 
 function getLatestFindingVersion(finding: AnalysisFinding): string {
   return finding.textHistory.at(-1)?.versionId ?? finding.findingId;
+}
+
+function getCurrentSubjectVersion(
+  state: ScenarioState,
+  finding: AnalysisFinding
+): string {
+  return state.analysisAuthority?.subjectVersion ?? getLatestFindingVersion(finding);
 }
 
 function formatReviewType(reviewType: ReviewType): string {

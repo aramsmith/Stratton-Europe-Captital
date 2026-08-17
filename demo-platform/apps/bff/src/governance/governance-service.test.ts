@@ -500,6 +500,47 @@ describe("GovernanceService", () => {
     });
   });
 
+  it("treats Phase 5 subject-version reviews and recommendation evidence as current", async () => {
+    const state = createGovernanceReadyState();
+    const subjectVersion = "phase5-authority-subject-v1";
+    state.analysisAuthority = {
+      analysisBundleId: "bundle-authority-v1",
+      evidenceManifestHash: "manifest-authority-v1",
+      subjectVersion,
+      status: "DRAFT_ONLY_READY"
+    };
+    state.reviews = state.reviews.map((review) => ({
+      ...review,
+      subjectVersion
+    }));
+    state.governanceEvents = state.governanceEvents.map((event) =>
+      event.metadata?.subjectVersion
+        ? {
+            ...event,
+            metadata: {
+              ...event.metadata,
+              subjectVersion
+            }
+          }
+        : event
+    );
+
+    const view = await new GovernanceService({
+      repository: new InMemoryScenarioRepository(state)
+    }).getView("project-danube");
+
+    expect(view.auditExport).toMatchObject({
+      status: "READY",
+      missingItems: []
+    });
+    expect(
+      view.lineage.find((node) => node.id === "finding-ebitda-quality")
+    ).toMatchObject({
+      assuranceStatus: "CURRENT",
+      reviewTypes: ["DEAL"]
+    });
+  });
+
   it("binds route and policy events emitted by AnalysisService to the latest analysis route", async () => {
     let sequence = 0;
     const repository = new InMemoryScenarioRepository(createAdmittedState());
