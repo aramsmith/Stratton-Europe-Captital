@@ -3,6 +3,7 @@ import type {
   AnalysisRunResponse,
   EvidenceAdmissionRequest,
   FindingDispositionRequest,
+  GovernanceView,
   RecommendationPreparationRequest,
   ReviewSubmissionRequest,
   SecurityGateRunRequest,
@@ -51,6 +52,7 @@ interface AppRoutesProps {
   }) => Promise<void> | void) | undefined;
   readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
   readonly onRunSecurityGateSuite?: ((input: SecurityGateRunRequest) => Promise<void> | void) | undefined;
+  readonly loadGovernanceView?: ((signal?: AbortSignal) => Promise<GovernanceView>) | undefined;
 }
 
 export function AppRoutes({
@@ -60,7 +62,8 @@ export function AppRoutes({
   onRecordDisposition,
   onSubmitReview,
   onPrepareRecommendation,
-  onRunSecurityGateSuite
+  onRunSecurityGateSuite,
+  loadGovernanceView
 }: AppRoutesProps) {
   return (
     <Routes>
@@ -91,6 +94,7 @@ export function AppRoutes({
         element={
           <GovernanceRoute
             scenario={scenario}
+            loadGovernanceView={loadGovernanceView}
             onRunSecurityGateSuite={onRunSecurityGateSuite}
           />
         }
@@ -130,9 +134,14 @@ function DecisionRoomRoute({
   );
 }
 
-function GovernanceRoute({ scenario, onRunSecurityGateSuite }: AppRoutesProps) {
+function GovernanceRoute({
+  scenario,
+  loadGovernanceView,
+  onRunSecurityGateSuite
+}: AppRoutesProps) {
   return (
     <GovernanceConsolePage
+      loadGovernanceView={loadGovernanceView}
       scenario={scenario}
       onRunSecurityGateSuite={onRunSecurityGateSuite}
     />

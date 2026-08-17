@@ -90,6 +90,10 @@ export function App({ authSession = createLocalBrowserAuthSession() }: AppProps)
     },
     [client]
   );
+  const loadGovernanceView = useCallback(
+    (signal?: AbortSignal) => client.getGovernanceView(signal),
+    [client]
+  );
 
   useEffect(() => {
     if (!account) {
@@ -238,6 +242,7 @@ export function App({ authSession = createLocalBrowserAuthSession() }: AppProps)
             scenario={scenario}
           >
             <AppRoutes
+              loadGovernanceView={loadGovernanceView}
               onPrepareRecommendation={handlePrepareRecommendation}
               scenario={scenario}
               onAdmitEvidence={handleAdmitEvidence}
