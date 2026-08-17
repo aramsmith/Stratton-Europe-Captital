@@ -180,8 +180,14 @@ export function createDemoServer(
     next(new DemoHttpError(404, "INVALID_CONTRACT", "Requested path does not match an approved route."));
   });
 
-  app.use((error: unknown, _request: express.Request, response: express.Response, next: express.NextFunction) => {
+  app.use((error: unknown, request: express.Request, response: express.Response, next: express.NextFunction) => {
     void next;
+    security.logger?.error("request.rejected", {
+      method: request.method,
+      path: request.path,
+      errorClass: error instanceof DemoHttpError ? error.code : "UNEXPECTED_ERROR",
+      reason: error instanceof Error ? error.message : "UNKNOWN"
+    });
     const mapped = mapDemoError(error, getCorrelationId(response));
     response.status(mapped.status).json({
       code: mapped.code,
