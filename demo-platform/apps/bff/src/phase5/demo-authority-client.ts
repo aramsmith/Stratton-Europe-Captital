@@ -1,6 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
-import type { DemoApiError } from "@stratton/contracts";
 import { DemoHttpError } from "../errors.js";
 import type { DelegatedUserToken } from "../identity/delegated-token.js";
 import {
@@ -27,7 +26,8 @@ const errorSchema = z
       "DEPENDENCY_UNAVAILABLE"
     ]),
     message: z.string().min(1),
-    correlationId: z.string().min(1)
+    correlationId: z.string().min(1),
+    status: z.number().int().optional()
   })
   .strict();
 
@@ -468,11 +468,15 @@ async function parseJson(response: Response): Promise<unknown> {
   }
 }
 
-async function mapAuthorityError(response: Response): Promise<DemoApiError> {
+async function mapAuthorityError(response: Response): Promise<DemoHttpError> {
   try {
     const result = errorSchema.safeParse(await parseJson(response));
     if (result.success) {
-      return result.data;
+      return new DemoHttpError(
+        response.status,
+        result.data.code,
+        result.data.message
+      );
     }
   } catch {
     // Preserve only the upstream status; never return the authority response body.

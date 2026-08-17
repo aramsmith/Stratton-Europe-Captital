@@ -1951,7 +1951,10 @@ export function createApiServer(config: ApiRuntimeConfig): { server: Server } {
       const payload: ErrorPayload = {
         status: mapped.statusCode,
         code: mapped.code,
-        message: errorMessage(mapped.code),
+        message:
+          mapped.code === "DEPENDENCY_UNAVAILABLE"
+            ? `Required dependency is unavailable: ${JSON.stringify(summarizeRequestError(error))}`
+            : errorMessage(mapped.code),
         correlationId
       };
       toJsonResponse(response, mapped.statusCode, payload, correlationId);
