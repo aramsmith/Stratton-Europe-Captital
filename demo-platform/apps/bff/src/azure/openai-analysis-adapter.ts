@@ -216,6 +216,9 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
         logger.error("azure.openai.failure", {
           route: input.route,
           analysisRequestFingerprint: input.analysisRequestFingerprint,
+          errorType: error instanceof Error ? error.constructor.name : "UnknownError",
+          providerStatus: safeNumberProperty(error, "status"),
+          providerCode: safeStringProperty(error, "code"),
           errorClass:
             error instanceof SyntaxError || error instanceof z.ZodError
               ? "MODEL_OUTPUT_INVALID"
@@ -226,6 +229,24 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
       }
     }
   };
+}
+
+function safeNumberProperty(value: unknown, property: string): number | undefined {
+  if (typeof value !== "object" || value === null) {
+    return undefined;
+  }
+  const candidate = Reflect.get(value, property);
+  return typeof candidate === "number" ? candidate : undefined;
+}
+
+function safeStringProperty(value: unknown, property: string): string | undefined {
+  if (typeof value !== "object" || value === null) {
+    return undefined;
+  }
+  const candidate = Reflect.get(value, property);
+  return typeof candidate === "string" && /^[A-Z0-9_.-]{1,80}$/i.test(candidate)
+    ? candidate
+    : undefined;
 }
 
 function createManagedIdentityOpenAiClientFactory(
