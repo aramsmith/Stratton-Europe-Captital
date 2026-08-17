@@ -34,12 +34,13 @@ const definitions = [
 const documents = [];
 for (const [evidenceId, fileName] of definitions) {
   const source = await readFile(new URL(`./evidence/${fileName}`, import.meta.url), "utf8");
+  const excerpt = source.slice(0, 2000);
   documents.push({
     chunkId: `${evidenceId}-chunk-1`,
     tenantId: "27140306-eea5-4e7f-91e9-4c9e86864b3a",
     caseId: "project-danube",
     evidenceId,
-    content: `Challenge management EBITDA quality Project Danube. ${source}`,
+    content: `Challenge management EBITDA quality Project Danube. ${excerpt}`,
     locator: `${evidenceId}:1`,
     admissionStatus: "ADMITTED",
     accessibleAtReview: true
