@@ -14,7 +14,17 @@ Describe 'Stratton data-plane bootstrap' {
 
   It 'orders Phase 5 migrations before demo projection bootstrap' {
     (Get-StrattonMigrationFiles -RepositoryRoot $script:repoRoot).Name |
-      Should -Be @('001_init.sql', '002_demo_authority.sql', 'demo-projection.sql')
+      Should -Be @(
+        '001_init.sql',
+        '002_demo_authority.sql',
+        '003_project_danube_seed.sql',
+        '004_project_danube_admission_recovery.sql',
+        '005_project_danube_extraction_recovery.sql',
+        '006_project_danube_processing_receipts.sql',
+        '007_demo_authority_readiness_grant.sql',
+        '008_openai_responses_api_version.sql',
+        'demo-projection.sql'
+      )
   }
 
   It 'binds image migrations to the current repository instead of stale deployment outputs' {

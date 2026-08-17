@@ -1577,6 +1577,30 @@ function Get-StrattonMigrationFiles {
       Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\002_demo_authority.sql'
     },
     [pscustomobject]@{
+      Name = '003_project_danube_seed.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\003_project_danube_seed.sql'
+    },
+    [pscustomobject]@{
+      Name = '004_project_danube_admission_recovery.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\004_project_danube_admission_recovery.sql'
+    },
+    [pscustomobject]@{
+      Name = '005_project_danube_extraction_recovery.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\005_project_danube_extraction_recovery.sql'
+    },
+    [pscustomobject]@{
+      Name = '006_project_danube_processing_receipts.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\006_project_danube_processing_receipts.sql'
+    },
+    [pscustomobject]@{
+      Name = '007_demo_authority_readiness_grant.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\007_demo_authority_readiness_grant.sql'
+    },
+    [pscustomobject]@{
+      Name = '008_openai_responses_api_version.sql'
+      Path = Join-Path $worktreeRoot '5-coding-r4\app\migrations\008_openai_responses_api_version.sql'
+    },
+    [pscustomobject]@{
       Name = 'demo-projection.sql'
       Path = Join-Path $resolvedRepositoryRoot 'apps\bff\migrations\001_demo_projection.sql'
     }
