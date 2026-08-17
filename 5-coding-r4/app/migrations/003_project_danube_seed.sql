@@ -8,6 +8,9 @@ DECLARE @purpose NVARCHAR(256) = N'DUE_DILIGENCE';
 DECLARE @source_id NVARCHAR(128) = N'project-danube-controlled-files';
 DECLARE @licence_id NVARCHAR(128) = N'project-danube-licence';
 
+EXEC sys.sp_set_session_context @key = N'tenant_id', @value = @tenant_id;
+EXEC sys.sp_set_session_context @key = N'case_id', @value = @case_id;
+
 IF NOT EXISTS (
   SELECT 1 FROM dbo.case_rollout_control
   WHERE tenant_id = @tenant_id AND case_id = @case_id
