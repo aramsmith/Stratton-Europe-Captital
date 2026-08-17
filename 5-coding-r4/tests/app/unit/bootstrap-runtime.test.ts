@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   assertAppliedMigrationHashes,
   assertSearchSchemaCompatible,
+  AzureSearchReconciler,
   migrationExecutionErrorCode,
   migrationRollbackErrorCode,
   requiresSqlAutocommit,
@@ -230,6 +231,53 @@ test("rejects a destructive Azure Search field change", () => {
       }),
     /SEARCH_SCHEMA_DESTRUCTIVE_CHANGE:field-type:tenantId/
   );
+});
+
+test("accepts a successful Azure Search update with an empty response body", async () => {
+  const definition: SearchIndexDefinition = {
+    name: "governed-evidence",
+    fields: [
+      {
+        name: "tenantId",
+        type: "Edm.String",
+        key: false,
+        filterable: true,
+        searchable: false,
+        sortable: false,
+        facetable: false,
+        retrievable: true
+      }
+    ]
+  };
+  const responses = [
+    new Response(JSON.stringify({ ...definition, "@odata.etag": '"schema-v1"' }), {
+      status: 200,
+      headers: { etag: '"schema-v1"' }
+    }),
+    new Response(null, {
+      status: 204,
+      headers: { etag: '"schema-v2"' }
+    })
+  ];
+  const reconciler = new AzureSearchReconciler(
+    "https://stratton.search.windows.net",
+    definition.name,
+    definition,
+    "managed-identity-client-id",
+    {
+      credential: {
+        async getToken() {
+          return {
+            token: "test-token",
+            expiresOnTimestamp: Date.now() + 60_000
+          };
+        }
+      },
+      fetch: async () => responses.shift() ?? new Response(null, { status: 500 })
+    }
+  );
+
+  assert.deepEqual(await reconciler.reconcile(), { etag: '"schema-v2"' });
 });
 
 test("renews expired validity for an existing identical route binding", () => {

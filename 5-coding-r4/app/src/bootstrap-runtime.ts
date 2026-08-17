@@ -486,12 +486,19 @@ export class AzureSearchReconciler {
     private readonly endpoint: string,
     private readonly indexName: string,
     private readonly definition: SearchIndexDefinition,
-    managedIdentityClientId: string
+    managedIdentityClientId: string,
+    dependencies?: {
+      readonly credential: Pick<DefaultAzureCredential, "getToken">;
+      readonly fetch: typeof fetch;
+    }
   ) {
-    this.credential = new DefaultAzureCredential({ managedIdentityClientId });
+    this.credential =
+      dependencies?.credential ?? new DefaultAzureCredential({ managedIdentityClientId });
+    this.fetcher = dependencies?.fetch ?? fetch;
   }
 
-  private readonly credential: DefaultAzureCredential;
+  private readonly credential: Pick<DefaultAzureCredential, "getToken">;
+  private readonly fetcher: typeof fetch;
 
   public async reconcile(): Promise<{ readonly etag: string }> {
     if (this.definition.name !== this.indexName) {
@@ -508,7 +515,7 @@ export class AzureSearchReconciler {
       authorization: `Bearer ${token.token}`,
       accept: "application/json"
     };
-    const current = await fetch(url, { headers });
+    const current = await this.fetcher(url, { headers });
     if (current.status === 404) {
       return this.putIndex(url, headers);
     }
@@ -525,7 +532,7 @@ export class AzureSearchReconciler {
     headers: Readonly<Record<string, string>>,
     etag?: string | null
   ): Promise<{ readonly etag: string }> {
-    const response = await fetch(url, {
+    const response = await this.fetcher(url, {
       method: "PUT",
       headers: {
         ...headers,
@@ -537,8 +544,19 @@ export class AzureSearchReconciler {
     if (!response.ok) {
       throw new Error(`SEARCH_RECONCILE_FAILED:${response.status}`);
     }
-    const responseBody = (await response.json()) as ExistingSearchIndex;
-    const receivedEtag = response.headers.get("etag") ?? responseBody["@odata.etag"];
+    let receivedEtag = response.headers.get("etag");
+    if (!receivedEtag) {
+      const responseText = await response.text();
+      if (responseText.trim().length > 0) {
+        let responseBody: ExistingSearchIndex;
+        try {
+          responseBody = JSON.parse(responseText) as ExistingSearchIndex;
+        } catch {
+          throw new Error("SEARCH_RECONCILE_RESPONSE_INVALID");
+        }
+        receivedEtag = responseBody["@odata.etag"] ?? null;
+      }
+    }
     if (!receivedEtag) {
       throw new Error("SEARCH_ETAG_MISSING");
     }
