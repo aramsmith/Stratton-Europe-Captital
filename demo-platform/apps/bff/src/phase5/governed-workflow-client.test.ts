@@ -268,7 +268,7 @@ describe("createAuthoritativeEvidenceAdmissionWorkflowClient", () => {
         idempotencyKey: "admit:project-danube:evidence-board-pack",
         correlationId: "corr-admit"
       })
-    ).rejects.toThrow("authority denied");
+    ).rejects.toThrow("EVIDENCE_AUTHORITY_FAILED:Error");
     expect(supporting.afterEvidenceAdmitted).not.toHaveBeenCalled();
   });
 
@@ -291,7 +291,7 @@ describe("createAuthoritativeEvidenceAdmissionWorkflowClient", () => {
         idempotencyKey: "admit:project-danube:evidence-board-pack",
         correlationId: "corr-admit"
       })
-    ).rejects.toThrow("indexing unavailable");
+    ).rejects.toThrow("EVIDENCE_SUPPORTING_OPERATIONS_FAILED:Error");
   });
 });
 

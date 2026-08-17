@@ -67,15 +67,42 @@ export function createAuthoritativeEvidenceAdmissionWorkflowClient(
 
   return {
     async admit(input) {
-      await options.authority.admitEvidence(input);
-      await options.supporting.afterEvidenceAdmitted({
-        caseId: input.caseId,
-        evidenceId: input.evidenceId,
-        idempotencyKey: input.idempotencyKey,
-        ...(input.correlationId ? { correlationId: input.correlationId } : {})
-      });
+      try {
+        await options.authority.admitEvidence(input);
+      } catch (error: unknown) {
+        throw classifyWorkflowFailure(error, "EVIDENCE_AUTHORITY_FAILED");
+      }
+      try {
+        await options.supporting.afterEvidenceAdmitted({
+          caseId: input.caseId,
+          evidenceId: input.evidenceId,
+          idempotencyKey: input.idempotencyKey,
+          ...(input.correlationId ? { correlationId: input.correlationId } : {})
+        });
+      } catch (error: unknown) {
+        throw classifyWorkflowFailure(error, "EVIDENCE_SUPPORTING_OPERATIONS_FAILED");
+      }
     }
   };
+}
+
+function classifyWorkflowFailure(error: unknown, prefix: string): unknown {
+  if (error instanceof DemoHttpError) {
+    return error;
+  }
+  if (!(error instanceof Error)) {
+    return new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", prefix);
+  }
+
+  const causeCode =
+    typeof error.cause === "object" &&
+    error.cause !== null &&
+    "code" in error.cause &&
+    typeof error.cause.code === "string"
+      ? error.cause.code
+      : undefined;
+  const detail = causeCode ? `${error.name}:${causeCode}` : error.name;
+  return new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE", `${prefix}:${detail}`);
 }
 
 export interface BundleSupportingAnalysis {
