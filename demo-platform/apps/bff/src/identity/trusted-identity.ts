@@ -18,7 +18,7 @@ const roleClaimTypes = new Set([
 
 const principalSchema = z
   .object({
-    auth_typ: z.literal("aad"),
+    auth_typ: z.enum(["aad", "Bearer"]),
     claims: z.array(
       z
         .object({

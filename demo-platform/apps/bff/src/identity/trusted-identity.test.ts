@@ -8,10 +8,11 @@ function encodePrincipal(input: {
   readonly tenantId: string;
   readonly actorId: string;
   readonly roles: readonly string[];
+  readonly authType?: "aad" | "Bearer";
 }): string {
   return Buffer.from(
     JSON.stringify({
-      auth_typ: "aad",
+      auth_typ: input.authType ?? "aad",
       claims: [
         {
           typ: "http://schemas.microsoft.com/identity/claims/tenantid",
@@ -58,6 +59,26 @@ describe("resolveContainerAppsIdentity", () => {
         "Stratton.Demo.EvidenceToDecision",
         "Stratton.Demo.ProjectDanube.Access"
       ]
+    });
+
+  });
+
+  it("accepts the Bearer auth type emitted by Container Apps for delegated tokens", () => {
+    const clientPrincipal = encodePrincipal({
+      tenantId: "tenant-stratton",
+      actorId: "human-object-id",
+      roles: ["Stratton.Demo.ProjectDanube.Access"],
+      authType: "Bearer"
+    });
+
+    expect(
+      resolveContainerAppsIdentity(
+        { clientPrincipal },
+        { expectedTenantId: "tenant-stratton" }
+      )
+    ).toMatchObject({
+      actorId: "human-object-id",
+      tenantId: "tenant-stratton"
     });
   });
 
