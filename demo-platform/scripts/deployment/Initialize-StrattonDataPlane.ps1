@@ -737,6 +737,9 @@ function Invoke-StrattonDataPlaneBootstrap {
     '007_demo_authority_readiness_grant.sql' = Get-Content -LiteralPath (
       @($migrationFiles | Where-Object Name -eq '007_demo_authority_readiness_grant.sql')[0].Path
     ) -Raw
+    '008_openai_responses_api_version.sql' = Get-Content -LiteralPath (
+      @($migrationFiles | Where-Object Name -eq '008_openai_responses_api_version.sql')[0].Path
+    ) -Raw
     'demo-projection.sql' = Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlProjectionMigrationSql'
   }
   $migrationHashes = [ordered]@{}

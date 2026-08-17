@@ -104,6 +104,10 @@ function loadInput(): {
     resolve(migrationDirectory, "007_demo_authority_readiness_grant.sql"),
     "utf8"
   );
+  const responsesApiVersion = readFileSync(
+    resolve(migrationDirectory, "008_openai_responses_api_version.sql"),
+    "utf8"
+  );
   const projection = requiredRaw("BOOTSTRAP_PROJECTION_MIGRATION_SQL");
   const routes = parseJson<readonly RouteEvidenceInput[]>("BOOTSTRAP_ROUTES_JSON");
   const searchSchema = parseJson<SearchIndexDefinition>("BOOTSTRAP_SEARCH_SCHEMA_JSON");
@@ -139,6 +143,11 @@ function loadInput(): {
       loadMigration(
         "007_demo_authority_readiness_grant.sql",
         readinessGrant,
+        expectedHashes
+      ),
+      loadMigration(
+        "008_openai_responses_api_version.sql",
+        responsesApiVersion,
         expectedHashes
       ),
       loadMigration("demo-projection.sql", projection, expectedHashes)

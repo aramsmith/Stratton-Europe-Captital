@@ -2,7 +2,7 @@
   "name": "governed-evidence",
   "fields": [
     {
-      "name": "id",
+      "name": "chunkId",
       "type": "Edm.String",
       "key": true,
       "filterable": true,
@@ -18,7 +18,7 @@
       "filterable": true,
       "searchable": false,
       "sortable": false,
-      "facetable": true,
+      "facetable": false,
       "retrievable": true
     },
     {
@@ -28,7 +28,7 @@
       "filterable": true,
       "searchable": false,
       "sortable": false,
-      "facetable": true,
+      "facetable": false,
       "retrievable": true
     },
     {
@@ -42,57 +42,17 @@
       "retrievable": true
     },
     {
-      "name": "evidenceVersionId",
-      "type": "Edm.String",
-      "key": false,
-      "filterable": true,
-      "searchable": false,
-      "sortable": false,
-      "facetable": false,
-      "retrievable": true
-    },
-    {
-      "name": "chunkId",
-      "type": "Edm.String",
-      "key": false,
-      "filterable": true,
-      "searchable": false,
-      "sortable": false,
-      "facetable": false,
-      "retrievable": true
-    },
-    {
-      "name": "text",
+      "name": "content",
       "type": "Edm.String",
       "key": false,
       "filterable": false,
       "searchable": true,
       "sortable": false,
       "facetable": false,
-      "retrievable": false
-    },
-    {
-      "name": "classification",
-      "type": "Edm.String",
-      "key": false,
-      "filterable": true,
-      "searchable": false,
-      "sortable": false,
-      "facetable": true,
       "retrievable": true
     },
     {
-      "name": "qualityStatus",
-      "type": "Edm.String",
-      "key": false,
-      "filterable": true,
-      "searchable": false,
-      "sortable": false,
-      "facetable": true,
-      "retrievable": true
-    },
-    {
-      "name": "policyVersion",
+      "name": "locator",
       "type": "Edm.String",
       "key": false,
       "filterable": true,
@@ -102,8 +62,18 @@
       "retrievable": true
     },
     {
-      "name": "citationLocator",
+      "name": "admissionStatus",
       "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "sortable": false,
+      "facetable": false,
+      "retrievable": true
+    },
+    {
+      "name": "accessibleAtReview",
+      "type": "Edm.Boolean",
       "key": false,
       "filterable": true,
       "searchable": false,

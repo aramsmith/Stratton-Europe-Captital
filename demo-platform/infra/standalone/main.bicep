@@ -229,21 +229,21 @@ module demoRuntimes '../main.bicep' = {
     lunaOpenAiAccountResourceId: openAiAccountResourceId
     lunaOpenAiRegion: openAiLocation
     lunaOpenAiDeploymentId: 'luna-evidence-triage'
-    lunaOpenAiApiVersion: '2025-01-01-preview'
+    lunaOpenAiApiVersion: '2025-04-01-preview'
     lunaOpenAiEvidenceId: 'SEC-EVID-LUNA-ROUTE-v1'
     lunaOpenAiRouteEvidenceVersion: 'route-evidence-luna-v1'
     terraOpenAiEndpoint: 'https://${openAiAccountName}.openai.azure.com/'
     terraOpenAiAccountResourceId: openAiAccountResourceId
     terraOpenAiRegion: openAiLocation
     terraOpenAiDeploymentId: 'terra-grounded-analysis'
-    terraOpenAiApiVersion: '2025-01-01-preview'
+    terraOpenAiApiVersion: '2025-04-01-preview'
     terraOpenAiEvidenceId: 'SEC-EVID-TERRA-ROUTE-v1'
     terraOpenAiRouteEvidenceVersion: 'route-evidence-terra-v1'
     solOpenAiEndpoint: 'https://${openAiAccountName}.openai.azure.com/'
     solOpenAiAccountResourceId: openAiAccountResourceId
     solOpenAiRegion: openAiLocation
     solOpenAiDeploymentId: 'sol-thesis-challenge'
-    solOpenAiApiVersion: '2025-01-01-preview'
+    solOpenAiApiVersion: '2025-04-01-preview'
     solOpenAiEvidenceId: 'SEC-EVID-SOL-ROUTE-v1'
     solOpenAiRouteEvidenceVersion: 'route-evidence-sol-v1'
     webDelegatedScope: webDelegatedScope
