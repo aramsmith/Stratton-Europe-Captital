@@ -82,6 +82,7 @@ export type DemoServerDependencies = WithoutAuthorization<ScenarioRouteDependenc
 
 export interface DemoServerSecurityOptions {
   readonly identityResolver: IdentityResolver;
+  readonly logger?: RedactedLogger;
   readonly authorizationPolicy: {
     readonly expectedTenantId: string;
     readonly caseId: "project-danube";
@@ -148,7 +149,18 @@ export function createDemoServer(
           next
         );
       })
-      .catch(next);
+      .catch((error: unknown) => {
+        security.logger?.error("identity.boundary.rejected", {
+          errorClass: error instanceof DemoHttpError ? error.code : "UNEXPECTED_ERROR",
+          reason: error instanceof Error ? error.message : "UNKNOWN",
+          hasAuthorization: Boolean(request.header("authorization")),
+          hasForwardedDelegatedToken: Boolean(
+            request.header("x-stratton-delegated-token")
+          ),
+          hasClientPrincipal: Boolean(request.header("x-ms-client-principal"))
+        });
+        next(error);
+      });
   });
 
   app.use(createScenarioRouter(routeDependencies));
@@ -195,7 +207,7 @@ async function startServer(): Promise<void> {
     const security: DemoServerSecurityOptions =
       config.DEMO_MODE === "LOCAL"
         ? localServerSecurityOptions
-        : createAzureServerSecurityOptions(config);
+        : createAzureServerSecurityOptions(config, logger);
 
     createDemoServer({
       scenarioService: new ScenarioService(repository),
@@ -376,13 +388,15 @@ async function createScenarioRepository(
 }
 
 function createAzureServerSecurityOptions(
-  config: Extract<DemoConfig, { readonly DEMO_MODE: "AZURE" }>
+  config: Extract<DemoConfig, { readonly DEMO_MODE: "AZURE" }>,
+  logger: RedactedLogger
 ): DemoServerSecurityOptions {
   const expectedTenantId = requireConfigValue(
     config.DEMO_TENANT_ID,
     "DEMO_TENANT_ID"
   );
   return {
+    logger: logger.child({ boundary: "container-apps-easy-auth" }),
     identityResolver: createContainerAppsIdentityResolver({
       expectedTenantId,
       delegatedTokenPolicy: {
