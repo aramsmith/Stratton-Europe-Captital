@@ -734,6 +734,9 @@ function Invoke-StrattonDataPlaneBootstrap {
     '006_project_danube_processing_receipts.sql' = Get-Content -LiteralPath (
       @($migrationFiles | Where-Object Name -eq '006_project_danube_processing_receipts.sql')[0].Path
     ) -Raw
+    '007_demo_authority_readiness_grant.sql' = Get-Content -LiteralPath (
+      @($migrationFiles | Where-Object Name -eq '007_demo_authority_readiness_grant.sql')[0].Path
+    ) -Raw
     'demo-projection.sql' = Get-RequiredDeploymentOutput -Outputs $outputs -Name 'sqlProjectionMigrationSql'
   }
   $migrationHashes = [ordered]@{}
