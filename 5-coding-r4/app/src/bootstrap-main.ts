@@ -84,6 +84,10 @@ function loadInput(): {
   const migrationDirectory = process.env.BOOTSTRAP_MIGRATIONS_DIR?.trim() || resolve(process.cwd(), "migrations");
   const initial = readFileSync(resolve(migrationDirectory, "001_init.sql"), "utf8");
   const authority = readFileSync(resolve(migrationDirectory, "002_demo_authority.sql"), "utf8");
+  const projectDanube = readFileSync(
+    resolve(migrationDirectory, "003_project_danube_seed.sql"),
+    "utf8"
+  );
   const projection = requiredRaw("BOOTSTRAP_PROJECTION_MIGRATION_SQL");
   const routes = parseJson<readonly RouteEvidenceInput[]>("BOOTSTRAP_ROUTES_JSON");
   const searchSchema = parseJson<SearchIndexDefinition>("BOOTSTRAP_SEARCH_SCHEMA_JSON");
@@ -100,6 +104,7 @@ function loadInput(): {
     migrations: [
       loadMigration("001_init.sql", initial, expectedHashes),
       loadMigration("002_demo_authority.sql", authority, expectedHashes),
+      loadMigration("003_project_danube_seed.sql", projectDanube, expectedHashes),
       loadMigration("demo-projection.sql", projection, expectedHashes)
     ],
     identityBootstrapSql: required("BOOTSTRAP_IDENTITY_BOOTSTRAP_SQL"),
