@@ -233,7 +233,7 @@ test("rejects a destructive Azure Search field change", () => {
   );
 });
 
-test("accepts a successful Azure Search update with an empty response body", async () => {
+test("reads the committed ETag after an empty Azure Search update response", async () => {
   const definition: SearchIndexDefinition = {
     name: "governed-evidence",
     fields: [
@@ -249,13 +249,15 @@ test("accepts a successful Azure Search update with an empty response body", asy
       }
     ]
   };
+  const requests: string[] = [];
   const responses = [
     new Response(JSON.stringify({ ...definition, "@odata.etag": '"schema-v1"' }), {
       status: 200,
       headers: { etag: '"schema-v1"' }
     }),
-    new Response(null, {
-      status: 204,
+    new Response(null, { status: 204 }),
+    new Response(JSON.stringify({ ...definition, "@odata.etag": '"schema-v2"' }), {
+      status: 200,
       headers: { etag: '"schema-v2"' }
     })
   ];
@@ -273,11 +275,15 @@ test("accepts a successful Azure Search update with an empty response body", asy
           };
         }
       },
-      fetch: async () => responses.shift() ?? new Response(null, { status: 500 })
+      fetch: async (_input, init) => {
+        requests.push(init?.method ?? "GET");
+        return responses.shift() ?? new Response(null, { status: 500 });
+      }
     }
   );
 
   assert.deepEqual(await reconciler.reconcile(), { etag: '"schema-v2"' });
+  assert.deepEqual(requests, ["GET", "PUT", "GET"]);
 });
 
 test("renews expired validity for an existing identical route binding", () => {

@@ -544,23 +544,35 @@ export class AzureSearchReconciler {
     if (!response.ok) {
       throw new Error(`SEARCH_RECONCILE_FAILED:${response.status}`);
     }
-    let receivedEtag = response.headers.get("etag");
+    let receivedEtag = await this.readEtag(response);
     if (!receivedEtag) {
-      const responseText = await response.text();
-      if (responseText.trim().length > 0) {
-        let responseBody: ExistingSearchIndex;
-        try {
-          responseBody = JSON.parse(responseText) as ExistingSearchIndex;
-        } catch {
-          throw new Error("SEARCH_RECONCILE_RESPONSE_INVALID");
-        }
-        receivedEtag = responseBody["@odata.etag"] ?? null;
+      const committed = await this.fetcher(url, { headers });
+      if (!committed.ok) {
+        throw new Error(`SEARCH_POST_RECONCILE_READ_FAILED:${committed.status}`);
       }
+      receivedEtag = await this.readEtag(committed);
     }
     if (!receivedEtag) {
       throw new Error("SEARCH_ETAG_MISSING");
     }
     return { etag: receivedEtag };
+  }
+
+  private async readEtag(response: Response): Promise<string | null> {
+    const headerEtag = response.headers.get("etag");
+    if (headerEtag) {
+      return headerEtag;
+    }
+    const responseText = await response.text();
+    if (responseText.trim().length === 0) {
+      return null;
+    }
+    try {
+      const responseBody = JSON.parse(responseText) as ExistingSearchIndex;
+      return responseBody["@odata.etag"] ?? null;
+    } catch {
+      throw new Error("SEARCH_RECONCILE_RESPONSE_INVALID");
+    }
   }
 }
 
