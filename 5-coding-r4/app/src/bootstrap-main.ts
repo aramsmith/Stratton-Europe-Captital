@@ -88,6 +88,10 @@ function loadInput(): {
     resolve(migrationDirectory, "003_project_danube_seed.sql"),
     "utf8"
   );
+  const admissionRecovery = readFileSync(
+    resolve(migrationDirectory, "004_project_danube_admission_recovery.sql"),
+    "utf8"
+  );
   const projection = requiredRaw("BOOTSTRAP_PROJECTION_MIGRATION_SQL");
   const routes = parseJson<readonly RouteEvidenceInput[]>("BOOTSTRAP_ROUTES_JSON");
   const searchSchema = parseJson<SearchIndexDefinition>("BOOTSTRAP_SEARCH_SCHEMA_JSON");
@@ -105,6 +109,11 @@ function loadInput(): {
       loadMigration("001_init.sql", initial, expectedHashes),
       loadMigration("002_demo_authority.sql", authority, expectedHashes),
       loadMigration("003_project_danube_seed.sql", projectDanube, expectedHashes),
+      loadMigration(
+        "004_project_danube_admission_recovery.sql",
+        admissionRecovery,
+        expectedHashes
+      ),
       loadMigration("demo-projection.sql", projection, expectedHashes)
     ],
     identityBootstrapSql: required("BOOTSTRAP_IDENTITY_BOOTSTRAP_SQL"),
