@@ -8,13 +8,13 @@ param environmentName = 'dev'
 param openAiLocation = 'westeurope'
 param lunaModelName = 'gpt-5.6-luna'
 param lunaModelVersion = '2026-07-09'
-param lunaModelCapacity = 1
+param lunaModelCapacity = 10
 param terraModelName = 'gpt-5.6-terra'
 param terraModelVersion = '2026-07-09'
-param terraModelCapacity = 1
+param terraModelCapacity = 10
 param solModelName = 'gpt-5.6-sol'
 param solModelVersion = '2026-07-09'
-param solModelCapacity = 1
+param solModelCapacity = 10
 
 param webDelegatedScope = 'api://44444444-4444-4444-4444-444444444444/access_as_user'
 param bffRequiredDelegatedScope = 'access_as_user'

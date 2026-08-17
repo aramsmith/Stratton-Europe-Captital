@@ -177,6 +177,7 @@ export function createOpenAiAdapter(options: CreateOpenAiAdapterOptions): OpenAi
         const request: OpenAiResponseCreateParams = {
           model: deployment.deploymentId,
           store: false,
+          max_output_tokens: 1200,
           input: promptBody,
           text: {
             format: {
