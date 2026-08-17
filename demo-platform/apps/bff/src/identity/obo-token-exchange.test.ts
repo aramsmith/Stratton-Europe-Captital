@@ -87,6 +87,29 @@ describe("createOboTokenExchange", () => {
     expect(fetchImpl).toHaveBeenCalledTimes(2);
   });
 
+  it("classifies managed identity assertion failures", async () => {
+    const credentialError = Object.assign(new Error("credential unavailable"), {
+      cause: { code: "CredentialUnavailableError" }
+    });
+    const exchange = createOboTokenExchange({
+      tokenEndpoint: "https://login.microsoftonline.com/tenant-stratton/oauth2/v2.0/token",
+      phase5DelegatedScope: "api://phase5/access_as_user",
+      clientId: "44444444-4444-4444-4444-444444444444",
+      managedIdentityCredential: {
+        getToken: vi.fn().mockRejectedValue(credentialError)
+      },
+      fetch: vi.fn<typeof fetch>()
+    });
+
+    await expect(
+      exchange.acquirePhase5Token("incoming-user-token")
+    ).rejects.toMatchObject({
+      code: "DEPENDENCY_UNAVAILABLE",
+      message:
+        "MANAGED_IDENTITY_FEDERATED_ASSERTION_FAILED:Error:CredentialUnavailableError"
+    });
+  });
+
   it("rejects client-secret input without exposing secret or assertion values", async () => {
     const incomingAssertion = "incoming-user-assertion-must-not-leak";
     const clientSecret = "client-secret-must-not-leak";

@@ -172,7 +172,16 @@ async function exchangeToken(
   userAssertion: string,
   now: () => number
 ): Promise<{ readonly token: string; readonly expiresAt: number }> {
-  const federatedToken = await credential.getToken(azureAdTokenExchangeScope);
+  let federatedToken: Awaited<ReturnType<FederatedAssertionCredential["getToken"]>>;
+  try {
+    federatedToken = await credential.getToken(azureAdTokenExchangeScope);
+  } catch (error: unknown) {
+    throw new DemoHttpError(
+      503,
+      "DEPENDENCY_UNAVAILABLE",
+      classifyFederatedAssertionFailure(error)
+    );
+  }
   if (!federatedToken?.token) {
     throw new DemoHttpError(
       503,
@@ -212,6 +221,24 @@ async function exchangeToken(
     token: payload.accessToken,
     expiresAt: now() + Math.max(0, payload.expiresIn * 1_000 - cacheSafetyWindowMilliseconds)
   };
+}
+
+function classifyFederatedAssertionFailure(error: unknown): string {
+  if (!(error instanceof Error)) {
+    return "MANAGED_IDENTITY_FEDERATED_ASSERTION_FAILED";
+  }
+
+  const causeCode =
+    typeof error.cause === "object" &&
+    error.cause !== null &&
+    "code" in error.cause &&
+    typeof error.cause.code === "string"
+      ? error.cause.code
+      : undefined;
+
+  return causeCode
+    ? `MANAGED_IDENTITY_FEDERATED_ASSERTION_FAILED:${error.name}:${causeCode}`
+    : `MANAGED_IDENTITY_FEDERATED_ASSERTION_FAILED:${error.name}`;
 }
 
 async function parseTokenResponse(response: Response): Promise<{
