@@ -68,7 +68,8 @@ export async function createBrowserAuthSession(
     }
   });
   await client.initialize();
-  let account = client.getAllAccounts()[0] ?? null;
+  const redirectResult = await client.handleRedirectPromise();
+  const account = redirectResult?.account ?? client.getAllAccounts()[0] ?? null;
 
   return {
     mode: "AZURE",
@@ -76,11 +77,10 @@ export async function createBrowserAuthSession(
       return toBrowserAccount(account);
     },
     async signIn() {
-      const result = await client.loginPopup({
+      await client.loginRedirect({
         scopes: [config.bffScope],
         prompt: "select_account"
       });
-      account = result.account;
     },
     async getAccessToken() {
       if (!account) {
@@ -97,12 +97,11 @@ export async function createBrowserAuthSession(
         if (!(error instanceof InteractionRequiredAuthError)) {
           throw error;
         }
-        const result = await client.acquireTokenPopup({
+        await client.acquireTokenRedirect({
           account,
           scopes: [config.bffScope]
         });
-        account = result.account;
-        return result.accessToken;
+        return undefined;
       }
     }
   };
