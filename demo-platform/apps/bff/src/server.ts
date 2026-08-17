@@ -161,7 +161,10 @@ export function createDemoServer(
           hasForwardedDelegatedToken: Boolean(
             request.header("x-stratton-delegated-token")
           ),
-          hasClientPrincipal: Boolean(request.header("x-ms-client-principal"))
+          hasClientPrincipal: Boolean(request.header("x-ms-client-principal")),
+          clientPrincipalShape: summarizeClientPrincipal(
+            request.header("x-ms-client-principal")
+          )
         });
         next(error);
       });
@@ -188,6 +191,34 @@ export function createDemoServer(
   });
 
   return app;
+}
+
+function summarizeClientPrincipal(
+  encodedPrincipal: string | undefined
+): { readonly authType?: string; readonly claimTypes: readonly string[] } | undefined {
+  if (!encodedPrincipal) {
+    return undefined;
+  }
+
+  try {
+    const decoded = JSON.parse(
+      Buffer.from(encodedPrincipal, "base64").toString("utf8")
+    ) as {
+      readonly auth_typ?: unknown;
+      readonly claims?: readonly { readonly typ?: unknown }[];
+    };
+    return {
+      ...(typeof decoded.auth_typ === "string" ? { authType: decoded.auth_typ } : {}),
+      claimTypes: Array.isArray(decoded.claims)
+        ? decoded.claims
+            .map((claim) => claim.typ)
+            .filter((claimType): claimType is string => typeof claimType === "string")
+            .sort((left, right) => left.localeCompare(right))
+        : []
+    };
+  } catch {
+    return { claimTypes: [] };
+  }
 }
 
 export function createLocalDemoServer(
