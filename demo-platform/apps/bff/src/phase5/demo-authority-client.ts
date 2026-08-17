@@ -343,8 +343,12 @@ async function send<TSchema extends z.ZodType>(
       headers,
       ...(body ? { body: JSON.stringify(body) } : {})
     });
-  } catch {
-    throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE");
+  } catch (error: unknown) {
+    throw new DemoHttpError(
+      503,
+      "DEPENDENCY_UNAVAILABLE",
+      classifyPhase5FetchFailure(error)
+    );
   }
 
   if (!response.ok) {
@@ -355,6 +359,24 @@ async function send<TSchema extends z.ZodType>(
     throw new DemoHttpError(400, "INVALID_CONTRACT", "PHASE5_RESPONSE_CONTRACT_INVALID");
   }
   return parsed.data;
+}
+
+function classifyPhase5FetchFailure(error: unknown): string {
+  if (!(error instanceof Error)) {
+    return "PHASE5_REQUEST_FAILED";
+  }
+
+  const causeCode =
+    typeof error.cause === "object" &&
+    error.cause !== null &&
+    "code" in error.cause &&
+    typeof error.cause.code === "string"
+      ? error.cause.code
+      : undefined;
+
+  return causeCode
+    ? `PHASE5_REQUEST_FAILED:${error.name}:${causeCode}`
+    : `PHASE5_REQUEST_FAILED:${error.name}`;
 }
 
 function createIdempotencyKey(method: string, path: string, body: object): string {

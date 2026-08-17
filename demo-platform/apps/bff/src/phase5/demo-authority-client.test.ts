@@ -251,6 +251,28 @@ describe("createDemoAuthorityClient", () => {
     });
   });
 
+  it("classifies Phase 5 network failures without exposing request data", async () => {
+    const fetchError = Object.assign(new TypeError("fetch failed"), {
+      cause: { code: "ENOTFOUND" }
+    });
+    const client = authorityClient(
+      vi.fn<typeof fetch>().mockRejectedValue(fetchError)
+    );
+
+    await expect(
+      client.admitEvidence({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        evidenceId: "evidence-board-pack",
+        idempotencyKey: "evidence-admission-1",
+        correlationId: "corr-123"
+      })
+    ).rejects.toMatchObject({
+      code: "DEPENDENCY_UNAVAILABLE",
+      message: "PHASE5_REQUEST_FAILED:TypeError:ENOTFOUND"
+    });
+  });
+
   it("derives the same idempotency key for semantically identical bundle input", async () => {
     const fetchImpl = vi.fn<typeof fetch>().mockImplementation(async () =>
       new Response(JSON.stringify(bundle), { status: 202 })
