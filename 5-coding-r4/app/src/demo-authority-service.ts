@@ -302,27 +302,31 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
         if (!envelope || envelope.admissionStatus !== "ADMITTED" || envelope.qualityStatus !== "APPROVED") {
           fail("EVIDENCE_INCOMPLETE", 422);
         }
-        const [object, source] = await Promise.all([
-          repository.getLatestEvidenceObject(input.tenantId, input.caseId, evidenceId),
-          repository.getSource(input.tenantId, input.caseId, envelope.sourceId)
-        ]);
+        const object = await repository.getLatestEvidenceObject(
+          input.tenantId,
+          input.caseId,
+          evidenceId
+        );
+        const source = await repository.getSource(
+          input.tenantId,
+          input.caseId,
+          envelope.sourceId
+        );
         const licence = source
           ? await repository.getLatestExternalLicenceDecision(input.tenantId, input.caseId, source.sourceId)
           : undefined;
-        const processed = await Promise.all([
-          repository.hasProcessedWorkItem(
-            input.tenantId,
-            input.caseId,
-            "REQUEST_EXTRACTION",
-            envelope.payloadReference
-          ),
-          repository.hasProcessedWorkItem(
-            input.tenantId,
-            input.caseId,
-            "REQUEST_INDEXING",
-            envelope.payloadReference
-          )
-        ]);
+        const extractionProcessed = await repository.hasProcessedWorkItem(
+          input.tenantId,
+          input.caseId,
+          "REQUEST_EXTRACTION",
+          envelope.payloadReference
+        );
+        const indexingProcessed = await repository.hasProcessedWorkItem(
+          input.tenantId,
+          input.caseId,
+          "REQUEST_INDEXING",
+          envelope.payloadReference
+        );
         if (
           !object ||
           object.contentHash !== envelope.contentHash ||
@@ -338,7 +342,8 @@ export function createDemoAuthorityService(config: DemoAuthorityServiceConfig) {
           !licence.privacyApproved ||
           !licence.licenceCompatible ||
           licence.purposeId !== envelope.purposeId ||
-          !processed.every(Boolean) ||
+          !extractionProcessed ||
+          !indexingProcessed ||
           !(await repository.isEvidenceVersionReadyForAnalysis(
             input.tenantId,
             input.caseId,
