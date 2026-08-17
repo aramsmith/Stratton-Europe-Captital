@@ -1945,7 +1945,8 @@ export function createApiServer(config: ApiRuntimeConfig): { server: Server } {
       config.logger.log("WARN", "api-request-failed", {
         correlationId,
         code: mapped.code,
-        statusCode: mapped.statusCode
+        statusCode: mapped.statusCode,
+        error: summarizeRequestError(error)
       });
       const payload: ErrorPayload = {
         status: mapped.statusCode,
@@ -1954,6 +1955,28 @@ export function createApiServer(config: ApiRuntimeConfig): { server: Server } {
         correlationId
       };
       toJsonResponse(response, mapped.statusCode, payload, correlationId);
+    }
+
+    function summarizeRequestError(error: unknown): Record<string, unknown> {
+      if (!(error instanceof Error)) {
+        return { type: "UNKNOWN" };
+      }
+      const candidate = error as Error & {
+        code?: unknown;
+        number?: unknown;
+        cause?: { code?: unknown; number?: unknown };
+      };
+      return {
+        type: error.name,
+        ...(typeof candidate.code === "string" ? { code: candidate.code } : {}),
+        ...(typeof candidate.number === "number" ? { number: candidate.number } : {}),
+        ...(typeof candidate.cause?.code === "string"
+          ? { causeCode: candidate.cause.code }
+          : {}),
+        ...(typeof candidate.cause?.number === "number"
+          ? { causeNumber: candidate.cause.number }
+          : {})
+      };
     }
   });
   server.on("close", () => clearInterval(outboxTimer));
