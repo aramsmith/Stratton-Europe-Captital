@@ -12,6 +12,9 @@ import {
   getTrustedRequestContext,
   type TrustedRequestContext
 } from "../identity/request-context.js";
+import { createRedactedLogger } from "../telemetry/redacted-logger.js";
+
+const logger = createRedactedLogger();
 
 const errorSchema = z
   .object({
@@ -352,6 +355,12 @@ async function send<TSchema extends z.ZodType>(
   }
 
   if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      logger.error("phase5.authentication.rejected", {
+        status: response.status,
+        tokenClaims: summarizeAccessTokenClaims(accessToken)
+      });
+    }
     throw await mapAuthorityError(response);
   }
   const parsed = responseSchema.safeParse(await parseJson(response));
@@ -359,6 +368,26 @@ async function send<TSchema extends z.ZodType>(
     throw new DemoHttpError(400, "INVALID_CONTRACT", "PHASE5_RESPONSE_CONTRACT_INVALID");
   }
   return parsed.data;
+}
+
+function summarizeAccessTokenClaims(token: string): Record<string, unknown> {
+  try {
+    const encodedPayload = token.split(".")[1];
+    if (!encodedPayload) {
+      return { parseStatus: "MALFORMED" };
+    }
+    const payload = JSON.parse(
+      Buffer.from(encodedPayload, "base64url").toString("utf8")
+    ) as Record<string, unknown>;
+    const safeClaims = ["aud", "azp", "appid", "scp", "roles", "tid", "idtyp", "ver"];
+    return Object.fromEntries(
+      safeClaims
+        .filter((claim) => claim in payload)
+        .map((claim) => [claim, payload[claim]])
+    );
+  } catch {
+    return { parseStatus: "INVALID" };
+  }
 }
 
 function classifyPhase5FetchFailure(error: unknown): string {
