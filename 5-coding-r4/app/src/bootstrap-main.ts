@@ -96,6 +96,10 @@ function loadInput(): {
     resolve(migrationDirectory, "005_project_danube_extraction_recovery.sql"),
     "utf8"
   );
+  const processingReceipts = readFileSync(
+    resolve(migrationDirectory, "006_project_danube_processing_receipts.sql"),
+    "utf8"
+  );
   const projection = requiredRaw("BOOTSTRAP_PROJECTION_MIGRATION_SQL");
   const routes = parseJson<readonly RouteEvidenceInput[]>("BOOTSTRAP_ROUTES_JSON");
   const searchSchema = parseJson<SearchIndexDefinition>("BOOTSTRAP_SEARCH_SCHEMA_JSON");
@@ -121,6 +125,11 @@ function loadInput(): {
       loadMigration(
         "005_project_danube_extraction_recovery.sql",
         extractionRecovery,
+        expectedHashes
+      ),
+      loadMigration(
+        "006_project_danube_processing_receipts.sql",
+        processingReceipts,
         expectedHashes
       ),
       loadMigration("demo-projection.sql", projection, expectedHashes)
