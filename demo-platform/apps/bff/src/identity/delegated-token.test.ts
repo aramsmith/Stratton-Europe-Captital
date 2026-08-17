@@ -26,6 +26,28 @@ function requestWithAccessToken(accessToken?: string, duplicate = false): Reques
   } as Request;
 }
 
+function requestWithForwardedAccessToken(
+  forwardedAccessToken: string,
+  directAccessToken?: string
+): Request {
+  const authorization = directAccessToken ? `Bearer ${directAccessToken}` : undefined;
+  return {
+    header: (name: string) => {
+      if (name.toLowerCase() === "authorization") {
+        return authorization;
+      }
+      return name.toLowerCase() === "x-stratton-delegated-token"
+        ? forwardedAccessToken
+        : undefined;
+    },
+    rawHeaders: [
+      ...(authorization ? ["Authorization", authorization] : []),
+      "X-Stratton-Delegated-Token",
+      forwardedAccessToken
+    ]
+  } as Request;
+}
+
 function verifiedClaims(
   overrides: Partial<VerifiedAccessTokenClaims> = {}
 ): VerifiedAccessTokenClaims {
@@ -89,6 +111,35 @@ describe("resolveDelegatedUserToken", () => {
     await expect(
       resolveDelegatedUserToken(
         requestWithAccessToken("signed-user-jwt", true),
+        policy,
+        verifier()
+      )
+    ).rejects.toMatchObject({
+      status: 401,
+      code: "UNAUTHENTICATED"
+    });
+  });
+
+  it("accepts the verified delegated token forwarded through Container Apps Easy Auth", async () => {
+    const tokenVerifier = verifier();
+
+    await expect(
+      resolveDelegatedUserToken(
+        requestWithForwardedAccessToken("signed-user-jwt"),
+        policy,
+        tokenVerifier
+      )
+    ).resolves.toMatchObject({
+      accessToken: "signed-user-jwt",
+      actorId: "human-object-id"
+    });
+    expect(tokenVerifier.verify).toHaveBeenCalledWith("signed-user-jwt");
+  });
+
+  it("rejects mismatched direct and forwarded delegated tokens", async () => {
+    await expect(
+      resolveDelegatedUserToken(
+        requestWithForwardedAccessToken("different-forwarded-jwt", "direct-jwt"),
         policy,
         verifier()
       )

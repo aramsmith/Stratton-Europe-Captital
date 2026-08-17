@@ -109,6 +109,7 @@ export function createProductionWebServer(options: CreateProductionWebServerOpti
 
     const upstreamHeaders: Record<string, string> = {
       authorization,
+      "x-stratton-delegated-token": authorization.slice("Bearer ".length),
       accept: request.header("accept") ?? "application/json"
     };
     copyHeader(request, upstreamHeaders, "content-type");

@@ -51,6 +51,7 @@ describe("production web server", () => {
         method: "POST",
         headers: expect.objectContaining({
           authorization: `Bearer ${delegatedAccessToken}`,
+          "x-stratton-delegated-token": delegatedAccessToken,
           "content-type": "application/json"
         }),
         body: expect.any(Buffer)
@@ -62,6 +63,7 @@ describe("production web server", () => {
       JSON.stringify({ fixture: "BASELINE" })
     );
     expect(forwardedHeaders["authorization"]).toBe(`Bearer ${delegatedAccessToken}`);
+    expect(forwardedHeaders["x-stratton-delegated-token"]).toBe(delegatedAccessToken);
     expect(forwardedHeaders["x-ms-client-principal"]).toBeUndefined();
     expect(forwardedHeaders["x-stratton-forwarded-principal"]).toBeUndefined();
   });

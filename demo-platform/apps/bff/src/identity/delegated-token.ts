@@ -92,20 +92,49 @@ export async function resolveDelegatedUserToken(
 function readSingleBearerAccessToken(
   request: Pick<Request, "header" | "rawHeaders">
 ): string | undefined {
-  const values: string[] = [];
-  for (let index = 0; index < request.rawHeaders.length; index += 2) {
-    if (request.rawHeaders[index]?.toLowerCase() === "authorization") {
-      values.push(request.rawHeaders[index + 1] ?? "");
-    }
-  }
-  if (values.length !== 1) {
+  const directAccessToken = readDirectBearerAccessToken(request);
+  const forwardedValues = readRawHeaderValues(
+    request.rawHeaders,
+    "x-stratton-delegated-token"
+  );
+  if (forwardedValues.length > 1) {
     return undefined;
   }
 
-  const authorization = values[0];
+  const forwardedAccessToken = forwardedValues[0]?.trim() || undefined;
+  if (
+    directAccessToken &&
+    forwardedAccessToken &&
+    directAccessToken !== forwardedAccessToken
+  ) {
+    return undefined;
+  }
+
+  return directAccessToken ?? forwardedAccessToken;
+}
+
+function readDirectBearerAccessToken(
+  request: Pick<Request, "header" | "rawHeaders">
+): string | undefined {
+  const authorizationValues = readRawHeaderValues(request.rawHeaders, "authorization");
+  if (authorizationValues.length > 1) {
+    return undefined;
+  }
+
+  const authorization = authorizationValues[0];
   return authorization
     ? /^Bearer ([A-Za-z0-9\-._~+/]+=*)$/iu.exec(authorization)?.[1]
     : undefined;
+}
+
+function readRawHeaderValues(rawHeaders: readonly string[], name: string): string[] {
+  const values: string[] = [];
+  for (let index = 0; index < rawHeaders.length; index += 2) {
+    if (rawHeaders[index]?.toLowerCase() === name) {
+      values.push(rawHeaders[index + 1] ?? "");
+    }
+  }
+  return values;
 }
 
 function requiredClaim(value: string | undefined): string {
