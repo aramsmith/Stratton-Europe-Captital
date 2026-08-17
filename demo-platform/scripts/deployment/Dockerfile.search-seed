@@ -1,0 +1,7 @@
+ARG BFF_IMAGE=strattondemoacrkbzq6rtrjwpb4.azurecr.io/stratton/demo-bff@sha256:b55366a435ca92dd490b4c9900749d16bca3ced685ae2b6d26438bbe001a988f
+FROM ${BFF_IMAGE}
+
+COPY --chown=node:node scripts/deployment/seed-search.mjs /workspace/seed-search.mjs
+COPY --chown=node:node packages/scenario-data/evidence /workspace/evidence
+
+CMD ["node", "/workspace/seed-search.mjs"]
