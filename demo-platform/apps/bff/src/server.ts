@@ -123,10 +123,13 @@ export function createDemoServer(
 
   app.use(express.json());
   app.use("/api", (request, response, next) => {
+    let identityBoundaryStage = "container-principal";
     void security.identityResolver
       .resolve(request)
       .then((identity) => {
+        identityBoundaryStage = "delegated-token";
         return security.identityResolver.resolveDelegatedToken(request).then((delegatedUserToken) => {
+          identityBoundaryStage = "principal-match";
           if (
             delegatedUserToken.tenantId !== identity.tenantId ||
             delegatedUserToken.actorId !== identity.actorId
@@ -153,6 +156,7 @@ export function createDemoServer(
         security.logger?.error("identity.boundary.rejected", {
           errorClass: error instanceof DemoHttpError ? error.code : "UNEXPECTED_ERROR",
           reason: error instanceof Error ? error.message : "UNKNOWN",
+          stage: identityBoundaryStage,
           hasAuthorization: Boolean(request.header("authorization")),
           hasForwardedDelegatedToken: Boolean(
             request.header("x-stratton-delegated-token")
