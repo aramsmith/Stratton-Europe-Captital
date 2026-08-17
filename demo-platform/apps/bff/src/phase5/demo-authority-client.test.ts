@@ -273,6 +273,27 @@ describe("createDemoAuthorityClient", () => {
     });
   });
 
+  it("preserves the Phase 5 HTTP status when Easy Auth returns a non-contract response", async () => {
+    const client = authorityClient(
+      vi.fn<typeof fetch>().mockResolvedValue(
+        new Response("unauthorized", { status: 401 })
+      )
+    );
+
+    await expect(
+      client.admitEvidence({
+        tenantId: "tenant-stratton",
+        caseId: "project-danube",
+        evidenceId: "evidence-board-pack",
+        idempotencyKey: "evidence-admission-1",
+        correlationId: "corr-123"
+      })
+    ).rejects.toMatchObject({
+      code: "DEPENDENCY_UNAVAILABLE",
+      message: "PHASE5_HTTP_401"
+    });
+  });
+
   it("derives the same idempotency key for semantically identical bundle input", async () => {
     const fetchImpl = vi.fn<typeof fetch>().mockImplementation(async () =>
       new Response(JSON.stringify(bundle), { status: 202 })

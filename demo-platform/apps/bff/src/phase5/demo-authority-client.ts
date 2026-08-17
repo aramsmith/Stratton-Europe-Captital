@@ -440,9 +440,17 @@ async function parseJson(response: Response): Promise<unknown> {
 }
 
 async function mapAuthorityError(response: Response): Promise<DemoApiError> {
-  const result = errorSchema.safeParse(await parseJson(response));
-  if (result.success) {
-    return result.data;
+  try {
+    const result = errorSchema.safeParse(await parseJson(response));
+    if (result.success) {
+      return result.data;
+    }
+  } catch {
+    // Preserve only the upstream status; never return the authority response body.
   }
-  throw new DemoHttpError(503, "DEPENDENCY_UNAVAILABLE");
+  throw new DemoHttpError(
+    503,
+    "DEPENDENCY_UNAVAILABLE",
+    `PHASE5_HTTP_${response.status}`
+  );
 }
