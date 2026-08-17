@@ -10,6 +10,7 @@ const transitions: Readonly<Record<CaseStatus, Partial<Record<CaseEvent, CaseSta
     PROMOTE_EVIDENCE: "EVIDENCE_ADMITTED"
   },
   EVIDENCE_ADMITTED: {
+    PROMOTE_EVIDENCE: "EVIDENCE_ADMITTED",
     REQUEST_ANALYSIS: "ANALYSIS_REQUESTED"
   },
   ANALYSIS_REQUESTED: {

@@ -69,6 +69,18 @@ test("state machine excludes final approval states", () => {
   assert.equal(state.nextStatus, "DRAFT_RECOMMENDATION_READY");
 });
 
+test("state machine permits additional evidence admission", () => {
+  const state = transitionCaseState({
+    tenantId: "tenant",
+    caseId: "case",
+    currentStatus: "EVIDENCE_ADMITTED",
+    event: "PROMOTE_EVIDENCE",
+    evidence: baseEvidence()
+  });
+  assert.equal(state.allowed, true);
+  assert.equal(state.nextStatus, "EVIDENCE_ADMITTED");
+});
+
 test("state machine blocks unsupported transitions", () => {
   const state = transitionCaseState({
     tenantId: "tenant",
