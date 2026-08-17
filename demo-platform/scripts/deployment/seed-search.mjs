@@ -8,7 +8,10 @@ const clientId = required("AZURE_MANAGED_IDENTITY_CLIENT_ID");
 const credential = new ManagedIdentityCredential({ clientId });
 const indexClient = new SearchIndexClient(endpoint, credential);
 
-await indexClient.createOrUpdateIndex({
+if (await indexExists(indexName)) {
+  await indexClient.deleteIndex(indexName);
+}
+await indexClient.createIndex({
   name: indexName,
   fields: [
     { name: "chunkId", type: "Edm.String", key: true, filterable: true },
@@ -50,6 +53,18 @@ if (result.results.some((entry) => !entry.succeeded)) {
   throw new Error("SEARCH_DOCUMENT_SEED_FAILED");
 }
 console.info(JSON.stringify({ event: "search.seeded", documentCount: documents.length }));
+
+async function indexExists(name) {
+  try {
+    await indexClient.getIndex(name);
+    return true;
+  } catch (error) {
+    if (error?.statusCode === 404) {
+      return false;
+    }
+    throw error;
+  }
+}
 
 function required(name) {
   const value = process.env[name]?.trim();
