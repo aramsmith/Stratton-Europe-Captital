@@ -742,13 +742,21 @@
           <h3>Prepare draft</h3>
           <p>A draft-only committee pack is prepared. No investment decision is issued.</p>
         </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 12h13M13 7l5 5-5 5" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M4 5h6M4 19h6" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          <h3>Submit pack</h3>
+          <p>A human operator records delivery to the committee and completes the demo.</p>
+        </div>
       </div>
       <div class="callout">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M12 3 3 20h18L12 3Z" stroke="currentColor" stroke-width="1.8"/>
           <path d="M12 9v5M12 17h.01" stroke="currentColor" stroke-width="1.8"/>
         </svg>
-        <p><strong>Authority boundary:</strong> the system demonstrates evidence-to-decision preparation, not automated investment approval. “Submit to committee” remains disabled.</p>
+        <p><strong>Authority boundary:</strong> the system records that a governed pack was submitted to the committee. It never records or implies an investment approval.</p>
       </div>
     </section>
 
@@ -967,16 +975,6 @@ Audit export: NOT_READY</pre>
         <article class="manual-step">
           <span class="step-index">14</span>
           <div class="step-copy">
-            <h3>Prepare the draft committee pack</h3>
-            <p><strong>Click:</strong> <span class="ui-control">Prepare committee pack</span>.</p>
-            <p><strong>Why:</strong> this assembles only accepted findings with current specialist approvals and current security-gate evidence into a draft recommendation.</p>
-            <p class="step-result"><strong>Continue when:</strong> the stage becomes <strong>COMMITTEE_PREPARATION</strong>. Confirm that <span class="ui-control">Submit to committee</span> remains disabled because final submission is human-only.</p>
-          </div>
-        </article>
-
-        <article class="manual-step">
-          <span class="step-index">15</span>
-          <div class="step-copy">
             <h3>Verify governance lineage and routing</h3>
             <p><strong>Click:</strong> <span class="ui-control">Governance &amp; Assurance Console</span>, then inspect <span class="ui-control">Lineage</span>, <span class="ui-control">Policy decisions</span>, and <span class="ui-control">Model routes</span>.</p>
             <p><strong>Why:</strong> these tabs prove the relationship between admitted evidence, the immutable bundle, model routing, human decisions, and the prepared draft.</p>
@@ -985,12 +983,32 @@ Audit export: NOT_READY</pre>
         </article>
 
         <article class="manual-step">
-          <span class="step-index">16</span>
+          <span class="step-index">15</span>
           <div class="step-copy">
             <h3>Confirm the audit-ready outcome</h3>
             <p><strong>Click:</strong> the <span class="ui-control">Security &amp; audit</span> tab again and review <strong>Audit export preview</strong>.</p>
-            <p><strong>Why:</strong> audit readiness is the final proof that lineage, policy decisions, model routes, security evidence, reviews, and committee preparation are complete.</p>
-            <p class="step-result"><strong>Finish when:</strong> the export shows <strong>READY</strong>, all twelve gates show <strong>PASS</strong>, and <strong>Internal Audit verdict: Not issued</strong> remains visible.</p>
+            <p><strong>Why:</strong> audit readiness proves that lineage, policy decisions, model routes, security evidence, and specialist reviews are complete before the pack is prepared.</p>
+            <p class="step-result"><strong>Continue when:</strong> the export shows <strong>READY</strong>, all twelve gates show <strong>PASS</strong>, and <strong>Internal Audit verdict: Not issued</strong> remains visible.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">16</span>
+          <div class="step-copy">
+            <h3>Prepare the draft committee pack</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Investment Decision Room</span>, then <span class="ui-control">Prepare committee pack</span>.</p>
+            <p><strong>Why:</strong> this assembles only accepted findings with current specialist approvals and current security-gate evidence into a draft recommendation.</p>
+            <p class="step-result"><strong>Continue when:</strong> the stage becomes <strong>COMMITTEE_PREPARATION</strong> and <span class="ui-control">Submit to committee</span> becomes enabled.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">17</span>
+          <div class="step-copy">
+            <h3>Submit the governed committee pack</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Submit to committee</span>.</p>
+            <p><strong>Why:</strong> this human-only action records delivery of the prepared package without creating an investment approval.</p>
+            <p class="step-result"><strong>Finish when:</strong> the page confirms <strong>Committee pack submitted successfully. The Stratton demo is complete.</strong></p>
           </div>
         </article>
       </div>
