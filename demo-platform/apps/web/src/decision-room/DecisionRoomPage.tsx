@@ -64,10 +64,21 @@ const useStyles = makeStyles({
     boxShadow: tokens.shadow2,
     ...shorthands.padding(tokens.spacingHorizontalL, tokens.spacingVerticalL)
   },
-  workspaceGrid: {
+  decisionWorkspace: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-    gap: tokens.spacingHorizontalL
+    gridTemplateColumns: "minmax(0, 1.65fr) minmax(320px, 0.75fr)",
+    gap: "24px",
+    alignItems: "start",
+    "@media (max-width: 1120px)": {
+      gridTemplateColumns: "minmax(0, 1fr)"
+    }
+  },
+  actionColumn: {
+    position: "sticky",
+    top: "24px",
+    "@media (max-width: 1120px)": {
+      position: "static"
+    }
   },
   badgeRow: {
     display: "flex",
@@ -166,19 +177,22 @@ export function DecisionRoomPage({
 
       <MaterialClaimsTable evidenceById={evidenceById} findings={acceptedMaterialFindings} />
 
-      <div className={styles.workspaceGrid}>
+      <div aria-label="Decision workflow columns" className={styles.decisionWorkspace}>
         <ReviewChecklist caseId={scenario.caseId} items={reviewItems} onSubmitReview={onSubmitReview} />
-        <RecommendationDraft
-          caseId={scenario.caseId}
-          currentStage={scenario.stage}
-          evidenceById={evidenceById}
-          isReady={isReady}
-          materialFindings={acceptedMaterialFindings}
-          onPrepareRecommendation={onPrepareRecommendation}
-          openConditions={openConditions}
-        />
-        <AuditTimeline events={scenario.governanceEvents} />
+        <div className={styles.actionColumn}>
+          <RecommendationDraft
+            caseId={scenario.caseId}
+            currentStage={scenario.stage}
+            evidenceById={evidenceById}
+            isReady={isReady}
+            materialFindings={acceptedMaterialFindings}
+            onPrepareRecommendation={onPrepareRecommendation}
+            openConditions={openConditions}
+          />
+        </div>
       </div>
+
+      <AuditTimeline events={scenario.governanceEvents} />
     </div>
   );
 }

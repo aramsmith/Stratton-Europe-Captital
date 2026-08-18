@@ -21,19 +21,57 @@ import { StatusBadge } from "../shared/StatusBadge.js";
 const useStyles = makeStyles({
   card: {
     display: "grid",
-    gap: tokens.spacingVerticalM,
-    ...shorthands.padding(tokens.spacingHorizontalL, tokens.spacingVerticalL)
+    overflow: "hidden"
+  },
+  header: {
+    display: "grid",
+    gap: tokens.spacingVerticalXS,
+    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
+    ...shorthands.padding(tokens.spacingVerticalL, tokens.spacingHorizontalL)
+  },
+  columnHeader: {
+    display: "grid",
+    gridTemplateColumns: "minmax(190px, 0.85fr) minmax(260px, 1.4fr) minmax(168px, 0.65fr)",
+    gap: tokens.spacingHorizontalL,
+    color: tokens.colorNeutralForeground3,
+    fontSize: "11px",
+    fontWeight: 700,
+    letterSpacing: "0.06em",
+    textTransform: "uppercase",
+    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
+    ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalL),
+    "@media (max-width: 900px)": {
+      display: "none"
+    }
   },
   reviewList: {
     display: "grid",
-    gap: tokens.spacingVerticalM
+    gap: 0
+  },
+  emptyState: {
+    color: tokens.colorNeutralForeground2,
+    backgroundColor: tokens.colorNeutralBackground2,
+    ...shorthands.padding(tokens.spacingVerticalL, tokens.spacingHorizontalL)
   },
   reviewRow: {
     display: "grid",
+    gridTemplateColumns: "minmax(190px, 0.85fr) minmax(260px, 1.4fr) minmax(168px, 0.65fr)",
+    gap: tokens.spacingHorizontalL,
+    alignItems: "center",
+    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
+    ...shorthands.padding(tokens.spacingVerticalL, tokens.spacingHorizontalL),
+    ":last-child": {
+      borderBottomStyle: "none"
+    },
+    "@media (max-width: 900px)": {
+      gridTemplateColumns: "minmax(0, 1fr)",
+      gap: tokens.spacingVerticalM
+    }
+  },
+  reviewIdentity: {
+    display: "grid",
     gap: tokens.spacingVerticalS,
-    backgroundColor: tokens.colorNeutralBackground2,
-    ...shorthands.padding(tokens.spacingVerticalM, tokens.spacingHorizontalM),
-    ...shorthands.borderRadius(tokens.borderRadiusLarge)
+    alignSelf: "start"
   },
   badgeRow: {
     display: "flex",
@@ -41,13 +79,26 @@ const useStyles = makeStyles({
     gap: tokens.spacingHorizontalS,
     alignItems: "center"
   },
-  actionRow: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: tokens.spacingHorizontalS
+  rationaleField: {
+    minWidth: 0,
+    "& textarea": {
+      minHeight: "88px"
+    }
+  },
+  actionCell: {
+    display: "grid",
+    gap: tokens.spacingVerticalS,
+    alignSelf: "stretch",
+    alignContent: "center",
+    "& button": {
+      width: "100%",
+      minHeight: "40px"
+    }
   },
   alert: {
-    color: tokens.colorPaletteRedForeground1
+    color: tokens.colorPaletteRedForeground1,
+    borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
+    ...shorthands.padding(tokens.spacingVerticalM, tokens.spacingHorizontalL)
   }
 });
 
@@ -108,15 +159,29 @@ export function ReviewChecklist({
   };
 
   return (
-    <Card className={styles.card}>
-      <Title3 as="h3">Required specialist reviews</Title3>
-      <Caption1>
-        Deal, Legal, and Compliance approvals must all be recorded before the draft may be
-        prepared.
-      </Caption1>
+    <Card aria-label="Specialist review matrix" className={styles.card}>
+      <div className={styles.header}>
+        <Title3 as="h3">Required specialist reviews</Title3>
+        <Caption1>
+          Deal, Legal, and Compliance approvals must all be recorded before the draft may be
+          prepared.
+        </Caption1>
+      </div>
 
-      <div className={styles.reviewList}>
-        {items.map((item) => {
+      {items.length === 0 ? (
+        <Caption1 className={styles.emptyState}>
+          Specialist reviews will appear after an eligible material finding is accepted.
+        </Caption1>
+      ) : (
+        <>
+          <div aria-hidden="true" className={styles.columnHeader}>
+            <span>Review and status</span>
+            <span>Rationale</span>
+            <span>Action</span>
+          </div>
+
+          <div className={styles.reviewList}>
+            {items.map((item) => {
           const label = formatReviewType(item.reviewType);
           const isApproved = item.status === "APPROVED";
           const isBlocked = item.status === "BLOCKED";
@@ -125,19 +190,21 @@ export function ReviewChecklist({
 
           return (
             <div className={styles.reviewRow} key={reviewKey}>
-              <Body1Strong>{label} review</Body1Strong>
-              <div className={styles.badgeRow}>
-                <StatusBadge label={item.status} status={item.status} />
+              <div className={styles.reviewIdentity}>
+                <Body1Strong>{label} review</Body1Strong>
+                <div className={styles.badgeRow}>
+                  <StatusBadge label={item.status} status={item.status} />
+                </div>
                 <Caption1>{item.findingTitle}</Caption1>
+                <Caption1>
+                  {isApproved
+                    ? `${label} review approved`
+                    : isBlocked
+                      ? `${label} review blocked until an accepted eligible finding is available`
+                      : `${label} review required`}
+                </Caption1>
               </div>
-              <Caption1>
-                {isApproved
-                  ? `${label} review approved`
-                  : isBlocked
-                    ? `${label} review blocked until an accepted eligible finding is available`
-                    : `${label} review required`}
-              </Caption1>
-              <Field label={`${label} review rationale`}>
+              <Field className={styles.rationaleField} label={`${label} review rationale`}>
                 <Textarea
                   disabled={isApproved || isBlocked || isPending}
                   onChange={(_, data) =>
@@ -150,12 +217,15 @@ export function ReviewChecklist({
                   value={rationales[item.reviewType]}
                 />
               </Field>
-              <div className={styles.actionRow}>
-                {!isBlocked ? (
+              <div className={styles.actionCell}>
+                {isApproved ? (
+                  <Button disabled>{label} approved</Button>
+                ) : isBlocked ? (
+                  <Button disabled>Awaiting accepted finding</Button>
+                ) : (
                   <Button
                     appearance="primary"
                     disabled={
-                      isApproved ||
                       isPending ||
                       !item.findingId ||
                       !item.subjectVersion ||
@@ -165,12 +235,14 @@ export function ReviewChecklist({
                   >
                     {isPending ? "Approving..." : `Approve ${label} review`}
                   </Button>
-                ) : null}
+                )}
               </div>
             </div>
           );
-        })}
-      </div>
+            })}
+          </div>
+        </>
+      )}
 
       {error ? (
         <Caption1 className={styles.alert} role="alert">

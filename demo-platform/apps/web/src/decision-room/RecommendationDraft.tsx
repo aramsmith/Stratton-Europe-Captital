@@ -15,12 +15,23 @@ import type {
   RecommendationPreparationRequest
 } from "@stratton/contracts";
 import { useState } from "react";
+import { StatusBadge } from "../shared/StatusBadge.js";
 
 const useStyles = makeStyles({
   card: {
     display: "grid",
-    gap: tokens.spacingVerticalM,
+    gap: tokens.spacingVerticalL,
     ...shorthands.padding(tokens.spacingHorizontalL, tokens.spacingVerticalL)
+  },
+  header: {
+    display: "grid",
+    gap: tokens.spacingVerticalS
+  },
+  readiness: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: tokens.spacingHorizontalS,
+    alignItems: "center"
   },
   claimList: {
     display: "grid",
@@ -34,10 +45,16 @@ const useStyles = makeStyles({
     margin: 0,
     paddingLeft: tokens.spacingHorizontalM
   },
-  actionRow: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: tokens.spacingHorizontalS
+  actionRail: {
+    display: "grid",
+    gap: tokens.spacingVerticalS,
+    backgroundColor: tokens.colorNeutralBackground2,
+    ...shorthands.padding(tokens.spacingVerticalM, tokens.spacingHorizontalM),
+    ...shorthands.borderRadius(tokens.borderRadiusLarge),
+    "& button": {
+      width: "100%",
+      minHeight: "42px"
+    }
   },
   alert: {
     color: tokens.colorPaletteRedForeground1
@@ -86,14 +103,34 @@ export function RecommendationDraft({
 
   return (
     <Card className={styles.card}>
-      <Title3 as="h3">Conditional recommendation draft</Title3>
-      <Body1>
-        AI assembled this draft from reviewed findings. It cannot issue an investment decision.
-      </Body1>
-      <Caption1>
-        The draft remains conditional until the specialist checklist is approved and the human
-        committee decides outside this workflow.
-      </Caption1>
+      <div className={styles.header}>
+        <Title3 as="h3">Committee pack controls</Title3>
+        <Body1>
+          AI assembled this draft from reviewed findings. It cannot issue an investment decision.
+        </Body1>
+        <div className={styles.readiness}>
+          <StatusBadge
+            label={isReady ? "READY TO PREPARE" : `${openConditions.length} OPEN CONDITIONS`}
+            status={isReady ? "READY" : "BLOCKED"}
+          />
+          <Caption1>Current stage: {currentStage}</Caption1>
+        </div>
+      </div>
+
+      <div aria-label="Committee pack actions" className={styles.actionRail}>
+        <Button
+          appearance="primary"
+          disabled={!isReady || isPreparing || !onPrepareRecommendation}
+          onClick={() => void handlePrepareRecommendation()}
+          size="large"
+        >
+          {isPreparing ? "Preparing..." : "Prepare committee pack"}
+        </Button>
+        <Button disabled size="large">Submit to committee</Button>
+        <Caption1>
+          Committee submission remains a human-only step outside this demo platform.
+        </Caption1>
+      </div>
 
       {openConditions.length > 0 ? (
         <div>
@@ -138,22 +175,6 @@ export function RecommendationDraft({
           ))}
         </ol>
       )}
-
-      <div className={styles.actionRow}>
-        <Button
-          appearance="primary"
-          disabled={!isReady || isPreparing || !onPrepareRecommendation}
-          onClick={() => void handlePrepareRecommendation()}
-        >
-          {isPreparing ? "Preparing..." : "Prepare committee pack"}
-        </Button>
-        <Button disabled>Submit to committee</Button>
-      </div>
-
-      <Caption1>
-        Current scenario stage: {currentStage}. Committee submission is a human-only step outside
-        this demo platform.
-      </Caption1>
 
       {error ? (
         <Caption1 className={styles.alert} role="alert">

@@ -359,6 +359,9 @@ describe("DecisionRoomPage", () => {
 
     expect(screen.getByRole("heading", { name: "Investment Decision Room" })).toBeVisible();
     expect(screen.getByText("Committee preparation")).toBeVisible();
+    expect(screen.getByLabelText("Decision workflow columns")).toBeVisible();
+    expect(screen.getByLabelText("Specialist review matrix")).toBeVisible();
+    expect(screen.getByLabelText("Committee pack actions")).toBeVisible();
     expect(screen.getByRole("columnheader", { name: "Claim" })).toBeVisible();
     expect(screen.getByRole("columnheader", { name: "Evidence" })).toBeVisible();
     expect(screen.getByRole("columnheader", { name: "Owner" })).toBeVisible();
