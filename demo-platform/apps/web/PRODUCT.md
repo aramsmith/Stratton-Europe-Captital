@@ -24,8 +24,8 @@ preparation to authoritative versions so assurance is current, inspectable, and 
 
 ## Operating Context
 
-Users work across three connected workspaces: AI Deal Workbench, Investment Decision Room, and
-Governance & Assurance Console. The primary scenario is the synthetic Project Danube private-equity
+Users work across three connected workspaces: AI Deal Workbench, Governance & Assurance Console,
+and Investment Decision Room. The primary scenario is the synthetic Project Danube private-equity
 opportunity. The application is used as a live Azure demonstration and as an operating interface for
 reviewing evidence, findings, approvals, security gates, lineage, and audit-export readiness.
 

@@ -28,14 +28,14 @@ export const workspaceDefinitions = [
     summary: "Governed evidence intake, provenance, comparison, and analyst-ready findings."
   },
   {
-    path: "/decision-room",
-    label: "Investment Decision Room",
-    summary: "Material finding challenge, review readiness, and committee-pack preparation controls."
-  },
-  {
     path: "/governance",
     label: "Governance & Assurance Console",
     summary: "Lineage, policy, route evidence, security gates, and audit-export readiness for the approved demo journey."
+  },
+  {
+    path: "/decision-room",
+    label: "Investment Decision Room",
+    summary: "Material finding challenge, review readiness, and committee-pack preparation controls."
   }
 ] as const satisfies readonly WorkspaceDefinition[];
 
@@ -86,6 +86,16 @@ export function AppRoutes({
         }
       />
       <Route
+        path="/governance"
+        element={
+          <GovernanceRoute
+            scenario={scenario}
+            loadGovernanceView={loadGovernanceView}
+            onRunSecurityGateSuite={onRunSecurityGateSuite}
+          />
+        }
+      />
+      <Route
         path="/decision-room"
         element={
           <DecisionRoomRoute
@@ -93,16 +103,6 @@ export function AppRoutes({
             onPrepareRecommendation={onPrepareRecommendation}
             onSubmitCommitteePack={onSubmitCommitteePack}
             onSubmitReview={onSubmitReview}
-          />
-        }
-      />
-      <Route
-        path="/governance"
-        element={
-          <GovernanceRoute
-            scenario={scenario}
-            loadGovernanceView={loadGovernanceView}
-            onRunSecurityGateSuite={onRunSecurityGateSuite}
           />
         }
       />

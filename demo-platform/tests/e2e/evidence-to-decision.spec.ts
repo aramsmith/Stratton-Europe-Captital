@@ -244,9 +244,9 @@ test.describe("Stratton evidence-to-decision demo", () => {
     await pressKeyTimes(page, "Tab", 1);
     await expect(page.getByRole("link", { name: "AI Deal Workbench" })).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(page.getByRole("link", { name: "Investment Decision Room" })).toBeFocused();
-    await page.keyboard.press("ArrowDown");
     await expect(page.getByRole("link", { name: "Governance & Assurance Console" })).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(page.getByRole("link", { name: "Investment Decision Room" })).toBeFocused();
 
     await page.goto("/workbench");
     const ebitdaFinding = page.getByRole("article", { name: "Adjusted EBITDA quality" });

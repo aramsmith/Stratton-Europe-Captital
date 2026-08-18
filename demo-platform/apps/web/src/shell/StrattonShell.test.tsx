@@ -38,6 +38,15 @@ describe("StrattonShell", () => {
     expect(screen.getByRole("link", { name: "Governance & Assurance Console" })).toBeVisible();
     expect(screen.getByText("Aram Smith")).toBeVisible();
     expect(screen.getByText("Authenticated user")).toBeVisible();
+
+    const workspaceLinks = screen.getByRole("navigation", {
+      name: "Stratton demo workspaces"
+    }).querySelectorAll("a");
+    expect(Array.from(workspaceLinks, (link) => link.textContent)).toEqual([
+      expect.stringContaining("AI Deal Workbench"),
+      expect.stringContaining("Governance & Assurance Console"),
+      expect.stringContaining("Investment Decision Room")
+    ]);
   });
 
   it("marks the selected workspace as the current page", () => {
