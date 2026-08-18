@@ -2,7 +2,10 @@ import { createHash, randomUUID } from "node:crypto";
 import { computeAuditHash } from "./audit-outbox.js";
 import { evaluateCitationAssessment } from "./claim-lineage-service.js";
 import { InMemoryIdempotencyStore, SqlIdempotencyStore } from "./idempotency-store.js";
-import { canonicalQueueMessage } from "./queue-outbox-dispatcher.js";
+import {
+  canonicalQueueMessage,
+  canonicalQueueMessageIdentity
+} from "./queue-outbox-dispatcher.js";
 import type { SqlExecutor } from "./sql-client.js";
 import type {
   AnalysisRunRecord,
@@ -625,7 +628,11 @@ export class InMemoryWorkloadRepository implements WorkloadRepository {
     const canonicalBody = canonicalQueueMessage(message);
     const existing = this.queueOutbox.get(key);
     if (existing) {
-      if (existing.canonicalBody !== canonicalBody) {
+      const existingMessage = JSON.parse(existing.canonicalBody) as QueueMessage;
+      if (
+        canonicalQueueMessageIdentity(existingMessage) !==
+        canonicalQueueMessageIdentity(message)
+      ) {
         throw new Error("QUEUE_OUTBOX_MESSAGE_CONFLICT");
       }
       return;
@@ -2517,6 +2524,7 @@ WHEN NOT MATCHED THEN INSERT (
 
   public async enqueueQueueOutboxMessage(message: QueueMessage): Promise<void> {
     const canonicalBody = canonicalQueueMessage(message);
+    const canonicalIdentity = canonicalQueueMessageIdentity(message);
     await this.executor.execute(
       `
 IF EXISTS (
@@ -2529,7 +2537,11 @@ BEGIN
     SELECT 1
     FROM dbo.queue_outbox
     WHERE tenant_id=@tenant_id AND case_id=@case_id AND queue_name=@queue_name AND message_id=@message_id
-      AND canonical_body=@canonical_body
+      AND JSON_MODIFY(
+        JSON_MODIFY(canonical_body, '$.correlationId', NULL),
+        '$.deliveryCount',
+        NULL
+      )=@canonical_identity
   )
   BEGIN
     RETURN;
@@ -2547,7 +2559,8 @@ INSERT INTO dbo.queue_outbox (
         case_id: message.caseId,
         queue_name: message.queueName,
         message_id: message.messageId,
-        canonical_body: canonicalBody
+        canonical_body: canonicalBody,
+        canonical_identity: canonicalIdentity
       },
       { context: { tenantId: message.tenantId, caseId: message.caseId } }
     );

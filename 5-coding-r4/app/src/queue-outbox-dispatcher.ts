@@ -15,6 +15,16 @@ export function canonicalQueueMessage(message: QueueMessage): string {
   return canonical(message);
 }
 
+export function canonicalQueueMessageIdentity(message: QueueMessage): string {
+  return canonical(
+    Object.fromEntries(
+      Object.entries(message).filter(
+        ([key]) => key !== "correlationId" && key !== "deliveryCount"
+      )
+    )
+  );
+}
+
 function parseQueueMessage(body: string): QueueMessage {
   return JSON.parse(body) as QueueMessage;
 }

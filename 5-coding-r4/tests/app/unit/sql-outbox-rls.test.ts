@@ -6,6 +6,11 @@ import { type SqlCommandResult, type SqlExecutionOptions, type SqlExecutor, type
 import { SqlWorkloadRepository } from "../../../app/src/workload-repository.js";
 
 class FakeSqlExecutor implements SqlExecutor {
+  public readonly executeCalls: Array<{
+    statement: string;
+    parameters: Readonly<Record<string, SqlPrimitive>>;
+    options?: SqlExecutionOptions;
+  }> = [];
   public readonly queryManyCalls: Array<{
     statement: string;
     parameters: Readonly<Record<string, SqlPrimitive>>;
@@ -33,10 +38,9 @@ class FakeSqlExecutor implements SqlExecutor {
   public async execute(
     statement: string,
     parameters: Readonly<Record<string, SqlPrimitive>>,
-    _options?: SqlExecutionOptions
+    options?: SqlExecutionOptions
   ): Promise<SqlCommandResult> {
-    void statement;
-    void parameters;
+    this.executeCalls.push(options ? { statement, parameters, options } : { statement, parameters });
     return { rowsAffected: 0 };
   }
 
@@ -84,4 +88,28 @@ test("generic sql session context exposes no relay bypass key", () => {
   );
   assert.equal(source.includes("outboxRelay"), false);
   assert.equal(source.includes("outbox_relay"), false);
+});
+
+test("sql outbox compares stable message identity separately from request correlation", async () => {
+  const executor = new FakeSqlExecutor();
+  const repository = new SqlWorkloadRepository(executor);
+
+  await repository.enqueueQueueOutboxMessage({
+    tenantId: "tenant-a",
+    caseId: "case-a",
+    queueName: "q-extraction",
+    messageId: "msg-stable",
+    operation: "REQUEST_EXTRACTION",
+    payloadReference: "blob://evidence/1",
+    idempotencyKey: "idem-stable",
+    correlationId: "corr-request",
+    evidenceId: "evidence-1",
+    evidenceVersionId: "evidence-1-v1"
+  });
+
+  const call = executor.executeCalls[0];
+  assert.ok(call);
+  assert.match(call.statement, /json_modify/i);
+  assert.equal(typeof call.parameters.canonical_identity, "string");
+  assert.equal(String(call.parameters.canonical_identity).includes("correlationId"), false);
 });

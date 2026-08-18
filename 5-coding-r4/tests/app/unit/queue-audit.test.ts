@@ -149,6 +149,7 @@ test("queue outbox dispatcher drains pending scopes autonomously", async () => {
     idempotencyKey: "idem-1",
     correlationId: "corr-1"
   });
+
   await repository.enqueueQueueOutboxMessage({
     tenantId: "tenant-b",
     caseId: "case-2",
@@ -169,6 +170,37 @@ test("queue outbox dispatcher drains pending scopes autonomously", async () => {
   for (const row of queueOutbox.values()) {
     assert.equal(row.status, "DELIVERED");
   }
+});
+
+test("queue outbox accepts an idempotent replay with a new correlation id", async () => {
+  const repository = new InMemoryWorkloadRepository();
+  const original = {
+    tenantId: "tenant-a",
+    caseId: "case-a",
+    queueName: "q-extraction" as const,
+    messageId: "msg-stable",
+    operation: "REQUEST_EXTRACTION" as const,
+    payloadReference: "blob://evidence/1",
+    idempotencyKey: "idem-stable",
+    correlationId: "corr-original",
+    evidenceId: "evidence-1",
+    evidenceVersionId: "evidence-1-v1"
+  };
+
+  await repository.enqueueQueueOutboxMessage(original);
+  await repository.enqueueQueueOutboxMessage({
+    ...original,
+    correlationId: "corr-replay"
+  });
+
+  await assert.rejects(
+    repository.enqueueQueueOutboxMessage({
+      ...original,
+      correlationId: "corr-replay",
+      payloadReference: "blob://evidence/different"
+    }),
+    /QUEUE_OUTBOX_MESSAGE_CONFLICT/
+  );
 });
 
 test("queue outbox dispatcher applies the long delay to non-retryable errors containing a digit 5", async () => {
