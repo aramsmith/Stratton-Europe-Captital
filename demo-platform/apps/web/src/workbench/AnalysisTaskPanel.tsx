@@ -11,9 +11,9 @@ import type { AnalysisRunMetadata, AnalysisTaskClass } from "@stratton/contracts
 import { StatusBadge } from "../shared/StatusBadge.js";
 
 const taskClassOptions: ReadonlyArray<{ value: AnalysisTaskClass; label: string }> = [
-  { value: "CROSS_DOCUMENT_COMPARISON", label: "Cross-document comparison" },
-  { value: "GROUNDED_ANALYSIS", label: "Grounded analysis" },
-  { value: "INVESTMENT_THESIS_CHALLENGE", label: "Investment-thesis challenge" }
+  { value: "GROUNDED_ANALYSIS", label: "1. Grounded analysis" },
+  { value: "CROSS_DOCUMENT_COMPARISON", label: "2. Cross-document comparison" },
+  { value: "INVESTMENT_THESIS_CHALLENGE", label: "3. Investment-thesis challenge" }
 ];
 
 const useStyles = makeStyles({
@@ -39,6 +39,13 @@ const useStyles = makeStyles({
   },
   error: {
     color: tokens.colorPaletteRedForeground1
+  },
+  cycleRecovery: {
+    display: "grid",
+    gap: tokens.spacingVerticalS,
+    ...shorthands.padding(tokens.spacingVerticalM, tokens.spacingHorizontalM),
+    backgroundColor: tokens.colorNeutralBackground2,
+    ...shorthands.borderRadius(tokens.borderRadiusMedium)
   }
 });
 
@@ -54,6 +61,7 @@ interface AnalysisTaskPanelProps {
   readonly onTaskClassChange: (taskClass: AnalysisTaskClass) => void;
   readonly onQuestionChange: (question: string) => void;
   readonly onRunAnalysis?: (() => Promise<void> | void) | undefined;
+  readonly onStartNewCycle?: (() => Promise<void> | void) | undefined;
 }
 
 export function AnalysisTaskPanel({
@@ -67,7 +75,8 @@ export function AnalysisTaskPanel({
   isBusy = false,
   onTaskClassChange,
   onQuestionChange,
-  onRunAnalysis
+  onRunAnalysis,
+  onStartNewCycle
 }: AnalysisTaskPanelProps) {
   const styles = useStyles();
 
@@ -105,15 +114,26 @@ export function AnalysisTaskPanel({
           />
         </Field>
 
-        <Button
-          appearance="primary"
-          disabled={isBusy || question.trim().length === 0 || !onRunAnalysis || Boolean(rerunBlockedReason)}
-          onClick={() => void onRunAnalysis?.()}
-        >
-          {isBusy ? "Running..." : "Run grounded analysis"}
-        </Button>
-
-        {rerunBlockedReason ? <Caption1>{rerunBlockedReason}</Caption1> : null}
+        {rerunBlockedReason ? (
+          <div className={styles.cycleRecovery}>
+            <Caption1>{rerunBlockedReason}</Caption1>
+            <Button
+              appearance="primary"
+              disabled={isBusy || !onStartNewCycle}
+              onClick={() => void onStartNewCycle?.()}
+            >
+              {isBusy ? "Starting new cycle..." : "Start new analysis cycle"}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            appearance="primary"
+            disabled={isBusy || question.trim().length === 0 || !onRunAnalysis}
+            onClick={() => void onRunAnalysis?.()}
+          >
+            {isBusy ? "Running..." : "Run grounded analysis"}
+          </Button>
+        )}
 
         {statusMessage ? (
           <div className={styles.statusRow}>

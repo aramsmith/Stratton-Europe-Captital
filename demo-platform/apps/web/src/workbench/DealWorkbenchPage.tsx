@@ -78,7 +78,7 @@ const useStyles = makeStyles({
   }
 });
 const rerunBlockedReason =
-  "Use Reset Project Danube in the header to start a new governed analysis cycle. The current findings and human dispositions remain preserved in authoritative history.";
+  "This cycle already contains governed findings. Start a new analysis cycle to run another request; current findings and human dispositions remain preserved in authoritative history.";
 
 interface DealWorkbenchPageProps {
   readonly scenario: ScenarioState;
@@ -90,16 +90,18 @@ interface DealWorkbenchPageProps {
   readonly onRecordDisposition?: ((input: FindingDispositionRequest & {
     findingId: string;
   }) => Promise<void> | void) | undefined;
+  readonly onStartNewCycle?: (() => Promise<void> | void) | undefined;
 }
 
 export function DealWorkbenchPage({
   scenario,
   onAdmitEvidence,
   onRunAnalysis,
-  onRecordDisposition
+  onRecordDisposition,
+  onStartNewCycle
 }: DealWorkbenchPageProps) {
   const styles = useStyles();
-  const [taskClass, setTaskClass] = useState<AnalysisTaskClass>("CROSS_DOCUMENT_COMPARISON");
+  const [taskClass, setTaskClass] = useState<AnalysisTaskClass>("GROUNDED_ANALYSIS");
   const [question, setQuestion] = useState("Challenge management EBITDA quality");
   const [isBusy, setIsBusy] = useState(false);
   const [route, setRoute] = useState<string>();
@@ -159,7 +161,7 @@ export function DealWorkbenchPage({
     }
   };
 
-  const handleAdmitEvidence = async (input: { evidenceId: string }) => {
+  const handleAdmitEvidence = async (input: { evidenceIds: readonly string[] }) => {
     if (!onAdmitEvidence) {
       return;
     }
@@ -168,7 +170,28 @@ export function DealWorkbenchPage({
     setIsBusy(true);
 
     try {
-      await onAdmitEvidence({ caseId: scenario.caseId, evidenceId: input.evidenceId });
+      for (const evidenceId of input.evidenceIds) {
+        await onAdmitEvidence({ caseId: scenario.caseId, evidenceId });
+      }
+    } catch (caughtError) {
+      setError(toErrorMessage(caughtError));
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleStartNewCycle = async () => {
+    if (!onStartNewCycle) {
+      return;
+    }
+
+    setError(null);
+    setStatusMessage(null);
+    setRoute(undefined);
+    setIsBusy(true);
+
+    try {
+      await onStartNewCycle();
     } catch (caughtError) {
       setError(toErrorMessage(caughtError));
     } finally {
@@ -230,6 +253,7 @@ export function DealWorkbenchPage({
             latestAnalysisRun={scenario.latestAnalysisRun}
             onQuestionChange={setQuestion}
             onRunAnalysis={handleRunAnalysis}
+            onStartNewCycle={handleStartNewCycle}
             onTaskClassChange={setTaskClass}
             question={question}
             rerunBlockedReason={analysisRerunBlockedReason}

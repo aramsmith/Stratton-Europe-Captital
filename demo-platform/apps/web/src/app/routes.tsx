@@ -52,6 +52,7 @@ interface AppRoutesProps {
   }) => Promise<void> | void) | undefined;
   readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
   readonly onRunSecurityGateSuite?: ((input: SecurityGateRunRequest) => Promise<void> | void) | undefined;
+  readonly onStartNewCycle?: (() => Promise<void> | void) | undefined;
   readonly loadGovernanceView?: ((signal?: AbortSignal) => Promise<GovernanceView>) | undefined;
 }
 
@@ -63,6 +64,7 @@ export function AppRoutes({
   onSubmitReview,
   onPrepareRecommendation,
   onRunSecurityGateSuite,
+  onStartNewCycle,
   loadGovernanceView
 }: AppRoutesProps) {
   return (
@@ -76,6 +78,7 @@ export function AppRoutes({
             onAdmitEvidence={onAdmitEvidence}
             onRecordDisposition={onRecordDisposition}
             onRunAnalysis={onRunAnalysis}
+            onStartNewCycle={onStartNewCycle}
           />
         }
       />
@@ -108,13 +111,15 @@ function WorkbenchRoute({
   scenario,
   onAdmitEvidence,
   onRunAnalysis,
-  onRecordDisposition
+  onRecordDisposition,
+  onStartNewCycle
 }: AppRoutesProps) {
   return (
     <DealWorkbenchPage
       onAdmitEvidence={onAdmitEvidence}
       onRecordDisposition={onRecordDisposition}
       onRunAnalysis={onRunAnalysis}
+      onStartNewCycle={onStartNewCycle}
       scenario={scenario}
     />
   );

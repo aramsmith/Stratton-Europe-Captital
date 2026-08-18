@@ -92,7 +92,7 @@ function createCompletedScenario(): ScenarioState {
   scenario.latestAnalysisRun = {
     analysisRunId: "run-terra-1",
     route: "TERRA",
-    taskClass: "CROSS_DOCUMENT_COMPARISON",
+    taskClass: "GROUNDED_ANALYSIS",
     analystQuestion: "Challenge management EBITDA quality",
     questionHash: "95d4ab5821abf3ec7fa4b35f667fa5e3b71db280c5f7ab455ecb6c10f379b4e4",
     admittedEvidenceIds: [
@@ -196,7 +196,7 @@ function renderWorkbench() {
 
 describe("DealWorkbenchPage", () => {
   it("renders evidence provenance, runs analysis, and opens the citation panel", async () => {
-    const { runAnalysis } = renderWorkbench();
+    const { admitEvidence, runAnalysis } = renderWorkbench();
 
     expect(screen.getByRole("heading", { name: "AI Deal Workbench" })).toBeVisible();
     expect(screen.getByRole("columnheader", { name: "Evidence" })).toBeVisible();
@@ -204,18 +204,17 @@ describe("DealWorkbenchPage", () => {
     expect(screen.getByRole("columnheader", { name: "Licence" })).toBeVisible();
     expect(screen.getByRole("columnheader", { name: "Provenance" })).toBeVisible();
 
+    expect(screen.getByRole("checkbox", { name: "Select all evidence" })).toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "Select FY25 Board Pack" })).toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "Select ERP Customer Rebate Export" })).toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "Select Quality of Earnings Report" })).toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "Select Czech Environmental Permit" })).toBeChecked();
+
     await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /FY25 Board Pack/i })).getByRole("button", { name: "Admit evidence" }));
+      fireEvent.click(screen.getByRole("button", { name: "Admit selected evidence (4)" }));
     });
-    await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /ERP Customer Rebate Export/i })).getByRole("button", { name: "Admit evidence" }));
-    });
-    await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /Quality of Earnings Report/i })).getByRole("button", { name: "Admit evidence" }));
-    });
-    await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /Czech Environmental Permit/i })).getByRole("button", { name: "Admit evidence" }));
-    });
+
+    expect(admitEvidence).toHaveBeenCalledTimes(4);
 
     fireEvent.change(screen.getByLabelText("Question"), {
       target: { value: "Challenge management EBITDA quality" }
@@ -226,7 +225,7 @@ describe("DealWorkbenchPage", () => {
 
     expect(runAnalysis).toHaveBeenCalledWith({
       caseId: "project-danube",
-      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      taskClass: "GROUNDED_ANALYSIS",
       question: "Challenge management EBITDA quality"
     });
     expect(await screen.findByText("Completed via TERRA")).toBeVisible();
@@ -250,17 +249,9 @@ describe("DealWorkbenchPage", () => {
     const { recordDisposition } = renderWorkbench();
 
     await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /FY25 Board Pack/i })).getByRole("button", { name: "Admit evidence" }));
+      fireEvent.click(screen.getByRole("button", { name: "Admit selected evidence (4)" }));
     });
-    await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /ERP Customer Rebate Export/i })).getByRole("button", { name: "Admit evidence" }));
-    });
-    await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /Quality of Earnings Report/i })).getByRole("button", { name: "Admit evidence" }));
-    });
-    await act(async () => {
-      fireEvent.click(within(screen.getByRole("row", { name: /Czech Environmental Permit/i })).getByRole("button", { name: "Admit evidence" }));
-    });
+
     fireEvent.change(screen.getByLabelText("Question"), {
       target: { value: "Challenge management EBITDA quality" }
     });
@@ -296,17 +287,59 @@ describe("DealWorkbenchPage", () => {
     ).toBeVisible();
   });
 
-  it("disables reruns once governed findings already exist and explains the versioned-cycle requirement", () => {
+  it("admits only the evidence selected by the operator", async () => {
+    const { admitEvidence } = renderWorkbench();
+
+    fireEvent.click(screen.getByRole("checkbox", { name: "Select Czech Environmental Permit" }));
+    expect(screen.getByRole("button", { name: "Admit selected evidence (3)" })).toBeEnabled();
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Admit selected evidence (3)" }));
+    });
+
+    expect(admitEvidence).toHaveBeenCalledTimes(3);
+    expect(admitEvidence).not.toHaveBeenCalledWith(
+      expect.objectContaining({ evidenceId: "evidence-environmental-permit" })
+    );
+  });
+
+  it("offers an inline new-cycle action when governed findings block a rerun", async () => {
+    const startNewCycle = vi.fn().mockResolvedValue(undefined);
+
     render(
       <FluentProvider theme={webLightTheme}>
-        <DealWorkbenchPage scenario={createCompletedScenario()} onRunAnalysis={vi.fn()} />
+        <DealWorkbenchPage
+          scenario={createCompletedScenario()}
+          onRunAnalysis={vi.fn()}
+          onStartNewCycle={startNewCycle}
+        />
       </FluentProvider>
     );
 
-    expect(screen.getByRole("button", { name: "Run grounded analysis" })).toBeDisabled();
+    expect(screen.queryByRole("button", { name: "Run grounded analysis" })).not.toBeInTheDocument();
     expect(
-      screen.getByText(/use reset project danube in the header to start a new governed analysis cycle/i)
+      screen.getByText(/this cycle already contains governed findings/i)
     ).toBeVisible();
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Start new analysis cycle" }));
+    });
+
+    expect(startNewCycle).toHaveBeenCalledTimes(1);
+  });
+
+  it("orders analysis tasks from grounded review through investment challenge", () => {
+    renderWorkbench();
+
+    expect(
+      Array.from(screen.getByLabelText("Analysis task").querySelectorAll("option")).map(
+        (option) => option.textContent
+      )
+    ).toEqual([
+      "1. Grounded analysis",
+      "2. Cross-document comparison",
+      "3. Investment-thesis challenge"
+    ]);
   });
 
   it("has no axe violations", async () => {

@@ -398,6 +398,7 @@ export function App({ authSession = createLocalBrowserAuthSession() }: AppProps)
               onRecordDisposition={handleRecordDisposition}
               onRunAnalysis={handleRunAnalysis}
               onRunSecurityGateSuite={handleRunSecurityGateSuite}
+              onStartNewCycle={handleReset}
               onSubmitReview={handleSubmitReview}
             />
           </StrattonShell>
