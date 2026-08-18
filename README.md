@@ -10,5 +10,4 @@ Sign in with the approved Microsoft Entra account. The workflow covers evidence 
 
 ## Demo playbook
 
-[View the Stratton demo playbook](demo-platform/docs/Stratton-Demo-Playbook.html)
-
+[View the published Stratton demo playbook](https://aramsmith.github.io/Stratton-Europe-Captital/playbook/)
