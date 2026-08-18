@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stratton Demo Guide</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.55;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    a { color: var(--cp-link); }
+    :focus-visible {
+      outline: 3px solid var(--cp-accent);
+      outline-offset: 3px;
+    }
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--cp-accent-fg);
+      background: var(--cp-accent);
+      border-radius: 0.625rem;
+    }
+    .top-actions { display: flex; gap: 8px; }
+    .button {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 650;
+    }
+    .button:hover { border-color: var(--cp-border-strong); }
+    .button.primary {
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-color: var(--cp-accent);
+    }
+    .button.primary:hover {
+      background: var(--cp-accent-hover);
+      border-color: var(--cp-accent-hover);
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.6fr);
+      min-height: 430px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .hero-main {
+      padding: clamp(32px, 6vw, 72px);
+      align-self: center;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 760px;
+      margin-bottom: 24px;
+      font-size: clamp(2.75rem, 7vw, 5.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      text-wrap: balance;
+    }
+    .hero-copy {
+      max-width: 66ch;
+      color: var(--cp-text-muted);
+      font-size: 1.1rem;
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 0;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cp-success);
+    }
+    .operator-band {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      padding: 32px 28px;
+      color: var(--cp-accent-fg);
+      background: var(--cp-accent);
+    }
+    .band-title {
+      max-width: 12ch;
+      font-size: 1.85rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .band-data {
+      display: grid;
+      gap: 18px;
+      font-size: 0.88rem;
+    }
+    .band-data strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .band-data code {
+      overflow-wrap: anywhere;
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.8rem;
+    }
+    .section-nav {
+      position: sticky;
+      top: 8px;
+      z-index: 10;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      margin: 20px 0 56px;
+      padding: 8px;
+      background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .section-nav a {
+      flex: 0 0 auto;
+      padding: 7px 11px;
+      border-radius: 0.625rem;
+      color: var(--cp-text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+    .section-nav a:hover {
+      color: var(--cp-text);
+      background: var(--cp-surface-soft);
+    }
+    section {
+      scroll-margin-top: 84px;
+      margin: 0 0 76px;
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.75fr) minmax(280px, 1.25fr);
+      gap: 40px;
+      align-items: end;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--cp-border);
+    }
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+    .section-intro {
+      max-width: 65ch;
+      margin-bottom: 0;
+      color: var(--cp-text-muted);
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 1px;
+      margin-top: 28px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-border);
+    }
+    .flow-step {
+      min-height: 188px;
+      padding: 24px 20px;
+      background: var(--cp-surface);
+    }
+    .flow-step svg { color: var(--cp-accent); }
+    .flow-step h3 {
+      margin: 18px 0 8px;
+      font-size: 1rem;
+    }
+    .flow-step p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+    .callout {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 20px;
+      padding: 18px 20px;
+      background: var(--cp-accent-soft);
+      border-radius: 0.625rem;
+    }
+    .callout svg { color: var(--cp-accent); }
+    .callout p { margin: 0; }
+    .command-deck {
+      display: grid;
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .command-row {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.45fr) minmax(0, 1.55fr);
+      gap: 20px;
+      align-items: start;
+      padding: 22px;
+      background: var(--cp-surface);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .command-row h3 { margin-bottom: 6px; }
+    .command-row p {
+      color: var(--cp-text-muted);
+      font-size: 0.92rem;
+    }
+    .codebox {
+      position: relative;
+      overflow: auto;
+      padding: 18px 52px 18px 18px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.83rem;
+      line-height: 1.65;
+    }
+    .copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      color: var(--cp-text-muted);
+      cursor: pointer;
+    }
+    .copy:hover { color: var(--cp-text); }
+    .scenarios {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .scenario {
+      padding: 28px;
+      background: var(--cp-surface);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .scenario.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 40px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-accent);
+    }
+    .scenario h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .scenario p, .scenario li { color: var(--cp-text-muted); }
+    .scenario ol, .scenario ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .scenario li + li { margin-top: 7px; }
+    .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-accent);
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+    .requirements {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 22px;
+      margin-top: 28px;
+    }
+    .requirements aside {
+      padding: 24px;
+      background: var(--cp-surface);
+      border-radius: 16px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .requirements aside ul {
+      margin: 12px 0 0;
+      padding-left: 19px;
+      color: var(--cp-text-muted);
+    }
+    .checklist {
+      display: grid;
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-border);
+    }
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      background: var(--cp-surface);
+      cursor: pointer;
+    }
+    .check-item:hover { background: var(--cp-bg-elevated); }
+    .check-item input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--cp-accent);
+    }
+    .check-item strong { display: block; }
+    .check-item small { color: var(--cp-text-muted); }
+    .check-item .owner {
+      color: var(--cp-text-soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: right;
+    }
+    .deployment {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+      gap: 26px;
+      margin-top: 28px;
+    }
+    .deploy-track {
+      display: grid;
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-border);
+    }
+    .deploy-stage {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      padding: 20px;
+      background: var(--cp-surface);
+    }
+    .stage-no {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 50%;
+      font-weight: 750;
+    }
+    .deploy-stage h3 { margin-bottom: 5px; }
+    .deploy-stage p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+    .boundary {
+      align-self: start;
+      padding: 28px;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-radius: 16px;
+    }
+    .boundary h3 {
+      font-size: 1.45rem;
+      letter-spacing: -0.025em;
+    }
+    .boundary ul { padding-left: 20px; }
+    .boundary li + li { margin-top: 8px; }
+    details {
+      margin-top: 20px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+    }
+    summary {
+      padding: 16px 18px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    details > div {
+      padding: 0 18px 18px;
+      color: var(--cp-text-muted);
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 28px;
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      font-size: 0.88rem;
+    }
+    .footer strong { color: var(--cp-text); }
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 30;
+      padding: 11px 14px;
+      background: var(--cp-text);
+      color: var(--cp-bg);
+      border-radius: 0.625rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 920px) {
+      .hero, .scenario.featured, .section-head, .requirements, .deployment {
+        grid-template-columns: 1fr;
+      }
+      .operator-band { min-height: 250px; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+      .flow-step:last-child { grid-column: 1 / -1; }
+      .command-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 20px, 1180px); padding-top: 10px; }
+      .topbar { align-items: flex-start; }
+      .top-actions .button:not(.primary) { display: none; }
+      .hero-main { padding: 32px 22px; }
+      .operator-band { padding: 26px 22px; }
+      .section-nav { margin-bottom: 44px; }
+      section { margin-bottom: 58px; }
+      .flow, .scenarios { grid-template-columns: 1fr; }
+      .flow-step:last-child, .scenario.featured { grid-column: auto; }
+      .scenario.featured { gap: 18px; }
+      .check-item { grid-template-columns: auto 1fr; }
+      .check-item .owner { grid-column: 2; text-align: left; }
+      .footer { flex-direction: column; }
+    }
+    @media print {
+      .top-actions, .section-nav, .copy, .toast { display: none !important; }
+      body { background: var(--cp-surface); }
+      .shell { width: 100%; padding: 0; }
+      .hero, .scenario, .command-row, .requirements aside { box-shadow: none; }
+      section { break-inside: avoid; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: A presenter-first deal dossier wrapped by a dense operator band; it refuses the generic documentation portal.
+  OWN-WORLD: Warm briefing-paper surfaces, one deep-rose authority color, precise rules, compact operator data, and restrained geometric icons.
+  STORY: Open the live Azure demo, complete the governed Project Danube flow, and verify the audit-ready result.
+  FIRST VIEWPORT: A large briefing statement occupies the left; the repository, branch, mode, and delivery state form a saturated operator band on the right.
+  FORM: Presenter’s Deal Dossier, assigned grounded direction; seed key 7d1912e4.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M5 19V5h14v14H5Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+        </span>
+        Stratton Demo Guide
+      </div>
+      <div class="top-actions">
+        <button class="button" type="button" id="themeButton">Toggle theme</button>
+        <button class="button primary" type="button" onclick="window.print()">Print guide</button>
+      </div>
+    </header>
+
+    <article class="hero" aria-labelledby="page-title">
+      <div class="hero-main">
+        <h1 id="page-title">Run the deal. Prove the controls.</h1>
+        <p class="hero-copy">
+          A presenter-ready playbook for the live Project Danube evidence-to-decision demo on
+          Azure: sign in, inspect the completed workflow, explain every governed control, and
+          verify the audit export is ready.
+        </p>
+        <div class="status-line" aria-label="Current delivery status">
+          <span class="status"><span class="dot"></span>Azure deployment live</span>
+          <span class="status"><span class="dot"></span>Authenticated flow working</span>
+          <span class="status"><span class="dot"></span>Audit export READY</span>
+        </div>
+      </div>
+      <aside class="operator-band" aria-label="Operator information">
+        <div>
+          <h2 class="band-title">Private, reviewed, isolated.</h2>
+        </div>
+        <div class="band-data">
+          <div>
+            <strong>Live URL</strong>
+            <code>https://stratton-demo-web.whiteocean-2d811015.swedencentral.azurecontainerapps.io</code>
+          </div>
+          <div>
+            <strong>Branch</strong>
+            <code>feature/stratton-demo-platform</code>
+          </div>
+          <div>
+            <strong>Azure resource group</strong>
+            <code>stratton-demo-rg</code>
+          </div>
+          <div>
+            <strong>Safety boundary</strong>
+            Committee submission remains human-only
+          </div>
+        </div>
+      </aside>
+    </article>
+
+    <nav class="section-nav" aria-label="Guide sections">
+      <a href="#how-it-works">How it works</a>
+      <a href="#start">Open the live demo</a>
+      <a href="#scenarios">Presenter playbook</a>
+      <a href="#requirements">Registered services</a>
+      <a href="#azure">Deployed architecture</a>
+    </nav>
+
+    <section id="how-it-works">
+      <div class="section-head">
+        <h2>The governed demo flow</h2>
+        <p class="section-intro">
+          The demo separates supporting AI work from investment authority. Evidence must be admitted,
+          analysis must be grounded and cited, human reviews are version-bound, and the final output
+          remains a draft committee pack.
+        </p>
+      </div>
+      <div class="flow" role="list">
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l4 4v14H7V3Z" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M14 3v5h5M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Admit evidence</h3>
+          <p>Four synthetic Project Danube documents enter the governed evidence set.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6h16M4 12h10M4 18h13" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="18" cy="12" r="2" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Create bundle</h3>
+          <p>Phase 5 authorizes an immutable, tenant-scoped analysis bundle.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Run analysis</h3>
+          <p>The BFF performs supporting retrieval and model work with citation checks.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="1.9"/>
+          </svg>
+          <h3>Human review</h3>
+          <p>Deal, Legal, and Compliance approvals bind to the exact authoritative version.</p>
+        </div>
+        <div class="flow-step" role="listitem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 4h14v16H5V4Z" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <h3>Prepare draft</h3>
+          <p>A draft-only committee pack is prepared. No investment decision is issued.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3 3 20h18L12 3Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 9v5M12 17h.01" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <p><strong>Authority boundary:</strong> the system demonstrates evidence-to-decision preparation, not automated investment approval. “Submit to committee” remains disabled.</p>
+      </div>
+    </section>
+
+    <section id="start">
+      <div class="section-head">
+        <h2>Open the live Azure demo</h2>
+        <p class="section-intro">
+          Use an account approved in the Stratton Microsoft Entra tenant. Authentication uses a
+          same-tab authorization-code flow and delegated access to the BFF API.
+        </p>
+      </div>
+      <div class="command-deck">
+        <div class="command-row">
+          <div>
+            <h3>1. Open the application</h3>
+            <p>Start from the root URL. Add a cache-busting query only if a browser retained an older JavaScript bundle.</p>
+          </div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy live URL">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>https://stratton-demo-web.whiteocean-2d811015.swedencentral.azurecontainerapps.io
+
+# Cache-busting form if needed:
+https://stratton-demo-web.whiteocean-2d811015.swedencentral.azurecontainerapps.io/?v=live</pre>
+          </div>
+        </div>
+        <div class="command-row">
+          <div>
+            <h3>2. Sign in</h3>
+            <p>Select <strong>Sign in with Microsoft</strong> and use the approved tenant account. The known approved operator is <code>aram@azurelab.nl</code>.</p>
+          </div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy access details">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>Tenant: 27140306-eea5-4e7f-91e9-4c9e86864b3a
+Approved account: aram@azurelab.nl
+Required access: tenant-approved Stratton demo user</pre>
+          </div>
+        </div>
+        <div class="command-row">
+          <div>
+            <h3>3. Confirm the loaded baseline</h3>
+            <p>The current demo is intentionally preserved at the completed committee-preparation stage for immediate presentation.</p>
+          </div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy expected baseline">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>Stage: COMMITTEE_PREPARATION
+Evidence: 4 admitted
+Findings: 3
+Reviews: 3 approved
+Security gates: 12 PASS
+Audit export: READY</pre>
+          </div>
+        </div>
+      </div>
+      <details>
+        <summary>Important operating constraint</summary>
+        <div>
+          <p>The BFF demo projection is process-local, so the BFF is pinned to one replica. Do not scale it above one replica until projection persistence is implemented. Use the UI reset only for a deliberate new rehearsal.</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="scenarios">
+      <div class="section-head">
+        <h2>Presenter playbook</h2>
+        <p class="section-intro">
+          The live environment is already at the final demonstrable state. Walk backward through
+          the lineage while explaining how each control was satisfied.
+        </p>
+      </div>
+      <div class="scenarios">
+        <article class="scenario featured">
+          <div>
+            <span class="tag">10–15 minute primary story</span>
+            <h3>Project Danube: evidence to audit-ready committee preparation</h3>
+            <p>Demonstrate the complete governed flow while preserving the human investment-authority boundary.</p>
+          </div>
+          <ol>
+            <li>Open <strong>AI Deal Workbench</strong>; confirm four evidence items are <strong>ADMITTED</strong>.</li>
+            <li>Show the immutable Phase 5 request for “Challenge management EBITDA quality for current committee review.”</li>
+            <li>Open the three accepted findings and their governed citations, including the EUR 4.2–5.1 million EBITDA-quality challenge.</li>
+            <li>Open <strong>Investment Decision Room</strong>; show current Deal, Legal, and Compliance approvals.</li>
+            <li>Show the prepared draft committee pack and explain that committee submission remains disabled and human-only.</li>
+            <li>Open <strong>Governance &amp; Assurance Console</strong>, then select <strong>Security &amp; audit</strong>.</li>
+            <li>Confirm all twelve mandatory gates show <strong>PASS</strong> with dedicated evidence IDs.</li>
+            <li>Confirm <strong>Audit export preview: READY</strong> and “Internal Audit verdict: Not issued.”</li>
+          </ol>
+        </article>
+        <article class="scenario">
+          <span class="tag">Evidence controls</span>
+          <h3>Why admission comes first</h3>
+          <p>Explain that retrieval filters require the real tenant, case, admission status, and accessibility-at-review state before evidence can support analysis.</p>
+        </article>
+        <article class="scenario">
+          <span class="tag">Model governance</span>
+          <h3>Luna, Terra, and Sol</h3>
+          <p>Show the approved route evidence: exact Azure resource, deployment, region, API version, evidence version, validity window, and fail-closed routing.</p>
+        </article>
+        <article class="scenario">
+          <span class="tag">Security assurance</span>
+          <h3>Twelve deterministic gates</h3>
+          <p>Highlight prompt injection, citation spoofing, poisoned retrieval, cross-case access, route mismatch, silent fallback, and autonomous-authority denial.</p>
+        </article>
+        <article class="scenario">
+          <span class="tag">Version governance</span>
+          <h3>Current versus stale assurance</h3>
+          <p>Reviews and committee evidence bind to the authoritative Phase 5 subject version. Any governed text change requires a new versioned cycle and fresh approvals.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="requirements">
+      <div class="section-head">
+        <h2>Registered services and identity applications</h2>
+        <p class="section-intro">
+          These registrations are required by the deployed Bicep and Entra design. All listed Azure
+          resource providers are registered in subscription MoA-Sub2.
+        </p>
+      </div>
+      <div class="requirements">
+        <aside>
+          <h3>Microsoft Entra applications</h3>
+          <ul>
+            <li><strong>Stratton browser SPA</strong> — client ID <code>1f3fb1a1-709b-4ed5-9ba6-22bf06cd2653</code></li>
+            <li><strong>Stratton BFF API</strong> — client ID <code>65e534e7-0d9f-4202-b133-659e5181c267</code></li>
+            <li><strong>Stratton Phase 5 API</strong> — client ID <code>4e701dae-4bbc-4ff5-84af-69bad37524b2</code></li>
+            <li>Delegated BFF scope: <code>api://65e534e7-0d9f-4202-b133-659e5181c267/access_as_user</code></li>
+            <li>BFF-to-Phase-5 application role and admin consent</li>
+            <li>Managed-identity federated credential; no application client secret</li>
+          </ul>
+        </aside>
+        <div class="checklist" aria-label="Azure readiness checklist">
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.App</strong><small>Container Apps, managed environment, jobs, ingress, and authentication configuration.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.ContainerRegistry</strong><small>Private immutable application and bootstrap images.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.OperationalInsights</strong><small>Log Analytics workspace and durable job receipt retrieval.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.Network</strong><small>Virtual network, delegated subnet, private endpoints, and private DNS.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.Sql</strong><small>Azure SQL, additive migrations, managed-identity users, session context, and tenant row-level security.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.Storage</strong><small>Private admitted-evidence blob storage.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.ServiceBus</strong><small>Managed-identity queues for ingestion, extraction, indexing, and analysis.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.Search</strong><small>Governed evidence index with tenant/case/admission filtering.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.CognitiveServices</strong><small>Document Intelligence and Azure OpenAI deployments for Luna, Terra, and Sol.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.ManagedIdentity</strong><small>User-assigned identities for web, BFF, Phase 5, bootstrap, and verification.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" checked>
+            <span><strong>Microsoft.Insights</strong><small>Diagnostic settings and Azure Monitor integration.</small></span>
+            <span class="owner">Registered</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section id="azure">
+      <div class="section-head">
+        <h2>Deployed Azure architecture</h2>
+        <p class="section-intro">
+          The application is deployed in Sweden Central with governed Azure OpenAI routes in West
+          Europe. Workload communication uses managed identities, private data-plane access, and
+          digest-pinned images.
+        </p>
+      </div>
+      <div class="deployment">
+        <div class="deploy-track">
+          <div class="deploy-stage">
+            <span class="stage-no">1</span>
+            <div><h3>Browser and identity</h3><p>The public web Container App authenticates through Microsoft Entra and acquires delegated BFF access without storing a secret.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">2</span>
+            <div><h3>Governed BFF</h3><p>The BFF enforces delegated authorization, scenario policy, tenant/case boundaries, citations, review currentness, and committee-preparation rules.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">3</span>
+            <div><h3>Phase 5 authority</h3><p>The private Phase 5 API authorizes immutable analysis bundles and validates signed BFF workload tokens before accepting completion.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">4</span>
+            <div><h3>Private data plane</h3><p>Azure SQL, Blob Storage, Service Bus, and Search use managed identity and private network paths; Search evidence is bounded for model quota safety.</p></div>
+          </div>
+          <div class="deploy-stage">
+            <span class="stage-no">5</span>
+            <div><h3>Governed AI routes</h3><p>Luna, Terra, and Sol bind to approved Azure OpenAI deployments using API version <code>2025-04-01-preview</code>, explicit output limits, and route evidence.</p></div>
+          </div>
+        </div>
+        <aside class="boundary">
+          <h3>Live deployment state</h3>
+          <ul>
+            <li>Web revision: <code>stratton-demo-web--0000010</code></li>
+            <li>BFF revision: <code>stratton-demo-bff--0000023</code></li>
+            <li>Phase 5 revision: <code>stratton-demo-phase5--0000011</code></li>
+            <li>Search index: <code>governed-evidence</code></li>
+            <li>Bootstrap migrations 001–008 and projection migration reconciled.</li>
+            <li>BFF retains only <strong>Search Index Data Reader</strong>.</li>
+          </ul>
+          <h3>Operational guardrails</h3>
+          <ul>
+            <li>Keep the BFF at one replica until scenario projection persistence is added.</li>
+            <li>Do not treat the audit export preview as an Internal Audit verdict.</li>
+            <li>Do not enable autonomous committee submission.</li>
+            <li>Use a new analysis question/version for any replay after governed findings exist.</li>
+          </ul>
+        </aside>
+      </div>
+      <details>
+        <summary>Expected final presenter evidence</summary>
+        <div>
+          <div class="codebox">
+            <button class="copy" type="button" aria-label="Copy expected final state">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 8h11v11H8V8Z" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </button>
+            <pre>Project Danube: COMMITTEE_PREPARATION
+4 admitted evidence items
+3 accepted findings with governed citations
+Deal, Legal, Compliance: APPROVED and CURRENT
+CC002-R2-SEC-GATE-001 through 012: PASS
+Audit export preview: READY
+Internal Audit verdict: Not issued
+Committee submission: human-only and disabled</pre>
+          </div>
+          <p>The final state is intentionally presentation-ready. It proves controlled preparation and assurance without granting automated investment authority.</p>
+        </div>
+      </details>
+    </section>
+
+    <footer class="footer">
+      <div><strong>Live demo</strong><br>stratton-demo-web.whiteocean-2d811015.swedencentral.azurecontainerapps.io</div>
+      <div><strong>Delivery state</strong><br>Azure workflow operational<br>Branch: feature/stratton-demo-platform</div>
+    </footer>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite" id="toast">Copied to clipboard</div>
+
+  <script>
+    const toast = document.getElementById("toast");
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("visible"), 1800);
+    }
+
+    document.querySelectorAll(".copy").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const code = button.parentElement.querySelector("pre").textContent;
+        try {
+          await navigator.clipboard.writeText(code);
+          showToast("Commands copied");
+        } catch {
+          showToast("Copy unavailable — select the commands manually");
+        }
+      });
+    });
+
+    document.getElementById("themeButton").addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      document.documentElement.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>

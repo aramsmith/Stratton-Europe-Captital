@@ -7,6 +7,7 @@ on:
       - index.html
       - deckio.png
       - assets/**
+      - demo-platform/docs/Stratton-Demo-Playbook.html
       - README.md
       - .github/workflows/pages.yml
   workflow_dispatch:
@@ -39,6 +40,8 @@ jobs:
           mkdir -p _site
           cp index.html deckio.png _site/
           cp -R assets _site/assets
+          mkdir -p _site/playbook
+          cp demo-platform/docs/Stratton-Demo-Playbook.html _site/playbook/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

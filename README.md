@@ -8,6 +8,10 @@ implementation planning, deployable code, and an evidence-backed Architecture Re
 
 **[Open the latest r12 presentation](https://aramsmith.github.io/Stratton-Europe-Captital/)**
 
+## Demo playbook
+
+**[Open the Stratton demo playbook](https://aramsmith.github.io/Stratton-Europe-Captital/playbook/)**
+
 ## Latest phase set
 
 | Phase | Current artifact |
