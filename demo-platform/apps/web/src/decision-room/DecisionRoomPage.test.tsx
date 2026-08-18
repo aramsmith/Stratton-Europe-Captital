@@ -351,6 +351,7 @@ describe("DecisionRoomPage", () => {
       ["Claim", "Evidence", "Owner", "Disposition"],
       ["Claim", "Evidence", "Owner", "Disposition"]
     ]);
+    expect(document.querySelector('[aria-label="Material claims records"]')).toBeInTheDocument();
   });
 
   it("renders the governed decision room with blocked committee submission until Legal approval arrives", () => {

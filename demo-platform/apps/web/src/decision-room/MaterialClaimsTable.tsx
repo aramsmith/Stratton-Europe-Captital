@@ -27,52 +27,47 @@ const useStyles = makeStyles({
     width: "100%",
     tableLayout: "fixed",
     "@media (max-width: 760px)": {
-      display: "block"
-    }
-  },
-  tableHeader: {
-    "@media (max-width: 760px)": {
       display: "none"
     }
   },
-  tableBody: {
+  mobileList: {
+    display: "none",
     "@media (max-width: 760px)": {
       display: "grid",
       gap: tokens.spacingVerticalM
     }
   },
-  tableRow: {
-    "@media (max-width: 760px)": {
-      display: "grid",
-      gap: tokens.spacingVerticalS,
-      border: "1px solid #d3d0c7",
-      borderRadius: "8px",
-      backgroundColor: "#f7f6f2",
-      ...shorthands.padding(tokens.spacingVerticalM)
+  mobileRecord: {
+    display: "grid",
+    gap: tokens.spacingVerticalXS,
+    border: "1px solid #d3d0c7",
+    borderRadius: "8px",
+    backgroundColor: "#f7f6f2",
+    ...shorthands.padding(tokens.spacingVerticalM)
+  },
+  mobileField: {
+    display: "grid",
+    gridTemplateColumns: "minmax(88px, 0.32fr) minmax(0, 1fr)",
+    gap: tokens.spacingHorizontalM,
+    minWidth: 0,
+    borderBottom: "1px solid #d3d0c7",
+    overflowWrap: "anywhere",
+    ...shorthands.padding(tokens.spacingVerticalS, 0),
+    ":last-child": {
+      borderBottom: 0
     }
+  },
+  mobileLabel: {
+    color: "#495463",
+    fontSize: "11px",
+    fontWeight: 700,
+    letterSpacing: "0.06em",
+    textTransform: "uppercase"
   },
   tableCell: {
     minWidth: 0,
     verticalAlign: "top",
-    overflowWrap: "anywhere",
-    "@media (max-width: 760px)": {
-      display: "grid",
-      gridTemplateColumns: "minmax(88px, 0.32fr) minmax(0, 1fr)",
-      gap: tokens.spacingHorizontalM,
-      borderBottom: "1px solid #d3d0c7",
-      ...shorthands.padding(tokens.spacingVerticalS, 0),
-      "::before": {
-        content: "attr(data-label)",
-        color: "#495463",
-        fontSize: "11px",
-        fontWeight: 700,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase"
-      },
-      ":last-child": {
-        borderBottom: 0
-      }
-    }
+    overflowWrap: "anywhere"
   },
   claimCell: {
     display: "grid",
@@ -119,6 +114,16 @@ export function MaterialClaimsTable({
   evidenceById
 }: MaterialClaimsTableProps) {
   const styles = useStyles();
+  const claimRecords = findings.map((finding) => ({
+    finding,
+    owners: Array.from(
+      new Set(
+        finding.citations
+          .map((citation) => evidenceById.get(citation.evidenceId)?.owner)
+          .filter((owner): owner is string => typeof owner === "string")
+      )
+    )
+  }));
 
   return (
     <Card className={styles.card}>
@@ -126,8 +131,9 @@ export function MaterialClaimsTable({
       {findings.length === 0 ? (
         <Body1>No accepted material claims are available for committee preparation yet.</Body1>
       ) : (
+        <>
         <Table aria-label="Material claims table" className={styles.table}>
-          <TableHeader className={styles.tableHeader}>
+          <TableHeader>
             <TableRow>
               <TableHeaderCell>Claim</TableHeaderCell>
               <TableHeaderCell>Evidence</TableHeaderCell>
@@ -135,18 +141,10 @@ export function MaterialClaimsTable({
               <TableHeaderCell>Disposition</TableHeaderCell>
             </TableRow>
           </TableHeader>
-          <TableBody className={styles.tableBody}>
-            {findings.map((finding) => {
-              const owners = Array.from(
-                new Set(
-                  finding.citations
-                    .map((citation) => evidenceById.get(citation.evidenceId)?.owner)
-                    .filter((owner): owner is string => typeof owner === "string")
-                )
-              );
-
+          <TableBody>
+            {claimRecords.map(({ finding, owners }) => {
               return (
-                <TableRow className={styles.tableRow} id={`claim-${finding.findingId}`} key={finding.findingId}>
+                <TableRow id={`claim-${finding.findingId}`} key={finding.findingId}>
                   <TableCell className={styles.tableCell} data-label="Claim">
                     <div className={styles.claimCell}>
                       <Body1Strong>{finding.title}</Body1Strong>
@@ -200,6 +198,65 @@ export function MaterialClaimsTable({
             })}
           </TableBody>
         </Table>
+        <div aria-label="Material claims records" className={styles.mobileList} role="list">
+          {claimRecords.map(({ finding, owners }) => (
+            <article className={styles.mobileRecord} key={finding.findingId} role="listitem">
+              <div className={styles.mobileField}>
+                <span className={styles.mobileLabel}>Claim</span>
+                <div className={styles.claimCell}>
+                  <Body1Strong>{finding.title}</Body1Strong>
+                  <Body1>{finding.summary}</Body1>
+                  <div className={styles.badgeRow}>
+                    <StatusBadge label={finding.materiality} status={finding.materiality} />
+                    {finding.analysisRunId ? (
+                      <span className={styles.runBadge}>
+                        <StatusBadge label={finding.analysisRunId} status="TERRA" />
+                      </span>
+                    ) : null}
+                  </div>
+                  <Caption1>
+                    Latest text action: {finding.textHistory.at(-1)?.action ?? "GENERATED"}
+                  </Caption1>
+                </div>
+              </div>
+              <div className={styles.mobileField}>
+                <span className={styles.mobileLabel}>Evidence</span>
+                <div className={styles.claimCell}>
+                  <Body1Strong>{finding.citations.length} linked sources</Body1Strong>
+                  <ul className={styles.sourceList}>
+                    {finding.citations.map((citation) => {
+                      const evidence = evidenceById.get(citation.evidenceId);
+                      return (
+                        <li key={citation.citationId}>
+                          <Caption1>{evidence?.title ?? citation.evidenceId}</Caption1>
+                          <Caption1>
+                            {evidence?.sourceLocator ?? citation.evidenceId} · {citation.locator}
+                          </Caption1>
+                          {evidence?.sourcePreview ? (
+                            <Caption1>{evidence.sourcePreview}</Caption1>
+                          ) : null}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+              <div className={styles.mobileField}>
+                <span className={styles.mobileLabel}>Owner</span>
+                <div className={styles.ownerList}>
+                  {owners.map((owner) => (
+                    <Caption1 key={owner}>{owner}</Caption1>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.mobileField}>
+                <span className={styles.mobileLabel}>Disposition</span>
+                <StatusBadge label={finding.status} status={finding.status} />
+              </div>
+            </article>
+          ))}
+        </div>
+        </>
       )}
     </Card>
   );
