@@ -16,6 +16,17 @@ const taskClassOptions: ReadonlyArray<{ value: AnalysisTaskClass; label: string 
   { value: "INVESTMENT_THESIS_CHALLENGE", label: "3. Investment-thesis challenge" }
 ];
 
+const runButtonLabels: Readonly<Record<AnalysisTaskClass, string>> = {
+  EVIDENCE_TRIAGE: "Run evidence triage",
+  QUERY_REWRITE: "Run query rewrite",
+  FIRST_PASS_SUMMARY: "Run first-pass summary",
+  GROUNDED_ANALYSIS: "Run grounded analysis",
+  CROSS_DOCUMENT_COMPARISON: "Run cross-document comparison",
+  ESG_NORMALISATION: "Run ESG normalisation",
+  COMPLEX_RISK_SYNTHESIS: "Run complex risk synthesis",
+  INVESTMENT_THESIS_CHALLENGE: "Run investment-thesis challenge"
+};
+
 const useStyles = makeStyles({
   panel: {
     display: "grid",
@@ -131,7 +142,7 @@ export function AnalysisTaskPanel({
             disabled={isBusy || question.trim().length === 0 || !onRunAnalysis}
             onClick={() => void onRunAnalysis?.()}
           >
-            {isBusy ? "Running..." : "Run grounded analysis"}
+            {isBusy ? "Running..." : runButtonLabels[taskClass]}
           </Button>
         )}
 

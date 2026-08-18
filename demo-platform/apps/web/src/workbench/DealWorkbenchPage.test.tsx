@@ -331,8 +331,9 @@ describe("DealWorkbenchPage", () => {
   it("orders analysis tasks from grounded review through investment challenge", () => {
     renderWorkbench();
 
+    const taskSelect = screen.getByLabelText("Analysis task");
     expect(
-      Array.from(screen.getByLabelText("Analysis task").querySelectorAll("option")).map(
+      Array.from(taskSelect.querySelectorAll("option")).map(
         (option) => option.textContent
       )
     ).toEqual([
@@ -340,6 +341,9 @@ describe("DealWorkbenchPage", () => {
       "2. Cross-document comparison",
       "3. Investment-thesis challenge"
     ]);
+
+    fireEvent.change(taskSelect, { target: { value: "INVESTMENT_THESIS_CHALLENGE" } });
+    expect(screen.getByRole("button", { name: "Run investment-thesis challenge" })).toBeEnabled();
   });
 
   it("has no axe violations", async () => {
