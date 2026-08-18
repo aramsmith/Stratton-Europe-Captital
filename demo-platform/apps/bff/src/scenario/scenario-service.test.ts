@@ -12,9 +12,10 @@ describe("ScenarioService", () => {
       state: { ...createProjectDanubeState(), stage: "REVIEW" }
     });
 
-    const reset = await new ScenarioService(repository).reset();
+    const reset = await new ScenarioService(repository, () => "analysis-cycle-2").reset();
 
     expect(reset.stage).toBe("INTAKE");
+    expect(reset.analysisCycleId).toBe("analysis-cycle-2");
     expect((await repository.load()).state.findings).toHaveLength(0);
   });
 

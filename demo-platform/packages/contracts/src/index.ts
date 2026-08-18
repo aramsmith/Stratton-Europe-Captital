@@ -157,6 +157,7 @@ export const governanceEventMetadataSchema = z
 export const scenarioStateSchema = z
   .object({
     caseId: z.literal("project-danube"),
+    analysisCycleId: z.string().min(1).default("project-danube-cycle-1"),
     stage: z.enum(["INTAKE", "ANALYSIS", "REVIEW", "COMMITTEE_PREPARATION"]),
     evidence: z
       .array(

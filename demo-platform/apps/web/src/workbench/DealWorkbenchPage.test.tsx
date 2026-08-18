@@ -305,7 +305,7 @@ describe("DealWorkbenchPage", () => {
 
     expect(screen.getByRole("button", { name: "Run grounded analysis" })).toBeDisabled();
     expect(
-      screen.getByText(/create a versioned cycle before rerunning this governed analysis/i)
+      screen.getByText(/use reset project danube in the header to start a new governed analysis cycle/i)
     ).toBeVisible();
   });
 

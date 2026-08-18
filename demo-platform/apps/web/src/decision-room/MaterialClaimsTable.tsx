@@ -24,11 +24,61 @@ const useStyles = makeStyles({
     ...shorthands.padding(tokens.spacingHorizontalL, tokens.spacingVerticalL)
   },
   table: {
-    minWidth: "100%"
+    width: "100%",
+    tableLayout: "fixed",
+    "@media (max-width: 760px)": {
+      display: "block"
+    }
+  },
+  tableHeader: {
+    "@media (max-width: 760px)": {
+      display: "none"
+    }
+  },
+  tableBody: {
+    "@media (max-width: 760px)": {
+      display: "grid",
+      gap: tokens.spacingVerticalM
+    }
+  },
+  tableRow: {
+    "@media (max-width: 760px)": {
+      display: "grid",
+      gap: tokens.spacingVerticalS,
+      border: "1px solid #d3d0c7",
+      borderRadius: "8px",
+      backgroundColor: "#f7f6f2",
+      ...shorthands.padding(tokens.spacingVerticalM)
+    }
+  },
+  tableCell: {
+    minWidth: 0,
+    verticalAlign: "top",
+    overflowWrap: "anywhere",
+    "@media (max-width: 760px)": {
+      display: "grid",
+      gridTemplateColumns: "minmax(88px, 0.32fr) minmax(0, 1fr)",
+      gap: tokens.spacingHorizontalM,
+      borderBottom: "1px solid #d3d0c7",
+      ...shorthands.padding(tokens.spacingVerticalS, 0),
+      "::before": {
+        content: "attr(data-label)",
+        color: "#495463",
+        fontSize: "11px",
+        fontWeight: 700,
+        letterSpacing: "0.06em",
+        textTransform: "uppercase"
+      },
+      ":last-child": {
+        borderBottom: 0
+      }
+    }
   },
   claimCell: {
     display: "grid",
-    gap: tokens.spacingVerticalXS
+    minWidth: 0,
+    gap: tokens.spacingVerticalXS,
+    overflowWrap: "anywhere"
   },
   badgeRow: {
     display: "flex",
@@ -40,11 +90,22 @@ const useStyles = makeStyles({
     display: "grid",
     gap: tokens.spacingVerticalXXS,
     margin: 0,
-    paddingLeft: tokens.spacingHorizontalM
+    paddingLeft: tokens.spacingHorizontalM,
+    overflowWrap: "anywhere"
   },
   ownerList: {
     display: "grid",
+    minWidth: 0,
     gap: tokens.spacingVerticalXXS
+  },
+  runBadge: {
+    minWidth: 0,
+    maxWidth: "100%",
+    "& > *": {
+      maxWidth: "100%",
+      overflowWrap: "anywhere",
+      wordBreak: "break-word"
+    }
   }
 });
 
@@ -66,7 +127,7 @@ export function MaterialClaimsTable({
         <Body1>No accepted material claims are available for committee preparation yet.</Body1>
       ) : (
         <Table aria-label="Material claims table" className={styles.table}>
-          <TableHeader>
+          <TableHeader className={styles.tableHeader}>
             <TableRow>
               <TableHeaderCell>Claim</TableHeaderCell>
               <TableHeaderCell>Evidence</TableHeaderCell>
@@ -74,7 +135,7 @@ export function MaterialClaimsTable({
               <TableHeaderCell>Disposition</TableHeaderCell>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className={styles.tableBody}>
             {findings.map((finding) => {
               const owners = Array.from(
                 new Set(
@@ -85,15 +146,17 @@ export function MaterialClaimsTable({
               );
 
               return (
-                <TableRow id={`claim-${finding.findingId}`} key={finding.findingId}>
-                  <TableCell>
+                <TableRow className={styles.tableRow} id={`claim-${finding.findingId}`} key={finding.findingId}>
+                  <TableCell className={styles.tableCell} data-label="Claim">
                     <div className={styles.claimCell}>
                       <Body1Strong>{finding.title}</Body1Strong>
                       <Body1>{finding.summary}</Body1>
                       <div className={styles.badgeRow}>
                         <StatusBadge label={finding.materiality} status={finding.materiality} />
                         {finding.analysisRunId ? (
-                          <StatusBadge label={finding.analysisRunId} status="TERRA" />
+                          <span className={styles.runBadge}>
+                            <StatusBadge label={finding.analysisRunId} status="TERRA" />
+                          </span>
                         ) : null}
                       </div>
                       <Caption1>
@@ -101,7 +164,7 @@ export function MaterialClaimsTable({
                       </Caption1>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={styles.tableCell} data-label="Evidence">
                     <div className={styles.claimCell}>
                       <Body1Strong>{finding.citations.length} linked sources</Body1Strong>
                       <ul className={styles.sourceList}>
@@ -122,14 +185,14 @@ export function MaterialClaimsTable({
                       </ul>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={styles.tableCell} data-label="Owner">
                     <div className={styles.ownerList}>
                       {owners.map((owner) => (
                         <Caption1 key={owner}>{owner}</Caption1>
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={styles.tableCell} data-label="Disposition">
                     <StatusBadge label={finding.status} status={finding.status} />
                   </TableCell>
                 </TableRow>

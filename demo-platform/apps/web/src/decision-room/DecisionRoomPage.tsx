@@ -60,7 +60,7 @@ const useStyles = makeStyles({
   metricCard: {
     display: "grid",
     gap: tokens.spacingVerticalXS,
-    border: "1px solid #dedbd2",
+    border: "1px solid #d3d0c7",
     boxShadow: tokens.shadow2,
     ...shorthands.padding(tokens.spacingHorizontalL, tokens.spacingVerticalL)
   },
@@ -164,8 +164,9 @@ export function DecisionRoomPage({
         </Card>
       </div>
 
+      <MaterialClaimsTable evidenceById={evidenceById} findings={acceptedMaterialFindings} />
+
       <div className={styles.workspaceGrid}>
-        <MaterialClaimsTable evidenceById={evidenceById} findings={acceptedMaterialFindings} />
         <ReviewChecklist caseId={scenario.caseId} items={reviewItems} onSubmitReview={onSubmitReview} />
         <RecommendationDraft
           caseId={scenario.caseId}

@@ -403,7 +403,7 @@ async function createScenarioRepository(
   config: ReturnType<typeof parseDemoConfig>
 ): Promise<ScenarioRepository> {
   if (config.DEMO_MODE === "LOCAL") {
-    return new InMemoryScenarioRepository(createProjectDanubeState());
+    return new InMemoryScenarioRepository(createProjectDanubeState(randomUUID()));
   }
 
   const azureConfig = parseAzureDemoConfig();
@@ -483,7 +483,7 @@ export async function initializeScenarioRepository(
       error.message === "SCENARIO_PROJECTION_NOT_FOUND"
     ) {
       try {
-        await repository.initialize(createProjectDanubeState());
+        await repository.initialize(createProjectDanubeState(randomUUID()));
       } catch (initializeError) {
         if (
           !(

@@ -136,6 +136,7 @@ export class AnalysisService {
         const admittedEvidenceIds = listAdmittedEvidenceIds(state);
         const analysisMetadataWithoutRunId = createAnalysisRunMetadata({
           caseId: input.caseId,
+          analysisCycleId: state.analysisCycleId,
           taskClass: input.taskClass,
           route,
           analystQuestion: input.question,
@@ -721,6 +722,7 @@ function listAdmittedEvidenceIds(state: ScenarioState): string[] {
 
 function createAnalysisRunMetadata(input: {
   caseId: string;
+  analysisCycleId: string;
   taskClass: AnalysisTaskClass;
   route: ModelRoute;
   analystQuestion: string;
@@ -732,6 +734,7 @@ function createAnalysisRunMetadata(input: {
   const analysisRequestFingerprint = hashValue(
     JSON.stringify({
       caseId: input.caseId,
+      analysisCycleId: input.analysisCycleId,
       taskClass: input.taskClass,
       route: input.route,
       analystQuestion,

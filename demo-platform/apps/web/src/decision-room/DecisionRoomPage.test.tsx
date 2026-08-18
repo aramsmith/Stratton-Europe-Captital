@@ -8,7 +8,7 @@ import type {
   ScenarioState
 } from "@stratton/contracts";
 import { createProjectDanubeState } from "@stratton/scenario-data";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { DecisionRoomPage } from "./DecisionRoomPage.js";
@@ -334,6 +334,25 @@ function renderDecisionRoom(initialScenario = createDecisionRoomScenario()) {
 }
 
 describe("DecisionRoomPage", () => {
+  it("labels material claim cells for responsive record layout", () => {
+    renderDecisionRoom();
+
+    const rows = within(screen.getByRole("table", { name: "Material claims table" }))
+      .getAllByRole("row")
+      .slice(1);
+
+    expect(
+      rows.map((row) =>
+        within(row)
+          .getAllByRole("cell")
+          .map((cell) => cell.getAttribute("data-label"))
+      )
+    ).toEqual([
+      ["Claim", "Evidence", "Owner", "Disposition"],
+      ["Claim", "Evidence", "Owner", "Disposition"]
+    ]);
+  });
+
   it("renders the governed decision room with blocked committee submission until Legal approval arrives", () => {
     renderDecisionRoom();
 

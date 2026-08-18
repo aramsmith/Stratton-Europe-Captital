@@ -126,6 +126,37 @@ describe("routeTask", () => {
 });
 
 describe("AnalysisService", () => {
+  it("creates a new governed fingerprint for the same request in a new analysis cycle", async () => {
+    const firstState = createAdmittedState();
+    firstState.analysisCycleId = "analysis-cycle-1";
+    const secondState = createAdmittedState();
+    secondState.analysisCycleId = "analysis-cycle-2";
+
+    const first = await new AnalysisService({
+      repository: new InMemoryScenarioRepository(firstState),
+      authoritativeWorkflow: createAuthoritativeBundleWorkflowDouble()
+    }).run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-cycle-1"
+    });
+    const second = await new AnalysisService({
+      repository: new InMemoryScenarioRepository(secondState),
+      authoritativeWorkflow: createAuthoritativeBundleWorkflowDouble()
+    }).run({
+      caseId: "project-danube",
+      taskClass: "CROSS_DOCUMENT_COMPARISON",
+      question: "Challenge management EBITDA quality",
+      correlationId: "corr-cycle-2"
+    });
+
+    expect(second.analysisMetadata.analysisRequestFingerprint).not.toBe(
+      first.analysisMetadata.analysisRequestFingerprint
+    );
+    expect(second.analysisRunId).not.toBe(first.analysisRunId);
+  });
+
   it("projects findings only after a ready authoritative bundle supplies its subject version", async () => {
     const repository = new InMemoryScenarioRepository(createAdmittedState());
     const authoritativeWorkflow = createAuthoritativeBundleWorkflowDouble();

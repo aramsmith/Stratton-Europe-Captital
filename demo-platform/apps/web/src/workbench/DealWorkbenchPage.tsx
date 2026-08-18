@@ -54,7 +54,7 @@ const useStyles = makeStyles({
     display: "grid",
     gap: tokens.spacingVerticalM,
     backgroundColor: tokens.colorNeutralBackground1,
-    border: "1px solid #dedbd2",
+    border: "1px solid #d3d0c7",
     boxShadow: tokens.shadow2,
     overflowX: "auto",
     ...shorthands.padding(tokens.spacingVerticalL, tokens.spacingHorizontalL)
@@ -78,7 +78,7 @@ const useStyles = makeStyles({
   }
 });
 const rerunBlockedReason =
-  "Create a versioned cycle before rerunning this governed analysis because the current findings already preserve governed text history or human dispositions.";
+  "Use Reset Project Danube in the header to start a new governed analysis cycle. The current findings and human dispositions remain preserved in authoritative history.";
 
 interface DealWorkbenchPageProps {
   readonly scenario: ScenarioState;
