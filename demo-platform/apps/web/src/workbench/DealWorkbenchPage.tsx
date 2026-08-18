@@ -22,18 +22,41 @@ import { FindingCard } from "./FindingCard.js";
 const useStyles = makeStyles({
   layout: {
     display: "grid",
-    gap: tokens.spacingVerticalXL
+    gap: "24px"
+  },
+  pageHeader: {
+    display: "grid",
+    gap: tokens.spacingVerticalS,
+    borderBottom: "1px solid #d3d0c7",
+    ...shorthands.padding(0, 0, tokens.spacingVerticalL)
+  },
+  pageTitle: {
+    margin: 0,
+    color: "#0b223b",
+    fontFamily: '"Source Serif 4", Georgia, serif',
+    fontSize: "24px",
+    fontWeight: 650,
+    letterSpacing: "-0.015em"
+  },
+  pageCopy: {
+    maxWidth: "76ch",
+    color: tokens.colorNeutralForeground2
   },
   grid: {
     display: "grid",
     gap: tokens.spacingHorizontalL,
-    gridTemplateColumns: "minmax(0, 1.4fr) minmax(320px, 1fr)"
+    gridTemplateColumns: "minmax(0, 1.4fr) minmax(320px, 1fr)",
+    "@media (max-width: 1050px)": {
+      gridTemplateColumns: "1fr"
+    }
   },
   card: {
     display: "grid",
     gap: tokens.spacingVerticalM,
     backgroundColor: tokens.colorNeutralBackground1,
-    boxShadow: tokens.shadow4,
+    border: "1px solid #dedbd2",
+    boxShadow: tokens.shadow2,
+    overflowX: "auto",
     ...shorthands.padding(tokens.spacingVerticalL, tokens.spacingHorizontalL)
   },
   findingGrid: {
@@ -181,9 +204,9 @@ export function DealWorkbenchPage({
 
   return (
     <div className={styles.layout}>
-      <section aria-labelledby="workbench-heading">
-        <h2 id="workbench-heading">AI Deal Workbench</h2>
-        <Body1>
+      <section aria-labelledby="workbench-heading" className={styles.pageHeader}>
+        <h2 className={styles.pageTitle} id="workbench-heading">AI Deal Workbench</h2>
+        <Body1 className={styles.pageCopy}>
           Govern evidence admission, launch routed analysis, compare cited sources, and keep human
           finding decisions explicit for Project Danube.
         </Body1>

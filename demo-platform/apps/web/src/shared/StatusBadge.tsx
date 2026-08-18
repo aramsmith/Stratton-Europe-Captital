@@ -1,4 +1,4 @@
-import { Badge, type BadgeProps } from "@fluentui/react-components";
+import { Badge, makeStyles, type BadgeProps } from "@fluentui/react-components";
 
 interface StatusBadgeProps {
   readonly label: string;
@@ -38,9 +38,26 @@ const badgeColorByStatus: Readonly<Record<string, NonNullable<BadgeProps["color"
   VERIFIED: "success"
 };
 
+const useStyles = makeStyles({
+  badge: {
+    minHeight: "22px",
+    fontSize: "10px",
+    fontWeight: 700,
+    letterSpacing: "0.06em",
+    textTransform: "uppercase",
+    borderRadius: "3px"
+  }
+});
+
 export function StatusBadge({ label, status }: StatusBadgeProps) {
+  const styles = useStyles();
+
   return (
-    <Badge appearance="tint" color={badgeColorByStatus[status] ?? "informative"}>
+    <Badge
+      appearance="tint"
+      className={styles.badge}
+      color={badgeColorByStatus[status] ?? "informative"}
+    >
       {label}
     </Badge>
   );

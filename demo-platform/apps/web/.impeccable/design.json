@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-18T10:38:31.929+02:00",
+  "title": "Design System: Stratton Europe Capital",
+  "extensions": {
+    "colorMeta": {
+      "institutional-navy": {
+        "role": "primary",
+        "displayName": "Institutional Navy",
+        "canonical": "#0b223b",
+        "tonalRamp": ["oklch(15% 0.056 252.6)", "oklch(25% 0.056 252.6)", "oklch(35% 0.056 252.6)", "oklch(45% 0.056 252.6)", "oklch(55% 0.056 252.6)", "oklch(65% 0.056 252.6)", "oklch(80% 0.056 252.6)", "oklch(95% 0.056 252.6)"]
+      },
+      "institutional-navy-deep": {
+        "role": "primary",
+        "displayName": "Cathedral Navy",
+        "canonical": "#081a2d",
+        "tonalRamp": ["oklch(15% 0.045 251.6)", "oklch(25% 0.045 251.6)", "oklch(35% 0.045 251.6)", "oklch(45% 0.045 251.6)", "oklch(55% 0.045 251.6)", "oklch(65% 0.045 251.6)", "oklch(80% 0.045 251.6)", "oklch(95% 0.045 251.6)"]
+      },
+      "institutional-navy-hover": {
+        "role": "primary",
+        "displayName": "Navy Hover",
+        "canonical": "#123452",
+        "tonalRamp": ["oklch(15% 0.067 248.3)", "oklch(25% 0.067 248.3)", "oklch(35% 0.067 248.3)", "oklch(45% 0.067 248.3)", "oklch(55% 0.067 248.3)", "oklch(65% 0.067 248.3)", "oklch(80% 0.067 248.3)", "oklch(95% 0.067 248.3)"]
+      },
+      "rail-active": {
+        "role": "primary",
+        "displayName": "Active Rail Navy",
+        "canonical": "#112f4d",
+        "tonalRamp": ["oklch(15% 0.065 250.9)", "oklch(25% 0.065 250.9)", "oklch(35% 0.065 250.9)", "oklch(45% 0.065 250.9)", "oklch(55% 0.065 250.9)", "oklch(65% 0.065 250.9)", "oklch(80% 0.065 250.9)", "oklch(95% 0.065 250.9)"]
+      },
+      "antique-gold": {
+        "role": "secondary",
+        "displayName": "Antique Gold",
+        "canonical": "#9a7932",
+        "tonalRamp": ["oklch(15% 0.097 83.8)", "oklch(25% 0.097 83.8)", "oklch(35% 0.097 83.8)", "oklch(45% 0.097 83.8)", "oklch(55% 0.097 83.8)", "oklch(65% 0.097 83.8)", "oklch(80% 0.097 83.8)", "oklch(95% 0.097 83.8)"]
+      },
+      "antique-gold-light": {
+        "role": "secondary",
+        "displayName": "Pale Antique Gold",
+        "canonical": "#c7b27d",
+        "tonalRamp": ["oklch(15% 0.074 88.8)", "oklch(25% 0.074 88.8)", "oklch(35% 0.074 88.8)", "oklch(45% 0.074 88.8)", "oklch(55% 0.074 88.8)", "oklch(65% 0.074 88.8)", "oklch(80% 0.074 88.8)", "oklch(95% 0.074 88.8)"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Clean Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": ["oklch(15% 0 0)", "oklch(25% 0 0)", "oklch(35% 0 0)", "oklch(45% 0 0)", "oklch(55% 0 0)", "oklch(65% 0 0)", "oklch(80% 0 0)", "oklch(95% 0 0)"]
+      },
+      "paper-warm": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#f7f6f2",
+        "tonalRamp": ["oklch(15% 0.005 95.1)", "oklch(25% 0.005 95.1)", "oklch(35% 0.005 95.1)", "oklch(45% 0.005 95.1)", "oklch(55% 0.005 95.1)", "oklch(65% 0.005 95.1)", "oklch(80% 0.005 95.1)", "oklch(95% 0.005 95.1)"]
+      },
+      "paper-field": {
+        "role": "neutral",
+        "displayName": "Ledger Field",
+        "canonical": "#efeee9",
+        "tonalRamp": ["oklch(15% 0.007 97.4)", "oklch(25% 0.007 97.4)", "oklch(35% 0.007 97.4)", "oklch(45% 0.007 97.4)", "oklch(55% 0.007 97.4)", "oklch(65% 0.007 97.4)", "oklch(80% 0.007 97.4)", "oklch(95% 0.007 97.4)"]
+      },
+      "paper-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ledger Paper",
+        "canonical": "#f5f3ee",
+        "tonalRamp": ["oklch(15% 0.007 88.6)", "oklch(25% 0.007 88.6)", "oklch(35% 0.007 88.6)", "oklch(45% 0.007 88.6)", "oklch(55% 0.007 88.6)", "oklch(65% 0.007 88.6)", "oklch(80% 0.007 88.6)", "oklch(95% 0.007 88.6)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ledger Ink",
+        "canonical": "#17202b",
+        "tonalRamp": ["oklch(15% 0.025 253.8)", "oklch(25% 0.025 253.8)", "oklch(35% 0.025 253.8)", "oklch(45% 0.025 253.8)", "oklch(55% 0.025 253.8)", "oklch(65% 0.025 253.8)", "oklch(80% 0.025 253.8)", "oklch(95% 0.025 253.8)"]
+      },
+      "slate": {
+        "role": "neutral",
+        "displayName": "Slate Annotation",
+        "canonical": "#495463",
+        "tonalRamp": ["oklch(15% 0.028 256.2)", "oklch(25% 0.028 256.2)", "oklch(35% 0.028 256.2)", "oklch(45% 0.028 256.2)", "oklch(55% 0.028 256.2)", "oklch(65% 0.028 256.2)", "oklch(80% 0.028 256.2)", "oklch(95% 0.028 256.2)"]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Precision Rule",
+        "canonical": "#d3d0c7",
+        "tonalRamp": ["oklch(15% 0.013 91.5)", "oklch(25% 0.013 91.5)", "oklch(35% 0.013 91.5)", "oklch(45% 0.013 91.5)", "oklch(55% 0.013 91.5)", "oklch(65% 0.013 91.5)", "oklch(80% 0.013 91.5)", "oklch(95% 0.013 91.5)"]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Assured Green",
+        "canonical": "#17633a",
+        "tonalRamp": ["oklch(15% 0.099 154.7)", "oklch(25% 0.099 154.7)", "oklch(35% 0.099 154.7)", "oklch(45% 0.099 154.7)", "oklch(55% 0.099 154.7)", "oklch(65% 0.099 154.7)", "oklch(80% 0.099 154.7)", "oklch(95% 0.099 154.7)"]
+      },
+      "success-tint": {
+        "role": "semantic",
+        "displayName": "Assured Tint",
+        "canonical": "#e8f3ec",
+        "tonalRamp": ["oklch(15% 0.015 158.2)", "oklch(25% 0.015 158.2)", "oklch(35% 0.015 158.2)", "oklch(45% 0.015 158.2)", "oklch(55% 0.015 158.2)", "oklch(65% 0.015 158.2)", "oklch(80% 0.015 158.2)", "oklch(95% 0.015 158.2)"]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Exception Red",
+        "canonical": "#a12b2b",
+        "tonalRamp": ["oklch(15% 0.154 25.3)", "oklch(25% 0.154 25.3)", "oklch(35% 0.154 25.3)", "oklch(45% 0.154 25.3)", "oklch(55% 0.154 25.3)", "oklch(65% 0.154 25.3)", "oklch(80% 0.154 25.3)", "oklch(95% 0.154 25.3)"]
+      },
+      "danger-tint": {
+        "role": "semantic",
+        "displayName": "Exception Tint",
+        "canonical": "#f8e9e8",
+        "tonalRamp": ["oklch(15% 0.016 22.1)", "oklch(25% 0.016 22.1)", "oklch(35% 0.016 22.1)", "oklch(45% 0.016 22.1)", "oklch(55% 0.016 22.1)", "oklch(65% 0.016 22.1)", "oklch(80% 0.016 22.1)", "oklch(95% 0.016 22.1)"]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Review Amber",
+        "canonical": "#725610",
+        "tonalRamp": ["oklch(15% 0.090 84.7)", "oklch(25% 0.090 84.7)", "oklch(35% 0.090 84.7)", "oklch(45% 0.090 84.7)", "oklch(55% 0.090 84.7)", "oklch(65% 0.090 84.7)", "oklch(80% 0.090 84.7)", "oklch(95% 0.090 84.7)"]
+      },
+      "warning-tint": {
+        "role": "semantic",
+        "displayName": "Review Tint",
+        "canonical": "#f6f0dd",
+        "tonalRamp": ["oklch(15% 0.026 92.4)", "oklch(25% 0.026 92.4)", "oklch(35% 0.026 92.4)", "oklch(45% 0.026 92.4)", "oklch(55% 0.026 92.4)", "oklch(65% 0.026 92.4)", "oklch(80% 0.026 92.4)", "oklch(95% 0.026 92.4)"]
+      },
+      "severe": {
+        "role": "semantic",
+        "displayName": "Committee Ochre",
+        "canonical": "#8c4c18",
+        "tonalRamp": ["oklch(15% 0.107 54.9)", "oklch(25% 0.107 54.9)", "oklch(35% 0.107 54.9)", "oklch(45% 0.107 54.9)", "oklch(55% 0.107 54.9)", "oklch(65% 0.107 54.9)", "oklch(80% 0.107 54.9)", "oklch(95% 0.107 54.9)"]
+      },
+      "severe-tint": {
+        "role": "semantic",
+        "displayName": "Committee Tint",
+        "canonical": "#f6eadf",
+        "tonalRamp": ["oklch(15% 0.020 65.1)", "oklch(25% 0.020 65.1)", "oklch(35% 0.020 65.1)", "oklch(45% 0.020 65.1)", "oklch(55% 0.020 65.1)", "oklch(65% 0.020 65.1)", "oklch(80% 0.020 65.1)", "oklch(95% 0.020 65.1)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Institutional Display",
+        "purpose": "Secure-access brand statement only."
+      },
+      "headline": {
+        "displayName": "Ledger Headline",
+        "purpose": "Workspace headings and case identity."
+      },
+      "title": {
+        "displayName": "Section Title",
+        "purpose": "Major workflow and card sections."
+      },
+      "body": {
+        "displayName": "Operational Body",
+        "purpose": "Evidence, controls, explanations, and table content."
+      },
+      "label": {
+        "displayName": "Operational Label",
+        "purpose": "Metrics, navigation metadata, and compact structure."
+      },
+      "mono": {
+        "displayName": "Case Identifier",
+        "purpose": "Case and technical identifiers."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hairline-lift",
+        "value": "0 1px 2px rgba(13, 31, 49, 0.08)",
+        "purpose": "Bordered workspace cards and restrained containers."
+      },
+      {
+        "name": "operational-lift",
+        "value": "0 2px 8px rgba(13, 31, 49, 0.08)",
+        "purpose": "Finding cards and interactive operating surfaces."
+      },
+      {
+        "name": "ledger-lift",
+        "value": "0 8px 24px rgba(13, 31, 49, 0.10)",
+        "purpose": "Case ledger and elevated shell moments."
+      },
+      {
+        "name": "command-bar-lift",
+        "value": "0 2px 10px rgba(13, 31, 49, 0.05)",
+        "purpose": "Sticky workspace context."
+      },
+      {
+        "name": "access-frame",
+        "value": "0 24px 70px rgba(11, 34, 59, 0.16)",
+        "purpose": "Secure-access institutional frame only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "fast",
+        "value": "150ms cubic-bezier(0.33,0,0.67,1)",
+        "purpose": "Hover, focus, and compact control state changes."
+      },
+      {
+        "name": "standard",
+        "value": "200ms cubic-bezier(0.33,0,0.67,1)",
+        "purpose": "Default Fluent state transition."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "Forced transition and animation duration when reduced motion is requested."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "record-stack",
+        "value": "620px"
+      },
+      {
+        "name": "compact-main",
+        "value": "700px"
+      },
+      {
+        "name": "access-frame-stack",
+        "value": "800px"
+      },
+      {
+        "name": "workflow-band",
+        "value": "900px"
+      },
+      {
+        "name": "operating-grid-stack",
+        "value": "1050px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single advancing action in a task group.",
+      "html": "<button class=\"ds-btn-primary\">Prepare committee pack</button>",
+      "css": ".ds-btn-primary { min-height: 32px; padding: 8px 16px; border: 1px solid #0b223b; border-radius: 4px; background: #0b223b; color: #fff; font: 600 14px/20px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; cursor: pointer; transition: background 150ms cubic-bezier(0.33,0,0.67,1), border-color 150ms cubic-bezier(0.33,0,0.67,1); } .ds-btn-primary:hover { background: #123452; border-color: #123452; } .ds-btn-primary:active { background: #07182a; border-color: #07182a; } .ds-btn-primary:focus-visible { outline: 2px solid #c7b27d; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A reversible or local action that stays subordinate to the primary control.",
+      "html": "<button class=\"ds-btn-secondary\">Challenge finding</button>",
+      "css": ".ds-btn-secondary { min-height: 32px; padding: 8px 16px; border: 1px solid #d3d0c7; border-radius: 4px; background: #fff; color: #0b223b; font: 600 14px/20px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; cursor: pointer; transition: background 150ms cubic-bezier(0.33,0,0.67,1), border-color 150ms cubic-bezier(0.33,0,0.67,1); } .ds-btn-secondary:hover { background: #f7f6f2; border-color: #9a7932; } .ds-btn-secondary:active { background: #efeee9; } .ds-btn-secondary:focus-visible { outline: 2px solid #c7b27d; outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A precise white field for governed questions and edited findings.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Edited finding summary</span><input class=\"ds-input\" value=\"Challenge management EBITDA quality\" /></label>",
+      "css": ".ds-field { display: grid; gap: 4px; color: #17202b; font: 600 12px/16px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; } .ds-input { min-height: 32px; padding: 6px 10px; border: 1px solid #d3d0c7; border-radius: 4px; background: #fff; color: #17202b; font: 400 14px/20px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; transition: border-color 150ms cubic-bezier(0.33,0,0.67,1), box-shadow 150ms cubic-bezier(0.33,0,0.67,1); } .ds-input:hover { border-color: #9a7932; } .ds-input:focus-visible { border-color: #0b223b; outline: none; box-shadow: 0 0 0 2px rgba(199,178,125,.55); }"
+    },
+    {
+      "name": "Assured Status Badge",
+      "kind": "chip",
+      "refersTo": "status-badge",
+      "description": "A restrained non-color status label for admitted, approved, current, successful, or verified state.",
+      "html": "<span class=\"ds-status-success\" tabindex=\"0\">VERIFIED</span>",
+      "css": ".ds-status-success { display: inline-flex; align-items: center; min-height: 22px; padding: 2px 6px; border: 1px solid rgba(23,99,58,.18); border-radius: 3px; background: #e8f3ec; color: #17633a; font: 700 10px/14px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; } .ds-status-success:hover { border-color: rgba(23,99,58,.35); } .ds-status-success:focus-visible { outline: 2px solid #c7b27d; outline-offset: 2px; }"
+    },
+    {
+      "name": "Operational Card",
+      "kind": "card",
+      "refersTo": "surface-card",
+      "description": "A compact paper container for evidence, review controls, and assurance records.",
+      "html": "<article class=\"ds-card\" tabindex=\"0\"><h3 class=\"ds-card-title\">Evidence admission</h3><p class=\"ds-card-copy\">Owner, licence, provenance, and admission status stay visible for every source.</p></article>",
+      "css": ".ds-card { display: grid; gap: 12px; padding: 16px; border: 1px solid #dedbd2; border-radius: 8px; background: #fff; color: #17202b; box-shadow: 0 1px 2px rgba(13,31,49,.08); transition: border-color 150ms cubic-bezier(0.33,0,0.67,1); } .ds-card:hover { border-color: #d3d0c7; } .ds-card:focus-visible { outline: 2px solid #c7b27d; outline-offset: 2px; } .ds-card-title { margin: 0; color: #0b223b; font: 600 20px/28px \"Source Serif 4\", Georgia, serif; } .ds-card-copy { margin: 0; color: #495463; font: 400 14px/20px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; }"
+    },
+    {
+      "name": "Institutional Workflow Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-current",
+      "description": "Persistent desktop rail navigation that becomes a horizontal workflow band at tablet widths.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Investment workflow\"><a class=\"ds-nav-link ds-nav-current\" href=\"#\"><span class=\"ds-nav-title\">AI Deal Workbench</span><span class=\"ds-nav-summary\">Governed evidence intake and analyst-ready findings.</span></a><a class=\"ds-nav-link\" href=\"#\"><span class=\"ds-nav-title\">Investment Decision Room</span><span class=\"ds-nav-summary\">Review readiness and committee-pack preparation.</span></a><a class=\"ds-nav-link\" href=\"#\"><span class=\"ds-nav-title\">Governance &amp; Assurance</span><span class=\"ds-nav-summary\">Lineage, policy, security gates, and audit readiness.</span></a></nav>",
+      "css": ".ds-nav { display: grid; gap: 4px; width: 276px; padding: 16px; background: #081a2d; } .ds-nav-link { display: grid; gap: 4px; min-height: 62px; padding: 13px 14px; border: 1px solid transparent; border-radius: 4px; color: #c9d0d7; text-decoration: none; transition: background 150ms cubic-bezier(0.33,0,0.67,1), color 150ms cubic-bezier(0.33,0,0.67,1); } .ds-nav-link:hover { background: #102a45; color: #fff; } .ds-nav-link:focus-visible { outline: 2px solid #c7b27d; outline-offset: 2px; } .ds-nav-current { border-color: #52657a; background: #112f4d; color: #fff; box-shadow: inset 3px 0 0 #b28c3d; } .ds-nav-title { font: 600 14px/1.25 Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; } .ds-nav-summary { color: #97a4b1; font: 400 11px/1.35 Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; } @media (max-width: 900px) { .ds-nav { grid-template-columns: repeat(3,minmax(0,1fr)); width: 100%; } .ds-nav-summary { display: none; } } @media (max-width: 620px) { .ds-nav { grid-template-columns: 1fr; } }"
+    },
+    {
+      "name": "Case Ledger Summary",
+      "kind": "custom",
+      "refersTo": "case-ledger",
+      "description": "The signature mandate surface pairing case identity with compact workflow metrics.",
+      "html": "<section class=\"ds-ledger\" tabindex=\"0\"><div class=\"ds-ledger-identity\"><div class=\"ds-ledger-title-row\"><h2 class=\"ds-ledger-title\">Project Danube</h2><span class=\"ds-ledger-stage\">REVIEW</span></div><p class=\"ds-ledger-copy\">Material finding challenge, review readiness, and committee-pack preparation controls.</p></div><div class=\"ds-ledger-metrics\"><div class=\"ds-ledger-metric\"><strong>4</strong><span>Evidence</span></div><div class=\"ds-ledger-metric\"><strong>3</strong><span>Findings</span></div><div class=\"ds-ledger-metric\"><strong>2</strong><span>Reviews</span></div><div class=\"ds-ledger-metric\"><strong>12</strong><span>Audit events</span></div></div></section>",
+      "css": ".ds-ledger { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(480px,.8fr); overflow: hidden; border-top: 3px solid #9a7932; border-radius: 8px; background: #fff; color: #17202b; box-shadow: 0 8px 22px rgba(13,31,49,.08); transition: box-shadow 150ms cubic-bezier(0.33,0,0.67,1); } .ds-ledger:hover { box-shadow: 0 8px 24px rgba(13,31,49,.10); } .ds-ledger:focus-visible { outline: 2px solid #c7b27d; outline-offset: 2px; } .ds-ledger-identity { display: grid; align-content: center; gap: 8px; padding: 26px 28px; } .ds-ledger-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; } .ds-ledger-title { margin: 0; color: #0b223b; font: 600 24px/32px \"Source Serif 4\", Georgia, serif; letter-spacing: -.02em; } .ds-ledger-stage { padding: 2px 6px; border-radius: 3px; background: #e8edf2; color: #0b223b; font: 700 10px/14px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; letter-spacing: .06em; } .ds-ledger-copy { margin: 0; max-width: 72ch; color: #495463; font: 400 14px/20px Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; } .ds-ledger-metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); border-left: 1px solid #dedbd2; background: #f5f3ee; } .ds-ledger-metric { display: grid; align-content: center; gap: 5px; min-height: 92px; padding: 18px 16px; border-right: 1px solid #dedbd2; } .ds-ledger-metric:last-child { border-right: 0; } .ds-ledger-metric strong { color: #0b223b; font: 600 24px/1 Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; } .ds-ledger-metric span { color: #66717e; font: 600 11px/1.35 Aptos, \"Segoe UI\", Calibri, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; } @media (max-width: 1050px) { .ds-ledger { grid-template-columns: 1fr; } .ds-ledger-metrics { border-top: 1px solid #dedbd2; border-left: 0; } } @media (max-width: 620px) { .ds-ledger-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "European Investment Committee Ledger",
+    "overview": "The interface is a formal operating ledger rather than generic SaaS chrome. Deep navy architecture establishes institutional continuity; antique-gold rules mark authority sparingly; warm paper surfaces hold dense evidence, review, lineage, and assurance data with the calm precision of a committee book.\n\nBrand expression remains concentrated in the supplied Stratton emblem and wordmark, the persistent rail, serif headings, and exact rules. The working field is deliberately restrained so decision-critical state, provenance, human authority, and fail-closed conditions remain immediately legible across desktop, tablet, and mobile layouts.",
+    "keyCharacteristics": [
+      "Deep navy institutional architecture with antique-gold authority marks.",
+      "Warm paper surfaces separated by precise rules and low, structural shadows.",
+      "Source Serif 4 headings paired with compact Aptos/Segoe UI operational text.",
+      "A persistent desktop rail that becomes horizontal workflow navigation at tablet widths.",
+      "A case ledger summary that preserves mandate and workflow context above every workspace.",
+      "Restrained semantic status tints with explicit non-color labels."
+    ],
+    "rules": [
+      {
+        "name": "The Ledger, Not Dashboard Rule",
+        "body": "Compose screens as ordered records, evidence tables, review controls, and committee preparation—not decorative analytics.",
+        "section": "overview"
+      },
+      {
+        "name": "The Authority-Mark Rule",
+        "body": "Antique gold marks institutional authority and focus; it is never a broad decorative fill.",
+        "section": "colors"
+      },
+      {
+        "name": "The Status-Is-Evidence Rule",
+        "body": "Semantic colors always travel with an explicit text label, never as color-only meaning.",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif-for-Authority Rule",
+        "body": "Use Source Serif 4 for headings that establish mandate, place, or decision context; keep controls and operational data in the body sans serif.",
+        "section": "typography"
+      },
+      {
+        "name": "The Compact-Data Rule",
+        "body": "Use small uppercase labels only for status, metric, and navigation metadata—not for paragraph copy.",
+        "section": "typography"
+      },
+      {
+        "name": "The Persistent Context Rule",
+        "body": "The mandate, active workspace, case identity, and ledger summary remain visible before task-specific content.",
+        "section": "layout"
+      },
+      {
+        "name": "The Controlled Collapse Rule",
+        "body": "Tablet and mobile layouts preserve workflow order and labels; they change orientation rather than removing decision context.",
+        "section": "layout"
+      },
+      {
+        "name": "The Structural-Depth Rule",
+        "body": "Use rules and tonal paper changes first; reserve shadows for hierarchy, stickiness, or explicit containment.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Reserved-Curve Rule",
+        "body": "Rounded forms support touch and grouping but never make the ledger feel playful or pill-heavy.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do keep the deep navy rail, command context, and case ledger as the persistent institutional frame.",
+      "Do use antique gold only for authority rules, focus, and restrained brand strokes.",
+      "Do set mandate, workspace, case, and major section headings in Source Serif 4.",
+      "Do keep operational data compact, ordered, and separated by exact rules.",
+      "Do preserve explicit text labels for every semantic status.",
+      "Do retain the supplied Stratton emblem and wordmark as the canonical brand assets."
+    ],
+    "donts": [
+      "Don't replace the ledger hierarchy with generic dashboard tiles, decorative charts, or consumer SaaS chrome.",
+      "Don't use gold as a large background, gradient, or decorative accent field.",
+      "Don't make semantic status color louder than the evidence or decision content it qualifies.",
+      "Don't introduce oversized type, excessive whitespace, or rounded pill surfaces that reduce operational density.",
+      "Don't hide mandate, case, workflow, provenance, or human-authority context during responsive collapse.",
+      "Don't imply automated investment approval; committee submission remains visibly human-only and unavailable."
+    ]
+  }
+}

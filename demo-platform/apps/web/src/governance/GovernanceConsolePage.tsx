@@ -37,11 +37,31 @@ interface GovernanceConsolePageProps {
 const useStyles = makeStyles({
   layout: {
     display: "grid",
-    gap: tokens.spacingVerticalXL
+    gap: "24px"
+  },
+  pageHeader: {
+    display: "grid",
+    gap: tokens.spacingVerticalS,
+    borderBottom: "1px solid #d3d0c7",
+    ...shorthands.padding(0, 0, tokens.spacingVerticalL)
+  },
+  pageTitle: {
+    margin: 0,
+    color: "#0b223b",
+    fontFamily: '"Source Serif 4", Georgia, serif',
+    fontSize: "24px",
+    fontWeight: 650,
+    letterSpacing: "-0.015em"
+  },
+  pageCopy: {
+    maxWidth: "76ch",
+    color: tokens.colorNeutralForeground2
   },
   card: {
     display: "grid",
     gap: tokens.spacingVerticalM,
+    border: "1px solid #dedbd2",
+    boxShadow: tokens.shadow2,
     ...shorthands.padding(tokens.spacingVerticalL, tokens.spacingHorizontalL)
   },
   panel: {
@@ -126,11 +146,11 @@ export function GovernanceConsolePage({
 
   return (
     <div className={styles.layout}>
-      <section aria-labelledby="governance-console-heading">
-        <Title3 as="h2" id="governance-console-heading">
+      <section aria-labelledby="governance-console-heading" className={styles.pageHeader}>
+        <Title3 as="h2" className={styles.pageTitle} id="governance-console-heading">
           Governance & Assurance Console
         </Title3>
-        <Body1>
+        <Body1 className={styles.pageCopy}>
           Trace source-to-recommendation lineage, expose policy and route evidence, and preview
           audit export readiness without issuing an Internal Audit verdict.
         </Body1>

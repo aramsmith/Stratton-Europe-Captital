@@ -5,7 +5,29 @@ import { StatusBadge } from "../shared/StatusBadge.js";
 const useStyles = makeStyles({
   table: {
     width: "100%",
-    borderCollapse: "collapse"
+    borderCollapse: "collapse",
+    "@media (max-width: 620px)": {
+      display: "block"
+    }
+  },
+  tableHead: {
+    "@media (max-width: 620px)": {
+      display: "none"
+    }
+  },
+  tableBody: {
+    "@media (max-width: 620px)": {
+      display: "grid",
+      gap: tokens.spacingVerticalM
+    }
+  },
+  row: {
+    "@media (max-width: 620px)": {
+      display: "grid",
+      border: `1px solid ${tokens.colorNeutralStroke2}`,
+      ...shorthands.borderRadius(tokens.borderRadiusMedium),
+      ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalS)
+    }
   },
   headerCell: {
     textAlign: "left",
@@ -15,7 +37,24 @@ const useStyles = makeStyles({
   cell: {
     verticalAlign: "top",
     ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalS),
-    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`
+    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
+    "@media (max-width: 620px)": {
+      display: "grid",
+      gridTemplateColumns: "88px minmax(0, 1fr)",
+      gap: tokens.spacingHorizontalS,
+      alignItems: "start",
+      "::before": {
+        content: "attr(data-label)",
+        color: tokens.colorNeutralForeground3,
+        fontSize: "10px",
+        fontWeight: 700,
+        letterSpacing: "0.06em",
+        textTransform: "uppercase"
+      },
+      ":last-child": {
+        borderBottomStyle: "none"
+      }
+    }
   },
   meta: {
     display: "grid",
@@ -43,7 +82,7 @@ export function EvidenceTable({
 
   return (
     <table className={styles.table}>
-      <thead>
+      <thead className={styles.tableHead}>
         <tr>
           <th className={styles.headerCell} scope="col">
             Evidence
@@ -62,26 +101,26 @@ export function EvidenceTable({
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={styles.tableBody}>
         {evidence.map((item) => (
-          <tr key={item.evidenceId}>
-            <td className={styles.cell}>
+          <tr className={styles.row} key={item.evidenceId}>
+            <td className={styles.cell} data-label="Evidence">
               <div className={styles.meta}>
                 <strong>{item.title}</strong>
                 <Caption1>{item.sourceLocator}</Caption1>
               </div>
             </td>
-            <td className={styles.cell}>{item.owner}</td>
-            <td className={styles.cell}>
+            <td className={styles.cell} data-label="Owner">{item.owner}</td>
+            <td className={styles.cell} data-label="Licence">
               <StatusBadge label={item.licenceStatus} status={item.licenceStatus} />
             </td>
-            <td className={styles.cell}>
+            <td className={styles.cell} data-label="Provenance">
               <div className={styles.badgeRow}>
                 <StatusBadge label={item.provenanceStatus} status={item.provenanceStatus} />
                 <StatusBadge label={item.domain} status={item.domain} />
               </div>
             </td>
-            <td className={styles.cell}>
+            <td className={styles.cell} data-label="Admission">
               <div className={styles.badgeRow}>
                 <StatusBadge label={item.admissionStatus} status={item.admissionStatus} />
                 <Button

@@ -31,8 +31,26 @@ import { StatusBadge } from "../shared/StatusBadge.js";
 const useStyles = makeStyles({
   routeLayout: {
     display: "grid",
-    gap: tokens.spacingVerticalXL,
+    gap: "24px",
     alignItems: "start"
+  },
+  pageHeader: {
+    display: "grid",
+    gap: tokens.spacingVerticalS,
+    borderBottom: "1px solid #d3d0c7",
+    ...shorthands.padding(0, 0, tokens.spacingVerticalL)
+  },
+  pageTitle: {
+    margin: 0,
+    color: "#0b223b",
+    fontFamily: '"Source Serif 4", Georgia, serif',
+    fontSize: "24px",
+    fontWeight: 650,
+    letterSpacing: "-0.015em"
+  },
+  pageCopy: {
+    maxWidth: "76ch",
+    color: tokens.colorNeutralForeground2
   },
   cardGrid: {
     display: "grid",
@@ -42,6 +60,8 @@ const useStyles = makeStyles({
   metricCard: {
     display: "grid",
     gap: tokens.spacingVerticalXS,
+    border: "1px solid #dedbd2",
+    boxShadow: tokens.shadow2,
     ...shorthands.padding(tokens.spacingHorizontalL, tokens.spacingVerticalL)
   },
   workspaceGrid: {
@@ -105,11 +125,11 @@ export function DecisionRoomPage({
 
   return (
     <div className={styles.routeLayout}>
-      <section aria-labelledby="decision-room-heading">
-        <Title3 as="h2" id="decision-room-heading">
+      <section aria-labelledby="decision-room-heading" className={styles.pageHeader}>
+        <Title3 as="h2" className={styles.pageTitle} id="decision-room-heading">
           Investment Decision Room
         </Title3>
-        <Body1>
+        <Body1 className={styles.pageCopy}>
           Govern material claims, record mandatory specialist approvals, and assemble a committee
           pack draft without creating an investment approval action.
         </Body1>
