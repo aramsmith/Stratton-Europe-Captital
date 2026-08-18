@@ -384,6 +384,7 @@ export function App({ authSession = createLocalBrowserAuthSession() }: AppProps)
       {scenario ? (
         <BrowserRouter>
           <StrattonShell
+            accountDisplayName={account?.displayName ?? "Authenticated user"}
             isResetPending={isResetPending}
             onReset={handleReset}
             resetError={resetError}

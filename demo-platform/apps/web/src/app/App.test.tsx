@@ -44,7 +44,7 @@ describe("App authentication", () => {
         authSession={{
           mode: "AZURE",
           account: {
-            displayName: "Elena Müller"
+            displayName: "Aram Smith"
           },
           signIn: vi.fn(),
           getAccessToken
@@ -53,6 +53,8 @@ describe("App authentication", () => {
     );
 
     expect(await screen.findByRole("heading", { name: "Project Danube" })).toBeVisible();
+    expect(screen.getByText("Aram Smith")).toBeVisible();
+    expect(screen.queryByText("Elena Müller")).not.toBeInTheDocument();
     expect(getAccessToken).toHaveBeenCalled();
     expect(fetchMock).toHaveBeenCalledWith("/api/scenario", {
       signal: expect.any(AbortSignal),

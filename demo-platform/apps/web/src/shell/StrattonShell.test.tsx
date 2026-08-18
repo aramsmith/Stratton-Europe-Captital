@@ -11,7 +11,7 @@ const scenario = createProjectDanubeState();
 function renderShell(path = "/workbench", onReset = vi.fn(), children = <div>Route body</div>) {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <StrattonShell scenario={scenario} onReset={onReset}>
+      <StrattonShell accountDisplayName="Aram Smith" scenario={scenario} onReset={onReset}>
         {children}
       </StrattonShell>
     </MemoryRouter>
@@ -21,7 +21,7 @@ function renderShell(path = "/workbench", onReset = vi.fn(), children = <div>Rou
 function renderRouteShell(path = "/workbench") {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <StrattonShell scenario={scenario}>
+      <StrattonShell accountDisplayName="Aram Smith" scenario={scenario}>
         <AppRoutes scenario={scenario} />
       </StrattonShell>
     </MemoryRouter>
@@ -36,6 +36,8 @@ describe("StrattonShell", () => {
     expect(screen.getByRole("link", { name: "AI Deal Workbench" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Investment Decision Room" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Governance & Assurance Console" })).toBeVisible();
+    expect(screen.getByText("Aram Smith")).toBeVisible();
+    expect(screen.getByText("Authenticated user")).toBeVisible();
   });
 
   it("marks the selected workspace as the current page", () => {

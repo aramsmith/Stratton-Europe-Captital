@@ -28,6 +28,7 @@ import { workspaceDefinitions } from "../app/routes.js";
 
 interface StrattonShellProps {
   readonly scenario: ScenarioState;
+  readonly accountDisplayName: string;
   readonly children: ReactNode;
   readonly onReset?: () => Promise<void> | void;
   readonly isResetPending?: boolean;
@@ -365,6 +366,7 @@ const useStyles = makeStyles({
 
 export function StrattonShell({
   scenario,
+  accountDisplayName,
   children,
   onReset,
   isResetPending = false,
@@ -408,6 +410,7 @@ export function StrattonShell({
     { label: "Reviews", value: scenario.reviews.length },
     { label: "Audit events", value: scenario.governanceEvents.length }
   ] as const;
+  const accountInitials = getInitials(accountDisplayName);
 
   return (
     <div className={styles.viewport}>
@@ -494,11 +497,11 @@ export function StrattonShell({
                 {isResetPending ? "Resetting..." : "Reset case"}
               </Button>
               <div className={styles.avatar} aria-hidden="true">
-                EM
+                {accountInitials}
               </div>
               <div className={styles.accountText}>
-                <Body1Strong>Elena Müller</Body1Strong>
-                <Caption1>Deal Lead</Caption1>
+                <Body1Strong>{accountDisplayName}</Body1Strong>
+                <Caption1>Authenticated user</Caption1>
               </div>
             </div>
           </div>
@@ -573,4 +576,16 @@ export function StrattonShell({
       </div>
     </div>
   );
+}
+
+function getInitials(displayName: string): string {
+  const nameParts = displayName.trim().split(/\s+/u).filter(Boolean);
+  const firstName = nameParts[0] ?? "";
+  const lastName = nameParts.at(-1) ?? firstName;
+  const initials =
+    nameParts.length > 1
+      ? `${firstName.charAt(0)}${lastName.charAt(0)}`
+      : firstName.slice(0, 2);
+
+  return initials.toUpperCase();
 }
