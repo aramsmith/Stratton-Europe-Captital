@@ -514,6 +514,79 @@ describe("ReviewService", () => {
     );
   });
 
+  it("records a governed committee-pack submission only after the draft is prepared", async () => {
+    const repository = new InMemoryScenarioRepository(
+      withCurrentSecurityGatePasses(
+        createReviewedScenario([
+          approvedReview("DEAL", "finding-ebitda-quality"),
+          approvedReview("LEGAL", "finding-permit-transfer"),
+          approvedReview("COMPLIANCE", "finding-permit-transfer")
+        ])
+      )
+    );
+    const service = new ReviewService({
+      repository,
+      compatibilityMode: "LEGACY_TEST_ONLY",
+      phase5Client: createPhase5ClientDouble(),
+      createId: () => "event-committee-submission",
+      now: () => "2026-08-06T10:35:00.000Z"
+    });
+
+    await expect(
+      service.submitCommitteePack({
+        caseId: "project-danube",
+        principalType: "HUMAN",
+        correlationId: "corr-submit-before-prepare"
+      })
+    ).rejects.toMatchObject({
+      code: "STATE_CONFLICT",
+      message: "COMMITTEE_PACK_DRAFT_REQUIRED"
+    });
+
+    await service.prepareRecommendation({
+      caseId: "project-danube",
+      principalType: "HUMAN",
+      correlationId: "corr-prepare"
+    });
+
+    await expect(
+      service.submitCommitteePack({
+        caseId: "project-danube",
+        principalType: "SERVICE",
+        correlationId: "corr-submit-service"
+      })
+    ).rejects.toMatchObject({
+      code: "POLICY_DENIED",
+      message: "A human committee preparer must submit the committee pack."
+    });
+
+    const submittedState = await service.submitCommitteePack({
+      caseId: "project-danube",
+      principalType: "HUMAN",
+      correlationId: "corr-submit"
+    });
+    const retriedState = await service.submitCommitteePack({
+      caseId: "project-danube",
+      principalType: "HUMAN",
+      correlationId: "corr-submit-retry"
+    });
+
+    expect(submittedState.governanceEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "COMMITTEE_PACK_SUBMITTED",
+          outcome: "SUCCESS",
+          correlationId: "corr-submit"
+        })
+      ])
+    );
+    expect(
+      retriedState.governanceEvents.filter(
+        (event) => event.type === "COMMITTEE_PACK_SUBMITTED" && event.outcome === "SUCCESS"
+      )
+    ).toHaveLength(1);
+  });
+
   it("re-requires specialist approval when an accepted material finding changes after approval", async () => {
     const scenario = createReviewedScenario([
       approvedReview("DEAL", "finding-ebitda-quality"),

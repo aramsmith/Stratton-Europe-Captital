@@ -21,7 +21,10 @@ const recommendationPreparationPayloadSchema = z
   .strict();
 
 export interface ReviewRouteDependencies {
-  readonly reviewService: Pick<ReviewService, "submitReview" | "prepareRecommendation">;
+  readonly reviewService: Pick<
+    ReviewService,
+    "submitReview" | "prepareRecommendation" | "submitCommitteePack"
+  >;
   readonly authorization: RequestAuthorizer;
 }
 
@@ -61,6 +64,26 @@ export function createReviewRouter(dependencies: ReviewRouteDependencies): Route
     );
 
     const scenario = await dependencies.reviewService.prepareRecommendation({
+      ...payload.data,
+      principalType: identity.principalType,
+      correlationId: getCorrelationId(response)
+    });
+
+    response.status(200).json({ scenario });
+  });
+
+  router.post("/api/recommendation/submit", async (request, response) => {
+    const payload = recommendationPreparationPayloadSchema.safeParse(request.body);
+    if (!payload.success) {
+      throw new DemoHttpError(400, "INVALID_CONTRACT");
+    }
+    const identity = dependencies.authorization.require(
+      response,
+      payload.data.caseId,
+      "Stratton.Demo.CommitteePreparer"
+    );
+
+    const scenario = await dependencies.reviewService.submitCommitteePack({
       ...payload.data,
       principalType: identity.principalType,
       correlationId: getCorrelationId(response)

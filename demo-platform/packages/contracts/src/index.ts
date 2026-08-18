@@ -321,6 +321,15 @@ export type RecommendationPreparationRequest = z.infer<
   typeof recommendationPreparationRequestSchema
 >;
 
+export const committeeSubmissionRequestSchema = z
+  .object({
+    caseId: z.literal("project-danube")
+  })
+  .strict();
+export type CommitteeSubmissionRequest = z.infer<
+  typeof committeeSubmissionRequestSchema
+>;
+
 export const securityGateRunRequestSchema = z
   .object({
     caseId: z.literal("project-danube")

@@ -810,22 +810,21 @@ describe("createDemoServer", () => {
       phase5Client
     });
 
-    const response = await request(
-      createLocalDemoServer({
-        scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({
-          repository,
-          compatibilityMode: "LEGACY_TEST_ONLY",
-          phase5Client
-        }),
-        analysisService: new AnalysisService({
-          repository,
-          compatibilityMode: "LEGACY_TEST_ONLY",
-          phase5Client
-        }),
-        reviewService
-      })
-    )
+    const server = createLocalDemoServer({
+      scenarioService: new ScenarioService(repository),
+      evidenceService: new EvidenceService({
+        repository,
+        compatibilityMode: "LEGACY_TEST_ONLY",
+        phase5Client
+      }),
+      analysisService: new AnalysisService({
+        repository,
+        compatibilityMode: "LEGACY_TEST_ONLY",
+        phase5Client
+      }),
+      reviewService
+    });
+    const response = await request(server)
       .post("/api/recommendation/prepare")
       .send({ caseId: "project-danube" });
 
@@ -846,22 +845,21 @@ describe("createDemoServer", () => {
       phase5Client
     });
 
-    const response = await request(
-      createLocalDemoServer({
-        scenarioService: new ScenarioService(repository),
-        evidenceService: new EvidenceService({
-          repository,
-          compatibilityMode: "LEGACY_TEST_ONLY",
-          phase5Client
-        }),
-        analysisService: new AnalysisService({
-          repository,
-          compatibilityMode: "LEGACY_TEST_ONLY",
-          phase5Client
-        }),
-        reviewService
-      })
-    )
+    const server = createLocalDemoServer({
+      scenarioService: new ScenarioService(repository),
+      evidenceService: new EvidenceService({
+        repository,
+        compatibilityMode: "LEGACY_TEST_ONLY",
+        phase5Client
+      }),
+      analysisService: new AnalysisService({
+        repository,
+        compatibilityMode: "LEGACY_TEST_ONLY",
+        phase5Client
+      }),
+      reviewService
+    });
+    const response = await request(server)
       .post("/api/recommendation/prepare")
       .send({ caseId: "project-danube" });
 
@@ -872,6 +870,20 @@ describe("createDemoServer", () => {
         caseId: "project-danube",
         analysisRunId: "run-terra-1"
       })
+    );
+
+    const submissionResponse = await request(server)
+      .post("/api/recommendation/submit")
+      .send({ caseId: "project-danube" });
+
+    expect(submissionResponse.status).toBe(200);
+    expect(submissionResponse.body.scenario.governanceEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "COMMITTEE_PACK_SUBMITTED",
+          outcome: "SUCCESS"
+        })
+      ])
     );
   });
 
@@ -895,7 +907,8 @@ describe("createDemoServer", () => {
         },
         reviewService: {
           submitReview: async () => createProjectDanubeState(),
-          prepareRecommendation: async () => createProjectDanubeState()
+          prepareRecommendation: async () => createProjectDanubeState(),
+          submitCommitteePack: async () => createProjectDanubeState()
         }
       })
     )

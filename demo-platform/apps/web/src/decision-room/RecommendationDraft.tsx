@@ -11,6 +11,7 @@ import {
 } from "@fluentui/react-components";
 import type {
   AnalysisFinding,
+  CommitteeSubmissionRequest,
   EvidenceItem,
   RecommendationPreparationRequest
 } from "@stratton/contracts";
@@ -68,7 +69,9 @@ interface RecommendationDraftProps {
   readonly materialFindings: readonly AnalysisFinding[];
   readonly openConditions: readonly string[];
   readonly isReady: boolean;
+  readonly isSubmitted: boolean;
   readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
+  readonly onSubmitCommitteePack?: ((input: CommitteeSubmissionRequest) => Promise<void> | void) | undefined;
 }
 
 export function RecommendationDraft({
@@ -78,11 +81,15 @@ export function RecommendationDraft({
   materialFindings,
   openConditions,
   isReady,
-  onPrepareRecommendation
+  isSubmitted,
+  onPrepareRecommendation,
+  onSubmitCommitteePack
 }: RecommendationDraftProps) {
   const styles = useStyles();
   const [error, setError] = useState<string | null>(null);
   const [isPreparing, setIsPreparing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isPrepared = currentStage === "COMMITTEE_PREPARATION";
 
   const handlePrepareRecommendation = async () => {
     if (!onPrepareRecommendation) {
@@ -98,6 +105,23 @@ export function RecommendationDraft({
       setError(toErrorMessage(caughtError));
     } finally {
       setIsPreparing(false);
+    }
+  };
+
+  const handleSubmitCommitteePack = async () => {
+    if (!onSubmitCommitteePack) {
+      return;
+    }
+
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      await onSubmitCommitteePack({ caseId });
+    } catch (caughtError) {
+      setError(toErrorMessage(caughtError));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -120,17 +144,37 @@ export function RecommendationDraft({
       <div aria-label="Committee pack actions" className={styles.actionRail}>
         <Button
           appearance="primary"
-          disabled={!isReady || isPreparing || !onPrepareRecommendation}
+          disabled={!isReady || isPreparing || isPrepared || !onPrepareRecommendation}
           onClick={() => void handlePrepareRecommendation()}
           size="large"
         >
-          {isPreparing ? "Preparing..." : "Prepare committee pack"}
+          {isPreparing
+            ? "Preparing..."
+            : isPrepared
+              ? "Committee pack prepared"
+              : "Prepare committee pack"}
         </Button>
-        <Button disabled size="large">Submit to committee</Button>
+        <Button
+          disabled={!isPrepared || isSubmitting || isSubmitted || !onSubmitCommitteePack}
+          onClick={() => void handleSubmitCommitteePack()}
+          size="large"
+        >
+          {isSubmitting
+            ? "Submitting..."
+            : isSubmitted
+              ? "Committee pack submitted"
+              : "Submit to committee"}
+        </Button>
         <Caption1>
-          Committee submission remains a human-only step outside this demo platform.
+          Submission records delivery to the committee. It does not record an investment decision.
         </Caption1>
       </div>
+
+      {isSubmitted ? (
+        <Body1 role="status">
+          Committee pack submitted successfully. The Stratton demo is complete.
+        </Body1>
+      ) : null}
 
       {openConditions.length > 0 ? (
         <div>
@@ -191,5 +235,5 @@ function toErrorMessage(error: unknown): string {
     "message" in error &&
     typeof error.message === "string"
     ? error.message
-    : "Unable to prepare the committee-pack draft.";
+    : "Unable to complete the committee-pack action.";
 }

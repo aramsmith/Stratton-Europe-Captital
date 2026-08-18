@@ -48,6 +48,12 @@ interface PrepareRecommendationInput {
   readonly correlationId: string;
 }
 
+interface SubmitCommitteePackInput {
+  readonly caseId: string;
+  readonly principalType: "HUMAN" | "SERVICE";
+  readonly correlationId: string;
+}
+
 interface RejectWithAuditInput {
   readonly snapshot: ScenarioSnapshot;
   readonly state: ScenarioState;
@@ -392,6 +398,102 @@ export class ReviewService {
               ...(state.latestAnalysisRun?.analysisRequestFingerprint
                 ? {
                     analysisRequestFingerprint: state.latestAnalysisRun.analysisRequestFingerprint
+                  }
+                : {}),
+              findingIds: state.findings.map((finding) => finding.findingId),
+              operationId,
+              payloadHash,
+              subjectVersion
+            }
+          })
+        ]
+      };
+
+      await this.dependencies.repository.save({
+        ...snapshot,
+        state: nextState
+      });
+      return nextState;
+    });
+  }
+
+  public async submitCommitteePack(
+    input: SubmitCommitteePackInput
+  ): Promise<ScenarioState> {
+    return this.withMutationLock(async () => {
+      const snapshot = await this.dependencies.repository.load();
+      const state = snapshot.state;
+      assertCaseId(state, input.caseId);
+
+      if (input.principalType !== "HUMAN") {
+        return this.rejectWithAudit({
+          snapshot,
+          state,
+          correlationId: input.correlationId,
+          type: "COMMITTEE_PACK_SUBMISSION_DENIED",
+          detail: "HUMAN_SUBMISSION_REQUIRED",
+          error: new DemoHttpError(
+            403,
+            "POLICY_DENIED",
+            "A human committee preparer must submit the committee pack."
+          ),
+          securityGateId: "CC002-R2-SEC-GATE-012"
+        });
+      }
+
+      if (
+        state.governanceEvents.some(
+          (event) => event.type === "COMMITTEE_PACK_SUBMITTED" && event.outcome === "SUCCESS"
+        )
+      ) {
+        return state;
+      }
+
+      const preparedEvent = [...state.governanceEvents].reverse().find(
+        (event) =>
+          event.type === "COMMITTEE_PACK_DRAFT_PREPARED" &&
+          event.outcome === "SUCCESS"
+      );
+      if (state.stage !== "COMMITTEE_PREPARATION" || !preparedEvent) {
+        return this.rejectWithAudit({
+          snapshot,
+          state,
+          correlationId: input.correlationId,
+          type: "COMMITTEE_PACK_SUBMISSION_DENIED",
+          detail: "COMMITTEE_PACK_DRAFT_REQUIRED",
+          outcome: "FAILURE",
+          error: new DemoHttpError(
+            409,
+            "STATE_CONFLICT",
+            "COMMITTEE_PACK_DRAFT_REQUIRED"
+          )
+        });
+      }
+
+      const subjectVersion =
+        preparedEvent.metadata?.subjectVersion ??
+        buildRecommendationSubjectVersion(state);
+      const operationId = `submit:${preparedEvent.eventId}`;
+      const payloadHash = hashPayload({
+        caseId: input.caseId,
+        preparedEventId: preparedEvent.eventId,
+        subjectVersion
+      });
+      const nextState: ScenarioState = {
+        ...state,
+        governanceEvents: [
+          ...state.governanceEvents,
+          createGovernanceEvent(this.createId(), this.now(), {
+            type: "COMMITTEE_PACK_SUBMITTED",
+            outcome: "SUCCESS",
+            correlationId: input.correlationId,
+            detail: preparedEvent.eventId,
+            metadata: {
+              ...(state.latestAnalysisRun
+                ? {
+                    phase5RunId: state.latestAnalysisRun.analysisRunId,
+                    analysisRequestFingerprint:
+                      state.latestAnalysisRun.analysisRequestFingerprint
                   }
                 : {}),
               findingIds: state.findings.map((finding) => finding.findingId),

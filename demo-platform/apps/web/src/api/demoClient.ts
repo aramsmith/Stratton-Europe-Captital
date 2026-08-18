@@ -1,6 +1,7 @@
 import {
   analysisRunRequestSchema,
   analysisRunResponseSchema,
+  committeeSubmissionRequestSchema,
   evidenceAdmissionRequestSchema,
   findingDispositionRequestSchema,
   governanceViewSchema,
@@ -11,6 +12,7 @@ import {
   securityGateRunRequestSchema,
   type AnalysisRunRequest,
   type AnalysisRunResponse,
+  type CommitteeSubmissionRequest,
   type DemoApiError,
   type EvidenceAdmissionRequest,
   type FindingDispositionRequest,
@@ -161,6 +163,25 @@ export class DemoClient {
   ): Promise<ScenarioState> {
     const payload = recommendationPreparationRequestSchema.parse(input);
     const response = await this.request("/recommendation/prepare", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw await readDemoApiError(response);
+    }
+
+    return scenarioMutationResponseSchema.parse(await response.json()).scenario;
+  }
+
+  public async submitCommitteePack(
+    input: CommitteeSubmissionRequest
+  ): Promise<ScenarioState> {
+    const payload = committeeSubmissionRequestSchema.parse(input);
+    const response = await this.request("/recommendation/submit", {
       method: "POST",
       headers: {
         "content-type": "application/json"

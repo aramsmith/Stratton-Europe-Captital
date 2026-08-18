@@ -308,6 +308,22 @@ function renderDecisionRoom(initialScenario = createDecisionRoomScenario()) {
       ]
     }));
   });
+  const submitCommitteePack = vi.fn(async () => {
+    setScenario((current) => ({
+      ...current,
+      governanceEvents: [
+        ...current.governanceEvents,
+        {
+          eventId: "event-committee-pack-submitted",
+          type: "COMMITTEE_PACK_SUBMITTED",
+          outcome: "SUCCESS",
+          occurredAtIso: "2026-08-06T10:30:00.000Z",
+          correlationId: "corr-ui-submit",
+          detail: "committee-pack-submitted"
+        }
+      ]
+    }));
+  });
 
   let setScenario: Dispatch<SetStateAction<ScenarioState>> = () => undefined;
 
@@ -320,6 +336,7 @@ function renderDecisionRoom(initialScenario = createDecisionRoomScenario()) {
         <DecisionRoomPage
           scenario={scenario}
           onPrepareRecommendation={prepareRecommendation}
+          onSubmitCommitteePack={submitCommitteePack}
           onSubmitReview={submitReview}
         />
       </FluentProvider>
@@ -329,7 +346,8 @@ function renderDecisionRoom(initialScenario = createDecisionRoomScenario()) {
   return {
     ...render(<Harness />),
     submitReview,
-    prepareRecommendation
+    prepareRecommendation,
+    submitCommitteePack
   };
 }
 
@@ -380,7 +398,7 @@ describe("DecisionRoomPage", () => {
   });
 
   it("enables committee-pack preparation after the missing Legal approval is recorded", async () => {
-    const { prepareRecommendation, submitReview } = renderDecisionRoom(
+    const { prepareRecommendation, submitCommitteePack, submitReview } = renderDecisionRoom(
       createDecisionRoomScenario(false, true)
     );
 
@@ -406,6 +424,16 @@ describe("DecisionRoomPage", () => {
 
     expect(prepareRecommendation).toHaveBeenCalledWith({ caseId: "project-danube" });
     expect(screen.getAllByText("COMMITTEE_PREPARATION").length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "Submit to committee" })).toBeEnabled();
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Submit to committee" }));
+    });
+
+    expect(submitCommitteePack).toHaveBeenCalledWith({ caseId: "project-danube" });
+    expect(
+      screen.getByText("Committee pack submitted successfully. The Stratton demo is complete.")
+    ).toBeVisible();
   });
 
   it("submits the authoritative Phase 5 completion version instead of a finding text version", async () => {

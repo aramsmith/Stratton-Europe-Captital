@@ -1,6 +1,7 @@
 import type {
   AnalysisRunRequest,
   AnalysisRunResponse,
+  CommitteeSubmissionRequest,
   EvidenceAdmissionRequest,
   FindingDispositionRequest,
   GovernanceView,
@@ -51,6 +52,7 @@ interface AppRoutesProps {
     findingId: string;
   }) => Promise<void> | void) | undefined;
   readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
+  readonly onSubmitCommitteePack?: ((input: CommitteeSubmissionRequest) => Promise<void> | void) | undefined;
   readonly onRunSecurityGateSuite?: ((input: SecurityGateRunRequest) => Promise<void> | void) | undefined;
   readonly onStartNewCycle?: (() => Promise<void> | void) | undefined;
   readonly loadGovernanceView?: ((signal?: AbortSignal) => Promise<GovernanceView>) | undefined;
@@ -63,6 +65,7 @@ export function AppRoutes({
   onRecordDisposition,
   onSubmitReview,
   onPrepareRecommendation,
+  onSubmitCommitteePack,
   onRunSecurityGateSuite,
   onStartNewCycle,
   loadGovernanceView
@@ -88,6 +91,7 @@ export function AppRoutes({
           <DecisionRoomRoute
             scenario={scenario}
             onPrepareRecommendation={onPrepareRecommendation}
+            onSubmitCommitteePack={onSubmitCommitteePack}
             onSubmitReview={onSubmitReview}
           />
         }
@@ -128,12 +132,14 @@ function WorkbenchRoute({
 function DecisionRoomRoute({
   scenario,
   onPrepareRecommendation,
+  onSubmitCommitteePack,
   onSubmitReview
 }: AppRoutesProps) {
   return (
     <DecisionRoomPage
       scenario={scenario}
       onPrepareRecommendation={onPrepareRecommendation}
+      onSubmitCommitteePack={onSubmitCommitteePack}
       onSubmitReview={onSubmitReview}
     />
   );

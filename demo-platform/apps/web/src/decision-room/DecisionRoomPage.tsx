@@ -10,6 +10,7 @@ import {
 } from "@fluentui/react-components";
 import type {
   EvidenceDomain,
+  CommitteeSubmissionRequest,
   RecommendationPreparationRequest,
   ReviewSubmissionRequest,
   ReviewType,
@@ -94,12 +95,14 @@ interface DecisionRoomPageProps {
     findingId: string;
   }) => Promise<void> | void) | undefined;
   readonly onPrepareRecommendation?: ((input: RecommendationPreparationRequest) => Promise<void> | void) | undefined;
+  readonly onSubmitCommitteePack?: ((input: CommitteeSubmissionRequest) => Promise<void> | void) | undefined;
 }
 
 export function DecisionRoomPage({
   scenario,
   onSubmitReview,
-  onPrepareRecommendation
+  onPrepareRecommendation,
+  onSubmitCommitteePack
 }: DecisionRoomPageProps) {
   const styles = useStyles();
   const materialFindings = scenario.findings.filter(
@@ -133,6 +136,9 @@ export function DecisionRoomPage({
   );
   const openChallenges = openConditions.length;
   const isReady = openConditions.length === 0;
+  const isCommitteePackSubmitted = scenario.governanceEvents.some(
+    (event) => event.type === "COMMITTEE_PACK_SUBMITTED" && event.outcome === "SUCCESS"
+  );
 
   return (
     <div className={styles.routeLayout}>
@@ -185,8 +191,10 @@ export function DecisionRoomPage({
             currentStage={scenario.stage}
             evidenceById={evidenceById}
             isReady={isReady}
+            isSubmitted={isCommitteePackSubmitted}
             materialFindings={acceptedMaterialFindings}
             onPrepareRecommendation={onPrepareRecommendation}
+            onSubmitCommitteePack={onSubmitCommitteePack}
             openConditions={openConditions}
           />
         </div>

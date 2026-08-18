@@ -14,6 +14,7 @@ import {
 import type {
   AnalysisRunRequest,
   AnalysisRunResponse,
+  CommitteeSubmissionRequest,
   EvidenceAdmissionRequest,
   FindingDispositionRequest,
   RecommendationPreparationRequest,
@@ -292,6 +293,14 @@ export function App({ authSession = createLocalBrowserAuthSession() }: AppProps)
     [client]
   );
 
+  const handleSubmitCommitteePack = useCallback(
+    async (input: CommitteeSubmissionRequest) => {
+      const nextScenario = await client.submitCommitteePack(input);
+      setScenario(nextScenario);
+    },
+    [client]
+  );
+
   const handleRunSecurityGateSuite = useCallback(
     async (input: SecurityGateRunRequest) => {
       const nextScenario = await client.runSecurityGateSuite(input);
@@ -399,6 +408,7 @@ export function App({ authSession = createLocalBrowserAuthSession() }: AppProps)
               onRunAnalysis={handleRunAnalysis}
               onRunSecurityGateSuite={handleRunSecurityGateSuite}
               onStartNewCycle={handleReset}
+              onSubmitCommitteePack={handleSubmitCommitteePack}
               onSubmitReview={handleSubmitReview}
             />
           </StrattonShell>

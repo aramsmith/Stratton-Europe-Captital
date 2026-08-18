@@ -315,6 +315,27 @@ describe("DemoClient", () => {
     });
   });
 
+  it("submits the prepared committee pack through the typed endpoint", async () => {
+    const scenario = createProjectDanubeState();
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ scenario }), { status: 200 }));
+
+    const client = new DemoClient("/api");
+    const result = await client.submitCommitteePack({
+      caseId: "project-danube"
+    });
+
+    expect(result).toEqual(scenario);
+    expect(fetchMock).toHaveBeenCalledWith("/api/recommendation/submit", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        caseId: "project-danube"
+      })
+    });
+  });
+
   it("runs the dedicated security-gate evidence suite through the typed endpoint", async () => {
     const scenario = createProjectDanubeState();
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ scenario }), { status: 200 }));
