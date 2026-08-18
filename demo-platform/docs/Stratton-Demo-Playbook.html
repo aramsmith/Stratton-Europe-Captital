@@ -383,6 +383,54 @@
       padding-left: 20px;
     }
     .scenario li + li { margin-top: 7px; }
+    .manual {
+      display: grid;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .manual-step {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 18px;
+      padding: 22px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+    }
+    .step-index {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      font-weight: 800;
+    }
+    .step-copy h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+    }
+    .step-copy p {
+      margin: 6px 0 0;
+      color: var(--cp-text-muted);
+    }
+    .step-copy strong { color: var(--cp-text); }
+    .ui-control {
+      display: inline-block;
+      padding: 3px 8px;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 6px;
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.84em;
+      font-weight: 700;
+    }
+    .step-result {
+      padding-left: 12px;
+      border-left: 3px solid var(--cp-success);
+    }
     .tag {
       display: inline-block;
       margin-bottom: 14px;
@@ -555,6 +603,7 @@
       .flow, .scenarios { grid-template-columns: 1fr; }
       .flow-step:last-child, .scenario.featured { grid-column: auto; }
       .scenario.featured { gap: 18px; }
+      .manual-step { grid-template-columns: 1fr; }
       .check-item { grid-template-columns: auto 1fr; }
       .check-item .owner { grid-column: 2; text-align: left; }
       .footer { flex-direction: column; }
@@ -603,13 +652,13 @@
         <h1 id="page-title">Run the deal. Prove the controls.</h1>
         <p class="hero-copy">
           A presenter-ready playbook for the live Project Danube evidence-to-decision demo on
-          Azure: sign in, inspect the completed workflow, explain every governed control, and
-          verify the audit export is ready.
+          Azure: sign in, run the workflow from a clean governed cycle, explain every control, and
+          verify the audit export becomes ready.
         </p>
         <div class="status-line" aria-label="Current delivery status">
           <span class="status"><span class="dot"></span>Azure deployment live</span>
           <span class="status"><span class="dot"></span>Authenticated flow working</span>
-          <span class="status"><span class="dot"></span>Audit export READY</span>
+          <span class="status"><span class="dot"></span>Clean demo baseline ready</span>
         </div>
       </div>
       <aside class="operator-band" aria-label="Operator information">
@@ -750,7 +799,7 @@ Required access: tenant-approved Stratton demo user</pre>
         <div class="command-row">
           <div>
             <h3>3. Confirm the loaded baseline</h3>
-            <p>The current demo is intentionally preserved at the completed committee-preparation stage for immediate presentation.</p>
+            <p>The live demo is intentionally left at a clean intake state so the complete governed workflow can be demonstrated.</p>
           </div>
           <div class="codebox">
             <button class="copy" type="button" aria-label="Copy expected baseline">
@@ -759,12 +808,12 @@ Required access: tenant-approved Stratton demo user</pre>
                 <path d="M5 16H4V4h12v1" stroke="currentColor" stroke-width="1.7"/>
               </svg>
             </button>
-            <pre>Stage: COMMITTEE_PREPARATION
-Evidence: 4 admitted
-Findings: 3
-Reviews: 3 approved
-Security gates: 12 PASS
-Audit export: READY</pre>
+            <pre>Stage: INTAKE
+Evidence: 4 quarantined
+Findings: 0
+Reviews: 0
+Security gates: not yet run
+Audit export: NOT_READY</pre>
           </div>
         </div>
       </div>
@@ -778,49 +827,171 @@ Audit export: READY</pre>
 
     <section id="scenarios">
       <div class="section-head">
-        <h2>Presenter playbook</h2>
+        <h2>Step-by-step operator manual</h2>
         <p class="section-intro">
-          The live environment is already at the final demonstrable state. Walk backward through
-          the lineage while explaining how each control was satisfied.
+          Follow these steps in order. Each instruction names the exact control to click, why the
+          action matters, and what must appear before continuing.
         </p>
       </div>
-      <div class="scenarios">
-        <article class="scenario featured">
-          <div>
-            <span class="tag">10–15 minute primary story</span>
-            <h3>Project Danube: evidence to audit-ready committee preparation</h3>
-            <p>Demonstrate the complete governed flow while preserving the human investment-authority boundary.</p>
+      <div class="manual">
+        <article class="manual-step">
+          <span class="step-index">1</span>
+          <div class="step-copy">
+            <h3>Sign in to the live application</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Sign in with Microsoft</span>, then select the approved <code>aram@azurelab.nl</code> account.</p>
+            <p><strong>Why:</strong> every admission, finding disposition, review, and audit event must be attributable to an authenticated operator.</p>
+            <p class="step-result"><strong>Continue when:</strong> the header shows <strong>Aram Smith</strong>, initials <strong>AS</strong>, and <strong>Authenticated user</strong>.</p>
           </div>
-          <ol>
-            <li>Open <strong>AI Deal Workbench</strong>; confirm four evidence items are <strong>ADMITTED</strong>.</li>
-            <li>Show the immutable Phase 5 request for “Challenge management EBITDA quality for current committee review.”</li>
-            <li>Open the three accepted findings and their governed citations, including the EUR 4.2–5.1 million EBITDA-quality challenge.</li>
-            <li>Open <strong>Investment Decision Room</strong>; show current Deal, Legal, and Compliance approvals.</li>
-            <li>Show the prepared draft committee pack and explain that committee submission remains disabled and human-only.</li>
-            <li>Open <strong>Governance &amp; Assurance Console</strong>, then select <strong>Security &amp; audit</strong>.</li>
-            <li>Confirm all twelve mandatory gates show <strong>PASS</strong> with dedicated evidence IDs.</li>
-            <li>Confirm <strong>Audit export preview: READY</strong> and “Internal Audit verdict: Not issued.”</li>
-          </ol>
         </article>
-        <article class="scenario">
-          <span class="tag">Evidence controls</span>
-          <h3>Why admission comes first</h3>
-          <p>Explain that retrieval filters require the real tenant, case, admission status, and accessibility-at-review state before evidence can support analysis.</p>
+
+        <article class="manual-step">
+          <span class="step-index">2</span>
+          <div class="step-copy">
+            <h3>Start a fresh governed cycle</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Reset case</span> in the upper-right header, then <span class="ui-control">Confirm reset</span>.</p>
+            <p><strong>Why:</strong> reset creates a new analysis-cycle identity. This allows a repeatable demonstration without changing or overwriting prior immutable bundles and human decisions.</p>
+            <p class="step-result"><strong>Continue when:</strong> the case stage is <strong>INTAKE</strong>, all four evidence items are <strong>QUARANTINED</strong>, and no findings are shown.</p>
+          </div>
         </article>
-        <article class="scenario">
-          <span class="tag">Model governance</span>
-          <h3>Luna, Terra, and Sol</h3>
-          <p>Show the approved route evidence: exact Azure resource, deployment, region, API version, evidence version, validity window, and fail-closed routing.</p>
+
+        <article class="manual-step">
+          <span class="step-index">3</span>
+          <div class="step-copy">
+            <h3>Open the evidence workspace</h3>
+            <p><strong>Click:</strong> <span class="ui-control">AI Deal Workbench</span> in the left navigation.</p>
+            <p><strong>Why:</strong> this workspace governs the transition from quarantined source material to evidence that is eligible for analysis.</p>
+            <p class="step-result"><strong>Continue when:</strong> the <strong>Evidence admission</strong> table and <strong>Analytical task</strong> panel are visible.</p>
+          </div>
         </article>
-        <article class="scenario">
-          <span class="tag">Security assurance</span>
-          <h3>Twelve deterministic gates</h3>
-          <p>Highlight prompt injection, citation spoofing, poisoned retrieval, cross-case access, route mismatch, silent fallback, and autonomous-authority denial.</p>
+
+        <article class="manual-step">
+          <span class="step-index">4</span>
+          <div class="step-copy">
+            <h3>Admit all four evidence sources</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Admit evidence</span> once on each row: <strong>FY25 Board Pack</strong>, <strong>ERP Customer Rebate Export</strong>, <strong>Quality of Earnings Report</strong>, and <strong>Czech Environmental Permit</strong>.</p>
+            <p><strong>Why:</strong> analysis is permitted to retrieve only evidence with approved ownership, licence, provenance, tenant, case, and admission state.</p>
+            <p class="step-result"><strong>Continue when:</strong> every row shows <strong>ADMITTED</strong> and its admission button is disabled.</p>
+          </div>
         </article>
-        <article class="scenario">
-          <span class="tag">Version governance</span>
-          <h3>Current versus stale assurance</h3>
-          <p>Reviews and committee evidence bind to the authoritative Phase 5 subject version. Any governed text change requires a new versioned cycle and fresh approvals.</p>
+
+        <article class="manual-step">
+          <span class="step-index">5</span>
+          <div class="step-copy">
+            <h3>Define the governed analysis request</h3>
+            <p><strong>Select:</strong> <span class="ui-control">Investment-thesis challenge</span> in <strong>Analysis task</strong>. In <strong>Question</strong>, use <code>Challenge management EBITDA quality</code>.</p>
+            <p><strong>Why:</strong> the task class determines the approved Luna, Terra, or Sol route, while the exact question becomes part of the immutable request fingerprint.</p>
+            <p class="step-result"><strong>Continue when:</strong> the task and question are visible and <span class="ui-control">Run grounded analysis</span> is enabled.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">6</span>
+          <div class="step-copy">
+            <h3>Run cited analysis</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Run grounded analysis</span>.</p>
+            <p><strong>Why:</strong> Phase 5 authorizes a tenant-scoped immutable bundle before the BFF performs retrieval and model work. The route fails closed rather than silently falling back.</p>
+            <p class="step-result"><strong>Continue when:</strong> three finding cards appear and the latest governed Phase 5 request shows its run ID, task class, question, and admitted evidence set.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">7</span>
+          <div class="step-copy">
+            <h3>Inspect the supporting citations</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Open citation</span> on each finding, including the page 42 citation for <strong>Adjusted EBITDA quality</strong>.</p>
+            <p><strong>Why:</strong> a material claim must be traceable to admitted source evidence. This demonstrates that the model output is reviewable rather than accepted as an unsupported assertion.</p>
+            <p class="step-result"><strong>Continue when:</strong> the citation detail and side-by-side source comparison show the source locator, excerpt, and evidence identity.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">8</span>
+          <div class="step-copy">
+            <h3>Record human finding dispositions</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Accept finding</span> on <strong>Adjusted EBITDA quality</strong>, <strong>Customer concentration</strong>, and <strong>Permit transfer readiness</strong>.</p>
+            <p><strong>Why:</strong> AI findings remain drafts until a human explicitly accepts, edits, challenges, or rejects them. Acceptance creates the governed content used by specialist reviews.</p>
+            <p class="step-result"><strong>Continue when:</strong> all three findings show <strong>ACCEPTED</strong>.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">9</span>
+          <div class="step-copy">
+            <h3>Create mandatory security evidence</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Governance &amp; Assurance Console</span>, select the <span class="ui-control">Security &amp; audit</span> tab, then click <span class="ui-control">Run security gate checks</span>.</p>
+            <p><strong>Why:</strong> the committee pack requires current, version-bound evidence for twelve deterministic controls covering injection, retrieval, routing, fallback, and autonomous authority.</p>
+            <p class="step-result"><strong>Continue when:</strong> gates <strong>CC002-R2-SEC-GATE-001</strong> through <strong>012</strong> all show <strong>PASS</strong>.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">10</span>
+          <div class="step-copy">
+            <h3>Open the specialist review workspace</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Investment Decision Room</span> in the left navigation.</p>
+            <p><strong>Why:</strong> this workspace separates human investment review from AI-supported evidence and analysis.</p>
+            <p class="step-result"><strong>Continue when:</strong> the accepted material claims and <strong>Required specialist reviews</strong> are visible.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">11</span>
+          <div class="step-copy">
+            <h3>Approve the Deal review</h3>
+            <p><strong>Enter:</strong> a concise rationale in <strong>Deal review rationale</strong>, then click <span class="ui-control">Approve Deal review</span>.</p>
+            <p><strong>Why:</strong> the Deal reviewer confirms that the accepted commercial finding is suitable for the current committee-preparation version.</p>
+            <p class="step-result"><strong>Continue when:</strong> the Deal review shows <strong>APPROVED</strong>.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">12</span>
+          <div class="step-copy">
+            <h3>Approve the Legal review</h3>
+            <p><strong>Enter:</strong> a rationale in <strong>Legal review rationale</strong>, then click <span class="ui-control">Approve Legal review</span>.</p>
+            <p><strong>Why:</strong> Legal confirms the permit and transaction-related claim against the exact accepted finding version.</p>
+            <p class="step-result"><strong>Continue when:</strong> the Legal review shows <strong>APPROVED</strong>.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">13</span>
+          <div class="step-copy">
+            <h3>Approve the Compliance review</h3>
+            <p><strong>Enter:</strong> a rationale in <strong>Compliance review rationale</strong>, then click <span class="ui-control">Approve Compliance review</span>.</p>
+            <p><strong>Why:</strong> Compliance confirms that the governed evidence and current claim version satisfy the required control boundary.</p>
+            <p class="step-result"><strong>Continue when:</strong> Deal, Legal, and Compliance all show <strong>APPROVED</strong>.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">14</span>
+          <div class="step-copy">
+            <h3>Prepare the draft committee pack</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Prepare committee pack</span>.</p>
+            <p><strong>Why:</strong> this assembles only accepted findings with current specialist approvals and current security-gate evidence into a draft recommendation.</p>
+            <p class="step-result"><strong>Continue when:</strong> the stage becomes <strong>COMMITTEE_PREPARATION</strong>. Confirm that <span class="ui-control">Submit to committee</span> remains disabled because final submission is human-only.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">15</span>
+          <div class="step-copy">
+            <h3>Verify governance lineage and routing</h3>
+            <p><strong>Click:</strong> <span class="ui-control">Governance &amp; Assurance Console</span>, then inspect <span class="ui-control">Lineage</span>, <span class="ui-control">Policy decisions</span>, and <span class="ui-control">Model routes</span>.</p>
+            <p><strong>Why:</strong> these tabs prove the relationship between admitted evidence, the immutable bundle, model routing, human decisions, and the prepared draft.</p>
+            <p class="step-result"><strong>Continue when:</strong> the current authoritative version is traceable and no silent fallback or cross-case route is present.</p>
+          </div>
+        </article>
+
+        <article class="manual-step">
+          <span class="step-index">16</span>
+          <div class="step-copy">
+            <h3>Confirm the audit-ready outcome</h3>
+            <p><strong>Click:</strong> the <span class="ui-control">Security &amp; audit</span> tab again and review <strong>Audit export preview</strong>.</p>
+            <p><strong>Why:</strong> audit readiness is the final proof that lineage, policy decisions, model routes, security evidence, reviews, and committee preparation are complete.</p>
+            <p class="step-result"><strong>Finish when:</strong> the export shows <strong>READY</strong>, all twelve gates show <strong>PASS</strong>, and <strong>Internal Audit verdict: Not issued</strong> remains visible.</p>
+          </div>
         </article>
       </div>
     </section>
@@ -940,9 +1111,9 @@ Audit export: READY</pre>
         <aside class="boundary">
           <h3>Live deployment state</h3>
           <ul>
-            <li>Web revision: <code>stratton-demo-web--0000010</code></li>
-            <li>BFF revision: <code>stratton-demo-bff--0000023</code></li>
-            <li>Phase 5 revision: <code>stratton-demo-phase5--0000011</code></li>
+            <li>Web revision: <code>stratton-demo-web--0000012</code></li>
+            <li>BFF revision: <code>stratton-demo-bff--0000024</code></li>
+            <li>Phase 5 revision: <code>stratton-demo-phase5--0000012</code></li>
             <li>Search index: <code>governed-evidence</code></li>
             <li>Bootstrap migrations 001–008 and projection migration reconciled.</li>
             <li>BFF retains only <strong>Search Index Data Reader</strong>.</li>
@@ -952,7 +1123,7 @@ Audit export: READY</pre>
             <li>Keep the BFF at one replica until scenario projection persistence is added.</li>
             <li>Do not treat the audit export preview as an Internal Audit verdict.</li>
             <li>Do not enable autonomous committee submission.</li>
-            <li>Use a new analysis question/version for any replay after governed findings exist.</li>
+            <li>Use <strong>Reset case</strong> to create a new governed cycle before replaying an analysis.</li>
           </ul>
         </aside>
       </div>
