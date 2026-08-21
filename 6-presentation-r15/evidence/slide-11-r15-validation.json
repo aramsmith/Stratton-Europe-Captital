@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_SLIDE_11_R15_VALIDATION",
+  "generatedAt": "2026-08-21T09:22:47.758Z",
+  "candidatePath": "6-presentation-r15",
+  "baseline": {
+    "candidatePath": "6-presentation-r14",
+    "manifestSha256": "1522929d70e09bd7fe43be697d368fea5318f2f2d236b2f87d99a2974c7aa4c2"
+  },
+  "requestedChange": {
+    "label": "Loop Engineering",
+    "diagram": "Work enters a decision, follows a curved repeat path when needed, and exits to a done node."
+  },
+  "changedDeckSourceFiles": [
+    "deck/src/slides/ModelPortfolioSlide.jsx",
+    "deck/src/slides/ModelPortfolioSlide.module.css"
+  ],
+  "checks": {
+    "pagesBuild": "PASS",
+    "focusedPlaywrightRegression": "PASS",
+    "visualInspection1440x900": "PASS",
+    "loopDiagramVisible": "PASS",
+    "diamondDiagramPreserved": "PASS",
+    "loopTechniqueCardHorizontalOverflowPx": 0,
+    "loopTechniqueCardVerticalOverflowPx": 0,
+    "diamondTechniqueCardHorizontalOverflowPx": 0,
+    "diamondTechniqueCardVerticalOverflowPx": 0,
+    "railHorizontalOverflowPx": 0,
+    "railVerticalOverflowPx": 0,
+    "registeredSlides": 20,
+    "projectSubpathAssetResolution": "PASS",
+    "browserConsoleErrors": 0,
+    "failedBrowserRequests": 0
+  },
+  "approvalClaimed": false
+}

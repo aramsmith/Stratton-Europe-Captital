@@ -1,0 +1,911 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "AFF_PHASE_6_CLAIM_CATALOGUE",
+  "caseName": "Stratton-Europe-Captital",
+  "artifactPrefix": "stratton",
+  "phaseId": "6",
+  "modelPlanRevision": "119",
+  "candidateStatus": "R15_SLIDE11_LOOP_DIAGRAM_VALIDATED",
+  "generatedAt": "2026-08-21T09:22:47.758Z",
+  "classificationValues": [
+    "SOURCE_FACT",
+    "HUMAN_OWNED_HYPOTHESIS",
+    "APPROVED_DESIGN_INTENT",
+    "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+    "UNTESTED_RUNTIME_BEHAVIOUR"
+  ],
+  "phase5Approval": {
+    "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+    "sha256": "ca419c4f84f8928156912a32ac0db29e57fa097b9785e20ecf87fa2edc2b4e4c",
+    "decision": "APPROVED",
+    "subjectManifest": {
+      "path": "5-coding-r7/stratton-phase-5-hashes.json",
+      "sha256": "93ed6504c73dd2c819261e9b0a60fcd0e06d295d2dbf1c1f92c3245dc9c9b519"
+    }
+  },
+  "phase6Boundary": {
+    "approvalClaimed": false,
+    "deploymentClaimed": false,
+    "runtimeTestingClaimed": false,
+    "productionInferenceClaimed": false,
+    "productionReadinessClaimed": false,
+    "achievedBenefitsClaimed": false,
+    "complianceCertificationClaimed": false
+  },
+  "slides": [
+    {
+      "slideId": "S01",
+      "physical": 1,
+      "component": "TitleSlide",
+      "title": "Stratton Europe Capital — Becoming a Frontier Company",
+      "purpose": "Introduce the sovereign Azure AI architecture journey and evidence boundary.",
+      "claimIds": [
+        "P6-C001"
+      ]
+    },
+    {
+      "slideId": "S02",
+      "physical": 2,
+      "component": "CompanyProfileSlide",
+      "title": "Stratton Europe Capital — at a glance",
+      "purpose": "Establish the fictitious company profile and source-case business challenges.",
+      "claimIds": [
+        "P6-C002",
+        "P6-C003"
+      ]
+    },
+    {
+      "slideId": "S03",
+      "physical": 3,
+      "component": "TransformationAgendaSlide",
+      "title": "From investment friction to sovereign AI advantage",
+      "purpose": "Present case-stated transformation ambitions while separating Release 1 from future scope.",
+      "claimIds": [
+        "P6-C004",
+        "P6-C005"
+      ]
+    },
+    {
+      "slideId": "S04",
+      "physical": 4,
+      "component": "MyApproachSlide",
+      "title": "My approach",
+      "purpose": "Explain the presenter method and linked architecture/reference sources.",
+      "claimIds": []
+    },
+    {
+      "slideId": "S05",
+      "physical": 5,
+      "component": "AgenticArchitectureRingSlide",
+      "title": "Architecture is a conversation, not a conveyor belt.",
+      "purpose": "Show the nine-phase, reviewer-enveloped, human-final operating model.",
+      "claimIds": [
+        "P6-C006"
+      ]
+    },
+    {
+      "slideId": "S06",
+      "physical": 6,
+      "component": "AgenticAssuranceRosterSlide",
+      "title": "Assurance by design. Human authority by default.",
+      "purpose": "Show the configured agent roster and same-hash assurance sequence.",
+      "claimIds": [
+        "P6-C007"
+      ]
+    },
+    {
+      "slideId": "S07",
+      "physical": 7,
+      "component": "FrontierSolutionTitleSlide",
+      "title": "The Stratton Europe Capital Frontier Company Solution",
+      "purpose": "Frame the target solution vision as an ambition, not an achieved capability.",
+      "claimIds": [
+        "P6-C008"
+      ]
+    },
+    {
+      "slideId": "S08",
+      "physical": 8,
+      "component": "RequirementsInterviewSlide",
+      "title": "Phase 1 - Requirements and customer interview",
+      "purpose": "Summarise the approved Release 1 outcome, scope, controls and testable baseline.",
+      "claimIds": [
+        "P6-C009",
+        "P6-C010",
+        "P6-C011"
+      ]
+    },
+    {
+      "slideId": "S09",
+      "physical": 9,
+      "component": "TogafArchitectureSlide",
+      "title": "Phase 2 - The TOGAF Architecture",
+      "purpose": "Present the approved vendor-neutral TOGAF baseline as five connected architecture views.",
+      "claimIds": [
+        "P6-C012",
+        "P6-C013"
+      ]
+    },
+    {
+      "slideId": "S10",
+      "physical": 10,
+      "component": "HumanAiOperatingModelSlide",
+      "title": "AI prepares evidence. People decide.",
+      "purpose": "Allocate deterministic controls, assistive AI work and accountable human decisions.",
+      "claimIds": [
+        "P6-C014"
+      ]
+    },
+    {
+      "slideId": "S11",
+      "physical": 11,
+      "component": "ModelPortfolioSlide",
+      "title": "Use the smallest approved model that meets the evidence threshold.",
+      "purpose": "Present the Luna/Terra/Sol escalation model while retaining the approved specialist foundation as governed metadata.",
+      "claimIds": [
+        "P6-C015",
+        "P6-C016",
+        "P6-C017",
+        "P6-C018"
+      ]
+    },
+    {
+      "slideId": "S12",
+      "physical": 12,
+      "component": "AzureDesignSlide",
+      "title": "Phase 3 — The Azure Design",
+      "purpose": "Show the private EU Data Zone Azure Landing Zone and Citadel design intent.",
+      "claimIds": [
+        "P6-C019",
+        "P6-C020",
+        "P6-C021",
+        "P6-C022"
+      ]
+    },
+    {
+      "slideId": "S13",
+      "physical": 13,
+      "component": "ImplementationPlanSlide",
+      "title": "Phase 4 - Implementation plan",
+      "purpose": "Show dependency-controlled Bicep delivery and owner/human release gates.",
+      "claimIds": [
+        "P6-C023",
+        "P6-C024"
+      ]
+    },
+    {
+      "slideId": "S14",
+      "physical": 14,
+      "component": "CodingSlide",
+      "title": "Phase 5 - Coding",
+      "purpose": "Bind the approved Phase 5 r7 package, local checks, supply-chain evidence and model controls.",
+      "claimIds": [
+        "P6-C025",
+        "P6-C026",
+        "P6-C027",
+        "P6-C028",
+        "P6-C029"
+      ]
+    },
+    {
+      "slideId": "S15",
+      "physical": 15,
+      "component": "DeploymentSlide",
+      "title": "Phase 7 - Deployment",
+      "purpose": "Explain the optional Phase 7 runbook without claiming execution.",
+      "claimIds": [
+        "P6-C030"
+      ]
+    },
+    {
+      "slideId": "S16",
+      "physical": 16,
+      "component": "RunTestsSlide",
+      "title": "Phase 8 - Run tests",
+      "purpose": "Separate actual local checks from optional Phase 8 runtime acceptance gates.",
+      "claimIds": [
+        "P6-C031"
+      ]
+    },
+    {
+      "slideId": "S17",
+      "physical": 17,
+      "component": "CostsBenefitsSlide",
+      "title": "Costs and Benefits",
+      "purpose": "Show an illustrative public-retail cost shape, mock comparator and projected benefits.",
+      "claimIds": [
+        "P6-C032",
+        "P6-C033",
+        "P6-C034"
+      ]
+    },
+    {
+      "slideId": "S18",
+      "physical": 18,
+      "component": "RisksMitigationsSlide",
+      "title": "Risks and Mitigations",
+      "purpose": "Present working assumptions, material risks and evidence-led mitigations.",
+      "claimIds": [
+        "P6-C035",
+        "P6-C036"
+      ]
+    },
+    {
+      "slideId": "S19",
+      "physical": 19,
+      "component": "NextStepsSlide",
+      "title": "Next Steps",
+      "purpose": "Disclose mockup data and propose an evidence-gated non-production POC.",
+      "claimIds": [
+        "P6-C037",
+        "P6-C038"
+      ]
+    },
+    {
+      "slideId": "S20",
+      "physical": 20,
+      "component": "ThankYouSlide",
+      "title": "Thank you",
+      "purpose": "Close the presentation without adding a delivery claim.",
+      "claimIds": []
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "P6-C001",
+      "slideId": "S01",
+      "statement": "The active board briefing is a 20-slide Phase 6 assurance candidate covering the approved architecture journey through the Phase 5 r7 package.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/deck.config.js",
+          "section": "slides; meta.contentStatus; meta.evidenceBoundary"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+          "section": "decision; subjectHashManifest; constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "PHASE_5_APPROVED_PHASE_6_UNAPPROVED",
+      "caveat": "The slide introduces a candidate presentation; it does not establish Phase 6 approval, deployment or production readiness."
+    },
+    {
+      "claimId": "P6-C002",
+      "slideId": "S02",
+      "statement": "Case Study 18 describes a fictitious Vienna-based private-equity fund with €18 billion AUM, 34 portfolio companies and operations across five Central European markets.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "0-coordination/input/Case-Study-18.normalised.md",
+          "section": "Sovereign AI Platform for a Central European Private Equity Fund; Business Challenge"
+        }
+      ],
+      "approvalEvidenceStatus": "SOURCE_CASE_FACT",
+      "caveat": "Stratton Europe Capital is fictitious and the figures are case-study inputs, not independently verified customer facts."
+    },
+    {
+      "claimId": "P6-C003",
+      "slideId": "S02",
+      "statement": "The source case states that due diligence takes 12 weeks and consumes 60% of deal-team capacity, monitoring is quarterly and manual, ESG formats are inconsistent, sourcing is network-led and Luxembourg vehicles require AIFMD documentation.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "0-coordination/input/Case-Study-18.normalised.md",
+          "section": "Business Challenge"
+        }
+      ],
+      "approvalEvidenceStatus": "SOURCE_CASE_FACT",
+      "caveat": "These are case-study problem statements, not observed measurements collected by this project."
+    },
+    {
+      "claimId": "P6-C004",
+      "slideId": "S03",
+      "statement": "The case-study ambitions are a 12-to-3-week diligence cycle, fully automated SFDR reporting, a 40% larger sourcing pipeline, real-time anomaly detection and a sovereign Azure environment.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "0-coordination/input/Case-Study-18.normalised.md",
+          "section": "Transformation Objective; Expected Outcomes"
+        }
+      ],
+      "approvalEvidenceStatus": "SOURCE_CASE_TARGETS",
+      "caveat": "These are desired outcomes from the source case and are not achieved or approved Release 1 results."
+    },
+    {
+      "claimId": "P6-C005",
+      "slideId": "S03",
+      "statement": "Approved Release 1 is narrower than the source ambition: due diligence and assistive ESG/risk analysis are in scope, while automated SFDR, deal intelligence and portfolio monitoring require separate future architecture and approval.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; Scope and accountability"
+        },
+        {
+          "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+          "section": "gptDeployments; specialistFoundation; release boundaries"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/ModelPortfolioSlide.jsx",
+          "section": "solutionScopes"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_RELEASE_1_BOUNDARY",
+      "caveat": "Future capabilities are not implemented, approved or production-ready."
+    },
+    {
+      "claimId": "P6-C006",
+      "slideId": "S05",
+      "statement": "The Agentic Architecture operating model contains standard Phases 0–6, separately human-invoked Phases 7–8, two independent reviewers and explicit human approval before phase progression.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": ".github/agents/AFF-OPERATING-CONTRACT.md",
+          "section": "Lifecycle, review and approval rules"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/AgenticArchitectureRingSlide.jsx",
+          "section": "phaseNodes; reviewers; principles"
+        }
+      ],
+      "approvalEvidenceStatus": "FRAMEWORK_OPERATING_CONTRACT",
+      "caveat": "The operating model does not authorise automatic deployment, runtime testing or autonomous approval."
+    },
+    {
+      "claimId": "P6-C007",
+      "slideId": "S06",
+      "statement": "The roster presents stable agent roles, evidence-bound model routing and the active Phase 6 reviewer assignments gpt-5.6-luna and gpt-5.6-terra within a seven-step same-hash assurance sequence ending in in-tool human approval.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/slides/AgenticAssuranceRosterSlide.jsx",
+          "section": "gateSteps; standardAgents; optionalAgents; reviewerAgents"
+        },
+        {
+          "path": "0-coordination/stratton-model-plan-revision-116.json",
+          "section": "presentation.rosterCorrection; modelAssignments"
+        }
+      ],
+      "approvalEvidenceStatus": "REVISION_116_MODEL_BINDING_AND_GOVERNANCE_SEQUENCE",
+      "caveat": "Only the active Phase 6 reviewer routes are named. Every other phase remains bound to its own model plan and runtime receipt; the roster is not proof of an unrecorded runtime model."
+    },
+    {
+      "claimId": "P6-C008",
+      "slideId": "S07",
+      "statement": "The target vision is a governed investment capability in which trusted data, specialist agents and retained human judgement may accelerate decisions and support future services.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "0-coordination/input/Case-Study-18.normalised.md",
+          "section": "Transformation Objective; AI Infusion Point"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/FrontierSolutionTitleSlide.jsx",
+          "section": "frontier-solution.subtitle; frontier-solution.definition"
+        }
+      ],
+      "approvalEvidenceStatus": "PRESENTATION_VISION",
+      "caveat": "This is an aspirational value proposition, not an achieved capability or measured outcome."
+    },
+    {
+      "claimId": "P6-C009",
+      "slideId": "S08",
+      "statement": "The approved accountable outcome is to reduce median due diligence from 12 weeks to no more than 3 weeks within 12 months for the first 20 eligible new opportunities.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; BR-001; BR-002"
+        },
+        {
+          "path": "1-requirements/stratton-requirements-catalogue.json",
+          "section": "requirements.BR-001; requirements.BR-002"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_1_REQUIREMENT",
+      "caveat": "The three-week figure is a target, not a realised benefit."
+    },
+    {
+      "claimId": "P6-C010",
+      "slideId": "S08",
+      "statement": "AI remains assistive; deal professionals validate material outputs, Legal and Compliance approve applicable specialist conclusions and the Investment Committee retains every investment decision.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; FR-002; AR-001; AR-002"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_1_AUTHORITY_BOUNDARY",
+      "caveat": "No autonomous decision, transaction, external communication or source-system write-back is authorised."
+    },
+    {
+      "claimId": "P6-C011",
+      "slideId": "S08",
+      "statement": "The approved requirements baseline contains 31 active sourced requirements and 31 stable acceptance tests, with no material interview decision unanswered.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Interview outcome; Coverage and dependencies"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_1_BASELINE",
+      "caveat": "Acceptance-test definitions do not establish successful Azure runtime execution."
+    },
+    {
+      "claimId": "P6-C012",
+      "slideId": "S09",
+      "statement": "The approved vendor-neutral Phase 2 baseline contains 19 Architecture Building Blocks, five stakeholder views, ten architecture decisions, complete mapping for 31 Must requirements and seven owner-bound validation gates.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture-catalogue.json",
+          "section": "requirementsManagement; views; architectureBuildingBlocks; architectureDecisions"
+        },
+        {
+          "path": "approvals/2/stratton-phase-2-approval-1.json",
+          "section": "constraints; residualGaps"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_2_BASELINE",
+      "caveat": "These counts describe a logical architecture, not deployed Azure resources."
+    },
+    {
+      "claimId": "P6-C013",
+      "slideId": "S09",
+      "statement": "The TOGAF flow preserves source authority, governed evidence admission, assistive analysis, human and specialist review, independent evidence and Investment Committee decision authority.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Architecture Vision; Target Business Architecture; Target Application Architecture"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_2_ARCHITECTURE",
+      "caveat": "The architecture is vendor neutral and makes no Azure service or runtime claim."
+    },
+    {
+      "claimId": "P6-C014",
+      "slideId": "S10",
+      "statement": "The approved operating allocation uses deterministic source, licence, purpose and quarantine controls before retrieval, document extraction, risk/ESG analysis and cited grounding; accountable people retain validation, specialist approval and investment decisions.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "2-togaf-architecture/stratton-architecture.md",
+          "section": "Architecture principles; Target Application Architecture; AD-004; AD-005"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/HumanAiOperatingModelSlide.jsx",
+          "section": "initiationSteps; policyControls; aiCapabilities; handoffItems; humanAuthorities"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_2_ALLOCATION",
+      "caveat": "Committee-ready draft assembly is not assigned to AI in the approved Phase 2 architecture."
+    },
+    {
+      "claimId": "P6-C015",
+      "slideId": "S11",
+      "statement": "The approved model-selection principle is to use the smallest governed model that meets the evidence threshold, escalating from Luna to Terra to Sol by task consequence and evidence need.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+          "section": "modelSelectionPrinciple; gptDeployments"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_3_CC_002_MODEL_PORTFOLIO",
+      "caveat": "Route promotion remains blocked until benchmark, security, recovery and owner evidence is complete."
+    },
+    {
+      "claimId": "P6-C016",
+      "slideId": "S11",
+      "statement": "The pinned generative portfolio is gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol version 2026-07-09 with task-specific allowed uses.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+          "section": "gptDeployments"
+        },
+        {
+          "path": "approvals/4/stratton-phase-4-cc-002-approval-1.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PINNED_MODEL_IDENTITIES",
+      "caveat": "Deployment IDs, regional availability, quota, capacity and reasoning effort remain owner-bound evidence."
+    },
+    {
+      "claimId": "P6-C017",
+      "slideId": "S11",
+      "statement": "The specialist foundation uses Document Intelligence prebuilt-layout, text-embedding-3-large, deterministic controls and an Isolation Forest challenger, with EU Data Zone, pinned-version, benchmark, human-validation and fail-closed guardrails.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+          "section": "specialistFoundation; sovereignty; versionUpgradeOption"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_SPECIALIST_AND_GOVERNANCE_FOUNDATION",
+      "caveat": "Custom extraction, embedding dimensions, chunking and anomaly challengers require observed benchmark evidence."
+    },
+    {
+      "claimId": "P6-C018",
+      "slideId": "S11",
+      "statement": "Release 1 contains due diligence and assistive ESG/risk analysis; automated SFDR, deal intelligence and portfolio monitoring are explicitly future only.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/slides/ModelPortfolioSlide.jsx",
+          "section": "solutionScopes"
+        },
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "Executive position; Scope and accountability"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_RELEASE_1_AND_FUTURE_BOUNDARY",
+      "caveat": "Future-only capabilities require separate architecture, assurance and human approval."
+    },
+    {
+      "claimId": "P6-C019",
+      "slideId": "S12",
+      "statement": "The approved Azure design places a private Citadel AI core inside Azure Landing Zone and sovereign guardrails with separated platform, non-production, production/recovery and independent-assurance boundaries.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-design-catalogue-cc-002-r2-proposed.json",
+          "section": "solutionBuildingBlocks; resourceInventory; trust boundaries"
+        },
+        {
+          "path": "approvals/3/stratton-phase-3-cc-002-approval-2.json",
+          "section": "decision; constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_3_CC_002_DESIGN",
+      "caveat": "The topology is design intent; no Azure resource has been deployed or observed."
+    },
+    {
+      "claimId": "P6-C020",
+      "slideId": "S12",
+      "statement": "The design uses private enterprise access, Application Gateway, API Management, internal Container Apps, private data/search services, Azure OpenAI and Document Intelligence under EU Data Zone Standard.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "3-azure-design/stratton-design-catalogue-cc-002-r2-proposed.json",
+          "section": "solutionBuildingBlocks; resourceInventory"
+        },
+        {
+          "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+          "section": "deploymentType; specialistFoundation"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_AZURE_SERVICE_AND_MODEL_BOUNDARY",
+      "caveat": "Service availability, target compatibility and owner values remain unvalidated."
+    },
+    {
+      "claimId": "P6-C021",
+      "slideId": "S12",
+      "statement": "Availability of 99.9% in business hours, RTO no more than 4 hours, RPO no more than 1 hour, interactive p95 below 5 seconds and a typical pack no more than 30 minutes are approved design targets.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "TR-003; NR-003"
+        },
+        {
+          "path": "3-azure-design/stratton-design-catalogue-cc-002-r2-proposed.json",
+          "section": "qualityAttributes; resilience and performance targets"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_TARGETS_UNTESTED",
+      "caveat": "No target-runtime performance, availability or recovery result exists."
+    },
+    {
+      "claimId": "P6-C022",
+      "slideId": "S12",
+      "statement": "Global Standard is prohibited, production inference is blocked and exact regions, resource IDs, CIDRs, DNS, policies, recovery evidence and capacity remain fail-closed owner inputs.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "3-azure-design/evidence/stratton-model-portfolio-contract-cc-002-r2-proposed.json",
+          "section": "sovereignty; applicationBinding; productionPromotionState"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+          "section": "residualGaps; constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "EXPLICIT_FAIL_CLOSED_BOUNDARY",
+      "caveat": "No missing owner value may be inferred or substituted by the presentation."
+    },
+    {
+      "claimId": "P6-C023",
+      "slideId": "S13",
+      "statement": "The approved implementation baseline retains 17 infrastructure deployment units and 46 dependency links, five base/authority work packages and eight model-portfolio work packages, with all 31 Must requirements bound.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "4-implementation-plan/stratton-implementation-plan.md",
+          "section": "Minimum deployable-unit map; Ordered deployment DAG; Traceability"
+        },
+        {
+          "path": "4-implementation-plan/stratton-cc-001-r3-phase-4-amendment.md",
+          "section": "Immutable history and scope"
+        },
+        {
+          "path": "4-implementation-plan/stratton-cc-002-r4-phase-4-amendment.md",
+          "section": "Work Packages"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_4_PLUS_APPEND_ONLY_CHANGE_CONTROLS",
+      "caveat": "The work-package sets are plans and validation contracts, not executed Azure stages."
+    },
+    {
+      "claimId": "P6-C024",
+      "slideId": "S13",
+      "statement": "Owner values, validation, authorised what-if review and explicit human release are stop gates before optional Azure execution.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "4-implementation-plan/stratton-implementation-plan.md",
+          "section": "Gates; Release and rollback"
+        },
+        {
+          "path": "approvals/4/stratton-phase-4-cc-002-approval-1.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_4_EXECUTION_BOUNDARY",
+      "caveat": "Phase 4 approval did not authorise sign-in, what-if, deployment, inference or runtime testing."
+    },
+    {
+      "claimId": "P6-C025",
+      "slideId": "S14",
+      "statement": "The approved Phase 5 r7 manifest binds 124 deployable source files and all 17 implementation units.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r7/stratton-build-report.md",
+          "section": "Inventory"
+        },
+        {
+          "path": "5-coding-r7/stratton-release-manifest.json",
+          "section": "validation.input.fileCount; deploymentUnits; files"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_5_R7_BASELINE",
+      "caveat": "Deployable source does not mean deployed, production-ready or target-validated."
+    },
+    {
+      "claimId": "P6-C026",
+      "slideId": "S14",
+      "statement": "The retained r7 local run passed ten of ten validation steps, 55 of 55 Pester IaC tests, 47 of 47 PSRule checks, 47 of 47 application unit tests and 30 of 30 application integration tests.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r7/stratton-build-report.md",
+          "section": "Validation"
+        },
+        {
+          "path": "5-coding-r7/evidence/local-validation/20260809T161802421Z/index.json",
+          "section": "steps; results"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_RETAINED_LOCAL_VALIDATION",
+      "caveat": "These are local/static checks and do not establish Azure runtime behaviour."
+    },
+    {
+      "claimId": "P6-C027",
+      "slideId": "S14",
+      "statement": "The retained source and container evidence reports zero HIGH vulnerabilities, zero CRITICAL vulnerabilities and zero detected secrets, with CycloneDX SBOMs and digest statements for the API and worker images.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r7/stratton-build-report.md",
+          "section": "Security and supply chain"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_POINT_IN_TIME_SCAN_EVIDENCE",
+      "caveat": "Point-in-time scans are not a security certification or proof of target operating effectiveness."
+    },
+    {
+      "claimId": "P6-C028",
+      "slideId": "S14",
+      "statement": "The r7 package pins gpt-5.6-luna, gpt-5.6-terra and gpt-5.6-sol version 2026-07-09, requires DataZoneStandard and NoAutoUpgrade, and enforces deterministic application-owned routing with production inference blocked.",
+      "classification": "IMPLEMENTED_AND_STATICALLY_VALIDATED",
+      "sources": [
+        {
+          "path": "5-coding-r7/stratton-release-manifest.json",
+          "section": "modelPortfolioControls"
+        },
+        {
+          "path": "5-coding-r7/stratton-build-report.md",
+          "section": "Limitations"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_PHASE_5_R7_MODEL_CONTROLS",
+      "caveat": "Deployment IDs, capability, quota, capacity, benchmarks and route promotion remain absent."
+    },
+    {
+      "claimId": "P6-C029",
+      "slideId": "S14",
+      "statement": "No Azure sign-in, subscription/provider query, target validation, what-if, deployment, model inference, promotion, retention finalisation or Azure runtime test was executed.",
+      "classification": "UNTESTED_RUNTIME_BEHAVIOUR",
+      "sources": [
+        {
+          "path": "5-coding-r7/stratton-release-manifest.json",
+          "section": "azureExecution"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "EXPLICIT_NEGATIVE_EXECUTION_BOUNDARY",
+      "caveat": "No inference about Azure target behaviour is permitted."
+    },
+    {
+      "claimId": "P6-C030",
+      "slideId": "S15",
+      "statement": "Phase 7 is an optional human-invoked runbook for one explicitly scoped Azure deployment attempt with owner-value binding, validation, what-if review, dependency-order execution, stop conditions and sealed evidence.",
+      "classification": "UNTESTED_RUNTIME_BEHAVIOUR",
+      "sources": [
+        {
+          "path": ".github/agents/AFF-7-deployer.agent.md",
+          "section": "Authority; execution and evidence boundary"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/DeploymentSlide.jsx",
+          "section": "deploymentSteps; stop conditions; package stream"
+        }
+      ],
+      "approvalEvidenceStatus": "OPTIONAL_PHASE_NOT_INVOKED",
+      "caveat": "The runbook has not been invoked and no Azure deployment evidence exists."
+    },
+    {
+      "claimId": "P6-C031",
+      "slideId": "S16",
+      "statement": "Phase 8 contains six planned acceptance gates for private paths, citations/provenance, extraction/risk, human authority, performance and recovery; only the four displayed Phase 5 local check groups have actual results.",
+      "classification": "UNTESTED_RUNTIME_BEHAVIOUR",
+      "sources": [
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "NR-001; NR-002; NR-003; TR-003"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/RunTestsSlide.jsx",
+          "section": "actualChecks; plannedAcceptanceGates"
+        }
+      ],
+      "approvalEvidenceStatus": "LOCAL_RESULTS_PLUS_PLANNED_RUNTIME_GATES",
+      "caveat": "Phase 8 has not been invoked; no planned acceptance threshold has been demonstrated in Azure."
+    },
+    {
+      "claimId": "P6-C032",
+      "slideId": "S17",
+      "statement": "The presentation's dated West Europe public-PAYG input snapshot totals approximately $8.0K per month and $95.8K per year for the stated illustrative workload, including one APIM Premium v2 unit.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/data/azurePricing.js",
+          "section": "azurePricingMeta; azureCostCategories; azureMonthlyTotal; azureAnnualTotal"
+        },
+        {
+          "path": "6-presentation-r11/evidence/azure-retail-pricing-snapshot.json",
+          "section": "apimPremiumV2; reconciliation"
+        }
+      ],
+      "approvalEvidenceStatus": "DATED_PRESENTATION_PRICING_INPUT",
+      "caveat": "The snapshot excludes taxes, support, discounts and negotiated terms and is not an owner-approved Azure estimate."
+    },
+    {
+      "claimId": "P6-C033",
+      "slideId": "S17",
+      "statement": "The exactly $200.0K annual on-premises comparator, 109% premium and approximately $104.2K illustrative gap are human-directed mock presentation assumptions.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/data/azurePricing.js",
+          "section": "onPremMock"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/CostsBenefitsSlide.jsx",
+          "section": "on-premises comparator; gap callout"
+        }
+      ],
+      "approvalEvidenceStatus": "HUMAN_DIRECTED_ILLUSTRATIVE_COMPARATOR",
+      "caveat": "The values are not a customer quote, procurement estimate, achieved cost, independently validated baseline or assured business case."
+    },
+    {
+      "claimId": "P6-C034",
+      "slideId": "S17",
+      "statement": "Avoided capital expenditure, shorter cycle time, reduced exposure and better-governed decision drafts are projected or enabled benefits with defined measurement methods.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/slides/CostsBenefitsSlide.jsx",
+          "section": "benefitMappings; authoritative non-realisation metadata boundary"
+        },
+        {
+          "path": "1-requirements/stratton-requirements.md",
+          "section": "BR-001; NR-001; NR-002"
+        }
+      ],
+      "approvalEvidenceStatus": "PROJECTED_BENEFIT_LOGIC_ONLY",
+      "caveat": "No deployed runtime benefit, realised saving or ROI is claimed; the GPT-4o mini token assumption is only a public-rate proxy, not approved GPT-5.6 route cost."
+    },
+    {
+      "claimId": "P6-C035",
+      "slideId": "S18",
+      "statement": "Representative data, owner participation, regional controls and format mapping are working assumptions; data quality, sensitive-data exposure, grounding, dependency readiness and economics are material risks.",
+      "classification": "HUMAN_OWNED_HYPOTHESIS",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/slides/RisksMitigationsSlide.jsx",
+          "section": "assumptions; risks"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+          "section": "residualGaps"
+        }
+      ],
+      "approvalEvidenceStatus": "WORKING_PHASE_6_RISK_ASSESSMENT",
+      "caveat": "The assumptions require owner confirmation and the risks require observed control evidence before production commitment."
+    },
+    {
+      "claimId": "P6-C036",
+      "slideId": "S18",
+      "statement": "The approved r7 baseline retains three authority conflicts, fourteen owner-bound controls, two retained AFF-B minor gaps and additional owner evidence for regions, capacity, recovery, retention, licences, regulatory classification and benchmarks.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "5-coding-r7/stratton-build-report.md",
+          "section": "Authority gates; Residual owner controls; Current owner-bound gaps; Retained AFF-B minor gaps"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+          "section": "residualGaps; constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "APPROVED_OPEN_FAIL_CLOSED_BOUNDARIES",
+      "caveat": "None of the gaps is waived or closed by the presentation."
+    },
+    {
+      "claimId": "P6-C037",
+      "slideId": "S19",
+      "statement": "The demonstrated target experience used mockup data and is not evidence of production readiness or achieved business outcomes.",
+      "classification": "SOURCE_FACT",
+      "sources": [
+        {
+          "path": "0-coordination/input/Case-Study-18.normalised.md",
+          "section": "Expected Outcomes"
+        },
+        {
+          "path": "6-presentation-r11/deck/src/slides/NextStepsSlide.jsx",
+          "section": "closing-next.subtitle; closing-next.mockup-badge"
+        }
+      ],
+      "approvalEvidenceStatus": "EXPLICIT_MOCKUP_DISCLOSURE",
+      "caveat": "Mockup evidence cannot be promoted to runtime, benefit or production evidence."
+    },
+    {
+      "claimId": "P6-C038",
+      "slideId": "S19",
+      "statement": "The controlled next step is to investigate data, map formats, define and evaluate a representative non-production POC, then proceed or refine based on whether Value or Control evidence justifies further investment.",
+      "classification": "APPROVED_DESIGN_INTENT",
+      "sources": [
+        {
+          "path": "6-presentation-r11/deck/src/slides/NextStepsSlide.jsx",
+          "section": "nextSteps; outcomes; non-production proof-of-concept gate"
+        },
+        {
+          "path": "approvals/5/stratton-phase-5-cc-002-approval-1.json",
+          "section": "constraints"
+        }
+      ],
+      "approvalEvidenceStatus": "CONTROLLED_PHASE_6_RECOMMENDATION",
+      "caveat": "The POC itself requires accountable owners, approved data and separate authority; it is not automatically invoked by Phase 6."
+    }
+  ]
+}

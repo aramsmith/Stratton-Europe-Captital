@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_SLIDE_11_R15_BROWSER_RECEIPT",
+  "generatedAt": "2026-08-21T09:22:47.758Z",
+  "url": "http://127.0.0.1:5189/?slide=10",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "responseStatus": 200,
+  "failures": [],
+  "metrics": {
+    "title": "Becoming a Frontier Company",
+    "currentSlide": "11 / 20",
+    "loop": {
+      "x": 680.65625,
+      "y": 706.21875,
+      "width": 108,
+      "height": 46
+    },
+    "loopItem": {
+      "x": 669.65625,
+      "y": 700.21875,
+      "width": 334.671875,
+      "height": 58
+    },
+    "diamond": {
+      "x": 1023.328125,
+      "y": 706.21875,
+      "width": 108,
+      "height": 46
+    },
+    "diamondItem": {
+      "x": 1012.328125,
+      "y": 700.21875,
+      "width": 334.65625,
+      "height": 58
+    },
+    "rail": {
+      "x": 80,
+      "y": 689.21875,
+      "width": 1280,
+      "height": 80
+    },
+    "loopItemOverflow": {
+      "horizontal": 0,
+      "vertical": 0
+    },
+    "diamondItemOverflow": {
+      "horizontal": 0,
+      "vertical": 0
+    },
+    "listOverflow": {
+      "horizontal": 0,
+      "vertical": 0
+    },
+    "railOverflow": {
+      "horizontal": 0,
+      "vertical": 0
+    },
+    "loopLabel": "Loop Engineering",
+    "diamondLabel": "Graph Engineering - Diamond"
+  }
+}
