@@ -6,7 +6,7 @@ README.md text eol=lf
 7-deployment/README.md text eol=lf
 8-testing/README.md text eol=lf
 assets/** binary
-6-presentation-r13/deck/dist/** binary
+6-presentation-r14/deck/dist/** binary
 *.gif binary
 *.ico binary
 *.jpg binary
