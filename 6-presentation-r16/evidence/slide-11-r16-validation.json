@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_SLIDE_11_R16_VALIDATION",
+  "generatedAt": "2026-08-21T09:33:13.126Z",
+  "candidatePath": "6-presentation-r16",
+  "baseline": {
+    "candidatePath": "6-presentation-r15",
+    "manifestSha256": "3726a2ee6521e92ba1400d6be29c4b56b1559b3354810cbe47716344bd851eec"
+  },
+  "requestedChange": {
+    "label": "Prompt Engineering",
+    "diagram": "A central prompt terminal connects to five prompt-engineering technique nodes."
+  },
+  "changedDeckSourceFiles": [
+    "deck/src/slides/ModelPortfolioSlide.jsx",
+    "deck/src/slides/ModelPortfolioSlide.module.css"
+  ],
+  "checks": {
+    "pagesBuild": "PASS",
+    "focusedPlaywrightRegression": "PASS",
+    "visualInspection1440x900": "PASS",
+    "promptDiagramVisible": "PASS",
+    "loopDiagramPreserved": "PASS",
+    "diamondDiagramPreserved": "PASS",
+    "promptTechniqueCardHorizontalOverflowPx": 0,
+    "promptTechniqueCardVerticalOverflowPx": 0,
+    "loopTechniqueCardHorizontalOverflowPx": 0,
+    "loopTechniqueCardVerticalOverflowPx": 0,
+    "diamondTechniqueCardHorizontalOverflowPx": 0,
+    "diamondTechniqueCardVerticalOverflowPx": 0,
+    "railHorizontalOverflowPx": 0,
+    "railVerticalOverflowPx": 0,
+    "registeredSlides": 20,
+    "projectSubpathAssetResolution": "PASS",
+    "browserConsoleErrors": 0,
+    "failedBrowserRequests": 0
+  },
+  "approvalClaimed": false
+}

@@ -6,7 +6,7 @@ implementation planning, deployable code, and an evidence-backed Architecture Re
 
 ## Launch the presentation
 
-**[Open the latest r15 presentation](https://aramsmith.github.io/Stratton-Europe-Captital/)**
+**[Open the latest r16 presentation](https://aramsmith.github.io/Stratton-Europe-Captital/)**
 
 ## Demo playbook
 
@@ -22,7 +22,7 @@ implementation planning, deployable code, and an evidence-backed Architecture Re
 | 3 — Azure Design | [`3-azure-design/`](3-azure-design/) |
 | 4 — Implementation Plan | [`4-implementation-plan/`](4-implementation-plan/) |
 | 5 — Coding | [`5-coding-r7/`](5-coding-r7/) |
-| 6 — ARB Presentation | [`6-presentation-r15/`](6-presentation-r15/) |
+| 6 — ARB Presentation | [`6-presentation-r16/`](6-presentation-r16/) |
 | 7 — Deployment | Not invoked |
 | 8 — Runtime Testing | Not invoked |
 

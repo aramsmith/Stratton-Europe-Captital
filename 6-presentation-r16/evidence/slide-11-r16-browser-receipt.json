@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordType": "STRATTON_SLIDE_11_R16_BROWSER_RECEIPT",
+  "generatedAt": "2026-08-21T09:33:13.126Z",
+  "url": "http://127.0.0.1:5192/?slide=10",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "responseStatus": 200,
+  "failures": [],
+  "metrics": {
+    "title": "Becoming a Frontier Company",
+    "currentSlide": "11 / 20",
+    "diagrams": [
+      {
+        "name": "prompt",
+        "graph": {
+          "x": 338,
+          "y": 706.21875,
+          "width": 108,
+          "height": 46
+        },
+        "item": {
+          "x": 327,
+          "y": 700.21875,
+          "width": 334.65625,
+          "height": 58
+        },
+        "overflow": {
+          "horizontal": 0,
+          "vertical": 0
+        },
+        "label": "Prompt Engineering"
+      },
+      {
+        "name": "loop",
+        "graph": {
+          "x": 680.65625,
+          "y": 706.21875,
+          "width": 108,
+          "height": 46
+        },
+        "item": {
+          "x": 669.65625,
+          "y": 700.21875,
+          "width": 334.671875,
+          "height": 58
+        },
+        "overflow": {
+          "horizontal": 0,
+          "vertical": 0
+        },
+        "label": "Loop Engineering"
+      },
+      {
+        "name": "diamond",
+        "graph": {
+          "x": 1023.328125,
+          "y": 706.21875,
+          "width": 108,
+          "height": 46
+        },
+        "item": {
+          "x": 1012.328125,
+          "y": 700.21875,
+          "width": 334.65625,
+          "height": 58
+        },
+        "overflow": {
+          "horizontal": 0,
+          "vertical": 0
+        },
+        "label": "Graph Engineering - Diamond"
+      }
+    ],
+    "rail": {
+      "x": 80,
+      "y": 689.21875,
+      "width": 1280,
+      "height": 80
+    },
+    "railOverflow": {
+      "horizontal": 0,
+      "vertical": 0
+    }
+  }
+}
