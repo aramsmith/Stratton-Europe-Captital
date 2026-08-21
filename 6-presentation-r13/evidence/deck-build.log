@@ -1,0 +1,42 @@
+
+> deck-project-deck@0.1.0 build:pages
+> vite build --base=./
+
+[36mvite v8.1.5 [32mbuilding client environment for production...[36m[39m
+[2K
+transforming...✓ 2005 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                            0.69 kB │ gzip:   0.39 kB
+dist/assets/github-copilot-pilot-Cyt9fTYI.png             46.96 kB
+dist/assets/well-architected-framework-e7MFdXpr.png      343.88 kB
+dist/assets/cloud-adoption-framework-BiRcE-w9.png        347.14 kB
+dist/assets/togaf-adm-SX4k0-bB.png                       352.74 kB
+dist/assets/stratton-round-logo-DRxYk3w0.png             363.98 kB
+dist/assets/stratton-europe-capital-logo-O5FCJU5V.png  1,544.84 kB
+dist/assets/GitHubStarPrompt-CwKkav8W.css                  2.92 kB │ gzip:   1.09 kB
+dist/assets/index-mkNVOQJv.css                           340.45 kB │ gzip:  54.63 kB
+dist/assets/typeof-B5XbjTb1.js                             0.27 kB │ gzip:   0.16 kB
+dist/assets/rolldown-runtime-BHe-jwch.js                   0.95 kB │ gzip:   0.56 kB
+dist/assets/GitHubStarPrompt-CjgDH7Dr.js                   4.28 kB │ gzip:   1.83 kB
+dist/assets/dist-VplG6Yi_.js                              25.83 kB │ gzip:   9.90 kB
+dist/assets/purify.es-DuRL7t6i.js                         26.87 kB │ gzip:  10.45 kB
+dist/assets/EditableListSortable-C-pPz6Dr.js              46.83 kB │ gzip:  15.42 kB
+dist/assets/index.es-8BvSYumO.js                         151.36 kB │ gzip:  48.90 kB
+dist/assets/html2canvas-DAwLCE-C.js                      199.56 kB │ gzip:  46.78 kB
+dist/assets/pptxgen.es-CnESGdOm.js                       374.90 kB │ gzip: 124.10 kB
+dist/assets/jspdf.es.min-DD6RL1Do.js                     399.71 kB │ gzip: 129.78 kB
+dist/assets/index-UW6rJkS2.js                            526.16 kB │ gzip: 151.44 kB
+
+[PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+  - vite:css (84%)
+  - vite:asset (7%)
+  - @tailwindcss/vite:generate:build (5%)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[32m✓ built in 3.25s[39m

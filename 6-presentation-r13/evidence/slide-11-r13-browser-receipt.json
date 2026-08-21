@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-08-21T08:59:02.617Z",
+  "failures": [],
+  "metrics": {
+    "title": "Becoming a Frontier Company",
+    "legacyTitleCount": 0,
+    "rail": {
+      "x": 80,
+      "y": 695.21875,
+      "width": 1280,
+      "height": 68
+    },
+    "railOverflowX": 0,
+    "railOverflowY": 0,
+    "blocks": [
+      {
+        "label": "Prompt Engineering",
+        "visible": true,
+        "box": {
+          "x": 327,
+          "y": 706.21875,
+          "width": 334.65625,
+          "height": 46
+        }
+      },
+      {
+        "label": "Loop Engineering",
+        "visible": true,
+        "box": {
+          "x": 669.65625,
+          "y": 706.21875,
+          "width": 334.671875,
+          "height": 46
+        }
+      },
+      {
+        "label": "Graph Engineering - Chain",
+        "visible": true,
+        "box": {
+          "x": 1012.328125,
+          "y": 706.21875,
+          "width": 334.65625,
+          "height": 46
+        }
+      }
+    ]
+  }
+}
